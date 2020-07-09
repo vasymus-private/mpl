@@ -63,5 +63,7 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'anonymous-uid' => \App\Http\Middleware\AnonymousUid::class,
+        'create-anonymous' => \App\Http\Middleware\AuthenticateAnonymousUser::class,
     ];
 }

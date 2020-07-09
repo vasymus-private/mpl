@@ -6,6 +6,9 @@
 
         <title>Laravel</title>
 
+        <!-- CSRF Token -->
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 
@@ -62,8 +65,13 @@
                 margin-bottom: 30px;
             }
         </style>
+        <!-- Scripts -->
+        <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
     <body>
+        <h1>{{$uid ?? "no uid"}}</h1>
+        <h2>Is login: @auth yes @else no @endauth</h2>
+        <h3>@json(session()->all())</h3>
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
