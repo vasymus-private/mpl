@@ -23,6 +23,8 @@ use Illuminate\Notifications\Notifiable;
  * @property Carbon $updated_at
  * @property Carbon $deleted_at
  *
+ * @property Carbon|null $email_verified_at
+ *
  * Properties from Accessors / Mutators
  * @see User::getIsAdminAttribute()
  * @property bool $isAdmin
