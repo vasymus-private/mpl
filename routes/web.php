@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('---test', [\App\Http\Controllers\TestController::class, 'test']);
+
 Route::middleware(["anonymous-uid", "create-anonymous"])->group(function() {
     Route::get('/', function (\Illuminate\Http\Request $request) {
 
