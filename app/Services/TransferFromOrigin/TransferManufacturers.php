@@ -17,14 +17,16 @@ class TransferManufacturers extends BaseTransfer
     /** @var Crawler */
     protected $crawler;
 
+    /** @var string */
+    protected $html;
+
     /**
      * @param string $site
      * @param Fetcher $fetcher
      * */
-    public function __construct(string $site, $fetcher = null)
+    public function __construct(string $site = "http://union.parket-lux.ru", $fetcher = null)
     {
         parent::__construct($site);
-        $this->pageUrl = "brands/index.php";
         $this->fetcher = $fetcher !== null ? $fetcher : new Fetcher();
         $this->fetcher->setUsername("parket");
         $this->fetcher->setPassword("parket");
@@ -32,20 +34,50 @@ class TransferManufacturers extends BaseTransfer
 
     public function transfer()
     {
-        $html = $this->fetcher->fetch($this->getUrl());
-        if (empty($html)) throw new \RuntimeException("Failed to fetch transfer page: '{$this->getUrl()}'");
+        $raw = require(storage_path("app/seeds/manufacturers/raw.php"));
 
-        $this->parsePage($html);
+        $seeds = [];
+
+        foreach ($raw as $rawItem) {
+            $id = $this->getIncrementId();
+            $preview = trim($rawItem["preview"]);
+            $description = trim($rawItem["description"]);
+            $image = !empty($rawItem["imageSrc"]) ? $this->fetchAndStoreImage($rawItem["imageSrc"], $id) : null;
+
+            $seed = [
+                "id" => $id,
+                "name" => $rawItem["name"],
+                "preview" => !empty($preview) ? $preview : strip_tags($description),
+                "description" => !empty($description) ? $description : $preview,
+                "image" => $image,
+            ];
+
+            $seeds[] = $seed;
+        }
+
+        Storage::put("seeds/manufacturers/seeds.json", json_encode($seeds, JSON_UNESCAPED_UNICODE));
     }
 
-    public function parsePage(string $html)
+    /**
+     * Fetch image from site and store it on local disk
+     *
+     * @param string $location
+     * @param int $itemId
+     *
+     * @return string Full image url on local disk
+     * */
+    public function fetchAndStoreImage(string $location, int $itemId): string
     {
-        $this->crawler = new Crawler($html);
+        $this->pageUrl = $location;
+        $extension = pathinfo($location)['extension'];
 
-    }
+        $this->fetcher->setUrl($this->getUrl());
+        $image = $this->fetcher->fetch();
+        $path = "seeds/manufacturers/media/{$itemId}.$extension";
+        $isSaved = Storage::put($path, $image);
 
-    public function payloadToStorage()
-    {
-        $current = Storage::exists("seeds/manufacturers/seeds.json") ? json_decode(Storage::get("seeds/manufacturers/seeds.json"), true) : [];
+        if (!$isSaved) throw new \RuntimeException("Failed to save image");
+
+        return $path;
     }
 }
