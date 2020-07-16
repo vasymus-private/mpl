@@ -8,7 +8,7 @@ class TransferCategories extends BaseTransfer
 {
     public function transfer()
     {
-        $raw = require(storage_path("app/seeds/catalogs/raw.php"));
+        $raw = require(storage_path("app/seeds/categories/raw.php"));
 
         $result = [];
 
@@ -39,6 +39,6 @@ class TransferCategories extends BaseTransfer
             ];
         }
 
-        Storage::put("seeds/catalogs/seeds.json", json_encode($result, JSON_UNESCAPED_UNICODE));
+        Storage::put("seeds/categories/seeds.json", json_encode($result, JSON_UNESCAPED_UNICODE));
     }
 }
