@@ -50,6 +50,8 @@ class TransferManufacturers extends BaseTransfer
                 "preview" => !empty($preview) ? $preview : strip_tags($description),
                 "description" => !empty($description) ? $description : $preview,
                 "image" => $image,
+                "ordering" => (int) $rawItem["SORT"],
+                "_old_id" => (int) $rawItem["id"],
             ];
 
             $seeds[] = $seed;

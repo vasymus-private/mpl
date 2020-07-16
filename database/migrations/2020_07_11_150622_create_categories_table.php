@@ -18,7 +18,7 @@ class CreateCategoriesTable extends Migration
             $table->string('name');
             $table->string('slug');
             $table->unsignedBigInteger('parent_id')->nullable();
-            $table->integer('ordering')->nullable();
+            $table->unsignedBigInteger('ordering')->nullable();
             $table->boolean('is_active')->default(false);
             $table->text('description')->nullable();
             $table->unsignedBigInteger('_old_id')->nullable()->comment('For reference: id from previous database.');

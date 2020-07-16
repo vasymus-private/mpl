@@ -18,6 +18,8 @@ class CreateManufacturersTable extends Migration
             $table->string('name');
             $table->text('preview')->nullable();
             $table->text('description')->nullable();
+            $table->unsignedBigInteger('ordering')->nullable();
+            $table->unsignedBigInteger("_old_id")->nullable()->comment("Temporary for transfering data from old database");
         });
     }
 

@@ -20,7 +20,7 @@ class CreateProductsTable extends Migration
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->boolean('is_with_variations')->default(false);
             $table->unsignedBigInteger('category_id');
-            $table->integer('ordering')->nullable();
+            $table->unsignedBigInteger('ordering')->nullable();
             $table->boolean('is_active')->default(false);
             $table->unsignedBigInteger('manufacturer_id')->nullable();
             $table->double('coefficient')->nullable();
@@ -71,6 +71,8 @@ class CreateProductsTable extends Migration
             $table->string('ch_storage_conditions')->nullable();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->unsignedBigInteger("_old_id")->nullable()->comment("Temporary for transfering data from old database");
         });
     }
 
