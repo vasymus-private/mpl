@@ -11,9 +11,13 @@ class TransferProducts extends BaseTransfer
     /** @var Collection|null */
     protected $categories;
 
+    /** @var Collection|null */
+    protected $manufacturers;
+
     public function transfer()
     {
         $this->categories = collect(json_decode(Storage::get("seeds/categories/seeds.json"), true));
+        $this->manufacturers = collect(json_decode(Storage::get("seeds/manufacturers/seeds.json")), true);
 
         $seeds = [];
 
@@ -145,7 +149,90 @@ class TransferProducts extends BaseTransfer
     {
         $properties = $rawItem["PROPERTIES"];
 
-        return [];
+        $oldManufacturerId = $properties["brand"]["VALUE"] ?? null;
+        $manufacturer = $this->manufacturers->where("_old_id", $oldManufacturerId)->first();
+
+        $loopProductProduct = function(array $otherProductsIds): array {
+            $newOtherProductsIds = [];
+            foreach ($otherProductsIds as $id) {
+                $newOtherProduct = $this->categories->where("_old_id", $id)->first();
+                if (!$newOtherProduct) {
+                    dump("Failed to find other product with old id: $id");
+                    continue;
+                }
+                $newOtherProductsIds[] = $newOtherProduct["id"];
+            }
+            return $newOtherProductsIds;
+        };
+
+        $oldAccessoriesIds = !empty($properties["accessories"]["VALUE"]) ? $properties["accessories"]["VALUE"] : [];
+        $newAccessoriesIds = $loopProductProduct($oldAccessoriesIds);
+
+        $oldSimilarIds = !empty($properties["similar"]["VALUE"]) ? $properties["similar"]["VALUE"] : [];
+        $newSimilarIds = $loopProductProduct($oldSimilarIds);
+
+        $oldRelatedIds = !empty($properties["sopr"]["VALUE"]) ? $properties["sopr"]["VALUE"] : [];
+        $newRelatedIds = $loopProductProduct($oldRelatedIds);
+
+        $oldWorksIds = !empty($properties["work"]["VALUE"]) ? $properties["work"]["VALUE"] : [];
+        $newWorkIds = $loopProductProduct($oldWorksIds);
+
+        $seo = [
+            "h1" => $properties["custom_h1"]["VALUE"] ?? null,
+            "title" => $properties["custom_title"]["VALUE"] ?? null,
+            "keywords" => $properties["meta_keywords"]["VALUE"] ?? null,
+            "description" => $properties["meta_description"]["VALUE"] ?? null,
+        ];
+
+        $coefficient = $properties["koef_price"]["VALUE"];
+        $coefficient_description = $properties["koef_price"]["DESCRIPTION"];
+
+        $price_name = $properties["rename_price"]["VALUE"];
+
+        $informational_prices = [];
+        $_oldInfoPrices = $properties["info_price"];
+        $__ipValues = $_oldInfoPrices["VALUE"];
+        $__ipDescriptions = $_oldInfoPrices["DESCRIPTION"];
+        foreach ($__ipValues as $index => $infoPrice) {
+            $informational_prices[] = [
+                "price" => $infoPrice,
+                "name" => $__ipDescriptions[$index] ?? null,
+            ];
+        }
+
+        $admin_comment = $properties["auxiliary"]["VALUE"];
+
+        $price_purchase = $properties["purchase"]["VALUE"];
+        $price_purchase_currency_name = $properties["purchase"]["DESCRIPTION"];
+
+        $unit = $properties["package"]["VALUE"];
+
+        $is_in_stock = empty($properties["order"]["VALUE"]); // если не "на заказ", то значит, товар на складе
+
+        return [
+            "manufacturer_id" => $manufacturer ? $manufacturer["id"] : null,
+            "seo" => $seo,
+            "accessoriesIds" => $newAccessoriesIds,
+            "similarIds" => $newSimilarIds,
+            "relatedIds" => $newRelatedIds,
+            "newWorkIds" => $newWorkIds,
+            "coefficient" => $coefficient,
+            "coefficient_description" => $coefficient_description,
+            "price_name" => $price_name,
+            "informational_prices" => $informational_prices,
+            "admin_comment" => $admin_comment,
+            "price_purchase" => $price_purchase,
+            "price_purchase_currency_name" => $price_purchase_currency_name,
+            "unit" => $unit,
+            "is_in_stock" => $is_in_stock,
+
+
+            "_old_manufacturer_id" => $oldManufacturerId,
+            "_old_accessories_ids" => $oldAccessoriesIds,
+            "_old_similar_ids" => $oldSimilarIds,
+            "_old_related_ids" => $oldRelatedIds,
+            "_old_work_ids" => $oldWorksIds,
+        ];
     }
 
     protected function getSeedDataFromOffers(array $rawItem): array
