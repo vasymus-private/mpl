@@ -15,17 +15,27 @@ class TransferProducts extends BaseTransfer
     /** @var Collection|null */
     protected $manufacturers;
 
+    /** @var Collection|null */
+    protected $productSeedsByOldId;
+
     public function transfer()
     {
         $this->categories = collect(json_decode(Storage::get("seeds/categories/seeds.json"), true));
-        $this->manufacturers = collect(json_decode(Storage::get("seeds/manufacturers/seeds.json")), true);
+        $this->manufacturers = collect(json_decode(Storage::get("seeds/manufacturers/seeds.json"), true));
 
-        // handle general, including properties
+        // handle general
         $this->transferGeneral();
+        // handle properties
+        $this->transferProperties();
+
+        //dd("stop");
+
         // handle media
         $this->transferMedia();
         // handle offers and characteristics
         $this->transferOffersAndCharacteristics();
+        // handle transfer product prices
+        $this->transferPrices();
     }
 
     public function fetchAndStoreRaw(int $zeroBasedIndexStart = null)
@@ -100,16 +110,48 @@ class TransferProducts extends BaseTransfer
                     "_old_id" => (int)$rawItem["ID"],
                     "_old_category_id" => $_old_category_id,
                 ];
-
-                $seed = array_merge(
-                    $seed,
-                    $this->getSeedDataFromProperties($rawItem)
-                );
                 $seeds[] = $seed;
             }
         }
 
         Storage::put("seeds/products/seeds.json", json_encode($seeds, JSON_UNESCAPED_UNICODE));
+
+        $this->productSeedsByOldId = collect(
+            collect($seeds)->reduce(function(array $acc, array $item) {
+                $acc[$item["_old_id"]] = $item;
+                return $acc;
+            }, [])
+        );
+    }
+
+    public function transferProperties()
+    {
+        $productsSeeds = collect(json_decode(Storage::get("seeds/products/seeds.json"), true));
+
+        for ($i = 1; $i <= 11; $i++) {
+            $raw = require(storage_path("app/seeds/products/raw-50-$i.php"));
+
+            foreach ($raw as $rawItem) {
+
+                if ($this->shouldIgnore($rawItem)) continue;
+
+                $this->checkRawItem($rawItem);
+
+                $_oldProductId = (int)$rawItem["ID"];
+
+                $productKey = $productsSeeds->search(function(array $pr) use($_oldProductId) {
+                    return (int)$pr["_old_id"] === $_oldProductId;
+                });
+                if ($productKey === false) continue;
+
+                $product = $productsSeeds->get($productKey);
+                $product = array_merge($product, $this->getSeedDataFromProperties($rawItem));
+                $productsSeeds->put($productKey, $product);
+            }
+        }
+
+
+        Storage::put("seeds/products/seeds.json", json_encode($productsSeeds, JSON_UNESCAPED_UNICODE));
     }
 
     public function transferMedia()
@@ -128,8 +170,11 @@ class TransferProducts extends BaseTransfer
             $product = $productsSeeds->get($productKey);
 
             $newProductId = (int)$product["id"];
-            $files = $rawItem["media"]["files"];
-            $images = $rawItem["media"]["images"];
+
+            if ($newProductId < 486) continue; // TODO temporary
+
+            $files = $rawItem["media"]["files"] ?? [];
+            $images = $rawItem["media"]["images"] ?? [];
             $mainImage = $rawItem["media"]["mainImage"];
 
             $storeFolder = $this->getStdStorageFolder("products");
@@ -161,7 +206,7 @@ class TransferProducts extends BaseTransfer
                 "images" => [],
                 "files" => [],
             ];
-            $media["mainImage"] = $loop("mainImage", $mainImage);
+            if ($mainImage) $media["mainImage"] = $loop("mainImage", $mainImage);
             foreach ($images as $image) {
                 $media["images"][] = $loop("images", $image);
             }
@@ -179,11 +224,128 @@ class TransferProducts extends BaseTransfer
 
     public function transferOffersAndCharacteristics()
     {
+        $productsSeeds = collect(json_decode(Storage::get("seeds/products/seeds.json"), true));
         $count = count(Storage::allFiles("seeds/products/offers-and-chars"));
 
         for ($i = 1; $i <= $count; $i++) {
             $itemData = require(storage_path("seeds/products/offers-and-chars/$i.php"));
+
+            $_oldProductId = $itemData["ID"];
+            $productKey = $productsSeeds->search(function(array $pr) use($_oldProductId) {
+                return (int)$pr["_old_id"] === $_oldProductId;
+            });
+            if ($productKey === false) continue;
+
+            $product = $productsSeeds->get($productKey);
+            $newProductId = $product["id"];
+
+            $offers = $itemData["OFFERS"];
+            $variations = [];
+            $storeFolder = $this->getStdStorageFolder("products");
+            $storeFolder = "$storeFolder/$newProductId";
+
+            foreach ($offers as $offer) {
+                $src = $offer["DETAIL_PICTURE"]["SRC"];
+                $_originalImageName = $offer["DETAIL_PICTURE"]["ORIGINAL_NAME"] ?? basename($src);
+                $extenstion = pathinfo($src)["extension"] ?? null;
+                $_oldMediaId = (int)$offer["DETAIL_PICTURE"]["ID"];
+                $newName = $extenstion ? "$_oldMediaId.$extenstion" : "$_oldMediaId";
+                $storagePath = "$storeFolder/offers/$newName";
+
+                $storedFile = $this->fetchAndStoreFileToPath($src, $storagePath);
+
+                if (!$storedFile) return null;
+
+                $image = [
+                    "_old_id" => $_oldMediaId,
+                    "name" => $_originalImageName,
+                    "src" => $storedFile,
+                ];
+
+                $variation = [
+                    "name" => $offer['NAME'],
+                    "price_retail" => $offer['ITEM_PRICES'][0]['PRICE'] ?? null,
+                    "price_retail_currency_id" => ['ITEM_PRICES'][0]['CURRENCY'] ?? null,
+                    "image" => $image,
+                    "ordering" => $offer["SORT"],
+                    "price_purchase" => $offer["PROPERTIES"]["purchase"]["value"],
+                    "price_purchase_currency_id" => $offer["PROPERTIES"]["purchase"]["DESCRIPTION"],
+                    "is_active" => true,
+                    "unit" => $offer["PROPERTIES"]["package"]["VALUE"],
+                    "coefficient" => $offer["PROPERTIES"]["koef_price"]["VALUE"],
+                    "is_in_stock" => $offer["PROPERTIES"]["order"]["VALUE"],
+                    "preview" => $offer["PREVIEW_TEXT"]
+                ];
+                $variations[] = $variation;
+            }
+
+            $_ch = $itemData["characteristics"];
+            $characteristics = [
+                "ch_desc_trade_mark" => $_ch["trademark"]["VALUE"] ?? null,
+                "ch_desc_country_name" => $_ch["country_of_origin"]["VALUE"] ?? null,
+                "ch_desc_unit" => $_ch["unit"]["VALUE"] ?? null,
+                "ch_desc_packing" => $_ch["packing"]["VALUE"] ?? null,
+                "ch_desc_light_reflection" => $_ch["degree_of_gloss"]["VALUE"] ?? null,
+                "ch_desc_material_consumption" => $_ch["consumption_material"]["VALUE"] ?? null,
+                "ch_desc_apply_instrument" => $_ch["tool_coating"]["VALUE"] ?? null,
+                "ch_desc_placement_temperature_moisture" => $_ch["temperature_humidity"]["VALUE"] ?? null,
+                "ch_desc_drying_time" => $_ch["drying_time"]["VALUE"] ?? null,
+                "ch_desc_special_characteristics" => $_ch["special_properties"]["VALUE"] ?? null,
+                "ch_compatibility_wood_usual_rate" => (int)$_ch["conventional_wood"]["VALUE"] ?? null,
+                "ch_compatibility_wood_exotic_rate" => (int)$_ch["exotic_woods"]["VALUE"] ?? null,
+                "ch_compatibility_wood_cork_rate" => (int)$_ch["cork"]["VALUE"] ?? null,
+                "ch_suitability_parquet_piece_rate" => (int)$_ch["parquet"]["VALUE"] ?? null,
+                "ch_suitability_parquet_massive_board_rate" => (int)$_ch["massive_board"]["VALUE"] ?? null,
+                "ch_suitability_parquet_board_rate" => (int)$_ch["parquet_board"]["VALUE"] ?? null,
+                "ch_suitability_parquet_art_rate" => (int)$_ch["art_parquet"]["VALUE"] ?? null,
+                "ch_suitability_parquet_laminate_rate" => (int)$_ch["laminate"]["VALUE"] ?? null,
+                "ch_suitability_placement_living_rate" => (int)$_ch["accommodation"]["VALUE"] ?? null,
+                "ch_suitability_placement_office_rate" => (int)$_ch["offices"]["VALUE"] ?? null,
+                "ch_suitability_placement_restaurant_rate" => (int)$_ch["restaurants"]["VALUE"] ?? null,
+                "ch_suitability_placement_child_and_medical_rate" => (int)$_ch["children_hospitals"]["VALUE"] ?? null,
+                "ch_suitability_placement_gym_rate" => (int)$_ch["gyms"]["VALUE"] ?? null,
+                "ch_suitability_placement_industrial_zone_rate" => (int)$_ch["Industrial_zones"]["VALUE"] ?? null,
+                "ch_exploitation_abrasion_resistance_rate" => (int)$_ch["isteraymost"]["VALUE"] ?? null,
+                "ch_exploitation_surface_firmness_rate" => (int)$_ch["surface_hardness"]["VALUE"] ?? null,
+                "ch_exploitation_elasticity_rate" => (int)$_ch["elasticity"]["VALUE"] ?? null,
+                "ch_exploitation_sustain_uv_rays_rate" => (int)$_ch["resistance_to_UV"]["VALUE"] ?? null,
+                "ch_exploitation_sustain_chemicals_rate" => (int)$_ch["resistance_chemic"]["VALUE"] ?? null,
+                "ch_exploitation_after_apply_wood_color" => $_ch["change_color"]["VALUE"] ?? null,
+                "ch_exploitation_env_friendliness" => $_ch["environmentally"]["VALUE"] ?? null,
+                "ch_storage_term" => $_ch["shelf_life"]["VALUE"] ?? null,
+                "ch_storage_conditions" => $_ch["storage_conditions"]["VALUE"] ?? null,
+            ];
+
+            $product["variations"] = $variations;
+            $product["characteristics"] = $characteristics;
+            $productsSeeds->put($productKey, $product);
         }
+
+        Storage::put("seeds/products/seeds.json", json_encode($productsSeeds, JSON_UNESCAPED_UNICODE));
+    }
+
+    public function transferPrices()
+    {
+        $productsSeeds = collect(json_decode(Storage::get("seeds/products/seeds.json"), true));
+
+        for ($i = 1; $i <= 11; $i++) {
+            $raw = require(storage_path("app/seeds/products/raw-prices-50-$i.php"));
+
+            foreach ($raw as $rawItem) {
+                $_oldProductId = $rawItem["ID"];
+                $productKey = $productsSeeds->search(function(array $pr) use($_oldProductId) {
+                    return (int)$pr["_old_id"] === $_oldProductId;
+                });
+                if ($productKey === false) continue;
+
+                $product = $productsSeeds->get($productKey);
+
+                $product["price_retail"] = $rawItem["ITEM_PRICES"][0]["PRICE"];
+                $product["price_retail_currency_id"] = $rawItem["ITEM_PRICES"][0]["CURRENCY"];
+                $productsSeeds->put($productKey, $product);
+            }
+        }
+        Storage::put("seeds/products/seeds.json", json_encode($productsSeeds, JSON_UNESCAPED_UNICODE));
     }
 
     public function shouldIgnore(array $rawItem): bool
@@ -217,9 +379,10 @@ class TransferProducts extends BaseTransfer
         $loopProductProduct = function(array $otherProductsIds): array {
             $newOtherProductsIds = [];
             foreach ($otherProductsIds as $id) {
-                $newOtherProduct = $this->categories->where("_old_id", $id)->first();
+                $newOtherProduct = $this->productSeedsByOldId->get($id);
                 if (!$newOtherProduct) {
-                    dump("Failed to find other product with old id: $id");
+//                    dump("Failed to find other product with old id: $id");
+//                    dump($otherProductsIds);
                     continue;
                 }
                 $newOtherProductsIds[] = $newOtherProduct["id"];
@@ -253,7 +416,7 @@ class TransferProducts extends BaseTransfer
 
         $informational_prices = [];
         $_oldInfoPrices = $properties["info_price"];
-        $__ipValues = $_oldInfoPrices["VALUE"];
+        $__ipValues = !empty($_oldInfoPrices["VALUE"]) ? $_oldInfoPrices["VALUE"] : [];
         $__ipDescriptions = $_oldInfoPrices["DESCRIPTION"];
         foreach ($__ipValues as $index => $infoPrice) {
             $informational_prices[] = [
@@ -277,7 +440,7 @@ class TransferProducts extends BaseTransfer
             "accessoriesIds" => $newAccessoriesIds,
             "similarIds" => $newSimilarIds,
             "relatedIds" => $newRelatedIds,
-            "newWorkIds" => $newWorkIds,
+            "workIds" => $newWorkIds,
             "coefficient" => $coefficient,
             "coefficient_description" => $coefficient_description,
             "price_name" => $price_name,
@@ -288,6 +451,7 @@ class TransferProducts extends BaseTransfer
             "unit" => $unit,
             "is_in_stock" => $is_in_stock,
 
+            "is_available" => true,
 
             "_old_manufacturer_id" => $oldManufacturerId,
             "_old_accessories_ids" => $oldAccessoriesIds,
@@ -295,30 +459,6 @@ class TransferProducts extends BaseTransfer
             "_old_related_ids" => $oldRelatedIds,
             "_old_work_ids" => $oldWorksIds,
         ];
-    }
-
-    protected function getSeedDataFromOffers(array $rawItem): array
-    {
-        $offers = $rawItem["OFFERS"];
-
-
-        $variations = [];
-
-        foreach ($offers as $offer) {
-            // TODO image storing
-
-            $variations[] = [
-                "name" => $offer['NAME'],
-                "price_retail" => $offer['ITEM_PRICES'][0]['PRICE'] ?? null,
-                "price_retail_currency_id" => ['ITEM_PRICES'][0]['CURRENCY'] ?? null,
-                "price_purchase",
-                "price_purchase_currency_id",
-                "imageSrc" => $offer["DETAIL_PICTURE"]["SRC"],
-                "imageName" => $offer["DETAIL_PICTURE"]["ORIGINAL_NAME"],
-            ];
-        }
-
-        return [];
     }
 
     protected function getCategoryByOldId($id): ?array
