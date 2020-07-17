@@ -2,17 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\MorphOne;
-
 /**
  * @property int $id
- * @property string $name
- * @property string|null $preview
+ * @property string|null $title
+ * @property string|null $h1
+ * @property string|null $keywords
  * @property string|null $description
+ * @property int $seoable_id
+ * @property string $seoable_type
  * */
-class Manufacturer extends BaseModel
+class Seo extends BaseModel
 {
-    const TABLE = "manufacturers";
+    const TABLE = "seo";
 
     /**
      * The table associated with the model.
@@ -27,9 +28,4 @@ class Manufacturer extends BaseModel
      * @var bool
      */
     public $timestamps = false;
-
-    public function seo(): MorphOne
-    {
-        return $this->morphOne(Seo::class, "seoable", "seoable_type", "seoable_id");
-    }
 }

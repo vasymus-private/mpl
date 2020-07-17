@@ -2,17 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\MorphOne;
-
 /**
  * @property int $id
+ * @property int $product_id
+ * @property float $price
  * @property string $name
- * @property string|null $preview
- * @property string|null $description
  * */
-class Manufacturer extends BaseModel
+class InformationalPrice extends BaseModel
 {
-    const TABLE = "manufacturers";
+    const TABLE = "informational_prices";
 
     /**
      * The table associated with the model.
@@ -27,9 +25,4 @@ class Manufacturer extends BaseModel
      * @var bool
      */
     public $timestamps = false;
-
-    public function seo(): MorphOne
-    {
-        return $this->morphOne(Seo::class, "seoable", "seoable_type", "seoable_id");
-    }
 }

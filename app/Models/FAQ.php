@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 /**
  * @property int $id
@@ -33,4 +34,9 @@ class FAQ extends BaseModel
     protected $casts = [
         "is_active" => "bool",
     ];
+
+    public function seo(): MorphOne
+    {
+        return $this->morphOne(Seo::class, "seoable", "seoable_type", "seoable_id");
+    }
 }

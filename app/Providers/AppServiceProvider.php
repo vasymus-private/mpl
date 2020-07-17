@@ -2,6 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Category;
+use App\Models\FAQ;
+use App\Models\Manufacturer;
+use App\Models\Product\Product;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -27,5 +32,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+
+        Relation::morphMap([
+            'products' => Product::class,
+            "manufacturers" => Manufacturer::class,
+            "categories" => Category::class,
+            "faq" => FAQ::class,
+        ]);
     }
 }
