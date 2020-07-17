@@ -18,7 +18,9 @@ class TestController extends Controller
 
 
         $tr = new TransferProducts();
-        $tr->transfer();
+        $tr->transferMedia();
+        //$tr->transfer();
+        //$tr->transferPrices();
         //$tr->fetchAndStoreRaw(23);
 //        $tr->fetchAndStoreRawItem("/catalog/parket/massive_board/dub_art_parket.html");
 //        $tr->fetchAndStoreRawItem("catalog/parketnyy_lak/Bona_Traffic.html");

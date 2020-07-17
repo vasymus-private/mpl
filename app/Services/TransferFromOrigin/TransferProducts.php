@@ -171,8 +171,6 @@ class TransferProducts extends BaseTransfer
 
             $newProductId = (int)$product["id"];
 
-            if ($newProductId < 486) continue; // TODO temporary
-
             $files = $rawItem["media"]["files"] ?? [];
             $images = $rawItem["media"]["images"] ?? [];
             $mainImage = $rawItem["media"]["mainImage"];
@@ -188,9 +186,12 @@ class TransferProducts extends BaseTransfer
                 $newName = $extenstion ? "$_oldMediaId.$extenstion" : "$_oldMediaId";
                 $storagePath = "$storeFolder/$type/$newName";
 
-                $storedFile = $this->fetchAndStoreFileToPath($src, $storagePath);
+                //$storedFile = $this->fetchAndStoreFileToPath($src, $storagePath);
 
-                if (!$storedFile) return null;
+                //if (!$storedFile) return null;
+
+                $storedFile = $storagePath; // TODO temp
+                if (!Storage::exists($storedFile)) return null;
 
                 return [
                     "_old_id" => $_oldMediaId,
@@ -228,7 +229,7 @@ class TransferProducts extends BaseTransfer
         $count = count(Storage::allFiles("seeds/products/offers-and-chars"));
 
         for ($i = 1; $i <= $count; $i++) {
-            $itemData = require(storage_path("seeds/products/offers-and-chars/$i.php"));
+            $itemData = require(storage_path("app/seeds/products/offers-and-chars/$i.php"));
 
             $_oldProductId = $itemData["ID"];
             $productKey = $productsSeeds->search(function(array $pr) use($_oldProductId) {
@@ -246,6 +247,8 @@ class TransferProducts extends BaseTransfer
 
             foreach ($offers as $offer) {
                 $src = $offer["DETAIL_PICTURE"]["SRC"];
+                if (!$src) continue;
+
                 $_originalImageName = $offer["DETAIL_PICTURE"]["ORIGINAL_NAME"] ?? basename($src);
                 $extenstion = pathinfo($src)["extension"] ?? null;
                 $_oldMediaId = (int)$offer["DETAIL_PICTURE"]["ID"];
@@ -268,7 +271,7 @@ class TransferProducts extends BaseTransfer
                     "price_retail_currency_id" => ['ITEM_PRICES'][0]['CURRENCY'] ?? null,
                     "image" => $image,
                     "ordering" => $offer["SORT"],
-                    "price_purchase" => $offer["PROPERTIES"]["purchase"]["value"],
+                    "price_purchase" => $offer["PROPERTIES"]["purchase"]["VALUE"],
                     "price_purchase_currency_id" => $offer["PROPERTIES"]["purchase"]["DESCRIPTION"],
                     "is_active" => true,
                     "unit" => $offer["PROPERTIES"]["package"]["VALUE"],
@@ -291,25 +294,25 @@ class TransferProducts extends BaseTransfer
                 "ch_desc_placement_temperature_moisture" => $_ch["temperature_humidity"]["VALUE"] ?? null,
                 "ch_desc_drying_time" => $_ch["drying_time"]["VALUE"] ?? null,
                 "ch_desc_special_characteristics" => $_ch["special_properties"]["VALUE"] ?? null,
-                "ch_compatibility_wood_usual_rate" => (int)$_ch["conventional_wood"]["VALUE"] ?? null,
-                "ch_compatibility_wood_exotic_rate" => (int)$_ch["exotic_woods"]["VALUE"] ?? null,
-                "ch_compatibility_wood_cork_rate" => (int)$_ch["cork"]["VALUE"] ?? null,
-                "ch_suitability_parquet_piece_rate" => (int)$_ch["parquet"]["VALUE"] ?? null,
-                "ch_suitability_parquet_massive_board_rate" => (int)$_ch["massive_board"]["VALUE"] ?? null,
-                "ch_suitability_parquet_board_rate" => (int)$_ch["parquet_board"]["VALUE"] ?? null,
-                "ch_suitability_parquet_art_rate" => (int)$_ch["art_parquet"]["VALUE"] ?? null,
-                "ch_suitability_parquet_laminate_rate" => (int)$_ch["laminate"]["VALUE"] ?? null,
-                "ch_suitability_placement_living_rate" => (int)$_ch["accommodation"]["VALUE"] ?? null,
-                "ch_suitability_placement_office_rate" => (int)$_ch["offices"]["VALUE"] ?? null,
-                "ch_suitability_placement_restaurant_rate" => (int)$_ch["restaurants"]["VALUE"] ?? null,
-                "ch_suitability_placement_child_and_medical_rate" => (int)$_ch["children_hospitals"]["VALUE"] ?? null,
-                "ch_suitability_placement_gym_rate" => (int)$_ch["gyms"]["VALUE"] ?? null,
-                "ch_suitability_placement_industrial_zone_rate" => (int)$_ch["Industrial_zones"]["VALUE"] ?? null,
-                "ch_exploitation_abrasion_resistance_rate" => (int)$_ch["isteraymost"]["VALUE"] ?? null,
-                "ch_exploitation_surface_firmness_rate" => (int)$_ch["surface_hardness"]["VALUE"] ?? null,
-                "ch_exploitation_elasticity_rate" => (int)$_ch["elasticity"]["VALUE"] ?? null,
-                "ch_exploitation_sustain_uv_rays_rate" => (int)$_ch["resistance_to_UV"]["VALUE"] ?? null,
-                "ch_exploitation_sustain_chemicals_rate" => (int)$_ch["resistance_chemic"]["VALUE"] ?? null,
+                "ch_compatibility_wood_usual_rate" => $_ch["conventional_wood"]["VALUE"] ?? null,
+                "ch_compatibility_wood_exotic_rate" => $_ch["exotic_woods"]["VALUE"] ?? null,
+                "ch_compatibility_wood_cork_rate" => $_ch["cork"]["VALUE"] ?? null,
+                "ch_suitability_parquet_piece_rate" => $_ch["parquet"]["VALUE"] ?? null,
+                "ch_suitability_parquet_massive_board_rate" => $_ch["massive_board"]["VALUE"] ?? null,
+                "ch_suitability_parquet_board_rate" => $_ch["parquet_board"]["VALUE"] ?? null,
+                "ch_suitability_parquet_art_rate" => $_ch["art_parquet"]["VALUE"] ?? null,
+                "ch_suitability_parquet_laminate_rate" => $_ch["laminate"]["VALUE"] ?? null,
+                "ch_suitability_placement_living_rate" => $_ch["accommodation"]["VALUE"] ?? null,
+                "ch_suitability_placement_office_rate" => $_ch["offices"]["VALUE"] ?? null,
+                "ch_suitability_placement_restaurant_rate" => $_ch["restaurants"]["VALUE"] ?? null,
+                "ch_suitability_placement_child_and_medical_rate" => $_ch["children_hospitals"]["VALUE"] ?? null,
+                "ch_suitability_placement_gym_rate" => $_ch["gyms"]["VALUE"] ?? null,
+                "ch_suitability_placement_industrial_zone_rate" => $_ch["Industrial_zones"]["VALUE"] ?? null,
+                "ch_exploitation_abrasion_resistance_rate" => $_ch["isteraymost"]["VALUE"] ?? null,
+                "ch_exploitation_surface_firmness_rate" => $_ch["surface_hardness"]["VALUE"] ?? null,
+                "ch_exploitation_elasticity_rate" => $_ch["elasticity"]["VALUE"] ?? null,
+                "ch_exploitation_sustain_uv_rays_rate" => $_ch["resistance_to_UV"]["VALUE"] ?? null,
+                "ch_exploitation_sustain_chemicals_rate" => $_ch["resistance_chemic"]["VALUE"] ?? null,
                 "ch_exploitation_after_apply_wood_color" => $_ch["change_color"]["VALUE"] ?? null,
                 "ch_exploitation_env_friendliness" => $_ch["environmentally"]["VALUE"] ?? null,
                 "ch_storage_term" => $_ch["shelf_life"]["VALUE"] ?? null,
@@ -340,8 +343,8 @@ class TransferProducts extends BaseTransfer
 
                 $product = $productsSeeds->get($productKey);
 
-                $product["price_retail"] = $rawItem["ITEM_PRICES"][0]["PRICE"];
-                $product["price_retail_currency_id"] = $rawItem["ITEM_PRICES"][0]["CURRENCY"];
+                $product["price_retail"] = $rawItem["ITEM_PRICES"][0]["PRICE"] ?? null;
+                $product["price_retail_currency_id"] = $rawItem["ITEM_PRICES"][0]["CURRENCY"] ?? null;
                 $productsSeeds->put($productKey, $product);
             }
         }
