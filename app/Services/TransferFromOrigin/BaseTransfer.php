@@ -62,6 +62,14 @@ abstract class BaseTransfer
         return $this->fetcher->fetch();
     }
 
+    public function fetchHtml(string $location): ?string
+    {
+        $this->pageUrl = ltrim($location, "/\\");
+
+        $this->fetcher->setUrl($this->getUrl());
+        return $this->fetcher->fetch();
+    }
+
     public function storeFile($path, $file): ?string
     {
         $isSaved = Storage::put($path, $file);

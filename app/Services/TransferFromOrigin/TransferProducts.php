@@ -5,6 +5,7 @@ namespace App\Services\TransferFromOrigin;
 use App\Services\TransferFromOrigin\DTOs\ManufacturerDTO;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\DomCrawler\Crawler;
 
 class TransferProducts extends BaseTransfer
 {
@@ -19,6 +20,57 @@ class TransferProducts extends BaseTransfer
         $this->categories = collect(json_decode(Storage::get("seeds/categories/seeds.json"), true));
         $this->manufacturers = collect(json_decode(Storage::get("seeds/manufacturers/seeds.json")), true);
 
+        // handle general, including properties
+        $this->transferGeneral();
+        // handle media
+        $this->transferMedia();
+        // handle offers and characteristics
+        $this->transferOffersAndCharacteristics();
+    }
+
+    public function fetchAndStoreRaw(int $zeroBasedIndexStart = null)
+    {
+        $detailPageUrls = require(storage_path("app/seeds/products/links.php"));
+
+        foreach ($detailPageUrls as $zeroBasedIndex => $location) {
+            if ($zeroBasedIndex < $zeroBasedIndexStart) continue;
+
+            $isSuccess = $this->fetchAndStoreRawItem($location);
+            if (!$isSuccess) {
+                dump("Failed to fetch and store / parse $location");
+            }
+        }
+    }
+
+    public function fetchAndStoreRawItem(string $location): bool
+    {
+        $html = $this->fetchHtml($location);
+        if (!$html) return false;
+
+        $startFlag = "<!-----START----->";
+        $endFlag = "<!-----END----->";
+
+        $afterStartArr = explode($startFlag, $html);
+
+        if (count($afterStartArr) < 2) {
+            return false;
+        }
+
+        $afterStart = $afterStartArr[1];
+        $arrayString = explode($endFlag, $afterStart)[0];
+
+        static $i = 1;
+
+        $phpString = "<?php\n\nreturn $arrayString;";
+
+        $name = "$i.php";
+        $i++;
+
+        return Storage::put("seeds/products/offers-and-chars/$name", $phpString);
+    }
+
+    public function transferGeneral()
+    {
         $seeds = [];
 
         for ($i = 1; $i <= 11; $i++) {
@@ -30,8 +82,10 @@ class TransferProducts extends BaseTransfer
 
                 $this->checkRawItem($rawItem);
 
+                $_old_category_id = (int)$rawItem["IBLOCK_SECTION_ID"];
+
                 $id = $this->getIncrementId();
-                $category = $this->categories->where("_old_id", (int)$rawItem["IBLOCK_SECTION_ID"])->first();
+                $category = $this->getCategoryByOldId($_old_category_id);
 
                 $seed = [
                     "id" => $id,
@@ -44,12 +98,13 @@ class TransferProducts extends BaseTransfer
                     "created_at" => null,
 
                     "_old_id" => (int)$rawItem["ID"],
-                    "_old_category_id" => (int)$rawItem["IBLOCK_SECTION_ID"],
+                    "_old_category_id" => $_old_category_id,
                 ];
 
-                $seed = array_merge($seed, $this->getSeedDataFromProperties($rawItem));
-                $seed = array_merge($seed, $this->getSeedDataFromOffers($rawItem));
-
+                $seed = array_merge(
+                    $seed,
+                    $this->getSeedDataFromProperties($rawItem)
+                );
                 $seeds[] = $seed;
             }
         }
@@ -57,7 +112,7 @@ class TransferProducts extends BaseTransfer
         Storage::put("seeds/products/seeds.json", json_encode($seeds, JSON_UNESCAPED_UNICODE));
     }
 
-    public function transferMediaToSeeds()
+    public function transferMedia()
     {
         $raw = require(storage_path("app/seeds/products/raw-media.php"));
         $productsSeeds = collect(json_decode(Storage::get("seeds/products/seeds.json"), true));
@@ -117,11 +172,18 @@ class TransferProducts extends BaseTransfer
             $product["media"] = $media;
 
             $productsSeeds->put($productKey, $product);
-
-            dd($product);
         }
 
         Storage::put("seeds/products/seeds.json", json_encode($productsSeeds, JSON_UNESCAPED_UNICODE));
+    }
+
+    public function transferOffersAndCharacteristics()
+    {
+        $count = count(Storage::allFiles("seeds/products/offers-and-chars"));
+
+        for ($i = 1; $i <= $count; $i++) {
+            $itemData = require(storage_path("seeds/products/offers-and-chars/$i.php"));
+        }
     }
 
     public function shouldIgnore(array $rawItem): bool
@@ -239,6 +301,28 @@ class TransferProducts extends BaseTransfer
     {
         $offers = $rawItem["OFFERS"];
 
+
+        $variations = [];
+
+        foreach ($offers as $offer) {
+            // TODO image storing
+
+            $variations[] = [
+                "name" => $offer['NAME'],
+                "price_retail" => $offer['ITEM_PRICES'][0]['PRICE'] ?? null,
+                "price_retail_currency_id" => ['ITEM_PRICES'][0]['CURRENCY'] ?? null,
+                "price_purchase",
+                "price_purchase_currency_id",
+                "imageSrc" => $offer["DETAIL_PICTURE"]["SRC"],
+                "imageName" => $offer["DETAIL_PICTURE"]["ORIGINAL_NAME"],
+            ];
+        }
+
         return [];
+    }
+
+    protected function getCategoryByOldId($id): ?array
+    {
+        return $this->categories->where("_old_id", $id)->first();
     }
 }
