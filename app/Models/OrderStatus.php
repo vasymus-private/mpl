@@ -24,9 +24,10 @@ class OrderStatus extends BaseModel
     const ID_PAYED_DELIVERY = 12;
     const ID_PAYED_PICKUP = 13;
     const ID_IN_OFFICE = 14;
-    const ID_DELAYED = 15;
-    const ID_CANCELED_BY_CUSTOMER = 16;
-    const ID_CANCELED_BY_US = 17;
+    const ID_DELIVERED = 15;
+    const ID_DELAYED = 16;
+    const ID_CANCELED_BY_CUSTOMER = 17;
+    const ID_CANCELED_BY_US = 18;
 
     const DEFAULT_ID = self::ID_OPEN;
 

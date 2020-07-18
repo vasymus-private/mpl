@@ -5,6 +5,7 @@ namespace App\Models\Product;
 use App\Models\BaseModel;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 /**
@@ -69,7 +70,7 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
  *
  * @mixin ProductRelations
  **/
-class Product extends BaseModel
+class Product extends BaseModel implements HasMedia
 {
     use ProductRelations;
     use SoftDeletes;

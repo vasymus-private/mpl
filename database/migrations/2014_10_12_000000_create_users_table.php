@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password')->nullable();
             $table->rememberToken();
             $table->string("anonymous_uid")->nullable();
+            $table->tinyInteger("status")->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

@@ -20,7 +20,7 @@ class Admin extends User
         });
     }
 
-    public static function firstOrCreateAnonymous(): User
+    public static function firstOrCreateAnonymous(string $anonymousUid): User
     {
         throw new \LogicException("Can not create anonymous admin");
     }

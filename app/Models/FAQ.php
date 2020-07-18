@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 /**
@@ -15,7 +16,7 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
  * @property string|null $user_email
  * @property Carbon $created_at
  * */
-class FAQ extends BaseModel
+class FAQ extends BaseModel implements HasMedia
 {
     use HasMediaTrait;
 

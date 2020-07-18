@@ -24,6 +24,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @see Category::subcategories()
  * @property Collection|Category[] $subcategories
+ *
+ * @see Category::seo()
+ * @property Seo|null $seo
  * */
 class Category extends BaseModel
 {

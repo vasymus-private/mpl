@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 
 /**
  * @property int $id
@@ -14,7 +15,7 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
  * @property string|null $description
  * @property Carbon|null $deleted_at
  * */
-class Manufacturer extends BaseModel
+class Manufacturer extends BaseModel implements HasMedia
 {
     use SoftDeletes;
     use HasMediaTrait;
