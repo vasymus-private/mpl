@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 /**
  * @property int $id
@@ -16,8 +17,12 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
  * */
 class FAQ extends BaseModel
 {
+    use HasMediaTrait;
+
     const TABLE = "faq";
     const UPDATED_AT = null;
+
+    const MC_FILES = "files";
 
     /**
      * The table associated with the model.
@@ -38,5 +43,10 @@ class FAQ extends BaseModel
     public function seo(): MorphOne
     {
         return $this->morphOne(Seo::class, "seoable", "seoable_type", "seoable_id");
+    }
+
+    public function registerMediaCollections()
+    {
+        $this->addMediaCollection(static::MC_FILES);
     }
 }

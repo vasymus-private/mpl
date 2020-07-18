@@ -2,17 +2,26 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 /**
  * @property int $id
  * @property string $name
  * @property string|null $preview
  * @property string|null $description
+ * @property Carbon|null $deleted_at
  * */
 class Manufacturer extends BaseModel
 {
+    use SoftDeletes;
+    use HasMediaTrait;
+
     const TABLE = "manufacturers";
+
+    const MC_MAIN_IMAGE = "main";
 
     /**
      * The table associated with the model.
@@ -31,5 +40,13 @@ class Manufacturer extends BaseModel
     public function seo(): MorphOne
     {
         return $this->morphOne(Seo::class, "seoable", "seoable_type", "seoable_id");
+    }
+
+    public function registerMediaCollections()
+    {
+        $this
+            ->addMediaCollection(static::MC_MAIN_IMAGE)
+            ->singleFile()
+        ;
     }
 }

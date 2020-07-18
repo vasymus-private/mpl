@@ -5,6 +5,7 @@ namespace App\Models\Product;
 use App\Models\BaseModel;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 /**
  * @property int $id
@@ -72,9 +73,14 @@ class Product extends BaseModel
 {
     use ProductRelations;
     use SoftDeletes;
+    use HasMediaTrait;
 
     const TABLE = "products";
-    const MAX_RATE = 5;
+    const MAX_CHARACTERISTIC_RATE = 5;
+
+    const MC_MAIN_IMAGE = "main";
+    const MC_ADDITIONAL_IMAGES = "images";
+    const MC_FILES = "files";
 
     /**
      * The table associated with the model.
@@ -94,4 +100,16 @@ class Product extends BaseModel
         "is_in_stock" => "boolean",
         "is_available" => "boolean",
     ];
+
+    public function registerMediaCollections()
+    {
+        $this
+            ->addMediaCollection(static::MC_MAIN_IMAGE)
+            ->singleFile()
+        ;
+
+        $this->addMediaCollection(static::MC_ADDITIONAL_IMAGES);
+
+        $this->addMediaCollection(static::MC_FILES);
+    }
 }
