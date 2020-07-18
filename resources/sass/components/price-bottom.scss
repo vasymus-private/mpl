@@ -1,0 +1,17 @@
+.price-bottom {
+  border-top: 1px solid #dbdbdb;
+  padding: 12px 0 0;
+  margin: 12px 0 0;
+  &__text {
+    margin: 0;
+    font-size: 10px;
+  }
+  &__currency {
+    color: #05f;
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    padding: 7px 0 0;
+  }
+}

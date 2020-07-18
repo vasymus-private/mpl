@@ -1,0 +1,106 @@
+.filter-form {
+  padding: 10px 0 0;
+  &__item {
+    position: relative;
+    cursor: pointer;
+    &:last-child {
+      padding-top: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+  &__label {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    &:before {
+      content: '';
+      -webkit-appearance: none;
+      width: 13px;
+      height: 13px;
+      border: 1px solid #cfcfcf;
+      background-color: #fff;
+      z-index: 10;
+      display: inline-block;
+      position: relative;
+      vertical-align: middle;
+      cursor: pointer;
+      margin-right: 5px;
+    }
+  }
+  &__checkbox {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+    margin: 0px;
+    padding: 0px;
+    &:checked + .filter-form__label:after {
+      content: '';
+      position: absolute;
+      width: 13px;
+      height: 13px;
+      border: 1px solid #cfcfcf;
+      background-color: #adadad;
+      cursor: pointer;
+      z-index: 10;
+    }
+  }
+  &__article {
+    position: relative;
+    flex: 1 1;
+    display: flex;
+    justify-content: space-between;
+    &:before {
+      content: '';
+      width: calc(100% - 20px);
+      height: 1px;
+      position: absolute;
+      display: block;
+      border-top: 1px dotted #adadad;
+      top: 13px;
+      z-index: 1;
+    }
+  }
+  &__link {
+    display: inline-block;
+    background: #fff;
+    position: relative;
+    z-index: 2;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 14px;
+    line-height: 22px;
+    color: #363636;
+    font-weight: 100;
+    text-decoration: none;
+  }
+  &__submit {
+    background-color: #eee;
+    border: 1px solid #adadad;
+    width: 91px;
+    height: 35px;
+    cursor: pointer;
+    color: #000;
+    font-size: 11px;
+    font-family: 'Roboto', Arial, sans-serif;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 35px;
+  }
+  &__reset {
+    background-color: #adadad;
+    border: 1px solid #adadad;
+    width: 91px;
+    height: 35px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #fff;
+    font-size: 11px;
+    font-family: 'Roboto', Arial, sans-serif;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 35px;
+  }
+}

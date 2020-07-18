@@ -1,0 +1,42 @@
+.sidebar-filter {
+  width: 214px;
+  background: #fff;
+  overflow: hidden;
+  border: 1px solid #cfcfcf;
+  padding-bottom: 10px;
+  @media screen and (max-width: 1167px) {
+    display: none;
+  }
+  &__title {
+    color: #dd522d;
+    text-transform: uppercase;
+    font-size: 14px;
+    text-align: center;
+    padding: 0 0 12px;
+    border-bottom: 1px solid #bfbfbf;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-weight: 700;
+  }
+  &__check {
+    position: relative;
+    top: -1px;
+    display: inline-block;
+    vertical-align: middle;
+    width: 12px;
+    height: 12px;
+    background-color: #dd522d;
+    text-align: center;
+    line-height: 12px;
+    border-radius: 3px;
+    margin-right: 5px;
+    .fa {
+      color: #fff;
+      font-size: 8px;
+      position: relative;
+      top: -2px;
+    }
+  }
+  &__content {
+    padding: 15px 7px 12px;
+  }
+}

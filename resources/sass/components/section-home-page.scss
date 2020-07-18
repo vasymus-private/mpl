@@ -1,0 +1,50 @@
+.section-home-page {
+	.column {
+		padding-right: 15px;
+    padding-left: 15px;
+    width: 100%;
+		@media (min-width: 768px) {
+			width: 66.66666667%;
+		}
+
+		@media (min-width: 1200px) {
+			width: 50%;
+		}
+		&:last-child {
+			@media (min-width: 768px) {
+				width: 33.33333333%;
+			}
+			@media (min-width: 1200px) {
+				width: 50%;
+			}
+		}
+	}
+	.column-sm-6 {
+    padding-right: 15px;
+    padding-left: 15px;
+    width: 100%;
+		@media (min-width: 1200px) {
+			width: 50%;
+		}
+		&.col-sm-6 {
+			@media (min-width: 768px) {
+				width: 50%;
+			}
+		}
+	}
+
+	.full-width {
+		padding-right: 15px;
+    	padding-left: 15px;
+    	width: 100%;
+	}
+
+  .column-half {
+    padding-right: 15px;
+    padding-left: 15px;
+    width: 100%;
+    @media (min-width: 768px) {
+      width: 25%;
+    }
+  }
+}

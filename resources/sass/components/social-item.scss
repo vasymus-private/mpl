@@ -1,0 +1,11 @@
+.social-item {
+  width: 26px;
+  height: 26px;
+  margin-left: 10px;
+  background: url(../images/instagram.svg) no-repeat center center;
+  border-radius: 5px;
+  @media (max-width: 767px) {
+    opacity: 0;
+    pointer-events: none;
+  }
+}

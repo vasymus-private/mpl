@@ -1,0 +1,28 @@
+.contacts-list {
+	list-style: none;
+	font-size: 14px;
+    padding: 5px 0 0;
+	margin: 0;
+	text-align: right;
+	@media (max-width: 540px) {
+		text-align: left;
+		padding-top: 10px;
+	}
+	.phone {
+		font-size: 18pt; 
+		text-decoration: none; 
+		color: #000; 
+		border-bottom: none;
+		font-weight: bold;
+	}
+
+	.link {
+		color: #064B8A;
+		text-decoration: none;
+    	border-bottom: 1px dotted #0068c8;
+	}
+
+	.text {
+		padding: 0 0 6px;
+	}
+}

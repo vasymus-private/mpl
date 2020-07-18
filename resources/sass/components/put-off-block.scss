@@ -1,0 +1,16 @@
+.put-off-block {
+  text-align: center;
+  &__link {
+    color: #b7b7b7;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 12px;
+    text-decoration: none;
+    &--active {
+      color: #05f;
+    }
+    &:hover {
+      color: #dd522d;
+      text-decoration: none;
+    }
+  }
+}

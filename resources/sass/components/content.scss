@@ -1,0 +1,18 @@
+.content {
+  width: calc(100% - 270px - 15px);
+  &__white-block {
+    background: #fff;
+    padding: 15px;
+  }
+
+  p {
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 14px;
+    line-height: 24px;
+    margin: 0 0 10px;
+  }
+
+  a {
+    color: #444;
+  }
+}

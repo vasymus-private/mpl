@@ -13,3 +13,10 @@ const mix = require('laravel-mix');
 
 mix.react('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css');
+
+mix.copyDirectory('resources/images', 'public/images')
+mix.copyDirectory('resources/fonts', 'public/fonts')
+
+mix.options({
+    processCssUrls : false,
+});

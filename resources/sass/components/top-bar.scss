@@ -1,0 +1,138 @@
+.top-bar {
+  background: #364657;
+  padding: 5px 10px;
+  max-width: 1200px;
+  overflow: visible;
+  min-height: 27px;
+  margin: 0 auto;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 223;
+  top: 0;
+  width: 100%;
+  @media (min-width: 768px) {
+    position: fixed;
+  }
+  .column-back {
+    padding: 0 15px;
+    @media (min-width: 768px) {
+      width: 16.66666667%;
+    }
+  }
+  .column {
+    padding: 0 15px;
+    @media (min-width: 768px) {
+      width: 83.33333333%;
+    }
+  }
+
+  .column-left {
+    padding: 2px 50px 0 0;
+    width: 75%;
+  }
+
+  .column-right {
+    @media (min-width: 992px) {
+      width: 25%;
+    }
+  }
+
+  &__enter,
+  &__link {
+    font-family: Roboto,sans-serif;
+    color: #fff;
+    font-size: 12px;
+    text-decoration: none;
+  }
+
+  &__enter {
+    padding: 0 0 0 26px;
+    background: url(../images/header_top_login.svg) no-repeat left 50%;
+    background-size: 23px 14px;
+  }
+
+  &__cart {
+    color: #fff;
+    padding: 0 0 0 25px;
+    background: url(../images/header_top_cart.svg) no-repeat left 50%;
+    text-decoration: none;
+    font-size: 12px;
+    font-family: Roboto,sans-serif;
+  }
+
+  &__count {
+    background: #ff5100;
+    border-radius: 10px;
+    display: inline-block;
+    color: #fff;
+    font-size: 10px;
+    padding: 3px 4px;
+    height: 16px;
+    line-height: 11px;
+    text-align: center;
+    min-width: 17px;
+  }
+
+  &__welcome {
+    padding: 0 0 0 6px;
+    color: #fff;
+    font-size: 12px;
+    margin: 4px 0 0;
+    display: inline-block;
+  }
+
+  &__back {
+    font-family: Roboto,sans-serif;
+    font-size: 12px;
+    float: left;
+    color: #294886;
+    margin: -3px 0 0;
+    text-align: right;
+    text-decoration: none;
+    display: inline-block;
+    svg {
+      margin: 3px 0 0;
+      display: inline-block;
+      float: left;
+    }
+  }
+  &.mobile-version {
+    background: none;
+    display: none;
+    .mob-tel-num {
+      color: #fff;
+    }
+    .mob-visible {
+      flex: 1 1;
+      display: flex;
+      text-align: center;
+      a {
+        width: 33.33%;
+      }
+    }
+    .row-line {
+      justify-content: flex-end;
+    }
+    a {
+      color: #000;
+      margin: 0 0 0 10px;
+    }
+
+    .goods-count {
+      min-width: 24px;
+      height: 17px;
+      padding: 0 5px;
+      line-height: 17px;
+      vertical-align: middle;
+      color: #fff;
+      font-family: robotoregular, Arial, sans-serif;
+      font-size: 12px;
+      background-color: #dd522d;
+      border-radius: 15px;
+      display: inline-block;
+      box-sizing: border-box;
+      text-align: center;
+    }
+  }
+}

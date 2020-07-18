@@ -1,0 +1,22 @@
+.sidebar-payment {
+  height: 156px;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #e8e7e7;
+  padding: 20px 15px 10px;
+  text-align: center;
+  &__title {
+    font-family: 'Roboto', Arial, sans-serif;
+    text-transform: uppercase;
+    color: #8b8b8b;
+    font-size: 15px;
+    line-height: 24px;
+    font-weight: 500;
+    margin: 0 0 15px;
+    letter-spacing: -0.03em;
+  }
+
+  &__column {
+    padding: 0 10px;
+  }
+}
