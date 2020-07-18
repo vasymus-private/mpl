@@ -11,6 +11,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(ClearMedia::class);
+
         $this->call(UsersAndAdminsTableSeeder::class);
         $this->call(BillStatusesTableSeeder::class);
         $this->call(CurrenciesTableSeeder::class);
