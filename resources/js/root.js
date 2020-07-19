@@ -6,7 +6,7 @@
 import 'slick-carousel'
 import 'jquery-slimscroll'
 
-
+import './modules/general'
 import slider from './modules/slider-home';
 import backToTop from './modules/backToTop';
 import navMenu from './modules/navMenu';

@@ -7,6 +7,7 @@ use App\Models\Manufacturer;
 use App\Models\Product\Product;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProductsController extends BaseWebController
 {
@@ -15,6 +16,23 @@ class ProductsController extends BaseWebController
         $categories = Category::parents()->with("subcategories.subcategories.subcategories")->orderBy(Category::TABLE . ".ordering")->get();
 
         $query = Product::query();
+
+        /** @var Category|null $category */
+        $category = $request->category_slug;
+        /** @var Category|null $subcategory1 */
+        $subcategory1 = $request->subcategory1_slug;
+        /** @var Category|null $subcategory2 */
+        $subcategory2 = $request->subcategory2_slug;
+        /** @var Category|null $subcategory3 */
+        $subcategory3 = $request->subcategory3_slug;
+
+        foreach ([$subcategory3, $subcategory2, $subcategory1, $category] as $cat) {
+            /** @var Category $cat*/
+            if ($cat) {
+                $query->where(Product::TABLE . ".category_id", $cat->id);
+                break;
+            }
+        }
 
         if (!empty($request->input("manufacturers", []))) {
             $query->whereIn(Product::TABLE . ".manufacturer_id", $request->input("manufacturers"));
@@ -30,6 +48,7 @@ class ProductsController extends BaseWebController
             });
         }
 
+        /** @var LengthAwarePaginator $products */
         $products = $query->paginate(
             $request->input("per_page", 20)
         );
@@ -40,45 +59,38 @@ class ProductsController extends BaseWebController
                         ::query()
                         ->withCount([
                             "products" => function(Builder $builder) use($productIds) {
-                                return $builder->where(Product::TABLE . ".id", $productIds);
+                                return $builder->whereIn(Product::TABLE . ".id", $productIds);
                             },
                         ])
                         ->having("products_count", ">", 0)
                         ->get()
         ;
 
-        /** @var Category|null $category */
-        $category = $request->category_slug;
-        /** @var Category|null $subcategory1 */
-        $subcategory1 = $request->subcategory1_slug;
-        /** @var Category|null $subcategory2 */
-        $subcategory2 = $request->subcategory2_slug;
-        /** @var Category|null $subcategory3 */
-        $subcategory3 = $request->subcategory3_slug;
+
 
         $breadcrumbs = [];
         if ($category) {
             $breadcrumbs[] = [
                 "name" => $category->name,
-                "href" => route("products.index", $category->slug),
+                "href" => route("products.index", [$category->slug]),
             ];
         }
         if ($subcategory1) {
             $breadcrumbs[] = [
                 "name" => $subcategory1->name,
-                "href" => route("products.index", $category->slug, $subcategory1->slug),
+                "href" => route("products.index", [$category->slug, $subcategory1->slug]),
             ];
         }
         if ($subcategory2) {
             $breadcrumbs[] = [
                 "name" => $subcategory2->name,
-                "href" => route("products.index", $category->slug, $subcategory1->slug, $subcategory2->slug),
+                "href" => route("products.index", [$category->slug, $subcategory1->slug, $subcategory2->slug]),
             ];
         }
         if ($subcategory3) {
             $breadcrumbs[] = [
                 "name" => $subcategory3->name,
-                "href" => route("products.index", $category->slug, $subcategory1->slug, $subcategory2->slug, $subcategory3->slug),
+                "href" => route("products.index", [$category->slug, $subcategory1->slug, $subcategory2->slug, $subcategory3->slug]),
             ];
         }
 

@@ -49,4 +49,26 @@ class Currency extends BaseModel
             }
         }
     }
+
+    public static function getFormatedName(int $id = null): ?string
+    {
+        switch ($id) {
+            case static::ID_RUB : {
+                return "р";
+                break;
+            }
+            case static::ID_EUR : {
+                return "EUR";
+                break;
+            }
+            case static::ID_USD : {
+                return "USD";
+                break;
+            }
+            default : {
+                return null;
+                break;
+            }
+        }
+    }
 }

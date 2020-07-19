@@ -18,8 +18,7 @@ class HomeController extends Controller
     public function index()
     {
         $categories = Category::parents()->with("subcategories.subcategories.subcategories")->get();
-        $manufacturers = Manufacturer::query()->with("products:id")->get();
 
-        return view('web.home', compact("categories", "manufacturers"));
+        return view('web.home', compact("categories"));
     }
 }
