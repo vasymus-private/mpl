@@ -39,6 +39,18 @@ class Category extends BaseModel
 
     const TABLE = "categories";
 
+    // TODO temporary decision for menu render
+    const _TEMP_ID_PARKET = 1;
+    const _TEMP_ID_PARKET_GLUE = 8;
+    const _TEMP_ID_PARKET_LACQUER = 19;
+    const _TEMP_ID_PARKET_OIL = 31;
+    const _TEMP_ID_PUTTY = 36;
+    const _TEMP_ID_CARE_TOOLS = 39;
+    const _TEMP_ID_FLOOR_BAE = 46;
+    const _TEMP_ID_EQUIPMENT = 54;
+    const _TEMP_ID_RELATED_TOOLS = 60;
+
+
     /**
      * The table associated with the model.
      *
@@ -69,7 +81,7 @@ class Category extends BaseModel
 
     public function subcategories(): HasMany
     {
-        return $this->hasMany(Category::class, "parent_id", "id");
+        return $this->hasMany(Category::class, "parent_id", "id")->orderBy(Category::TABLE . ".ordering");
     }
 
     public function seo(): MorphOne

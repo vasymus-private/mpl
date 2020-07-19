@@ -26,7 +26,7 @@
 <body>
     @include("web.layouts.mb-menu")
     @yield("mb-manufacturers-filter")
-    <div class="wrapper gtk_main gtk_panel slideout-panel">
+    <div class="wrapper @yield('wrapper-class')">
         @include('web.layouts.top-bar-md+')
         @include('web.layouts.top-bar-xs')
         <div class="header-sticky">

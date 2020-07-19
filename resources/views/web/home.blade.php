@@ -1,5 +1,9 @@
 @extends('web.layouts.app')
 
+@section('wrapper-class')
+gtk_main slideout-panel
+@endsection
+
 @section('content')
     <section class="section-home-page">
         <div class="container">

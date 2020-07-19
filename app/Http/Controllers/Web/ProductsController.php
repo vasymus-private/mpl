@@ -12,7 +12,7 @@ class ProductsController extends BaseWebController
 {
     public function index(Request $request)
     {
-        $categories = Category::parents()->with("subcategories.subcategories.subcategories")->get();
+        $categories = Category::parents()->with("subcategories.subcategories.subcategories")->orderBy(Category::TABLE . ".ordering")->get();
 
         $query = Product::query();
 
