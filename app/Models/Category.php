@@ -46,7 +46,7 @@ class Category extends BaseModel
     const _TEMP_ID_PARKET_OIL = 31;
     const _TEMP_ID_PUTTY = 36;
     const _TEMP_ID_CARE_TOOLS = 39;
-    const _TEMP_ID_FLOOR_BAE = 46;
+    const _TEMP_ID_FLOOR_BASE = 46;
     const _TEMP_ID_EQUIPMENT = 54;
     const _TEMP_ID_RELATED_TOOLS = 60;
 
@@ -118,5 +118,33 @@ class Category extends BaseModel
         /** @var Category $parentCategory*/
         $parentCategory = $route->subcategory2_slug;
         return static::query()->where(static::TABLE . ".slug", $value)->where(static::TABLE . ".parent_id", $parentCategory->id)->firstOrFail();
+    }
+
+    public static function getSidebarDividerCount(Category $category): int
+    {
+        switch ($category->id) {
+            case \App\Models\Category::_TEMP_ID_PARKET :
+            case \App\Models\Category::_TEMP_ID_PARKET_GLUE :
+            case \App\Models\Category::_TEMP_ID_CARE_TOOLS :
+            case \App\Models\Category::_TEMP_ID_FLOOR_BASE : {
+                return 3;
+                break;
+            }
+            case \App\Models\Category::_TEMP_ID_PARKET_LACQUER :
+            case \App\Models\Category::_TEMP_ID_PARKET_OIL :
+            case \App\Models\Category::_TEMP_ID_PUTTY: {
+                return 2;
+                break;
+            }
+            case \App\Models\Category::_TEMP_ID_EQUIPMENT :
+            case \App\Models\Category::_TEMP_ID_RELATED_TOOLS : {
+                return 1;
+                break;
+            }
+            default : {
+                return $category->subcategories->count() / 2;
+                break;
+            }
+        }
     }
 }

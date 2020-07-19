@@ -1,10 +1,17 @@
 <div class="catalog">
-    <h2 class="content-header__title"><span>ЛАК ПАРКЕТНЫЙ</span></h2>
+    <h2 class="content-header__title">
+        @if($subtitle)<span>{{$subtitle}}</span>@else<span style="padding: 0"></span>@endif</h2>
+    @if(count($breadcrumbs))
     <div class="row-line row-line__center breadcrumbs">
-        <a class="breadcrumbs__link" href="#">Каталог</a>
-        <a class="breadcrumbs__link" href="#">Паркетный клей</a>
-        <a class="breadcrumbs__link" href="#">Двухкомпонентный клей</a>
+        @foreach($breadcrumbs as $breadcrumb)
+            @if(!$loop->last)
+                <a class="breadcrumbs__link" href="{{$breadcrumb['href']}}">{{$breadcrumb['name']}}</a>
+            @else
+                <span class="breadcrumbs__link">{{$breadcrumb["name"]}}</span>
+            @endif
+        @endforeach
     </div>
+    @endif
     <button class="btn-sort">Сортировать</button>
     <div class="filter-head">
         <div class="column">

@@ -47,7 +47,44 @@ class ProductsController extends BaseWebController
                         ->get()
         ;
 
-        return view("web.products", compact("categories", "manufacturers", "products"));
+        /** @var Category|null $category */
+        $category = $request->category_slug;
+        /** @var Category|null $subcategory1 */
+        $subcategory1 = $request->subcategory1_slug;
+        /** @var Category|null $subcategory2 */
+        $subcategory2 = $request->subcategory2_slug;
+        /** @var Category|null $subcategory3 */
+        $subcategory3 = $request->subcategory3_slug;
+
+        $breadcrumbs = [];
+        if ($category) {
+            $breadcrumbs[] = [
+                "name" => $category->name,
+                "href" => route("products.index", $category->slug),
+            ];
+        }
+        if ($subcategory1) {
+            $breadcrumbs[] = [
+                "name" => $subcategory1->name,
+                "href" => route("products.index", $category->slug, $subcategory1->slug),
+            ];
+        }
+        if ($subcategory2) {
+            $breadcrumbs[] = [
+                "name" => $subcategory2->name,
+                "href" => route("products.index", $category->slug, $subcategory1->slug, $subcategory2->slug),
+            ];
+        }
+        if ($subcategory3) {
+            $breadcrumbs[] = [
+                "name" => $subcategory3->name,
+                "href" => route("products.index", $category->slug, $subcategory1->slug, $subcategory2->slug, $subcategory3->slug),
+            ];
+        }
+
+        $subtitle = $subcategory3->name ?? $subcategory2->name ?? $subcategory1->name ?? $category->name ?? null;
+
+        return view("web.products", compact("categories", "manufacturers", "products", "breadcrumbs", "subtitle"));
     }
 
     public function show(Request $request)
