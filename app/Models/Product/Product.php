@@ -3,8 +3,11 @@
 namespace App\Models\Product;
 
 use App\Models\BaseModel;
+use App\Models\Category;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Routing\Route;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
@@ -101,6 +104,31 @@ class Product extends BaseModel implements HasMedia
         "is_in_stock" => "boolean",
         "is_available" => "boolean",
     ];
+
+    public static function rbProductSlug($value, Route $route)
+    {
+        /** @var Category|null $subcategory1 */
+        $subcategory1 = $route->subcategory1_slug;
+        /** @var Category|null $subcategory2 */
+        $subcategory2 = $route->subcategory2_slug;
+        /** @var Category|null $subcategory3 */
+        $subcategory3 = $route->subcategory3_slug;
+        return static::query()
+            ->where(static::TABLE . ".slug", $value)
+            ->where(function(Builder $builder) use($subcategory1, $subcategory2, $subcategory3) {
+                return $builder
+                        ->orWhere(static::TABLE . ".product_id", $subcategory1->id)
+                        ->when($subcategory2->id ?? null, function(Builder $b, $sub2Id) {
+                            return $b->orWhere(static::TABLE . ".product_id", $sub2Id);
+                        })
+                        ->when($subcategory3->id ?? null, function(Builder $b, $sub3Id) {
+                            return $b->orWhere(static::TABLE . ".product_id", $sub3Id);
+                        })
+                ;
+            })
+            ->firstOrFail()
+        ;
+    }
 
     public function registerMediaCollections()
     {

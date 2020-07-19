@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Category;
+use App\Models\Product\Product;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 
@@ -51,6 +53,18 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapAdminRoutes();
 
         $this->mapAdminAjaxRoutes();
+
+        $this->routeBinding();
+    }
+
+    protected function routeBinding()
+    {
+        Route::bind("category_slug", [Category::class, "rbCategorySlug"]);
+        Route::bind("subcategory1_slug", [Category::class, "rbSubcategory1Slug"]);
+        Route::bind("subcategory2_slug", [Category::class, "rbSubcategory2Slug"]);
+        Route::bind("subcategory3_slug", [Category::class, "rbSubcategory3Slug"]);
+
+        Route::bind("product_slug", [Product::class, "rbProductSlug"]);
     }
 
     /**

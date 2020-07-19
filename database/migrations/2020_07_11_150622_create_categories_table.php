@@ -22,6 +22,7 @@ class CreateCategoriesTable extends Migration
             $table->boolean('is_active')->default(false);
             $table->text('description')->nullable();
             $table->unsignedBigInteger('_old_id')->nullable()->comment('For reference: id from previous database.');
+            $table->softDeletes();
         });
     }
 

@@ -1,0 +1,32 @@
+<div class="top-bar hidden-xs">
+    <div class="container">
+        <div class="row-line">
+            <div class="column-back">
+                <a href="#" class="top-bar__back">
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                         width="16" height="16" viewBox="0 0 16 16">
+                        <path fill="#fff"
+                              d="M6.293 13.707l-5-5c-0.391-0.39-0.391-1.024 0-1.414l5-5c0.391-0.391 1.024-0.391 1.414 0s0.391 1.024 0 1.414l-3.293 3.293h9.586c0.552 0 1 0.448 1 1s-0.448 1-1 1h-9.586l3.293 3.293c0.195 0.195 0.293 0.451 0.293 0.707s-0.098 0.512-0.293 0.707c-0.391 0.391-1.024 0.391-1.414 0z"></path>
+                    </svg>
+                    <span class="top-bar__welcome">Назад</span>
+                </a>
+            </div>
+            <div class="column row-line row-line__between">
+                <div class="column-left row-line row-line__between">
+                    <a href="#" class="top-bar__link">Вы смотрели</a>
+                    <a href="#" class="top-bar__link">Контакты</a>
+                    <a href="tel:74953638799" class="top-bar__link">(495) 363 87 99</a>
+                    <a href="tel:79163639363" class="top-bar__link">(916) 363 9 363</a>
+                </div>
+                <div class="column-right row-line row-line__between">
+                    <a href="#" class="top-bar__cart js-manual-popover-autohide" data-toggle="popover"
+                       data-content="<b>Добавлено в корзину</b>" data-placement="bottom" data-html="true"
+                       data-trigger="manual" data-original-title="" title="">
+                        Корзина <span class="js-cart-items-count top-bar__count">0</span>
+                    </a>
+                    <a href="#" class="top-bar__enter">Вход</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

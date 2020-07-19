@@ -5,13 +5,17 @@ var filterMobile = (function ($) {
     'use strict';
 
     function init() {
-        var slideout = new Slideout({
+        if (!$(".gtk_filter").length || !$(".gtk_panel").length) return
+
+        let params = {
             'panel': document.querySelector('.gtk_panel'),
             'menu': document.querySelector('.gtk_filter'),
             'padding': 276,
             'tolerance': 70,
             'touch': false
-        });
+        }
+
+        var slideout = new Slideout(params);
 
         var filterButton = jQuery('.gtk_filter .filter-mobile__close');
         var mainButton = jQuery('.gtk_main .btn-sort');

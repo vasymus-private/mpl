@@ -5,6 +5,8 @@ var navMenu = (function ($) {
     'use strict';
 
     function init() {
+        if (!$(".gtk_main").length || !$(".gtk_menu").length) return
+
         var slideout = new Slideout({
             'panel': document.querySelector('.gtk_main'),
             'menu': document.querySelector('.gtk_menu'),
