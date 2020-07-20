@@ -2,32 +2,40 @@ var accordionMob = (function ($) {
     'use strict';
 
     function init() {
-        var allAccordions = $('.accordion .data');
-        var allAccordionItems = $('.accordion .accordion-item');
+        let allAccordions = $('.accordion .data');
+        let allAccordionItems = $('.accordion .accordion-item');
+        let $mbBodyLeft = $('.mb-body-left');
+        let $menuMain = $('.menu_main');
 
-        $('.accordion .accordion-item').click(function (e) {
-            if ($(this).hasClass('open')) {
-                $(this).removeClass('open');
-                $(this).next().slideUp("slow", function () {
-                    $('.mb-body-left').animate({scrollTop: 0}, 500);
+        allAccordionItems.on("click", function (e) {
+            let $this = $(this)
 
+            if ($this.hasClass('open')) {
+                $this.removeClass('open');
+                $this.next().slideUp("slow", function () {
+                    $mbBodyLeft.animate({scrollTop: 0}, 500);
                 });
             } else {
-                var _this = this;
-
                 allAccordions.slideUp("slow");
                 allAccordionItems.removeClass('open');
-                $(this).addClass('open');
-                $(this).next().slideDown("slow", function () {
-                    var pTop = $(_this).parents('.fltr').position().top,
-                        eTop = $(_this).offset().top;
+                $this.addClass('open');
+                $this.next().slideDown("slow", function () {
+                    $mbBodyLeft.slimScroll({
+                        height: $menuMain.height(),
+                        touchScrollStep: 100,
+                    });
 
-                    if (eTop < 0)
-                        var top = Math.abs(pTop) - Math.abs(eTop);
-                    else
-                        var top = eTop + Math.abs(pTop);
+                    let pTop = $this.parents('.fltr').position().top
+                    let eTop = $this.offset().top
 
-                    $('.mb-body-left').animate({scrollTop: top}, 500);
+                    let top
+
+                    if (eTop < 0) top = Math.abs(pTop) - Math.abs(eTop);
+                    else top = eTop + Math.abs(pTop);
+
+                    console.log(top)
+
+                    $mbBodyLeft.animate({scrollTop: top}, 500);
 
                 });
             }

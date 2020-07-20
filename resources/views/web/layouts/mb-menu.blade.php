@@ -1,6 +1,6 @@
-<div class="gtk_menu slideout-menu menu_main">
+<div class="gtk_menu slideout-menu menu_main" style="padding-top: 0">
     <div class="mb-body-left">
-        <div class="header-column">
+        {{--<div class="header-column">
             <div class="row-line row-line__between">
                 <a href="#" class="logo">
                     <img alt="Parket Lux" title="Parket Lux" src="images/logo.svg">
@@ -15,7 +15,7 @@
                     </div>
                 </form>
             </div>
-        </div>
+        </div>--}}
         <div class="sidebar-catalog accordion fltr">
             @include("web.layouts.mb-menu-services")
 

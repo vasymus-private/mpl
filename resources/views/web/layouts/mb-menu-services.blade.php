@@ -1,4 +1,4 @@
-<div class="sidebar-catalog__header-line">
+<div class="sidebar-catalog__header-line" style="padding-top: 25px; height: auto;">
     <span><i class="fa fa-bars" aria-hidden="true"></i>Паркетные работы</span>
     <span class="sidebar-catalog__search-icon">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
