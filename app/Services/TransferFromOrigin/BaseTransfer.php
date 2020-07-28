@@ -31,6 +31,8 @@ abstract class BaseTransfer
         $this->fetcher->setPassword($password);
     }
 
+    abstract public function transfer();
+
     /**
      * Fetch image from site and store it on local disk
      *

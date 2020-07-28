@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\TransferFromOrigin\TransferCategories;
-use App\Services\TransferFromOrigin\TransferFAQ;
-use App\Services\TransferFromOrigin\TransferManufacturers;
-use App\Services\TransferFromOrigin\TransferProducts;
-use Illuminate\Support\Facades\Storage;
-use Ixudra\Curl\Builder;
-use Ixudra\Curl\Facades\Curl;
+use App\Services\RandomProxies\Contracts\CanGetRandomProxies;
+use App\Services\RandomProxies\Repositories\RandomProxiesCacheRepository;
+use App\Services\TransferFromOrigin\TransferGallery;
 
 class TestController extends Controller
 {
@@ -16,9 +12,9 @@ class TestController extends Controller
     {
         //dump(Storage::allFiles("seeds/products/offers-and-chars"));
 
+//        $tr = new TransferGallery();
+//        $tr->fetchAndStoreRaw();
 
-        $tr = new TransferProducts();
-        $tr->transferMedia();
         //$tr->transfer();
         //$tr->transferPrices();
         //$tr->fetchAndStoreRaw(23);

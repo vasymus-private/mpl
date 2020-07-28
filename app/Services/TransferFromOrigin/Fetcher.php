@@ -2,6 +2,10 @@
 
 namespace App\Services\TransferFromOrigin;
 
+use App\Services\RandomProxies\Contracts\CanGetRandomProxies;
+use App\Services\RandomProxies\Repositories\RandomProxiesCacheRepository;
+use App\Services\RandomProxies\Repositories\RandomProxiesRepository;
+use Campo\UserAgent;
 use Ixudra\Curl\Builder;
 use Ixudra\Curl\Facades\Curl;
 
@@ -47,6 +51,24 @@ class Fetcher
         /** @var Builder $builder */
         $builder = Curl::to($this->url);
         $builder->withOption('USERPWD', "{$this->username}:{$this->password}");
+        $headers = [];
+        try {
+            $headers[] = "User-Agent: " . UserAgent::random();
+        } catch (\Exception $exc) {}
+//        if (!empty($headers)) $builder->withHeaders($headers);
+//        $this->addRandomProxy($builder);
+//
+//        $builder->enableDebug(storage_path("/logs/curl1.log"));
+
         return $builder->get();
+    }
+
+    protected function addRandomProxy(Builder $builder)
+    {
+        /** @var CanGetRandomProxies | RandomProxiesCacheRepository | RandomProxiesRepository $proxies */
+        $proxies = resolve(CanGetRandomProxies::class);
+        $randomProxy = $proxies->getOneRandomProxy();
+
+        if ($randomProxy) $builder->withProxy($randomProxy->ip, $randomProxy->port);
     }
 }
