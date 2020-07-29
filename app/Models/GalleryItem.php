@@ -4,28 +4,31 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 /**
  * @property int $id
- * @property string $question
- * @property string|null $answer
- * @property bool $is_active
- * @property string|null $user_name
- * @property string|null $user_email
- * @property Carbon $created_at
+ * @property string $name
+ * @property string|null $slug
+ * @property string|null $description
+ * @property int|null $ordering
+ * @property int|null $parent_id
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
  *
  * @property Seo|null $seo
  * */
-class FAQ extends BaseModel implements HasMedia
+class GalleryItem extends BaseModel implements HasMedia
 {
     use HasMediaTrait;
+    use SoftDeletes;
 
-    const TABLE = "faq";
-    const UPDATED_AT = null;
+    const TABLE = "gallery_items";
 
-    const MC_FILES = "files";
+    const MC_MAIN_IMAGE = "main";
 
     /**
      * The table associated with the model.
@@ -34,15 +37,6 @@ class FAQ extends BaseModel implements HasMedia
      */
     protected $table = self::TABLE;
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
-    protected $casts = [
-        "is_active" => "bool",
-    ];
-
     public function seo(): MorphOne
     {
         return $this->morphOne(Seo::class, "seoable", "seoable_type", "seoable_id");
@@ -50,6 +44,9 @@ class FAQ extends BaseModel implements HasMedia
 
     public function registerMediaCollections()
     {
-        $this->addMediaCollection(static::MC_FILES);
+        $this
+            ->addMediaCollection(static::MC_MAIN_IMAGE)
+            ->singleFile()
+        ;
     }
 }

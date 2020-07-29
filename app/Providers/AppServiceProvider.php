@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Category;
 use App\Models\FAQ;
+use App\Models\GalleryItem;
 use App\Models\Manufacturer;
 use App\Models\Product\Product;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -38,6 +39,7 @@ class AppServiceProvider extends ServiceProvider
             "manufacturers" => Manufacturer::class,
             "categories" => Category::class,
             "faq" => FAQ::class,
+            "gallery_items" => GalleryItem::class,
         ]);
     }
 }
