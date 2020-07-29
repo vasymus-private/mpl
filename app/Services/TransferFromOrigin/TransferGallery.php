@@ -13,17 +13,55 @@ class TransferGallery extends BaseTransfer
 
         foreach ($list as $item) {
             $id = $this->getIncrementId();
-            $pageLink = $item["SECTION_PAGE_URL"];
+            $_oldId = (int)$item["ID"];
+
+            $mainImageSrc = $item["PICTURE"]["SRC"];
+            $mainImage = $this->fetchAndStoreMedia($id, $mainImageSrc, $item["PICTURE"]["ORIGINAL_NAME"], $item["PICTURE"]["ID"]);
+            if (!$mainImage) {
+                dump("Failed to store $mainImageSrc");
+            }
 
             $seed = [
                 "id" => $id,
                 "name" => $item["NAME"],
-                "description" => $item["DESCRIPTION"],
                 "slug" => $item["CODE"],
-                "_old_id" => $item["ID"],
-
+                "description" => $item["DESCRIPTION"],
+                "ordering" => (int)$item["SORT"],
+                "mainImage" => $mainImage,
+                "_old_id" => $_oldId,
+                "subPhotos" => [],
             ];
+
+            $subPhotos = require(storage_path("app/seeds/photos/gallery-items/$_oldId.php"));
+            foreach ($subPhotos as $subPhoto) {
+                $subId = $this->getIncrementId();
+
+                $subMaingImageSrc = $subPhoto["PREVIEW_PICTURE"]["SRC"];
+                $subMainImage = $this->fetchAndStoreMedia(
+                    $subId,
+                    $subMaingImageSrc,
+                    null,
+                    $subPhoto["PREVIEW_PICTURE"]["ID"]
+                );
+                if (!$subMainImage) {
+                    dump("Failed to store $subMaingImageSrc");
+                }
+
+                $seed["subPhotos"][] = [
+                    "id" => $subId,
+                    "name" => $subPhoto["NAME"],
+                    "slug" => null,
+                    "description" => $subPhoto["PREVIEW_TEXT"],
+                    "ordering" => (int)$subPhoto["SORT"],
+                    "mainImage" => $subMainImage,
+                    "_old_id" => $subPhoto["ID"],
+                ];
+            }
+
+            $seeds[] = $seed;
         }
+
+        Storage::put("seeds/photos/seeds.json", json_encode($seeds, JSON_UNESCAPED_UNICODE));
     }
 
     public function fetchAndStoreRaw(int $zeroBasedIndexStart = null)
@@ -69,5 +107,28 @@ class TransferGallery extends BaseTransfer
         $phpString = "<?php\n\nreturn $arrayString;";
 
         return Storage::put("seeds/photos/gallery-items/$fileName", $phpString);
+    }
+
+    public function fetchAndStoreMedia(int $attachToId, string $src = null, string $originalName = null, $oldImageId = null): ?array
+    {
+        if (!$src) return null;
+
+        $storeFolder = $this->getStdStorageFolder("photos");
+
+        $imageOriginalName = $originalName ?? basename($src);
+        $extenstion = pathinfo($src)["extension"] ?? null;
+        $newName = $extenstion ? "$oldImageId.$extenstion" : "$oldImageId";
+        $storagePath = "$storeFolder/$attachToId/$newName";
+
+        $storedFile = $this->fetchAndStoreFileToPath($src, $storagePath);
+
+        if (!$storedFile) return null;
+
+        return [
+            "_old_id" => $oldImageId,
+            "name" => $imageOriginalName,
+            "src" => $storedFile,
+            "attachTo_id" => $attachToId,
+        ];
     }
 }

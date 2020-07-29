@@ -13,7 +13,7 @@ class TestController extends Controller
         //dump(Storage::allFiles("seeds/products/offers-and-chars"));
 
 //        $tr = new TransferGallery();
-//        $tr->fetchAndStoreRaw();
+//        $tr->transfer();
 
         //$tr->transfer();
         //$tr->transferPrices();
