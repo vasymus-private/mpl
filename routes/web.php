@@ -26,6 +26,9 @@ use Illuminate\Support\Facades\Route;
 
     Route::get("brands", [\App\Http\Controllers\Web\ManufacturersController::class, "index"])->name("manufacturers.index");
 
+    Route::get("photos", [\App\Http\Controllers\Web\GalleryItemsController::class, "index"])->name("gallery.items.index");
+    Route::get("photos/{parentGalleryItemSlug}", [\App\Http\Controllers\Web\GalleryItemsController::class, "show"])->name("gallery.items.show");
+
 //});
 
 

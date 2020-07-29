@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
@@ -20,6 +22,12 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
  * @property Carbon|null $deleted_at
  *
  * @property Seo|null $seo
+ *
+ * @see GalleryItem::scopeParents()
+ * @method static static|Builder parents()
+ *
+ * @see GalleryItem::child()
+ * @property Collection|GalleryItem[] $child
  * */
 class GalleryItem extends BaseModel implements HasMedia
 {
@@ -47,6 +55,25 @@ class GalleryItem extends BaseModel implements HasMedia
         $this
             ->addMediaCollection(static::MC_MAIN_IMAGE)
             ->singleFile()
+        ;
+    }
+
+    public function child()
+    {
+        return $this->hasMany(GalleryItem::class, "parent_id", "id")->orderBy(GalleryItem::TABLE . ".ordering");
+    }
+
+    public function scopeParents(Builder $builder): Builder
+    {
+        return $builder->whereNull(static::TABLE . ".parent_id");
+    }
+
+    public static function rbParentGalleryItemSlug($value)
+    {
+        return static
+            ::parents()
+            ->where(static::TABLE . ".slug", $value)
+            ->firstOrFail()
         ;
     }
 }

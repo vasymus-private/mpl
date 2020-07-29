@@ -1,6 +1,7 @@
 <div class="catalog">
     <h2 class="content-header__title">
-        @if($subtitle)<span>{{$subtitle}}</span>@else<span style="padding: 0">&nbsp;</span>@endif</h2>
+        @if($subtitle)<span>{{$subtitle}}</span>@else<span style="padding: 0">&nbsp;</span>@endif
+    </h2>
     @if(count($breadcrumbs))
     <div class="row-line row-line__center breadcrumbs">
         @foreach($breadcrumbs as $breadcrumb)

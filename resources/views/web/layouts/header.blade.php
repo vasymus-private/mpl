@@ -54,7 +54,7 @@
                 <li><a href="#">Задайте вопрос</a></li>
                 <li><a href="#">Производители</a></li>
                 <li><a href="#">Видео</a></li>
-                <li><a href="#">Фото</a></li>
+                <li><a href="{{route("gallery.items.index")}}">Фото</a></li>
             </ul>
         </div>
 
