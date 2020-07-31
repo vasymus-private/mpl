@@ -50,13 +50,14 @@ class TransferServicesAndArticles extends BaseTransfer
             if ($newImageSrc) $oldNewImages[$oldImageSrc] = $newImageSrc;
         }
         $updatedHtml = $this->getHtmlWithUpdatedImgSrc($html, $oldNewImages);
+        $onlyContentFromUpdatedHtml = $this->getOnlyContent($updatedHtml);
 
         if ($this->isArticle($url)) {
             $path = "seeds/pages/new/articles/" . basename($url) . ".html";
-            $isSaved = Storage::put($path, $updatedHtml);
+            $isSaved = Storage::put($path, $onlyContentFromUpdatedHtml);
         } else {
             $path = "seeds/pages/new/services/" . basename($url) . ".html";
-            $isSaved = Storage::put($path, $updatedHtml);
+            $isSaved = Storage::put($path, $onlyContentFromUpdatedHtml);
         }
 
         if (!$isSaved) {
@@ -75,6 +76,16 @@ class TransferServicesAndArticles extends BaseTransfer
             "images" => array_values($oldNewImages),
             "_oldUrl" => $url,
         ];
+    }
+
+    public function getOnlyContent(string $html): string
+    {
+        $result = "";
+        $crawler = new Crawler($html);
+        $crawler->filter("article.article-content")->each(function(Crawler $node) use(&$result) {
+            $result = $node->outerHtml();
+        });
+        return $result;
     }
 
     public function parseSeo(string $html): array
@@ -141,6 +152,7 @@ class TransferServicesAndArticles extends BaseTransfer
 
     public function fetchAndStoreImage(string $url): ?string
     {
+        $url = parse_url($url)["path"];
         return $this->fetchAndStoreFileToPath($url, "seeds/pages/images/" . ltrim($url, "/\\"));
     }
 }

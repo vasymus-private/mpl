@@ -13,7 +13,7 @@ class TestController extends Controller
     public function test()
     {
         $tr = new TransferServicesAndArticles();
-        //$tr->transfer();
+        $tr->transfer();
 
         return view('test');
     }
