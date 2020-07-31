@@ -32,6 +32,9 @@ use Illuminate\Routing\Route;
  *
  * @see Category::scopeParents()
  * @method static static|Builder parents()
+ *
+ * @see Category::scopeActive()
+ * @method static static|Builder active()
  * */
 class Category extends BaseModel
 {
@@ -49,7 +52,6 @@ class Category extends BaseModel
     const _TEMP_ID_FLOOR_BASE = 46;
     const _TEMP_ID_EQUIPMENT = 54;
     const _TEMP_ID_RELATED_TOOLS = 60;
-
 
     /**
      * The table associated with the model.
@@ -146,5 +148,10 @@ class Category extends BaseModel
                 break;
             }
         }
+    }
+
+    public function scopeActive(Builder $builder): Builder
+    {
+        return $builder->where(static::TABLE . ".is_active", true);
     }
 }

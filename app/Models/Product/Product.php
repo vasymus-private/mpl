@@ -72,6 +72,9 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
  * @property Carbon|null $deleted_at
  *
  * @mixin ProductRelations
+ *
+ * @see Product::scopeActive()
+ * @method static static|Builder active()
  **/
 class Product extends BaseModel implements HasMedia
 {
@@ -140,5 +143,10 @@ class Product extends BaseModel implements HasMedia
         $this->addMediaCollection(static::MC_ADDITIONAL_IMAGES);
 
         $this->addMediaCollection(static::MC_FILES);
+    }
+
+    public function scopeActive(Builder $builder): Builder
+    {
+        return $builder->where(static::TABLE . ".is_active", true);
     }
 }

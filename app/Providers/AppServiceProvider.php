@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
+use App\Models\Article;
 use App\Models\Category;
 use App\Models\FAQ;
 use App\Models\GalleryItem;
 use App\Models\Manufacturer;
 use App\Models\Product\Product;
+use App\Models\Service;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -40,6 +42,8 @@ class AppServiceProvider extends ServiceProvider
             "categories" => Category::class,
             "faq" => FAQ::class,
             "gallery_items" => GalleryItem::class,
+            "articles" => Article::class,
+            "services" => Service::class,
         ]);
     }
 }

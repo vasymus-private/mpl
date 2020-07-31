@@ -20,8 +20,8 @@ abstract class BaseTransfer
      * */
     public function __construct(
         string $site = "http://union.parket-lux.ru",
-        string $username = "parket",
-        string $password = "parket",
+        ?string $username = "parket",
+        ?string $password = "parket",
         $fetcher = null
     )
     {

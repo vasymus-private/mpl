@@ -5,21 +5,16 @@ namespace App\Http\Controllers;
 use App\Services\RandomProxies\Contracts\CanGetRandomProxies;
 use App\Services\RandomProxies\Repositories\RandomProxiesCacheRepository;
 use App\Services\TransferFromOrigin\TransferGallery;
+use App\Services\TransferFromOrigin\TransferServicesAndArticles;
 
 class TestController extends Controller
 {
     public function test()
     {
-        //dump(Storage::allFiles("seeds/products/offers-and-chars"));
+        $tr = new TransferServicesAndArticles();
+        $path = $tr->fetchAndStoreHtml("/ukladka-shtuchnogo-parketa/");
 
-//        $tr = new TransferGallery();
-//        $tr->transfer();
-
-        //$tr->transfer();
-        //$tr->transferPrices();
-        //$tr->fetchAndStoreRaw(23);
-//        $tr->fetchAndStoreRawItem("/catalog/parket/massive_board/dub_art_parket.html");
-//        $tr->fetchAndStoreRawItem("catalog/parketnyy_lak/Bona_Traffic.html");
+        dump($path);
 
         return view('test');
     }

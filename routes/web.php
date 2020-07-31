@@ -14,9 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('---test', [\App\Http\Controllers\TestController::class, 'test']);
+
+
 //Route::middleware(["anonymous-uid", "create-anonymous"])->group(function() {
 
-    Route::get("/", [\App\Http\Controllers\Web\HomeController::class, "index"])->name("home");
+    Route::get("/{service_slug?}", [\App\Http\Controllers\Web\HomeController::class, "index"])->name("home");
 
     Route::get("catalog/{category_slug?}/{subcategory1_slug?}/{subcategory2_slug?}/{subcategory3_slug?}", [\App\Http\Controllers\Web\ProductsController::class, "index"])->name("products.index");
 
@@ -29,10 +32,12 @@ use Illuminate\Support\Facades\Route;
     Route::get("photos", [\App\Http\Controllers\Web\GalleryItemsController::class, "index"])->name("gallery.items.index");
     Route::get("photos/{parentGalleryItemSlug}", [\App\Http\Controllers\Web\GalleryItemsController::class, "show"])->name("gallery.items.show");
 
+    Route::get("articles/{article_slug}/{subarticle_slug?}", [\App\Http\Controllers\Web\ArticlesController::class, "show"])->name("articles.show");
+
 //});
 
 
-Route::get('---test', [\App\Http\Controllers\TestController::class, 'test']);
+
 
 //Route::middleware(["anonymous-uid", "create-anonymous"])->group(function() {
 //    Route::get('/', function (\Illuminate\Http\Request $request) {

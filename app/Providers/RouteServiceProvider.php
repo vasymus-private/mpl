@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Article;
 use App\Models\Category;
 use App\Models\GalleryItem;
 use App\Models\Product\Product;
+use App\Models\Service;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 
@@ -68,6 +70,11 @@ class RouteServiceProvider extends ServiceProvider
         Route::bind("product_slug", [Product::class, "rbProductSlug"]);
 
         Route::bind("parentGalleryItemSlug", [GalleryItem::class, "rbParentGalleryItemSlug"]);
+
+        Route::bind("service_slug", [Service::class, "rbServiceSlug"]);
+
+        Route::bind("article_slug", [Article::class, "rbArticleSlug"]);
+        Route::bind("subarticle_slug", [Article::class, "rbSubArticleSlug"]);
     }
 
     /**
