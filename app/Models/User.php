@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+// if will use HasMediaTrait do not forget to call parent::registerMediaCollections() in Admin
 /**
  * @property int $id
  * @property string|null $name

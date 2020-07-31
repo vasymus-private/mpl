@@ -20,6 +20,7 @@ class UsersAndAdminsTableSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         Admin::query()->forceCreate([
+            'id' => Admin::ID_CENTRAL_ADMIN,
             'name' => 'admin',
             'email' => 'test@test.test',
             'password' => Hash::make('secret'),
