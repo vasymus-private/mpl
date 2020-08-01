@@ -67,7 +67,12 @@ class CommonImagesAndArticlesAndServicesTablesSeeder extends Seeder
                 $node->getNode(0)->setAttribute("src", $newSrc);
             });
 
-            $newHtml = $crawler->html();
+            $newHtml = str_replace(
+                ["<body>", "</body>", "http://parket-lux.ru", "http://www.parket-lux.ru"],
+                "",
+                $crawler->html())
+            ;
+
             $folder = $seed["is_article"] ? "articles" : "services";
             $name = basename($htmlPath);
             $path = "seeds/pages/final/$folder/$name";
