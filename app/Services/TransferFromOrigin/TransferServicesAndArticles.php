@@ -66,7 +66,7 @@ class TransferServicesAndArticles extends BaseTransfer
         }
 
         return [
-            "name" => $seo["h1"] ?? "",
+            "name" => $item["name"],
             "slug" => basename($url),
             "html" => $path,
             "seo" => $seo,

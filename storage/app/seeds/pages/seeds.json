@@ -1,6 +1,6 @@
 [
     {
-        "name": "Экспертное мнение: как выбрать штучный паркет",
+        "name": "Штучный паркет - что это?",
         "slug": "shtuchnyy-parket",
         "html": "seeds\/pages\/new\/articles\/shtuchnyy-parket.html",
         "seo": {
@@ -33,7 +33,7 @@
         "_oldUrl": "\/articles\/shtuchnyy-parket\/"
     },
     {
-        "name": "Лак или масло для паркета",
+        "name": "Паркет под лаком или маслом",
         "slug": "lak-ili-maslo",
         "html": "seeds\/pages\/new\/articles\/lak-ili-maslo.html",
         "seo": {
@@ -58,7 +58,7 @@
         "_oldUrl": "\/articles\/shtuchnyy-parket\/lak-ili-maslo\/"
     },
     {
-        "name": "Виды укладок штучного паркета",
+        "name": "Варианты укладки паркета",
         "slug": "vidy-ukladok",
         "html": "seeds\/pages\/new\/articles\/vidy-ukladok.html",
         "seo": {
@@ -143,7 +143,7 @@
         "_oldUrl": "\/articles\/shtuchnyy-parket\/vidy-ukladok\/"
     },
     {
-        "name": "Породы дерева из которых делают штучный паркет",
+        "name": "Породы дерева",
         "slug": "porody-dereva",
         "html": "seeds\/pages\/new\/articles\/porody-dereva.html",
         "seo": {
@@ -203,7 +203,7 @@
         "_oldUrl": "\/articles\/massivnaya-doska\/"
     },
     {
-        "name": "Массивная доска под лаком или под маслом",
+        "name": "Массив под лаком или маслом",
         "slug": "lak-ili-maslo-mass",
         "html": "seeds\/pages\/new\/articles\/lak-ili-maslo-mass.html",
         "seo": {
@@ -267,7 +267,7 @@
         "_oldUrl": "\/articles\/massivnaya-doska\/porody-dereva-mass\/"
     },
     {
-        "name": "Инженерная и паркетная доска - как они есть!",
+        "name": "Инженерный паркет и паркетная доска - как они есть!",
         "slug": "parketnaya-doska",
         "html": "seeds\/pages\/new\/articles\/parketnaya-doska.html",
         "seo": {
@@ -293,7 +293,7 @@
         "_oldUrl": "\/articles\/parketnaya-doska\/"
     },
     {
-        "name": "Лак или масло для паркетной доски",
+        "name": "Лак или масло?",
         "slug": "lak-ili-maslo-parket",
         "html": "seeds\/pages\/new\/articles\/lak-ili-maslo-parket.html",
         "seo": {
@@ -317,7 +317,7 @@
         "_oldUrl": "\/articles\/parketnaya-doska\/lak-ili-maslo-parket\/"
     },
     {
-        "name": "Паркетная доска породы дерева",
+        "name": "Паркетная доска - породы дерева",
         "slug": "porody-dereva-parket",
         "html": "seeds\/pages\/new\/articles\/porody-dereva-parket.html",
         "seo": {
@@ -354,7 +354,7 @@
         "_oldUrl": "\/articles\/parketnaya-doska\/porody-dereva-parket\/"
     },
     {
-        "name": "Материалы для укладки",
+        "name": "Материалы",
         "slug": "materialy-dlya-ukladki",
         "html": "seeds\/pages\/new\/articles\/materialy-dlya-ukladki.html",
         "seo": {
@@ -382,7 +382,7 @@
         "_oldUrl": "\/articles\/parketnaya-doska\/materialy-dlya-ukladki\/"
     },
     {
-        "name": "Как выбрать ламинат? Правда и мифы",
+        "name": "Ламинат - что это?",
         "slug": "laminat",
         "html": "seeds\/pages\/new\/articles\/laminat.html",
         "seo": {
@@ -404,7 +404,7 @@
         "_oldUrl": "\/articles\/laminat\/"
     },
     {
-        "name": "Материалы и оборудование для укладки",
+        "name": "Материалы для укладки",
         "slug": "materialy-dlya-ukladki-laminat",
         "html": "seeds\/pages\/new\/articles\/materialy-dlya-ukladki-laminat.html",
         "seo": {
@@ -432,7 +432,7 @@
         "_oldUrl": "\/articles\/laminat\/materialy-dlya-ukladki-laminat\/"
     },
     {
-        "name": "Как выбрать ламинат? Правда и мифы",
+        "name": "Уход за ламинатом",
         "slug": "ukhod-za-laminatom",
         "html": "seeds\/pages\/new\/articles\/ukhod-za-laminatom.html",
         "seo": {
@@ -593,7 +593,7 @@
         "_oldUrl": "\/ukladka-laminata\/"
     },
     {
-        "name": "Плинтусы и порожки для паркетного пола – самая полная статья",
+        "name": "Плинтус и порожки",
         "slug": "plintus-i-porozhki",
         "html": "seeds\/pages\/new\/services\/plintus-i-porozhki.html",
         "seo": {
@@ -661,7 +661,7 @@
         "_oldUrl": "\/plintus-i-porozhki\/"
     },
     {
-        "name": "Циклевка паркета без пыли на немецком оборудование LAGLER",
+        "name": "Циклевка паркета",
         "slug": "tsiklevka-parketa",
         "html": "seeds\/pages\/new\/services\/tsiklevka-parketa.html",
         "seo": {
@@ -739,7 +739,7 @@
         "_oldUrl": "\/remont-parketa\/"
     },
     {
-        "name": "Уход за паркетом (чистка паркета)",
+        "name": "Уход за паркетом",
         "slug": "ukhod-za-parketom",
         "html": "seeds\/pages\/new\/services\/ukhod-za-parketom.html",
         "seo": {
@@ -808,7 +808,7 @@
         "_oldUrl": "\/tonirovanie-parketa\/"
     },
     {
-        "name": "Паркетная химия: просто о сложном",
+        "name": "Паркетная химия",
         "slug": "parketnaya-khimiya",
         "html": "seeds\/pages\/new\/services\/parketnaya-khimiya.html",
         "seo": {
@@ -901,7 +901,7 @@
         "_oldUrl": "\/parketnoe-oborudovanie\/"
     },
     {
-        "name": "Пол на лагах под укладку паркета со сроком службы более 50 лет",
+        "name": "Пол на лагах",
         "slug": "pol-na-lagakh",
         "html": "seeds\/pages\/new\/services\/pol-na-lagakh.html",
         "seo": {
@@ -949,7 +949,7 @@
         "_oldUrl": "\/pol-na-lagakh\/"
     },
     {
-        "name": "Стяжка пола для укладки паркета — «гарантия от 3-х лет»",
+        "name": "Стяжка пола",
         "slug": "styazhka-pola",
         "html": "seeds\/pages\/new\/services\/styazhka-pola.html",
         "seo": {

@@ -28,4 +28,16 @@ class Seo extends BaseModel
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        "title",
+        "h1",
+        "keywords",
+        "description",
+    ];
 }

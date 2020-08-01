@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-class Admin extends User
+class Admin extends User implements HasMedia
 {
     use HasMediaTrait;
 

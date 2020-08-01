@@ -2,6 +2,7 @@
 
 return [
     "/articles/shtuchnyy-parket/" => [
+        "name" => "Штучный паркет - что это?",
         "link" => "/articles/shtuchnyy-parket/",
         "images" => [
             "/upload/medialibrary/71e/71ef924d2ffe5d232b423e8cb2681382.jpg",
@@ -24,6 +25,7 @@ return [
         ]
     ],
     "/articles/shtuchnyy-parket/lak-ili-maslo/" => [
+        "name" => "Паркет под лаком или маслом",
         "link" => "/articles/shtuchnyy-parket/lak-ili-maslo/",
         "images" => [
             "/upload/images/5454544524564.jpg",
@@ -37,6 +39,7 @@ return [
         ],
     ],
     "/articles/shtuchnyy-parket/vidy-ukladok/" => [
+        "name" => "Варианты укладки паркета",
         "link" => "/articles/shtuchnyy-parket/vidy-ukladok/",
         "images" => [
             "/upload/images/image001.png",
@@ -110,6 +113,7 @@ return [
         ],
     ],
     "/articles/shtuchnyy-parket/porody-dereva/" => [
+        "name" => "Породы дерева",
         "link" => "/articles/shtuchnyy-parket/porody-dereva/",
         "images" => [
             "/upload/images/oak.jpg",
@@ -134,6 +138,7 @@ return [
     ],
 
     "/articles/massivnaya-doska/" => [
+        "name" => "Массивная доска – 5 параметров выбора!",
         "link" => "/articles/massivnaya-doska/",
         "images" => [
             "/upload/images/image001.gif",
@@ -147,6 +152,7 @@ return [
         ],
     ],
     "/articles/massivnaya-doska/lak-ili-maslo-mass/" => [
+        "name" => "Массив под лаком или маслом",
         "link" => "/articles/massivnaya-doska/lak-ili-maslo-mass/",
         "images" => [
             "/upload/images/5454544524564.jpg",
@@ -160,6 +166,7 @@ return [
         ],
     ],
     "/articles/massivnaya-doska/porody-dereva-mass/" => [
+        "name" => "Породы древесины массивной доски",
         "link" => "/articles/massivnaya-doska/porody-dereva-mass/",
         "images" => [
             "/upload/images/oak_b(3).jpg",
@@ -188,6 +195,7 @@ return [
     ],
 
     "/articles/parketnaya-doska/" => [
+        "name" => "Инженерный паркет и паркетная доска - как они есть!",
         "link" => "/articles/parketnaya-doska/",
         "images" => [
             "/upload/medialibrary/854/85481a84a41fd65f41f571aff1f03883.jpg",
@@ -202,6 +210,7 @@ return [
         ],
     ],
     "/articles/parketnaya-doska/lak-ili-maslo-parket/" => [
+        "name" => "Лак или масло?",
         "link" => "/articles/parketnaya-doska/lak-ili-maslo-parket/",
         "images" => [
             "/upload/images/5454544524564.jpg",
@@ -215,6 +224,7 @@ return [
         ],
     ],
     "/articles/parketnaya-doska/porody-dereva-parket/" => [
+        "name" => "Паркетная доска - породы дерева",
         "link" => "/articles/parketnaya-doska/porody-dereva-parket/",
         "images" => [
             "/upload/images/oak.jpg",
@@ -240,6 +250,7 @@ return [
         ],
     ],
     "/articles/parketnaya-doska/materialy-dlya-ukladki/" => [
+        "name" => "Материалы",
         "link" => "/articles/parketnaya-doska/materialy-dlya-ukladki/",
         "images" => [
             "/upload/images/folie.jpg",
@@ -257,6 +268,7 @@ return [
     ],
 
     "/articles/laminat/" => [
+        "name" => "Ламинат - что это?",
         "link" => "/articles/laminat/",
         "images" => [
             "/upload/medialibrary/afe/afe3605f765105b8c49476e460611b17.jpg",
@@ -267,6 +279,7 @@ return [
         ],
     ],
     "/articles/laminat/materialy-dlya-ukladki-laminat/" => [
+        "name" => "Материалы для укладки",
         "link" => "/articles/laminat/materialy-dlya-ukladki-laminat/",
         "images" => [
             "/upload/images/folie.jpg",
@@ -283,6 +296,7 @@ return [
         ],
     ],
     "/articles/laminat/ukhod-za-laminatom/" => [
+        "name" => "Уход за ламинатом",
         "link" => "/articles/laminat/ukhod-za-laminatom/",
         "images" => [
             "/upload/images/b1096531767.jpg",
@@ -293,6 +307,7 @@ return [
     ],
 
     "/ukladka-shtuchnogo-parketa/" => [
+        "name" => "Укладка штучного паркета",
         "link" => "/ukladka-shtuchnogo-parketa/",
         "images" => [
             "/upload/medialibrary/317/317e8c34017d13b7d42798406060f097.jpg",
@@ -325,6 +340,7 @@ return [
         ],
     ],
     "/ukladka-massivnoy-doski/" => [
+        "name" => "Укладка массивной доски",
         "link" => "/ukladka-massivnoy-doski/",
         "images" => [
             "/upload/medialibrary/590/59055c8b40828c5c64410bbfdcee9691.JPG",
@@ -345,6 +361,7 @@ return [
         ],
     ],
     "/ukladka-parketnoy-doski/" => [
+        "name" => "Укладка паркетной доски",
         "link" => "/ukladka-parketnoy-doski/",
         "images" => [
             "/upload/medialibrary/833/8334c061eb37987c10084e12c1f58885.JPG",
@@ -373,6 +390,7 @@ return [
         ],
     ],
     "/ukladka-laminata/" => [
+        "name" => "Укладка ламината",
         "link" => "/ukladka-laminata/",
         "images" => [
             "http://www.parket-lux.ru/upload/images/laminat.gif",
@@ -385,6 +403,7 @@ return [
         ],
     ],
     "/plintus-i-porozhki/" => [
+        "name" => "Плинтус и порожки",
         "link" => "/plintus-i-porozhki/",
         "images" => [
             "/upload/medialibrary/eb9/eb9e05ad7d683dfadc4b8dbc35cdaaa9.jpg",
@@ -443,6 +462,7 @@ return [
     ],
 
     "/tsiklevka-parketa/" => [
+        "name" => "Циклевка паркета",
         "link" => "/tsiklevka-parketa/",
         "images" => [
             "/upload/medialibrary/0fb/0fbbd65ee7e9b86b6248d5fc12b79696.JPG",
@@ -458,6 +478,7 @@ return [
         ],
     ],
     "/remont-parketa/" => [
+        "name" => "Ремонт паркета",
         "link" => "/remont-parketa/",
         "images" => [
             "/upload/medialibrary/50d/50df6168553843423c28bc8bdcb2ab13.jpg",
@@ -497,6 +518,7 @@ return [
         ],
     ],
     "/ukhod-za-parketom/" => [
+        "name" => "Уход за паркетом",
         "link" => "/ukhod-za-parketom/",
         "images" => [
             "/upload/medialibrary/62b/62b767af3df618422d6366b4bec191ae.JPG",
@@ -510,6 +532,7 @@ return [
         ],
     ],
     "/tonirovanie-parketa/" => [
+        "name" => "Тонировка паркета",
         "link" => "/tonirovanie-parketa/",
         "images" => [
             "/upload/medialibrary/ffc/ffc983b3d7e088ebf96ba71208a461a2.JPG",
@@ -542,6 +565,7 @@ return [
         ],
     ],
     "/parketnaya-khimiya/" => [
+        "name" => "Паркетная химия",
         "link" => "/parketnaya-khimiya/",
         "images" => [
             "/upload/medialibrary/9b6/9b68808d6ca93f9144341b5ed8a18778.jpg",
@@ -583,6 +607,7 @@ return [
         ],
     ],
     "/parketnoe-oborudovanie/" => [
+        "name" => "Паркетное оборудование",
         "link" => "/parketnoe-oborudovanie/",
         "images" => [
             "/upload/images/45515452.jpg",
@@ -612,6 +637,7 @@ return [
     ],
 
     "/pol-na-lagakh/" => [
+        "name" => "Пол на лагах",
         "link" => "/pol-na-lagakh/",
         "images" => [
             "/upload/medialibrary/1fb/1fbb8abb2e53f3bb3b356991403fae22.png",
@@ -648,6 +674,7 @@ return [
         ],
     ],
     "/styazhka-pola/" => [
+        "name" => "Стяжка пола",
         "link" => "/styazhka-pola/",
         "images" => [
             "/upload/medialibrary/fce/fce1f8d83e201cc39f8e490eebc351a6.jpg",
@@ -674,6 +701,7 @@ return [
         ],
     ],
     "/sukhaya-styazhka-knauf/" => [
+        "name" => "Сухая стяжка Кнауф",
         "link" => "/sukhaya-styazhka-knauf/",
         "images" => [
             "/upload/medialibrary/485/4851267ef75982d2a7f7708c2662840a.jpg",

@@ -19,7 +19,7 @@ Route::get('---test', [\App\Http\Controllers\TestController::class, 'test']);
 
 //Route::middleware(["anonymous-uid", "create-anonymous"])->group(function() {
 
-    Route::get("/{service_slug?}", [\App\Http\Controllers\Web\HomeController::class, "index"])->name("home");
+
 
     Route::get("catalog/{category_slug?}/{subcategory1_slug?}/{subcategory2_slug?}/{subcategory3_slug?}", [\App\Http\Controllers\Web\ProductsController::class, "index"])->name("products.index");
 
@@ -33,6 +33,8 @@ Route::get('---test', [\App\Http\Controllers\TestController::class, 'test']);
     Route::get("photos/{parentGalleryItemSlug}", [\App\Http\Controllers\Web\GalleryItemsController::class, "show"])->name("gallery.items.show");
 
     Route::get("articles/{article_slug}/{subarticle_slug?}", [\App\Http\Controllers\Web\ArticlesController::class, "show"])->name("articles.show");
+
+    Route::get("/{service_slug?}", [\App\Http\Controllers\Web\HomeController::class, "index"])->name("home");
 
 //});
 

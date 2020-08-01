@@ -18,10 +18,7 @@ class ClearMedia extends Seeder
         Media::query()->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        foreach (Storage::files("public/media") as $file) {
-            if (basename($file) === "t.txt") continue;
-
-            Storage::delete($file);
-        }
+        Storage::deleteDirectory("public/media");
+        Storage::makeDirectory("public/media");
     }
 }
