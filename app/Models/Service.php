@@ -57,6 +57,6 @@ class Service extends BaseModel
 
     public static function rbServiceSlug($value, Route $route)
     {
-        //dd($route->parameters(), $route);
+        return static::active()->where(static::TABLE . ".slug", $value)->firstOrFail();
     }
 }
