@@ -59,12 +59,19 @@ class Article extends BaseModel
 
     public static function rbArticleSlug($value, Route $route)
     {
-        //dd($route->parameters(), $route);
+        return static::active()->where(static::TABLE . ".slug", $value)->firstOrFail();
     }
 
     public static function rbSubArticleSlug($value, Route $route)
     {
-        //dd($route->parameters(), $route);
+        /** @var Article $parent */
+        $parent = $route->article_slug;
+        return static
+            ::active()
+            ->where(static::TABLE . ".parent_id", $parent->id)
+            ->where(static::TABLE . ".slug", $value)
+            ->firstOrFail()
+        ;
     }
 
     public function parent(): BelongsTo
