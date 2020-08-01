@@ -66,18 +66,53 @@ class CommonImagesAndArticlesAndServicesTablesSeeder extends Seeder
                 $newSrc = $this->oldNewImagesSrc[$oldSrc];
                 $node->getNode(0)->setAttribute("src", $newSrc);
             });
+            $crawler->filter("a")->each(function(Crawler $node) {
+                $oldHref = $node->attr("href");
+                $oldHrefBasename = basename($oldHref);
+                $shouldUpdate = false;
+                $oldIndex = null;
+                foreach ($this->oldNewImagesSrc as $old => $new) {
+                    $oldSrcBasename = basename($old);
+                    if ($oldHrefBasename === $oldSrcBasename) {
+                        $shouldUpdate = true;
+                        $oldIndex = $old;
+                        break;
+                    }
+                }
+                if ($shouldUpdate) {
+                    $newHref = $this->oldNewImagesSrc[$oldIndex];
+                    $node->getNode(0)->setAttribute("href", $newHref);
+                }
+            });
 
-            $newHtml = str_replace(
-                ["<body>", "</body>", "http://parket-lux.ru", "http://www.parket-lux.ru"],
-                "",
-                $crawler->html())
-            ;
+            $newHtml = $this->hydrateHtml($crawler->html(), $seed["is_article"]);
 
             $folder = $seed["is_article"] ? "articles" : "services";
-            $name = basename($htmlPath);
+            $name = pathinfo($htmlPath)["filename"] . ".blade.php";
             $path = "seeds/pages/final/$folder/$name";
             Storage::put($path, $newHtml);
         }
+    }
+
+    protected function hydrateHtml(string $html, bool $isArticle): string
+    {
+        $newHtml = str_replace(
+            ["<body>", "</body>", "http://parket-lux.ru", "http://www.parket-lux.ru"],
+            "",
+            $html
+        );
+        //$newHtml = str_replace("\n", " ", $newHtml);
+        $newHtml = str_replace('"article-content "', '"article-content"', $newHtml);
+        $newHtml = str_replace("><h1", ">\n        <h1", $newHtml);
+        $newHtml = str_replace("\t", "    ", $newHtml);
+
+        if ($isArticle) {
+            $newHtml = "@extends('web.layouts.article')\n\n@section('article-content')\n    " . $newHtml . "\n@endsection";
+        } else {
+            $newHtml = "@extends('web.layouts.service')\n\n@section('service-content')\n    " . $newHtml . "\n@endsection";
+        }
+
+        return $newHtml;
     }
 
     protected function seedArticlesAndServices()
