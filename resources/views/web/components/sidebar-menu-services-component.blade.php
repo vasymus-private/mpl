@@ -10,21 +10,21 @@
             <ul>
                 <li>
                     <p class="dropdown-level_2">
-                        <a href="#">Укладка штучного паркета</a>
+                        <a href="{{route("home", "ukladka-shtuchnogo-parketa")}}">Укладка штучного паркета</a>
                     </p>
                     <p class="dropdown-level_2">
-                        <a href="#">Укладка массивной доски</a>
+                        <a href="{{route("home", "ukladka-massivnoy-doski")}}">Укладка массивной доски</a>
                     </p>
                     <p class="dropdown-level_2">
-                        <a href="#">Укладка паркетной доски</a>
+                        <a href="{{route("home", "ukladka-parketnoy-doski")}}">Укладка паркетной доски</a>
                     </p>
                 </li>
                 <li>
                     <p class="dropdown-level_2">
-                        <a href="#">Укладка ламината</a>
+                        <a href="{{route("home", "ukladka-laminata")}}">Укладка ламината</a>
                     </p>
                     <p class="dropdown-level_2">
-                        <a href="#">Плинтус и порожки</a>
+                        <a href="{{route("home", "plintus-i-porozhki")}}">Плинтус и порожки</a>
                     </p>
                 </li>
             </ul>
@@ -35,24 +35,24 @@
             <ul>
                 <li>
                     <p class="dropdown-level_2">
-                        <a href="#">Циклевка паркета</a>
+                        <a href="{{route("home", "tsiklevka-parketa")}}">Циклевка паркета</a>
                     </p>
                     <p class="dropdown-level_2">
-                        <a href="#">Ремонт паркета</a>
+                        <a href="{{route("home", "remont-parketa")}}">Ремонт паркета</a>
                     </p>
                     <p class="dropdown-level_2">
-                        <a href="#">Уход за паркетом</a>
+                        <a href="{{route("home", "ukhod-za-parketom")}}">Уход за паркетом</a>
                     </p>
                 </li>
                 <li>
                     <p class="dropdown-level_2">
-                        <a href="#">Тонировка паркета</a>
+                        <a href="{{route("home", "tonirovanie-parketa")}}">Тонировка паркета</a>
                     </p>
                     <p class="dropdown-level_2">
-                        <a href="#">Паркетная химия</a>
+                        <a href="{{route("home", "parketnaya-khimiya")}}">Паркетная химия</a>
                     </p>
                     <p class="dropdown-level_2">
-                        <a href="#">Паркетное оборудование</a>
+                        <a href="{{route("home", "parketnoe-oborudovanie")}}">Паркетное оборудование</a>
                     </p>
                 </li>
             </ul>
@@ -63,15 +63,15 @@
             <ul>
                 <li>
                     <p class="dropdown-level_2">
-                        <a href="#">Пол на лагах</a>
+                        <a href="{{route("home", "pol-na-lagakh")}}">Пол на лагах</a>
                     </p>
                     <p class="dropdown-level_2">
-                        <a href="#">Сухая стяжка Кнауф</a>
+                        <a href="{{route("home", "sukhaya-styazhka-knauf")}}">Сухая стяжка Кнауф</a>
                     </p>
                 </li>
                 <li>
                     <p class="dropdown-level_2">
-                        <a href="#">Стяжка пола</a>
+                        <a href="{{route("home", "styazhka-pola")}}">Стяжка пола</a>
                     </p>
                 </li>
             </ul>
