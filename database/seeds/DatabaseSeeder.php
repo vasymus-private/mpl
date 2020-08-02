@@ -13,6 +13,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(ClearMedia::class);
 
+        $this->call(SeoTableSeeder::class);
+
         $this->call(UsersAndAdminsTableSeeder::class);
         $this->call(ServicesGroupsTableSeeder::class);
         $this->call(CommonImagesAndArticlesAndServicesTablesSeeder::class);

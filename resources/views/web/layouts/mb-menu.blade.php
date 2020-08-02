@@ -3,7 +3,7 @@
         {{--<div class="header-column">
             <div class="row-line row-line__between">
                 <a href="#" class="logo">
-                    <img alt="Parket Lux" title="Parket Lux" src="images/logo.svg">
+                    <img alt="Parket Lux" title="Parket Lux" src="{{asset("images/logo.svg")}}">
                 </a>
                 <a class="toggle opened" href="#"> </a>
             </div>

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Web;
 
 use App\Models\Category;
-use App\Models\Manufacturer;
 use App\Models\Product\Product;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -13,8 +12,6 @@ class ProductsController extends BaseWebController
 {
     public function index(Request $request)
     {
-        $categories = Category::parents()->with("subcategories.subcategories.subcategories")->orderBy(Category::TABLE . ".ordering")->get();
-
         $query = Product::query();
 
         /** @var Category|null $category */
@@ -48,25 +45,14 @@ class ProductsController extends BaseWebController
             });
         }
 
+        $queryWithoutPagination = clone $query;
+
         /** @var LengthAwarePaginator $products */
         $products = $query->paginate(
             $request->input("per_page", 20)
         );
 
-        $productIds = $query->pluck("id");
-
-        $manufacturers = Manufacturer
-                        ::query()
-                        ->withCount([
-                            "products" => function(Builder $builder) use($productIds) {
-                                return $builder->whereIn(Product::TABLE . ".id", $productIds);
-                            },
-                        ])
-                        ->having("products_count", ">", 0)
-                        ->get()
-        ;
-
-
+        $productIds = $queryWithoutPagination->pluck("id")->toArray();
 
         $breadcrumbs = [];
         if ($category) {
@@ -96,7 +82,7 @@ class ProductsController extends BaseWebController
 
         $subtitle = $subcategory3->name ?? $subcategory2->name ?? $subcategory1->name ?? $category->name ?? null;
 
-        return view("web.products", compact("categories", "manufacturers", "products", "breadcrumbs", "subtitle"));
+        return view("web.pages.products.products", compact("productIds", "products", "breadcrumbs", "subtitle"));
     }
 
     public function show(Request $request)

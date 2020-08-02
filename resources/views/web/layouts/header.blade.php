@@ -22,11 +22,11 @@
                 <a href="#" class="basket js-manual-popover-autohide" data-toggle="popover"
                    data-content="<b>Добавлено в корзину</b>" data-placement="bottom" data-html="true"
                    data-trigger="manual" data-original-title="" title="">
-                    <img src="images/cart.svg" alt="" title="">
+                    <img src="{{asset("images/cart.svg")}}" alt="" title="">
                     <span class="count js-cart-items-count cart-items-count">0</span>
                 </a>
                 <a href="tel:+74957600518" class="phone-icon">
-                    <img src="images/phone.svg" alt="" title="">
+                    <img src="{{asset("images/phone.svg")}}" alt="" title="">
                 </a>
             </div>
             <div class="contacts-column">
@@ -57,7 +57,6 @@
                 <li><a href="{{route("gallery.items.index")}}">Фото</a></li>
             </ul>
         </div>
-
     </div>
 </header>
 

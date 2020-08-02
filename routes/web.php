@@ -34,7 +34,22 @@ Route::get('---test', [\App\Http\Controllers\TestController::class, 'test']);
 
     Route::get("articles/{article_slug}/{subarticle_slug?}", [\App\Http\Controllers\Web\ArticlesController::class, "show"])->name("articles.show");
 
+    Route::get("faq", [\App\Http\Controllers\Web\FaqController::class, "index"])->name("faq.index");
+    Route::get("faq/{id}", [\App\Http\Controllers\Web\FaqController::class, "index"])->name("faq.index");
+
+    Route::get("videos", [\App\Http\Controllers\Web\VideosController::class, "index"])->name("videos.index");
+
+    Route::get("howto", [\App\Http\Controllers\Web\HomeController::class, "howto"])->name("howto");
+
+    Route::get("delivery", [\App\Http\Controllers\Web\HomeController::class, "delivery"])->name("delivery");
+
+    Route::get("return", [\App\Http\Controllers\Web\HomeController::class, "purchaseReturn"])->name("return");
+
+    Route::get("contacts", [\App\Http\Controllers\Web\HomeController::class, "contacts"])->name("contacts");
+
     Route::get("/{service_slug?}", [\App\Http\Controllers\Web\HomeController::class, "index"])->name("home");
+
+
 
 //});
 

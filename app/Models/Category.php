@@ -35,6 +35,9 @@ use Illuminate\Routing\Route;
  *
  * @see Category::scopeActive()
  * @method static static|Builder active()
+ *
+ * @see Category::scopeOrdering()
+ * @method static static|Builder ordering()
  * */
 class Category extends BaseModel
 {
@@ -125,21 +128,21 @@ class Category extends BaseModel
     public static function getSidebarDividerCount(Category $category): int
     {
         switch ($category->id) {
-            case \App\Models\Category::_TEMP_ID_PARKET :
-            case \App\Models\Category::_TEMP_ID_PARKET_GLUE :
-            case \App\Models\Category::_TEMP_ID_CARE_TOOLS :
-            case \App\Models\Category::_TEMP_ID_FLOOR_BASE : {
+            case static::_TEMP_ID_PARKET :
+            case static::_TEMP_ID_PARKET_GLUE :
+            case static::_TEMP_ID_CARE_TOOLS :
+            case static::_TEMP_ID_FLOOR_BASE : {
                 return 3;
                 break;
             }
-            case \App\Models\Category::_TEMP_ID_PARKET_LACQUER :
-            case \App\Models\Category::_TEMP_ID_PARKET_OIL :
-            case \App\Models\Category::_TEMP_ID_PUTTY: {
+            case static::_TEMP_ID_PARKET_LACQUER :
+            case static::_TEMP_ID_PARKET_OIL :
+            case static::_TEMP_ID_PUTTY: {
                 return 2;
                 break;
             }
-            case \App\Models\Category::_TEMP_ID_EQUIPMENT :
-            case \App\Models\Category::_TEMP_ID_RELATED_TOOLS : {
+            case static::_TEMP_ID_EQUIPMENT :
+            case static::_TEMP_ID_RELATED_TOOLS : {
                 return 1;
                 break;
             }
@@ -153,5 +156,10 @@ class Category extends BaseModel
     public function scopeActive(Builder $builder): Builder
     {
         return $builder->where(static::TABLE . ".is_active", true);
+    }
+
+    public function scopeOrdering(Builder $builder): Builder
+    {
+        return $builder->orderBy(static::TABLE . ".ordering");
     }
 }

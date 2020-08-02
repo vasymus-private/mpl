@@ -15,6 +15,8 @@ class Seo extends BaseModel
 {
     const TABLE = "seo";
 
+    const ID_APP = 1;
+
     /**
      * The table associated with the model.
      *
@@ -40,4 +42,9 @@ class Seo extends BaseModel
         "keywords",
         "description",
     ];
+
+    public static function appSeo(): self
+    {
+        return static::query()->findOrFail(static::ID_APP);
+    }
 }

@@ -1,48 +1,24 @@
 <div class="sidebar-left">
     <div class="inner-wrapper-sticky">
         <div class="sidebar-left__inner">
-            @include('web.layouts.sidebar-menu-services')
+            <x-sidebar-menu-services />
 
-
-            @include('web.layouts.sidebar-menu-materials')
+            <x-sidebar-menu-materials />
 
             <!--<div class="sidebar-payment">-->
             <!--<div class="sidebar-payment__title">Любые способы оплаты</div>-->
             <!--<div class="row-line row-line__between">-->
-            <!--<div class="sidebar-payment__column"><img src="images/wallet.png" alt=""></div>-->
-            <!--<div class="sidebar-payment__column"><img src="images/credit-cards.png" alt=""></div>-->
-            <!--<div class="sidebar-payment__column"><img src="images/bank.png" alt=""></div>-->
+            <!--<div class="sidebar-payment__column"><img src="{{asset("images/wallet.png")}}" alt=""></div>-->
+            <!--<div class="sidebar-payment__column"><img src="{{asset("images/credit-cards.png")}}" alt=""></div>-->
+            <!--<div class="sidebar-payment__column"><img src="{{asset("images/bank.png")}}" alt=""></div>-->
             <!--</div>-->
             <!--</div>-->
 
-            @include('web.layouts.sidebar-menu-cart')
+            <x-sidebar-menu-cart />
 
+            <x-sidebar-menu-favourites-count />
 
-            <div class="sidebar-left__fav">
-                <a href="#" class="sidebar-left__fav-link">Отложенные товары</a>
-                (<span id="fav_items_count" class="sidebar-left__fav-count">0</span>)
-            </div>
-
-
-            <div class="watched-block">
-                <h4 class="watched-block__title">Вы смотрели</h4>
-                <div class="watched-block__body">
-                    <div class="row-line">
-                        <div class="column">
-                            <a href="#">
-                                <img width="40" height="40" align="left" src="{{asset('images/big-photo.jpg')}}"
-                                     style="margin-right: 10px;" alt="Дуб &quot;АртПаркет&quot; - штучный паркет">
-                            </a>
-                        </div>
-                        <div class="column">
-                            <div class="product-special">
-                                <a title="Дуб &quot;АртПаркет&quot; - штучный паркет" href="#">Дуб "АртПаркет" - штучный паркет</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+            <x-sidebar-menu-viewed />
 
             <ul class="sidebar-list-block">
                 <li class="sidebar-list-block__item">

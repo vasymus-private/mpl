@@ -19,8 +19,8 @@ class CreateSeoTable extends Migration
             $table->string('h1')->nullable();
             $table->text('keywords')->nullable();
             $table->text('description')->nullable();
-            $table->bigInteger('seoable_id');
-            $table->string('seoable_type');
+            $table->bigInteger('seoable_id')->nullable();
+            $table->string('seoable_type')->nullable();
         });
     }
 

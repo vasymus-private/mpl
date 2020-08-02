@@ -7,21 +7,18 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', config('app.name'))</title>
+    <x-seo :seo="($seoArr ?? null)" />
 
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link
-        href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300i,700%7COpen+Sans:400,600,700,800&amp;subset=cyrillic"
-        rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,500,700,900&amp;subset=latin,latin-ext,cyrillic"
-          rel="stylesheet" type="text/css">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300i,700%7COpen+Sans:400,600,700,800&amp;subset=cyrillic" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,500,700,900&amp;subset=latin,latin-ext,cyrillic" rel="stylesheet" type="text/css" />
 
     <!-- Styles -->
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet" />
 </head>
 <body>
     @include("web.layouts.mb-menu")
@@ -36,6 +33,8 @@
         @yield('content')
         </main>
         @include('web.layouts.footer')
+        @include("web.modals.contact-with-technologist")
+        @include("web.layouts.back-to-top")
     </div>
 </body>
 </html>
