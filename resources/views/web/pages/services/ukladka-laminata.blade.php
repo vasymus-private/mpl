@@ -3,13 +3,13 @@
 @section('page-content')
     <article class="article-content">
         <h1>Укладка ламината</h1>
-
+                     
 <div class="news-detail">
                             <p align="center" style="text-align: left;">
      Ламинат (ламинированный паркет, ламинированное покрытие для пола) – многослойный материал на основе древесно-волокнистой плиты (ДВП), использующийся как имитация паркетного пола:
 </p>
 <p style="text-align: left;">
- <img width="209" alt="Структура ламината" src="/storage/media/6090/laminat.gif" height="136" align="left" hspace="10" vspace="10"></p>
+ <img width="209" alt="Структура ламината" src="/storage/media/281/laminat.gif" height="136" align="left" hspace="10" vspace="10"></p>
 <p>
      1 – прочный, износоустойчивый слой пластичного полимера. <br>
      2 – декоративный слой <br>
@@ -61,7 +61,7 @@
  <i>Проверка профессиональными приборами прочности стяжки, наличия уклона и неровностей, анализ температуры и влажности стяжки</i>
 </p>
 <p style="text-align: center;">
- <a href="/storage/media/6091/df646c259cb39de2794a6a301806c532.jpg" class="gallery" title="Измерение прочности бетона"><img width="250" alt="Измерение прочности бетона" src="/storage/media/6091/df646c259cb39de2794a6a301806c532.jpg" height="167" title="Измерение прочности бетона" hspace="5" vspace="5"></a><a href="/storage/media/6092/174e808d7186905185649f996f4ad70e.JPG" class="gallery" title="Измерение температуры стяжки"><img width="250" alt="Измерение температуры стяжки" src="/storage/media/6092/174e808d7186905185649f996f4ad70e.JPG" height="167" title="Измерение температуры стяжки" hspace="5" vspace="5"></a><a href="/storage/media/6093/8203066f35845544ce6a018f8a17a86d.JPG" class="gallery" title="Измерение влажности бетона"><img width="250" alt="Измерение влажности бетона" src="/storage/media/6093/8203066f35845544ce6a018f8a17a86d.JPG" height="167" title="Измерение влажности бетона" hspace="5" vspace="5"></a>
+ <a href="/storage/media/282/df646c259cb39de2794a6a301806c532.jpg" class="gallery" title="Измерение прочности бетона"><img width="250" alt="Измерение прочности бетона" src="/storage/media/282/df646c259cb39de2794a6a301806c532.jpg" height="167" title="Измерение прочности бетона" hspace="5" vspace="5"></a><a href="/storage/media/283/174e808d7186905185649f996f4ad70e.JPG" class="gallery" title="Измерение температуры стяжки"><img width="250" alt="Измерение температуры стяжки" src="/storage/media/283/174e808d7186905185649f996f4ad70e.JPG" height="167" title="Измерение температуры стяжки" hspace="5" vspace="5"></a><a href="/storage/media/284/8203066f35845544ce6a018f8a17a86d.JPG" class="gallery" title="Измерение влажности бетона"><img width="250" alt="Измерение влажности бетона" src="/storage/media/284/8203066f35845544ce6a018f8a17a86d.JPG" height="167" title="Измерение влажности бетона" hspace="5" vspace="5"></a>
 </p>
 <p align="center">
  <i>Грамотно анализировать состояние стяжки наших мастеров обучают на специализированных семинарах</i>
@@ -115,7 +115,7 @@
      Укладка на подложку – диагональный рисунок
 </p>
 <p style="text-align: center;">
- <a href="/storage/media/6094/f63e9a9813ec642f5a54ac17295f6e8d.JPG" class="gallery" title="Укладка плавающим способом на подложку"><img width="250" alt="Укладка плавающим способом на подложку" src="/storage/media/6094/f63e9a9813ec642f5a54ac17295f6e8d.JPG" height="167" title="Укладка плавающим способом на подложку" hspace="5" vspace="5"></a><a href="/storage/media/6095/7b67b00b22e7c3111f5344d0b1619b03.JPG" class="gallery" title="укладка плавающего пола на подложку"><img width="250" alt="укладка плавающего пола на подложку" src="/storage/media/6095/7b67b00b22e7c3111f5344d0b1619b03.JPG" height="167" title="укладка плавающего пола на подложку" hspace="5" vspace="5"></a><a href="/storage/media/6096/1ac06e734c99c05af5b2f8c2f7eddf96.JPG" class="gallery" title="укладка плавающего пола на подложку"><img width="250" alt="укладка плавающего пола на подложку" src="/storage/media/6096/1ac06e734c99c05af5b2f8c2f7eddf96.JPG" height="167" title="укладка плавающего пола на подложку" hspace="5" vspace="5"></a>
+ <a href="/storage/media/285/f63e9a9813ec642f5a54ac17295f6e8d.JPG" class="gallery" title="Укладка плавающим способом на подложку"><img width="250" alt="Укладка плавающим способом на подложку" src="/storage/media/285/f63e9a9813ec642f5a54ac17295f6e8d.JPG" height="167" title="Укладка плавающим способом на подложку" hspace="5" vspace="5"></a><a href="/storage/media/286/7b67b00b22e7c3111f5344d0b1619b03.JPG" class="gallery" title="укладка плавающего пола на подложку"><img width="250" alt="укладка плавающего пола на подложку" src="/storage/media/286/7b67b00b22e7c3111f5344d0b1619b03.JPG" height="167" title="укладка плавающего пола на подложку" hspace="5" vspace="5"></a><a href="/storage/media/287/1ac06e734c99c05af5b2f8c2f7eddf96.JPG" class="gallery" title="укладка плавающего пола на подложку"><img width="250" alt="укладка плавающего пола на подложку" src="/storage/media/287/1ac06e734c99c05af5b2f8c2f7eddf96.JPG" height="167" title="укладка плавающего пола на подложку" hspace="5" vspace="5"></a>
 </p>
 <p align="center">
      Перед укладкой ламината необходимо оставить его в помещении не распакованным на 48 часов, только после этой не хитрой операции возможно производить укладку.
@@ -242,6 +242,6 @@
     <br></div>
 
 
-
+            
                 </article>
 @endsection

@@ -37,10 +37,10 @@
     <p>Оба материала чрезвычайно устойчивы к механическим нагрузкам, не подвержены короблению, не горючи в обычных
         условиях, легко поддаются обработке.</p>
 
-    <p style="text-align: center;"><a href="/storage/media/6005/afe3605f765105b8c49476e460611b17.jpg" class="gallery" title="ламинат HDF конструкция"><img src="/storage/media/6005/afe3605f765105b8c49476e460611b17.jpg" alt="ламинат HDF конструкция" width="320" height="202" title="ламинат HDF конструкция" hspace="5" vspace="5"></a>
+    <p style="text-align: center;"><a href="/storage/media/196/afe3605f765105b8c49476e460611b17.jpg" class="gallery" title="ламинат HDF конструкция"><img src="/storage/media/196/afe3605f765105b8c49476e460611b17.jpg" alt="ламинат HDF конструкция" width="320" height="202" title="ламинат HDF конструкция" hspace="5" vspace="5"></a>
 
 
-        <a href="/storage/media/6006/bf7d119ef885f22d4d0b766d0b7e499d.jpg" class="gallery" title="ламинат PVC конструкция"><img src="/storage/media/6006/bf7d119ef885f22d4d0b766d0b7e499d.jpg" alt="ламинат PVC конструкция" width="320" height="202" title="ламинат PVC конструкция" hspace="5" vspace="5"></a></p>
+        <a href="/storage/media/197/bf7d119ef885f22d4d0b766d0b7e499d.jpg" class="gallery" title="ламинат PVC конструкция"><img src="/storage/media/197/bf7d119ef885f22d4d0b766d0b7e499d.jpg" alt="ламинат PVC конструкция" width="320" height="202" title="ламинат PVC конструкция" hspace="5" vspace="5"></a></p>
 
     <p align="center">ламинат HDF           ламинат PVC</p>
     <p><b><i>Верхний слой</i></b> – пластичный полимер, защищает ламинат от царапин и других механических повреждений.
@@ -179,7 +179,7 @@
 
     <p>Посмотрите на некоторые из них:</p>
 
-    <p style="text-align: center;"><img src="/storage/media/6007/b995be98a60c82e796b244c6db5d745b.jpg" title="image005.jpg" hspace="5" vspace="5" border="0" alt="image005.jpg" width="220" height="220"><img src="/storage/media/6008/d595885a5ee59f9bb52b0bc328c077db.jpg" title="image007.jpg" hspace="5" vspace="5" border="0" alt="image007.jpg" width="220" height="220"><img src="/storage/media/6009/b678e6a5238094c82f155d027614c166.jpg" title="image009.jpg" hspace="5" vspace="5" border="0" alt="image009.jpg" width="220" height="220"></p>
+    <p style="text-align: center;"><img src="/storage/media/198/b995be98a60c82e796b244c6db5d745b.jpg" title="image005.jpg" hspace="5" vspace="5" border="0" alt="image005.jpg" width="220" height="220"><img src="/storage/media/199/d595885a5ee59f9bb52b0bc328c077db.jpg" title="image007.jpg" hspace="5" vspace="5" border="0" alt="image007.jpg" width="220" height="220"><img src="/storage/media/200/b678e6a5238094c82f155d027614c166.jpg" title="image009.jpg" hspace="5" vspace="5" border="0" alt="image009.jpg" width="220" height="220"></p>
 
     <p>
         <br></p>

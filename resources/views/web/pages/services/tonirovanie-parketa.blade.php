@@ -3,13 +3,13 @@
 @section('page-content')
     <article class="article-content">
         <h1>Тонировка паркета</h1>
-
+                     
 <div class="news-detail">
                             <p>
      Хотите изменить цвет паркета – получите бесплатную, профессиональную консультацию, как это сделать без потерь.<br> +7 (926) 779 46 03 Владимир, инженер-технолог нашей компании.
 </p>
 <p style="text-align: center;">
- <a href="/storage/media/6200/ffc983b3d7e088ebf96ba71208a461a2.JPG" class="gallery" title="Тонирование паркета маслом"><img width="350" alt="Тонирование паркета маслом" src="/storage/media/6200/ffc983b3d7e088ebf96ba71208a461a2.JPG" height="264" hspace="5" title="Тонирование паркета маслом" vspace="5"></a> <a href="/storage/media/6201/49765e06ea80d58860b2c11702bb3b64.JPG" class="gallery" title="Тонирование паркета маслом"><img width="350" alt="Тонирование паркета маслом" src="/storage/media/6201/49765e06ea80d58860b2c11702bb3b64.JPG" height="264" hspace="5" title="Тонирование паркета маслом" vspace="5"></a>
+ <a href="/storage/media/391/ffc983b3d7e088ebf96ba71208a461a2.JPG" class="gallery" title="Тонирование паркета маслом"><img width="350" alt="Тонирование паркета маслом" src="/storage/media/391/ffc983b3d7e088ebf96ba71208a461a2.JPG" height="264" hspace="5" title="Тонирование паркета маслом" vspace="5"></a> <a href="/storage/media/392/49765e06ea80d58860b2c11702bb3b64.JPG" class="gallery" title="Тонирование паркета маслом"><img width="350" alt="Тонирование паркета маслом" src="/storage/media/392/49765e06ea80d58860b2c11702bb3b64.JPG" height="264" hspace="5" title="Тонирование паркета маслом" vspace="5"></a>
 </p>
 <p align="center">
      Обычный дуб после тонирования становится более благородным.
@@ -71,7 +71,7 @@
  <b>Дуб беленый (Pallmann magic Oil 2K)</b>
 </p>
 <p style="text-align: center;">
- <a href="/storage/media/6202/a3b844da94f7899383eb46a8e78c0e3b.jpg" class="gallery" title="Тонировка белая Pallmann"><img width="280" alt="Тонировка белая Pallmann" src="/storage/media/6202/a3b844da94f7899383eb46a8e78c0e3b.jpg" height="211" hspace="5" title="Тонировка белая Pallmann" vspace="5"></a> <a href="/storage/media/6203/d3cc14cbff6aeedcc1daabd465f1978a.jpg" class="gallery" title="Тонировка белая Pallmann"><img width="280" alt="Тонировка белая Pallmann" src="/storage/media/6203/d3cc14cbff6aeedcc1daabd465f1978a.jpg" height="211" hspace="5" title="Тонировка белая Pallmann" vspace="5"></a>
+ <a href="/storage/media/393/a3b844da94f7899383eb46a8e78c0e3b.jpg" class="gallery" title="Тонировка белая Pallmann"><img width="280" alt="Тонировка белая Pallmann" src="/storage/media/393/a3b844da94f7899383eb46a8e78c0e3b.jpg" height="211" hspace="5" title="Тонировка белая Pallmann" vspace="5"></a> <a href="/storage/media/394/d3cc14cbff6aeedcc1daabd465f1978a.jpg" class="gallery" title="Тонировка белая Pallmann"><img width="280" alt="Тонировка белая Pallmann" src="/storage/media/394/d3cc14cbff6aeedcc1daabd465f1978a.jpg" height="211" hspace="5" title="Тонировка белая Pallmann" vspace="5"></a>
 </p>
 <p align="center">
      Современное и правильно нанесенное покрытие не выгорает на солнце
@@ -82,7 +82,7 @@
  <b>Мербау тонированное (Lobasol HS 2K Impact Oil – цвет венге)</b>
 </p>
 <p style="text-align: center;">
- <a href="/storage/media/6204/2e200b36fd9088b97be7a5592c614308.JPG" class="gallery" title="Тонировка Венге Lobasol 2K Impakt Oil"><img width="280" alt="Тонировка Венге Lobasol 2K Impakt Oil" src="/storage/media/6204/2e200b36fd9088b97be7a5592c614308.JPG" height="211" hspace="5" title="Тонировка Венге Lobasol 2K Impakt Oil" vspace="5"></a> <a href="/storage/media/6205/1bf72f3d761b15e69dc3dff9119c104c.JPG" class="gallery" title="Тонировка Венге Lobasol 2K Impakt Oil"><img width="280" alt="Тонировка Венге Lobasol 2K Impakt Oil" src="/storage/media/6205/1bf72f3d761b15e69dc3dff9119c104c.JPG" height="211" hspace="5" title="Тонировка Венге Lobasol 2K Impakt Oil" vspace="5"></a>
+ <a href="/storage/media/395/2e200b36fd9088b97be7a5592c614308.JPG" class="gallery" title="Тонировка Венге Lobasol 2K Impakt Oil"><img width="280" alt="Тонировка Венге Lobasol 2K Impakt Oil" src="/storage/media/395/2e200b36fd9088b97be7a5592c614308.JPG" height="211" hspace="5" title="Тонировка Венге Lobasol 2K Impakt Oil" vspace="5"></a> <a href="/storage/media/396/1bf72f3d761b15e69dc3dff9119c104c.JPG" class="gallery" title="Тонировка Венге Lobasol 2K Impakt Oil"><img width="280" alt="Тонировка Венге Lobasol 2K Impakt Oil" src="/storage/media/396/1bf72f3d761b15e69dc3dff9119c104c.JPG" height="211" hspace="5" title="Тонировка Венге Lobasol 2K Impakt Oil" vspace="5"></a>
 </p>
 <p align="center">
      Критически важно при тонировке паркета равномерно нанести материал
@@ -95,7 +95,7 @@
  <b>Дуб тонированный (Pallmann magic Oil 2K)</b>
 </p>
 <p style="text-align: center;">
- <a href="/storage/media/6206/9ab994d953a5c23f188d3d4039d22f23.JPG" class="gallery" title="Укладка тонировка"><img width="280" alt="Укладка тонировка" src="/storage/media/6206/9ab994d953a5c23f188d3d4039d22f23.JPG" height="211" hspace="5" title="Укладка тонировка"></a> <a href="/storage/media/6207/1d6288dd49dae6269fdeb552824917b3.JPG" class="gallery" title="Укладка тонировка"><img width="280" alt="Укладка тонировка" src="/storage/media/6207/1d6288dd49dae6269fdeb552824917b3.JPG" height="211" hspace="5" title="Укладка тонировка"></a>
+ <a href="/storage/media/397/9ab994d953a5c23f188d3d4039d22f23.JPG" class="gallery" title="Укладка тонировка"><img width="280" alt="Укладка тонировка" src="/storage/media/397/9ab994d953a5c23f188d3d4039d22f23.JPG" height="211" hspace="5" title="Укладка тонировка"></a> <a href="/storage/media/398/1d6288dd49dae6269fdeb552824917b3.JPG" class="gallery" title="Укладка тонировка"><img width="280" alt="Укладка тонировка" src="/storage/media/398/1d6288dd49dae6269fdeb552824917b3.JPG" height="211" hspace="5" title="Укладка тонировка"></a>
 </p>
 <p align="center">
      Индивидуальный подбор цвета – тонированный маслом дуб приобретает вид экзотической древесины
@@ -106,7 +106,7 @@
  <b>Старый буковый пол (Lobadur Pro Color – цвет папирус)</b>
 </p>
 <p style="text-align: center;">
- <a href="/storage/media/6208/9b4706a3c73e30065baed9bfd9ccbe37.jpg" class="gallery" title="тонировка Loba Pro Colo"><img width="250" alt="тонировка Loba Pro Colo" src="/storage/media/6208/9b4706a3c73e30065baed9bfd9ccbe37.jpg" height="187" title="тонировка Loba Pro Colo" hspace="5" vspace="5"></a><a href="/storage/media/6209/602caf7ed6960ecb698779963f796bbe.jpg" class="gallery" title="тонировка Loba Pro Colo"><img width="250" alt="тонировка Loba Pro Colo" src="/storage/media/6209/602caf7ed6960ecb698779963f796bbe.jpg" height="187" title="тонировка Loba Pro Colo" hspace="5" vspace="5"></a><a href="/storage/media/6210/331dde953fe44cf823148516fac76fa2.jpg" class="gallery" title="тонировка Loba Pro Colo"><img width="250" alt="тонировка Loba Pro Colo" src="/storage/media/6210/331dde953fe44cf823148516fac76fa2.jpg" height="187" title="тонировка Loba Pro Colo" hspace="5" vspace="5"></a>
+ <a href="/storage/media/399/9b4706a3c73e30065baed9bfd9ccbe37.jpg" class="gallery" title="тонировка Loba Pro Colo"><img width="250" alt="тонировка Loba Pro Colo" src="/storage/media/399/9b4706a3c73e30065baed9bfd9ccbe37.jpg" height="187" title="тонировка Loba Pro Colo" hspace="5" vspace="5"></a><a href="/storage/media/400/602caf7ed6960ecb698779963f796bbe.jpg" class="gallery" title="тонировка Loba Pro Colo"><img width="250" alt="тонировка Loba Pro Colo" src="/storage/media/400/602caf7ed6960ecb698779963f796bbe.jpg" height="187" title="тонировка Loba Pro Colo" hspace="5" vspace="5"></a><a href="/storage/media/401/331dde953fe44cf823148516fac76fa2.jpg" class="gallery" title="тонировка Loba Pro Colo"><img width="250" alt="тонировка Loba Pro Colo" src="/storage/media/401/331dde953fe44cf823148516fac76fa2.jpg" height="187" title="тонировка Loba Pro Colo" hspace="5" vspace="5"></a>
 </p>
 <p align="center">
      Профессиональное тонирование волшебно устраняет даже пятна на старом, изношенном паркете
@@ -173,13 +173,13 @@
  <b>Семинар по продукции Lobadur</b>
 </p>
 <p style="text-align: center;">
- <a href="/storage/media/6211/a849a5a02c2e7c515709ff82e9d389b9.JPG" class="gallery" title="Морение и тонирование семинар"><img width="250" alt="Морение и тонирование семинар" src="/storage/media/6211/a849a5a02c2e7c515709ff82e9d389b9.JPG" height="187" title="Морение и тонирование семинар" hspace="5" vspace="5"></a><a href="/storage/media/6212/e93c7a88dc6056c8a4f7d156c01f64fb.JPG" class="gallery" title="Морение и тонирование семинар"><img width="250" alt="Морение и тонирование семинар" src="/storage/media/6212/e93c7a88dc6056c8a4f7d156c01f64fb.JPG" height="187" title="Морение и тонирование семинар" hspace="5" vspace="5"></a><a href="/storage/media/6213/adf7bb81751509011510cb29a073779f.JPG" class="gallery" title="Морение и тонирование семинар"><img width="250" alt="Морение и тонирование семинар" src="/storage/media/6213/adf7bb81751509011510cb29a073779f.JPG" height="187" title="Морение и тонирование семинар" hspace="5" vspace="5"></a>
+ <a href="/storage/media/402/a849a5a02c2e7c515709ff82e9d389b9.JPG" class="gallery" title="Морение и тонирование семинар"><img width="250" alt="Морение и тонирование семинар" src="/storage/media/402/a849a5a02c2e7c515709ff82e9d389b9.JPG" height="187" title="Морение и тонирование семинар" hspace="5" vspace="5"></a><a href="/storage/media/403/e93c7a88dc6056c8a4f7d156c01f64fb.JPG" class="gallery" title="Морение и тонирование семинар"><img width="250" alt="Морение и тонирование семинар" src="/storage/media/403/e93c7a88dc6056c8a4f7d156c01f64fb.JPG" height="187" title="Морение и тонирование семинар" hspace="5" vspace="5"></a><a href="/storage/media/404/adf7bb81751509011510cb29a073779f.JPG" class="gallery" title="Морение и тонирование семинар"><img width="250" alt="Морение и тонирование семинар" src="/storage/media/404/adf7bb81751509011510cb29a073779f.JPG" height="187" title="Морение и тонирование семинар" hspace="5" vspace="5"></a>
 </p>
  <br><p align="center">
  <b>Семинар в Германии по продукции Uzin и Pallmann</b>
 </p>
 <p style="text-align: center;">
- <a href="/storage/media/6214/1c1242e9066a96aad3bd723964869dd5.JPG" class="gallery" title="Семинар в Германии по продукции Uzin и Pallmann"><img width="250" alt="Семинар в Германии по продукции Uzin и Pallmann" src="/storage/media/6214/1c1242e9066a96aad3bd723964869dd5.JPG" height="187" title="Семинар в Германии по продукции Uzin и Pallmann" hspace="5" vspace="5"></a><a href="/storage/media/6215/f51ae40c59dad52a878d9218528cefcb.JPG" class="gallery" title="Семинар в Германии по продукции Uzin и Pallmann"><img width="250" alt="Семинар в Германии по продукции Uzin и Pallmann" src="/storage/media/6215/f51ae40c59dad52a878d9218528cefcb.JPG" height="187" title="Семинар в Германии по продукции Uzin и Pallmann" hspace="5" vspace="5"></a><a href="/storage/media/6216/2829833697e567e9fb2de4cbc1e041fa.JPG" class="gallery" title="Семинар в Германии по продукции Uzin и Pallmann"><img width="250" alt="Семинар в Германии по продукции Uzin и Pallmann" src="/storage/media/6216/2829833697e567e9fb2de4cbc1e041fa.JPG" height="187" title="Морение и тонирование семинар" hspace="5" vspace="5"></a>
+ <a href="/storage/media/405/1c1242e9066a96aad3bd723964869dd5.JPG" class="gallery" title="Семинар в Германии по продукции Uzin и Pallmann"><img width="250" alt="Семинар в Германии по продукции Uzin и Pallmann" src="/storage/media/405/1c1242e9066a96aad3bd723964869dd5.JPG" height="187" title="Семинар в Германии по продукции Uzin и Pallmann" hspace="5" vspace="5"></a><a href="/storage/media/406/f51ae40c59dad52a878d9218528cefcb.JPG" class="gallery" title="Семинар в Германии по продукции Uzin и Pallmann"><img width="250" alt="Семинар в Германии по продукции Uzin и Pallmann" src="/storage/media/406/f51ae40c59dad52a878d9218528cefcb.JPG" height="187" title="Семинар в Германии по продукции Uzin и Pallmann" hspace="5" vspace="5"></a><a href="/storage/media/407/2829833697e567e9fb2de4cbc1e041fa.JPG" class="gallery" title="Семинар в Германии по продукции Uzin и Pallmann"><img width="250" alt="Семинар в Германии по продукции Uzin и Pallmann" src="/storage/media/407/2829833697e567e9fb2de4cbc1e041fa.JPG" height="187" title="Морение и тонирование семинар" hspace="5" vspace="5"></a>
 </p>
 <p>
      После тонировки вы не узнаете ваш паркет. В эту фразу можно вложить разный смысл в зависимости от того, кто выполнял работу: «знакомый маляр» или профессиональная компания. Оставьте заявку ниже – мы составим заключение, предложим вам несколько вариантов решений, сделаем подбор цвета, пробное окрашивание, поможем с выбором экологичных материалов и проведём работы с помощью современного оборудования.
@@ -195,43 +195,43 @@
     <div>
          чёрный
     </div>
- <img width="125" alt="Цвет Чёрный.jpg" src="/storage/media/6217/f72449bda5bd16a34886a180cfd5b109.jpg" height="83" title="Цвет Чёрный.jpg" border="0" hspace="5" vspace="5"></span> <span class="image_container">
+ <img width="125" alt="Цвет Чёрный.jpg" src="/storage/media/408/f72449bda5bd16a34886a180cfd5b109.jpg" height="83" title="Цвет Чёрный.jpg" border="0" hspace="5" vspace="5"></span> <span class="image_container">
     <div>
          венге
     </div>
-      <img width="125" alt="Цвет Венге.jpg" src="/storage/media/6218/c37f32cd6f9af3123b9d388fd8d55c55.jpg" height="83" title="Цвет Венге.jpg" border="0" hspace="5" vspace="5"></span> <span class="image_container">
+      <img width="125" alt="Цвет Венге.jpg" src="/storage/media/409/c37f32cd6f9af3123b9d388fd8d55c55.jpg" height="83" title="Цвет Венге.jpg" border="0" hspace="5" vspace="5"></span> <span class="image_container">
     <div>
          ятоба
     </div>
- <img width="125" alt="Цвет Ятоба.jpg" src="/storage/media/6219/71ce48aa043ec2e57954fc853b27547e.jpg" height="83" title="Цвет Ятоба.jpg" border="0" hspace="5" vspace="5"></span> <span class="image_container">
+ <img width="125" alt="Цвет Ятоба.jpg" src="/storage/media/410/71ce48aa043ec2e57954fc853b27547e.jpg" height="83" title="Цвет Ятоба.jpg" border="0" hspace="5" vspace="5"></span> <span class="image_container">
     <div>
          камбала
     </div>
- <img width="125" alt="Цвет Камбала.jpg" src="/storage/media/6220/d1de5398b4572549b8105fd4a4751b15.jpg" height="83" title="Цвет Камбала.jpg" border="0" hspace="5" vspace="5"></span> <span class="image_container">
+ <img width="125" alt="Цвет Камбала.jpg" src="/storage/media/411/d1de5398b4572549b8105fd4a4751b15.jpg" height="83" title="Цвет Камбала.jpg" border="0" hspace="5" vspace="5"></span> <span class="image_container">
     <div>
          махагон
     </div>
- <img width="125" alt="Цвет Махагон.jpg" src="/storage/media/6221/747df25b773c9bdea042dd7be6a078e3.jpg" height="83" title="Цвет Махагон.jpg" border="0" hspace="5" vspace="5"></span> <span class="image_container">
+ <img width="125" alt="Цвет Махагон.jpg" src="/storage/media/412/747df25b773c9bdea042dd7be6a078e3.jpg" height="83" title="Цвет Махагон.jpg" border="0" hspace="5" vspace="5"></span> <span class="image_container">
     <div>
          сукупира
     </div>
- <img width="125" alt="Цвет Сукупира.jpg" src="/storage/media/6222/064ba37890f567befe64ce557be42239.jpg" height="83" title="Цвет Сукупира.jpg" border="0" hspace="5" vspace="5"></span> <span class="image_container">
+ <img width="125" alt="Цвет Сукупира.jpg" src="/storage/media/413/064ba37890f567befe64ce557be42239.jpg" height="83" title="Цвет Сукупира.jpg" border="0" hspace="5" vspace="5"></span> <span class="image_container">
     <div>
          билинга
     </div>
- <img width="125" alt="Цвет Билинга.jpg" src="/storage/media/6223/c278bbd28e5b36b58b732e12ce1c6b1c.jpg" height="83" title="Цвет Билинга.jpg" border="0" hspace="5" vspace="5"></span> <span class="image_container">
+ <img width="125" alt="Цвет Билинга.jpg" src="/storage/media/414/c278bbd28e5b36b58b732e12ce1c6b1c.jpg" height="83" title="Цвет Билинга.jpg" border="0" hspace="5" vspace="5"></span> <span class="image_container">
     <div>
          папирус
     </div>
- <img width="125" alt="Цвет Папирус.jpg" src="/storage/media/6224/be6bba9c24f693ea31a69b665009148e.jpg" height="83" title="Цвет Папирус.jpg" border="0" hspace="5" vspace="5"></span> <span class="image_container">
+ <img width="125" alt="Цвет Папирус.jpg" src="/storage/media/415/be6bba9c24f693ea31a69b665009148e.jpg" height="83" title="Цвет Папирус.jpg" border="0" hspace="5" vspace="5"></span> <span class="image_container">
     <div>
          белый
     </div>
- <img width="125" alt="Цвет Белый.jpg" src="/storage/media/6225/17ca5f85fbbcdbc1767946166f593619.jpg" height="83" title="Цвет Белый.jpg" border="0" hspace="5" vspace="5"></span> <span class="image_container">
+ <img width="125" alt="Цвет Белый.jpg" src="/storage/media/416/17ca5f85fbbcdbc1767946166f593619.jpg" height="83" title="Цвет Белый.jpg" border="0" hspace="5" vspace="5"></span> <span class="image_container">
     <div>
          дуб мореный
     </div>
- <img width="125" alt="Цвет Дуб морёный.jpg" src="/storage/media/6226/15e5086255ff76ee103264bea770390f.jpg" height="83" title="Цвет Дуб морёный.jpg" border="0" hspace="5" vspace="5"></span>
+ <img width="125" alt="Цвет Дуб морёный.jpg" src="/storage/media/417/15e5086255ff76ee103264bea770390f.jpg" height="83" title="Цвет Дуб морёный.jpg" border="0" hspace="5" vspace="5"></span>
 </div>
 <div class="clearfix">
 </div>
@@ -239,6 +239,6 @@
     <br></div>
 
 
-
+            
                 </article>
 @endsection

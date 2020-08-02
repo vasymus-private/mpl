@@ -3,7 +3,7 @@
 @section('page-content')
     <article class="article-content">
         <h1>Сухая стяжка Кнауф</h1>
-
+                     
 <div class="news-detail">
                             <p align="center" style="text-align: left;">
      Сухая стяжка – это гипсоволокнистые листы (ГВЛ), которые укладываются на слой сухой засыпки Кнауф. Пол также называется насыпным, но в России больше прижилось название «сухая стяжка Knauf».
@@ -12,7 +12,7 @@
  <b>Схема устройства сухой стяжки</b>
 </p>
 <p align="center">
- <img width="569" alt="Схема насыпного пола.jpg" src="/storage/media/6338/4851267ef75982d2a7f7708c2662840a.jpg" height="372" title="Схема насыпного пола.jpg"><br></p>
+ <img width="569" alt="Схема насыпного пола.jpg" src="/storage/media/529/4851267ef75982d2a7f7708c2662840a.jpg" height="372" title="Схема насыпного пола.jpg"><br></p>
 <div class="yellow-bg">
     <p>
          В устройстве сухой стяжки критически важную роль играет зерновой состав засыпки.
@@ -95,18 +95,18 @@
  <b>Схема укладки штучного паркета на стяжку по сухой засыпке</b>
 </p>
 <p align="center">
- <b><img width="267" alt="кнауф.png" src="/storage/media/6339/d7702749827e4d833807ea1350d64fe0.png" height="341" title="Схема укладки штучного паркета на стяжку по сухой засыпке"><br></b>
+ <b><img width="267" alt="кнауф.png" src="/storage/media/530/d7702749827e4d833807ea1350d64fe0.png" height="341" title="Схема укладки штучного паркета на стяжку по сухой засыпке"><br></b>
 </p>
 <p align="center">
     <br></p>
 <p align="center">
- <b><img width="256" alt="укладка паркета по сухой стяжке 1.jpg" src="/storage/media/6340/46c2e202547960de5b6f9fdcf81c7f5c.jpg" height="192" title="укладка паркета по сухой стяжке Knauf">  <img width="256" alt="укладка паркета по сухой стяжке 2.jpg" src="/storage/media/6341/7916abc603bf36434409a7d425a46779.jpg" height="192" title="грунтование стяжки">  <img width="256" alt="укладка паркета по сухой стяжке 3.jpg" src="/storage/media/6342/9def087f5aba0378172c93ddd51113d6.jpg" height="192" title="укладка мультимоль на сухую стяжку"><br></b>
+ <b><img width="256" alt="укладка паркета по сухой стяжке 1.jpg" src="/storage/media/531/46c2e202547960de5b6f9fdcf81c7f5c.jpg" height="192" title="укладка паркета по сухой стяжке Knauf">  <img width="256" alt="укладка паркета по сухой стяжке 2.jpg" src="/storage/media/532/7916abc603bf36434409a7d425a46779.jpg" height="192" title="грунтование стяжки">  <img width="256" alt="укладка паркета по сухой стяжке 3.jpg" src="/storage/media/533/9def087f5aba0378172c93ddd51113d6.jpg" height="192" title="укладка мультимоль на сухую стяжку"><br></b>
 </p>
 <p align="center">
  <i>Сухую стяжку из ГВЛ-плит необходимо загрунтовать, а затем приклеить и прикатать подложку из полиэстерного волокна Multimoll</i>
 </p>
 <p align="center">
- <i><img width="256" alt="укладка паркета по сухой стяжке 4.jpg" src="/storage/media/6343/24a9a4aab260f3d4d17ec3875ce8a1cd.jpg" height="192" title="мультимоль укладывают на клей и прижимают вальцами">  <img width="256" alt="укладка паркета по сухой стяжке 5.jpg" src="/storage/media/6344/4c6c8ca764f95c8dae7008639c27b922.jpg" height="192" title="рисунок укладки ёлочка прямая">  <img width="256" alt="укладка паркета по сухой стяжке 6.jpg" src="/storage/media/6345/fb9b1f484f7b3e5f094be4da3198127a.jpg" height="192" title="в комнатах рисунок ёлочка диагональная"><br></i>
+ <i><img width="256" alt="укладка паркета по сухой стяжке 4.jpg" src="/storage/media/534/24a9a4aab260f3d4d17ec3875ce8a1cd.jpg" height="192" title="мультимоль укладывают на клей и прижимают вальцами">  <img width="256" alt="укладка паркета по сухой стяжке 5.jpg" src="/storage/media/535/4c6c8ca764f95c8dae7008639c27b922.jpg" height="192" title="рисунок укладки ёлочка прямая">  <img width="256" alt="укладка паркета по сухой стяжке 6.jpg" src="/storage/media/536/fb9b1f484f7b3e5f094be4da3198127a.jpg" height="192" title="в комнатах рисунок ёлочка диагональная"><br></i>
 </p>
 <p align="center">
  <i>Смета, сроки и гарантия закрепляются в договоре</i>
@@ -149,7 +149,7 @@
      Кроме этого, Knauf UBO не боится воды, прекрасно выравнивает любые уклоны и перепады высоты, и не ограничен по толщине (вплоть до 35 см). А слой сухой засыпки не может быть выше 6 см. При больших высотах придётся укладывать промежуточный слой ГВЛ, а поверх опять использовать сухую засыпку – получается многослойный пирог.
 </p>
 <p style="text-align: center;">
- <img width="256" alt="стяжка легкая knauf ubo 1.JPG" src="/storage/media/6346/6ea1fdd9c582cd5cfaddaf8901e87218.JPG" height="192" title="монтаж легкой стяжки knauf ubo.JPG">  <img width="256" alt="стяжка легкая knauf ubo 2.JPG" src="/storage/media/6347/5c517774dccb4e5cb2d70f085b3bb136.JPG" height="192" title="легкая стяжка knauf ubo толщиной 30мм.JPG">  <img width="256" alt="стяжка легкая knauf ubo 3.jpg" src="/storage/media/6348/79400f48dc4b7f8d0751a754b8b5cd3c.jpg" height="192" title="стяжка knauf ubo готова.jpg"><br></p>
+ <img width="256" alt="стяжка легкая knauf ubo 1.JPG" src="/storage/media/537/6ea1fdd9c582cd5cfaddaf8901e87218.JPG" height="192" title="монтаж легкой стяжки knauf ubo.JPG">  <img width="256" alt="стяжка легкая knauf ubo 2.JPG" src="/storage/media/538/5c517774dccb4e5cb2d70f085b3bb136.JPG" height="192" title="легкая стяжка knauf ubo толщиной 30мм.JPG">  <img width="256" alt="стяжка легкая knauf ubo 3.jpg" src="/storage/media/539/79400f48dc4b7f8d0751a754b8b5cd3c.jpg" height="192" title="стяжка knauf ubo готова.jpg"><br></p>
 <p align="center">
  <i>Облегченная стяжка Knauf UBO толщиной 25 см. Поверх необходимо нанести прочный, финишный слой обычной песко-цементной стяжки толщиной 3 см или уложить листы ГВЛ Knauf</i>
 </p>
@@ -162,6 +162,6 @@
     <br></div>
 
 
-
+            
                 </article>
 @endsection

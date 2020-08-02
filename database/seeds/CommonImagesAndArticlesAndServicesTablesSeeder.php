@@ -106,11 +106,7 @@ class CommonImagesAndArticlesAndServicesTablesSeeder extends Seeder
         $newHtml = str_replace("><h1", ">\n        <h1", $newHtml);
         $newHtml = str_replace("\t", "    ", $newHtml);
 
-        if ($isArticle) {
-            $newHtml = "@extends('web.layouts.article')\n\n@section('article-content')\n    " . $newHtml . "\n@endsection";
-        } else {
-            $newHtml = "@extends('web.layouts.service')\n\n@section('service-content')\n    " . $newHtml . "\n@endsection";
-        }
+        $newHtml = "@extends('web.pages.page-layout')\n\n@section('page-content')\n    " . $newHtml . "\n@endsection";
 
         return $newHtml;
     }

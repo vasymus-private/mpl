@@ -3,7 +3,7 @@
 @section('page-content')
     <article class="article-content">
         <h1>Уход за паркетом (чистка паркета)</h1>
-
+                     
 <div class="news-detail">
                             <p>
      Профессиональная чистка паркета – это современное оборудование плюс специальные средства для уборки и восстановления лаковой пленки или масляного покрытия. В процессе ухода удаляются мелкие царапины, жирные пятна, въевшаяся грязь – паркет становится как новый.
@@ -11,7 +11,7 @@
 <h3 style="text-align: center;">Стоимость нанесения средства по уходу - <span itemprop="price"> от 450 руб./м<sup>2</sup></span> <br>
  (материалы включены)</h3>
 <p style="text-align: center;">
- <a href="/storage/media/6192/62b767af3df618422d6366b4bec191ae.JPG" class="gallery" title="чистка и уход за паркетом было"><img alt="чистка и уход за паркетом было" src="/storage/media/6192/62b767af3df618422d6366b4bec191ae.JPG" title="чистка и уход за паркетом было" width="250" vspace="5" hspace="5" height="167"></a><a href="/storage/media/6193/002c3fd64c60c6035346417aa431900a.JPG" class="gallery" title="чистка и уход за паркетом было"><img alt="чистка и уход за паркетом было" src="/storage/media/6193/002c3fd64c60c6035346417aa431900a.JPG" title="чистка и уход за паркетом было" width="250" vspace="5" hspace="5" height="167"></a><a href="/storage/media/6194/5ce8d1df1d980054785b9c2d7d1e9fbf.JPG" class="gallery" title="чистка и уход за паркетом стало"><img alt="чистка и уход за паркетом стало" src="/storage/media/6194/5ce8d1df1d980054785b9c2d7d1e9fbf.JPG" title="чистка и уход за паркетом стало" width="250" vspace="5" hspace="5" height="167"></a>
+ <a href="/storage/media/383/62b767af3df618422d6366b4bec191ae.JPG" class="gallery" title="чистка и уход за паркетом было"><img alt="чистка и уход за паркетом было" src="/storage/media/383/62b767af3df618422d6366b4bec191ae.JPG" title="чистка и уход за паркетом было" width="250" vspace="5" hspace="5" height="167"></a><a href="/storage/media/384/002c3fd64c60c6035346417aa431900a.JPG" class="gallery" title="чистка и уход за паркетом было"><img alt="чистка и уход за паркетом было" src="/storage/media/384/002c3fd64c60c6035346417aa431900a.JPG" title="чистка и уход за паркетом было" width="250" vspace="5" hspace="5" height="167"></a><a href="/storage/media/385/5ce8d1df1d980054785b9c2d7d1e9fbf.JPG" class="gallery" title="чистка и уход за паркетом стало"><img alt="чистка и уход за паркетом стало" src="/storage/media/385/5ce8d1df1d980054785b9c2d7d1e9fbf.JPG" title="чистка и уход за паркетом стало" width="250" vspace="5" hspace="5" height="167"></a>
 </p>
 <p>
      Большинство заказчиков, пристально следя за выполнением работ и тщательно проверяя конечный результат, полностью теряют интерес к лаковому покрытию после передачи его в эксплуатацию. Но нанесение лака – отнюдь не последний этап работы с паркетным полом. В течение всего срока эксплуатации паркетного пола требуется проведения мероприятий, которые значительно продлевают срок его службы. Для этого выпускаются специальные средства по уходу за паркетом.
@@ -97,7 +97,7 @@
      И уже утром ваш бизнес продолжит работу в обычном режиме. По окончании уборки не останется следов нашего присутствия, только сверкающий паркетный пол.
 </p>
 <p style="text-align: center;">
- <a href="/storage/media/6195/6e04c43da8afb82de8597fafb987a47d.JPG" class="gallery" title="чистка и уход за паркетом было"><img alt="уход за паркетом было" src="/storage/media/6195/6e04c43da8afb82de8597fafb987a47d.JPG" title="уход за паркетом было" width="250" vspace="5" hspace="5" height="167"></a><a href="/storage/media/6196/aaa2baf85ab3fa2fe47d51276aa4d236.JPG" class="gallery" title="уход за паркетом стало"><img alt="уход за паркетом стало" src="/storage/media/6196/aaa2baf85ab3fa2fe47d51276aa4d236.JPG" title="уход за паркетом стало" width="250" vspace="5" hspace="5" height="167"></a>
+ <a href="/storage/media/386/6e04c43da8afb82de8597fafb987a47d.JPG" class="gallery" title="чистка и уход за паркетом было"><img alt="уход за паркетом было" src="/storage/media/386/6e04c43da8afb82de8597fafb987a47d.JPG" title="уход за паркетом было" width="250" vspace="5" hspace="5" height="167"></a><a href="/storage/media/387/aaa2baf85ab3fa2fe47d51276aa4d236.JPG" class="gallery" title="уход за паркетом стало"><img alt="уход за паркетом стало" src="/storage/media/387/aaa2baf85ab3fa2fe47d51276aa4d236.JPG" title="уход за паркетом стало" width="250" vspace="5" hspace="5" height="167"></a>
 </p>
 <p align="center">
      Очистка паркета в холле гостиницы
@@ -109,7 +109,7 @@
      Для обсуждения заказа звоните <b>+7 (495) 363-87-99</b>. Специалист «СТП» ответит на все ваши вопросы.
 </p>
 <p style="text-align: center;">
- <a href="/storage/media/6197/11e224c9e6bb055abfdf9e03fa56c4dc.JPG" class="gallery" title="чистка и уход за паркетом было"><img alt="чистка и уход за паркетом было" src="/storage/media/6197/11e224c9e6bb055abfdf9e03fa56c4dc.JPG" title="чистка и уход за паркетом был" width="250" vspace="5" hspace="5" height="167"></a><a href="/storage/media/6198/cd633f328f151b57ef103b5e8335dfb8.JPG" class="gallery" title="чистка и уход за паркетом было"><img alt="текущий уход и очистка 1.JPG" src="/storage/media/6198/cd633f328f151b57ef103b5e8335dfb8.JPG" title="чистка и уход за паркетом было" width="250" vspace="5" hspace="5" height="167"></a><a href="/storage/media/6199/3473ca273bbaa9eba46ee7d8533f4662.JPG" class="gallery" title="чистка и уход за паркетом стало"><img alt="чистка и уход за паркетом стало" src="/storage/media/6199/3473ca273bbaa9eba46ee7d8533f4662.JPG" title="чистка и уход за паркетом стало" width="250" vspace="5" hspace="5" height="167"></a>
+ <a href="/storage/media/388/11e224c9e6bb055abfdf9e03fa56c4dc.JPG" class="gallery" title="чистка и уход за паркетом было"><img alt="чистка и уход за паркетом было" src="/storage/media/388/11e224c9e6bb055abfdf9e03fa56c4dc.JPG" title="чистка и уход за паркетом был" width="250" vspace="5" hspace="5" height="167"></a><a href="/storage/media/389/cd633f328f151b57ef103b5e8335dfb8.JPG" class="gallery" title="чистка и уход за паркетом было"><img alt="текущий уход и очистка 1.JPG" src="/storage/media/389/cd633f328f151b57ef103b5e8335dfb8.JPG" title="чистка и уход за паркетом было" width="250" vspace="5" hspace="5" height="167"></a><a href="/storage/media/390/3473ca273bbaa9eba46ee7d8533f4662.JPG" class="gallery" title="чистка и уход за паркетом стало"><img alt="чистка и уход за паркетом стало" src="/storage/media/390/3473ca273bbaa9eba46ee7d8533f4662.JPG" title="чистка и уход за паркетом стало" width="250" vspace="5" hspace="5" height="167"></a>
 </p>
 <div class="yellow-bg">
     <p>
@@ -149,6 +149,6 @@
     <br></div>
 
 
-
+            
                 </article>
 @endsection

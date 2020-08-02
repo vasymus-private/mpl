@@ -87,7 +87,7 @@
 
     <p>Несколько слов о способах распила ствола дерева:</p>
 
-    <p align="center"><img class="aligncenter" style="border-style: dotted; border-color: #666666;" src="/storage/media/5920/image001.gif" border="0" alt="Классификация массивной доски"></p>
+    <p align="center"><img class="aligncenter" style="border-style: dotted; border-color: #666666;" src="/storage/media/111/image001.gif" border="0" alt="Классификация массивной доски"></p>
 
     <p align="center">a – кора, b – заболонь, c – ядро, d – сердцевина.</p>
 
@@ -109,13 +109,13 @@
 
     <div class="images_container2"> <span class="image_container">
     <div>дуб рустик</div>
-   <img src="/storage/media/5921/55a44abad48d972be068f4a4281b21ae.jpg" title="Профессиональная укладка массивной паркетной доски. Дуб рустик." border="0" alt="Профессиональная укладка массивной паркетной доски. Дуб рустик." width="180" height="300" hspace="0" vspace="0"></span> <span class="image_container">
+   <img src="/storage/media/112/55a44abad48d972be068f4a4281b21ae.jpg" title="Профессиональная укладка массивной паркетной доски. Дуб рустик." border="0" alt="Профессиональная укладка массивной паркетной доски. Дуб рустик." width="180" height="300" hspace="0" vspace="0"></span> <span class="image_container">
     <div>дуб маркант</div>
-    <img src="/storage/media/5922/513c1eed0bb28c32f2cbd4342c0e8262.jpg" title="Качественная укладка дубовой массивной доски. Дуб маркант." border="0" alt="Качественная укладка дубовой массивной доски. Дуб маркант." width="180" height="300" hspace="0" vspace="0"></span> <span class="image_container">
+    <img src="/storage/media/113/513c1eed0bb28c32f2cbd4342c0e8262.jpg" title="Качественная укладка дубовой массивной доски. Дуб маркант." border="0" alt="Качественная укладка дубовой массивной доски. Дуб маркант." width="180" height="300" hspace="0" vspace="0"></span> <span class="image_container">
     <div>дуб натур</div>
-   <img src="/storage/media/5923/6d395fa094587c61a64fc1b2cef8b460.jpg" title="Стоимость укладки массивной паркетной доски - дуб натур." border="0" alt="Стоимость укладки массивной паркетной доски - дуб натур." width="180" height="300" hspace="0" vspace="0"></span> <span class="image_container">
+   <img src="/storage/media/114/6d395fa094587c61a64fc1b2cef8b460.jpg" title="Стоимость укладки массивной паркетной доски - дуб натур." border="0" alt="Стоимость укладки массивной паркетной доски - дуб натур." width="180" height="300" hspace="0" vspace="0"></span> <span class="image_container">
     <div>дуб селект</div>
-   <img src="/storage/media/5924/132bc09846333692a85cb20bf86c3ab3.jpg" title="Массивная паркетная доска дуб селект." border="0" alt="Массивная паркетная доска дуб селект." width="180" height="300" hspace="0" vspace="0"></span></div>
+   <img src="/storage/media/115/132bc09846333692a85cb20bf86c3ab3.jpg" title="Массивная паркетная доска дуб селект." border="0" alt="Массивная паркетная доска дуб селект." width="180" height="300" hspace="0" vspace="0"></span></div>
 
     <div class="clearfix"></div>
 
@@ -151,7 +151,7 @@
     <p>Изначально массив выглядит как дорогая древесина кемпас, но шлифовка продемонстрировала большое количество
         заболони и пеструю древесину неизвестного происхождения.</p>
 
-    <p style="text-align: center;"><img src="/storage/media/5925/6ec09c37a00887b59500baddbd226407.JPG" title="Массивная доска экзотических пород - кемпас." border="0" alt="Массивная доска экзотических пород - кемпас." width="250" height="188">     <img src="/storage/media/5926/ebef1b395a48b930355a039229cc4f28.JPG" title="Профессиональная шлифовка массивной доски без пыли по выгодной цене." border="0" alt="Профессиональная шлифовка массивной доски без пыли по выгодной цене." width="250" height="188">     <img src="/storage/media/5927/eeca62cfbefab0899df88a179fc67439.JPG" title="Еврошлифовка массивной паркетной доски." border="0" alt="Еврошлифовка массивной паркетной доски." width="250" height="188"></p>
+    <p style="text-align: center;"><img src="/storage/media/116/6ec09c37a00887b59500baddbd226407.JPG" title="Массивная доска экзотических пород - кемпас." border="0" alt="Массивная доска экзотических пород - кемпас." width="250" height="188">     <img src="/storage/media/117/ebef1b395a48b930355a039229cc4f28.JPG" title="Профессиональная шлифовка массивной доски без пыли по выгодной цене." border="0" alt="Профессиональная шлифовка массивной доски без пыли по выгодной цене." width="250" height="188">     <img src="/storage/media/118/eeca62cfbefab0899df88a179fc67439.JPG" title="Еврошлифовка массивной паркетной доски." border="0" alt="Еврошлифовка массивной паркетной доски." width="250" height="188"></p>
 
     <p align="center"></p>
 

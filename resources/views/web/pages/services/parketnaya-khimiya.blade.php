@@ -3,7 +3,7 @@
 @section('page-content')
     <article class="article-content">
         <h1>Паркетная химия: просто о сложном</h1>
-
+                     
 <div class="news-detail">
                             <p>
     К нам в компанию «Современные Технологии Паркета» регулярно поступают запросы от клиентов – люди хотят купить паркетную химию и спрашивают совета, какую выбрать?
@@ -58,19 +58,19 @@
     <div>
         Lobadur
     </div>
- <img width="170" alt="Описание и отзывы о паркетном лаке Лобадур (Lobadur) от профессионалов." src="/storage/media/6227/9b68808d6ca93f9144341b5ed8a18778.jpg" height="192" title="Описание и отзывы о паркетном лаке Лобадур (Lobadur) от профессионалов." border="0"></span> <span class="image_container">
+ <img width="170" alt="Описание и отзывы о паркетном лаке Лобадур (Lobadur) от профессионалов." src="/storage/media/418/9b68808d6ca93f9144341b5ed8a18778.jpg" height="192" title="Описание и отзывы о паркетном лаке Лобадур (Lobadur) от профессионалов." border="0"></span> <span class="image_container">
     <div>
         Pallmann
     </div>
- <img width="180" alt="Описание, характеристики и отзывы о паркетном лаке Палман (Pallmann) от профессионалов." src="/storage/media/6228/580bd01a965ceff5736cad6471921532.jpg" height="203" title="Описание, характеристики и отзывы о паркетном лаке Палман (Pallmann) от профессионалов." border="0">  </span> <span class="image_container">
+ <img width="180" alt="Описание, характеристики и отзывы о паркетном лаке Палман (Pallmann) от профессионалов." src="/storage/media/419/580bd01a965ceff5736cad6471921532.jpg" height="203" title="Описание, характеристики и отзывы о паркетном лаке Палман (Pallmann) от профессионалов." border="0">  </span> <span class="image_container">
     <div>
         Bona
     </div>
- <img width="170" alt="Описание, характеристики и отзывы о паркетном лаке Бона (Bona) от профессионалов." src="/storage/media/6229/e58eb2df491d2809be13111470e6e853.jpg" height="192" title="Описание, характеристики и отзывы о паркетном лаке Бона (Bona) от профессионалов." border="0">  </span> <span class="image_container">
+ <img width="170" alt="Описание, характеристики и отзывы о паркетном лаке Бона (Bona) от профессионалов." src="/storage/media/420/e58eb2df491d2809be13111470e6e853.jpg" height="192" title="Описание, характеристики и отзывы о паркетном лаке Бона (Bona) от профессионалов." border="0">  </span> <span class="image_container">
     <div>
         Synteko
     </div>
- <img width="170" alt="Описание, характеристики и отзывы о паркетном лаке Сюнтеко (Synteko)" src="/storage/media/6230/3d559fee433b30060c3ab71f38760948.jpg" height="192" title="Описание, характеристики и отзывы о паркетном лаке Сюнтеко (Synteko)" border="0"></span>
+ <img width="170" alt="Описание, характеристики и отзывы о паркетном лаке Сюнтеко (Synteko)" src="/storage/media/421/3d559fee433b30060c3ab71f38760948.jpg" height="192" title="Описание, характеристики и отзывы о паркетном лаке Сюнтеко (Synteko)" border="0"></span>
 </div>
 <div class="clearfix">
 </div>
@@ -82,11 +82,11 @@
     <div>
         Pallmann
     </div>
- <img width="170" alt="Паркетный лак на кислотном отвердителе Палман 81 (Pallmann SH 81) - описание, характеристики и отзывы." src="/storage/media/6231/56724873665f7b4fc97fc10b4c7e811e.jpg" height="191" title="Паркетный лак на кислотном отвердителе Палман 81 (Pallmann SH 81) - описание, характеристики и отзывы." border="0"></span> <span class="image_container">
+ <img width="170" alt="Паркетный лак на кислотном отвердителе Палман 81 (Pallmann SH 81) - описание, характеристики и отзывы." src="/storage/media/422/56724873665f7b4fc97fc10b4c7e811e.jpg" height="191" title="Паркетный лак на кислотном отвердителе Палман 81 (Pallmann SH 81) - описание, характеристики и отзывы." border="0"></span> <span class="image_container">
     <div>
         Synteco
     </div>
- <img width="205" alt="Кислотный лак Сунтеко классик (Synteko Classic) - описание, характеристики и отзывы." src="/storage/media/6232/7fa17b73de7cf63b88c4ae818f988635.jpg" height="231" title="Кислотный лак Сунтеко классик (Synteko Classic) - описание, характеристики и отзывы." border="0"></span>
+ <img width="205" alt="Кислотный лак Сунтеко классик (Synteko Classic) - описание, характеристики и отзывы." src="/storage/media/423/7fa17b73de7cf63b88c4ae818f988635.jpg" height="231" title="Кислотный лак Сунтеко классик (Synteko Classic) - описание, характеристики и отзывы." border="0"></span>
 </div>
 <div class="clearfix">
 </div>
@@ -98,11 +98,11 @@
     <div>
         Synteco
     </div>
- <img width="170" alt="Алкидный лак Сунтеко уретане (Synteko Uretane) - характеристики, описание и отзывы." src="/storage/media/6233/f9fdabcb43158b081f7b24cb5e391f06.jpg" height="191" title="Алкидный лак Сунтеко уретане (Synteko Uretane) - характеристики, описание и отзывы." border="0"></span> <span class="image_container">
+ <img width="170" alt="Алкидный лак Сунтеко уретане (Synteko Uretane) - характеристики, описание и отзывы." src="/storage/media/424/f9fdabcb43158b081f7b24cb5e391f06.jpg" height="191" title="Алкидный лак Сунтеко уретане (Synteko Uretane) - характеристики, описание и отзывы." border="0"></span> <span class="image_container">
     <div>
         Pallmann
     </div>
- <img width="170" alt="Алкидный паркетный лак Палман (Pallmann IS 60) - описание, характеристики и отзывы." src="/storage/media/6234/21cadf70c5b2e45efbc68589169ad302.jpg" height="180" title="Алкидный паркетный лак Палман (Pallmann IS 60) - описание, характеристики и отзывы." border="0"></span>
+ <img width="170" alt="Алкидный паркетный лак Палман (Pallmann IS 60) - описание, характеристики и отзывы." src="/storage/media/425/21cadf70c5b2e45efbc68589169ad302.jpg" height="180" title="Алкидный паркетный лак Палман (Pallmann IS 60) - описание, характеристики и отзывы." border="0"></span>
 </div>
 <div class="clearfix">
 </div>
@@ -117,19 +117,19 @@
     <div>
         Lobadur
     </div>
- <img width="170" alt="Паркетный лак-грунтовка Лобадур (Lobadur Easy Prime) - характеристики, описания и отзывы." src="/storage/media/6235/afbbc3abb6a68952fb3b1e08b5d38844.jpg" height="191" title="Паркетный лак-грунтовка Лобадур (Lobadur Easy Prime) - характеристики, описания и отзывы." border="0"></span> <span class="image_container">
+ <img width="170" alt="Паркетный лак-грунтовка Лобадур (Lobadur Easy Prime) - характеристики, описания и отзывы." src="/storage/media/426/afbbc3abb6a68952fb3b1e08b5d38844.jpg" height="191" title="Паркетный лак-грунтовка Лобадур (Lobadur Easy Prime) - характеристики, описания и отзывы." border="0"></span> <span class="image_container">
     <div>
         Arboritec
     </div>
- <img width="170" alt="Паркетный лак-грунтовка Арборитек (Arboritec FirstCoat) - описания, характеристик и описания." src="/storage/media/6236/7a5c7c24270fa820ad577702d5c1d341.jpg" height="191" title="Паркетный лак-грунтовка Арборитек (Arboritec FirstCoat) - описания, характеристик и описания." border="0"></span> <span class="image_container">
+ <img width="170" alt="Паркетный лак-грунтовка Арборитек (Arboritec FirstCoat) - описания, характеристик и описания." src="/storage/media/427/7a5c7c24270fa820ad577702d5c1d341.jpg" height="191" title="Паркетный лак-грунтовка Арборитек (Arboritec FirstCoat) - описания, характеристик и описания." border="0"></span> <span class="image_container">
     <div>
         Pallmann
     </div>
- <img width="170" alt="паркетный лак-грунтовка Палман (Pallmann Allbase Gel) - описания, характеристики и отзывы." src="/storage/media/6237/40cb8eca86bc884212f54de758071408.jpg" height="191" title="паркетный лак-грунтовка Палман (Pallmann Allbase Gel) - описания, характеристики и отзывы." border="0"></span> <span class="image_container">
+ <img width="170" alt="паркетный лак-грунтовка Палман (Pallmann Allbase Gel) - описания, характеристики и отзывы." src="/storage/media/428/40cb8eca86bc884212f54de758071408.jpg" height="191" title="паркетный лак-грунтовка Палман (Pallmann Allbase Gel) - описания, характеристики и отзывы." border="0"></span> <span class="image_container">
     <div>
         Bona
     </div>
-      <img width="170" alt="Паркетный лак-грунтовка Бона Прайм (Bona Prime) - описания, характеристики и отзывы." src="/storage/media/6238/2cb465223ae6983701b801af675528c1.jpg" height="191" title="Паркетный лак-грунтовка Бона Прайм (Bona Prime) - описания, характеристики и отзывы." border="0"></span>
+      <img width="170" alt="Паркетный лак-грунтовка Бона Прайм (Bona Prime) - описания, характеристики и отзывы." src="/storage/media/429/2cb465223ae6983701b801af675528c1.jpg" height="191" title="Паркетный лак-грунтовка Бона Прайм (Bona Prime) - описания, характеристики и отзывы." border="0"></span>
 </div>
 <div class="clearfix">
 </div>
@@ -155,19 +155,19 @@
     <div>
         масло-пропитка
     </div>
- <img width="150" alt="Масло-пропитка Пвлман (Pallmann) - описания и отзывы." src="/storage/media/6239/bfc405f781664b1535e2a4c84e626244.jpg" height="169" title="Масло-пропитка Пвлман (Pallmann) - описания и отзывы." border="0"></span> <span class="image_container">
+ <img width="150" alt="Масло-пропитка Пвлман (Pallmann) - описания и отзывы." src="/storage/media/430/bfc405f781664b1535e2a4c84e626244.jpg" height="169" title="Масло-пропитка Пвлман (Pallmann) - описания и отзывы." border="0"></span> <span class="image_container">
     <div>
         воск
     </div>
- <img width="150" alt="Паркетный воск Лобадур (Lobasol HS Akzent 100 Wax) - описание." src="/storage/media/6240/a468805d557acb723951ab5d94c2deb4.jpg" height="169" title="Паркетный воск Лобадур (Lobasol HS Akzent 100 Wax) - описание." border="0"></span> <span class="image_container">
+ <img width="150" alt="Паркетный воск Лобадур (Lobasol HS Akzent 100 Wax) - описание." src="/storage/media/431/a468805d557acb723951ab5d94c2deb4.jpg" height="169" title="Паркетный воск Лобадур (Lobasol HS Akzent 100 Wax) - описание." border="0"></span> <span class="image_container">
     <div>
         масло двухкомпонентное
     </div>
- <img width="200" alt="Паркетное масло двухкомпонентное Палман (Pallmann Magic Oil 2K) - описание." src="/storage/media/6241/037924d41c15e6d8bbdd9cba81234076.jpg" height="200" title="Паркетное масло двухкомпонентное Палман (Pallmann Magic Oil 2K) - описание." border="0"></span> <span class="image_container">
+ <img width="200" alt="Паркетное масло двухкомпонентное Палман (Pallmann Magic Oil 2K) - описание." src="/storage/media/432/037924d41c15e6d8bbdd9cba81234076.jpg" height="200" title="Паркетное масло двухкомпонентное Палман (Pallmann Magic Oil 2K) - описание." border="0"></span> <span class="image_container">
     <div>
         масло с твердым воском
     </div>
- <img width="160" alt="Масло с твердым воском Сайкос (Saicos Hartwachsol Premium) - описания." src="/storage/media/6242/21b08b1f5f76e1d5f1836dab2509b474.jpg" height="180" title="Масло с твердым воском Сайкос (Saicos Hartwachsol Premium) - описания." border="0"></span>
+ <img width="160" alt="Масло с твердым воском Сайкос (Saicos Hartwachsol Premium) - описания." src="/storage/media/433/21b08b1f5f76e1d5f1836dab2509b474.jpg" height="180" title="Масло с твердым воском Сайкос (Saicos Hartwachsol Premium) - описания." border="0"></span>
 </div>
 <div class="clearfix">
 </div>
@@ -196,15 +196,15 @@
     <div>
         цветное масло
     </div>
- <img width="170" alt="Цветное тонирующее масло Палман (Pallmann Magic Oil 2K Color) - характеристики, описание и отзывы." src="/storage/media/6243/00a0fa1823b98eef262b1daa236bb9b1.jpg" height="191" title="Цветное тонирующее масло Палман (Pallmann Magic Oil 2K Color) - характеристики, описание и отзывы." border="0"></span> <span class="image_container">
+ <img width="170" alt="Цветное тонирующее масло Палман (Pallmann Magic Oil 2K Color) - характеристики, описание и отзывы." src="/storage/media/434/00a0fa1823b98eef262b1daa236bb9b1.jpg" height="191" title="Цветное тонирующее масло Палман (Pallmann Magic Oil 2K Color) - характеристики, описание и отзывы." border="0"></span> <span class="image_container">
     <div>
         на основе растворителей
     </div>
- <img width="160" alt="Тонировка для паркета Лобадур - описание и характеристики." src="/storage/media/6244/4ee4b2f322177656fb6931eff456875f.jpg" title="Тонировка для паркета Лобадур - описание и характеристики." border="0"></span> <span class="image_container">
+ <img width="160" alt="Тонировка для паркета Лобадур - описание и характеристики." src="/storage/media/435/4ee4b2f322177656fb6931eff456875f.jpg" title="Тонировка для паркета Лобадур - описание и характеристики." border="0"></span> <span class="image_container">
     <div>
         морилка для дуба
     </div>
- <img width="180" alt="Морилка для паркета Лобадур" src="/storage/media/6245/07c8605cfb31914863e7fa0ef8180f56.jpg" height="203" title="Морилка для паркета Лобадур" border="0"></span>
+ <img width="180" alt="Морилка для паркета Лобадур" src="/storage/media/436/07c8605cfb31914863e7fa0ef8180f56.jpg" height="203" title="Морилка для паркета Лобадур" border="0"></span>
 </div>
 <div class="clearfix">
 </div>
@@ -227,11 +227,11 @@
     <div>
         на водной основе
     </div>
- <img width="170" alt="Водная шпаклевка для паркета - описания, характеристики и отзывы." src="/storage/media/6246/1f946dea1a603a69e4f35b6ead2a0b15.jpg" height="191" title="Водная шпаклевка для паркета - описания, характеристики и отзывы." border="0"></span> <span class="image_container">
+ <img width="170" alt="Водная шпаклевка для паркета - описания, характеристики и отзывы." src="/storage/media/437/1f946dea1a603a69e4f35b6ead2a0b15.jpg" height="191" title="Водная шпаклевка для паркета - описания, характеристики и отзывы." border="0"></span> <span class="image_container">
     <div>
         на растворителях
     </div>
-      <img width="160" alt="Шпаклевка для паркета на растворителях Лобадур - отзывы и характеристики." src="/storage/media/6247/374ddc8059d5d94d2e9fcd1c67597df8.jpg" height="180" title="Шпаклевка для паркета на растворителях Лобадур - отзывы и характеристики." border="0"></span>
+      <img width="160" alt="Шпаклевка для паркета на растворителях Лобадур - отзывы и характеристики." src="/storage/media/438/374ddc8059d5d94d2e9fcd1c67597df8.jpg" height="180" title="Шпаклевка для паркета на растворителях Лобадур - отзывы и характеристики." border="0"></span>
 </div>
 <div class="clearfix">
 </div>
@@ -260,15 +260,15 @@
     <div>
         уход за маслом
     </div>
- <img width="142" alt="Средство по уходу за паркетом под маслом" src="/storage/media/6248/e810d471cc01aaa1a3e4c66b2d0a6fe3.jpg" height="180" title="Средство по уходу за паркетом под маслом" border="0"></span> <span class="image_container">
+ <img width="142" alt="Средство по уходу за паркетом под маслом" src="/storage/media/439/e810d471cc01aaa1a3e4c66b2d0a6fe3.jpg" height="180" title="Средство по уходу за паркетом под маслом" border="0"></span> <span class="image_container">
     <div>
         уход за лаком
     </div>
- <img width="143" alt="Средство по уходу за паркетом под лаком - описание и отзывы." src="/storage/media/6249/51940b65ddda28f2ce330d2a2cb19990.jpg" height="228" title="Средство по уходу за паркетом под лаком - описание и отзывы." border="0"></span> <span class="image_container">
+ <img width="143" alt="Средство по уходу за паркетом под лаком - описание и отзывы." src="/storage/media/440/51940b65ddda28f2ce330d2a2cb19990.jpg" height="228" title="Средство по уходу за паркетом под лаком - описание и отзывы." border="0"></span> <span class="image_container">
     <div>
         очищающее средство
     </div>
- <img width="142" alt="Средство по очистке паркета - отзывы и характеристики." src="/storage/media/6250/28357b99ee76da25fe46038c917477e3.jpg" height="190" title="Средство по очистке паркета - отзывы и характеристики." border="0"></span>
+ <img width="142" alt="Средство по очистке паркета - отзывы и характеристики." src="/storage/media/441/28357b99ee76da25fe46038c917477e3.jpg" height="190" title="Средство по очистке паркета - отзывы и характеристики." border="0"></span>
 </div>
 <div class="clearfix">
 </div>
@@ -314,15 +314,15 @@
     <div>
         Kiilto
     </div>
- <img width="190" alt="Паркетный клей Килто - описание, характеристики и отзывы." src="/storage/media/6251/aaa0257e24ae5dc938a40ea765ea6853.jpg" height="214" title="Паркетный клей Килто - описание, характеристики и отзывы." border="0"></span> <span class="image_container">
+ <img width="190" alt="Паркетный клей Килто - описание, характеристики и отзывы." src="/storage/media/442/aaa0257e24ae5dc938a40ea765ea6853.jpg" height="214" title="Паркетный клей Килто - описание, характеристики и отзывы." border="0"></span> <span class="image_container">
     <div>
         Bona
     </div>
- <img width="190" alt="Паркетный клей Бона (Bona D 720) - описания и отзывы." src="/storage/media/6252/749a49be97398edaf32f8adb0246060e.jpg" height="214" title="Паркетный клей Бона (Bona D 720) - описания и отзывы." border="0"></span> <span class="image_container">
+ <img width="190" alt="Паркетный клей Бона (Bona D 720) - описания и отзывы." src="/storage/media/443/749a49be97398edaf32f8adb0246060e.jpg" height="214" title="Паркетный клей Бона (Bona D 720) - описания и отзывы." border="0"></span> <span class="image_container">
     <div>
         Ibola
     </div>
- <img width="200" alt="Паркетный клей Ибола (Ibola RA) - описания и отзывы." src="/storage/media/6253/7f1495a0dc68344b4ea9bb48bd873801.jpg" height="225" title="Паркетный клей Ибола (Ibola RA) - описания и отзывы." border="0"></span>
+ <img width="200" alt="Паркетный клей Ибола (Ibola RA) - описания и отзывы." src="/storage/media/444/7f1495a0dc68344b4ea9bb48bd873801.jpg" height="225" title="Паркетный клей Ибола (Ibola RA) - описания и отзывы." border="0"></span>
 </div>
 <div class="clearfix">
 </div>
@@ -334,15 +334,15 @@
     <div>
         Stauf
     </div>
- <img width="170" alt="Паркетный клей на растворителе Stauf WFR 300 - описание и характеристики." src="/storage/media/6254/319b34d1f7216bf8b2d12add50da3895.jpg" height="192" title="Паркетный клей на растворителе Stauf WFR 300 - описание и характеристики." border="0"></span> <span class="image_container">
+ <img width="170" alt="Паркетный клей на растворителе Stauf WFR 300 - описание и характеристики." src="/storage/media/445/319b34d1f7216bf8b2d12add50da3895.jpg" height="192" title="Паркетный клей на растворителе Stauf WFR 300 - описание и характеристики." border="0"></span> <span class="image_container">
     <div>
         Uzin
     </div>
- <img width="170" alt="Паркетный клей Uzin MK 73 - описания и отзывы." src="/storage/media/6255/86bf4dfcd64b806ff01788fef25c65e4.jpg" height="192" title="Паркетный клей Uzin MK 73 - описания и отзывы." border="0"></span> <span class="image_container">
+ <img width="170" alt="Паркетный клей Uzin MK 73 - описания и отзывы." src="/storage/media/446/86bf4dfcd64b806ff01788fef25c65e4.jpg" height="192" title="Паркетный клей Uzin MK 73 - описания и отзывы." border="0"></span> <span class="image_container">
     <div>
         Ibola
     </div>
- <img width="210" alt="Паркетный клей Ibola L12 - " src="/storage/media/6256/ff44ccd9e5a544f1237280534457c46c.jpg" height="240" title="Паркетный клей Ibola L12 - " border="0"></span>
+ <img width="210" alt="Паркетный клей Ibola L12 - " src="/storage/media/447/ff44ccd9e5a544f1237280534457c46c.jpg" height="240" title="Паркетный клей Ibola L12 - " border="0"></span>
 </div>
 <div class="clearfix">
 </div>
@@ -354,15 +354,15 @@
     <div>
         двухкомпонентные
     </div>
- <img width="200" alt="Двухкомпонентный полиуретановый паркетный клей Uzin MK 90 - характеристики и отзывы." src="/storage/media/6257/91879542ab64454c4ca7f970c0d362ef.jpg" height="225" title="Двухкомпонентный полиуретановый паркетный клей Uzin MK 90 - характеристики и отзывы." border="0"></span> <span class="image_container">
+ <img width="200" alt="Двухкомпонентный полиуретановый паркетный клей Uzin MK 90 - характеристики и отзывы." src="/storage/media/448/91879542ab64454c4ca7f970c0d362ef.jpg" height="225" title="Двухкомпонентный полиуретановый паркетный клей Uzin MK 90 - характеристики и отзывы." border="0"></span> <span class="image_container">
     <div>
         однокомпонентные
     </div>
- <img width="180" alt="Силановый паркетный клей Stauf SPU 460 - описание, характеристики и отзывы." src="/storage/media/6258/67bc19c9246601befe05a2aecb6dbc43.jpg" height="203" title="Силановый паркетный клей Stauf SPU 460 - описание, характеристики и отзывы." border="0"></span> <span class="image_container">
+ <img width="180" alt="Силановый паркетный клей Stauf SPU 460 - описание, характеристики и отзывы." src="/storage/media/449/67bc19c9246601befe05a2aecb6dbc43.jpg" height="203" title="Силановый паркетный клей Stauf SPU 460 - описание, характеристики и отзывы." border="0"></span> <span class="image_container">
     <div>
         полимерные
     </div>
-      <img width="200" alt="Описание полиуретанового клея Sika." src="/storage/media/6259/6f89fdc6a9974ed33793660c6358c89c.jpg" height="225" title="Описание полиуретанового клея Sika." border="0"></span>
+      <img width="200" alt="Описание полиуретанового клея Sika." src="/storage/media/450/6f89fdc6a9974ed33793660c6358c89c.jpg" height="225" title="Описание полиуретанового клея Sika." border="0"></span>
 </div>
 <div class="clearfix">
 </div>
@@ -423,15 +423,15 @@
     <div>
         наливной пол
     </div>
- <img width="167" alt="Цементный наливной пол - описание и отзывы." src="/storage/media/6260/8ce70d573123af8b05525511a4f60536.jpg" height="190" title="Цементный наливной пол - описание и отзывы." border="0"></span> <span class="image_container">
+ <img width="167" alt="Цементный наливной пол - описание и отзывы." src="/storage/media/451/8ce70d573123af8b05525511a4f60536.jpg" height="190" title="Цементный наливной пол - описание и отзывы." border="0"></span> <span class="image_container">
     <div>
         эпоксидные составы
     </div>
- <img width="177" alt="Эпоксидная грунтовка - описание и отзывы." src="/storage/media/6261/05bede12d16ce19cbaa09dc24f0477a8.jpg" height="200" title="Эпоксидная грунтовка - описание и отзывы." border="0"></span> <span class="image_container">
+ <img width="177" alt="Эпоксидная грунтовка - описание и отзывы." src="/storage/media/452/05bede12d16ce19cbaa09dc24f0477a8.jpg" height="200" title="Эпоксидная грунтовка - описание и отзывы." border="0"></span> <span class="image_container">
     <div>
         полиуретановые грунтовки
     </div>
- <img width="160" alt="Полиуретановая грунтовка - описание." src="/storage/media/6262/3cf0315f9ecb93d40332460d56f9ec63.jpg" height="200" title="Полиуретановая грунтовка - описание." border="0"></span>
+ <img width="160" alt="Полиуретановая грунтовка - описание." src="/storage/media/453/3cf0315f9ecb93d40332460d56f9ec63.jpg" height="200" title="Полиуретановая грунтовка - описание." border="0"></span>
 </div>
 <div class="clearfix">
 </div>
@@ -455,6 +455,6 @@
     <br></div>
 
 
-
+            
                 </article>
 @endsection

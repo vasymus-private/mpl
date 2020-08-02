@@ -3,7 +3,7 @@
 @section('page-content')
     <article class="article-content">
         <h1>Паркетное оборудование</h1>
-
+                     
 <div class="news-detail">
                             <p style="text-align: center;">
 </p>
@@ -15,7 +15,7 @@
 </p>
 <h3 style="text-align: left;"> <span style="color: #000000;">Машины для циклевки и шлифовки</span></h3>
 <table cellspacing="2" cellpadding="2" width="100%" class="fix_images"><tbody><tr><td width="190">
-            <img width="179" src="/storage/media/6263/45515452.jpg" border="0" hspace="8" align="left"></td>
+            <img width="179" src="/storage/media/454/45515452.jpg" border="0" hspace="8" align="left"></td>
         <td height="200" valign="top">
             <strong>HUMMEL</strong> – шлифовальная машина ленточного типа фирмы LAGLER, производится в Германии.
             <p>
@@ -30,7 +30,7 @@
                 <br></p>
         </td>
     </tr><tr><td width="190">
-            <img width="179" src="/storage/media/6264/1151518114.jpg" border="0" hspace="8"></td>
+            <img width="179" src="/storage/media/455/1151518114.jpg" border="0" hspace="8"></td>
         <td height="200" valign="top">
             <strong>FLIP</strong> – дисковая шлифовальная машина фирмы LAGLER.
             <p>
@@ -45,7 +45,7 @@
             </p>
         </td>
     </tr><tr><td>
-            <br><img width="179" src="/storage/media/6265/151515106.jpg" border="0" hspace="8"><br><br></td>
+            <br><img width="179" src="/storage/media/456/151515106.jpg" border="0" hspace="8"><br><br></td>
         <td height="200" valign="top">
             <strong> <br>
                 TRIO </strong>- трёхдисковая шлифовальная машина фирмы LAGLER.
@@ -60,7 +60,7 @@
             </p>
         </td>
     </tr><tr><td>
-            <img width="179" src="/storage/media/6266/21521054138.jpg" border="0" hspace="8"><br><br></td>
+            <img width="179" src="/storage/media/457/21521054138.jpg" border="0" hspace="8"><br><br></td>
         <td height="200" valign="top">
             <strong>SINGLE </strong>–  плоскошлифовальная машина нового поколения.
             <p>
@@ -75,7 +75,7 @@
             </p>
         </td>
     </tr><tr><td>
-            <img width="179" src="/storage/media/6267/022121010.jpg" border="0" hspace="8"></td>
+            <img width="179" src="/storage/media/458/022121010.jpg" border="0" hspace="8"></td>
         <td height="200" valign="top">
             <strong>Metabo ASR 2025 – </strong><strong>промышленный пылесос.</strong>
             <p>
@@ -96,32 +96,32 @@
     Качество отшлифованной поверхности во многом зависит от <a href="/photos/abraziv/">абразивного материала</a>. Применение шлифовальных материалов «SIA» (Швейцария), «3М»(Америка), «VSM»(Германия) гарантирует отличный результат.
 </p>
 <p style="text-align: center;">
-    <img width="170" src="/storage/media/6268/24151514.jpg" height="125" border="0">     <img width="170" src="/storage/media/6269/21515116.jpg" height="126" border="0"></p>
+    <img width="170" src="/storage/media/459/24151514.jpg" height="125" border="0">     <img width="170" src="/storage/media/460/21515116.jpg" height="126" border="0"></p>
 <p style="text-align: center;">
-    <img width="170" src="/storage/media/6270/5451156.jpg" height="126" border="0">     <img width="170" src="/storage/media/6271/15212124.jpg" height="125" border="0"></p>
+    <img width="170" src="/storage/media/461/5451156.jpg" height="126" border="0">     <img width="170" src="/storage/media/462/15212124.jpg" height="125" border="0"></p>
 <h3 style="text-align: left;"><span style="color: #800000;"><span style="color: #000000;">Оборудование для укладки</span></span></h3>
 <table style="height: 200px;" cellspacing="2" cellpadding="2" width="100%"><tbody><tr><td width="250">
-            <img width="194" src="/storage/media/6272/5151515152.jpg" border="0" hspace="8"><br><br></td>
+            <img width="194" src="/storage/media/463/5151515152.jpg" border="0" hspace="8"><br><br></td>
         <td height="200" valign="top">
             <strong>Senco SHF 15</strong> (<a href="/photos/ukladka-massivnoy-doski-podgotovka-styazhki/">фото</a>) <br>
             Профессиональный инструмент для <br>
             качественной укладки массивной доски. <br>
-            Три размера крепежа: 38мм, 44мм, 50мм. <br><br><img width="40" src="/storage/media/6273/image030.jpg" height="98" border="0" hspace="8"> <img width="129" src="/storage/media/6274/10545808.jpg" height="146" border="0" hspace="0"><br><div style="text-align: left;">
+            Три размера крепежа: 38мм, 44мм, 50мм. <br><br><img width="40" src="/storage/media/464/image030.jpg" height="98" border="0" hspace="8"> <img width="129" src="/storage/media/465/10545808.jpg" height="146" border="0" hspace="0"><br><div style="text-align: left;">
                 ________
             </div>
             <br></td>
     </tr><tr><td>
-            <img width="198" src="/storage/media/6275/20151540.jpg" border="0" hspace="8"></td>
+            <img width="198" src="/storage/media/466/20151540.jpg" border="0" hspace="8"></td>
         <td height="200" valign="top">
             <strong> <br><br>
                 Senco SLS 20HF</strong> <br>
             Профессиональный пневмоинструмент <br>
             для укладки паркета. Работает на сжатом <br>
             воздухе от компрессора. <br>
-            Размер скобы – 25мм. <br><br><img width="40" src="/storage/media/6276/5212121545.jpg" height="98" border="0" hspace="8"><img width="127" src="/storage/media/6277/image022.jpg" height="146" border="0"><br>
+            Размер скобы – 25мм. <br><br><img width="40" src="/storage/media/467/5212121545.jpg" height="98" border="0" hspace="8"><img width="127" src="/storage/media/468/image022.jpg" height="146" border="0"><br>
             ________ <br><br></td>
     </tr><tr><td>
-            <img width="194" src="/storage/media/6278/540545414.jpg" border="0" hspace="8"></td>
+            <img width="194" src="/storage/media/469/540545414.jpg" border="0" hspace="8"></td>
         <td height="200" valign="top">
             <strong> <br><br>
                 Senco Finish Pro 18 </strong>(<a href="/photos/osnovanie-po-reguliruemym-lagam-ukladka-dvoynaya-yelochka/">фото</a>) <br>
@@ -132,13 +132,13 @@
             <p>
             </p>
             <p>
-                <img width="40" src="/storage/media/6279/image036.jpg" height="98" border="0" hspace="8"></p>
+                <img width="40" src="/storage/media/470/image036.jpg" height="98" border="0" hspace="8"></p>
             <p>
                 ________
             </p>
         </td>
     </tr><tr><td>
-            <br><br><img width="194" src="/storage/media/6280/2133230320.jpg" border="0" hspace="8"></td>
+            <br><br><img width="194" src="/storage/media/471/2133230320.jpg" border="0" hspace="8"></td>
         <td height="200" valign="top">
             <strong> <br><br>
                 Senco PC1010</strong> (<a href="/photos/osnovanie-po-reguliruemym-lagam-ukladka-dvoynaya-yelochka/">фото</a>) <br>
@@ -148,7 +148,7 @@
             ________
         </td>
     </tr><tr><td>
-            <br><br><img width="194" src="/storage/media/6281/510545152-2.jpg" border="0" hspace="8"></td>
+            <br><br><img width="194" src="/storage/media/472/510545152-2.jpg" border="0" hspace="8"></td>
         <td height="109" valign="top">
             <strong> <br><br>
                 Подбойник </strong> <br>
@@ -162,27 +162,27 @@
 </p>
 <h3 style="text-align: left;"> <span style="color: #800000;"><span style="color: #000000;">Контрольно-измерительное оборудование</span><strong><br></strong></span> </h3>
 <table style="height: 109px;" cellspacing="2" cellpadding="2" width="100%"><tbody><tr><td width="250">
-            <img width="229" src="/storage/media/6282/50515013.jpg" border="0" hspace="8"><br><br></td>
+            <img width="229" src="/storage/media/473/50515013.jpg" border="0" hspace="8"><br><br></td>
         <td height="109" valign="top">
             <strong>Gann Hydromette Compact </strong>- прибор для измерения влажности древесины паркета. <br><br><br><br><br><br>
             ________
         </td>
     </tr><tr><td>
-            <img width="229" src="/storage/media/6283/0545213.jpg" border="0" hspace="8"><br><br></td>
+            <img width="229" src="/storage/media/474/0545213.jpg" border="0" hspace="8"><br><br></td>
         <td height="109" valign="top">
             <strong> <br>
                 Gann Hydromette Compact B</strong> – прибор для измерения влажности цементных и гипсовых стяжек. <br><br><br><br>
             _______
         </td>
     </tr><tr><td>
-            <img width="158" src="/storage/media/6284/image048.jpg" border="0" hspace="8"><br><br></td>
+            <img width="158" src="/storage/media/475/image048.jpg" border="0" hspace="8"><br><br></td>
         <td height="109" valign="top">
             <strong> <br>
                 ИПС-МГ 4.01.</strong> – прибор для измерения прочности бетонных, цементных и гипсовых стяжек. Может встраиваться в компьютер. <br><br><br><br><br><br><br>
             ________
         </td>
     </tr><tr><td>
-            <img width="158" src="/storage/media/6285/305454500.jpg" border="0" hspace="8"></td>
+            <img width="158" src="/storage/media/476/305454500.jpg" border="0" hspace="8"></td>
         <td height="109" valign="top">
             <strong> <br>
                 Лазерный нивелир AGATEC M-10</strong> – предназначен для построения горизонтальной плоскости при помощи лазерного луча. Позволяет с большой точностью обнаружить неровности и наклон поверхности основания. (<a href="/photos/ukladka-parketnoy-doski-montazh-styazhki/">фото</a>)
@@ -191,6 +191,6 @@
     <br></div>
 
 
-
+            
                 </article>
 @endsection

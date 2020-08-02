@@ -3,13 +3,13 @@
 @section('page-content')
     <article class="article-content">
         <h1>Циклевка паркета без пыли на немецком оборудование LAGLER</h1>
-
+                     
 <div class="news-detail">
                             <p>
      Пришло время циклёвки паркета – получите бесплатную, профессиональную консультацию о всех возможным материалах и оборудованию. +7 (926) 779 46 03 Владимир, инженер-технолог нашей компании.
 </p>
 <p style="text-align: center;">
- <a href="/storage/media/6148/0fbbd65ee7e9b86b6248d5fc12b79696.JPG" class="gallery" title="состояние пола до циклевки паркета"><img width="340" alt="состояние пола до циклевки паркета" src="/storage/media/6148/0fbbd65ee7e9b86b6248d5fc12b79696.JPG" height="255" title="состояние дубового паркета до циклевки" hspace="5" vspace="5"></a><a href="/storage/media/6149/eb2e1e86535dbd0f63f95e72f8a7d45e.JPG" class="gallery" title="пол после циклевки паркетного пола"><img width="340" alt="состояние пола после циклевки паркета" src="/storage/media/6149/eb2e1e86535dbd0f63f95e72f8a7d45e.JPG" height="255" title="состояние бук дубового паркета после реставрации циклевки" hspace="5" vspace="5"></a>
+ <a href="/storage/media/339/0fbbd65ee7e9b86b6248d5fc12b79696.JPG" class="gallery" title="состояние пола до циклевки паркета"><img width="340" alt="состояние пола до циклевки паркета" src="/storage/media/339/0fbbd65ee7e9b86b6248d5fc12b79696.JPG" height="255" title="состояние дубового паркета до циклевки" hspace="5" vspace="5"></a><a href="/storage/media/340/eb2e1e86535dbd0f63f95e72f8a7d45e.JPG" class="gallery" title="пол после циклевки паркетного пола"><img width="340" alt="состояние пола после циклевки паркета" src="/storage/media/340/eb2e1e86535dbd0f63f95e72f8a7d45e.JPG" height="255" title="состояние бук дубового паркета после реставрации циклевки" hspace="5" vspace="5"></a>
 </p>
 <p>
      А ведь от первой фотографии до второй — один шаг. И мы поможем вам его сделать. Наша команда восстановит ваш паркетный пол, чтобы он соответствовал слову «элитный», и гости вновь стали делать комплименты вашей гостиной.
@@ -661,11 +661,11 @@
      Последний из них проходил в Германии на заводе Uzin UtzAG:
 </p>
 <p style="text-align: center;">
- <a href="/storage/media/6150/716feab1499ca08a4cc5781855c86573.JPG" class="gallery" title="семинар в Германии на заводе Uzin"><img alt="семинар в Германии на заводе Uzin" src="/storage/media/6150/716feab1499ca08a4cc5781855c86573.JPG" title="семинар в Германии на заводе Uzin" hspace="5" vspace="5"></a><a href="/storage/media/6151/2f7a5a5b0322a5eb57b12b0ba9bceb26.JPG" class="gallery" title="семинар в Германии на заводе Uzin"><img alt="семинар в Германии на заводе Uzin" src="/storage/media/6151/2f7a5a5b0322a5eb57b12b0ba9bceb26.JPG" title="семинар в Германии на заводе Uzin" hspace="5" vspace="5"></a><a href="/storage/media/6152/9ae0be71ae0eef7618f6cc8d1d993b29.JPG" class="gallery" title="семинар в Германии на заводе Uzin"><img alt="семинар в Германии на заводе Uzin" src="/storage/media/6152/9ae0be71ae0eef7618f6cc8d1d993b29.JPG" title="семинар в Германии на заводе Uzin" hspace="5" vspace="5"></a>
+ <a href="/storage/media/341/716feab1499ca08a4cc5781855c86573.JPG" class="gallery" title="семинар в Германии на заводе Uzin"><img alt="семинар в Германии на заводе Uzin" src="/storage/media/341/716feab1499ca08a4cc5781855c86573.JPG" title="семинар в Германии на заводе Uzin" hspace="5" vspace="5"></a><a href="/storage/media/342/2f7a5a5b0322a5eb57b12b0ba9bceb26.JPG" class="gallery" title="семинар в Германии на заводе Uzin"><img alt="семинар в Германии на заводе Uzin" src="/storage/media/342/2f7a5a5b0322a5eb57b12b0ba9bceb26.JPG" title="семинар в Германии на заводе Uzin" hspace="5" vspace="5"></a><a href="/storage/media/343/9ae0be71ae0eef7618f6cc8d1d993b29.JPG" class="gallery" title="семинар в Германии на заводе Uzin"><img alt="семинар в Германии на заводе Uzin" src="/storage/media/343/9ae0be71ae0eef7618f6cc8d1d993b29.JPG" title="семинар в Германии на заводе Uzin" hspace="5" vspace="5"></a>
 </p>
 <h4>Мы используем лучшие оборудование для циклевки и шлифовки паркета.</h4>
 <table cellspacing="2" cellpadding="2" width="100%" class="fix_images"><tbody><tr><td width="190">
- <img src="/storage/media/6263/45515452.jpg" border="0" hspace="8" align="left"></td>
+ <img src="/storage/media/454/45515452.jpg" border="0" hspace="8" align="left"></td>
     <td height="200" valign="top">
  <strong>HUMMEL</strong> – шлифовальная машина ленточного типа фирмы LAGLER, производится в Германии.
         <p>
@@ -680,7 +680,7 @@
  <br></p>
     </td>
 </tr><tr><td>
- <img src="/storage/media/6264/1151518114.jpg" border="0" hspace="8"></td>
+ <img src="/storage/media/455/1151518114.jpg" border="0" hspace="8"></td>
     <td height="200" valign="top">
  <strong>FLIP</strong> – дисковая шлифовальная машина фирмы LAGLER.
         <p>
@@ -695,7 +695,7 @@
         </p>
     </td>
 </tr><tr><td>
- <br><img width="179" src="/storage/media/6265/151515106.jpg" border="0" hspace="8"><br><br></td>
+ <br><img width="179" src="/storage/media/456/151515106.jpg" border="0" hspace="8"><br><br></td>
     <td height="200" valign="top">
  <strong> <br>
          TRIO </strong>- трёхдисковая шлифовальная машина фирмы LAGLER.
@@ -710,7 +710,7 @@
         </p>
     </td>
 </tr><tr><td>
- <img src="/storage/media/6266/21521054138.jpg" border="0" hspace="8"><br><br></td>
+ <img src="/storage/media/457/21521054138.jpg" border="0" hspace="8"><br><br></td>
     <td height="200" valign="top">
  <strong>SINGLE </strong>–  плоскошлифовальная машина нового поколения.
         <p>
@@ -725,7 +725,7 @@
         </p>
     </td>
 </tr><tr><td>
- <img src="/storage/media/6267/022121010.jpg" border="0" hspace="8"></td>
+ <img src="/storage/media/458/022121010.jpg" border="0" hspace="8"></td>
     <td height="200" valign="top">
  <strong>Metabo ASR 2025 – </strong><strong>промышленный пылесос.</strong>
         <p>
@@ -766,6 +766,6 @@
     <br></div>
 
 
-
+            
                 </article>
 @endsection

@@ -6,7 +6,7 @@
 
 
     <div class="contenti">
-        <p style="text-align: center;"><img longdesc="/покрытие паркета лаком и маслом" src="/storage/media/5967/5454544524564.jpg" border="0" alt="покрытие паркета лаком и маслом" width="170" height="170">   <img longdesc="/покрытие паркета лаком и маслом" src="/storage/media/5968/4445545.jpg" border="0" alt="покрытие паркета лаком и маслом" width="170" height="170">   <img longdesc="/покрытие паркета лаком и маслом" src="/storage/media/5969/76876786.jpg" border="0" alt="покрытие паркета лаком и маслом" width="170" height="170"></p>
+        <p style="text-align: center;"><img longdesc="/покрытие паркета лаком и маслом" src="/storage/media/158/5454544524564.jpg" border="0" alt="покрытие паркета лаком и маслом" width="170" height="170">   <img longdesc="/покрытие паркета лаком и маслом" src="/storage/media/159/4445545.jpg" border="0" alt="покрытие паркета лаком и маслом" width="170" height="170">   <img longdesc="/покрытие паркета лаком и маслом" src="/storage/media/160/76876786.jpg" border="0" alt="покрытие паркета лаком и маслом" width="170" height="170"></p>
 
         <p style="text-align: center;"><span style="color: rgb(153, 51, 0);">при выборе покрытия для паркета главным фактором является назначение помещения</span>
         </p>
@@ -72,7 +72,7 @@
 
         <div style="text-align: center;"><span style="color: rgb(0, 0, 0);"><strong>сравнительные характеристики лаковых систем</strong></span>
             <p></p>
-            <img src="/storage/media/5970/4f5283b53822e84ea3dfb4cc713cdd93.jpg" title="sravnitelnye-harakteristiki-lakovyh-sistem.jpg" border="0" alt="sravnitelnye-harakteristiki-lakovyh-sistem.jpg" width="788" height="559"></div>
+            <img src="/storage/media/161/4f5283b53822e84ea3dfb4cc713cdd93.jpg" title="sravnitelnye-harakteristiki-lakovyh-sistem.jpg" border="0" alt="sravnitelnye-harakteristiki-lakovyh-sistem.jpg" width="788" height="559"></div>
 
         <p> 5 – очень высокие показатели, 4 – высокие показатели, 3 – средние показатели,
             <br>
@@ -81,7 +81,7 @@
         <p style="text-align: center;"><strong> пригодность для разных типов паркета</strong><strong>
             <br></strong></p>
 
-        <div><img src="/storage/media/5971/4b7112340381bffa2cba48414d2640a9.jpg" title="prigodnost-dlja-raznyh-tipov-parketa.jpg" border="0" alt="prigodnost-dlja-raznyh-tipov-parketa.jpg" width="788" height="297"></div>
+        <div><img src="/storage/media/162/4b7112340381bffa2cba48414d2640a9.jpg" title="prigodnost-dlja-raznyh-tipov-parketa.jpg" border="0" alt="prigodnost-dlja-raznyh-tipov-parketa.jpg" width="788" height="297"></div>
 
         <p> 5 – наилучшее применение, 4 – применяется, 3 – применяется с ограничениями,
             <br>
@@ -89,7 +89,7 @@
 
         <p style="text-align: center;"><strong>пригодность для различных типов помещений</strong></p>
 
-        <div><img src="/storage/media/5970/4f5283b53822e84ea3dfb4cc713cdd93.jpg" title="sravnitelnye-harakteristiki-lakovyh-sistem.jpg" border="0" alt="sravnitelnye-harakteristiki-lakovyh-sistem.jpg" width="788" height="559"></div>
+        <div><img src="/storage/media/161/4f5283b53822e84ea3dfb4cc713cdd93.jpg" title="sravnitelnye-harakteristiki-lakovyh-sistem.jpg" border="0" alt="sravnitelnye-harakteristiki-lakovyh-sistem.jpg" width="788" height="559"></div>
 
         <p> 5 – наилучшее применение, 4 – применяется, 3 – применяется с ограничениями,
             <br>
@@ -120,7 +120,7 @@
         <p style="text-align: center;">
             <br></p>
 
-        <p style="text-align: center;"><img src="/storage/media/5972/441521541.jpg" border="0" width="170" height="296">       <img src="/storage/media/5973/52454545454.jpg" border="0" width="300" height="296"></p>
+        <p style="text-align: center;"><img src="/storage/media/163/441521541.jpg" border="0" width="170" height="296">       <img src="/storage/media/164/52454545454.jpg" border="0" width="300" height="296"></p>
 
         <p> Масло придает полу глубокую естественность и близость к природе. Там, где натуральность – часть внутренней
             концепции интерьера, масло – лучший выбор. Оно проявляет текстуру и подчеркивает характерные оттенки дерева,

@@ -3,14 +3,14 @@
 @section('page-content')
     <article class="article-content">
         <h1>Стяжка пола для укладки паркета — «гарантия от 3-х лет» </h1>
-
+                     
 <div class="news-detail">
                             <p>
      Вам необходима стяжка – получите бесплатную, профессиональную консультацию о видах и технологиях стяжек.<br> +7 (926) 779 46 03 Владимир, инженер-технолог нашей компании.
 </p>
 
 <p style="text-align: center;">
- <a href="/storage/media/6317/fce1f8d83e201cc39f8e490eebc351a6.jpg" class="gallery" title="Идеальная стяжка под паркет"><img width="540" alt="стяжка под паркет, ровная и прочная" src="/storage/media/6317/fce1f8d83e201cc39f8e490eebc351a6.jpg" height="277" title="Идеальная стяжка под паркет"></a>
+ <a href="/storage/media/508/fce1f8d83e201cc39f8e490eebc351a6.jpg" class="gallery" title="Идеальная стяжка под паркет"><img width="540" alt="стяжка под паркет, ровная и прочная" src="/storage/media/508/fce1f8d83e201cc39f8e490eebc351a6.jpg" height="277" title="Идеальная стяжка под паркет"></a>
 </p>
 <p align="center">
  <u>При идеальном основании паркетный пол служит в 3-5 раз дольше!</u>
@@ -59,7 +59,7 @@
  <b><span style="font-size: 12pt;">Первый вариант: стяжка не прочная, в трещинах, уклон поверхности.</span></b>
 </p>
 <p style="text-align: center;">
- <a href="/storage/media/6318/74c830aa736f230a6477634ae33c61d5.jpg" class="gallery" title="Трещины и расслоение стяжки"><img width="250" alt="Трещины и расслоение стяжки" src="/storage/media/6318/74c830aa736f230a6477634ae33c61d5.jpg" height="167" title="Трещины и расслоение стяжки" hspace="5" vspace="5"></a> <a href="/storage/media/6319/6a011c1e51ae153417763f67b6df7dce.jpg" class="gallery" title="Трещины и расслоение стяжки"><img width="250" alt="Трещины и расслоение стяжки" src="/storage/media/6319/6a011c1e51ae153417763f67b6df7dce.jpg" height="167" title="Трещины и расслоение стяжки" hspace="5" vspace="5"></a> <a href="/storage/media/6320/40fd91a11b5e515e8b066910cb22d527.jpg" class="gallery" title="Трещины и расслоение стяжки"><img width="250" alt="Трещины и расслоение стяжки" src="/storage/media/6320/40fd91a11b5e515e8b066910cb22d527.jpg" height="167" title="Трещины и расслоение стяжки" hspace="5" vspace="5"></a>
+ <a href="/storage/media/509/74c830aa736f230a6477634ae33c61d5.jpg" class="gallery" title="Трещины и расслоение стяжки"><img width="250" alt="Трещины и расслоение стяжки" src="/storage/media/509/74c830aa736f230a6477634ae33c61d5.jpg" height="167" title="Трещины и расслоение стяжки" hspace="5" vspace="5"></a> <a href="/storage/media/510/6a011c1e51ae153417763f67b6df7dce.jpg" class="gallery" title="Трещины и расслоение стяжки"><img width="250" alt="Трещины и расслоение стяжки" src="/storage/media/510/6a011c1e51ae153417763f67b6df7dce.jpg" height="167" title="Трещины и расслоение стяжки" hspace="5" vspace="5"></a> <a href="/storage/media/511/40fd91a11b5e515e8b066910cb22d527.jpg" class="gallery" title="Трещины и расслоение стяжки"><img width="250" alt="Трещины и расслоение стяжки" src="/storage/media/511/40fd91a11b5e515e8b066910cb22d527.jpg" height="167" title="Трещины и расслоение стяжки" hspace="5" vspace="5"></a>
 </p>
 <p>
  <u>Причины</u>:
@@ -79,7 +79,7 @@
  <b><i>Работаем без предоплаты</i></b>
 </p>
 <p style="text-align: center;">
- <a href="/storage/media/6321/6b732f6d11790e9c32e944be68e5dc17.JPG" class="gallery" title="ремонт и санация стяжки"><img width="250" alt="ремонт и санация стяжки" src="/storage/media/6321/6b732f6d11790e9c32e944be68e5dc17.JPG" height="167" title="ремонт и санация стяжки" hspace="5" vspace="5"></a> <a href="/storage/media/6322/b21dec89031174643f5551860fa791fd.jpg" class="gallery" title="ремонт и санация стяжки"><img width="250" alt="ремонт и санация стяжки" src="/storage/media/6322/b21dec89031174643f5551860fa791fd.jpg" height="167" title="ремонт и санация стяжки" hspace="5" vspace="5"></a> <a href="/storage/media/6323/994bc01518ae97b68c6d98dc96ffc982.jpg" class="gallery" title="ремонт и санация стяжки"><img width="250" alt="ремонт и санация стяжки" src="/storage/media/6323/994bc01518ae97b68c6d98dc96ffc982.jpg" height="167" title="ремонт и санация стяжки" hspace="5" vspace="5"></a>
+ <a href="/storage/media/512/6b732f6d11790e9c32e944be68e5dc17.JPG" class="gallery" title="ремонт и санация стяжки"><img width="250" alt="ремонт и санация стяжки" src="/storage/media/512/6b732f6d11790e9c32e944be68e5dc17.JPG" height="167" title="ремонт и санация стяжки" hspace="5" vspace="5"></a> <a href="/storage/media/513/b21dec89031174643f5551860fa791fd.jpg" class="gallery" title="ремонт и санация стяжки"><img width="250" alt="ремонт и санация стяжки" src="/storage/media/513/b21dec89031174643f5551860fa791fd.jpg" height="167" title="ремонт и санация стяжки" hspace="5" vspace="5"></a> <a href="/storage/media/514/994bc01518ae97b68c6d98dc96ffc982.jpg" class="gallery" title="ремонт и санация стяжки"><img width="250" alt="ремонт и санация стяжки" src="/storage/media/514/994bc01518ae97b68c6d98dc96ffc982.jpg" height="167" title="ремонт и санация стяжки" hspace="5" vspace="5"></a>
 </p>
 <p align="center">
  <i>Примеры санации и ремонта стяжки смотрите в разделах </i><a href="/photos/remont-styazhki/">«Ремонт стяжки»</a> и <a href="/photos/remont-i-sanatsiya-styazhki-uzin-190/">«Ремонт и санация стяжки»</a>
@@ -112,7 +112,7 @@
  <b><i>Смета и сроки прописаны в договоре – гарантия от 3-х лет</i></b>
 </p>
 <p style="text-align: center;">
- <a href="/storage/media/6324/72210c34ce1767060df8262fa1aca084.JPG" class="gallery" title="Гидроизоляция стяжки"><img width="250" alt="Гидроизоляция стяжки" src="/storage/media/6324/72210c34ce1767060df8262fa1aca084.JPG" height="167" title="Гидроизоляция стяжки" hspace="5" vspace="5"></a> <a href="/storage/media/6325/6e96a3db076d768c1f202e202eb96c02.JPG" class="gallery" title="Гидроизоляция стяжки"><img width="250" alt="Гидроизоляция стяжки" src="/storage/media/6325/6e96a3db076d768c1f202e202eb96c02.JPG" height="167" title="Гидроизоляция стяжки" hspace="5" vspace="5"></a> <a href="/storage/media/6326/27b54b0323831768f81dfea45d41c0c8.JPG" class="gallery" title="Гидроизоляция стяжки"><img width="250" alt="Гидроизоляция стяжки" src="/storage/media/6326/27b54b0323831768f81dfea45d41c0c8.JPG" height="167" title="Гидроизоляция стяжки" hspace="5" vspace="5"></a>
+ <a href="/storage/media/515/72210c34ce1767060df8262fa1aca084.JPG" class="gallery" title="Гидроизоляция стяжки"><img width="250" alt="Гидроизоляция стяжки" src="/storage/media/515/72210c34ce1767060df8262fa1aca084.JPG" height="167" title="Гидроизоляция стяжки" hspace="5" vspace="5"></a> <a href="/storage/media/516/6e96a3db076d768c1f202e202eb96c02.JPG" class="gallery" title="Гидроизоляция стяжки"><img width="250" alt="Гидроизоляция стяжки" src="/storage/media/516/6e96a3db076d768c1f202e202eb96c02.JPG" height="167" title="Гидроизоляция стяжки" hspace="5" vspace="5"></a> <a href="/storage/media/517/27b54b0323831768f81dfea45d41c0c8.JPG" class="gallery" title="Гидроизоляция стяжки"><img width="250" alt="Гидроизоляция стяжки" src="/storage/media/517/27b54b0323831768f81dfea45d41c0c8.JPG" height="167" title="Гидроизоляция стяжки" hspace="5" vspace="5"></a>
 </p>
 <p align="center">
  <i>Примеры санации и ремонта стяжки смотрите в разделах </i><a href="/photos/remont-styazhki/">«Ремонт стяжки»</a> и <a href="/photos/remont-i-sanatsiya-styazhki-uzin-190/">«Ремонт и санация стяжки»</a>
@@ -137,7 +137,7 @@
  <b><i>Работаем на немецком профессиональном оборудовании</i></b>
 </p>
 <p style="text-align: center;">
- <a href="/storage/media/6327/27bb7ef25dc8ba8855fe434371b91bfd.jpg" class="gallery" title="Шлифовка стяжки"><img width="250" alt="Шлифовка стяжки" src="/storage/media/6327/27bb7ef25dc8ba8855fe434371b91bfd.jpg" height="167" title="Шлифовка стяжки" hspace="5" vspace="5"></a> <a href="/storage/media/6328/538f05d7d0523f5da496b1e6a2c68d27.jpg" class="gallery" title="Шлифовка стяжки"><img width="250" alt="Шлифовка стяжки" src="/storage/media/6328/538f05d7d0523f5da496b1e6a2c68d27.jpg" height="167" title="Шлифовка стяжки" hspace="5" vspace="5"></a> <a href="/storage/media/6329/3d8ed868fcf0a29652eb16ebc1609f2b.JPG" class="gallery" title="Шлифовка стяжки"><img width="250" alt="Шлифовка стяжки" src="/storage/media/6329/3d8ed868fcf0a29652eb16ebc1609f2b.JPG" height="167" title="Шлифовка стяжки" hspace="5" vspace="5"></a>
+ <a href="/storage/media/518/27bb7ef25dc8ba8855fe434371b91bfd.jpg" class="gallery" title="Шлифовка стяжки"><img width="250" alt="Шлифовка стяжки" src="/storage/media/518/27bb7ef25dc8ba8855fe434371b91bfd.jpg" height="167" title="Шлифовка стяжки" hspace="5" vspace="5"></a> <a href="/storage/media/519/538f05d7d0523f5da496b1e6a2c68d27.jpg" class="gallery" title="Шлифовка стяжки"><img width="250" alt="Шлифовка стяжки" src="/storage/media/519/538f05d7d0523f5da496b1e6a2c68d27.jpg" height="167" title="Шлифовка стяжки" hspace="5" vspace="5"></a> <a href="/storage/media/520/3d8ed868fcf0a29652eb16ebc1609f2b.JPG" class="gallery" title="Шлифовка стяжки"><img width="250" alt="Шлифовка стяжки" src="/storage/media/520/3d8ed868fcf0a29652eb16ebc1609f2b.JPG" height="167" title="Шлифовка стяжки" hspace="5" vspace="5"></a>
 </p>
 <p align="center">
      Результат: современная стяжка пола для укладки паркета, соответствующая СНиП.
@@ -236,15 +236,15 @@
 </p>
 <ol start="1" type="1"><li><i><u>Связанная стяжка </u></i>укладывается прямо на бетонную плиту перекрытия и таким образом обеспечивается особая устойчивость основания к нагрузкам. Толщина – не менее 20мм. Перед монтажом обязательно загрунтовать плиту перекрытия и выполнить связующий слой из цементного молочка.</li>
 </ol><div style="text-align: center;">
- <img width="551" alt="Связанная стяжка.png" src="/storage/media/6330/7be155cf7f8e182c105dbc9cf1a17b4a.png" height="96" title="Связанная стяжка.png" border="0"></div>
+ <img width="551" alt="Связанная стяжка.png" src="/storage/media/521/7be155cf7f8e182c105dbc9cf1a17b4a.png" height="96" title="Связанная стяжка.png" border="0"></div>
 <div style="text-align: center;">
  <br></div>
 <ol start="2" type="1"><li><i><u>Стяжка на разделительном слое </u></i>– сначала на плиту перекрытия расстилается разделительный слой гидроизоляционной мембраны, дополнительно возможны слои тепло- и звукоизоляции, и лишь затем укладывается стяжка. Толщина стяжки не менее 40 мм, при наличии труб и коммуникаций – не менее 45 мм. Тепло- и звукоизоляцией могут служить плиты из экструдированного пенополистирола, высокоплотные минераловатные плиты или сухая засыпка. Теплоизоляция необходима при монтаже обогреваемой стяжки для предотвращения потери тепла через плиту перекрытия. Если обогрев проходит не по всему помещению, тогда деформационные швы должны отделять нагреваемую часть стяжки от остальной площади. Для паркета допускается применение только водяного подогрева.</li>
 </ol><p style="text-align: center;">
- <img width="552" alt="Стяжка на разделительном слое.png" src="/storage/media/6331/0219f32b8b3669b423f493fd43646729.png" height="143" title="Стяжка на разделительном слое.png" border="0"></p>
+ <img width="552" alt="Стяжка на разделительном слое.png" src="/storage/media/522/0219f32b8b3669b423f493fd43646729.png" height="143" title="Стяжка на разделительном слое.png" border="0"></p>
 <ol start="3" type="1"><li>Для увеличения прочности стяжку армируют металлической сеткой или синтетическими волокнами, примыкание к стенам обязательно разделить зазором. Через каждые 6 метров стяжки необходимо нарезать деформационный шов. Для толщины более 100 мм предпочтительно использовать специальные облегченные смеси, содержащие пенополистирольные гранулы (Knauf UBO).</li>
 </ol><p style="text-align: center;">
- <a href="/storage/media/6332/caebd60cb4d47631d030b8cddaa4d1f2.jpg" class="gallery" title="монтаж стяжки"><img width="250" alt="монтаж стяжки" src="/storage/media/6332/caebd60cb4d47631d030b8cddaa4d1f2.jpg" height="167" title="монтаж стяжки" hspace="5" vspace="5"></a> <a href="/storage/media/6333/6ac0130d8ab2d15d6f99495f01f8d5e5.JPG" class="gallery" title="монтаж стяжки"><img width="250" alt="монтаж стяжки" src="/storage/media/6333/6ac0130d8ab2d15d6f99495f01f8d5e5.JPG" height="167" title="монтаж стяжки" hspace="5" vspace="5"></a> <a href="/storage/media/6334/70694902e3ddab5aeb7d4a82536b49c5.jpg" class="gallery" title="монтаж стяжки"><img width="250" alt="монтаж стяжки" src="/storage/media/6334/70694902e3ddab5aeb7d4a82536b49c5.jpg" height="167" title="монтаж стяжки" hspace="5" vspace="5"></a>
+ <a href="/storage/media/523/caebd60cb4d47631d030b8cddaa4d1f2.jpg" class="gallery" title="монтаж стяжки"><img width="250" alt="монтаж стяжки" src="/storage/media/523/caebd60cb4d47631d030b8cddaa4d1f2.jpg" height="167" title="монтаж стяжки" hspace="5" vspace="5"></a> <a href="/storage/media/524/6ac0130d8ab2d15d6f99495f01f8d5e5.JPG" class="gallery" title="монтаж стяжки"><img width="250" alt="монтаж стяжки" src="/storage/media/524/6ac0130d8ab2d15d6f99495f01f8d5e5.JPG" height="167" title="монтаж стяжки" hspace="5" vspace="5"></a> <a href="/storage/media/525/70694902e3ddab5aeb7d4a82536b49c5.jpg" class="gallery" title="монтаж стяжки"><img width="250" alt="монтаж стяжки" src="/storage/media/525/70694902e3ddab5aeb7d4a82536b49c5.jpg" height="167" title="монтаж стяжки" hspace="5" vspace="5"></a>
 </p>
 <p style="text-align: center;">
  <i>Армирующее волокно добавлено в состав стяжки</i>, <i>финишный слой – цементный наливной пол. Поверхность идеально ровная и прочная.</i>
@@ -253,7 +253,7 @@
  <i> <br></i>
 </p>
 <p style="text-align: center;">
- <a href="/storage/media/6346/6ea1fdd9c582cd5cfaddaf8901e87218.JPG" class="gallery" title="стяжка легкая knauf ubo"><img width="250" alt="стяжка легкая knauf ubo" src="/storage/media/6346/6ea1fdd9c582cd5cfaddaf8901e87218.JPG" height="167" title="стяжка легкая knauf ubo" hspace="5" vspace="5"></a> <a href="/storage/media/6347/5c517774dccb4e5cb2d70f085b3bb136.JPG" class="gallery" title="стяжка легкая knauf ubo"><img width="250" alt="стяжка легкая knauf ubo" src="/storage/media/6347/5c517774dccb4e5cb2d70f085b3bb136.JPG" height="167" title="стяжка легкая knauf ubo" hspace="5" vspace="5"></a> <a href="/storage/media/6348/79400f48dc4b7f8d0751a754b8b5cd3c.jpg" class="gallery" title="стяжка легкая knauf ubo"><img width="250" alt="стяжка легкая knauf ubo" src="/storage/media/6348/79400f48dc4b7f8d0751a754b8b5cd3c.jpg" height="167" title="стяжка легкая knauf ubo" hspace="5" vspace="5"></a>
+ <a href="/storage/media/537/6ea1fdd9c582cd5cfaddaf8901e87218.JPG" class="gallery" title="стяжка легкая knauf ubo"><img width="250" alt="стяжка легкая knauf ubo" src="/storage/media/537/6ea1fdd9c582cd5cfaddaf8901e87218.JPG" height="167" title="стяжка легкая knauf ubo" hspace="5" vspace="5"></a> <a href="/storage/media/538/5c517774dccb4e5cb2d70f085b3bb136.JPG" class="gallery" title="стяжка легкая knauf ubo"><img width="250" alt="стяжка легкая knauf ubo" src="/storage/media/538/5c517774dccb4e5cb2d70f085b3bb136.JPG" height="167" title="стяжка легкая knauf ubo" hspace="5" vspace="5"></a> <a href="/storage/media/539/79400f48dc4b7f8d0751a754b8b5cd3c.jpg" class="gallery" title="стяжка легкая knauf ubo"><img width="250" alt="стяжка легкая knauf ubo" src="/storage/media/539/79400f48dc4b7f8d0751a754b8b5cd3c.jpg" height="167" title="стяжка легкая knauf ubo" hspace="5" vspace="5"></a>
 </p>
 <p align="center">
  <i>Облегченная стяжка Knauf UBO, толщиной 20 см. Поверх необходимо нанести прочный, финишный слой обычной песко-цементной стяжки толщиной 3 см.</i>
@@ -270,6 +270,6 @@
     <br></div>
 
 
-
+            
                 </article>
 @endsection
