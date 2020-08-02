@@ -13,19 +13,19 @@
     <div class="data">
         <ul class="pure-menu-children">
             <li class="pure-menu-item">
-                <a href="#" class="pure-menu-link">Укладка штучного паркета</a>
+                <a href="{{route("home", "ukladka-shtuchnogo-parketa")}}" class="pure-menu-link">Укладка штучного паркета</a>
             </li>
             <li class="pure-menu-item">
-                <a href="#" class="pure-menu-link">Укладка массивной доски</a>
+                <a href="{{route("home", "ukladka-massivnoy-doski")}}" class="pure-menu-link">Укладка массивной доски</a>
             </li>
             <li class="pure-menu-item">
-                <a href="#" class="pure-menu-link">Укладка паркетной доски</a>
+                <a href="{{route("home", "ukladka-parketnoy-doski")}}" class="pure-menu-link">Укладка паркетной доски</a>
             </li>
             <li class="pure-menu-item">
-                <a href="#" class="pure-menu-link">Плинтус и порожки</a>
+                <a href="{{route("home", "plintus-i-porozhki")}}" class="pure-menu-link">Плинтус и порожки</a>
             </li>
             <li class="pure-menu-item">
-                <a href="#" class="pure-menu-link">Укладка ламината</a>
+                <a href="{{route("home", "ukladka-laminata")}}" class="pure-menu-link">Укладка ламината</a>
             </li>
         </ul>
     </div>
@@ -35,22 +35,22 @@
     <div class="data">
         <ul class="pure-menu-children">
             <li class="pure-menu-item">
-                <a href="#" class="pure-menu-link">Циклевка паркета</a>
+                <a href="{{route("home", "tsiklevka-parketa")}}" class="pure-menu-link">Циклевка паркета</a>
             </li>
             <li class="pure-menu-item">
-                <a href="#" class="pure-menu-link">Ремонт паркета</a>
+                <a href="{{route("home", "remont-parketa")}}" class="pure-menu-link">Ремонт паркета</a>
             </li>
             <li class="pure-menu-item">
-                <a href="#" class="pure-menu-link">Уход за паркетом</a>
+                <a href="{{route("home", "ukhod-za-parketom")}}" class="pure-menu-link">Уход за паркетом</a>
             </li>
             <li class="pure-menu-item">
-                <a href="#" class="pure-menu-link">Тонировка паркета</a>
+                <a href="{{route("home", "tonirovanie-parketa")}}" class="pure-menu-link">Тонировка паркета</a>
             </li>
             <li class="pure-menu-item">
-                <a href="#" class="pure-menu-link">ПаркETная химия</a>
+                <a href="{{route("home", "parketnaya-khimiya")}}" class="pure-menu-link">Паркетная химия</a>
             </li>
             <li class="pure-menu-item">
-                <a href="#" class="pure-menu-link">Паркетное оборудование</a>
+                <a href="{{route("home", "parketnoe-oborudovanie")}}" class="pure-menu-link">Паркетное оборудование</a>
             </li>
         </ul>
     </div>
@@ -60,13 +60,13 @@
     <div class="data">
         <ul class="pure-menu-children">
             <li class="pure-menu-item">
-                <a href="#" class="pure-menu-link">Пол на лагах</a>
+                <a href="{{route("home", "pol-na-lagakh")}}" class="pure-menu-link">Пол на лагах</a>
             </li>
             <li class="pure-menu-item">
-                <a href="#" class="pure-menu-link">Сухая стяжка Кнауф</a>
+                <a href="{{route("home", "sukhaya-styazhka-knauf")}}" class="pure-menu-link">Сухая стяжка Кнауф</a>
             </li>
             <li class="pure-menu-item">
-                <a href="#" class="pure-menu-link">Стяжка пола</a>
+                <a href="{{route("home", "styazhka-pola")}}" class="pure-menu-link">Стяжка пола</a>
             </li>
         </ul>
     </div>

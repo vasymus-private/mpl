@@ -16,7 +16,7 @@
                 @endforeach
             </div>
         @endif
-        <button class="btn-sort">Сортировать</button>
+        <button class="btn-sort js-sidebar-slide-toggle-2">Сортировать</button>
 
         <?php /** @var \Illuminate\Pagination\LengthAwarePaginator $products */ ?>
         {{ $products->onEachSide(1)->links('web.pagination.default') }}

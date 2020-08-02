@@ -1,6 +1,6 @@
-<div class="gtk_filter filter-mobile">
+<div class="js-sidebar-slide-menu-2 filter-mobile">
     <div class="filter-mobile__body">
-        <button type="button" class="filter-mobile__close">Закрыть фильтры</button>
+        <button type="button" class="filter-mobile__close js-sidebar-slide-toggle-2">Закрыть фильтры</button>
         <form action="#" id="filter-form-sidebar" class="filter-form">
             @foreach($manufacturers as $manufacturer)
                 <?php /** @var \App\Models\Manufacturer $manufacturer*/ ?>

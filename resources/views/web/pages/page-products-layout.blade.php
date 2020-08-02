@@ -11,7 +11,7 @@
 @endsection
 
 @section('wrapper-class')
-    gtk_main gtk_panel slideout-panel
+    js-sidebar-slide-main-1 slideout-panel js-sidebar-slide-main-2
 @endsection
 
 @section('mb-manufacturers-filter')

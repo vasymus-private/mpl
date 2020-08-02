@@ -5,30 +5,28 @@ var navMenu = (function ($) {
     'use strict';
 
     function init() {
-        let $gtkMain = $('.gtk_main')
-        let $gtkMenu = $('.gtk_menu')
+        let $main = $('.js-sidebar-slide-main-1')
+        let $menu = $('.js-sidebar-slide-menu-1')
 
-        if (!$gtkMain.length || !$gtkMenu.length) return
+        if (!$main.length || !$menu.length) return
 
         let slideout = new Slideout({
-            'panel': document.querySelector('.gtk_main'),
-            'menu': document.querySelector('.gtk_menu'),
+            'panel': document.querySelector('.js-sidebar-slide-main-1'),
+            'menu': document.querySelector('.js-sidebar-slide-menu-1'),
             'padding': 276,
             'tolerance': 70,
             'touch': false
         });
 
-        let menu_a = jQuery('.gtk_menu a.toggle');
-        let main_a = jQuery('.gtk_main a.toggle');
-        let wrapper = jQuery('.wrapper');
+        let $toggler1 = jQuery('.js-sidebar-slide-menu-1 a.toggle');
+        let $toggler2 = jQuery('.js-sidebar-slide-main-1 a.toggle');
 
-        main_a.click(function (e) {
+        $toggler2.click(function (e) {
             e.preventDefault();
-            //menu_a.toggleClass('opened');
             slideout.toggle();
         });
 
-        menu_a.click(function () {
+        $toggler1.click(function () {
             slideout.close();
         });
 
@@ -37,7 +35,7 @@ var navMenu = (function ($) {
         $('body').on('mouseup touchend', event => {
             if (!slideout.isOpen()) return true;
 
-            if (!$gtkMenu.is(event.target) && $gtkMenu.has(event.target).length === 0) {
+            if (!$menu.is(event.target) && $menu.has(event.target).length === 0) {
                 slideout.close()
             }
         })

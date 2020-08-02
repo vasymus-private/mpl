@@ -1,4 +1,4 @@
-<div class="gtk_menu slideout-menu menu_main" style="padding-top: 0">
+<div class="gtk_menu js-sidebar-slide-menu-1 slideout-menu menu_main" style="padding-top: 0">
     <div class="mb-body-left">
         {{--<div class="header-column">
             <div class="row-line row-line__between">
@@ -19,7 +19,7 @@
         <div class="sidebar-catalog accordion fltr">
             @include("web.layouts.mb-menu-services")
 
-            @include("web.layouts.mb-menu-materials")
+            <x-mb-menu-materials />
         </div>
     </div>
 </div>

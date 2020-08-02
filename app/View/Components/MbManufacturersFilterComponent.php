@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\Component;
 
-class MbManufacturersFilter extends Component
+class MbManufacturersFilterComponent extends Component
 {
     /**
      * @var Collection|Manufacturer[]

@@ -1,7 +1,7 @@
 @extends('web.layouts.app')
 
 @section('wrapper-class')
-    {{-- add if needed --}}
+    js-sidebar-slide-main-1 slideout-panel
 @endsection
 
 @section('content')
