@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row-line">
             <div class="header-column">
-                <a class="logo" href="#">
+                <a class="logo" href="{{route("home")}}">
                     <img alt="Parket Lux" title="Parket Lux" src="{{asset("images/logo.svg")}}">
                 </a>
                 <a class="toggle another-page" href="#"> </a>
@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="header__icon-mobile">
-                <a href="#" class="basket js-manual-popover-autohide" data-toggle="popover"
+                <a href="{{route('cart.show')}}" class="basket js-manual-popover-autohide" data-toggle="popover"
                    data-content="<b>Добавлено в корзину</b>" data-placement="bottom" data-html="true"
                    data-trigger="manual" data-original-title="" title="">
                     <img src="{{asset("images/cart.svg")}}" alt="" title="">
@@ -48,12 +48,12 @@
         </div>
         <div class="menu">
             <ul>
-                <li><a href="#">Как купить</a></li>
-                <li><a href="#">ОПЛАТА И ДОСТАВКА</a></li>
-                <li><a href="#">Контакты</a></li>
-                <li><a href="#">Задайте вопрос</a></li>
-                <li><a href="#">Производители</a></li>
-                <li><a href="#">Видео</a></li>
+                <li><a href="{{route("howto")}}">Как купить</a></li>
+                <li><a href="{{route("delivery")}}">ОПЛАТА И ДОСТАВКА</a></li>
+                <li><a href="{{route("contacts")}}">Контакты</a></li>
+                <li><a href="{{route("ask")}}">Задайте вопрос</a></li>
+                <li><a href="{{route("manufacturers.index")}}">Производители</a></li>
+                <li><a href="{{route("videos.index")}}">Видео</a></li>
                 <li><a href="{{route("gallery.items.index")}}">Фото</a></li>
             </ul>
         </div>

@@ -35,7 +35,9 @@ Route::get('---test', [\App\Http\Controllers\TestController::class, 'test']);
     Route::get("articles/{article_slug}/{subarticle_slug?}", [\App\Http\Controllers\Web\ArticlesController::class, "show"])->name("articles.show");
 
     Route::get("faq", [\App\Http\Controllers\Web\FaqController::class, "index"])->name("faq.index");
-    Route::get("faq/{id}", [\App\Http\Controllers\Web\FaqController::class, "index"])->name("faq.index");
+    Route::get("faq/{slug}", [\App\Http\Controllers\Web\FaqController::class, "show"])->name("faq.show");
+
+    Route::get("ask", [\App\Http\Controllers\Web\HomeController::class, "ask"])->name("ask");
 
     Route::get("videos", [\App\Http\Controllers\Web\VideosController::class, "index"])->name("videos.index");
 
@@ -46,6 +48,12 @@ Route::get('---test', [\App\Http\Controllers\TestController::class, 'test']);
     Route::get("return", [\App\Http\Controllers\Web\HomeController::class, "purchaseReturn"])->name("return");
 
     Route::get("contacts", [\App\Http\Controllers\Web\HomeController::class, "contacts"])->name("contacts");
+
+    Route::get("viewed", [\App\Http\Controllers\Web\HomeController::class, "viewed"])->name("viewed");
+
+    Route::get("deferred", [\App\Http\Controllers\Web\HomeController::class, "deferred"])->name("deferred");
+
+    Route::get('cart', [\App\Http\Controllers\Web\CartController::class, "show"])->name("cart.show");
 
     Route::get("/{service_slug?}", [\App\Http\Controllers\Web\HomeController::class, "index"])->name("home");
 

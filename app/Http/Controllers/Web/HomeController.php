@@ -46,4 +46,19 @@ class HomeController extends Controller
     {
         return view("web.pages.home.contacts");
     }
+
+    public function ask(Request $request)
+    {
+        return view("web.pages.home.ask");
+    }
+
+    public function viewed(Request $request)
+    {
+        return view('web.pages.home.viewed');
+    }
+
+    public function deferred(Request $request)
+    {
+        return view('web.pages.home.deferred');
+    }
 }

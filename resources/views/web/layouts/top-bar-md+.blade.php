@@ -13,13 +13,13 @@
             </div>
             <div class="column row-line row-line__between">
                 <div class="column-left row-line row-line__between">
-                    <a href="#" class="top-bar__link">Вы смотрели</a>
-                    <a href="#" class="top-bar__link">Контакты</a>
+                    <a href="{{route('viewed')}}" class="top-bar__link">Вы смотрели</a>
+                    <a href="{{route('contacts')}}" class="top-bar__link">Контакты</a>
                     <a href="tel:74953638799" class="top-bar__link">(495) 363 87 99</a>
                     <a href="tel:79163639363" class="top-bar__link">(916) 363 9 363</a>
                 </div>
                 <div class="column-right row-line row-line__between">
-                    <a href="#" class="top-bar__cart js-manual-popover-autohide" data-toggle="popover"
+                    <a href="{{route('cart.show')}}" class="top-bar__cart js-manual-popover-autohide" data-toggle="popover"
                        data-content="<b>Добавлено в корзину</b>" data-placement="bottom" data-html="true"
                        data-trigger="manual" data-original-title="" title="">
                         Корзина <span class="js-cart-items-count top-bar__count">0</span>
