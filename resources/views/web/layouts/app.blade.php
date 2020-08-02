@@ -34,6 +34,7 @@
         </main>
         @include('web.layouts.footer')
         @include("web.modals.contact-with-technologist")
+        @include("web.modals.consent-processing-personal-data")
         @include("web.layouts.back-to-top")
     </div>
 </body>

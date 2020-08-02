@@ -41,7 +41,7 @@
                         каждый день с 9:00 до 21:00
                     </li>
                     <li>
-                        <a data-fancybox="show_form" data-src="#show_form" href="javascript:;" class="link">Связаться с технологом</a>
+                        <a data-fancybox="contact-with-technologist" data-src="#contact-with-technologist" href="#" class="link">Связаться с технологом</a>
                     </li>
                 </ul>
             </div>
