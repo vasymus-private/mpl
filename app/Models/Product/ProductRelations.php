@@ -4,7 +4,7 @@ namespace App\Models\Product;
 
 use App\Models\Category;
 use App\Models\InformationalPrice;
-use App\Models\Manufacturer;
+use App\Models\Brand;
 use App\Models\Pivots\ProductProduct;
 use App\Models\Seo;
 use Illuminate\Database\Eloquent\Collection;
@@ -85,7 +85,7 @@ trait ProductRelations
 
     public function manufacturer(): BelongsTo
     {
-        return $this->belongsTo(Manufacturer::class, "manufacturer_id", "id");
+        return $this->belongsTo(Brand::class, "manufacturer_id", "id");
     }
 
     public function category(): BelongsTo

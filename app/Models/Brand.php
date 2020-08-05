@@ -13,16 +13,17 @@ use Spatie\MediaLibrary\HasMedia\HasMedia;
 /**
  * @property int $id
  * @property string $name
+ * @property string $slug
  * @property string|null $preview
  * @property string|null $description
  * @property Carbon|null $deleted_at
  * */
-class Manufacturer extends BaseModel implements HasMedia
+class Brand extends BaseModel implements HasMedia
 {
     use SoftDeletes;
     use HasMediaTrait;
 
-    const TABLE = "manufacturers";
+    const TABLE = "brands";
 
     const MC_MAIN_IMAGE = "main";
 

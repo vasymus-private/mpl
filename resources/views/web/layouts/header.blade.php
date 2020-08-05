@@ -52,7 +52,7 @@
                 <li><a href="{{route("delivery")}}">ОПЛАТА И ДОСТАВКА</a></li>
                 <li><a href="{{route("contacts")}}">Контакты</a></li>
                 <li><a href="{{route("ask")}}">Задайте вопрос</a></li>
-                <li><a href="{{route("manufacturers.index")}}">Производители</a></li>
+                <li><a href="{{route("brands.index")}}">Производители</a></li>
                 <li><a href="{{route("videos.index")}}">Видео</a></li>
                 <li><a href="{{route("gallery.items.index")}}">Фото</a></li>
             </ul>

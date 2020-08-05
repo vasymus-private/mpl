@@ -6,7 +6,7 @@ use App\Models\Article;
 use App\Models\Category;
 use App\Models\FAQ;
 use App\Models\GalleryItem;
-use App\Models\Manufacturer;
+use App\Models\Brand;
 use App\Models\Product\Product;
 use App\Models\Service;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -38,7 +38,7 @@ class AppServiceProvider extends ServiceProvider
 
         Relation::morphMap([
             'products' => Product::class,
-            "manufacturers" => Manufacturer::class,
+            "manufacturers" => Brand::class,
             "categories" => Category::class,
             "faq" => FAQ::class,
             "gallery_items" => GalleryItem::class,

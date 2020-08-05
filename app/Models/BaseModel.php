@@ -23,6 +23,13 @@ abstract class BaseModel extends Model
     use CommonTraits;
 
     /**
+     * The number of models to return for pagination.
+     *
+     * @var int
+     */
+    protected $perPage = 20;
+
+    /**
      * The connection name for the model.
      *
      * @var string|null

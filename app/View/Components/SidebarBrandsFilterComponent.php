@@ -2,18 +2,18 @@
 
 namespace App\View\Components;
 
-use App\Models\Manufacturer;
+use App\Models\Brand;
 use App\Models\Product\Product;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\Component;
 
-class SidebarManufacturersFilterComponent extends Component
+class SidebarBrandsFilterComponent extends Component
 {
     /**
-     * @var Collection|Manufacturer[]
+     * @var Collection|Brand[]
      * */
-    public $manufacturers;
+    public $brands;
 
     /**
      * Create a new component instance.
@@ -24,7 +24,7 @@ class SidebarManufacturersFilterComponent extends Component
      */
     public function __construct($productIds = [])
     {
-        $this->manufacturers = Manufacturer
+        $this->brands = Brand
             ::query()
             ->withCount([
                 "products" => function(Builder $builder) use($productIds) {
@@ -43,6 +43,6 @@ class SidebarManufacturersFilterComponent extends Component
      */
     public function render()
     {
-        return view('web.components.sidebar-manufacturers-filter-component');
+        return view('web.components.sidebar-brands-filter-component');
     }
 }

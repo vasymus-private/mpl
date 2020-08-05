@@ -8,14 +8,14 @@
         </div>
         <form action="#" id="filter-form" class="filter-form">
 
-            @foreach($manufacturers as $manufacturer)
-                <?php /** @var \App\Models\Manufacturer $manufacturer*/ ?>
+            @foreach($brands as $brand)
+                <?php /** @var \App\Models\Brand $brand*/ ?>
                 <div class="filter-form__item">
-                    <input id="acm" class="filter-form__checkbox" name="manufacturers[]" value="{{$manufacturer->id}}" type="checkbox"/>
+                    <input id="acm" class="filter-form__checkbox" name="manufacturers[]" value="{{$brand->id}}" type="checkbox"/>
                     <label for="acm" class="filter-form__label">
                         <div class="filter-form__article">
-                            <a href="#" class="filter-form__link">{{$manufacturer->name}}</a>
-                            <span class="filter-product-count">{{$manufacturer->products_count}}</span>
+                            <a href="#" class="filter-form__link">{{$brand->name}}</a>
+                            <span class="filter-product-count">{{$brand->products_count}}</span>
                         </div>
                     </label>
                 </div>

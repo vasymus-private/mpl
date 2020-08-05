@@ -27,7 +27,8 @@ Route::get('---test', [\App\Http\Controllers\TestController::class, 'test']);
     Route::get("catalog/{category_slug?}/{subcategory1_slug?}/{subcategory2_slug?}/{product_slug?}.html", [\App\Http\Controllers\Web\ProductsController::class, "show"])->name("products.show2");
     Route::get("catalog/{category_slug?}/{subcategory1_slug?}/{subcategory2_slug?}/{subcategory3_slug?}/{product_slug?}.html", [\App\Http\Controllers\Web\ProductsController::class, "show"])->name("products.show3");
 
-    Route::get("brands", [\App\Http\Controllers\Web\ManufacturersController::class, "index"])->name("manufacturers.index");
+    Route::get("brands", [\App\Http\Controllers\Web\BrandsController::class, "index"])->name("manufacturers.index");
+    Route::get("brands/{brand_slug}.html", [\App\Http\Controllers\Web\BrandsController::class, "show"])->name("manufacturers.show");
 
     Route::get("photos", [\App\Http\Controllers\Web\GalleryItemsController::class, "index"])->name("gallery.items.index");
     Route::get("photos/{parentGalleryItemSlug}", [\App\Http\Controllers\Web\GalleryItemsController::class, "show"])->name("gallery.items.show");

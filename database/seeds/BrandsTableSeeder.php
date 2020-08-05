@@ -1,11 +1,12 @@
 <?php
 
-use App\Models\Manufacturer;
+use App\Models\Brand;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
-class ManufacturersTableSeeder extends Seeder
+class BrandsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,7 +19,7 @@ class ManufacturersTableSeeder extends Seeder
     public function run()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        Manufacturer::query()->truncate();
+        Brand::query()->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $seedsRaw = json_decode(Storage::get("seeds/manufacturers/seeds.json"), true);
@@ -29,8 +30,8 @@ class ManufacturersTableSeeder extends Seeder
             foreach ($asIsAttributes as $attribute) {
                 $seed[$attribute] = $seedRaw[$attribute];
             }
-            $seed["slug"] = $seed["name"];
-            $manufacturer = Manufacturer::forceCreate($seed);
+            $seed["slug"] = Str::slug($seed["name"]);
+            $manufacturer = Brand::forceCreate($seed);
 
             if (empty($seedRaw["image"])) continue;
             if (!Storage::exists($seedRaw["image"])) continue;
@@ -38,7 +39,7 @@ class ManufacturersTableSeeder extends Seeder
             $manufacturer
                 ->addMedia(storage_path("app/$seedRaw[image]"))
                 ->preservingOriginal()
-                ->toMediaCollection(Manufacturer::MC_MAIN_IMAGE)
+                ->toMediaCollection(Brand::MC_MAIN_IMAGE)
             ;
         }
     }
