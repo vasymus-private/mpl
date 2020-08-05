@@ -31,8 +31,8 @@ class ProductsController extends BaseWebController
             }
         }
 
-        if (!empty($request->input("manufacturers", []))) {
-            $query->whereIn(Product::TABLE . ".manufacturer_id", $request->input("manufacturers"));
+        if (!empty($request->input("brands", []))) {
+            $query->whereIn(Product::TABLE . ".brand_id", $request->input("brands"));
         }
 
         if (!empty($request->search)) {

@@ -20,7 +20,7 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
  * @property int $category_id
  * @property int|null $ordering
  * @property bool $is_active
- * @property int|null $manufacturer_id
+ * @property int|null $brand_id
  * @property string|null $coefficient
  * @property string|null $coefficient_description
  * @property string|null $price_name

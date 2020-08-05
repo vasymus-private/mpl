@@ -41,6 +41,11 @@ class Brand extends BaseModel implements HasMedia
      */
     public $timestamps = false;
 
+    public static function rbBrandSlug($value)
+    {
+        return Brand::query()->where(Brand::TABLE . ".slug", $value)->firstOrFail();
+    }
+
     public function seo(): MorphOne
     {
         return $this->morphOne(Seo::class, "seoable", "seoable_type", "seoable_id");
@@ -48,7 +53,7 @@ class Brand extends BaseModel implements HasMedia
 
     public function products(): HasMany
     {
-        return $this->hasMany(Product::class, "manufacturer_id", "id");
+        return $this->hasMany(Product::class, "brand_id", "id");
     }
 
     public function registerMediaCollections()

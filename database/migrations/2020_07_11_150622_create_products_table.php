@@ -22,7 +22,7 @@ class CreateProductsTable extends Migration
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('ordering')->nullable();
             $table->boolean('is_active')->default(false);
-            $table->unsignedBigInteger('manufacturer_id')->nullable();
+            $table->unsignedBigInteger('brand_id')->nullable();
             $table->double('coefficient')->nullable();
             $table->string('coefficient_description')->nullable();
             $table->string('price_name')->default('Цена');

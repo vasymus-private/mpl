@@ -67,7 +67,13 @@ class ProductsInfoPricesSeoTablesSeeder extends Seeder
             ];
             $seed = [];
             foreach ($asIsAttributes as $attribute) {
-                if (!empty($rawSeed[$attribute])) $seed[$attribute] = $rawSeed[$attribute];
+                if (!empty($rawSeed[$attribute])) {
+                    if ($attribute === "manufacturer_id") {
+                        $seed["brand_id"] = $rawSeed["manufacturer_id"];
+                    } else {
+                        $seed[$attribute] = $rawSeed[$attribute];
+                    }
+                }
             }
             $characteristics = $rawSeed["characteristics"] ?? [];
             foreach ($characteristics as $key => $characteristic) {

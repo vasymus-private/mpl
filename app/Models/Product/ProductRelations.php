@@ -40,6 +40,9 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
  *
  * @see ProductRelations::seo()
  * @property Seo|null $seo
+ *
+ * @see ProductRelations::brand()
+ * @property Brand|null $brand
  * */
 trait ProductRelations
 {
@@ -83,9 +86,9 @@ trait ProductRelations
         return $this->products()->wherePivot("type", ProductProduct::TYPE_WORK);
     }
 
-    public function manufacturer(): BelongsTo
+    public function brand(): BelongsTo
     {
-        return $this->belongsTo(Brand::class, "manufacturer_id", "id");
+        return $this->belongsTo(Brand::class, "brand_id", "id");
     }
 
     public function category(): BelongsTo

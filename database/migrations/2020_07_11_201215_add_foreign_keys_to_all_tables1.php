@@ -26,7 +26,7 @@ class AddForeignKeysToAllTables1 extends Migration
         Schema::table('products', function (Blueprint $table) {
             $table->foreign('category_id', 'products_category_id_categories_id')->references('id')->on('categories');
             $table->foreign('parent_id', 'products_parent_id_products_id')->references('id')->on('products');
-            $table->foreign('manufacturer_id', 'products_manufacturer_id_manufacturers_id')->references('id')->on('manufacturers');
+            $table->foreign('brand_id', 'products_brand_id_brands_id')->references('id')->on('brands');
         });
 
         Schema::table('categories', function (Blueprint $table) {
@@ -68,7 +68,7 @@ class AddForeignKeysToAllTables1 extends Migration
         Schema::table('products', function (Blueprint $table) {
             $table->dropForeign('products_category_id_categories_id');
             $table->dropForeign('products_parent_id_products_id');
-            $table->dropForeign('products_manufacturer_id_manufacturers_id');
+            $table->dropForeign('products_brand_id_brands_id');
         });
 
         Schema::table('categories', function (Blueprint $table) {

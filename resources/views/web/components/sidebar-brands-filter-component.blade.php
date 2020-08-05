@@ -11,7 +11,7 @@
             @foreach($brands as $brand)
                 <?php /** @var \App\Models\Brand $brand*/ ?>
                 <div class="filter-form__item">
-                    <input id="acm" class="filter-form__checkbox" name="manufacturers[]" value="{{$brand->id}}" type="checkbox"/>
+                    <input id="acm" class="filter-form__checkbox" name="brands[]" value="{{$brand->id}}" type="checkbox"/>
                     <label for="acm" class="filter-form__label">
                         <div class="filter-form__article">
                             <a href="#" class="filter-form__link">{{$brand->name}}</a>
