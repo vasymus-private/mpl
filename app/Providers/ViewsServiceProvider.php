@@ -36,8 +36,8 @@ class ViewsServiceProvider extends ServiceProvider
         Blade::component("seo", SeoComponent::class);
         Blade::component("sidebar-menu-materials", SidebarMenuMaterialsComponent::class);
         Blade::component("sidebar-menu-services", SidebarMenuServicesComponent::class);
-        Blade::component("sidebar-manufacturers-filter", SidebarBrandsFilterComponent::class);
-        Blade::component("mb-manufacturers-filter", MbBrandsFilterComponent::class);
+        Blade::component("sidebar-brands-filter", SidebarBrandsFilterComponent::class);
+        Blade::component("mb-brands-filter", MbBrandsFilterComponent::class);
         Blade::component("mb-menu-materials", MbMenuMaterialsComponent::class);
         Blade::component("sidebar-menu-cart", SidebarMenuCartComponent::class);
         Blade::component("sidebar-menu-favourites-count", SidebarMenuFavouritesCountComponent::class);

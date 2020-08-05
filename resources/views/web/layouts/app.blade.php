@@ -22,7 +22,7 @@
 </head>
 <body>
     @include("web.layouts.mb-menu")
-    @yield("mb-manufacturers-filter")
+    @yield("mb-brands-filter")
     <div class="wrapper @yield('wrapper-class')">
         @include('web.layouts.top-bar-md+')
         @include('web.layouts.top-bar-xs')

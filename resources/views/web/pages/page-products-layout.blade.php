@@ -14,8 +14,8 @@
     js-sidebar-slide-main-1 slideout-panel js-sidebar-slide-main-2
 @endsection
 
-@section('mb-manufacturers-filter')
-    <x-mb-manufacturers-filter :productIds="$productIds"/>
+@section('mb-brands-filter')
+    <x-mb-brands-filter :productIds="$productIds"/>
 @endsection
 
 @section('content')
@@ -25,7 +25,7 @@
 
             @yield('page-products-content')
 
-            <x-sidebar-manufacturers-filter :productIds="$productIds"/>
+            <x-sidebar-brands-filter :productIds="$productIds"/>
         </div>
     </div>
 @endsection
