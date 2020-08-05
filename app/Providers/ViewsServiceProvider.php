@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\View\Components\MbBrandsFilterComponent;
 use App\View\Components\MbMenuMaterialsComponent;
+use App\View\Components\ProductComponent;
 use App\View\Components\SeoComponent;
 use App\View\Components\SidebarBrandsFilterComponent;
 use App\View\Components\SidebarMenuCartComponent;
@@ -42,5 +43,7 @@ class ViewsServiceProvider extends ServiceProvider
         Blade::component("sidebar-menu-cart", SidebarMenuCartComponent::class);
         Blade::component("sidebar-menu-favourites-count", SidebarMenuFavouritesCountComponent::class);
         Blade::component("sidebar-menu-viewed", SidebarMenuViewedComponent::class);
+
+        Blade::component("product", ProductComponent::class);
     }
 }
