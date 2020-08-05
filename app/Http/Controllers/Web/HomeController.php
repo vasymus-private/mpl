@@ -17,14 +17,7 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        /** @var Service|null $service */
-        $service = $request->service_slug;
-
-        if ($service) {
-            return view("web.pages.services.{$service->slug}");
-        } else {
-            return view('web.pages.home.home');
-        }
+        return view('web.pages.home.home');
     }
 
     public function howto(Request $request)

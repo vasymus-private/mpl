@@ -55,9 +55,9 @@ Route::get('---test', [\App\Http\Controllers\TestController::class, 'test']);
 
     Route::get('cart', [\App\Http\Controllers\Web\CartController::class, "show"])->name("cart.show");
 
-    Route::get("/{service_slug?}", [\App\Http\Controllers\Web\HomeController::class, "index"])->name("home");
+    Route::get("/{service_slug}", [\App\Http\Controllers\Web\ServicesController::class, "show"])->name("services.show");
 
-
+    Route::get("/", [\App\Http\Controllers\Web\HomeController::class, "index"])->name("home");
 
 //});
 
