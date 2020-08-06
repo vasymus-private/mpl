@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\AvailabilityStatus;
 use App\Models\Currency;
 use App\Models\InformationalPrice;
 use App\Models\Pivots\CategoryProduct;
@@ -67,14 +68,47 @@ class ProductsInfoPricesSeoTablesSeeder extends Seeder
             ];
             $seed = [];
             foreach ($asIsAttributes as $attribute) {
-                if (!empty($rawSeed[$attribute])) {
-                    if ($attribute === "manufacturer_id") {
-                        $seed["brand_id"] = $rawSeed["manufacturer_id"];
-                    } else {
-                        $seed[$attribute] = $rawSeed[$attribute];
+                if (($rawSeed[$attribute] ?? null) !== null) {
+                    switch (true) {
+                        case $attribute === "manufacturer_id" : {
+                            $seed["brand_id"] = $rawSeed["manufacturer_id"];
+                            break;
+                        }
+                        case $attribute === "is_in_stock" : {
+                            if ($rawSeed[$attribute]) $seed["availability_status_id"] = AvailabilityStatus::ID_AVAILABLE_IN_STOCK;
+                            else $seed["availability_status_id"] = AvailabilityStatus::ID_AVAILABLE_NOT_IN_STOCK;
+                            break;
+                        }
+                        case $attribute === "is_available" : {
+                            if (!$rawSeed[$attribute]) {
+                                $seed["availability_status_id"] = AvailabilityStatus::ID_NOT_AVAILABLE;
+                            }
+                            break;
+                        }
+                        case $attribute === "price_purchase" :
+                        case $attribute === "coefficient" : {
+                            $seed[$attribute] = !empty($rawSeed[$attribute]) ? $rawSeed[$attribute] : null;
+                            break;
+                        }
+                        default : {
+                            $seed[$attribute] = $rawSeed[$attribute];
+                            break;
+                        }
                     }
                 }
             }
+
+            if (empty($seed["price_retail"])) {
+                $pricePurchase = $rawSeed["price_purchase"] ?? null;
+                if ($pricePurchase) {
+                    $seed[$attribute] = $pricePurchase + ($pricePurchase / 4);
+                } else {
+                    $seed[$attribute] = null;
+                }
+            }
+
+            $seed["is_active"] = true;
+
             $characteristics = $rawSeed["characteristics"] ?? [];
             foreach ($characteristics as $key => $characteristic) {
                 if (!empty($characteristic)) $seed[$key] = $characteristic;
@@ -85,11 +119,23 @@ class ProductsInfoPricesSeoTablesSeeder extends Seeder
             if (!empty($rawSeed["price_purchase_currency_name"])) // YES it's currency name -- RUB, EUR, USD we should put to price_purchase_currency_id -- it's not a typo
                 $seed["price_purchase_currency_id"] = Currency::getIdByName($rawSeed["price_purchase_currency_name"]);
 
+            if (empty($seed["price_retail_currency_id"])) {
+                $pricePurchaseCurrencyId = $seed["price_purchase_currency_id"] ?? null;
+                if ($pricePurchaseCurrencyId) {
+                    $seed["price_retail_currency_id"] = $pricePurchaseCurrencyId;
+                }
+            }
+
             $seed['is_with_variations'] = !empty($rawSeed["variations"]);
 
             if (empty($seed["slug"])) $seed["slug"] = str_slug($seed["name"]);
 
-            $product = Product::forceCreate($seed);
+            try {
+                $product = Product::forceCreate($seed);
+            } catch (\Exception $exception) {
+                dd($exception->getMessage(), $seed);
+            }
+
             $this->seedSeo($product, $rawSeed["seo"]);
             $this->seedInfoPrices($product, $rawSeed["informational_prices"]);
             $this->seedMedia($product, $rawSeed["media"]);

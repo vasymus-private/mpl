@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ServicesGroupsTableSeeder::class);
         $this->call(CommonImagesAndArticlesAndServicesTablesSeeder::class);
 
-
+        $this->call(AvailabilityStatusesTableSeeder::class);
         $this->call(BillStatusesTableSeeder::class);
         $this->call(CurrenciesTableSeeder::class);
         $this->call(BrandsTableSeeder::class);

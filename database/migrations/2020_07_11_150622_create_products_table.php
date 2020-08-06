@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\AvailabilityStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -32,8 +33,7 @@ class CreateProductsTable extends Migration
             $table->string('unit')->nullable();
             $table->double('price_retail')->nullable();
             $table->integer('price_retail_currency_id')->nullable();
-            $table->boolean('is_in_stock')->default(false);
-            $table->boolean('is_available')->default(false);
+            $table->unsignedBigInteger('availability_status_id')->default(AvailabilityStatus::ID_DEFAULT);
             $table->text('preview')->nullable();
             $table->text('description')->nullable();
             $table->string('ch_desc_trade_mark')->nullable();
@@ -69,6 +69,12 @@ class CreateProductsTable extends Migration
             $table->string('ch_exploitation_env_friendliness')->nullable();
             $table->string('ch_storage_term')->nullable();
             $table->string('ch_storage_conditions')->nullable();
+
+            $table->string("accessory_name")->default("Аксессуары");
+            $table->string("similar_name")->default("Похожие");
+            $table->string("related_name")->default("Сопряженные");
+            $table->string("work_name")->default("Работы");
+
             $table->timestamps();
             $table->softDeletes();
 

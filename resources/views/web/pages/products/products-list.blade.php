@@ -6,5 +6,5 @@ $currentPage = $products instanceof \Illuminate\Pagination\LengthAwarePaginator 
 @foreach($products as $product)
     <?php /** @var \App\Models\Product\Product $product */ ?>
     @php($index = $loop->index)
-    <x-product :product="$product" :index="$index" :perPage="$perPage" :currentPage="$currentPage" />
+    <x-product-item :product="$product" :index="$index" :perPage="$perPage" :currentPage="$currentPage" />
 @endforeach

@@ -5,7 +5,7 @@ namespace App\View\Components;
 use App\Models\Product\Product;
 use Illuminate\View\Component;
 
-class ProductComponent extends Component
+class ProductItemComponent extends Component
 {
     /**
      * @var Product
@@ -52,7 +52,7 @@ class ProductComponent extends Component
      */
     public function render()
     {
-        return view('web.components.product-component');
+        return view('web.components.product-item-component');
     }
 
     public function orderNumber()

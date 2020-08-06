@@ -30,8 +30,7 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
  * @property string|null $unit
  * @property string|null $price_retail
  * @property int|null $price_retail_currency_id
- * @property bool $is_in_stock
- * @property bool $is_available
+ * @property int $availability_status_id
  * @property string|null $preview
  * @property string|null $description
  * @property string|null $ch_desc_trade_mark
@@ -67,6 +66,12 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
  * @property string|null $ch_exploitation_env_friendliness
  * @property string|null $ch_storage_term
  * @property string|null $ch_storage_conditions
+ *
+ * @property string $accessory_name
+ * @property string $similar_name
+ * @property string $related_name
+ * @property string $work_name
+ *
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
@@ -104,8 +109,6 @@ class Product extends BaseModel implements HasMedia
     protected $casts = [
         "is_active" => "boolean",
         "is_with_variations" => "boolean",
-        "is_in_stock" => "boolean",
-        "is_available" => "boolean",
     ];
 
     public static function rbProductSlug($value, Route $route)
