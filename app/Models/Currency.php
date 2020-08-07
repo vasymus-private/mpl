@@ -50,7 +50,7 @@ class Currency extends BaseModel
         }
     }
 
-    public static function getFormatedName(int $id = null): ?string
+    public static function getFormattedName(int $id = null): ?string
     {
         switch ($id) {
             case static::ID_RUB : {
@@ -70,5 +70,34 @@ class Currency extends BaseModel
                 break;
             }
         }
+    }
+
+    public static function getIsoName(int $id = null): ?string
+    {
+        switch ($id) {
+            case static::ID_RUB : {
+                return "RUB";
+                break;
+            }
+            case static::ID_EUR : {
+                return "EUR";
+                break;
+            }
+            case static::ID_USD : {
+                return "USD";
+                break;
+            }
+            default : {
+                return null;
+                break;
+            }
+        }
+    }
+
+    public static function getFormattedValue($value, int $currencyId): string
+    {
+        if ($currencyId === static::ID_RUB) return number_format(round($value, 0), 0, ",", " ");
+
+        return number_format(round($value, 2), 2, ",", " ");
     }
 }

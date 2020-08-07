@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Models\Category;
 use App\Models\Product\Product;
+use App\Services\Breadcrumbs\Breadcrumbs;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -47,6 +48,10 @@ class ProductsController extends BaseWebController
 
         $queryWithoutPagination = clone $query;
 
+        $query->with([
+            "category.parentCategory.parentCategory.parentCategory",
+        ]);
+
         /** @var LengthAwarePaginator $products */
         $products = $query->paginate(
             $request->input("per_page", 20)
@@ -54,31 +59,7 @@ class ProductsController extends BaseWebController
 
         $productIds = $queryWithoutPagination->pluck("id")->toArray();
 
-        $breadcrumbs = [];
-        if ($category) {
-            $breadcrumbs[] = [
-                "name" => $category->name,
-                "href" => route("products.index", [$category->slug]),
-            ];
-        }
-        if ($subcategory1) {
-            $breadcrumbs[] = [
-                "name" => $subcategory1->name,
-                "href" => route("products.index", [$category->slug, $subcategory1->slug]),
-            ];
-        }
-        if ($subcategory2) {
-            $breadcrumbs[] = [
-                "name" => $subcategory2->name,
-                "href" => route("products.index", [$category->slug, $subcategory1->slug, $subcategory2->slug]),
-            ];
-        }
-        if ($subcategory3) {
-            $breadcrumbs[] = [
-                "name" => $subcategory3->name,
-                "href" => route("products.index", [$category->slug, $subcategory1->slug, $subcategory2->slug, $subcategory3->slug]),
-            ];
-        }
+        $breadcrumbs = Breadcrumbs::productsRoute($category, $subcategory1, $subcategory2, $subcategory3);
 
         $subtitle = $subcategory3->name ?? $subcategory2->name ?? $subcategory1->name ?? $category->name ?? null;
 
@@ -87,7 +68,20 @@ class ProductsController extends BaseWebController
 
     public function show(Request $request)
     {
+        /** @var Category $category */
+        $category = $request->category_slug;
+        /** @var Category|null $subcategory1 */
+        $subcategory1 = $request->subcategory1_slug;
+        /** @var Category|null $subcategory2 */
+        $subcategory2 = $request->subcategory2_slug;
+        /** @var Category|null $subcategory3 */
+        $subcategory3 = $request->subcategory3_slug;
 
-        return view("test");
+        /** @var Product $product */
+        $product = $request->product_slug;
+
+        $breadcrumbs = Breadcrumbs::productRoute($product, $category, $subcategory1, $subcategory2, $subcategory3);
+
+        return view("web.pages.products.product", compact("product", "breadcrumbs"));
     }
 }

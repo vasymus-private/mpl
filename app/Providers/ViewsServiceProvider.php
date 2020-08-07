@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\View\Components\BreadcrumbsComponent;
 use App\View\Components\MbBrandsFilterComponent;
 use App\View\Components\MbMenuMaterialsComponent;
 use App\View\Components\ProductItemComponent;
@@ -45,5 +46,7 @@ class ViewsServiceProvider extends ServiceProvider
         Blade::component("sidebar-menu-viewed", SidebarMenuViewedComponent::class);
 
         Blade::component("product-item", ProductItemComponent::class);
+
+        Blade::component("breadcrumbs", BreadcrumbsComponent::class);
     }
 }

@@ -23,7 +23,9 @@
         <div class="row-line no-margin">
             @include('web.layouts.sidebar-menu')
 
-            @yield('page-products-content')
+            <div class="catalog">
+                @yield('page-products-content')
+            </div>
 
             <x-sidebar-brands-filter :productIds="$productIds"/>
         </div>

@@ -2,8 +2,12 @@
 
 namespace App\Models\Product;
 
+use App\H;
+use App\Models\AvailabilityStatus;
 use App\Models\BaseModel;
 use App\Models\Category;
+use App\Models\Currency;
+use App\Services\CBRcurrencyConverter\CBRcurrencyConverter;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -80,6 +84,34 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
  *
  * @see Product::scopeActive()
  * @method static static|Builder active()
+ *
+ * @see Product::getPriceRetailCurrencyNameAttribute()
+ * @property string|null $price_retail_currency_name
+ *
+ * @see Product::getIsAvailableAttribute()
+ * @property bool $is_available
+ *
+ * @see Product::getAvailabilityStatusNameAttribute()
+ * @property string $availability_status_name
+ *
+ *
+ * @see Product::getPriceRetailRubAttribute()
+ * @property float|null $price_retail_rub
+ *
+ * @see Product::getPriceRetailRubFormattedAttribute()
+ * @property string $price_retail_rub_formatted
+ *
+ * @see Product::getPricePurchaseRubAttribute()
+ * @property float|null $price_purchase_rub
+ *
+ * @see Product::getPricePurchaseRubFormattedAttribute()
+ * @property string $price_purchase_rub_formatted
+ *
+ * @see Product::getCoefficientPriceRubAttribute()
+ * @property float|null $coefficient_price_rub
+ *
+ * @see Product::getCoefficientPriceRubFormattedAttribute()
+ * @property string $coefficient_price_rub_formatted
  **/
 class Product extends BaseModel implements HasMedia
 {
@@ -113,6 +145,8 @@ class Product extends BaseModel implements HasMedia
 
     public static function rbProductSlug($value, Route $route)
     {
+        /** @var Category $category */
+        $category = $route->category_slug;
         /** @var Category|null $subcategory1 */
         $subcategory1 = $route->subcategory1_slug;
         /** @var Category|null $subcategory2 */
@@ -121,14 +155,17 @@ class Product extends BaseModel implements HasMedia
         $subcategory3 = $route->subcategory3_slug;
         return static::query()
             ->where(static::TABLE . ".slug", $value)
-            ->where(function(Builder $builder) use($subcategory1, $subcategory2, $subcategory3) {
+            ->where(function(Builder $builder) use($category, $subcategory1, $subcategory2, $subcategory3) {
                 return $builder
-                        ->orWhere(static::TABLE . ".product_id", $subcategory1->id)
-                        ->when($subcategory2->id ?? null, function(Builder $b, $sub2Id) {
-                            return $b->orWhere(static::TABLE . ".product_id", $sub2Id);
-                        })
+                        ->orWhere(static::TABLE . ".category_id", $category->id)
                         ->when($subcategory3->id ?? null, function(Builder $b, $sub3Id) {
-                            return $b->orWhere(static::TABLE . ".product_id", $sub3Id);
+                            return $b->orWhere(static::TABLE . ".category_id", $sub3Id);
+                        })
+                        ->when($subcategory2->id ?? null, function(Builder $b, $sub2Id) {
+                            return $b->orWhere(static::TABLE . ".category_id", $sub2Id);
+                        })
+                        ->when($subcategory1->id ?? null, function(Builder $b, $sub1Id) {
+                            return $b->orWhere(static::TABLE . ".category_id", $sub1Id);
                         })
                 ;
             })
@@ -151,5 +188,68 @@ class Product extends BaseModel implements HasMedia
     public function scopeActive(Builder $builder): Builder
     {
         return $builder->where(static::TABLE . ".is_active", true);
+    }
+
+    public function getPriceRetailCurrencyNameAttribute(): ?string
+    {
+        return Currency::getFormattedName($this->price_retail_currency_id);
+    }
+
+    public function getIsAvailableAttribute(): bool
+    {
+        return in_array($this->availability_status_id, [AvailabilityStatus::ID_AVAILABLE_IN_STOCK, AvailabilityStatus::ID_AVAILABLE_NOT_IN_STOCK]);
+    }
+
+    public function getAvailabilityStatusNameAttribute(): string
+    {
+        switch ($this->availability_status_id) {
+            case AvailabilityStatus::ID_AVAILABLE_IN_STOCK : {
+                return "Есть в наличии";
+                break;
+            }
+            case AvailabilityStatus::ID_AVAILABLE_NOT_IN_STOCK : {
+                return "Товар на заказ";
+                break;
+            }
+            default : {
+                return "Нет в наличии";
+                break;
+            }
+        }
+    }
+
+    public function getPriceRetailRubAttribute(): ?float
+    {
+        return H::priceRub($this->price_retail, $this->price_retail_currency_id);
+    }
+
+    public function getPriceRetailRubFormattedAttribute(): string
+    {
+        return H::priceRubFormatted($this->price_retail, $this->price_retail_currency_id);
+    }
+
+    public function getPricePurchaseRubAttribute(): ?float
+    {
+        return H::priceRub($this->price_purchase, $this->price_purchase_currency_id);
+    }
+
+    public function getPricePurchaseRubFormattedAttribute(): string
+    {
+        return H::priceRubFormatted($this->price_purchase, $this->price_purchase_currency_id);
+    }
+
+    public function getCoefficientPriceRubAttribute(): ?float
+    {
+        if (!$this->coefficient) return null;
+
+        $priceRetailRub = $this->price_retail_rub;
+        if (!$priceRetailRub) return null;
+
+        return $priceRetailRub / $this->coefficient;
+    }
+
+    public function getCoefficientPriceRubFormattedAttribute(): string
+    {
+        return H::priceRubFormatted($this->coefficient_price_rub, Currency::ID_RUB);
     }
 }

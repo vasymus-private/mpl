@@ -21,11 +21,43 @@ Route::get('---test', [\App\Http\Controllers\TestController::class, 'test']);
 
 
 
-    Route::get("catalog/{category_slug?}/{subcategory1_slug?}/{subcategory2_slug?}/{subcategory3_slug?}", [\App\Http\Controllers\Web\ProductsController::class, "index"])->name("products.index");
+    Route
+        ::get(
+            "catalog/{category_slug}/{product_slug}.html",
+            [\App\Http\Controllers\Web\ProductsController::class, "show"]
+        )
+        ->name("product.show.1")
+    ;
 
-    Route::get("catalog/{category_slug?}/{subcategory1_slug?}/{product_slug?}.html", [\App\Http\Controllers\Web\ProductsController::class, "show"])->name("products.show1");
-    Route::get("catalog/{category_slug?}/{subcategory1_slug?}/{subcategory2_slug?}/{product_slug?}.html", [\App\Http\Controllers\Web\ProductsController::class, "show"])->name("products.show2");
-    Route::get("catalog/{category_slug?}/{subcategory1_slug?}/{subcategory2_slug?}/{subcategory3_slug?}/{product_slug?}.html", [\App\Http\Controllers\Web\ProductsController::class, "show"])->name("products.show3");
+    Route
+        ::get(
+            "catalog/{category_slug}/{subcategory1_slug}/{product_slug}.html",
+            [\App\Http\Controllers\Web\ProductsController::class, "show"]
+        )
+        ->name("product.show.2")
+    ;
+    Route
+        ::get(
+            "catalog/{category_slug}/{subcategory1_slug}/{subcategory2_slug}/{product_slug}.html",
+            [\App\Http\Controllers\Web\ProductsController::class, "show"]
+        )
+        ->name("product.show.3")
+    ;
+    Route
+        ::get(
+            "catalog/{category_slug}/{subcategory1_slug}/{subcategory2_slug}/{subcategory3_slug}/{product_slug}.html",
+            [\App\Http\Controllers\Web\ProductsController::class, "show"]
+        )
+        ->name("product.show.4")
+    ;
+
+    Route
+        ::get(
+            "catalog/{category_slug?}/{subcategory1_slug?}/{subcategory2_slug?}/{subcategory3_slug?}",
+            [\App\Http\Controllers\Web\ProductsController::class, "index"]
+        )
+        ->name("products.index")
+    ;
 
     Route::get("brands", [\App\Http\Controllers\Web\BrandsController::class, "index"])->name("brands.index");
     Route::get("brands/{brand_slug}.html", [\App\Http\Controllers\Web\BrandsController::class, "show"])->name("brands.show");

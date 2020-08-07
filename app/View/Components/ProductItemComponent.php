@@ -2,6 +2,9 @@
 
 namespace App\View\Components;
 
+use App\H;
+use App\Models\Currency;
+use App\Models\InformationalPrice;
 use App\Models\Product\Product;
 use Illuminate\View\Component;
 
@@ -28,6 +31,11 @@ class ProductItemComponent extends Component
     public $currentPage;
 
     /**
+     * @var array
+     * */
+    public $infoPrices;
+
+    /**
      * Create a new component instance.
      *
      * @param Product $product
@@ -43,6 +51,13 @@ class ProductItemComponent extends Component
         $this->index = $index;
         $this->perPage = $perPage;
         $this->currentPage = $currentPage;
+
+        $this->infoPrices = $this->product->infoPrices->take(3)->map(function(InformationalPrice $infoPrice) {
+            return [
+                "name" => $infoPrice->name,
+                "priceFormatted" => H::priceRubFormatted($infoPrice->price, $this->product->price_retail_currency_id),
+            ];
+        })->toArray();
     }
 
     /**
@@ -58,5 +73,26 @@ class ProductItemComponent extends Component
     public function orderNumber()
     {
         return ($this->perPage * ($this->currentPage - 1)) + $this->index + 1;
+    }
+
+    public function mainImage(): string
+    {
+        return $this->product->getFirstMediaUrl(Product::MC_MAIN_IMAGE);
+    }
+
+    public function route(): string
+    {
+        $category = $this->product->category;
+        $parentCategory1 = $this->product->category->parentCategory;
+        $parentCategory2 = $this->product->category->parentCategory->parentCategory ?? null;
+        $parentCategory3 = $this->product->category->parentCategory->parentCategory->parentCategory ?? null;
+
+        if ($parentCategory3) return route("product.show.4", [$parentCategory3->slug, $parentCategory2->slug, $parentCategory1->slug, $category->slug, $this->product->slug]);
+
+        if ($parentCategory2) return route("product.show.3", [$parentCategory2->slug, $parentCategory1->slug, $category->slug, $this->product->slug]);
+
+        if ($parentCategory1) return route("product.show.2", [$parentCategory1->slug, $category->slug, $this->product->slug]);
+
+        return route("product.show.1", [$category->slug, $this->product->slug]);
     }
 }
