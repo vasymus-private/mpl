@@ -7,7 +7,6 @@ use App\Models\AvailabilityStatus;
 use App\Models\BaseModel;
 use App\Models\Category;
 use App\Models\Currency;
-use App\Services\CBRcurrencyConverter\CBRcurrencyConverter;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -112,6 +111,18 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
  *
  * @see Product::getCoefficientPriceRubFormattedAttribute()
  * @property string $coefficient_price_rub_formatted
+ *
+ * @see Product::getMarginRubAttribute()
+ * @property float|null $margin_rub
+ *
+ * @see Product::getMarginRubFormattedAttribute()
+ * @property string $margin_rub_formatted
+ *
+ * @see Product::getPriceMarkupAttribute()
+ * @property float|null $price_markup
+ *
+ * @see Product::getPriceIncomeAttribute()
+ * @property float|null $price_income
  **/
 class Product extends BaseModel implements HasMedia
 {
@@ -251,5 +262,40 @@ class Product extends BaseModel implements HasMedia
     public function getCoefficientPriceRubFormattedAttribute(): string
     {
         return H::priceRubFormatted($this->coefficient_price_rub, Currency::ID_RUB);
+    }
+
+    public function getMarginRubAttribute(): ?float
+    {
+        $retailRub = $this->price_retail_rub;
+        $purchaseRub = $this->price_purchase_rub;
+
+        return $retailRub - $purchaseRub;
+    }
+
+    public function getMarginRubFormattedAttribute(): string
+    {
+        $margin = $this->margin_rub;
+
+        return H::priceRubFormatted($margin, Currency::ID_RUB);
+    }
+
+    public function getPriceMarkupAttribute(): ?float
+    {
+        $margin = $this->margin_rub;
+        $purchaseRub = $this->price_purchase_rub;
+
+        if (!$margin || !$purchaseRub) return null;
+
+        return $margin * 100 / $purchaseRub;
+    }
+
+    public function getPriceIncomeAttribute(): ?float
+    {
+        $margin = $this->margin_rub;
+        $retailRub = $this->price_retail_rub;
+
+        if (!$margin || !$retailRub) return null;
+
+        return $margin * 100 / $retailRub;
     }
 }
