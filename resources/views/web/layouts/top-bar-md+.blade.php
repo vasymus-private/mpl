@@ -24,7 +24,11 @@
                        data-trigger="manual" data-original-title="" title="">
                         Корзина <span class="js-cart-items-count top-bar__count">0</span>
                     </a>
-                    <a href="#" class="top-bar__enter">Вход</a>
+                    @if(\Illuminate\Support\Facades\Auth::user()->is_anonymous)
+                        <a href="{{route("login")}}" class="top-bar__enter">Вход</a>
+                    @else
+                        <a href="#" class="top-bar__enter">Выход</a>
+                    @endif
                 </div>
             </div>
         </div>

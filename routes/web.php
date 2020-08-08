@@ -17,9 +17,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('---test', [\App\Http\Controllers\TestController::class, 'test']);
 
 
-//Route::middleware(["anonymous-uid", "create-anonymous"])->group(function() {
+Route::middleware(["anonymous-uid", "create-anonymous"])->group(function() {
 
-
+    /** @see \Laravel\Ui\AuthRouteMethods::auth() */
+    Route::get('login', [\App\Http\Controllers\Web\Auth\LoginController::class, "showLoginForm"])->name('login');
 
     Route
         ::get(
@@ -92,7 +93,7 @@ Route::get('---test', [\App\Http\Controllers\TestController::class, 'test']);
 
     Route::get("/", [\App\Http\Controllers\Web\HomeController::class, "index"])->name("home");
 
-//});
+});
 
 
 
