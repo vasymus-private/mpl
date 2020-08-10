@@ -2,6 +2,7 @@
 
 @section('page-content')
     <?php /** @var \App\Models\Brand $brand */ ?>
+    <x-h1 :entity="$brand"></x-h1>
     <div>
         <div>
             <img src="{{$brand->getFirstMediaUrl(\App\Models\Brand::MC_MAIN_IMAGE)}}" alt="" />

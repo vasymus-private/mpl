@@ -21,6 +21,10 @@ Route::middleware(["anonymous-uid", "create-anonymous"])->group(function() {
 
     /** @see \Laravel\Ui\AuthRouteMethods::auth() */
     Route::get('login', [\App\Http\Controllers\Web\Auth\LoginController::class, "showLoginForm"])->name('login');
+    Route::post('login', [\App\Http\Controllers\Web\Auth\LoginController::class, "login"]);
+
+    Route::get('password/reset', [\App\Http\Controllers\Web\Auth\ForgotPasswordController::class, "showLinkRequestForm"])->name('password.request');
+    Route::post('password/email', [\App\Http\Controllers\Web\Auth\ForgotPasswordController::class, "sendResetLinkEmail"])->name('password.email');
 
     Route
         ::get(

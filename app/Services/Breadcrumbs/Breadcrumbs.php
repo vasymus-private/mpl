@@ -82,9 +82,6 @@ class Breadcrumbs
                 "url" => route("products.index", [$category->slug, $subcategory1->slug, $subcategory2->slug, $subcategory3->slug]),
             ]);
         }
-        $breadcrumbs[] = new BreadcrumbDTO([
-            "name" => $product->name,
-        ]);
 
         return $breadcrumbs;
     }

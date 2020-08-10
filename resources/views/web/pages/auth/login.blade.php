@@ -1,6 +1,8 @@
 @extends('web.pages.page-layout')
 
 @section('page-content')
+    <x-h1 :entity="'Авторизация'"></x-h1>
+
     <p><b>Авторизуйтесь, чтобы увидеть свои заказы.</b></p>
     <p>При оформлении заказа Логину присвоено название указанного Вами Email, а пароль сгенерирован автоматитчески и выслан на этот Email.</p>
     <form method="POST" action="{{ route('login') }}">

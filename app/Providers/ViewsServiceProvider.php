@@ -3,8 +3,12 @@
 namespace App\Providers;
 
 use App\View\Components\BreadcrumbsComponent;
+use App\View\Components\H1Component;
 use App\View\Components\MbBrandsFilterComponent;
 use App\View\Components\MbMenuMaterialsComponent;
+use App\View\Components\ProductAccessoryItemComponent;
+use App\View\Components\ProductComponent;
+use App\View\Components\ProductGalleryItemComponent;
 use App\View\Components\ProductItemComponent;
 use App\View\Components\SeoComponent;
 use App\View\Components\SidebarBrandsFilterComponent;
@@ -36,6 +40,7 @@ class ViewsServiceProvider extends ServiceProvider
     public function boot()
     {
         Blade::component("seo", SeoComponent::class);
+        Blade::component("h1", H1Component::class);
         Blade::component("sidebar-menu-materials", SidebarMenuMaterialsComponent::class);
         Blade::component("sidebar-menu-services", SidebarMenuServicesComponent::class);
         Blade::component("sidebar-brands-filter", SidebarBrandsFilterComponent::class);
@@ -46,6 +51,7 @@ class ViewsServiceProvider extends ServiceProvider
         Blade::component("sidebar-menu-viewed", SidebarMenuViewedComponent::class);
 
         Blade::component("product-item", ProductItemComponent::class);
+        Blade::component("product", ProductComponent::class);
 
         Blade::component("breadcrumbs", BreadcrumbsComponent::class);
     }

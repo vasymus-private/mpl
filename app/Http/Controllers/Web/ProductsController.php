@@ -13,7 +13,7 @@ class ProductsController extends BaseWebController
 {
     public function index(Request $request)
     {
-        $query = Product::query();
+        $query = Product::query()->notVariation()->with("infoPrices");
 
         /** @var Category|null $category */
         $category = $request->category_slug;
@@ -61,9 +61,9 @@ class ProductsController extends BaseWebController
 
         $breadcrumbs = Breadcrumbs::productsRoute($category, $subcategory1, $subcategory2, $subcategory3);
 
-        $subtitle = $subcategory3->name ?? $subcategory2->name ?? $subcategory1->name ?? $category->name ?? null;
+        $entity = $subcategory3 ?? $subcategory2 ?? $subcategory1 ?? $category ?? null;
 
-        return view("web.pages.products.products", compact("productIds", "products", "breadcrumbs", "subtitle"));
+        return view("web.pages.products.products", compact("productIds", "products", "breadcrumbs", "entity"));
     }
 
     public function show(Request $request)
@@ -79,6 +79,7 @@ class ProductsController extends BaseWebController
 
         /** @var Product $product */
         $product = $request->product_slug;
+        $product->load(["variations.parent", "brand", "accessory.category.parentCategory.parentCategory.parentCategory", "similar.category.parentCategory.parentCategory.parentCategory", "related.category.parentCategory.parentCategory.parentCategory", "works.category.parentCategory.parentCategory.parentCategory"]);
 
         $breadcrumbs = Breadcrumbs::productRoute($product, $category, $subcategory1, $subcategory2, $subcategory3);
 

@@ -1,9 +1,7 @@
 @extends('web.pages.page-layout')
 
 @section('page-content')
-    <h2 class="content-header__title">
-        @if($subtitle)<span>{{$subtitle}}</span>@else<span style="padding: 0">&nbsp;</span>@endif
-    </h2>
+    <x-h1 :entity="$subtitle"></x-h1>
     <ul>
         @foreach($galleryItems as $index => $galleryItem)
             <?php /** @var \App\Models\GalleryItem $galleryItem */ ?>

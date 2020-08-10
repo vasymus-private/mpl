@@ -15,7 +15,8 @@ import stickyHeader from './modules/stickyHeader';
 import sidebarMenu from './modules/sidebarMenu';
 import accordionMob from './modules/accordionMob';
 import slimScroll from './modules/slimScroll';
-import showSearchBlock from './modules/showSearchBlock';
+import showSearchBlock from './modules/showSearchBlock'
+import "./modules/cart"
 
 (($) => {
     // When DOM is ready

@@ -3,8 +3,6 @@
 @section('page-content')
     <article class="article-content">
         <h1>Лак или масло для паркета</h1>
-
-
     <div class="contenti">
         <p style="text-align: center;"><img longdesc="/покрытие паркета лаком и маслом" src="/storage/media/158/5454544524564.jpg" border="0" alt="покрытие паркета лаком и маслом" width="170" height="170">   <img longdesc="/покрытие паркета лаком и маслом" src="/storage/media/159/4445545.jpg" border="0" alt="покрытие паркета лаком и маслом" width="170" height="170">   <img longdesc="/покрытие паркета лаком и маслом" src="/storage/media/160/76876786.jpg" border="0" alt="покрытие паркета лаком и маслом" width="170" height="170"></p>
 

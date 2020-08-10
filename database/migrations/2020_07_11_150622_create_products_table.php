@@ -17,15 +17,15 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('slug');
+            $table->string('slug')->nullable()->comment("Product variations slug could be nullable");
             $table->unsignedBigInteger('parent_id')->nullable();
-            $table->boolean('is_with_variations')->default(false);
-            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('category_id')->nullable()->comment("Product variations category_id could be nullable");
             $table->unsignedBigInteger('ordering')->nullable();
             $table->boolean('is_active')->default(false);
             $table->unsignedBigInteger('brand_id')->nullable();
             $table->double('coefficient')->nullable();
             $table->string('coefficient_description')->nullable();
+            $table->boolean('coefficient_description_show')->default(false);
             $table->string('price_name')->default('Цена');
             $table->text('admin_comment')->nullable();
             $table->double('price_purchase')->nullable();

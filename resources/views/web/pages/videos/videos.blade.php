@@ -1,8 +1,8 @@
 @extends('web.pages.page-layout')
 
 @section('page-content')
+    <x-h1 :entity="'Видеогалерея'"></x-h1>
     <article class="article-content ">
-        <h1>Видеогалерея</h1>
         <h3>Укладка Ламината и Паркетной доски</h3>
         <iframe width="560" height="315" src="https://www.youtube.com/embed/TMaANkQxezU" frameborder="0" allowfullscreen></iframe>
         <br>

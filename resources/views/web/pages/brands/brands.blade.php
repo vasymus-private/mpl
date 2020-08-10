@@ -1,6 +1,7 @@
 @extends('web.pages.page-layout')
 
 @section('page-content')
+    <x-h1 :entity="'Бренды'"></x-h1>
     <?php /** @var \Illuminate\Pagination\LengthAwarePaginator $products */ ?>
     {{ $brandsList->onEachSide(1)->links('web.pagination.default') }}
     <ul>

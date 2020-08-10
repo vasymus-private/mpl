@@ -45,6 +45,7 @@ class ProductsInfoPricesSeoTablesSeeder extends Seeder
 
     protected function initialSeed()
     {
+        dump("initial seeding");
         foreach ($this->rawSeeds as $rawSeed) {
             $asIsAttributes = [
                 "id",
@@ -126,8 +127,6 @@ class ProductsInfoPricesSeoTablesSeeder extends Seeder
                 }
             }
 
-            $seed['is_with_variations'] = !empty($rawSeed["variations"]);
-
             if (empty($seed["slug"])) $seed["slug"] = str_slug($seed["name"]);
 
             try {
@@ -145,6 +144,8 @@ class ProductsInfoPricesSeoTablesSeeder extends Seeder
 
     protected function seedRelations()
     {
+        dump("seed relations");
+
         foreach ($this->rawSeeds as $rawSeed) {
             /** @var Product $product */
             $product = Product::query()->findOrFail($rawSeed["id"]);
@@ -183,13 +184,15 @@ class ProductsInfoPricesSeoTablesSeeder extends Seeder
      */
     protected function seedVariations()
     {
+        dump("seed variations");
+
         foreach ($this->rawSeeds as $rawSeed) {
-            /** @var Product $product */
-            $product = Product::query()->findOrFail($rawSeed["id"]);
+            /** @var Product $parentProduct */
+            $parentProduct = Product::query()->findOrFail($rawSeed["id"]);
 
-            if (empty($product["variations"])) continue;
+            if (empty($rawSeed["variations"])) continue;
 
-            foreach ($product["variations"] as $variation) {
+            foreach ($rawSeed["variations"] as $variation) {
                 $asIsAttributes = ["name", "price_retail", "ordering", "price_purchase", "is_active", "unit", "coefficient", "preview"];
                 $seed = [];
                 foreach ($asIsAttributes as $attribute) {
@@ -200,9 +203,8 @@ class ProductsInfoPricesSeoTablesSeeder extends Seeder
                 if (!empty($variation["price_purchase_currency_id"]))
                     $seed["price_purchase_currency_id"] = Currency::getIdByName($variation["price_purchase_currency_id"]);
 
-                $seed["slug"] = str_slug($seed["name"]);
                 $seed["is_active"] = true;
-                $seed["parent_id"] = $rawSeed["id"];
+                $seed["parent_id"] = $parentProduct["id"];
 
                 $product = Product::forceCreate($seed);
 

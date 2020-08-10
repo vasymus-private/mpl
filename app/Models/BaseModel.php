@@ -17,6 +17,8 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @see Builder::firstOrNew()
  * @method static static firstOrNew()
+ *
+ * @method static static|Builder query()
  * */
 abstract class BaseModel extends Model
 {

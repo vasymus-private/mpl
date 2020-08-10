@@ -21,7 +21,6 @@
     <link href="{{ mix('css/app.css') }}" rel="stylesheet" />
 </head>
 <body>
-    @dump(\Illuminate\Support\Facades\Auth::id())
     @include("web.layouts.mb-menu")
     @yield("mb-brands-filter")
     <div class="wrapper @yield('wrapper-class')">

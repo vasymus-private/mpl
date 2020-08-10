@@ -13,7 +13,7 @@ jQuery().ready(() => {
         $productItem.popover({
             container : "body",
             html : true,
-            placement : "right",
+            //placement : "right",
             template : '<div class="popover" role="tooltip"><div class="arrow"></div><button type="button" class="popover-close js-product-item-popover-close" style="position: absolute; top: 0; right: 0">X</button><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
             trigger : "manual",
             sanitize : false,
