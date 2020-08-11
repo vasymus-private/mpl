@@ -10,3 +10,16 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+/**
+ * !!!
+ * Prefix "ajax"
+ * Name "ajax."
+ * !!!
+ * */
+
+use Illuminate\Support\Facades\Route;
+
+Route::middleware(["auth"])->group(function() {
+    Route::post("products/aside", [\App\Http\Controllers\Web\Ajax\AsideProductsController::class, "store"])->name("products.aside");
+});

@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Pivots\ProductUserAside;
+use App\Models\Pivots\ProductUserCart;
+use App\Models\Pivots\ProductUserViewed;
+use App\Models\Product\Product;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -36,6 +40,18 @@ use Illuminate\Notifications\Notifiable;
  *
  * @see User::getIsAnonymousAttribute()
  * @property bool $isAnonymous
+ *
+ * @see User::products()
+ * @property Product[]|Collection $products
+ *
+ * @see User::cart()
+ * @property Product[]|Collection $cart
+ *
+ * @see User::viewed()
+ * @property Product[]|Collection $viewed
+ *
+ * @see User::aside()
+ * @property Product[]|Collection $aside
  *
  * @mixin BaseModel
  * */
@@ -109,5 +125,20 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getIsAnonymousAttribute(): bool
     {
         return $this->email === null && (bool) $this->anonymous_uid;
+    }
+
+    public function cart(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class)->using(ProductUserCart::class)->withPivot(["count", "created_at"]);
+    }
+
+    public function viewed(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class)->using(ProductUserViewed::class)->withPivot(["created_at"]);
+    }
+
+    public function aside(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class)->using(ProductUserAside::class)->withPivot(["created_at"]);
     }
 }

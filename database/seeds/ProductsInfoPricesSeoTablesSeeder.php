@@ -5,7 +5,9 @@ use App\Models\Currency;
 use App\Models\InformationalPrice;
 use App\Models\Pivots\CategoryProduct;
 use App\Models\Pivots\ProductProduct;
-use App\Models\Pivots\ProductUser;
+use App\Models\Pivots\ProductUserAside;
+use App\Models\Pivots\ProductUserCart;
+use App\Models\Pivots\ProductUserViewed;
 use App\Models\Product\Product;
 use App\Models\Seo;
 use Illuminate\Database\Seeder;
@@ -30,7 +32,9 @@ class ProductsInfoPricesSeoTablesSeeder extends Seeder
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Product::query()->truncate();
-        ProductUser::query()->truncate();
+        ProductUserAside::query()->truncate();
+        ProductUserViewed::query()->truncate();
+        ProductUserCart::query()->truncate();
         CategoryProduct::query()->truncate();
         ProductProduct::query()->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');

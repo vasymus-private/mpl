@@ -18,9 +18,17 @@ class AddForeignKeysToAllTables1 extends Migration
             $table->foreign('product_2_id', 'product_product_product_2_id_products_id')->references('id')->on('products');
         });
 
-        Schema::table('product_user', function (Blueprint $table) {
-            $table->foreign('product_id', 'product_user_product_id_products_id')->references('id')->on('products');
-            $table->foreign('user_id', 'product_user_user_id_users_id')->references('id')->on('users');
+        Schema::table('product_user_aside', function (Blueprint $table) {
+            $table->foreign('product_id', 'product_user_aside_product_id_products_id')->references('id')->on('products');
+            $table->foreign('user_id', 'product_user_aside_user_id_users_id')->references('id')->on('users');
+        });
+        Schema::table('product_user_viewed', function (Blueprint $table) {
+            $table->foreign('product_id', 'product_user_viewed_product_id_products_id')->references('id')->on('products');
+            $table->foreign('user_id', 'product_user_viewed_user_id_users_id')->references('id')->on('users');
+        });
+        Schema::table('product_user_cart', function (Blueprint $table) {
+            $table->foreign('product_id', 'product_user_cart_product_id_products_id')->references('id')->on('products');
+            $table->foreign('user_id', 'product_user_cart_user_id_users_id')->references('id')->on('users');
         });
 
         Schema::table('products', function (Blueprint $table) {
@@ -61,10 +69,19 @@ class AddForeignKeysToAllTables1 extends Migration
             $table->dropForeign('product_product_product_2_id_products_id');
         });
 
-        Schema::table('product_user', function (Blueprint $table) {
-            $table->dropForeign('product_user_product_id_products_id');
-            $table->dropForeign('product_user_user_id_users_id');
+        Schema::table('product_user_aside', function (Blueprint $table) {
+            $table->dropForeign('product_user_aside_product_id_products_id');
+            $table->dropForeign('product_user_aside_user_id_users_id');
         });
+        Schema::table('product_user_viewed', function (Blueprint $table) {
+            $table->dropForeign('product_user_viewed_product_id_products_id');
+            $table->dropForeign('product_user_viewed_user_id_users_id');
+        });
+        Schema::table('product_user_cart', function (Blueprint $table) {
+            $table->dropForeign('product_user_cart_product_id_products_id');
+            $table->dropForeign('product_user_cart_user_id_users_id');
+        });
+
 
         Schema::table('products', function (Blueprint $table) {
             $table->dropForeign('products_category_id_categories_id');

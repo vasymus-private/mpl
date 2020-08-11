@@ -111,21 +111,27 @@ class RouteServiceProvider extends ServiceProvider
 
     protected function mapAjaxRoutes()
     {
-        Route::middleware('web')
+        Route::prefix("ajax")
+            ->name("ajax.")
+            ->middleware('web')
             ->namespace($this->namespace)
             ->group(base_path('routes/ajax.php'));
     }
 
     protected function mapAdminRoutes()
     {
-        Route::middleware(['web', "auth:web-admin"])
+        Route::prefix("admin")
+            ->name("admin.")
+            ->middleware(['web', "auth:web-admin"])
             //->namespace($this->namespace)
             ->group(base_path('routes/admin.php'));
     }
 
     protected function mapAdminAjaxRoutes()
     {
-        Route::middleware(['web', "auth:web-admin"])
+        Route::prefix("admin-ajax")
+            ->name("admin-ajax.")
+            ->middleware(['web', "auth:web-admin"])
             //->namespace($this->namespace)
             ->group(base_path('routes/admin-ajax.php'));
     }

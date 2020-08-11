@@ -8,16 +8,11 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 /**
  * @property int $product_id
  * @property int $user_id
- * @property int $type_id
- * @property int $count
  * @property Carbon|null $created_at
  * */
-class ProductUser extends Pivot
+class ProductUserViewed extends Pivot
 {
-    const TABLE = "product_user";
-
-    const TYPE_CART = 1;
-    const TYPE_VIEWED = 2;
+    const TABLE = "product_user_viewed";
 
     /**
      * The table associated with the model.

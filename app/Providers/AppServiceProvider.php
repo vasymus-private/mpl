@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Admin;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\FAQ;
@@ -35,7 +36,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Relation::morphMap([
-            'products' => Product::class,
+            "admin" => Admin::class,
+            "products" => Product::class,
             "manufacturers" => Brand::class,
             "categories" => Category::class,
             "faq" => FAQ::class,
