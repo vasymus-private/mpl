@@ -17,6 +17,7 @@ import accordionMob from './modules/accordionMob';
 import slimScroll from './modules/slimScroll';
 import showSearchBlock from './modules/showSearchBlock'
 import "./modules/cart"
+import "./helpers/Rest"
 
 (($) => {
     // When DOM is ready

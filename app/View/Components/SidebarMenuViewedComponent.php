@@ -2,10 +2,20 @@
 
 namespace App\View\Components;
 
+use App\Models\Product\Product;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Component;
 
 class SidebarMenuViewedComponent extends Component
 {
+    /**
+     * @var Collection|Product[]
+     * */
+    public $viewed;
+
     /**
      * Create a new component instance.
      *
@@ -13,7 +23,14 @@ class SidebarMenuViewedComponent extends Component
      */
     public function __construct()
     {
-
+        /** @var User $user */
+        $user = Auth::user();
+        $user->load([
+            "viewed" => function(BelongsToMany $query) {
+                $query->orderBy("pivot_created_at", "desc");
+            }
+        ]);
+        $this->viewed = $user->viewed;
     }
 
     /**

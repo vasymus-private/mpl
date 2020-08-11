@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web\Ajax;
 
 use App\Http\Controllers\Web\BaseWebController;
+use App\Http\Requests\Web\Ajax\AsideProductsDeleteRequest;
 use App\Http\Requests\Web\Ajax\AsideProductsStoreRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -13,10 +14,32 @@ class AsideProductsController extends BaseWebController
     {
         /** @var User $user */
         $user = Auth::user();
-        $user->viewed()->syncWithoutDetaching($request->ids);
+        $user->aside()->detach($request->id);
+        $user->aside()->syncWithoutDetaching($request->id);
 
-        $user->loadCount(["aside"]);
+        $user->load(["aside:id"]);
 
-        return $user->aside_count;
+        return [
+            "data" => [
+                "count" => $user->aside->count(),
+                "ids" => $user->aside->pluck("id")->toArray(),
+            ]
+        ];
+    }
+
+    public function delete(AsideProductsDeleteRequest $request)
+    {
+        /** @var User $user */
+        $user = Auth::user();
+        $user->aside()->detach($request->id);
+
+        $user->load(["aside:id"]);
+
+        return [
+            "data" => [
+                "count" => $user->aside->count(),
+                "ids" => $user->aside->pluck("id")->toArray(),
+            ]
+        ];
     }
 }

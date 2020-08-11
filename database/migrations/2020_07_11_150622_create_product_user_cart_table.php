@@ -17,7 +17,7 @@ class CreateProductUserCartTable extends Migration
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('user_id');
             $table->integer('count')->default(1);
-            $table->timestamp('created_at')->useCurrent();
+            $table->timestamps();
             $table->primary(['product_id', 'user_id']);
         });
     }

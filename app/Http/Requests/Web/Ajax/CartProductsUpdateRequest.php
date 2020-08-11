@@ -3,11 +3,26 @@
 namespace App\Http\Requests\Web\Ajax;
 
 use App\Models\Product\Product;
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Validator;
 
-class AsideProductsStoreRequest extends FormRequest
+class CartProductsUpdateRequest extends FormRequest
 {
+    /**
+     * @var Product
+     * */
+    protected $product;
+
+    /**
+     * @return Product
+     */
+    public function getProduct(): Product
+    {
+        return $this->product;
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -27,6 +42,7 @@ class AsideProductsStoreRequest extends FormRequest
     {
         return [
             "id" => "required|integer",
+            "count" => "integer|min:1",
         ];
     }
 
@@ -39,10 +55,12 @@ class AsideProductsStoreRequest extends FormRequest
     public function withValidator(Validator $validator)
     {
         $validator->after(function (Validator $validator) {
-            $existsIds = Product::query()->notVariations()->active()->pluck("id")->toArray();
-            if (!in_array($this->id, $existsIds)) {
-                $validator->errors()->add("id", "Id `{$this->id}` of product should exist, be active and not be a variation.");
-            }
+            /** @var User $user */
+            $user = Auth::user();
+
+            $this->product = $user->cart()->findOrFail($this->id);
         });
     }
+
+
 }

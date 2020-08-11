@@ -16,7 +16,7 @@ class CreateProductUserViewedTable extends Migration
         Schema::create('product_user_viewed', function (Blueprint $table) {
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('user_id');
-            $table->timestamp('created_at')->useCurrent();
+            $table->timestamps();
             $table->primary(['product_id', 'user_id']);
         });
     }

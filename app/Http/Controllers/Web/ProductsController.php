@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Events\ProductViewedEvent;
 use App\Models\Category;
 use App\Models\Product\Product;
 use App\Services\Breadcrumbs\Breadcrumbs;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 
 class ProductsController extends BaseWebController
 {
     public function index(Request $request)
     {
-        $query = Product::query()->notVariation()->with("infoPrices");
+        $query = Product::query()->notVariations()->with("infoPrices");
 
         /** @var Category|null $category */
         $category = $request->category_slug;
@@ -79,6 +81,9 @@ class ProductsController extends BaseWebController
 
         /** @var Product $product */
         $product = $request->product_slug;
+
+        event(new ProductViewedEvent(Auth::user(), $product));
+
         $product->load(["variations.parent", "brand", "accessory.category.parentCategory.parentCategory.parentCategory", "similar.category.parentCategory.parentCategory.parentCategory", "related.category.parentCategory.parentCategory.parentCategory", "works.category.parentCategory.parentCategory.parentCategory"]);
 
         $breadcrumbs = Breadcrumbs::productRoute($product, $category, $subcategory1, $subcategory2, $subcategory3);

@@ -85,8 +85,14 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
  * @see Product::scopeActive()
  * @method static static|Builder active()
  *
- * @see Product::scopeNotVariation()
- * @method static static|Builder notVariation()
+ * @see Product::scopeNotVariations()
+ * @method static static|Builder notVariations()
+ *
+ * @see Product::scopeVariations()
+ * @method static static|Builder variations()
+ *
+ * @see Product::scopeDoesntHaveVariations()
+ * @method static static|Builder doesntHaveVariations()
  *
  * @see Product::getPriceRetailCurrencyNameAttribute()
  * @property string|null $price_retail_currency_name
@@ -129,6 +135,9 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
  *
  * @see Product::getIsVariationAttribute()
  * @property bool $is_variation
+ *
+ * @see Product::getWebRouteAttribute()
+ * @property string $web_route
  **/
 class Product extends BaseModel implements HasMedia
 {
@@ -424,9 +433,23 @@ class Product extends BaseModel implements HasMedia
         return round($margin * 100 / $retailRub, 2);
     }
 
-    public function scopeNotVariation(Builder $builder): Builder
+    public function scopeNotVariations(Builder $builder): Builder
     {
-        return $builder->whereNull(self::TABLE . ".parent_id");
+        return $builder->whereNull(static::TABLE . ".parent_id");
+    }
+
+    public function scopeVariations(Builder $builder): Builder
+    {
+        return $builder->whereNotNull(static::TABLE . ".parent_id");
+    }
+
+    /**
+     * @param Builder|static $builder
+     * @return Builder
+     * */
+    public function scopeDoesntHaveVariations(Builder $builder): Builder
+    {
+        return $builder->doesntHave("variations");
     }
 
     public function getRoute(): string
@@ -447,6 +470,11 @@ class Product extends BaseModel implements HasMedia
         if ($parent3 === null) return route("product.show.3", [$parent2->slug, $parent1->slug, $category->slug, $this->slug]);
 
         return route("product.show.4", [$parent3->slug, $parent2->slug, $parent1->slug, $category->slug, $this->slug]);
+    }
+
+    public function getWebRouteAttribute()
+    {
+        return $this->getRoute();
     }
 
     public function characteristics(): array

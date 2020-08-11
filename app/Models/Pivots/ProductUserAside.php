@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @property int $product_id
  * @property int $user_id
  * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * */
 class ProductUserAside extends Pivot
 {
