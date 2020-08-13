@@ -43,6 +43,8 @@ class CartProductsStoreRequest extends FormRequest
         $validator->after(function (Validator $validator) {
             $existsIds = Product
                 ::query()
+                ->active()
+                ->available()
                 ->where(function(Builder $query) {
                     $query
                         ->orWhere(function(Builder $qu) {
@@ -55,12 +57,11 @@ class CartProductsStoreRequest extends FormRequest
                         })
                     ;
                 })
-                ->active()
                 ->pluck("id")
                 ->toArray()
             ;
             if (!in_array($this->id, $existsIds)) {
-                $validator->errors()->add("id", "Id `{$this->id}` of product should exist, be active and be a variation or product without variations.");
+                $validator->errors()->add("id", "Id `{$this->id}` of product should exist, be active, be available and be a variation or product without variations.");
             }
         });
     }

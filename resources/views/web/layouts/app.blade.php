@@ -37,5 +37,6 @@
         @include("web.modals.consent-processing-personal-data")
         @include("web.layouts.back-to-top")
     </div>
+    @include("web.templates-for-js.sidebar-menu-cart-item")
 </body>
 </html>

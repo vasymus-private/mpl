@@ -24,14 +24,17 @@ class ProfileComposer
 
         $asideIds = $user->aside->pluck("id")->toArray();
 
+        $cartIds = $user->cart->pluck("id")->toArray();
+
         $cartCount = $user->cart->reduce(function(int $acc, Product $product) {
-            return $acc += $product->pivot_count;
+            return $acc += ($product->pivot->count ?? 1);
         }, 0);
 
         $view->with("viewedCount", $user->viewed_count)
             ->with("cartCount", $cartCount)
             ->with("asideCount", count($asideIds))
             ->with("asideIds", $asideIds)
+            ->with("cartIds", $cartIds)
         ;
     }
 }

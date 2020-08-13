@@ -29,9 +29,11 @@ class CartProductResource extends JsonResource
             "mainImage" => $this->resource->getFirstMediaUrl(Product::MC_MAIN_IMAGE),
             "price_rub" => $this->resource->price_retail_rub,
             "currency_rub_formatted" => Currency::getFormattedName(Currency::ID_RUB),
+            "price_formatted" => $this->resource->price_retail_rub_formatted,
             "unit" => $this->resource->unit,
             "count" => $this->resource->pivot->count ?? null,
             "route" => $this->resource->web_route,
+            "price_name" => $this->resource->price_name,
         ];
     }
 }

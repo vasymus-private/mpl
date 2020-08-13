@@ -7,10 +7,12 @@ use App\Models\AvailabilityStatus;
 use App\Models\BaseModel;
 use App\Models\Category;
 use App\Models\Currency;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Auth;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
@@ -85,6 +87,9 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
  * @see Product::scopeActive()
  * @method static static|Builder active()
  *
+ * @see Product::scopeAvailable()
+ * @method static static|Builder available()
+ *
  * @see Product::scopeNotVariations()
  * @method static static|Builder notVariations()
  *
@@ -138,6 +143,9 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
  *
  * @see Product::getWebRouteAttribute()
  * @property string $web_route
+ *
+ * @see Product::getIsInCartAttribute()
+ * @property bool|null $is_in_cart
  **/
 class Product extends BaseModel implements HasMedia
 {
@@ -330,6 +338,11 @@ class Product extends BaseModel implements HasMedia
         return $builder->where(static::TABLE . ".is_active", true);
     }
 
+    public function scopeAvailable(Builder $builder): Builder
+    {
+        return $builder->whereIn(static::TABLE . ".availability_status_id", [AvailabilityStatus::ID_AVAILABLE_IN_STOCK, AvailabilityStatus::ID_AVAILABLE_NOT_IN_STOCK]);
+    }
+
     public function getPriceRetailCurrencyNameAttribute(): ?string
     {
         return Currency::getFormattedName($this->price_retail_currency_id);
@@ -431,6 +444,15 @@ class Product extends BaseModel implements HasMedia
         if (!$margin || !$retailRub) return null;
 
         return round($margin * 100 / $retailRub, 2);
+    }
+
+    public function getIsInCartAttribute(): ?bool
+    {
+        /** @var User|null $user */
+        $user = Auth::user();
+        if (!$user) return null;
+
+        return in_array($this->id, $user->cart->pluck("id")->toArray());
     }
 
     public function scopeNotVariations(Builder $builder): Builder

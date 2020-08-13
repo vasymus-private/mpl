@@ -80,8 +80,13 @@
     <p>Упаковка</p>
     <p>{{$product->unit}}</p>
     @if($product->is_available)
-    <p><input type="number" min="1" class="js-add-to-cart-count" value="1" /></p>
-    <p><button type="button" class="js-add-to-cart" data-id="{{$product->id}}">В корзину</button></p>
+    <p><input type="number" min="1" class="js-add-to-cart-input-count-{{$product->id}} js-input-hide-on-focus" value="1" /></p>
+    <p><button
+            type="button"
+            class="js-add-to-cart {{ $product->availability_status_id === \App\Models\AvailabilityStatus::ID_AVAILABLE_IN_STOCK ? "available-in-stock" : "" }} {{$product->availability_status_id === \App\Models\AvailabilityStatus::ID_AVAILABLE_NOT_IN_STOCK ? "available-not-in-stock" : ""}}"
+            data-id="{{$product->id}}"
+            data-is-in-cart="{{(int)$product->is_in_cart}}"
+        >{{$product->is_in_cart ? "Добавить" : "В корзину"}}</button></p>
     @else
     <p>Нет в наличии</p>
     @endif
@@ -131,10 +136,23 @@
                         {{$variation->unit}}
                     </td>
                     <td>
-                        <input type="number" min="1" class="js-add-to-cart-count" value="1" />
+                        @if($variation->is_available)
+                            <input type="number" min="1" class="js-add-to-cart-input-count-{{$variation->id}} js-input-hide-on-focus" value="1" />
+                        @else
+                            &nbsp;
+                        @endif
                     </td>
                     <td>
-                        <button type="button" class="js-add-to-cart" data-id="{{$variation->id}}">В корзину</button>
+                        @if($variation->is_available)
+                            <button
+                                class="{{ $variation->availability_status_id === \App\Models\AvailabilityStatus::ID_AVAILABLE_IN_STOCK ? "available-in-stock" : "" }} {{$variation->availability_status_id === \App\Models\AvailabilityStatus::ID_AVAILABLE_NOT_IN_STOCK ? "available-not-in-stock" : ""}} js-add-to-cart"
+                                type="button"
+                                data-id="{{$variation->id}}"
+                                data-is-in-cart="{{(int)$variation->is_in_cart}}"
+                            >{{ $variation->is_in_cart ? "Добавить" : "В корзину" }}</button>
+                        @else
+                            Нет в наличии
+                        @endif
                     </td>
                 </tr>
                 <tr>

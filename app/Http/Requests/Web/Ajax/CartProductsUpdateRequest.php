@@ -4,6 +4,7 @@ namespace App\Http\Requests\Web\Ajax;
 
 use App\Models\Product\Product;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Validator;
@@ -58,7 +59,29 @@ class CartProductsUpdateRequest extends FormRequest
             /** @var User $user */
             $user = Auth::user();
 
-            $this->product = $user->cart()->findOrFail($this->id);
+            /** @var Product|Builder $productQuery */
+            $productQuery = $user->cart();
+
+            $productQuery
+                ->active()
+                ->available()
+                ->where(function(Builder $query) {
+                    $query
+                        ->orWhere(function(Builder $qu) {
+                            /** @var Product|Builder $qu*/
+                            $qu->variations();
+                        })
+                        ->orWhere(function(Builder $qu) {
+                            /** @var Product|Builder $qu*/
+                            $qu->doesntHaveVariations();
+                        })
+                    ;
+                })
+            ;
+            $this->product = $productQuery->find($this->id);
+            if (!$this->product) {
+                $validator->errors()->add("id", "Id `{$this->id}` of product should exist, be active, be available and be a variation or product without variations.");
+            }
         });
     }
 

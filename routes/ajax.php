@@ -24,6 +24,7 @@ Route::middleware(["auth"])->group(function() {
     Route::post("products/aside", [\App\Http\Controllers\Web\Ajax\AsideProductsController::class, "store"])->name("products.aside.store");
     Route::delete("products/aside", [\App\Http\Controllers\Web\Ajax\AsideProductsController::class, "delete"])->name("products.aside.delete");
 
+    Route::get("products/cart", [\App\Http\Controllers\Web\Ajax\CartProductsController::class, "index"])->name("products.cart.index");
     Route::post("products/cart", [\App\Http\Controllers\Web\Ajax\CartProductsController::class, "store"])->name("products.cart.store");
     Route::put("products/cart", [\App\Http\Controllers\Web\Ajax\CartProductsController::class, "update"])->name("products.cart.update");
     Route::delete("products/cart", [\App\Http\Controllers\Web\Ajax\CartProductsController::class, "delete"])->name("products.cart.delete");
