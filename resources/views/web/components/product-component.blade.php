@@ -1,10 +1,10 @@
 <?php /** @var \App\Models\Product\Product $product */ ?>
 {{-- Название --}}
-<h2>{{$product->name}}</h2>
+<h2>{!! $product->name !!}</h2>
 
 {{-- Кнопка "отложить" --}}
 <div class="put-off-block">
-    <a href="#" class="put-off-block__link put-off-block__link--active">
+    <a href="#" data-id="{{$product->id}}" class="js-put-aside put-off-block__link {{in_array($product->id, $asideIds) ? "put-off-block__link--active" : ""}}">
         <i class="fa fa-bookmark" aria-hidden="true"></i>
         Отложить
     </a>

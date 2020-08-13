@@ -19,7 +19,7 @@
             </div>
             <div class="column">
                 <div class="product-special">
-                    <a title="{{$viewedItem->name}}" href="{{$viewedItem->web_route}}">{{$viewedItem->name}}</a>
+                    <a title="{{$viewedItem->name}}" href="{{$viewedItem->web_route}}">{!! $viewedItem->name !!}</a>
                 </div>
             </div>
         </div>

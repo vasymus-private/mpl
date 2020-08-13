@@ -1,5 +1,9 @@
 @extends('web.pages.page-home-layout')
 
+@section("humburger-toggle")
+<a class="toggle another-page" href="#"></a>
+@endsection
+
 @section('page-home-content')
     <section class="section-home-page">
         <div class="container">

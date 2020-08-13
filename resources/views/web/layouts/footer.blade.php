@@ -1,3 +1,10 @@
+<?php
+/**
+ * @see \App\View\Composers\ProfileComposer::compose()
+ * @var int $cartCount
+ * @var int $asideCount
+ */
+?>
 <footer class="footer-top">
     <div class="container hidden-md hidden-lg">
         <div class="row-line row-line__between">
@@ -82,12 +89,12 @@
             <div class="column">
                 <h3 class="title-footer"><span>ПОЛЕЗНОЕ</span></h3>
                 <ul class="footer-menu">
-                    <li><a href="{{route('viewed')}}"><i class="fa fa-angle-right" aria-hidden="true"></i>Вы смотрели (0)</a></li>
-                    <li><a href="{{route('deferred')}}"><i class="fa fa-angle-right" aria-hidden="true"></i>Отложенные товары (0)</a></li>
+                    <li><a href="{{route('viewed')}}"><i class="fa fa-angle-right" aria-hidden="true"></i>Вы смотрели ({{$viewedCount}})</a></li>
+                    <li><a href="{{route('aside')}}"><i class="fa fa-angle-right" aria-hidden="true"></i>Отложенные товары (<span class="js-aside-items-count">{{$asideCount}}</span>)</a></li>
                     <li>
                         <i class="fa fa-angle-right" aria-hidden="true"></i>
                         <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                        <a href="{{route('cart.show')}}">Ваша корзина (0)</a>
+                        <a href="{{route('cart.show')}}">Ваша корзина ({{$cartCount}})</a>
                     </li>
                     <li><a href="{{route('brands.index')}}"><i class="fa fa-angle-right" aria-hidden="true"></i>Производители</a></li>
                 </ul>

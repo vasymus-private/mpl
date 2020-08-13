@@ -1,3 +1,9 @@
+<?php
+/**
+ * @see \App\View\Composers\ProfileComposer::compose()
+ * @var int $asideCount
+ * */
+?>
 <div class="sidebar-left">
     <div class="inner-wrapper-sticky">
         <div class="sidebar-left__inner">
@@ -16,7 +22,11 @@
 
             <x-sidebar-menu-cart />
 
-            <x-sidebar-menu-favourites-count />
+            <div class="sidebar-left__fav">
+                <a href="{{route('aside')}}" class="sidebar-left__fav-link">Отложенные товары</a>
+                (<span class="sidebar-left__fav-count js-aside-items-count">{{$asideCount}}</span>)
+            </div>
+
 
             <x-sidebar-menu-viewed />
 

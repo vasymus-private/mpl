@@ -27,7 +27,7 @@ class SidebarMenuViewedComponent extends Component
         $user = Auth::user();
         $user->load([
             "viewed" => function(BelongsToMany $query) {
-                $query->orderBy("pivot_created_at", "desc");
+                $query->orderBy("pivot_created_at", "desc")->limit(5);
             }
         ]);
         $this->viewed = $user->viewed;

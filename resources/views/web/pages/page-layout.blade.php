@@ -9,7 +9,7 @@
         <div class="row-line no-margin">
             @include('web.layouts.sidebar-menu')
 
-            <div class="catalog">
+            <div class="catalog @yield('page-content-wrapper-class')">
                 @yield('page-content')
             </div>
         </div>

@@ -14,15 +14,22 @@ class ProductComponent extends Component
     public $product;
 
     /**
+     * @var array
+     * */
+    public $asideIds;
+
+    /**
      * Create a new component instance.
      *
      * @param Product $product
+     * @param array $asideIds
      *
      * @return void
      */
-    public function __construct(Product $product)
+    public function __construct(Product $product, array $asideIds = [])
     {
         $this->product = $product;
+        $this->asideIds = $asideIds;
     }
 
     public function instructions(): Collection

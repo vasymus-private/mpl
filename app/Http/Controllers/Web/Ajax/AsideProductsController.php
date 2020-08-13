@@ -17,12 +17,12 @@ class AsideProductsController extends BaseWebController
         $user->aside()->detach($request->id);
         $user->aside()->syncWithoutDetaching($request->id);
 
-        $user->load(["aside:id"]);
+        //$user->load(["aside:id"]);
 
         return [
             "data" => [
                 "count" => $user->aside->count(),
-                "ids" => $user->aside->pluck("id")->toArray(),
+                //"ids" => $user->aside->pluck("id")->toArray(),
             ]
         ];
     }
@@ -33,12 +33,12 @@ class AsideProductsController extends BaseWebController
         $user = Auth::user();
         $user->aside()->detach($request->id);
 
-        $user->load(["aside:id"]);
+        //$user->load(["aside:id"]);
 
         return [
             "data" => [
                 "count" => $user->aside->count(),
-                "ids" => $user->aside->pluck("id")->toArray(),
+                //"ids" => $user->aside->pluck("id")->toArray(),
             ]
         ];
     }

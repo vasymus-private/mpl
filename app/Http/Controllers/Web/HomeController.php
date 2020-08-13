@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\Service;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -47,11 +49,23 @@ class HomeController extends Controller
 
     public function viewed(Request $request)
     {
-        return view('web.pages.home.viewed');
+        /** @var User $user */
+        $user = Auth::user();
+
+        $products = $user->viewed()->orderBy("pivot_created_at", "desc")->paginate(
+            $request->input("per_page")
+        );
+
+        return view("web.pages.home.viewed", compact("products"));
     }
 
-    public function deferred(Request $request)
+    public function aside(Request $request)
     {
-        return view('web.pages.home.deferred');
+        /** @var User $user */
+        $user = Auth::user();
+
+        $products = $user->aside()->orderBy("pivot_created_at", "desc")->get();
+
+        return view('web.pages.home.aside', compact("products"));
     }
 }

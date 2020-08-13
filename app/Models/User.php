@@ -129,7 +129,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function cart(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class, ProductUserCart::TABLE)->using(ProductUserCart::class)->withPivot(["count", "created_at"])->withTimestamps();
+        return $this->belongsToMany(Product::class, ProductUserCart::TABLE)->using(ProductUserCart::class)->withPivot(["count", "created_at", "deleted_at"])->withTimestamps();
     }
 
     public function viewed(): BelongsToMany

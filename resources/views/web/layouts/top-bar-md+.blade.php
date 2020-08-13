@@ -1,3 +1,9 @@
+<?php
+/**
+ * @see \App\View\Composers\ProfileComposer::compose()
+ * @var int $cartCount
+ */
+?>
 <div class="top-bar hidden-xs">
     <div class="container">
         <div class="row-line">
@@ -20,7 +26,7 @@
                 </div>
                 <div class="column-right row-line row-line__between">
                     <a href="{{route('cart.show')}}" class="top-bar__cart js-cart">
-                        Корзина <span class="js-cart-count top-bar__count">0</span>
+                        Корзина <span class="js-cart-count top-bar__count">{{$cartCount}}</span>
                     </a>
                     @if(\Illuminate\Support\Facades\Auth::user()->is_anonymous)
                         <a href="{{route("login")}}" class="top-bar__enter">Вход</a>

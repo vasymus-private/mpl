@@ -56,7 +56,7 @@ class ProductsController extends BaseWebController
 
         /** @var LengthAwarePaginator $products */
         $products = $query->paginate(
-            $request->input("per_page", 20)
+            $request->input("per_page")
         );
 
         $productIds = $queryWithoutPagination->pluck("id")->toArray();

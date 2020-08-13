@@ -1,5 +1,5 @@
 <?php /** @var \App\Models\Product\Product $product */ ?>
-<div class="catalog__post">
+<div class="catalog__post js-product-item-component-{{$product->id}}">
     <h3 class="catalog__title"><a href="{{$route()}}" class="catalog__link">{!! $product->name !!}</a></h3>
     <div class="row-line">
         <div class="column-photo">
@@ -7,7 +7,7 @@
                 <a href="{{$route()}}"><img style="max-width: 120px;" src="{{$mainImage()}}" alt="{{ strip_tags($product->name) }}" class="catalog__image"></a>
             </div>
             <div class="put-off-block">
-                <a href="#" class="put-off-block__link put-off-block__link--active">
+                <a href="#" data-id="{{$product->id}}" class="js-put-aside put-off-block__link {{in_array($product->id, $asideIds) ? "put-off-block__link--active" : ""}}">
                     <i class="fa fa-bookmark" aria-hidden="true"></i>
                     Отложить
                 </a>

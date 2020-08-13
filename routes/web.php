@@ -89,7 +89,7 @@ Route::middleware(["anonymous-uid", "create-anonymous"])->group(function() {
 
     Route::get("viewed", [\App\Http\Controllers\Web\HomeController::class, "viewed"])->name("viewed");
 
-    Route::get("deferred", [\App\Http\Controllers\Web\HomeController::class, "deferred"])->name("deferred");
+    Route::get("aside", [\App\Http\Controllers\Web\HomeController::class, "aside"])->name("aside");
 
     Route::get('cart', [\App\Http\Controllers\Web\CartController::class, "show"])->name("cart.show");
 

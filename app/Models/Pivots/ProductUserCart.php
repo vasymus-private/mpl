@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @property int $count
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
  * */
 class ProductUserCart extends Pivot
 {

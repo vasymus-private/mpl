@@ -1,3 +1,5 @@
+import {getProductsHoverOnPopover} from '../helpers/products'
+
 jQuery().ready(() => {
     //jQuery('.js-form-select-autosubmit').on('')
 
@@ -6,7 +8,7 @@ jQuery().ready(() => {
         window.history.go(-1)
     })
 
-    let $productItems = jQuery(".js-product-item-popover")
+    let $productItems = getProductsHoverOnPopover()
 
     $productItems.each((ind, el) => {
         let $productItem = $(el)
@@ -30,7 +32,4 @@ jQuery().ready(() => {
 
         $productItem.popover("show")
     })
-
-
-
 })
