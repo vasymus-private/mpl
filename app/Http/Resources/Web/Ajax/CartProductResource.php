@@ -34,6 +34,7 @@ class CartProductResource extends JsonResource
             "count" => $this->resource->pivot->count ?? null,
             "route" => $this->resource->web_route,
             "price_name" => $this->resource->price_name,
+            "deleted_at" => $this->resource->pivot->deleted_at ?? null,
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Requests\Web\Ajax;
 
 use App\Models\Product\Product;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -11,8 +12,9 @@ use Illuminate\Validation\Validator;
 
 /**
  * @property int $id
- * @property int $count
+ * @property int|null $count
  * @property string|null $updateCountMode
+ * @property bool|null $delete
  * */
 class CartProductsUpdateRequest extends FormRequest
 {
@@ -29,19 +31,46 @@ class CartProductsUpdateRequest extends FormRequest
     /**
      * @return Product
      */
-    public function getProduct(): Product
+    protected function getProduct(): Product
     {
         return $this->product;
     }
 
-    public function getCount(): int
+    protected function getCount(): ?int
     {
+        if ($this->count === null) return null;
+
         $mode = $this->input("updateCountMode", CartProductsUpdateRequest::MODE_ADD);
         if ($mode === CartProductsUpdateRequest::MODE_ADD) {
             return $this->getProductCurrentCount() + $this->count;
         } else {
             return $this->count;
         }
+    }
+
+    public function prepare(): array
+    {
+        $product = $this->getProduct();
+
+        $prepared = [];
+
+        $pivot = [];
+
+        $count = $this->getCount();
+        if ($count !== null)
+            $pivot["count"] = $count;
+
+        if ($this->delete !== null) {
+            if ($this->delete)
+                $pivot["deleted_at"] = Carbon::now();
+            else
+                $pivot["deleted_at"] = null;
+        }
+
+        if (!empty($pivot))
+            $prepared[$product->id] = $pivot;
+
+        return $prepared;
     }
 
     protected function getProductCurrentCount(): int
@@ -70,6 +99,7 @@ class CartProductsUpdateRequest extends FormRequest
             "id" => "required|integer",
             "count" => "integer|min:1",
             "updateCountMode" => "in:" . static::MODE_ADD . "," . static::MODE_NEW,
+            "delete" => "boolean"
         ];
     }
 

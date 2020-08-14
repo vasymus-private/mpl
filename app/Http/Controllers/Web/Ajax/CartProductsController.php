@@ -8,6 +8,7 @@ use App\Http\Requests\Web\Ajax\CartProductsStoreRequest;
 use App\Http\Requests\Web\Ajax\CartProductsUpdateRequest;
 use App\Http\Resources\Web\Ajax\CartProductResource;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -55,11 +56,8 @@ class CartProductsController extends BaseWebController
     {
         /** @var User $user */
         $user = Auth::user();
-        $product = $request->getProduct();
 
-        $user->cart()->syncWithoutDetaching([
-            $product->id => ["count" => $request->getCount()],
-        ]);
+        $user->cart()->syncWithoutDetaching($request->prepare());
 
         $user->load([
             "cart" => function(BelongsToMany $builder) {

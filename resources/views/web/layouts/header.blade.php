@@ -5,7 +5,7 @@
                 <a class="logo" href="{{route("home")}}">
                     <img alt="Parket Lux" title="Parket Lux" src="{{asset("images/logo.svg")}}">
                 </a>
-                @yield("humburger-toggle")
+                <a class="toggle another-page" href="#"></a>
             </div>
             <div class="header-search-block hidden-sm hidden-xs">
                 <div class="search-block">
@@ -19,11 +19,9 @@
                 </div>
             </div>
             <div class="header__icon-mobile">
-                <a href="{{route('cart.show')}}" class="basket js-manual-popover-autohide" data-toggle="popover"
-                   data-content="<b>Добавлено в корзину</b>" data-placement="bottom" data-html="true"
-                   data-trigger="manual" data-original-title="" title="">
+                <a href="{{route('cart.show')}}" class="basket js-add-to-cart-tooltip">
                     <img src="{{asset("images/cart.svg")}}" alt="" title="">
-                    <span class="count js-cart-items-count cart-items-count">0</span>
+                    <span class="count js-add-to-cart-count js-add-to-cart-animate cart-items-count">{{$cartCount}}</span>
                 </a>
                 <a href="tel:+74957600518" class="phone-icon">
                     <img src="{{asset("images/phone.svg")}}" alt="" title="">

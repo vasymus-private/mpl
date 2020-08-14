@@ -25,8 +25,8 @@
                     <a href="tel:79163639363" class="top-bar__link">(916) 363 9 363</a>
                 </div>
                 <div class="column-right row-line row-line__between">
-                    <a href="{{route('cart.show')}}" class="top-bar__cart js-cart">
-                        Корзина <span class="js-add-to-cart-count top-bar__count" data-should-animate data-should-tooltip data-placement="bottom" title="Добавлено в корзину">{{$cartCount}}</span>
+                    <a href="{{route('cart.show')}}" class="top-bar__cart js-cart js-add-to-cart-tooltip">
+                        Корзина <span class="js-add-to-cart-count js-add-to-cart-animate top-bar__count">{{$cartCount}}</span>
                     </a>
                     @if(\Illuminate\Support\Facades\Auth::user()->is_anonymous)
                         <a href="{{route("login")}}" class="top-bar__enter">Вход</a>

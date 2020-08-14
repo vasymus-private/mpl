@@ -29,7 +29,7 @@
             <span class="catalog__status {{$product->is_available ? 'catalog__status--available' : 'catalog__status--not-available'}}">{{$product->availability_status_name}}</span>
 
             @if($product->is_available)
-            <button type="button" class="catalog__addToCard">Купить</button>
+            <a href="{{$product->web_route}}" class="catalog__addToCard">Купить</a>
             @endif
 
             @if(!empty($product->coefficient) && !empty($product->coefficient_description))
@@ -51,7 +51,7 @@
                 <span class="catalog__price">{{$product->price_retail}} {{\App\Models\Currency::getFormattedName($product->price_retail_currency_id)}}<span class="gray-color"> / {{$product->unit}}</span></span>
             </div>
             <div class="column">
-                <button type="button" class="catalog__addToCard">Купить</button>
+                <a href="{{$product->web_route}}" class="catalog__addToCard">Купить</a>
             </div>
         </div>
     </div>

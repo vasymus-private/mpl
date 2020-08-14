@@ -1,4 +1,12 @@
-import {getAddToCartInputCountClass} from "../helpers/products"
+import {
+    getAddToCartInputCountClass,
+    getCartItemSumFormatted$,
+    getCartRow$,
+    getCartDeletes$,
+    getCartColumnCountPartNormal$,
+    getCartColumnCountPartDeleted$,
+    getCartDelete$
+} from "../helpers/products"
 import Rest from "../helpers/Rest"
 import ajaxUrls from "../settings/ajaxUrls"
 import Mustache from "mustache"
@@ -7,15 +15,14 @@ import {debounce} from 'lodash'
 import Products from '../Products'
 
 
-(function($) {
+(function ($) {
     $().ready(() => {
         let animationClass = "pulsing"
 
-
         let $addToCarts = $(".js-add-to-cart")
         let $addToCartCounts = $(".js-add-to-cart-count")
-        let $addToCartCountsAnimate = $addToCartCounts.filter("[data-should-animate]")
-        let $addToCartCountsTooltip = $addToCartCounts.filter("[data-should-tooltip]")
+        let $addToCartCountsAnimate = $('.js-add-to-cart-animate')
+        let $addToCartCountsTooltip = $('.js-add-to-cart-tooltip')
 
         let $sidebarMenuCart = $(".js-sidebar-menu-cart")
         let $sidebarMenuCartList = $(".js-sidebar-menu-cart-list")
@@ -24,29 +31,195 @@ import Products from '../Products'
 
         let $totalSumFormatted = $(".js-cart-total-sum-formatted")
 
-        $addToCartCountsTooltip.tooltip({
-            trigger : "manual"
-        })
+        let $cartDecrement = $(".js-cart-decrement")
+        let $cartIncrement = $(".js-cart-increment")
+        let $addToCartInputCounts = $(".js-add-to-cart-input-count")
 
-        $addToCarts.each((ind, el) => {
-            let $addToCart = $(el)
-            $addToCart.on("click", debounce(event => {
+        let $cartDeletes = getCartDeletes$()
+
+        let $cartRestores = $(".js-cart-restore")
+        let $cartDestroys = $(".js-cart-destroy")
+
+        handleSidebarCartMenu()
+
+        handleCartPage()
+
+        function handleCartPage() {
+            $cartDecrement.on("click", debounce(event => {
                 event.preventDefault()
-                let id = +$addToCart.data("id")
-                let isInCart = Products.isInCart(id)
+                let $target = $(event.currentTarget)
+                let id = $target.data('id')
                 let $input = $(`.${getAddToCartInputCountClass(id)}`)
+                let currentCount = Math.abs($input.val()) || 1
+                if (currentCount === 1) return true
+                let count = currentCount - 1
+
+                handleAjaxChangeCountOnCartPage(id, count, $input)
+            }, 500))
+
+            $cartIncrement.on("click", debounce(event => {
+                event.preventDefault()
+                let $target = $(event.currentTarget)
+                let id = $target.data('id')
+                let $input = $(`.${getAddToCartInputCountClass(id)}`)
+                let currentCount = Math.abs($input.val()) || 1
+                let count = currentCount + 1
+
+                handleAjaxChangeCountOnCartPage(id, count, $input)
+            }, 500))
+
+            $addToCartInputCounts.on("blur", debounce(event => {
+                let $input = $(event.currentTarget)
+                let id = $input.data('id')
                 let count = Math.abs($input.val()) || 1
 
-                if (isInCart) {
-                    handleAddCount(id, count)
-                } else {
-                    handleAddNewItemToCart(id, count, $addToCart)
-                }
+                handleAjaxChangeCountOnCartPage(id, count, $input)
             }, 500))
-        })
+
+            $cartDeletes.on("click", event => {
+                event.preventDefault()
+
+                let $target = $(event.currentTarget)
+                let id = $target.data('id')
+
+                handleAjaxSoftDelete(id, true)
+            })
+
+            $cartRestores.on("click", event => {
+                event.preventDefault()
+
+                let $target = $(event.currentTarget)
+                let id = $target.data('id')
+
+                handleAjaxSoftDelete(id, false)
+            })
+
+            $cartDestroys.on("click", event => {
+                event.preventDefault()
+
+                let $target = $(event.currentTarget)
+                let id = $target.data('id')
+
+                handleAjaxDestroy(id)
+            })
+        }
+
+        function handleAjaxDestroy(id) {
+            ajaxDestroy(id)
+                .then(response => {
+                    let {data: cartItems} = response
+                    Products.setCartIds(cartItems.map(item => item.id))
+                    handleAnimate()
+                    handleRenderSidebarMenuCartList(cartItems)
+                    handleUpadeCount(cartItems)
+
+                    let item = cartItems.find((it) => it.id === id)
+
+                    if (!item) {
+                        getCartRow$(id).remove()
+                    }
+                })
+        }
+
+        function handleAjaxSoftDelete(id, shouldDelete) {
+            ajaxSoftDelete(id, shouldDelete)
+                .then(response => {
+                    let {data: cartItems} = response
+                    Products.setCartIds(cartItems.map(item => item.id))
+                    handleAnimate()
+                    handleRenderSidebarMenuCartList(cartItems)
+                    handleUpadeCount(cartItems)
+
+                    let item = cartItems.find((it) => it.id === id)
+                    if (item && item.deleted_at) {
+                        let $cartRow = getCartRow$(id)
+                        $cartRow.addClass("deleted-row")
+                        getCartColumnCountPartNormal$(id).hide()
+                        getCartColumnCountPartDeleted$(id).show()
+                        getCartDelete$(id).hide()
+                    } else {
+                        let $cartRow = getCartRow$(id)
+                        $cartRow.removeClass("deleted-row")
+                        getCartColumnCountPartNormal$(id).show()
+                        getCartColumnCountPartDeleted$(id).hide()
+                        getCartDelete$(id).show()
+                    }
+                })
+        }
+
+        function handleAjaxChangeCountOnCartPage(id, count, $input) {
+            ajaxChangeCount(id, count, "new")
+                .then(response => {
+                    let {data: cartItems} = response
+                    Products.setCartIds(cartItems.map(item => item.id))
+                    handleAnimate()
+                    handleRenderSidebarMenuCartList(cartItems)
+                    handleUpadeCount(cartItems)
+
+                    let item = cartItems.find((it) => it.id === id)
+                    if (item) {
+                        $input.val(item.count || 1)
+                        let $cartItemSumFormatted = getCartItemSumFormatted$(id)
+                        $cartItemSumFormatted.text(`${(item.count || 1) * item.price_rub} р`)
+                    }
+                })
+        }
+
+        function handleSidebarCartMenu() {
+            $addToCartCountsTooltip.each((ind, el) => {
+                $(el).tooltip({
+                    trigger: "manual",
+                    boundary: 'window',
+                    placement: "bottom",
+                    title: "Добавлено в корзину",
+                })
+            })
+
+            $addToCarts.each((ind, el) => {
+                let $addToCart = $(el)
+                $addToCart.on("click", debounce(event => {
+                    event.preventDefault()
+                    let id = +$addToCart.data("id")
+                    let isInCart = Products.isInCart(id)
+                    let $input = $(`.${getAddToCartInputCountClass(id)}`)
+                    let count = Math.abs($input.val()) || 1
+
+                    if (isInCart) {
+                        ajaxChangeCount(id, count)
+                            .then(response => {
+                                let {data: cartItems} = response
+                                Products.setCartIds(cartItems.map(item => item.id))
+                                handleAnimate()
+                                handleTooltip()
+                                handleRenderSidebarMenuCartList(cartItems)
+                                handleUpadeCount(cartItems)
+
+                                return response
+                            })
+                    } else {
+                        ajaxAddNewItemToCart(id, count)
+                            .then((response) => {
+                                let {data: cartItems} = response
+                                Products.setCartIds(cartItems.map(item => item.id))
+                                handleAnimate()
+                                handleTooltip()
+                                handleRenderSidebarMenuCartList(cartItems)
+                                handleUpadeCount(cartItems)
+                                $addToCart.text("Добавить")
+
+                                return response
+                            })
+                    }
+                }, 500))
+            })
+        }
+
 
         let isAnimating = false
-        let timeout
+        let isTooltip = false
+
+        let animationTimeout
+        let tooltipTimeout
 
         function handleAnimate() {
             if (isAnimating) {
@@ -57,34 +230,63 @@ import Products from '../Products'
             }
         }
 
+        function handleTooltip() {
+            if (isTooltip) {
+                clearTooltip()
+                tooltip()
+            } else {
+                tooltip()
+            }
+        }
+
+        function tooltip() {
+            isTooltip = true
+            $addToCartCountsTooltip.tooltip("show")
+
+            tooltipTimeout = setTimeout(() => {
+                $addToCartCountsTooltip.tooltip("hide")
+                isTooltip = false
+            }, 3000)
+        }
+
+        function clearTooltip() {
+            clearTimeout(tooltipTimeout)
+            isTooltip = false
+            $addToCartCountsTooltip.tooltip("hide")
+        }
+
         function animate() {
             isAnimating = true
             $addToCartCountsAnimate.addClass(animationClass)
-            $addToCartCountsTooltip.tooltip("show")
 
-            timeout = setTimeout(() => {
+            animationTimeout = setTimeout(() => {
                 $addToCartCountsAnimate.removeClass(animationClass)
-                $addToCartCountsTooltip.tooltip("hide")
                 isAnimating = false
             }, 3000)
         }
 
         function clearAnimation() {
-            clearTimeout(timeout)
+            clearTimeout(animationTimeout)
             isAnimating = false
             $addToCartCountsAnimate.removeClass(animationClass)
         }
 
         function handleRenderSidebarMenuCartList(cartItems = []) {
+            if (cartItems.filter(item => item.deleted_at === null).length) {
+                $sidebarMenuCart.show()
+            } else {
+                $sidebarMenuCart.hide()
+            }
+
             let newHtml = ""
 
             cartItems.slice(0, 10).forEach(({name, price_formatted, unit, count, route, price_name}) => {
                 newHtml += Mustache.render(sidebarMenuTemplate, {
-                    url : route,
+                    url: route,
                     name,
                     count,
-                    priceName : price_name,
-                    priceFormatted : price_formatted,
+                    priceName: price_name,
+                    priceFormatted: price_formatted,
                     unit,
                 })
             })
@@ -105,29 +307,27 @@ import Products from '../Products'
             $addToCartCounts.text(count)
         }
 
-        function handleAddNewItemToCart(id, count, $btn) {
-            Rest.POST(ajaxUrls.putProductToCart, { id, count })
+        function ajaxAddNewItemToCart(id, count, $btn) {
+            return Rest.POST(ajaxUrls.productInCart, {id, count})
                 .then(Rest.middleThen)
-                .then(({data : cartItems}) => {
-                    Products.setCartIds(cartItems.map(item => item.id))
-                    handleAnimate()
-                    $sidebarMenuCart.show()
-                    handleRenderSidebarMenuCartList(cartItems)
-                    handleUpadeCount(cartItems)
-                    $btn.text("Добавить")
-                })
                 .catch(Rest.simpleCatch)
         }
 
-        function handleAddCount(id, count) {
-            Rest.PUT(ajaxUrls.putProductToCart, { id, count })
+        function ajaxChangeCount(id, count, updateCountMode = "add") {
+            return Rest.PUT(ajaxUrls.productInCart, {id, count, updateCountMode})
                 .then(Rest.middleThen)
-                .then(({data : cartItems}) => {
-                    Products.setCartIds(cartItems.map(item => item.id))
-                    handleAnimate()
-                    handleRenderSidebarMenuCartList(cartItems)
-                    handleUpadeCount(cartItems)
-                })
+                .catch(Rest.simpleCatch)
+        }
+
+        function ajaxSoftDelete(id, shouldDelete) {
+            return Rest.PUT(ajaxUrls.productInCart, {id, delete : shouldDelete})
+                .then(Rest.middleThen)
+                .catch(Rest.simpleCatch)
+        }
+
+        function ajaxDestroy(id) {
+            return Rest.DELETE(ajaxUrls.productInCart, {id})
+                .then(Rest.middleThen)
                 .catch(Rest.simpleCatch)
         }
 
