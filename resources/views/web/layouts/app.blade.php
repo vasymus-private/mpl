@@ -21,6 +21,9 @@
     <link href="{{ mix('css/app.css') }}" rel="stylesheet" />
 </head>
 <body>
+    @javascript([
+        'cartIds' => $cartIds,
+    ])
     @include("web.layouts.mb-menu")
     @yield("mb-brands-filter")
     <div class="wrapper @yield('wrapper-class')">

@@ -14,7 +14,7 @@ class H
 
         if (!$value) return null;
 
-        return CBRcurrencyConverter::convertRub($currencyIso, $value);
+        return floor(CBRcurrencyConverter::convertRub($currencyIso, $value));
     }
 
     public static function priceRubFormatted(float $value = null, int $currencyId): string

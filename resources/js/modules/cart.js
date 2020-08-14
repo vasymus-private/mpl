@@ -2,36 +2,47 @@ import {getAddToCartInputCountClass} from "../helpers/products"
 import Rest from "../helpers/Rest"
 import ajaxUrls from "../settings/ajaxUrls"
 import Mustache from "mustache"
+import {numberWithSpaces} from "../helpers/common"
+import {debounce} from 'lodash'
+import Products from '../Products'
 
 
 (function($) {
     $().ready(() => {
         let animationClass = "pulsing"
 
-        let $cart = $(".js-cart")
-        let $cartCount = $(".js-cart-count")
 
         let $addToCarts = $(".js-add-to-cart")
-        let $addToCartCount = $(".js-add-to-cart-count")
+        let $addToCartCounts = $(".js-add-to-cart-count")
+        let $addToCartCountsAnimate = $addToCartCounts.filter("[data-should-animate]")
+        let $addToCartCountsTooltip = $addToCartCounts.filter("[data-should-tooltip]")
 
+        let $sidebarMenuCart = $(".js-sidebar-menu-cart")
         let $sidebarMenuCartList = $(".js-sidebar-menu-cart-list")
         let $_sidebarMenuTemplate = $("#sidebar-menu-cart-item")
         let sidebarMenuTemplate = $_sidebarMenuTemplate.html()
 
-        let isPending = false
+        let $totalSumFormatted = $(".js-cart-total-sum-formatted")
+
+        $addToCartCountsTooltip.tooltip({
+            trigger : "manual"
+        })
 
         $addToCarts.each((ind, el) => {
             let $addToCart = $(el)
-            let id = $addToCart.data("id")
-            let isInCart = !!$addToCart.data("isInCart")
-            let $input = $(getAddToCartInputCountClass(id))
-            let count = Math.abs($input.val()) || 1
+            $addToCart.on("click", debounce(event => {
+                event.preventDefault()
+                let id = +$addToCart.data("id")
+                let isInCart = Products.isInCart(id)
+                let $input = $(`.${getAddToCartInputCountClass(id)}`)
+                let count = Math.abs($input.val()) || 1
 
-            if (isInCart) {
-                handleAddCount(id, count)
-            } else {
-                handleAddNewItemToCart(id, count)
-            }
+                if (isInCart) {
+                    handleAddCount(id, count)
+                } else {
+                    handleAddNewItemToCart(id, count, $addToCart)
+                }
+            }, 500))
         })
 
         let isAnimating = false
@@ -48,9 +59,12 @@ import Mustache from "mustache"
 
         function animate() {
             isAnimating = true
-            $addToCartCount.addClass(animationClass)
+            $addToCartCountsAnimate.addClass(animationClass)
+            $addToCartCountsTooltip.tooltip("show")
+
             timeout = setTimeout(() => {
-                $addToCartCount.removeClass(animationClass)
+                $addToCartCountsAnimate.removeClass(animationClass)
+                $addToCartCountsTooltip.tooltip("hide")
                 isAnimating = false
             }, 3000)
         }
@@ -58,13 +72,13 @@ import Mustache from "mustache"
         function clearAnimation() {
             clearTimeout(timeout)
             isAnimating = false
-            $addToCartCount.removeClass(animationClass)
+            $addToCartCountsAnimate.removeClass(animationClass)
         }
 
         function handleRenderSidebarMenuCartList(cartItems = []) {
             let newHtml = ""
 
-            cartItems.forEach(({name, price_formatted, unit, count, route, price_name}) => {
+            cartItems.slice(0, 10).forEach(({name, price_formatted, unit, count, route, price_name}) => {
                 newHtml += Mustache.render(sidebarMenuTemplate, {
                     url : route,
                     name,
@@ -76,24 +90,43 @@ import Mustache from "mustache"
             })
 
             $sidebarMenuCartList.html(newHtml)
+
+            let totalSum = cartItems.reduce((acc, {price_rub, count}) => {
+                return acc += (price_rub * count)
+            }, 0)
+
+            $totalSumFormatted.html(`${numberWithSpaces(totalSum)} р`)
         }
 
-        function handleAddNewItemToCart(id, count) {
-            Rest.PUT(ajaxUrls.putProductToCart(), { id, count })
+        function handleUpadeCount(cartItems = []) {
+            let count = cartItems.reduce((acc, item) => {
+                return acc += (item.count || 1)
+            }, 0)
+            $addToCartCounts.text(count)
+        }
+
+        function handleAddNewItemToCart(id, count, $btn) {
+            Rest.POST(ajaxUrls.putProductToCart, { id, count })
                 .then(Rest.middleThen)
                 .then(({data : cartItems}) => {
+                    Products.setCartIds(cartItems.map(item => item.id))
                     handleAnimate()
+                    $sidebarMenuCart.show()
                     handleRenderSidebarMenuCartList(cartItems)
+                    handleUpadeCount(cartItems)
+                    $btn.text("Добавить")
                 })
                 .catch(Rest.simpleCatch)
         }
 
         function handleAddCount(id, count) {
-            Rest.POST(ajaxUrls.putProductToCart(), { id, count })
+            Rest.PUT(ajaxUrls.putProductToCart, { id, count })
                 .then(Rest.middleThen)
                 .then(({data : cartItems}) => {
+                    Products.setCartIds(cartItems.map(item => item.id))
                     handleAnimate()
                     handleRenderSidebarMenuCartList(cartItems)
+                    handleUpadeCount(cartItems)
                 })
                 .catch(Rest.simpleCatch)
         }

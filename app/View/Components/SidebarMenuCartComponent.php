@@ -37,9 +37,9 @@ class SidebarMenuCartComponent extends Component
         /** @var User $user */
         $user = Auth::user();
 
-        $this->cartProducts = $user->cart;
+        $this->cartProducts = $user->cart->take(10);
 
-        $this->totalSum = $this->cartProducts->reduce(function(float $acc, Product $product) {
+        $this->totalSum = $user->cart->reduce(function(float $acc, Product $product) {
             return $acc += ($product->price_retail_rub * ($product->pivot->count ?? 1));
         }, 0.0);
 

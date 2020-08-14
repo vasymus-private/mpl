@@ -20,6 +20,7 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.1",
         "spatie/data-transfer-object": "1.13.3",
+        "spatie/laravel-blade-javascript": "^2.5",
         "spatie/laravel-medialibrary": "^7.19",
         "symfony/css-selector": "^5.1",
         "symfony/dom-crawler": "^5.1"

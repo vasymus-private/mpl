@@ -1,3 +1,5 @@
+// TODO move to Products.js
+
 const PRODUCTS_ASIDE_PAGE_CONTENT_WRAPPER_CLASS = "js-page-content-wrapper-aside"
 export const PRODUCT_HOVER_ON_POPOVER_CLASS = "js-product-item-popover"
 

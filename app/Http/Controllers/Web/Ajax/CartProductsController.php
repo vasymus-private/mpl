@@ -56,8 +56,9 @@ class CartProductsController extends BaseWebController
         /** @var User $user */
         $user = Auth::user();
         $product = $request->getProduct();
+
         $user->cart()->syncWithoutDetaching([
-            $product->id => ["count" => $request->count],
+            $product->id => ["count" => $request->getCount()],
         ]);
 
         $user->load([

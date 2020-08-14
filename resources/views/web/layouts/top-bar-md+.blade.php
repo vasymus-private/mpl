@@ -26,7 +26,7 @@
                 </div>
                 <div class="column-right row-line row-line__between">
                     <a href="{{route('cart.show')}}" class="top-bar__cart js-cart">
-                        Корзина <span class="js-cart-count top-bar__count">{{$cartCount}}</span>
+                        Корзина <span class="js-add-to-cart-count top-bar__count" data-should-animate data-should-tooltip data-placement="bottom" title="Добавлено в корзину">{{$cartCount}}</span>
                     </a>
                     @if(\Illuminate\Support\Facades\Auth::user()->is_anonymous)
                         <a href="{{route("login")}}" class="top-bar__enter">Вход</a>

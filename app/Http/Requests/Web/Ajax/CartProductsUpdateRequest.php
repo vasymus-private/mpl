@@ -9,8 +9,18 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Validator;
 
+/**
+ * @property int $id
+ * @property int $count
+ * @property string|null $updateCountMode
+ * */
 class CartProductsUpdateRequest extends FormRequest
 {
+    const MODE_ADD = "add";
+    const MODE_NEW = "new";
+
+    const MODE_DEFAULT = self::MODE_ADD;
+
     /**
      * @var Product
      * */
@@ -22,6 +32,21 @@ class CartProductsUpdateRequest extends FormRequest
     public function getProduct(): Product
     {
         return $this->product;
+    }
+
+    public function getCount(): int
+    {
+        $mode = $this->input("updateCountMode", CartProductsUpdateRequest::MODE_ADD);
+        if ($mode === CartProductsUpdateRequest::MODE_ADD) {
+            return $this->getProductCurrentCount() + $this->count;
+        } else {
+            return $this->count;
+        }
+    }
+
+    protected function getProductCurrentCount(): int
+    {
+        return $this->product->pivot->count ?? 1;
     }
 
     /**
@@ -44,6 +69,7 @@ class CartProductsUpdateRequest extends FormRequest
         return [
             "id" => "required|integer",
             "count" => "integer|min:1",
+            "updateCountMode" => "in:" . static::MODE_ADD . "," . static::MODE_NEW,
         ];
     }
 
