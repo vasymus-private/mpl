@@ -1,5 +1,10 @@
 .content {
-  width: calc(100% - 270px - 15px);
+  width: calc(100% - 270px - 45px);
+  margin: 0 15px;
+  @media (max-width: 767px) {
+    width: calc(100%);
+    margin: 0;
+  }
   &__white-block {
     background: #fff;
     padding: 15px;

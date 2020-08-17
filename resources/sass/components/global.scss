@@ -30,6 +30,12 @@ body {
 	&__between {
 		justify-content: space-between;
 	}
+  &__center {
+    align-items: center;
+  }
+  &__right {
+    justify-content: flex-end;
+  }
 }
 
 .visible-xs {
@@ -153,5 +159,34 @@ input, button, select, textarea {
 .mob-visible {
   @media (min-width: 850px) {
     display: none;
+  }
+}
+
+.block-back-page {
+  margin: 0 0 10px;
+  img {
+    display: block;
+  }
+}
+
+.single {
+  h2, h3, h4 {
+    font-size: 16px;
+    margin: 0 0 10px;
+    padding: 0;
+    font-weight: 700;
+  }
+}
+
+.steps {
+  background: #c8e1c1;
+  overflow: hidden;
+  margin: 0 0 10px;
+  text-align: center;
+  .column {
+    width: 100%;
+    @media (min-width: 768px) {
+      width: 50%;
+    }
   }
 }

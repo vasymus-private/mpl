@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\View\Components\BreadcrumbsComponent;
+use App\View\Components\GoBackComponent;
 use App\View\Components\H1Component;
 use App\View\Components\MbBrandsFilterComponent;
 use App\View\Components\MbMenuMaterialsComponent;
@@ -56,6 +57,8 @@ class ViewsServiceProvider extends ServiceProvider
         Blade::component("product", ProductComponent::class);
 
         Blade::component("breadcrumbs", BreadcrumbsComponent::class);
+
+        Blade::component("go-back", GoBackComponent::class);
 
 
         $webViews = [];

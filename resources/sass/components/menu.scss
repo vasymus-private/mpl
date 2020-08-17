@@ -9,7 +9,7 @@
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   display: none;
-  padding: 25px 7px 15px;
+  padding: 0 7px 15px;
   .header-column {
     width: 267px;
     padding-right: 15px;
@@ -257,7 +257,7 @@
     color: #fff;
     position: absolute;
     right: 0;
-    top: 5px;
+    bottom: 0;
     svg {
       width: 20px;
       height: 20px;
@@ -265,7 +265,8 @@
     }
   }
   &__header-line {
-    height: 40px;
+    padding-top: 25px;
+    height: auto;
     line-height: 42px;
     margin: 0 15px;
     border-bottom: 1px solid #9b9b9b;
@@ -276,7 +277,7 @@
       font-size: 13px;
       padding: 0 11px;
       font-family: 'Roboto', Arial, sans-serif;
-      font-weight: 600;
+      font-weight: 400;
       text-transform: uppercase;
     }
     .fa {
@@ -314,6 +315,7 @@
     position: relative;
     &.open {
       .pure-menu-link {
+        color: #ff5100;
         &:after {
           transform: rotate(90deg);
           color: #ff5100;

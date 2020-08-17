@@ -4,6 +4,7 @@
   position: relative;
   vertical-align: top;
   will-change: min-height;
+  margin: 0 0 0 15px;
   @media screen and (max-width: 875px) {
     display: none;
   }

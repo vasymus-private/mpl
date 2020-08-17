@@ -66,3 +66,83 @@ select {
   background-position-x: calc(100% - 8px);
   background-position-y: center;
 }
+
+.form-group {
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 400;
+    padding: 0 0 1px;
+    margin: 0;
+    color: #900;
+  }
+
+  .form-control {
+    background: #cee0c0;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    box-shadow: inset 1px 1px 1px 1px rgba(0,0,0,.05);
+    color: #000;
+    font-size: 12px;
+    padding: 8px 5px;
+    max-width: 377px;
+    &.small {
+      margin: 0 10px 0 0;
+      width: 158px;
+    }
+  }
+
+  textarea.form-control {
+    resize: none;
+    width: 100%;
+    height: 200px;
+    max-width: 600px;
+  }
+
+  &__item {
+    margin: 0 0 15px;
+  }
+
+  .row-line {
+    margin: 0;
+  }
+
+  .btn-submit {
+    box-shadow: 0 1px 0 0 #fff6af;
+    background: -webkit-gradient(linear,left top, left bottom,color-stop(5%, #ffec64),to(#ffab23));
+    background: -webkit-linear-gradient(top,#ffec64 5%,#ffab23);
+    background: -o-linear-gradient(top,#ffec64 5%,#ffab23);
+    background: linear-gradient(180deg,#ffec64 5%,#ffab23);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffec64",endColorstr="#ffab23",GradientType=0);
+    background-color: #ffec64;
+    border-radius: 6px;
+    border: 1px solid #fa2;
+    display: inline-block;
+    cursor: pointer;
+    color: #333;
+    font-size: 20px;
+    font-weight: 700;
+    padding: 13px 59px;
+    text-decoration: none;
+    text-shadow: 0 1px 0 #fe6;
+    @media (max-width: 500px) {
+      width: 100%;
+    }
+  }
+
+  .form-control-file {
+    background: #f5f5f5;
+    border: 1px solid #dadada;
+    color: #6c6c6c;
+    font-size: 11px;
+    padding: 5px;
+    margin: 0;
+    width: 100%;
+  }
+
+  .bg_img {
+    background: url(../images/bg_img.png) no-repeat 100% 50%;
+    display: inline-block;
+    padding: 0 48px 0 0;
+  }
+}

@@ -31,7 +31,7 @@
 		}
 	}
   &__icon-mobile {
-    margin: 10px 0 0;
+    margin: 5px 0 0;
     padding: 0 10px;
     width: 40%;
     display: flex;
@@ -132,9 +132,9 @@
   }
   &.another-page {
     display: block;
-    /*@media (min-width: 876px) {
+    @media (min-width: 876px) {
       display: none;
-    }*/
+    }
   }
 }
 
@@ -171,6 +171,7 @@
       @media (max-width: 767px) {
         margin: 0px auto 0;
         padding: 0 0 7px;
+        border-bottom: 1px solid #0068c8;
       }
       .row-line {
         align-items: center;
