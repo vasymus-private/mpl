@@ -2,7 +2,9 @@
 
 @section('page-content')
     <?php /** @var \Illuminate\Pagination\LengthAwarePaginator $products */ ?>
-    <x-h1 :entity="'Производители'"></x-h1>
+    <x-h1 :entity="'Контакты'"></x-h1>
+
+    <x-go-back />
 
     <div class="content__white-block">
         {{ $brandsList->onEachSide(1)->links('web.pagination.default') }}
