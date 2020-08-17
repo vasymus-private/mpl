@@ -1,0 +1,865 @@
+﻿<!DOCTYPE html>
+<html lang="ru-RU">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--<meta name="description" content="">-->
+    <meta name="author" content=""> 
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="/bitrix/templates/responsive/components/bitrix/menu/top_menu/style.css?15892156471014" type="text/css"  data-template-style="true"  rel="stylesheet" />
+<link href="/bitrix/templates/responsive/components/bitrix/breadcrumb/breadcrumbs/style.css?1589215647227" type="text/css"  data-template-style="true"  rel="stylesheet" />
+<link href="/bitrix/templates/responsive/components/bitrix/menu/bottom_menu/style.css?15892156471014" type="text/css"  data-template-style="true"  rel="stylesheet" />
+<link href="/bitrix/templates/responsive/styles.css?15927332721805" type="text/css"  data-template-style="true"  rel="stylesheet" />
+<link href="/bitrix/templates/responsive/template_styles.css?15927332723807" type="text/css"  data-template-style="true"  rel="stylesheet" />
+<script type="text/javascript">var _ba = _ba || []; _ba.push(["aid", "559cfb52f78ada127fd92eaa74522bbf"]); _ba.push(["host", "parket-lux.ru"]); (function() {var ba = document.createElement("script"); ba.type = "text/javascript"; ba.async = true;ba.src = (document.location.protocol == "https:" ? "https://" : "http://") + "bitrix.info/ba.js";var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(ba, s);})();</script>
+
+
+    <title>Вопросы и ответы по укладке паркета, санации основания, по ремонту и циклевке паркета. </title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/bitrix/templates/responsive/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bitrix/templates/responsive/css/bootstrap-theme.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/bitrix/templates/responsive/css/style1.css" rel="stylesheet">
+
+	<!-- From old template -->
+	<link href="/bitrix/templates/responsive/css/jquery.fancybox.css" rel="stylesheet">
+ 
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/bitrix/templates/responsive/js/jquery.min.js"></script>
+    <script src="/bitrix/templates/responsive/js/bootstrap.min.js"></script> 
+    
+	<!-- From old template -->
+	<script type="text/javascript" src="/bitrix/templates/responsive/js/jquery.fancybox.pack.js"></script>
+	<script type="text/javascript" src="/bitrix/templates/responsive/js/jquery.form.min.js"></script>
+	<script type="text/javascript" src="/bitrix/templates/responsive/js/jquery.simplemodal.1.4.4.min.js"></script>
+      <script>
+
+          $(function(){
+              var index = 0;
+              $('.news-detail, .article-content').not('.no-galleries').find('p, div').each(function(ip,p){
+                  if ($(p).text().replace(/\s+/g, '').length>0) index++;
+                  $(p).find('img').each(function(i,e){
+                      if (!$(e).parent().is('a')) {
+                          $(e).wrap($('<a></a>')
+                              .attr('href', $(e).attr('src'))
+                              .attr('rel', 'gallery'+index)
+                              .attr('class', 'gallery')
+                              .attr('title', $(e).attr('title'))
+                          );
+                      } else {
+                          $(e).parent().attr('rel', 'gallery'+index);
+                      }
+                  });
+              });
+              $('.news-detail a.gallery, .article-content a.gallery').fancybox();
+
+              var offset = $(window).outerHeight()*1;
+              var duration = 500;
+              jQuery(window).scroll(function() {
+                  if (jQuery(this).scrollTop() > offset) {
+                      jQuery('.back-to-top').fadeIn(duration);
+                  } else {
+                      jQuery('.back-to-top').fadeOut(duration);
+                  }
+              });
+
+              jQuery('.back-to-top').click(function(event) {
+                  event.preventDefault();
+                  jQuery('html, body').animate({scrollTop: 0}, duration);
+                  return false;
+              })
+
+          });
+      </script>
+      <script src="/bitrix/templates/responsive/js/slideout.min.js"></script>
+	
+	<script>
+		$(function () {
+			var offset = $(window).outerHeight() * 1;
+			var duration = 500;
+			jQuery(window).scroll(function () {
+				if (jQuery(this).scrollTop() > offset) {
+					jQuery('.back-to-top').fadeIn(duration);
+				} else {
+					jQuery('.back-to-top').fadeOut(duration);
+				}
+			});
+
+			jQuery('.back-to-top').click(function (event) {
+				event.preventDefault();
+				jQuery('html, body').animate({scrollTop: 0}, duration);
+				return false;
+			});
+			
+			var slideout = new Slideout({
+				'panel': document.querySelector('.gtk_main'),
+			    'menu': document.querySelector('.gtk_menu'),
+			    'padding': 276,
+			    'tolerance': 70,
+			    'touch': false
+			});
+			
+			var menu_a = jQuery('.gtk_menu a.toggle');
+			var main_a = jQuery('.gtk_main a.toggle');
+			
+			main_a.click(function(e){
+  			e.preventDefault();
+  			slideout.toggle();
+			});
+			
+			menu_a.click(function(e){
+  			e.preventDefault();
+				slideout.close();
+			});
+			
+		});
+	</script>
+	<style>
+		.slideout-menu {
+			position: fixed;
+			left: 0;
+			top: 0;
+			bottom: 0;
+			right: 0;
+			z-index: 0;
+			width: 276px;
+			overflow-y: auto;
+			-webkit-overflow-scrolling: touch;
+			display: none;
+		}
+		
+		.slideout-panel {
+			position:relative;
+			z-index: 1;
+			will-change: transform;
+		}
+		
+		.slideout-open,
+		.slideout-open body,
+		.slideout-open .slideout-panel {
+			overflow: hidden;
+		}
+		
+		.slideout-open .slideout-menu {
+			display: block;
+		    overflow-x: hidden;
+		}
+		.col-sm-6.col-md-5.header-column {
+/*
+			-webkit-transition: all 0ms ease-out 0s;
+			-moz-transition: all 0ms ease-out 0s;
+			-o-transition: all 0ms ease-out 0s;
+			transition: all 0ms ease-out 0s;
+			transform: translateX(0px);
+		
+*/}
+		.col-sm-6.col-md-5.header-column:before,
+		.col-sm-6.col-md-5.header-column:after {
+			content: '';
+			display: block;
+			clear: both;
+		}
+		.gtk_menu {
+			background: rgba(200, 200, 200, 1);
+		}
+		.gtk_menu .header-column {
+			width: 276px;
+			padding-right: 0;
+			padding-top: 27px;
+			background: rgba(200, 200, 200, 1);
+		}
+		.gtk_main {
+		    background: url("/bitrix/templates/responsive_copy/images/bg.png") center center repeat;
+		}
+		.gtk_menu .menu-column {
+			left: 0;
+			padding-right: 0;
+			max-width: 100%;
+			display: block;
+			position: relative;
+			top: 20px;
+			left: -14px;
+		}
+		.gtk_menu .menu-column ul {
+			background: transparent;
+			border: 0;
+		}
+		@media (min-width: 512px) {
+			.gtk_menu .logo {
+				display: none;
+			}
+			.gtk_menu .toggle {
+				display: none !important;
+			}
+		}
+		@media (max-width: 767px) {
+			.slideout-open .slideout-menu a.toggle {
+		    background-image: url(/bitrix/templates/responsive/img/close_menu.svg);
+			}
+			html:not(.slideout-open)
+		}
+		@media (min-width: 768px) {
+  		.slideout-open .slideout-panel a.toggle {
+    		background-image: url(/bitrix/templates/responsive/img/close_menu.svg);
+  		}
+		}
+	</style>
+  </head>
+
+  <body>
+<div class="gtk_menu slideout-menu">
+	<div class="col-sm-6 col-md-5 header-column">
+				<a href="/" class="logo">
+					<img src="/bitrix/templates/responsive/images/logo.svg" alt="parket lux"/>
+				</a>									<a class="toggle " href="#"> </a>
+									<div class="menu-column">
+
+						<div class="search-block">
+						<div class="search-field">
+              <form method="get" action="/search/">
+                  <input type="text" name="q" placeholder="Что вы ищите?">
+                  <input type="submit" value="">
+              </form>
+						</div> 
+					</div> 
+					
+					<nav>
+	</ul><p>Укладка паркета</p><ul><li><a href="/ukladka-shtuchnogo-parketa/">Укладка штучного паркета</a></li><li><a href="/ukladka-massivnoy-doski/">Укладка массивной доски</a></li><li><a href="/ukladka-parketnoy-doski/">Укладка паркетной доски</a></li><li><a href="/ukladka-laminata/">Укладка ламината</a></li><li><a href="/plintus-i-porozhki/">Плинтус и порожки</a></li></ul><p>Восстановление паркета</p><ul><li><a href="/tsiklevka-parketa/">Циклевка паркета</a></li><li><a href="/remont-parketa/">Ремонт паркета</a></li><li><a href="/ukhod-za-parketom/">Уход за паркетом</a></li><li><a href="/tonirovanie-parketa/">Тонировка паркета</a></li><li><a href="/parketnaya-khimiya/">Паркетная химия</a></li><li><a href="/parketnoe-oborudovanie/">Паркетное оборудование</a></li></ul><p>Подготовка основания</p><ul><li><a href="/styazhka-pola/">Стяжка пола</a></li><li><a href="/pol-na-lagakh/">Пол на лагах</a></li><li><a href="/sukhaya-styazhka-knauf/">Сухая стяжка Кнауф</a></li>
+</nav>
+
+					</div>
+
+			</div>
+	
+</div>
+<div class="gtk_main">
+    <header>
+      <div class="container">  
+		<div class="row"><!--hidden-sm hidden-xs-->
+			
+<div class="pull-right top-navigation">
+
+			<a href="/photos/" ><nobr>Фотогалерея</nobr></a>
+	
+
+			<a href="/videos/" class="hidden-sm hidden-xs"><nobr>Видеогалерея</nobr></a>
+	
+
+			<a href="/faq/" ><nobr>Вопрос-ответ</nobr></a>
+	
+
+			<a href="/contacts/" ><nobr>Контакты</nobr></a>
+	
+
+</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-sm-6 col-md-5 header-column"> 
+				<a href="/" class="logo">
+					<img src="/bitrix/templates/responsive/images/logo.svg" alt="parket lux"/>
+				</a>									<a class="toggle visible-sm visible-xs" href="#"> </a>
+								
+
+				<div class="menu-column0" style="display:none !important;">  
+				
+					<div class="search-block">
+						<div class="search-field">
+                            <form method="get" action="/search/">
+                                <input type="text" name="q" placeholder="Что вы ищите?">
+                                <input type="submit" value="">
+                            </form>
+						</div> 
+					</div> 
+					
+					<nav>
+	</ul><p>Укладка паркета</p><ul><li><a href="/ukladka-shtuchnogo-parketa/">Укладка штучного паркета</a></li><li><a href="/ukladka-massivnoy-doski/">Укладка массивной доски</a></li><li><a href="/ukladka-parketnoy-doski/">Укладка паркетной доски</a></li><li><a href="/ukladka-laminata/">Укладка ламината</a></li><li><a href="/plintus-i-porozhki/">Плинтус и порожки</a></li></ul><p>Восстановление паркета</p><ul><li><a href="/tsiklevka-parketa/">Циклевка паркета</a></li><li><a href="/remont-parketa/">Ремонт паркета</a></li><li><a href="/ukhod-za-parketom/">Уход за паркетом</a></li><li><a href="/tonirovanie-parketa/">Тонировка паркета</a></li><li><a href="/parketnaya-khimiya/">Паркетная химия</a></li><li><a href="/parketnoe-oborudovanie/">Паркетное оборудование</a></li></ul><p>Подготовка основания</p><ul><li><a href="/styazhka-pola/">Стяжка пола</a></li><li><a href="/pol-na-lagakh/">Пол на лагах</a></li><li><a href="/sukhaya-styazhka-knauf/">Сухая стяжка Кнауф</a></li>
+</nav>
+						  
+				</div>
+			</div>
+			<div class="col-md-4 hidden-sm hidden-xs header-search-block">
+				<div class="search-block">
+<form action="/search/index.php">
+	<div class="search-field">
+		<input type="text" id="sfrm" name="q" value="" placeholder="Что вы ищете?"/>
+		<input name="s" type="submit" value="Поиск" />
+	</div>
+</form>
+<div class="suggestion">Например: <a id="ssugg"></a></div>
+</div>
+
+<script>
+window.onload = function() {
+	var arr = ["Уход за паркетом", "Ремонт паркета", "Циклевка паркета", "Тонировка паркета", "Укладка паркета"];
+	var rand = Math.floor( Math.random() * arr.length );
+	var sugg = arr[rand];
+	$('#ssugg').html(sugg);
+	$('#ssugg').on('click', function (){
+		$('#sfrm').val(sugg);
+	})
+}
+</script>
+
+
+									</div>
+			<div class="col-sm-6 col-md-3 contacts-column"> 
+				<div class="contacts">
+					<b><span style="font-size: 18pt;">+7 (495) 363 87 99<br>
+ <span style="font-size: 18pt;">+7 (915) 363 9 363</span></span></b> 
+					<div>каждый день с 9:00 до 21:00</div>					<a href="#" class="show_form">Связаться с технологом</a>
+				</div>
+			</div>
+		</div>
+		
+      </div>
+    </header>
+
+    
+	<div class="container">
+    
+	   <div class="row">
+		  <div class="col-md-3"> 
+				<div class="menu-column yellow-menu hidden-sm hidden-xs">  
+			
+					<div class="search-block hidden-md hidden-lg">
+						<div class="search-field">
+							<input type="text" value="Что вы ищите?"/> 
+							<input type="submit" value=""/> 
+						</div> 
+					</div>
+					<nav>
+	</ul><p>Укладка паркета</p><ul><li><a href="/ukladka-shtuchnogo-parketa/">Укладка штучного паркета</a></li><li><a href="/ukladka-massivnoy-doski/">Укладка массивной доски</a></li><li><a href="/ukladka-parketnoy-doski/">Укладка паркетной доски</a></li><li><a href="/ukladka-laminata/">Укладка ламината</a></li><li><a href="/plintus-i-porozhki/">Плинтус и порожки</a></li></ul><p>Восстановление паркета</p><ul><li><a href="/tsiklevka-parketa/">Циклевка паркета</a></li><li><a href="/remont-parketa/">Ремонт паркета</a></li><li><a href="/ukhod-za-parketom/">Уход за паркетом</a></li><li><a href="/tonirovanie-parketa/">Тонировка паркета</a></li><li><a href="/parketnaya-khimiya/">Паркетная химия</a></li><li><a href="/parketnoe-oborudovanie/">Паркетное оборудование</a></li></ul><p>Подготовка основания</p><ul><li><a href="/styazhka-pola/">Стяжка пола</a></li><li><a href="/pol-na-lagakh/">Пол на лагах</a></li><li><a href="/sukhaya-styazhka-knauf/">Сухая стяжка Кнауф</a></li>
+</nav>
+
+					<div class="hidden-sm hidden-xs"> 
+						<div class="price-block"> 
+							 <img src="/upload/price-pic.jpg" alt="price"  />						</div>
+						
+						<h4>Вопросы и ответы:</h4>
+<div class="faq-block" id="bx_3218110189_11066">
+	<div class="faq-block-content">
+		 Хочу сделать пол на лагах в новостройке. Фото и план прилагаю.<br>
+ Прошу смету:<br>
+ <u>На первый этап</u><br>
+...	</div>
+	<div class="faq-read-more">
+		<a href="/faq/pol%20na%20lagah%20v%20novostroyke/">Читать полностью</a>
+	</div>
+</div>
+<div class="faq-block" id="bx_3218110189_11065">
+	<div class="faq-block-content">
+		 Добрый день! <br>
+ Я живу в старом доме. Деревянные полы не ровные. Перепад от стен до центра комнаты до 4 см. Хочу...	</div>
+	<div class="faq-read-more">
+		<a href="/faq/derevjani%20pol%20v%20stalinskom%20dome/">Читать полностью</a>
+	</div>
+</div>
+<div class="faq-block" id="bx_3218110189_11063">
+	<div class="faq-block-content">
+		 Здравствуйте! Скрипит паркет. Срочно надо устранить скрип. Циклевать, и т.д. срочно.<br>	</div>
+	<div class="faq-read-more">
+		<a href="/faq/skripit_parket/">Читать полностью</a>
+	</div>
+</div>
+<div class="apply-question">  
+	<a href="/ask/">Задать свой вопрос</a> 
+</div>
+
+
+
+
+										
+					</div>
+				</div>
+				 
+		  </div>
+		  
+		  <div class="col-sm-12 col-md-9 article-column">
+				<div class="location">
+				<a href="/" title="Главная">Главная</a> »  Вопрос - ответ 				</div>
+				<article class="article-content ">
+					<h1>Вопросы и ответы</h1>
+ 					
+
+
+<div class="faq-section">
+    <div class="ask">
+        <a href="/ask/?from=faq"><img src="/bitrix/templates/responsive/images/ask.png"></a>
+    </div>
+	
+	<div class="question" id="bx_651765591_10786">
+        <table cellpadding="0" cellspacing="0">
+            <tr valign="middle">
+                <td width="100%" class="detail_icon"><img src="/bitrix/templates/responsive/images/person.png"></td>
+                <td class="detail_author"><h4><a href="/faq/">Зинаида 4.</a></h4></td>
+            </tr>
+        </table>
+		<p><a href="/faq/">Смогу ли я одновременно с работами по паркету проводить работы в ванной и санузле, или не получится? Там я хочу поменять трубы и обшить стеновыми панелями, или можно у Вас тоже заказать эти услуги? </a></p>
+	</div>
+    <div class="question_link">
+        <a href="/faq/" style="text-decoration: underline;">Подробнее</a>
+        <span>11.08.2014</span>
+    </div>
+    <hr>
+	
+	<div class="question" id="bx_651765591_10785">
+        <table cellpadding="0" cellspacing="0">
+            <tr valign="middle">
+                <td width="100%" class="detail_icon"><img src="/bitrix/templates/responsive/images/person.png"></td>
+                <td class="detail_author"><h4><a href="/faq/">Светлана</a></h4></td>
+            </tr>
+        </table>
+		<p><a href="/faq/">Здравствуйте! 
+<br />
+ Я планирую ремонт летом, новостройка общая пл. 90 кв.м муниципальная отделка, хотелось бы узнать, во сколько мне обойдется пол? работа+материал, все буду брать у вас&hellip; Штучный паркет дуб пр-во германия где-то на 70-75кв.м, лаки, клей, грунтовка и.т.д. Учитывайте в работу еще, снять линолеум и думаю надо будет наливной пол. Спасибо заранее. </a></p>
+	</div>
+    <div class="question_link">
+        <a href="/faq/" style="text-decoration: underline;">Подробнее</a>
+        <span>11.08.2014</span>
+    </div>
+    <hr>
+	
+	<div class="question" id="bx_651765591_10784">
+        <table cellpadding="0" cellspacing="0">
+            <tr valign="middle">
+                <td width="100%" class="detail_icon"><img src="/bitrix/templates/responsive/images/person.png"></td>
+                <td class="detail_author"><h4><a href="/faq/">Владимир</a></h4></td>
+            </tr>
+        </table>
+		<p><a href="/faq/">1)какие полы лучше по звукоизоляции (воздушный, ударный шум): на регулируемых лагах или насыпные полы кнауф.
+<br />
+ 2) какая стоимость 1 кв.м пола на регулируемых лагах и насыпного пола(что дешевле по себестоимости). </a></p>
+	</div>
+    <div class="question_link">
+        <a href="/faq/" style="text-decoration: underline;">Подробнее</a>
+        <span>11.08.2014</span>
+    </div>
+    <hr>
+	
+	<div class="question" id="bx_651765591_10783">
+        <table cellpadding="0" cellspacing="0">
+            <tr valign="middle">
+                <td width="100%" class="detail_icon"><img src="/bitrix/templates/responsive/images/person.png"></td>
+                <td class="detail_author"><h4><a href="/faq/">Татьяна</a></h4></td>
+            </tr>
+        </table>
+		<p><a href="/faq/">Здравствуйте. 
+<br />
+ Нам надо сделать циклевку паркетной доски в комнате 11 метров. Беретесь ли Вы за маленький объем работы? И какая цена? </a></p>
+	</div>
+    <div class="question_link">
+        <a href="/faq/" style="text-decoration: underline;">Подробнее</a>
+        <span>11.08.2014</span>
+    </div>
+    <hr>
+	
+	<div class="question" id="bx_651765591_10782">
+        <table cellpadding="0" cellspacing="0">
+            <tr valign="middle">
+                <td width="100%" class="detail_icon"><img src="/bitrix/templates/responsive/images/person.png"></td>
+                <td class="detail_author"><h4><a href="/faq/">Таня</a></h4></td>
+            </tr>
+        </table>
+		<p><a href="/faq/">Добрый день!
+<br />
+ Есть ли в наличии штучный паркет Antique, дуб отбеленный нуга? Если да, то сколько времени займет его доставка и какова цена? Очень понравился этот паркет по внешнему виду. Он хорошего качества?!
+<br />
+ Подкажите пожалуйста - если в квартире начинается ремонт, то можно ли заказать паркет сейчас и хранить его в тех комнатах, в которых не идет ремонт? А также сколько м2 (или %) дополнительно нужно заказать на обрезку и т.п.?!
+<br />
+ Спасибо! </a></p>
+	</div>
+    <div class="question_link">
+        <a href="/faq/" style="text-decoration: underline;">Подробнее</a>
+        <span>11.08.2014</span>
+    </div>
+    <hr>
+</div>
+	<br />				 
+<div class="text-center">
+<ul class="pagination styles-pagination">
+		
+			<li><a href="/faq/zamena-starogo-parketa">1</a></li>
+<li><a href="#">..</a></li>
+		<li><a href="/faq/zamena-starogo-parketa?PAGEN_1=16">16</a></li>
+		<li><a href="/faq/zamena-starogo-parketa?PAGEN_1=17">17</a></li>
+		<li class="active"><a href="#">18</a></li>
+		<li><a href="/faq/zamena-starogo-parketa?PAGEN_1=19">19</a></li>
+		<li><a href="/faq/zamena-starogo-parketa?PAGEN_1=20">20</a></li>
+		<li><a href="#">..</a></li>
+		<li><a href="/faq/zamena-starogo-parketa?PAGEN_1=23">23</a></li>
+		
+ </ul>
+</div>
+ 			
+				</article>
+				 
+		  </div> 
+		</div>
+
+    </div><!-- /.container -->
+
+
+    <footer> 
+      <div class="container hidden-md hidden-lg"> 
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="pull-left"><a href="/contacts/">Контакты</a></div>
+                                <div class="pull-right"><a href="/photos/">Фотогалерея</a> / <a href="/faq/">Вопрос-ответ</a></div>
+			</div>
+		</div>
+	  </div>
+      <div class="container hidden-sm hidden-xs"> 
+		<div class="row">
+			<div class="col-md-3">
+				<h4>Штучный паркет</h4>  
+				
+<ul class="links"> 
+
+			<li><a href="/articles/shtuchnyy-parket/">Штучный паркет - что это?</a></li>
+	
+
+			<li><a href="/ukladka-shtuchnogo-parketa/">Укладка паркета</a></li>
+	
+
+			<li><a href="/tsiklevka-parketa/">Шлифовка штучного паркета</a></li>
+	
+
+			<li><a href="/tonirovanie-parketa/">Тонирование штучного паркета</a></li>
+	
+
+			<li><a href="/articles/shtuchnyy-parket/lak-ili-maslo/">Паркет под лаком или маслом</a></li>
+	
+
+			<li><a href="/articles/shtuchnyy-parket/vidy-ukladok/">Варианты укладки паркета</a></li>
+	
+
+			<li><a href="/articles/shtuchnyy-parket/porody-dereva/">Породы дерева</a></li>
+	
+
+</ul>
+
+							</div>  
+			<div class="col-md-3">
+				<h4>Массивная доска</h4>  
+				
+<ul class="links"> 
+
+			<li><a href="/articles/massivnaya-doska/">Массивная доска – 5 параметров выбора!</a></li>
+	
+
+			<li><a href="/ukladka-massivnoy-doski/">Укладка массивной доски</a></li>
+	
+
+			<li><a href="/tsiklevka-parketa/">Шлифовка массивной доски</a></li>
+	
+
+			<li><a href="/articles/massivnaya-doska/lak-ili-maslo-mass/">Массив под лаком или маслом</a></li>
+	
+
+			<li><a href="/tonirovanie-parketa/">Тонировка массивной доски</a></li>
+	
+
+			<li><a href="/articles/massivnaya-doska/porody-dereva-mass/">Породы древесины массивной доски</a></li>
+	
+
+			<li><a href="/ukhod-za-parketom/">Уход за паркетом</a></li>
+	
+
+</ul>
+
+							</div>  
+			<div class="col-md-3">
+				<h4>Паркетная доска</h4>  
+
+<ul class="links"> 
+
+			<li><a href="/articles/parketnaya-doska/">Инженерный паркет и паркетная доска - как они есть!</a></li>
+	
+
+			<li><a href="/ukladka-parketnoy-doski/">Укладка паркетной доски</a></li>
+	
+
+			<li><a href="/tsiklevka-parketa/">Шлифовка паркетной доски</a></li>
+	
+
+			<li><a href="/tonirovanie-parketa/">Колеровка паркетной доски</a></li>
+	
+
+			<li><a href="/articles/parketnaya-doska/lak-ili-maslo-parket/">Лак или масло?</a></li>
+	
+
+			<li><a href="/articles/parketnaya-doska/porody-dereva-parket/">Паркетная доска - породы дерева</a></li>
+	
+
+</ul>
+
+				 
+			</div>  
+			<div class="col-md-3">
+				<h4>Ламинат</h4>  
+
+<ul class="links"> 
+
+			<li><a href="/articles/laminat/">Ламинат - что это?</a></li>
+	
+
+			<li><a href="/ukladka-laminata/">Укладка ламината</a></li>
+	
+
+			<li><a href="/articles/laminat/materialy-dlya-ukladki-laminat/">Материалы для укладки</a></li>
+	
+
+			<li><a href="/articles/laminat/ukhod-za-laminatom/">Уход за ламинатом</a></li>
+	
+
+</ul>
+
+							</div>  
+		</div> 
+      </div>
+	   
+      <div class="bottom-information"> 
+		  <div class="container"> 
+			<div class="row">
+				<div class="col-md-9 col-xs-12">
+					<div class="copy">
+						© ООО "СТП" - Паркетные работы в Москве <br>
+ Москва,&nbsp;Протопоповский переулок, дом 19, строение 13&nbsp;<br>
+ Тел. +7 (495) 363-87-99 <br>
+ <a href="https://parket-lux.ru/sitemap/">карта сайта</a>					</div> 
+					
+					
+					<div class="search-block">
+<form action="/search/index.php">
+	<div class="search-field">
+		<input type="text" name="q" value="" placeholder="Что вы ищете?"/>
+		<input name="s" type="submit" value="Поиск" />
+	</div>
+</form>
+</div>
+
+											
+				</div> 
+				<div class="col-md-3 col-xs-12">    
+<!-- Yandex.Metrika informer -->
+<a href="https://metrika.yandex.ru/stat/?id=26340642&amp;from=informer" target="_blank" rel="nofollow"><img src="//bs.yandex.ru/informer/26340642/3_1_FFFFFFFF_FFFFFFFF_0_pageviews" style="width:88px; height:31px; border:0;" alt="Яндекс.Метрика" title="Яндекс.Метрика: данные за сегодня (просмотры, визиты и уникальные посетители)" onclick="try{Ya.Metrika.informer({i:this,id:26340642,lang:'ru'});return false}catch(e){}"/></a><!-- /Yandex.Metrika informer --><!-- Yandex.Metrika counter --><script type="text/javascript">var yaParams = {/*Здесь параметры визита*/};</script><script type="text/javascript">(function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter26340642 = new Ya.Metrika({id:26340642, webvisor:true, clickmap:true, trackLinks:true, accurateTrackBounce:true,params:window.yaParams||{ }}); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks");</script><noscript><div><img src="//mc.yandex.ru/watch/26340642" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-56187348-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+					
+				</div> 
+			</div>  
+		  </div>
+      </div>
+	  
+    </footer>
+    <div class="back-to-top">
+        <div>Вверх ↑</div>
+    </div>
+
+
+    <div class="popup-wrapper" id="order_form_modal">
+        <div class="popup-container">
+            <a href="#" class="close_button" onclick="$.modal.close(); return false;">Закрыть</a>
+
+			  
+
+	<form class="form-horizontal" role="form" action="/ask/" name="SIMPLE_FORM_1" data-action="/faq/?PAGEN_1=18" method="POST" enctype="multipart/form-data"><input type="hidden" name="sessid" id="sessid" value="e66f475bd16e475897aed798b760e181" /><input type="hidden" name="WEB_FORM_ID" value="1" />    <p>Консультация по телефону:<br><a href="tel:+74953638799">+7(495) 363-87-99</a></p>
+    <h4>Связаться с технологом</h4>
+
+	
+		<div class="form-group">
+			<div class="col-sm-12 col-xs-12">
+			<input placeholder="Ваше имя" type="text"  class="form-control"  name="form_text_1" value="" size="0" />			</div>
+		</div>
+
+
+
+	
+		<div class="form-group">
+			<div class="col-sm-12 col-xs-12">
+			<input placeholder="Электронная почта" type="text"  class="form-control"  name="form_text_2" value="" size="0" />			</div>
+		</div>
+
+
+
+	
+		<div class="form-group">
+			<div class="col-sm-12 col-xs-12">
+			<textarea placeholder="Ваш вопрос" name="form_textarea_3" cols="40" rows="5"  class="form-control textarea-question" ></textarea>			</div>
+		</div>
+
+
+
+	
+		<div class="form-group">
+			<div class="col-sm-12 col-xs-12">
+			<input placeholder="Телефон" type="text"  class="form-control"  name="form_text_9" value="" size="0" />			</div>
+		</div>
+
+
+
+	    <div class="form-group">
+        <div class="col-sm-12 col-xs-12">
+            <div>Введите код с картинки:</div>
+            <input type="hidden" name="captcha_sid" value="00c6ff366213b8c98c0d00051fbac16f">
+            <img src="/bitrix/tools/captcha.php?captcha_sid=00c6ff366213b8c98c0d00051fbac16f" width="180" height="40">
+            <input type="text" name="captcha_word" size="30" maxlength="50" value="" class="form-control">
+        </div>
+    </div>
+	<div class="form-group form_errors">
+		<div class="col-xs-12">
+			<p></p>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-xs-12">
+			<input type="submit" name="web_form_submit" value="Отправить" class="pull-right btn-blue fixsize" style="background-color: #2d89dd !important; color: #fff !important;">
+			<input type="hidden" name="web_form_apply" value="Y">
+		</div>
+	</div>
+
+	<div class="form-group result" style="display: none;" >
+		<div class="col-xs-12" style="color: green;">
+			Ваше сообщение успешно отправлено
+
+		</div>
+	</div>
+
+<style>
+	.form_errors {
+		display: none;
+	}
+	.form_errors p {
+		color: red;
+	}
+</style>
+<script>
+	$(function () {
+		$('form[name=SIMPLE_FORM_1]').on("submit", function () {
+			var inputName = $('input[name=form_text_1]');
+			var inputEmail = $('input[name=form_text_2]');
+			var inputMsg = $('textarea[name=form_textarea_3]');
+			var inputPhone = $('input[name=form_text_9]');
+			var inputCaptcha = $('input[name=captcha_word]');
+			var errors = [];
+			if ($(inputName).val()=='') {
+				errors.push("Не указано имя");
+			}
+			if ($(inputEmail).val()=='') {
+				errors.push("Не указан e-mail");
+			}
+			if ($(inputMsg).val()=='') {
+				errors.push("Не указано сообщение");
+			}
+			if ($(inputPhone).val()=='') {
+				errors.push("Не указан телефон");
+			}
+			/*if ($(inputCaptcha).val()=='') {
+				errors.push("Не указан код с картинки");
+			}*/
+			if (errors.length) {
+				$('.form_errors').show().find("p").html(errors.join("<br>"));
+				return false;
+			} else {
+				$('.form_errors').hide().find("p").html('');
+			}
+		});
+	});
+	/*$(document).ready(function(){  console.log("form init...");
+		$("#order_form_modal form").submit(function(){
+			$.post( $(this).attr("action"), $(this).serialize(), function(res){  console.log("form sent...");
+				$(".form-group").hide();
+				$(".form-group.result").show();
+ 
+			} );
+
+			return false;
+		});
+	})*/
+
+</script>
+
+					  </div>
+	  </div>
+	<script src="/bitrix/templates/responsive/js/toggle_menu0.js"></script> 
+
+	<script>
+	function setEqualHeight(columns) {
+		var tallestcolumn = 0;
+		columns.each(function() {
+			currentHeight = $(this).height();
+			if(currentHeight > tallestcolumn) {
+				tallestcolumn = currentHeight;
+			}
+		});
+		columns.height(tallestcolumn);
+	}
+
+	$(document).ready(function() {
+		setEqualHeight($(".gallery-all div.gallery-title"));
+		$('.gallery').fancybox();
+		$('.show_form').click(function(){
+			$('#order_form_modal').modal({
+                overlayClose: true
+            });
+			return false;
+		});
+		$('.popup-wrapper .close_button').click(function(){
+			$.modal.close();
+			return false;
+		});
+		$('#sbumit_order').click(function(){
+			var data;
+			data = $('.popup-wrapper form').serializeArray();
+			var name_exists = false;
+			var email_exists = false;
+			var comment_exists = false;
+			$(data).each(function(i,e){
+				if (e.value) {
+					if (e.name=="name") name_exists = true;
+					if (e.name=="email") email_exists = true;
+					if (e.name=="comment") comment_exists = true;
+				}
+			});
+			$('.form-horizontal .errors').remove();
+			if (name_exists && email_exists && comment_exists) {
+				$('#sbumit_order').param('disabled', "disabled");
+				$.post('/ajax_form.php', data, function(resp){
+					if (resp==1) {
+						$('.form-horizontal').html('<div class="success">Спасибо, ваше сообщение отправлено.<br>В ближайшее время с вами свяжется специалист.</div>');
+					} else {
+						$('.form-horizontal .errors').remove();
+						$('.form-horizontal').prepend('<div class="errors">Укажите все необходимые поля</div>');
+					}
+				});
+			} else {
+				$('.form-horizontal').prepend('<div class="errors">Укажите все необходимые поля</div>');
+			}
+			return false;
+		});
+});
+	</script>
+  </body>
+</html>
