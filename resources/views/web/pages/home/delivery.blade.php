@@ -1,7 +1,7 @@
 @extends('web.pages.page-layout')
 
 @section('page-content')
-    <x-h1 :entity="'Контакты'"></x-h1>
+    <x-h1 :entity="'Оплата и доставка'"></x-h1>
 
     <x-go-back/>
 
