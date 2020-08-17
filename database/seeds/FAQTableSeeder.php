@@ -18,8 +18,15 @@ class FAQTableSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         FAQ::query()->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+    }
 
-        $rawSeeds = json_decode(Storage::get("seeds/faq/seeds.json"), true);
+    public function runOld()
+    {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        FAQ::query()->truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        $rawSeeds = json_decode(Storage::get("seeds/faq/old/seeds.json"), true);
         $seeds = [];
 
         foreach ($rawSeeds as $rawSeed) {
@@ -29,8 +36,8 @@ class FAQTableSeeder extends Seeder
                 $seed[$attribute] = $rawSeed[$attribute];
             }
             $seed["created_at"] = $rawSeed["created_at"]
-                                    ? Carbon::createFromFormat("d.m.Y H:i:s", $rawSeed["created_at"])
-                                    : null
+                ? Carbon::createFromFormat("d.m.Y H:i:s", $rawSeed["created_at"])
+                : null
             ;
             $seeds[] = $seed;
         }
