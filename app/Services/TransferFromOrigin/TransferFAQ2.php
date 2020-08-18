@@ -64,16 +64,18 @@ class TransferFAQ2 extends BaseTransfer
 
 
         $name2Node = $crawler->filter(".detail_author");
+        $question2Crawler = (new Crawler($html))->filter(".news-detail .detail_question")->eq(1);
+        $answer2Crawler = (new Crawler($html))->filter(".news-detail .detail_answer")->eq(0);
 
-        if ($name2Node->count()) {
+        if ($name2Node->count() && $question2Crawler->count() && $answer2Crawler->count()) {
             $id2 = $this->getIncrementId();
             $name2 = $name2Node->text();
             $date2 = $crawler->filter(".news-detail div")->eq(4)->text();
 
-            $question2Crawler = (new Crawler($html))->filter(".news-detail .detail_question")->eq(1);
+
             $question2 = $question2Crawler->count() ? $this->hadleNodeHtml($question2Crawler) : "";
 
-            $answer2Crawler = (new Crawler($html))->filter(".news-detail .detail_answer")->eq(0);
+
             $answer2 = $answer2Crawler->count() ? $this->hadleNodeHtml($answer2Crawler) : "";
 
             $parsed[] = [

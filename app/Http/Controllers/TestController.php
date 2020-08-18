@@ -14,7 +14,7 @@ class TestController extends Controller
 {
     public function test()
     {
-        //(new TransferFAQ2())->parsePages();
+//        (new TransferFAQ2())->parsePages();
 
         return view('test');
     }

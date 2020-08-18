@@ -55,6 +55,10 @@ class AddForeignKeysToAllTables1 extends Migration
             $table->foreign('provider_bill_status_id', 'orders_provider_bill_status_id_bill_statuses_id')->references('id')->on('bill_statuses');
             $table->foreign('order_status_id', 'orders_order_status_id_order_statuses_id')->references('id')->on('order_statuses');
         });
+
+        Schema::table("faq", function (Blueprint $table) {
+            $table->foreign("parent_id", "faq_parent_id_faq")->references("id")->on("faq");
+        });
     }
 
     /**
