@@ -73,7 +73,7 @@ Route::middleware(["anonymous-uid", "create-anonymous"])->group(function() {
     Route::get("articles/{article_slug}/{subarticle_slug?}", [\App\Http\Controllers\Web\ArticlesController::class, "show"])->name("articles.show");
 
     Route::get("faq", [\App\Http\Controllers\Web\FaqController::class, "index"])->name("faq.index");
-    Route::get("faq/{slug}", [\App\Http\Controllers\Web\FaqController::class, "show"])->name("faq.show");
+    Route::get("faq/{faq_slug}", [\App\Http\Controllers\Web\FaqController::class, "show"])->name("faq.show");
 
     Route::get("ask", [\App\Http\Controllers\Web\HomeController::class, "ask"])->name("ask");
 

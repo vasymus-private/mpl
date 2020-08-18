@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
@@ -24,6 +25,9 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
  *
  * @see FAQ::scopeParents()
  * @method static static|Builder parents()
+ *
+ * @see FAQ::children()
+ * @property Collection|FAQ[] $children
  * */
 class FAQ extends BaseModel implements HasMedia
 {
@@ -50,6 +54,11 @@ class FAQ extends BaseModel implements HasMedia
         "is_active" => "bool",
     ];
 
+    public static function rbFaqSlug($value)
+    {
+        return static::query()->parents()->where(static::TABLE . ".slug", $value)->firstOrFail();
+    }
+
     public function seo(): MorphOne
     {
         return $this->morphOne(Seo::class, "seoable", "seoable_type", "seoable_id");
@@ -63,5 +72,10 @@ class FAQ extends BaseModel implements HasMedia
     public function scopeParents(Builder $builder): Builder
     {
         return $builder->whereNull(static::TABLE . ".parent_id");
+    }
+
+    public function children()
+    {
+        return $this->hasMany(FAQ::class, "parent_id", "id");
     }
 }

@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Article;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\FAQ;
 use App\Models\GalleryItem;
 use App\Models\Product\Product;
 use App\Models\Service;
@@ -78,6 +79,8 @@ class RouteServiceProvider extends ServiceProvider
         Route::bind("subarticle_slug", [Article::class, "rbSubArticleSlug"]);
 
         Route::bind("brand_slug", [Brand::class, "rbBrandSlug"]);
+
+        Route::bind("faq_slug", [FAQ::class, "rbFaqSlug"]);
     }
 
     /**

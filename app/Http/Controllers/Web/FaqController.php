@@ -2,17 +2,23 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Models\FAQ;
 use Illuminate\Http\Request;
 
 class FaqController extends BaseWebController
 {
     public function index(Request $request)
     {
-        return view("web.pages.faqs.faqs");
+        $faqs = FAQ::query()->parents()->paginate();
+
+        return view("web.pages.faqs.faqs", compact("faqs"));
     }
 
     public function show(Request $request)
     {
-        return view("web.pages.faqs.faq");
+        /** @var FAQ $faq */
+        $faq = $request->faq_slug;
+
+        return view("web.pages.faqs.faq", compact("faq"));
     }
 }
