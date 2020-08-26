@@ -50,7 +50,7 @@
                         <label>Введите код с картинки</label>
                         <div class="row-line row-line__center">
                             <input class="form-control small" type="text" name="captcha_word" size="30" maxlength="50" value="" />
-                            <img src="{{asset("images/captcha.jpeg")}}" width="180" height="40" alt="CAPTCHA">
+                            <img src="{{asset("images//captcha.jpeg")}}" width="180" height="40" alt="CAPTCHA">
                         </div>
                     </div>
                     <div class="form-group__item">
@@ -67,7 +67,7 @@
             <p><strong>Пункт выдачи оплаченных заказов:</strong></p>
             <p>Адрес: Москва, Протопоповский переулок, дом 19, строение 13, офис 14</p>
             <p>Время работы: с 10-00 по 18-00, кроме субботы и воскресения.</p>
-            <p><img class="map" src="{{asset("images/map.png")}}" alt="" title=""></p>
+            <p><img class="map" src="{{asset("images//map.png")}}" alt="" title=""></p>
         </div>
         <div class="contact-single">
             <p><strong>Реквизиты</strong></p>

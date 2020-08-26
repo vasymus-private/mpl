@@ -5,6 +5,10 @@
 /public/js
 /public/fonts
 /public/images
+/public/_admin
+/public/_admin/images
+/public/_admin/js
+/public/_admin/css
 /storage/*.key
 /vendor
 .env

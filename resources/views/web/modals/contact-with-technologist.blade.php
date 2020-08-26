@@ -19,7 +19,7 @@
             <div class="form-group">
                 <div class="col-sm-12 col-xs-12">
                     <div>Введите код с картинки:</div>
-                    <img src="{{asset("images/captcha.jpeg")}}" width="180" height="40">
+                    <img src="{{asset("images//captcha.jpeg")}}" width="180" height="40">
                     <input type="text" name="captcha_word" size="30" maxlength="50" value="" class="form-control">
                 </div>
             </div>

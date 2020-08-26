@@ -18,7 +18,7 @@
 
             <div class="catalog__product-variants">
                 <a href="{{$route()}}" class="catalog__variant-link">
-                    <span class="desktop-visible">Варианты этого товара <img src="{{asset('images/variants-arrow.png')}}" width="20" height="14"></span>
+                    <span class="desktop-visible">Варианты этого товара <img src="{{asset('images//variants-arrow.png')}}" width="20" height="14"></span>
                     <span class="mob-visible">Подробнее</span>
                 </a>
             </div>

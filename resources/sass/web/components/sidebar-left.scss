@@ -1,0 +1,37 @@
+.sidebar-left {
+  flex: 270px 0;
+  z-index: 22;
+  position: relative;
+  vertical-align: top;
+  will-change: min-height;
+  margin: 0 0 0 15px;
+  @media screen and (max-width: 875px) {
+    display: none;
+  }
+  .title {
+    h3 {
+      font-size: 15px;
+      font-family: 'Roboto', sans-serif;
+    }
+    &--orange {
+      h3 {
+        color: #dd522d;
+      }
+    }
+  }
+
+  &__fav {
+    font-size: 13px;
+    margin: 22px 0;
+  }
+
+  &__fav-link {
+    background: url(../images//header_top_fav2.png) no-repeat 100% 50%;
+    padding: 6px 16px 6px 0;
+    text-decoration: underline;
+    color: #337ab7;
+  }
+  &__fav-count {
+    color: #0062bd;
+  }
+}

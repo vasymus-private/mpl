@@ -3,7 +3,7 @@
         <div class="row-line">
             <div class="header-column">
                 <a class="logo" href="{{route("home")}}">
-                    <img alt="Parket Lux" title="Parket Lux" src="{{asset("images/logo.svg")}}">
+                    <img alt="Parket Lux" title="Parket Lux" src="{{asset("images//logo.svg")}}">
                 </a>
                 <a class="toggle another-page" href="#"></a>
             </div>
@@ -20,11 +20,11 @@
             </div>
             <div class="header__icon-mobile">
                 <a href="{{route('cart.show')}}" class="basket js-add-to-cart-tooltip">
-                    <img src="{{asset("images/cart.svg")}}" alt="" title="">
+                    <img src="{{asset("images//cart.svg")}}" alt="" title="">
                     <span class="count js-add-to-cart-count js-add-to-cart-animate cart-items-count">{{$cartCount}}</span>
                 </a>
                 <a href="tel:+74957600518" class="phone-icon">
-                    <img src="{{asset("images/phone.svg")}}" alt="" title="">
+                    <img src="{{asset("images//phone.svg")}}" alt="" title="">
                 </a>
             </div>
             <div class="contacts-column">

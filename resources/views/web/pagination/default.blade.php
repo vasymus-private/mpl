@@ -11,17 +11,17 @@
 
         @if ($paginator->onFirstPage())
             <span class="filter-head__icon" aria-disabled="true" aria-label="Первая страница">
-                <img src="{{asset('images/first-filter-page.gif')}}" alt="">
+                <img src="{{asset('images//first-filter-page.gif')}}" alt="">
             </span>
             <span class="filter-head__icon" aria-disabled="true" aria-label="Предыдущая страница">
-                <img src="{{asset('images/previous-filter-page.gif')}}" alt="">
+                <img src="{{asset('images//previous-filter-page.gif')}}" alt="">
             </span>
         @else
             <a href="{{ $paginator->toArray()["first_page_url"] }}" class="filter-head__icon" aria-label="Первая страница">
-                <img src="{{asset('images/first-filter-page.gif')}}" alt="">
+                <img src="{{asset('images//first-filter-page.gif')}}" alt="">
             </a>
             <a href="{{ $paginator->previousPageUrl() }}" rel="prev" class="filter-head__icon" aria-label="Предыдущая страница">
-                <img src="{{asset('images/previous-filter-page.gif')}}" alt="">
+                <img src="{{asset('images//previous-filter-page.gif')}}" alt="">
             </a>
         @endif
 
@@ -48,17 +48,17 @@
 
         @if ($paginator->hasMorePages())
             <a href="{{$paginator->nextPageUrl()}}" class="filter-head__icon" aria-label="Следующая страница">
-                <img src="{{asset('images/next-filter-page.gif')}}" alt="">
+                <img src="{{asset('images//next-filter-page.gif')}}" alt="">
             </a>
             <a href="{{$paginator->toArray()["last_page_url"]}}" class="filter-head__icon" aria-label="Последняя страница">
-                <img src="{{asset('images/last-filter-page.gif')}}" alt="">
+                <img src="{{asset('images//last-filter-page.gif')}}" alt="">
             </a>
         @else
             <span class="filter-head__icon" aria-disabled="true" aria-label="Следующая страница">
-                <img src="{{asset('images/next-filter-page.gif')}}" alt="">
+                <img src="{{asset('images//next-filter-page.gif')}}" alt="">
             </span>
             <span class="filter-head__icon" aria-disabled="true" aria-label="Последняя страница">
-                <img src="{{asset('images/last-filter-page.gif')}}" alt="">
+                <img src="{{asset('images//last-filter-page.gif')}}" alt="">
             </span>
         @endif
     </div>

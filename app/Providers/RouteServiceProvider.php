@@ -28,7 +28,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/home';
+    public const HOME = '/';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -51,15 +51,34 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->mapApiRoutes();
 
-        $this->mapWebRoutes();
-
-        $this->mapAjaxRoutes();
-
         $this->mapAdminRoutes();
 
         $this->mapAdminAjaxRoutes();
 
+        $this->mapWebRoutes();
+
+        $this->mapAjaxRoutes();
+
+
+
         $this->routeBinding();
+
+        $routes = [];
+        $routeCollection = Route::getRoutes();
+        /** @var \Illuminate\Routing\Route $value */
+        foreach ($routeCollection as $value) {
+
+            $name = $value->getName();
+//            dump("$name : {$value->uri} : " . implode(", ", $value->methods));
+            $routes[$name] = [
+                'name' => $name,
+                'uri' => $value->uri,
+                'action-name' => $value->getActionName(),
+                'methods' => $value->methods(),
+                'matches' => $value->uri(),
+            ];
+        }
+        //dd($routes);
     }
 
     protected function routeBinding()
@@ -125,7 +144,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix("admin")
             ->name("admin.")
-            ->middleware(['web', "auth:web-admin"])
+            //->middleware(['web', "auth:web-admin"])
             //->namespace($this->namespace)
             ->group(base_path('routes/admin.php'));
     }

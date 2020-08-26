@@ -212,9 +212,9 @@
                             @if(in_array($label, \App\Models\Product\Product::CH_RATE))
                                 @for($i = 0; $i < \App\Models\Product\Product::MAX_CHARACTERISTIC_RATE; $i++)
                                     @if($value > $i)
-                                        <img src="{{asset("images/general/circle-active.gif")}}" alt="">
+                                        <img src="{{asset("images//general/circle-active.gif")}}" alt="">
                                     @else
-                                        <img src="{{asset("images/general/circle.gif")}}" alt="">
+                                        <img src="{{asset("images//general/circle.gif")}}" alt="">
                                     @endif
                                 @endfor
                             @else

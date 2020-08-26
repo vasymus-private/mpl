@@ -9,16 +9,16 @@
                         <h1 class="title">Паркетные работы</h1>
                         <div class="slider-home">
                             <div>
-                                <img src="{{asset("images/pic.jpg")}}" alt="" title="">
+                                <img src="{{asset("images//pic.jpg")}}" alt="" title="">
                             </div>
                             <div>
-                                <img src="{{asset("images/pic1.jpg")}}" alt="" title="">
+                                <img src="{{asset("images//pic1.jpg")}}" alt="" title="">
                             </div>
                             <div>
-                                <img src="{{asset("images/pic2.jpg")}}" alt="" title="">
+                                <img src="{{asset("images//pic2.jpg")}}" alt="" title="">
                             </div>
                             <div>
-                                <img src="{{asset("images/pic3.jpg")}}" alt="" title="">
+                                <img src="{{asset("images//pic3.jpg")}}" alt="" title="">
                             </div>
                         </div>
                         <p>
@@ -55,13 +55,13 @@
                             </article>
                         </div>
                         <div class="column-sm-6 col-sm-6">
-                            <article class="image-content" style="background-image: url({{asset("images/banner1.png")}}); display: block;">
+                            <article class="image-content" style="background-image: url({{asset("images//banner1.png")}}); display: block;">
                                 <a href="{{route("services.show", "ukladka-shtuchnogo-parketa")}}"><span>укладка<br> штучного паркета</span></a>
                             </article>
-                            <article class="image-content" style="background-image: url({{asset("images/banner2.png")}}); display: block;">
+                            <article class="image-content" style="background-image: url({{asset("images//banner2.png")}}); display: block;">
                                 <a href="{{route("services.show", "ukladka-massivnoy-doski")}}"><span>укладка<br> массивной доски</span></a>
                             </article>
-                            <article class="image-content" style="background-image: url({{asset("images/banner3.jpg")}}); display: block;">
+                            <article class="image-content" style="background-image: url({{asset("images//banner3.jpg")}}); display: block;">
                                 <a href="{{route("services.show", "ukladka-parketnoy-doski")}}"><span>укладка<br> паркетной доски</span></a>
                             </article>
                         </div>
@@ -72,16 +72,16 @@
                                 <h3>Реставрация паркета</h3>
                                 <div class="slider-home">
                                     <div>
-                                        <img src="{{asset("images/pic4.jpg")}}" alt="" title="">
+                                        <img src="{{asset("images//pic4.jpg")}}" alt="" title="">
                                     </div>
                                     <div>
-                                        <img src="{{asset("images/pic5.jpg")}}" alt="" title="">
+                                        <img src="{{asset("images//pic5.jpg")}}" alt="" title="">
                                     </div>
                                     <div>
-                                        <img src="{{asset("images/pic6.jpg")}}" alt="" title="">
+                                        <img src="{{asset("images//pic6.jpg")}}" alt="" title="">
                                     </div>
                                     <div>
-                                        <img src="{{asset("images/pic7.jpg")}}" alt="" title="">
+                                        <img src="{{asset("images//pic7.jpg")}}" alt="" title="">
                                     </div>
                                 </div>
                                 <p>
@@ -104,7 +104,7 @@
                             <div class="row-line">
                                 <div class="column-sm-6 col-sm-6">
                                     <article class="image-content"
-                                             style="background-image: url({{asset("images/banner7.png")}}); display: block;">
+                                             style="background-image: url({{asset("images//banner7.png")}}); display: block;">
                                         <a href="{{route("services.show", "remont-parketa")}}">
                                             <span>ремонт паркета</span>
                                         </a>
@@ -112,7 +112,7 @@
                                 </div>
                                 <div class="column-sm-6 col-sm-6">
                                     <article class="image-content"
-                                             style="background-image: url({{asset("images/banner8.png")}}); display: block;">
+                                             style="background-image: url({{asset("images//banner8.png")}}); display: block;">
                                         <a href="{{route("services.show", "tonirovanie-parketa")}}">
                                             <span>тонировка паркета</span>
                                         </a>
@@ -134,15 +134,15 @@
                         </div>
                         <div class="column-sm-6">
                             <article class="image-content"
-                                     style="background-image: url({{asset("images/banner4.png")}}); display: block;">
+                                     style="background-image: url({{asset("images//banner4.png")}}); display: block;">
                                 <a href="{{route("services.show", "styazhka-pola")}}"><span>цементная стяжка</span></a>
                             </article>
                             <article class="image-content"
-                                     style="background-image: url({{asset("images/banner5.jpg")}}); display: block;">
+                                     style="background-image: url({{asset("images//banner5.jpg")}}); display: block;">
                                 <a href="{{route("services.show", "pol-na-lagakh")}}"><span>пол на лагах</span></a>
                             </article>
                             <article class="image-content"
-                                     style="background-image: url({{asset("images/banner6.jpg")}}); display: block;">
+                                     style="background-image: url({{asset("images//banner6.jpg")}}); display: block;">
                                 <a href="{{route("services.show", "sukhaya-styazhka-knauf")}}"><span>ремонт стяжки</span></a>
                             </article>
                         </div>
@@ -163,16 +163,16 @@
                                 <h3>Реставрация паркета</h3>
                                 <div class="slider-home">
                                     <div>
-                                        <img src="{{asset("images/pic4.jpg")}}" alt="" title="">
+                                        <img src="{{asset("images//pic4.jpg")}}" alt="" title="">
                                     </div>
                                     <div>
-                                        <img src="{{asset("images/pic5.jpg")}}" alt="" title="">
+                                        <img src="{{asset("images//pic5.jpg")}}" alt="" title="">
                                     </div>
                                     <div>
-                                        <img src="{{asset("images/pic6.jpg")}}" alt="" title="">
+                                        <img src="{{asset("images//pic6.jpg")}}" alt="" title="">
                                     </div>
                                     <div>
-                                        <img src="{{asset("images/pic7.jpg")}}" alt="" title="">
+                                        <img src="{{asset("images//pic7.jpg")}}" alt="" title="">
                                     </div>
                                 </div>
                                 <p>
@@ -206,14 +206,14 @@
                     </article>
                 </div>
                 <div class="column-half">
-                    <article class="image-content" style="background-image: url({{asset("images/banner7.png")}}); display: block;">
+                    <article class="image-content" style="background-image: url({{asset("images//banner7.png")}}); display: block;">
                         <a href="{{route("services.show", "remont-parketa")}}">
                             <span>ремонт паркета</span>
                         </a>
                     </article>
                 </div>
                 <div class="column-half">
-                    <article class="image-content" style="background-image: url({{asset("images/banner8.png")}}); display: block;">
+                    <article class="image-content" style="background-image: url({{asset("images//banner8.png")}}); display: block;">
                         <a href="{{route("services.show", "tonirovanie-parketa")}}">
                             <span>тонировка паркета</span>
                         </a>

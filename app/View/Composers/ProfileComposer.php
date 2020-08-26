@@ -19,6 +19,9 @@ class ProfileComposer
     {
         /** @var User $user */
         $user = Auth::user();
+
+        if (!$user) return;
+
         $user->loadCount(["viewed"]);
         $user->load(["aside:id"]);
 

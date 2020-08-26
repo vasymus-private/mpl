@@ -1,0 +1,148 @@
+// This is base reset for form elements.
+//
+// Note: If you use a framework that includes form styling then you need to remove this file.
+
+form,
+fieldset {
+  margin: 0;
+  padding: 0;
+  border-style: none;
+}
+
+input[type='text'],
+input[type='tel'],
+input[type='email'],
+input[type='search'],
+input[type='password'],
+textarea {
+  appearance: none;
+  box-sizing: border-box;
+  font-family: var(--form-font-family);
+  //border-radius: 0;
+  // border: 0.1rem solid var(--form-element-border-color);
+  padding: var(--form-element-padding);
+
+  &:focus {
+    border-color: var(--form-element-focus-border-color);
+  }
+
+  @include placeholder {
+    color: var(--placeholder-color);
+  }
+}
+
+select {
+  border-radius: 0;
+}
+
+textarea {
+  resize: vertical;
+  vertical-align: top;
+}
+
+button,
+input[type='button'],
+input[type='reset'],
+input[type='file'],
+input[type='submit'] {
+  appearance: none;
+  border-radius: 0;
+  cursor: pointer;
+  font-family: var(--form-font-family);
+}
+
+select {
+  -webkit-appearance: none;
+  height: 23px;
+  border: 1px solid #f7f1e9;
+  font-family: robotolight, Arial, sans-serif;
+  color: #000;
+  font-size: 12px;
+  padding: 0 24px 0 14px;
+  cursor: pointer;
+  margin: 0 10px 0 5px;
+  border-radius: 0;
+  background: #fff url(../images//arrow-select.png) no-repeat;
+  background-position-x: calc(100% - 8px);
+  background-position-y: center;
+}
+
+.form-group {
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 400;
+    padding: 0 0 1px;
+    margin: 0;
+    color: #900;
+  }
+
+  .form-control {
+    background: #cee0c0;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    box-shadow: inset 1px 1px 1px 1px rgba(0,0,0,.05);
+    color: #000;
+    font-size: 12px;
+    padding: 8px 5px;
+    max-width: 377px;
+    &.small {
+      margin: 0 10px 0 0;
+      width: 158px;
+    }
+  }
+
+  textarea.form-control {
+    resize: none;
+    width: 100%;
+    height: 200px;
+    max-width: 600px;
+  }
+
+  &__item {
+    margin: 0 0 15px;
+  }
+
+  .row-line {
+    margin: 0;
+  }
+
+  .btn-submit {
+    box-shadow: 0 1px 0 0 #fff6af;
+    background: -webkit-gradient(linear,left top, left bottom,color-stop(5%, #ffec64),to(#ffab23));
+    background: -webkit-linear-gradient(top,#ffec64 5%,#ffab23);
+    background: -o-linear-gradient(top,#ffec64 5%,#ffab23);
+    background: linear-gradient(180deg,#ffec64 5%,#ffab23);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffec64",endColorstr="#ffab23",GradientType=0);
+    background-color: #ffec64;
+    border-radius: 6px;
+    border: 1px solid #fa2;
+    display: inline-block;
+    cursor: pointer;
+    color: #333;
+    font-size: 20px;
+    font-weight: 700;
+    padding: 13px 59px;
+    text-decoration: none;
+    text-shadow: 0 1px 0 #fe6;
+    @media (max-width: 500px) {
+      width: 100%;
+    }
+  }
+
+  .form-control-file {
+    background: #f5f5f5;
+    border: 1px solid #dadada;
+    color: #6c6c6c;
+    font-size: 11px;
+    padding: 5px;
+    margin: 0;
+    width: 100%;
+  }
+
+  .bg_img {
+    background: url(../images//bg_img.png) no-repeat 100% 50%;
+    display: inline-block;
+    padding: 0 48px 0 0;
+  }
+}

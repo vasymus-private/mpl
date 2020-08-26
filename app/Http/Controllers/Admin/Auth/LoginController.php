@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -28,7 +29,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = "/orders";
+    protected $redirectTo = "/admin/home";
 
     /**
      * Create a new controller instance.
@@ -40,20 +41,15 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    /**
-     * The user has been authenticated.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param mixed $user
-     * @return mixed
-     */
-    protected function authenticated(Request $request, $user)
+    public function showLoginForm()
     {
-        $uid = $request->cookie("anonymous_uid");
-        if ($uid === null) throw new \LogicException("No uid provided");
-        /** @var User|null $uidUser */
-        $uidUser = User::query()->where(User::TABLE . ".anonymous_uid", $uid)->first();
-
-        User::mergeUidUser($uidUser, $user);
+        return view("admin.pages.admin.login");
     }
+
+    protected function guard()
+    {
+        return Auth::guard("web-admin");
+    }
+
+
 }

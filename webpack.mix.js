@@ -11,10 +11,17 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.react('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css');
+mix
+    .js('resources/js/web/app.js', 'public/js')
+    .sass('resources/sass/web/app.scss', 'public/css')
 
-mix.copyDirectory('resources/images', 'public/images')
+    .js("resources/js/admin/app.js", 'public/_admin/js')
+    .sass("resources/sass/admin/app.scss", "public/_admin/css")
+;
+
+mix.copyDirectory('resources/images/web', 'public/images')
+mix.copyDirectory("resources/images/admin", "public/_admin/images")
+
 mix.copyDirectory('resources/fonts', 'public/fonts')
 
 mix.options({

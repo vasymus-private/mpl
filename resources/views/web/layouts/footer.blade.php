@@ -126,10 +126,10 @@
             <p class="footer-info-site__text">Данный сайт носит информационный характер и не является публичной офертой, определяемой положениями Статьи 437 (2) Гражданского кодекса Российской Федерации. Для получения подробной информации обращайтесь к менеджерам через форму «контакты» или по телефону: <a href="tel:+74953638799">+7 (495) 363 87 99</a>.</p>
         </div>
         <div class="credit-cards">
-            <img src="{{asset("images/Visa.png")}}" width="55" height="34">
-            <img src="{{asset("images/MasterCard.png")}}" width="55" height="34">
-            <img src="{{asset("images/Maestro.png")}}" width="55" height="34">
-            <img src="{{asset("images/Maestro1.png")}}" width="55" height="34">
+            <img src="{{asset("images//Visa.png")}}" width="55" height="34">
+            <img src="{{asset("images//MasterCard.png")}}" width="55" height="34">
+            <img src="{{asset("images//Maestro.png")}}" width="55" height="34">
+            <img src="{{asset("images//Maestro1.png")}}" width="55" height="34">
         </div>
     </div>
 </footer>
