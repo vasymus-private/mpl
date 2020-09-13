@@ -1,0 +1,42 @@
+.accessories-block {
+  border: 1px solid #dadada;
+  border-radius: 4px;
+  overflow: hidden;
+  padding: 10px;
+  margin: 15px 0 0;
+  &.hidden-desktop {
+    @media (min-width: 993px) {
+      display: none;
+    }
+  }
+  &__title-orange {
+    font-size: 12px;
+    color: #ff5100;
+    padding: 0;
+  }
+
+  .row-line {
+    margin: 0;
+  }
+
+  .column {
+    width: 50%;
+    @media (max-width: 600px) {
+      width: 100%;
+    }
+  }
+
+  .product-special {
+    padding: 0 10px;
+  }
+
+  a {
+    color: #a33;
+    text-decoration: underline;
+  }
+
+  &__cost-orange {
+    color: #ff5100;
+    font-size: 12px;
+  }
+}

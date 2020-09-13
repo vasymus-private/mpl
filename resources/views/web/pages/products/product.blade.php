@@ -1,10 +1,17 @@
-@extends('web.pages.page-layout')
+@extends('web.pages.page-product-layout')
 
 @section('page-content')
     <?php /** @var \App\Models\Product\Product $product */ ?>
     <?php /** @var \App\Services\Breadcrumbs\BreadcrumbDTO[] $breadcrumbs */ ?>
     <x-h1 :entity="$product"></x-h1>
-    <x-breadcrumbs :breadcrumbs="$breadcrumbs"></x-breadcrumbs>
-    <a href="{{\Illuminate\Support\Arr::last($breadcrumbs)->url ?? null}}">В список товаров</a>
+
+    <div class="row-line product__breadcrumbs-header">
+        <div class="column">
+            <x-breadcrumbs :breadcrumbs="$breadcrumbs"></x-breadcrumbs>
+        </div>
+        <div class="column">
+            <a href="{{\Illuminate\Support\Arr::last($breadcrumbs)->url ?? null}}" class="btn-back"></a>
+        </div>
+    </div>
     <x-product :product="$product" :asideIds="$asideIds"></x-product>
 @endsection

@@ -1,71 +1,223 @@
 <?php /** @var \App\Models\Product\Product $product */ ?>
-{{-- Название --}}
-<h2>{!! $product->name !!}</h2>
+<div class="content__white-block">
+    <h2 class="product__title">{!! $product->name !!}</h2>
 
-{{-- Кнопка "отложить" --}}
-<div class="put-off-block">
-    <a href="#" data-id="{{$product->id}}" class="js-put-aside put-off-block__link {{in_array($product->id, $asideIds) ? "put-off-block__link--active" : ""}}">
-        <i class="fa fa-bookmark" aria-hidden="true"></i>
-        Отложить
-    </a>
-</div>
-
-
-{{-- Дропдаун / просто ссылка "Скачать инструкции" --}}
-@if(count($instructions()))
-<div>
-    @if(count($instructions()) === 1)
-        <a target="_blank" href="{{$instructions()->first()->getFullUrl()}}">Скачать инструкции</a>
-    @else
-        <div class="dropdown">
-            <a class="" href="#" role="button" id="js-product-files" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Скачать инструкции
+    <div class="put-product row-line row-line__between">
+        <div class="put-off-block">
+            <a href="#" data-id="{{$product->id}}" class="js-put-aside put-off-block__link {{in_array($product->id, $asideIds) ? "put-off-block__link--active" : ""}}">
+                <i class="fa fa-bookmark" aria-hidden="true"></i>
+                Отложить
             </a>
+        </div>
 
-            <div class="dropdown-menu" aria-labelledby="js-product-files">
-                @foreach($instructions() as $instruction)
-                    <?php /** @var \Spatie\MediaLibrary\Models\Media $instruction */ ?>
-                    <a class="dropdown-item" target="_blank" href="{{$instruction->getFullUrl()}}">{{$instruction->name}}</a>
+        @if(count($instructions()))
+            <div>
+                @if(count($instructions()) === 1)
+                    <a class="put-product__download" target="_blank" href="{{$instructions()->first()->getFullUrl()}}">Скачать инструкции</a>
+                @else
+                    <div class="dropdown">
+                        <a class="put-product__download" href="#" role="button" id="js-product-files" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Скачать инструкции
+                        </a>
+
+                        <div class="dropdown-menu" aria-labelledby="js-product-files">
+                            @foreach($instructions() as $instruction)
+                                <?php /** @var \Spatie\MediaLibrary\Models\Media $instruction */ ?>
+                                <a class="dropdown-item" target="_blank" href="{{$instruction->getFullUrl()}}">{{$instruction->name}}</a>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+            </div>
+        @endif
+    </div>
+
+    <div class="row-line product-line">
+        <div class="column">
+            <div class="product__photo">
+                <a href="{{$mainImage()}}" data-fancybox="images"><img src="{{$mainImage()}}" alt="{{$product->name}}" title="{{$product->name}}" /></a>
+            </div>
+        </div>
+        <div class="column">
+            @if($product->brand)
+            <div class="brand-logo-box">
+                <h4 class="brand-logo-box__title"><a href="{{route("brands.show", $product->brand->slug)}}">Производитель</a></h4>
+                <a href="{{route("brands.show", $product->brand->slug)}}" class="brand-logo-box__link"><img src="{{$product->brand->getFirstMediaUrl(\App\Models\Brand::MC_MAIN_IMAGE)}}" alt="" title=""></a>
+            </div>
+            @endif
+            @if(count($images()))
+            <div class="wrapper-photos-block">
+                <div class="line">
+                    <a href="{{$images()->first()->getFullUrl()}}" data-fancybox="images" class="wrapper-photos-block__link-img">
+                        Фото ({{$images()->count()}})
+                        <svg style="width: 15px; height: 15px; color: #000;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                            <path fill="currentColor" d="M508.5 481.6l-129-129c-2.3-2.3-5.3-3.5-8.5-3.5h-10.3C395 312 416 262.5 416 208 416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c54.5 0 104-21 141.1-55.2V371c0 3.2 1.3 6.2 3.5 8.5l129 129c4.7 4.7 12.3 4.7 17 0l9.9-9.9c4.7-4.7 4.7-12.3 0-17zM208 384c-97.3 0-176-78.7-176-176S110.7 32 208 32s176 78.7 176 176-78.7 176-176 176z"></path>
+                        </svg>
+                    </a>
+                </div>
+                <div class="row-line">
+                    @foreach($images() as $image)
+                    <?php /** @var \Spatie\MediaLibrary\Models\Media $image */ ?>
+                    <a href="{{$image->getFullUrl()}}" data-fancybox="images" class="wrapper-photos-block__link"><img src="{{$image->getFullUrl()}}" alt="" title=""></a>
+                    @endforeach
+                </div>
+            </div>
+            @endif
+        </div>
+    </div>
+
+    {{-- Если товар с вариантами --}}
+    @if($product->variations->isNotEmpty())
+        <div class="product-variants">
+            <table width="100%" cellspacing="0" cellpadding="7" border="0">
+                <thead>
+                    <tr>
+                        <th colspan="2">Варианты:</th>
+                        {{--<th>{{$product->unit}}</th>--}}
+                        <th>Цена</th>
+                        <th>Уп-ка</th>
+                        <th>Кол-во</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {{--<tr>
+                    <th colspan="2">Варианты:</th>
+                    <th>1000г</th>
+                    <th>Цена</th>
+                    <th>Уп-ка</th>
+                    <th>Кол-во</th>
+                    <th>&nbsp;</th>
+                </tr>--}}
+                @foreach($product->variations as $variation)
+                    <?php /** @var \App\Models\Product\Product $variation */ ?>
+                <tr>
+                    <td>
+                        <div class="product-variants__photo">
+                            <a data-fancybox="variation-image-loop-{{$loop->index + 1}}" href="{{$variation->getFirstMediaUrl(\App\Models\Product\Product::MC_MAIN_IMAGE)}}"><img src="{{$variation->getFirstMediaUrl(\App\Models\Product\Product::MC_MAIN_IMAGE)}}" alt="{{$variation->name}}" title="{{$variation->name}}"></a>
+                            <span class="product-variants__counter">{{$loop->index + 1}}</span>
+                            <a data-fancybox="variation-image-loop-{{$loop->index + 1}}" href="{{$variation->getFirstMediaUrl(\App\Models\Product\Product::MC_MAIN_IMAGE)}}" class="product-variants__zoom"></a>
+                        </div>
+                    </td>
+                    <td>
+                        <h3 class="product-variants__title" data-offer="1785">
+                            <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="top" data-html="true" data-content="{{$variation->preview}}" title="">{{$variation->name}}</a>
+                        </h3>
+                    </td>
+                    {{--<td>
+                        <strong class="product-variants__price-blue">{{$variation->price_retail_rub_formatted}}</strong>
+                    </td>--}}
+                    <td width="10%">
+                        <strong class="product-variants__price-orange">{{$variation->price_retail_rub_formatted}}</strong>
+                    </td>
+                    <td>
+                        <strong class="product-variants__price-gray">{{$variation->unit}}</strong>
+                    </td>
+                    <td width="10%">
+                        <input type="text" value="1" class="product-variants__input_small">
+                    </td>
+                    <td width="10%" align="right">
+                        <a class="button-buy color-orange addToCart" data-id="1785" data-order="1" href="#" data-qty="#qty_1785">На заказ</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="7">
+                        <div class="manager-area-price">
+                            <p><span>Закупочная:</span> <span style="color: #03c; font-weight: bold;">0</span>,Маржа: <span style="color: #03c;">1 270 р</span>,
+                                Наценка: inf%,
+                                Заработок: 100.00%</p>
+                        </div>
+                    </td>
+                </tr>
                 @endforeach
+                </tbody>
+            </table>
+            <div class="mob-products">
+                <h3>Варианты</h3>
+                <div class="over-line">
+                    <div class="column">
+                        <div class="product-variants__photo">
+                            <a href="#"><img src="images/product-variants.jpeg" alt="Клей для паркета  ACM VK-L12" title="Клей ACM VK-L12"></a>
+                            <span class="product-variants__counter">1</span>
+                            <a href="#" class="product-variants__zoom"></a>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="block-text-product">
+                            <h4 class="product-variants__title">
+                                <a data-toggle="popover" data-placement="top" data-html="true" data-content="Пластиковое ведро. Прочно-эластичный, двухкомпонентный, полиуретановый клей. Не содержит воды и растворителей. " class="pointer link-text js-auto-hide-popover" data-original-title="" title="">Клей ACM VK-L12 (10кг)</a>
+                            </h4>
+                            <div class="line-product right">
+                                <span class="text-orange">3 387 р <span class="text-gray">/ 10кг</span></span>
+                            </div>
+                            <div class="product-amount row-line">
+                                <div class="column">
+                                    <input type="hidden" value="1" name="qty">
+                                    <input type="text" value="1" class="product-variants__input_small">
+                                </div>
+                                <div class="column">
+                                    <input type="button" value="На заказ" class="add-basket color-orange addToCart" data-id="1785" data-order="1" data-qty="#mqty_1785">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="over-line">
+                    <div class="column">
+                        <div class="product-variants__photo">
+                            <a href="#"><img src="images/product-variants.jpeg" alt="Клей для паркета  ACM VK-L12" title="Клей ACM VK-L12"></a>
+                            <span class="product-variants__counter">1</span>
+                            <a href="#" class="product-variants__zoom"></a>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="block-text-product">
+                            <h4 class="product-variants__title">
+                                <a data-toggle="popover" data-placement="top" data-html="true" data-content="Пластиковое ведро. Прочно-эластичный, двухкомпонентный, полиуретановый клей. Не содержит воды и растворителей. " class="pointer link-text js-auto-hide-popover" data-original-title="" title="">Клей ACM VK-L12 (10кг)</a>
+                            </h4>
+                            <div class="line-product right">
+                                <span class="text-orange">3 387 р <span class="text-gray">/ 10кг</span></span>
+                            </div>
+                            <div class="product-amount row-line">
+                                <div class="column">
+                                    <input type="hidden" value="1" name="qty">
+                                    <input type="text" value="1" class="product-variants__input_small">
+                                </div>
+                                <div class="column">
+                                    <input type="button" value="В корзину" class="add-basket addToCart" data-id="1785" data-order="1" data-qty="#mqty_1785">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="over-line">
+                    <div class="column">
+                        <div class="product-variants__photo">
+                            <a href="#"><img src="images/product-variants.jpeg" alt="Клей для паркета  ACM VK-L12" title="Клей ACM VK-L12"></a>
+                            <span class="product-variants__counter">1</span>
+                            <a href="#" class="product-variants__zoom"></a>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="block-text-product">
+                            <h4 class="product-variants__title">
+                                <a data-toggle="popover" data-placement="top" data-html="true" data-content="Пластиковое ведро. Прочно-эластичный, двухкомпонентный, полиуретановый клей. Не содержит воды и растворителей. " class="pointer link-text js-auto-hide-popover" data-original-title="" title="">Клей ACM VK-L12 (10кг)</a>
+                            </h4>
+                            <div class="line-product right">
+                                <span class="text-orange">3 387 р <span class="text-gray">/ 10кг</span></span>
+                            </div>
+                            <div class="product-amount">
+                                <strong>Нет в наличии</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     @endif
-</div>
-@endif
 
-
-{{-- Главная картинка товара --}}
-<style>.product-main-image-wrapper {max-width: 300px;} </style>
-<div class="product-main-image-wrapper">
-    <a href="{{$mainImage()}}" data-fancybox="images"><img src="{{$mainImage()}}" alt="{{$product->name}}" title="{{$product->name}}" /></a>
 </div>
 
-
-{{-- thumbnails картинок --}}
-@if(count($images()))
-<style>.product-images-view svg {width: 20px; height: 20px; color: #000;} .product-images-wrapper .product-images {max-width:30px;} </style>
-<a class="product-images-view" href="{{$images()->first()->getFullUrl()}}" data-fancybox="images">
-    Фото ({{$images()->count()}})
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-        <path fill="currentColor" d="M508.5 481.6l-129-129c-2.3-2.3-5.3-3.5-8.5-3.5h-10.3C395 312 416 262.5 416 208 416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c54.5 0 104-21 141.1-55.2V371c0 3.2 1.3 6.2 3.5 8.5l129 129c4.7 4.7 12.3 4.7 17 0l9.9-9.9c4.7-4.7 4.7-12.3 0-17zM208 384c-97.3 0-176-78.7-176-176S110.7 32 208 32s176 78.7 176 176-78.7 176-176 176z"></path>
-    </svg>
-</a>
-<div class="product-images-wrapper">
-    @foreach($images() as $image)
-        <?php /** @var \Spatie\MediaLibrary\Models\Media $image */ ?>
-        <a href="{{$image->getFullUrl()}}" data-fancybox="images"><img class="product-images" src="{{$image->getFullUrl()}}" alt=""  /></a>
-    @endforeach
-</div>
-@endif
-
-
-{{-- Производитель --}}
-@if($product->brand)
-<div>
-    <p><a href="{{route("brands.show", $product->brand->slug)}}">Производитель</a></p>
-    <p><img style="max-width: 150px;" src="{{$product->brand->getFirstMediaUrl(\App\Models\Brand::MC_MAIN_IMAGE)}}" alt="" /></p>
-</div>
-@endif
 
 
 {{-- Если товар без вариантов --}}

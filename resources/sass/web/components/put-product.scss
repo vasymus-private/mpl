@@ -1,0 +1,31 @@
+.put-product {
+    //background: url(../images/header_top_fav.png) no-repeat 0 50%;
+    padding: 0 15px 0 20px;
+    margin: 0 0 15px;
+    @media (min-width: 768px) {
+        width: 50%;
+    }
+
+    &__link {
+        border-bottom: 1px dotted #000;
+        color: #000;
+        text-decoration: none;
+        font-size: 13px;
+    }
+
+    &__download {
+        text-decoration: underline;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+
+    /*&.set-true {
+        background: url(../images/header_top_fav2.png) no-repeat 0 1px;
+
+        .put-product__link {
+            border-color: transparent;
+        }
+    }*/
+}

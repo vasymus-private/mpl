@@ -1,0 +1,30 @@
+.wrapper-photos-block {
+  width: 100%;
+  margin: 0 0 2px;
+  .row-line {
+    border: 1px solid #e6e6e6;
+    border-radius: 6px;
+    height: auto;
+    margin: 0 0 15px;
+    overflow: hidden;
+    padding: 10px;
+    text-align: center;
+    flex-wrap: wrap;
+  }
+  &__link-img {
+    color: #444;
+    font-size: 12px;
+    text-decoration: none;
+  }
+  &__link {
+    margin-right: 5px;
+    padding-left: 5px;
+    &:last-child {
+      border-left: 1px dotted #777;
+    }
+    img {
+      width: 30px;
+      display: block;
+    }
+  }
+}
