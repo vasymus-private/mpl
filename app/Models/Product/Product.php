@@ -105,6 +105,12 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
  * @see Product::getIsAvailableAttribute()
  * @property bool $is_available
  *
+ * @see Product::getIsAvailableInStockAttribute()
+ * @property bool $is_available_in_stock
+ *
+ * @see Producet::getIsAvailableNotInStockAttribute()
+ * @property bool $is_available_not_in_stock
+ *
  * @see Product::getAvailabilityStatusNameAttribute()
  * @property string $availability_status_name
  *
@@ -356,6 +362,16 @@ class Product extends BaseModel implements HasMedia
     public function getIsAvailableAttribute(): bool
     {
         return in_array($this->availability_status_id, [AvailabilityStatus::ID_AVAILABLE_IN_STOCK, AvailabilityStatus::ID_AVAILABLE_NOT_IN_STOCK]);
+    }
+
+    public function getIsAvailableInStockAttribute(): bool
+    {
+        return $this->availability_status_id === AvailabilityStatus::ID_AVAILABLE_IN_STOCK;
+    }
+
+    public function getIsAvailableNotInStockAttribute(): bool
+    {
+        return $this->availability_status_id === AvailabilityStatus::ID_AVAILABLE_NOT_IN_STOCK;
     }
 
     public function getAvailabilityStatusNameAttribute(): string

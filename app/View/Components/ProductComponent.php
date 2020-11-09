@@ -47,6 +47,11 @@ class ProductComponent extends Component
         return $this->product->getMedia(Product::MC_ADDITIONAL_IMAGES);
     }
 
+    public function isWithVariations(): bool
+    {
+        return $this->product->variations->isNotEmpty();
+    }
+
     /**
      * Get the view / contents that represent the component.
      *

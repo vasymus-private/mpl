@@ -10,64 +10,84 @@
             </a>
         </div>
 
-        @if(count($instructions()))
-            <div>
-                @if(count($instructions()) === 1)
-                    <a class="put-product__download" target="_blank" href="{{$instructions()->first()->getFullUrl()}}">Скачать инструкции</a>
-                @else
-                    <div class="dropdown">
-                        <a class="put-product__download" href="#" role="button" id="js-product-files" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Скачать инструкции
-                        </a>
+        @include("web.components.includes.product.instructions", ["instructions" => $instructions()])
+    </div>
 
-                        <div class="dropdown-menu" aria-labelledby="js-product-files">
-                            @foreach($instructions() as $instruction)
-                                <?php /** @var \Spatie\MediaLibrary\Models\Media $instruction */ ?>
-                                <a class="dropdown-item" target="_blank" href="{{$instruction->getFullUrl()}}">{{$instruction->name}}</a>
-                            @endforeach
+    @if($isWithVariations())
+        <div class="row-line product-line">
+            <div class="column">
+                <div class="product__photo">
+                    <a href="{{$mainImage()}}" data-fancybox="images"><img src="{{$mainImage()}}" alt="{{$product->name}}" title="{{$product->name}}" /></a>
+                </div>
+            </div>
+            <div class="column">
+                @include("web.components.includes.product.brand", ["brand" => $product->brand])
+
+                @include("web.components.includes.product.images-thumbs", ["images" => $images()])
+            </div>
+        </div>
+    @endif
+
+    @if(! $isWithVariations())
+        <div class="row-line product-line">
+            <div class="column">
+                <div class="product__photo">
+                    <a href="{{$mainImage()}}" data-fancybox="images"><img src="{{$mainImage()}}" alt="{{$product->name}}" title="{{$product->name}}" /></a>
+                </div>
+
+                @include("web.components.includes.product.images-thumbs", ["images" => $images()])
+            </div>
+            <div class="column">
+                <div class="product-price">
+                    <div class="product-price__top row-line row-line__center row-line__jc-center">
+                        <div class="column-price">
+                            <span class="product-price__subtitle">{{ $product->price_name }}</span>
+                            <span class="product-price__count-block">{{ $product->price_retail_rub_formatted }}</span>
+                        </div>
+                        <div class="column-price">
+                            <span class="product-price__subtitle">Упаковка</span>
+                            <span class="product-price__count-block-gray">/ {{$product->unit}}</span>
                         </div>
                     </div>
-                @endif
-            </div>
-        @endif
-    </div>
+                    <div class="product-price__body row-line row-line__between">
+                        <div class="column-price-part">
+                            <span class="product-price__subtitle">Количество</span>
+                            <input type="number" min="1" class="js-add-to-cart-input-count-{{$product->id}} js-input-hide-on-focus" value="1" />
+                        </div>
+                        @if($product->is_available)
+                        <div class="column-price-part">
+                            <div class="available-blocker">
+                                <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                В наличии
+                            </div>
+                            <button
+                                type="button"
+                                class="js-add-to-cart product-price__add {{ $product->is_available_in_stock ? "available-in-stock" : "" }} {{$product->is_available_not_in_stock ? "available-not-in-stock" : ""}}"
+                                data-id="{{$product->id}}"
+                                data-is-in-cart="{{(int)$product->is_in_cart}}"
+                            >{{$product->is_in_cart ? "Добавить" : "В корзину"}}</button>
+                        </div>
+                        @else
+                            <div class="available-blocker">
+                                <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                Нет в наличии
+                            </div>
+                        @endif
+                    </div>
+                    <div class="product-price__description">
+                        {{$product->coefficient_description}} - {{$product->coefficient_price_rub_formatted}}
+                    </div>
+                </div>
 
-    <div class="row-line product-line">
-        <div class="column">
-            <div class="product__photo">
-                <a href="{{$mainImage()}}" data-fancybox="images"><img src="{{$mainImage()}}" alt="{{$product->name}}" title="{{$product->name}}" /></a>
+                @include("web.components.includes.product.brand", ["brand" => $product->brand])
             </div>
         </div>
-        <div class="column">
-            @if($product->brand)
-            <div class="brand-logo-box">
-                <h4 class="brand-logo-box__title"><a href="{{route("brands.show", $product->brand->slug)}}">Производитель</a></h4>
-                <a href="{{route("brands.show", $product->brand->slug)}}" class="brand-logo-box__link"><img src="{{$product->brand->getFirstMediaUrl(\App\Models\Brand::MC_MAIN_IMAGE)}}" alt="" title=""></a>
-            </div>
-            @endif
-            @if(count($images()))
-            <div class="wrapper-photos-block">
-                <div class="line">
-                    <a href="{{$images()->first()->getFullUrl()}}" data-fancybox="images" class="wrapper-photos-block__link-img">
-                        Фото ({{$images()->count()}})
-                        <svg style="width: 15px; height: 15px; color: #000;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                            <path fill="currentColor" d="M508.5 481.6l-129-129c-2.3-2.3-5.3-3.5-8.5-3.5h-10.3C395 312 416 262.5 416 208 416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c54.5 0 104-21 141.1-55.2V371c0 3.2 1.3 6.2 3.5 8.5l129 129c4.7 4.7 12.3 4.7 17 0l9.9-9.9c4.7-4.7 4.7-12.3 0-17zM208 384c-97.3 0-176-78.7-176-176S110.7 32 208 32s176 78.7 176 176-78.7 176-176 176z"></path>
-                        </svg>
-                    </a>
-                </div>
-                <div class="row-line">
-                    @foreach($images() as $image)
-                    <?php /** @var \Spatie\MediaLibrary\Models\Media $image */ ?>
-                    <a href="{{$image->getFullUrl()}}" data-fancybox="images" class="wrapper-photos-block__link"><img src="{{$image->getFullUrl()}}" alt="" title=""></a>
-                    @endforeach
-                </div>
-            </div>
-            @endif
-        </div>
-    </div>
+    @endif
+
+
 
     {{-- Если товар с вариантами --}}
-    @if($product->variations->isNotEmpty())
+    @if($isWithVariations()))
         <div class="product-variants">
             <table width="100%" cellspacing="0" cellpadding="7" border="0">
                 <thead>
@@ -221,7 +241,7 @@
 
 
 {{-- Если товар без вариантов --}}
-@if($product->variations->isEmpty())
+@if(! $isWithVariations())
 <div
     class="js-product-item-popover"
     data-content="<p>Закупочная: {{$product->price_purchase_rub_formatted}}</p><p>Маржа: {{$product->margin_rub_formatted}}</p><p>Наценка: {{$product->price_markup}} %</p><p>Заработок: {{$product->price_income}} %</p><p>{{$product->admin_comment}}</p>"
@@ -250,7 +270,7 @@
 
 
 {{-- Если товар с вариантами --}}
-@if($product->variations->isNotEmpty())
+@if($isWithVariations())
 <div>
     <style>.product-variations-image-view svg {width: 20px; height: 20px; color: #000;}</style>
     <table width="100%">
