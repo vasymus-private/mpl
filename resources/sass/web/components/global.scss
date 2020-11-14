@@ -1,5 +1,5 @@
 body {
-	background: url(../images//bg.png) repeat;
+	background: url(../images/bg.png) repeat;
 	background-attachment: fixed;
 }
 
@@ -36,6 +36,9 @@ body {
   &__right {
     justify-content: flex-end;
   }
+  &__jc-center {
+    justify-content: center;
+  }
 }
 
 .visible-xs {
@@ -70,7 +73,7 @@ body {
 .title {
 	font-size: 36px;
 	font-weight: bold;
-	background: url(../images//border.png) bottom left no-repeat;
+	background: url(../images/border.png) bottom left no-repeat;
 	padding-bottom: 10px;
 	margin: 0 0 20px;
   color: #0068c8;
@@ -107,7 +110,7 @@ a {
 }
 
 .wrapper {
-  background: url(../images//bg.png) repeat;
+  background: url(../images/bg.png) repeat;
   background-attachment: fixed;
   overflow: hidden;
   transition: transform .5s, -webkit-transform .5s;
@@ -188,5 +191,85 @@ input, button, select, textarea {
     @media (min-width: 768px) {
       width: 50%;
     }
+  }
+}
+
+.button-buy {
+  border-radius: 3px;
+  color: #fff;
+  display: block;
+  font-size: 14px;
+  height: 31px;
+  line-height: 29px;
+  margin: 0;
+  padding-left: 1px;
+  text-align: center;
+  text-decoration: none;
+  width: 100px;
+  &.color-orange {
+    background: #fdad30;
+    border: 1px solid #fdad30;
+    color: #fff;
+  }
+
+  &.red-color {
+    background: #ff5100;
+    border: 1px solid #b0552c;
+    color: #fff;
+  }
+}
+
+.tabs,
+.tab-list {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 21px 0 17px;
+  margin: 0;
+  li {
+    margin: 0 10px;
+    @media (max-width: 767px) {
+      width: calc(50% - 20px);
+    }
+    &:first-of-type {
+      a {
+        background-color: #e2dede;
+        color: #457dc4;
+        border: 1px solid #d6d6d6;
+        text-decoration: none;
+        cursor: default;
+      }
+    }
+    a {
+      background-color: #fff;
+      color: #888;
+      padding: 10px 0;
+      display: inline-block;
+      border: 1px solid #d6d6d6;
+      width: 190px;
+      line-height: 1;
+      font-family: robotoregular, Arial, sans-serif;
+      font-size: 18px;
+      border-radius: 30px;
+      text-align: center;
+      cursor: pointer;
+      text-decoration: none;
+      @media (max-width: 767px) {
+        width: 100%;
+      }
+    }
+  }
+}
+
+main {
+  @media (max-width: 768px) {
+    padding: 0 15px;
+  }
+}
+
+.content-sliders {
+  padding: 50px 0 0;
+  .slider-blocker {
+    margin: 0 0 50px;
   }
 }

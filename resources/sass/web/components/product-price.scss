@@ -1,0 +1,88 @@
+.product-price {
+  border: 1px solid gainsboro;
+  background-color: #f9f9f9;
+  padding: 15px 30px 28px;
+  &__top {
+    border-bottom: 1px solid #dbdbdb;
+    padding-bottom: 20px;
+    margin: 0 0 20px;
+  }
+
+  &__subtitle {
+    display: block;
+    font-size: 13px;
+    color: #212121;
+    font-weight: 600;
+    padding: 0 0 10px;
+  }
+
+  &__count-block {
+    color: #dd522d;
+    font-family: 'Roboto Slab', serif;
+    font-weight: 600;
+    font-size: 30px;
+    margin-right: 10px;
+  }
+
+  &__count-block-gray {
+    color: #959595;
+    font-family: 'Roboto Slab', serif;
+    font-weight: 600;
+    font-size: 30px;
+  }
+
+  .column-price-part {
+    padding: 0 15px;
+    &:first-child {
+      flex: 1 1;
+    }
+    &:last-child {
+      flex: 200px 0;
+    }
+  }
+
+  &__count {
+    box-sizing: border-box;
+    width: 60px;
+    height: 44px;
+    color: #868686;
+    font-family: 'Roboto Slab', serif;
+    font-size: 24px;
+    background: #e5ecdb;
+    border: 1px solid #cecece;
+    margin-top: 0;
+  }
+
+  .available-blocker {
+    margin-bottom: 10px;
+    color: #dd522d;
+    font-size: 13px;
+    text-align: center;
+    font-family: 'Roboto Slab', Arial, sans-serif;
+  }
+
+  &__add {
+    display: block;
+    width: 100%;
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    background-color: #dd522d;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 15px;
+    text-transform: uppercase;
+    text-decoration: none !important;
+    color: #fff !important;
+  }
+
+  &__description {
+    border-top: 1px solid #dbdbdb;
+    padding-top: 20px;
+    margin: 22px 0 0;
+    text-align:  center;
+    color: #939393;
+    font-size: 13px;
+    font-style: italic;
+  }
+}
+

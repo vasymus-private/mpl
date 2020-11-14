@@ -152,6 +152,9 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
  *
  * @see Product::getIsInCartAttribute()
  * @property bool|null $is_in_cart
+ *
+ * @see Product::getMainImageUrlAttribute()
+ * @property string $main_image_url
  **/
 class Product extends BaseModel implements HasMedia
 {
@@ -539,5 +542,10 @@ class Product extends BaseModel implements HasMedia
             }
         }
         return false;
+    }
+
+    public function getMainImageUrlAttribute(): string
+    {
+        return $this->getFirstMediaUrl(static::MC_MAIN_IMAGE);
     }
 }

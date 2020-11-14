@@ -1,0 +1,14 @@
+.brand-blocker {
+  margin-top: 15px;
+  text-align: center;
+  &__title {
+    margin: 0;
+    padding: 0;
+    a {
+      color: #444;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: underline;
+    }
+  }
+}

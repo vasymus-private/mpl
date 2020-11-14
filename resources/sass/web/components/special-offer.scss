@@ -1,0 +1,140 @@
+.special-offer {
+  &__title {
+    border-bottom: 1px solid #e6e6e6;
+    margin: 0 0 15px;
+    padding: 0;
+    font-size: 14px;
+    font-weight: normal;
+    text-transform: uppercase;
+  }
+
+  &__subtitle {
+    margin: 0 0 15px;
+    padding: 0;
+    font-weight: bold;
+    font-size: 13px;
+    a {
+      text-decoration: underline;
+    }
+  }
+
+  &__orange {
+    color: #ff5100;
+    font-size: 19px;
+    font-weight: bold;
+  }
+
+  &__gree {
+    color: #525252;
+    font-size: 19px;
+    font-weight: bold;
+  }
+
+  .row-line {
+    align-items: stretch;
+    @media (max-width: 767px) {
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .column-part {
+    width: 16.66666667%;
+    @media (max-width: 767px) {
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  &__pluse {
+    width: 8.33333333%;
+    font-size: 28px;
+    font-weight: bold;
+    color: #ff5100;
+    padding: 50px 0;
+    text-align: center;
+    @media (max-width: 767px) {
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      padding: 20px 0;
+    }
+  }
+
+  .column-result {
+    width: 25%;
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    @media (max-width: 767px) {
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  .result-block {
+    background-color: #ececec;
+    padding: 18px 10px 18px;
+    text-align: center;
+    margin: 30px 0 15px;
+    width: 100%;
+    @media (max-width: 767px) {
+      margin: 0 0 15px;
+    }
+  }
+
+  .result-block-text {
+    color: #5f5253;
+    font-size: 12px;
+    display: block;
+    padding: 5px 0 0;
+  }
+
+  .row-line {
+    margin: 0;
+  }
+
+  .text {
+    color: #5f5253;
+    font-size: 12px;
+    padding: 5px 0 0;
+  }
+
+  &__title-product {
+    font-size: 12px;
+    margin: 0;
+  }
+
+  &__price {
+    color: #ff5100;
+    font-size: 12px;
+    strong {
+      font-size: 16px;
+    }
+  }
+
+  &__product-h4 {
+    margin: 0;
+    line-height: 1;
+    font-weight: normal;
+  }
+
+  &__link {
+    color: #ff5100;
+    font-size: 12px;
+    text-decoration: none;
+  }
+
+  &__more {
+    color: #000;
+    text-decoration: underline;
+  }
+}

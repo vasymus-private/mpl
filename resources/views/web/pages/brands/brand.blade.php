@@ -8,7 +8,7 @@
             <img src="{{$brand->getFirstMediaUrl(\App\Models\Brand::MC_MAIN_IMAGE)}}" alt="" />
         </div>
         <div>
-            <p>{{$brand->description}}</p>
+            <p>{!! $brand->description !!}</p>
         </div>
     </div>
     @include("web.pages.products.products-list", compact("products"))

@@ -4,6 +4,8 @@ import {getProductsHoverOnPopover} from '../helpers/products'
     $().ready(() => {
         //jQuery('.js-form-select-autosubmit').on('')
 
+        $('[data-toggle="tooltip"]').tooltip()
+
         $('.js-back').on('click', event => {
             event.preventDefault()
             window.history.go(-1)

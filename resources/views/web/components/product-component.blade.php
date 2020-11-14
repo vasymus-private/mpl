@@ -13,12 +13,11 @@
         @include("web.components.includes.product.instructions", ["instructions" => $instructions()])
     </div>
 
+    {{-- Product line --}}
     @if($isWithVariations())
         <div class="row-line product-line">
             <div class="column">
-                <div class="product__photo">
-                    <a href="{{$mainImage()}}" data-fancybox="images"><img src="{{$mainImage()}}" alt="{{$product->name}}" title="{{$product->name}}" /></a>
-                </div>
+                @include("web.components.includes.product.main-image", ["mainImage" => $mainImage(), "productName" => $product->name])
             </div>
             <div class="column">
                 @include("web.components.includes.product.brand", ["brand" => $product->brand])
@@ -31,9 +30,7 @@
     @if(! $isWithVariations())
         <div class="row-line product-line">
             <div class="column">
-                <div class="product__photo">
-                    <a href="{{$mainImage()}}" data-fancybox="images"><img src="{{$mainImage()}}" alt="{{$product->name}}" title="{{$product->name}}" /></a>
-                </div>
+                @include("web.components.includes.product.main-image", ["mainImage" => $mainImage(), "productName" => $product->name])
 
                 @include("web.components.includes.product.images-thumbs", ["images" => $images()])
             </div>
@@ -52,7 +49,7 @@
                     <div class="product-price__body row-line row-line__between">
                         <div class="column-price-part">
                             <span class="product-price__subtitle">Количество</span>
-                            <input type="number" min="1" class="js-add-to-cart-input-count-{{$product->id}} js-input-hide-on-focus" value="1" />
+                            <input type="number" min="1" class="js-add-to-cart-input-count-{{$product->id}} js-input-hide-on-focus product-price__count" value="1" />
                         </div>
                         @if($product->is_available)
                         <div class="column-price-part">
@@ -83,11 +80,12 @@
             </div>
         </div>
     @endif
+    {{-- END Product line --}}
 
 
 
     {{-- Если товар с вариантами --}}
-    @if($isWithVariations()))
+    @if($isWithVariations())
         <div class="product-variants">
             <table width="100%" cellspacing="0" cellpadding="7" border="0">
                 <thead>
@@ -101,27 +99,37 @@
                     </tr>
                 </thead>
                 <tbody>
-                {{--<tr>
-                    <th colspan="2">Варианты:</th>
-                    <th>1000г</th>
-                    <th>Цена</th>
-                    <th>Уп-ка</th>
-                    <th>Кол-во</th>
-                    <th>&nbsp;</th>
-                </tr>--}}
                 @foreach($product->variations as $variation)
                     <?php /** @var \App\Models\Product\Product $variation */ ?>
                 <tr>
                     <td>
                         <div class="product-variants__photo">
-                            <a data-fancybox="variation-image-loop-{{$loop->index + 1}}" href="{{$variation->getFirstMediaUrl(\App\Models\Product\Product::MC_MAIN_IMAGE)}}"><img src="{{$variation->getFirstMediaUrl(\App\Models\Product\Product::MC_MAIN_IMAGE)}}" alt="{{$variation->name}}" title="{{$variation->name}}"></a>
+                            <a
+                                href="{{$variation->main_image_url}}"
+                                data-fancybox="variation-image-loop-{{$loop->index + 1}}"
+                            >
+                                <img
+                                    src="{{$variation->main_image_url}}"
+                                    alt="{{$variation->name}}"
+                                    title="{{$variation->name}}">
+                            </a>
                             <span class="product-variants__counter">{{$loop->index + 1}}</span>
-                            <a data-fancybox="variation-image-loop-{{$loop->index + 1}}" href="{{$variation->getFirstMediaUrl(\App\Models\Product\Product::MC_MAIN_IMAGE)}}" class="product-variants__zoom"></a>
+                            <a
+                                class="product-variants__zoom"
+                                href="{{$variation->main_image_url}}"
+                                data-fancybox="variation-image-loop-{{$loop->index + 1}}"
+                            ></a>
                         </div>
                     </td>
                     <td>
-                        <h3 class="product-variants__title" data-offer="1785">
-                            <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="top" data-html="true" data-content="{{$variation->preview}}" title="">{{$variation->name}}</a>
+                        <h3 class="product-variants__title">
+                            <a
+                                href="#"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title="{!! $variation->preview !!}"
+                                data-html="true"
+                            >{{$variation->name}}</a>
                         </h3>
                     </td>
                     {{--<td>
@@ -134,18 +142,50 @@
                         <strong class="product-variants__price-gray">{{$variation->unit}}</strong>
                     </td>
                     <td width="10%">
-                        <input type="text" value="1" class="product-variants__input_small">
+                        @if($variation->is_available)
+                        <input
+                            type="number"
+                            value="1"
+                            min="1"
+                            class="
+                            product-variants__input_small
+                            js-add-to-cart-input-count-{{$variation->id}}
+                            js-input-hide-on-focus
+                            "
+                        />
+                        @endif
                     </td>
                     <td width="10%" align="right">
-                        <a class="button-buy color-orange addToCart" data-id="1785" data-order="1" href="#" data-qty="#qty_1785">На заказ</a>
+                        @if($variation->is_available)
+                            <button
+                                class="
+                                {{ $variation->is_available_in_stock ? "red-color" : "" }}
+                                {{$variation->is_available_not_in_stock ? "color-orange" : ""}}
+                                js-add-to-cart
+                                button-buy
+                                addToCart
+                                "
+                                type="button"
+                                data-id="{{$variation->id}}"
+                                data-is-in-cart="{{(int)$variation->is_in_cart}}"
+                            >
+                            @if($variation->is_available_in_stock) В корзину @endif
+                            @if($variation->is_available_not_in_stock) На заказ @endif
+                            </button>
+                        @else
+                            <strong>Нет в наличии</strong>
+                        @endif
                     </td>
                 </tr>
                 <tr>
                     <td colspan="7">
                         <div class="manager-area-price">
-                            <p><span>Закупочная:</span> <span style="color: #03c; font-weight: bold;">0</span>,Маржа: <span style="color: #03c;">1 270 р</span>,
-                                Наценка: inf%,
-                                Заработок: 100.00%</p>
+                            <p>
+                                Закупочная: <span style="color: #03c; font-weight: bold;">{{$variation->price_purchase_rub_formatted}}</span>,
+                                Маржа: <span style="color: #03c;">{{$variation->margin_rub_formatted}}</span>,
+                                Наценка: {{$variation->price_markup}} %,
+                                Заработок: {{$variation->price_income}} %
+                            </p>
                         </div>
                     </td>
                 </tr>
@@ -290,13 +330,13 @@
                     <td>
                         <p>{{$loop->index + 1}}</p>
                         <p>
-                            <a class="product-variations-image-view" data-fancybox="variation-image-loop-{{$loop->index + 1}}" href="{{$variation->getFirstMediaUrl(\App\Models\Product\Product::MC_MAIN_IMAGE)}}">
+                            <a class="product-variations-image-view" data-fancybox="variation-image-loop-{{$loop->index + 1}}" href="{{$variation->main_image_url}}">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                     <path fill="currentColor" d="M508.5 481.6l-129-129c-2.3-2.3-5.3-3.5-8.5-3.5h-10.3C395 312 416 262.5 416 208 416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c54.5 0 104-21 141.1-55.2V371c0 3.2 1.3 6.2 3.5 8.5l129 129c4.7 4.7 12.3 4.7 17 0l9.9-9.9c4.7-4.7 4.7-12.3 0-17zM208 384c-97.3 0-176-78.7-176-176S110.7 32 208 32s176 78.7 176 176-78.7 176-176 176z"></path>
                                 </svg>
                             </a>
-                            <a data-fancybox="variation-image-id-{{$variation->id}}" href="{{$variation->getFirstMediaUrl(\App\Models\Product\Product::MC_MAIN_IMAGE)}}">
-                                <img style="max-width: 50px;" src="{{$variation->getFirstMediaUrl(\App\Models\Product\Product::MC_MAIN_IMAGE)}}" alt="" />
+                            <a data-fancybox="variation-image-id-{{$variation->id}}" href="{{$variation->main_image_url}}">
+                                <img style="max-width: 50px;" src="{{$variation->main_image_url}}" alt="" />
                             </a>
                         </p>
                         <p>{{$variation->name}}</p>
@@ -317,7 +357,7 @@
                     <td>
                         @if($variation->is_available)
                             <button
-                                class="{{ $variation->availability_status_id === \App\Models\AvailabilityStatus::ID_AVAILABLE_IN_STOCK ? "available-in-stock" : "" }} {{$variation->availability_status_id === \App\Models\AvailabilityStatus::ID_AVAILABLE_NOT_IN_STOCK ? "available-not-in-stock" : ""}} js-add-to-cart"
+                                class="{{ $variation->is_available_in_stock ? "available-in-stock" : "" }} {{$variation->is_available_not_in_stock ? "available-not-in-stock" : ""}} js-add-to-cart"
                                 type="button"
                                 data-id="{{$variation->id}}"
                                 data-is-in-cart="{{(int)$variation->is_in_cart}}"
@@ -359,7 +399,7 @@
     @foreach($product->accessory as $accessoryItem)
     <?php /** @var \App\Models\Product\Product $accessoryItem */ ?>
     <div>
-        <p><a href="{{$accessoryItem->getRoute()}}"><img style="max-width: 40px;" src="{{$accessoryItem->getFirstMediaUrl(\App\Models\Product\Product::MC_MAIN_IMAGE)}}" alt="" /></a></p>
+        <p><a href="{{$accessoryItem->getRoute()}}"><img style="max-width: 40px;" src="{{$accessoryItem->main_image_url}}" alt="" /></a></p>
         <p><a href="{{$accessoryItem->getRoute()}}">{{$accessoryItem->name}}</a></p>
         <p>{{$accessoryItem->price_retail_rub_formatted}}</p>
     </div>
@@ -416,7 +456,7 @@
     <?php /** @var \App\Models\Product\Product $item */ ?>
     <li>
         <p>{{$item->name}}</p>
-        <p><img style="max-width: 150px" src="{{$item->getFirstMediaUrl(\App\Models\Product\Product::MC_MAIN_IMAGE)}}" alt="" /></p>
+        <p><img style="max-width: 150px" src="{{$item->main_image_url}}" alt="" /></p>
         <p>{{$item->price_retail_rub_formatted}}</p>
         <p><a href="{{$item->getRoute()}}">Купить</a></p>
     </li>
@@ -432,7 +472,7 @@
             <?php /** @var \App\Models\Product\Product $item */ ?>
             <li>
                 <p>{{$item->name}}</p>
-                <p><img style="max-width: 150px" src="{{$item->getFirstMediaUrl(\App\Models\Product\Product::MC_MAIN_IMAGE)}}" alt="" /></p>
+                <p><img style="max-width: 150px" src="{{$item->main_image_url}}" alt="" /></p>
                 <p>{{$item->price_retail_rub_formatted}}</p>
                 <p><a href="{{$item->getRoute()}}">Купить</a></p>
             </li>
@@ -448,7 +488,7 @@
             <?php /** @var \App\Models\Product\Product $item */ ?>
             <li>
                 <p>{{$item->name}}</p>
-                <p><img style="max-width: 150px" src="{{$item->getFirstMediaUrl(\App\Models\Product\Product::MC_MAIN_IMAGE)}}" alt="" /></p>
+                <p><img style="max-width: 150px" src="{{$item->main_image_url}}" alt="" /></p>
                 <p>{{$item->price_retail_rub_formatted}}</p>
                 <p><a href="{{$item->getRoute()}}">Купить</a></p>
             </li>
