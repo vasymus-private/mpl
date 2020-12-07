@@ -169,11 +169,10 @@
                                 data-id="{{$variation->id}}"
                                 data-is-in-cart="{{(int)$variation->is_in_cart}}"
                             >
-                            @if($variation->is_available_in_stock) В корзину @endif
-                            @if($variation->is_available_not_in_stock) На заказ @endif
+                                {{$variation->available_submit_label}}
                             </button>
                         @else
-                            <strong>Нет в наличии</strong>
+                            <strong>{{$variation->available_submit_label}}</strong>
                         @endif
                     </td>
                 </tr>
@@ -194,189 +193,554 @@
             </table>
             <div class="mob-products">
                 <h3>Варианты</h3>
+                @foreach($product->variations as $variation)
                 <div class="over-line">
                     <div class="column">
                         <div class="product-variants__photo">
-                            <a href="#"><img src="images/product-variants.jpeg" alt="Клей для паркета  ACM VK-L12" title="Клей ACM VK-L12"></a>
-                            <span class="product-variants__counter">1</span>
-                            <a href="#" class="product-variants__zoom"></a>
+                            <a href="{{$variation->main_image_url}}" data-fancybox="variation-image-loop-mobile-{{$loop->index + 1}}">
+                                <img
+                                    src="{{$variation->main_image_url}}"
+                                    alt="{{$variation->name}}"
+                                    title="{{$variation->name}}" />
+                            </a>
+                            <span class="product-variants__counter">{{$loop->index + 1}}</span>
+                            <a href="{{$variation->main_image_url}}" data-fancybox="variation-image-loop-mobile-{{$loop->index + 1}}" class="product-variants__zoom"></a>
                         </div>
                     </div>
                     <div class="column">
                         <div class="block-text-product">
                             <h4 class="product-variants__title">
-                                <a data-toggle="popover" data-placement="top" data-html="true" data-content="Пластиковое ведро. Прочно-эластичный, двухкомпонентный, полиуретановый клей. Не содержит воды и растворителей. " class="pointer link-text js-auto-hide-popover" data-original-title="" title="">Клей ACM VK-L12 (10кг)</a>
+                                <a
+                                    href="#"
+                                    class="pointer link-text"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title="{!! $variation->preview !!}"
+                                    data-html="true"
+                                >{{$variation->name}}</a>
                             </h4>
                             <div class="line-product right">
-                                <span class="text-orange">3 387 р <span class="text-gray">/ 10кг</span></span>
+                                <span class="text-orange">{{$variation->price_retail_rub_formatted}} <span class="text-gray">/ {{$variation->unit}}</span></span>
                             </div>
+
+                            @if($variation->is_available)
                             <div class="product-amount row-line">
                                 <div class="column">
-                                    <input type="hidden" value="1" name="qty">
-                                    <input type="text" value="1" class="product-variants__input_small">
+                                    <input
+                                        type="number"
+                                        value="1"
+                                        min="1"
+                                        class="
+                                        product-variants__input_small
+                                        js-add-to-cart-input-count-{{$variation->id}}
+                                        js-input-hide-on-focus
+                                        "
+                                    />
                                 </div>
                                 <div class="column">
-                                    <input type="button" value="На заказ" class="add-basket color-orange addToCart" data-id="1785" data-order="1" data-qty="#mqty_1785">
+                                    <button
+                                        class="
+                                        {{ $variation->is_available_in_stock ? "red-color" : "" }}
+                                        {{$variation->is_available_not_in_stock ? "color-orange" : ""}}
+                                            js-add-to-cart
+                                            add-basket
+                                        "
+                                        type="button"
+                                        data-id="{{$variation->id}}"
+                                        data-is-in-cart="{{(int)$variation->is_in_cart}}"
+                                    >
+                                        {{$variation->available_submit_label}}
+                                    </button>
                                 </div>
                             </div>
+                            @else
+                                <div class="product-amount">
+                                    <strong>{{$variation->available_submit_label}}</strong>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
-                <div class="over-line">
-                    <div class="column">
-                        <div class="product-variants__photo">
-                            <a href="#"><img src="images/product-variants.jpeg" alt="Клей для паркета  ACM VK-L12" title="Клей ACM VK-L12"></a>
-                            <span class="product-variants__counter">1</span>
-                            <a href="#" class="product-variants__zoom"></a>
-                        </div>
-                    </div>
-                    <div class="column">
-                        <div class="block-text-product">
-                            <h4 class="product-variants__title">
-                                <a data-toggle="popover" data-placement="top" data-html="true" data-content="Пластиковое ведро. Прочно-эластичный, двухкомпонентный, полиуретановый клей. Не содержит воды и растворителей. " class="pointer link-text js-auto-hide-popover" data-original-title="" title="">Клей ACM VK-L12 (10кг)</a>
-                            </h4>
-                            <div class="line-product right">
-                                <span class="text-orange">3 387 р <span class="text-gray">/ 10кг</span></span>
-                            </div>
-                            <div class="product-amount row-line">
-                                <div class="column">
-                                    <input type="hidden" value="1" name="qty">
-                                    <input type="text" value="1" class="product-variants__input_small">
-                                </div>
-                                <div class="column">
-                                    <input type="button" value="В корзину" class="add-basket addToCart" data-id="1785" data-order="1" data-qty="#mqty_1785">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="over-line">
-                    <div class="column">
-                        <div class="product-variants__photo">
-                            <a href="#"><img src="images/product-variants.jpeg" alt="Клей для паркета  ACM VK-L12" title="Клей ACM VK-L12"></a>
-                            <span class="product-variants__counter">1</span>
-                            <a href="#" class="product-variants__zoom"></a>
-                        </div>
-                    </div>
-                    <div class="column">
-                        <div class="block-text-product">
-                            <h4 class="product-variants__title">
-                                <a data-toggle="popover" data-placement="top" data-html="true" data-content="Пластиковое ведро. Прочно-эластичный, двухкомпонентный, полиуретановый клей. Не содержит воды и растворителей. " class="pointer link-text js-auto-hide-popover" data-original-title="" title="">Клей ACM VK-L12 (10кг)</a>
-                            </h4>
-                            <div class="line-product right">
-                                <span class="text-orange">3 387 р <span class="text-gray">/ 10кг</span></span>
-                            </div>
-                            <div class="product-amount">
-                                <strong>Нет в наличии</strong>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     @endif
 
-</div>
 
 
 
-{{-- Если товар без вариантов --}}
-@if(! $isWithVariations())
-<div
-    class="js-product-item-popover"
-    data-content="<p>Закупочная: {{$product->price_purchase_rub_formatted}}</p><p>Маржа: {{$product->margin_rub_formatted}}</p><p>Наценка: {{$product->price_markup}} %</p><p>Заработок: {{$product->price_income}} %</p><p>{{$product->admin_comment}}</p>"
-    data-placement="bottom"
->
-    <p>{{$product->price_name}}:</p>
-    <p style="color:#ff5100;">{{$product->price_retail_rub_formatted}}</p>
-    <p>Упаковка</p>
-    <p>{{$product->unit}}</p>
-    @if($product->is_available)
-    <p><input type="number" min="1" class="js-add-to-cart-input-count-{{$product->id}} js-input-hide-on-focus" value="1" /></p>
-    <p><button
-            type="button"
-            class="js-add-to-cart {{ $product->availability_status_id === \App\Models\AvailabilityStatus::ID_AVAILABLE_IN_STOCK ? "available-in-stock" : "" }} {{$product->availability_status_id === \App\Models\AvailabilityStatus::ID_AVAILABLE_NOT_IN_STOCK ? "available-not-in-stock" : ""}}"
-            data-id="{{$product->id}}"
-            data-is-in-cart="{{(int)$product->is_in_cart}}"
-        >{{$product->is_in_cart ? "Добавить" : "В корзину"}}</button></p>
-    @else
-    <p>Нет в наличии</p>
-    @endif
-    @if($product->coefficient_description_show)
-        <p>{{$product->coefficient_description}} - {{$product->coefficient_price_rub_formatted}}</p>
-    @endif
-</div>
-@endif
 
 
-{{-- Если товар с вариантами --}}
-@if($isWithVariations())
-<div>
-    <style>.product-variations-image-view svg {width: 20px; height: 20px; color: #000;}</style>
-    <table width="100%">
-        <thead>
-            <tr>
-                <th>Варианты:</th>
-                <th>Цена</th>
-                <th>Уп-ка</th>
-                <th>Кол-во</th>
-                <th>&nbsp;</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($product->variations as $variation)
-                <?php /** @var \App\Models\Product\Product $variation */ ?>
-                <tr>
-                    <td>
-                        <p>{{$loop->index + 1}}</p>
-                        <p>
-                            <a class="product-variations-image-view" data-fancybox="variation-image-loop-{{$loop->index + 1}}" href="{{$variation->main_image_url}}">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                    <path fill="currentColor" d="M508.5 481.6l-129-129c-2.3-2.3-5.3-3.5-8.5-3.5h-10.3C395 312 416 262.5 416 208 416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c54.5 0 104-21 141.1-55.2V371c0 3.2 1.3 6.2 3.5 8.5l129 129c4.7 4.7 12.3 4.7 17 0l9.9-9.9c4.7-4.7 4.7-12.3 0-17zM208 384c-97.3 0-176-78.7-176-176S110.7 32 208 32s176 78.7 176 176-78.7 176-176 176z"></path>
-                                </svg>
+
+
+    <div class="characteristics">
+
+        <div class="accessories-block hidden-desktop">
+            <h4 class="accessories-block__title-orange">Инструмент <img src="{{asset('images/arr-orange-down.gif')}}" alt=""></h4>
+            <div class="row-line">
+                @foreach($product->accessory as $accessoryItem)
+                    <?php /** @var \App\Models\Product\Product $accessoryItem */ ?>
+                    <div class="column">
+                        <div class="row-line">
+                            <a href="{{$accessoryItem->getRoute()}}">
+                                <img alt="{{$accessoryItem->name}}" width="40" height="40" src="{{$accessoryItem->main_image_url}}">
                             </a>
-                            <a data-fancybox="variation-image-id-{{$variation->id}}" href="{{$variation->main_image_url}}">
-                                <img style="max-width: 50px;" src="{{$variation->main_image_url}}" alt="" />
-                            </a>
-                        </p>
-                        <p>{{$variation->name}}</p>
-                    </td>
-                    <td>
-                        {{$variation->price_retail_rub_formatted}}
-                    </td>
-                    <td>
-                        {{$variation->unit}}
-                    </td>
-                    <td>
-                        @if($variation->is_available)
-                            <input type="number" min="1" class="js-add-to-cart-input-count-{{$variation->id}} js-input-hide-on-focus" value="1" />
-                        @else
-                            &nbsp;
-                        @endif
-                    </td>
-                    <td>
-                        @if($variation->is_available)
-                            <button
-                                class="{{ $variation->is_available_in_stock ? "available-in-stock" : "" }} {{$variation->is_available_not_in_stock ? "available-not-in-stock" : ""}} js-add-to-cart"
-                                type="button"
-                                data-id="{{$variation->id}}"
-                                data-is-in-cart="{{(int)$variation->is_in_cart}}"
-                            >{{ $variation->is_in_cart ? "Добавить" : "В корзину" }}</button>
-                        @else
-                            Нет в наличии
-                        @endif
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="5">
-                        <p>Закупочная: {{$variation->price_purchase_rub_formatted}} | Маржа: {{$variation->margin_rub_formatted}} | Наценка: {{$variation->price_markup}} % | Заработок: {{$variation->price_income}} %</p>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+                            <div class="product-special">
+                                <p>
+                                    <a href="{{$accessoryItem->getRoute()}}">{{$accessoryItem->name}}</a><br>
+                                    <span class="accessories-block__cost-orange">{{$accessoryItem->price_retail_rub_formatted}}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
+        <div class="tab-container">
+            <ul class="nav tabs row-line" id="product-descr-tab-mobile" role="tablist">
+                <li role="presentation">
+                    <a
+                        href="#product-descr"
+                        id="product-descr-tab"
+                        class="active"
+                        data-toggle="tab"
+                        role="tab"
+                        aria-controls="product-descr"
+                        aria-selected="true"
+                    >Описание</a>
+                </li>
+                <li role="presentation">
+                    <a
+                        href="#product-chars"
+                        id="product-chars-tab"
+                        class=""
+                        data-toggle="tab"
+                        role="tab"
+                        aria-controls="product-chars"
+                        aria-selected="false"
+                    >Характеристики</a>
+                </li>
+            </ul>
+            <div class="tab-panes" id="product-descr-tab-content-mobile">
+                <div class="tab-pane active" id="product-descr" role="tabpanel" aria-labelledby="product-descr-tab">
+                    <h3>{{$product->name}}</h3>
+                    {!! $product->description !!}
+                </div>
+                <div class="tab-pane" id="product-chars" role="tabpanel" aria-labelledby="product-chars-tab">
+                    <h3>характеристики: {{$product->name}}</h3>
+                    <table cellspacing="0" cellpadding="0" class="product-properties">
+                        <thead>
+                        <tr>
+                            <th colspan="2">
+                                <div class="product-properties__title">Описание товара</div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                Торговая марка
+                            </td>
+                            <td>
+                                <div class="dotted_line">Bona.</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Страна производитель
+                            </td>
+                            <td>
+                                <div class="dotted_line">
+                                    Швеция.
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Единица измерения
+                            </td>
+                            <td>
+                                <div class="dotted_line">
+                                    Банка лака и отвердитель.
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Фасовка
+                            </td>
+                            <td>
+                                <div class="dotted_line">
+                                    4.95 литра.
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Светоотражение
+                            </td>
+                            <td>
+                                <div class="dotted_line">
+                                    Полуматовый, Матовый
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Расход материала
+                            </td>
+                            <td>
+                                <div class="dotted_line">
+                                    100-120 гр./м.кв.
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Инструмент нанесения
+                            </td>
+                            <td>
+                                <div class="dotted_line">
+                                    Валик Micro Fleece
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Температура и влажность в помещении
+                            </td>
+                            <td>
+                                <div class="dotted_line">
+                                    Температура 15-25 °C, Влажность 45-65%.
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Время высыхания
+                            </td>
+                            <td>
+                                <div class="dotted_line">
+                                    Полное отверждение 5-7 суток.
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="2">
+                                <div class="product-properties__title">
+                                    Совместимость с породой дерева (максимальная оценка - 5 баллов)
+                                </div>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                Обычные породы дерева
+                            </td>
+                            <td>
+                                <div class="dotted_line">
+                              <span>
+                                <img src="images/circle-active.gif">
+                              </span>
+                                    <span>
+                                <img src="images/circle-active.gif">
+                              </span>
+                                    <span>
+                                <img src="images/circle-active.gif">
+                              </span>
+                                    <span>
+                                <img src="images/circle-active.gif">
+                              </span>
+                                    <span>
+                                <img src="images/circle-active.gif">
+                              </span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="2">
+                                <div class="product-properties__title">
+                                    Хранение
+                                </div>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                Срок хранения
+                            </td>
+                            <td>
+                                <div class="dotted_line">
+                                    12 месяцев.
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Условия хранения
+                            </td>
+                            <td>
+                                <div class="dotted_line">
+                                    Береч от мороза.
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="desktop-characteristics">
+            <ul class="nav nav-tabs tab-list">
+                <li class="active"><a href="#tab1">Описание</a></li>
+                <li><a href="#tab2">Характеристики</a></li>
+            </ul>
+            <div class="characteristics__content" id="tab1">
+                <h3>Лак Bona Traffic</h3>
+                <p><b>Bona Traffic</b> (Бона Трэффик) - полиуретановый, двухкомпонентный паркетный лак на водной
+                    основе. Перед нанесением тщательно смешивается с отвердителем. После высыхания образует стойкую к
+                    истиранию полиуретановую пленку. Применяется внутри помещений, на полах подверженных высоким
+                    нагрузкам на истирание. Рекомендуется в жилых, общественных и коммерческих помещениях.
+                    Необходимое, минимальное количество слоёв - не менее трёх. Минимальный расход лака на один слой -
+                    100 гр./м.кв.&nbsp;</p>
+                <p>Лак Bona Traffic (Бона Трэффик) хорошо ложится практически на все породы дерева. При нанесении на
+                    обычные породы - дуб, ясень, клен, берёза можно не использовать грунтовку, и сразу наносить лак на
+                    шлифованный паркет. Для максимальной сохранности&nbsp; натурального цвета древесины используют
+                    грунтовку на водной основе&nbsp;<a href="#">Bona Prime</a>. Покрытие на экзотические и маслянистые
+                    породы древесины (мербау, венге, кемпас,...) необходимо предварять специальной грунтовкой на
+                    растворителях&nbsp;<a href="#">Bona D-5</a>.&nbsp;</p>
+                <p>Перед нанесением лака проводится качественная циклевка и шлифовка паркета. Для заключительного
+                    цикла шлифовки используйте абразивные материалы с зернистостью 100 или 120. Оптимальные условия
+                    для нанесения лака: влажность воздуха 50…60%; температура от +18 до +22ºС. Щели шпаклюются
+                    составом&nbsp;<a href="#">Bona Mix Fill</a>. Для заполнения пористой текстуры древесины
+                    используется&nbsp;<a href="#">Bona Gel</a>, после его применения поверхность становится идеально
+                    гладкой с зеркальным эффектом.&nbsp;</p>
+                <p>Лак Bona Traffic совместим с тонирующими составами Bona Create, тонировка может придать древесине
+                    дуба самые неожиданные оттенки. Не рекомендуется применять тонирующие составы и лаки разных
+                    производителей.</p>
+            </div>
+
+
+
+            <div class="accessories-block">
+                <h4 class="accessories-block__title-orange">Инструмент <img src="{{asset('images/arr-orange-down.gif')}}" alt=""></h4>
+                <div class="row-line">
+                    @foreach($product->accessory as $accessoryItem)
+                        <?php /** @var \App\Models\Product\Product $accessoryItem */ ?>
+                        <div class="column">
+                            <div class="row-line">
+                                <a href="{{$accessoryItem->getRoute()}}">
+                                    <img alt="{{$accessoryItem->name}}" width="40" height="40" src="{{$accessoryItem->main_image_url}}">
+                                </a>
+                                <div class="product-special">
+                                    <p>
+                                        <a href="{{$accessoryItem->getRoute()}}">{{$accessoryItem->name}}</a><br>
+                                        <span class="accessories-block__cost-orange">{{$accessoryItem->price_retail_rub_formatted}}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+
+
+
+
+            <div class="characteristics__content" id="tab2">
+                <h3>характеристики: Лак Bona Traffic</h3>
+                <table cellspacing="0" cellpadding="0" class="product-properties">
+                    <thead>
+                    <tr>
+                        <th colspan="2">
+                            <div class="product-properties__title">Описание товара</div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            Торговая марка
+                        </td>
+                        <td>
+                            <div class="dotted_line">Bona.</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Страна производитель
+                        </td>
+                        <td>
+                            <div class="dotted_line">
+                                Швеция.
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Единица измерения
+                        </td>
+                        <td>
+                            <div class="dotted_line">
+                                Банка лака и отвердитель.
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Фасовка
+                        </td>
+                        <td>
+                            <div class="dotted_line">
+                                4.95 литра.
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Светоотражение
+                        </td>
+                        <td>
+                            <div class="dotted_line">
+                                Полуматовый, Матовый
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Расход материала
+                        </td>
+                        <td>
+                            <div class="dotted_line">
+                                100-120 гр./м.кв.
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Инструмент нанесения
+                        </td>
+                        <td>
+                            <div class="dotted_line">
+                                Валик Micro Fleece
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Температура и влажность в помещении
+                        </td>
+                        <td>
+                            <div class="dotted_line">
+                                Температура 15-25 °C, Влажность 45-65%.
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Время высыхания
+                        </td>
+                        <td>
+                            <div class="dotted_line">
+                                Полное отверждение 5-7 суток.
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="2">
+                            <div class="product-properties__title">
+                                Совместимость с породой дерева (максимальная оценка - 5 баллов)
+                            </div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            Обычные породы дерева
+                        </td>
+                        <td>
+                            <div class="dotted_line">
+                              <span>
+                                <img src="images/circle-active.gif">
+                              </span>
+                                <span>
+                                <img src="images/circle-active.gif">
+                              </span>
+                                <span>
+                                <img src="images/circle-active.gif">
+                              </span>
+                                <span>
+                                <img src="images/circle-active.gif">
+                              </span>
+                                <span>
+                                <img src="images/circle-active.gif">
+                              </span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="2">
+                            <div class="product-properties__title">
+                                Хранение
+                            </div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            Срок хранения
+                        </td>
+                        <td>
+                            <div class="dotted_line">
+                                12 месяцев.
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Условия хранения
+                        </td>
+                        <td>
+                            <div class="dotted_line">
+                                Береч от мороза.
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="block-green">
+            <p>{{$product->name}} в магазине, Вы можете купить {{$product->name}}, узнайте подробные технические характеристики и цену на {{$product->name}}, фотографии и отзывы посетителей помогут Вам определиться с покупкой, {{$product->name}} - закажите с доставкой на дом.</p>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </div>
-@endif
 
 
 {{-- Якоря для "Описание" и "Характеристики" --}}

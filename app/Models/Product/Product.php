@@ -108,6 +108,9 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
  * @see Product::getIsAvailableInStockAttribute()
  * @property bool $is_available_in_stock
  *
+ * @see Product::getAvailableSubmitLabelAttribute()
+ * @property string $available_submit_label
+ *
  * @see Producet::getIsAvailableNotInStockAttribute()
  * @property bool $is_available_not_in_stock
  *
@@ -370,6 +373,21 @@ class Product extends BaseModel implements HasMedia
     public function getIsAvailableInStockAttribute(): bool
     {
         return $this->availability_status_id === AvailabilityStatus::ID_AVAILABLE_IN_STOCK;
+    }
+
+    public function getAvailableSubmitLabelAttribute(): string
+    {
+        switch ($this->availability_status_id) {
+            case AvailabilityStatus::ID_AVAILABLE_IN_STOCK : {
+                return "В корзину";
+            }
+            case AvailabilityStatus::ID_AVAILABLE_NOT_IN_STOCK : {
+                return "На заказ";
+            }
+            default : {
+                return "Нет в наличии";
+            }
+        }
     }
 
     public function getIsAvailableNotInStockAttribute(): bool
