@@ -7,7 +7,9 @@ use App\View\Components\GoBackComponent;
 use App\View\Components\H1Component;
 use App\View\Components\MbBrandsFilterComponent;
 use App\View\Components\MbMenuMaterialsComponent;
+use App\View\Components\ProductAccessoriesComponent;
 use App\View\Components\ProductAccessoryItemComponent;
+use App\View\Components\ProductCharsPropsComponent;
 use App\View\Components\ProductComponent;
 use App\View\Components\ProductGalleryItemComponent;
 use App\View\Components\ProductItemComponent;
@@ -54,6 +56,8 @@ class ViewsServiceProvider extends ServiceProvider
         Blade::component("sidebar-menu-viewed", SidebarMenuViewedComponent::class);
 
         Blade::component("product-item", ProductItemComponent::class);
+        Blade::component("product-accessories", ProductAccessoriesComponent::class);
+        Blade::component("product-chars-props", ProductCharsPropsComponent::class);
         Blade::component("product", ProductComponent::class);
 
         Blade::component("breadcrumbs", BreadcrumbsComponent::class);

@@ -83,7 +83,6 @@
     {{-- END Product line --}}
 
 
-
     {{-- Если товар с вариантами --}}
     @if($isWithVariations())
         <div class="product-variants">
@@ -271,64 +270,43 @@
 
 
 
-
-
     <div class="characteristics">
 
-        <div class="accessories-block hidden-desktop">
-            <h4 class="accessories-block__title-orange">Инструмент <img src="{{asset('images/arr-orange-down.gif')}}" alt=""></h4>
-            <div class="row-line">
-                @foreach($product->accessory as $accessoryItem)
-                    <?php /** @var \App\Models\Product\Product $accessoryItem */ ?>
-                    <div class="column">
-                        <div class="row-line">
-                            <a href="{{$accessoryItem->getRoute()}}">
-                                <img alt="{{$accessoryItem->name}}" width="40" height="40" src="{{$accessoryItem->main_image_url}}">
-                            </a>
-                            <div class="product-special">
-                                <p>
-                                    <a href="{{$accessoryItem->getRoute()}}">{{$accessoryItem->name}}</a><br>
-                                    <span class="accessories-block__cost-orange">{{$accessoryItem->price_retail_rub_formatted}}</span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        </div>
+        <x-product-accessories :product="$product" class="hidden-desktop"></x-product-accessories>
 
         <div class="tab-container">
-            <ul class="nav tabs row-line" id="product-descr-tab-mobile" role="tablist">
+            <ul class="nav tabs row-line" id="product-descr-chars-tabs-mobile" role="tablist">
                 <li role="presentation">
                     <a
-                        href="#product-descr"
+                        href="#product-descr-tab-pane-mobile"
                         id="product-descr-tab"
                         class="active"
                         data-toggle="tab"
                         role="tab"
-                        aria-controls="product-descr"
+                        aria-controls="product-descr-tab-pane-mobile"
                         aria-selected="true"
                     >Описание</a>
                 </li>
                 <li role="presentation">
                     <a
-                        href="#product-chars"
+                        href="#product-chars-tab-pane-mobile"
                         id="product-chars-tab"
                         class=""
                         data-toggle="tab"
                         role="tab"
-                        aria-controls="product-chars"
+                        aria-controls="product-chars-tab-pane-mobile"
                         aria-selected="false"
                     >Характеристики</a>
                 </li>
             </ul>
-            <div class="tab-panes" id="product-descr-tab-content-mobile">
-                <div class="tab-pane active" id="product-descr" role="tabpanel" aria-labelledby="product-descr-tab">
+            <div class="tab-panes" id="product-descr-chars-tab-panes-mobile">
+                <div class="tab-pane active" id="product-descr-tab-pane-mobile" role="tabpanel" aria-labelledby="product-descr-tab">
                     <h3>{{$product->name}}</h3>
                     {!! $product->description !!}
                 </div>
-                <div class="tab-pane" id="product-chars" role="tabpanel" aria-labelledby="product-chars-tab">
+                <div class="tab-pane" id="product-chars-tab-pane-mobile" role="tabpanel" aria-labelledby="product-chars-tab">
                     <h3>характеристики: {{$product->name}}</h3>
+                    <x-product-chars-props :product="$product"></x-product-chars-props>
                     <table cellspacing="0" cellpadding="0" class="product-properties">
                         <thead>
                         <tr>
@@ -497,216 +475,15 @@
                 <li><a href="#tab2">Характеристики</a></li>
             </ul>
             <div class="characteristics__content" id="tab1">
-                <h3>Лак Bona Traffic</h3>
-                <p><b>Bona Traffic</b> (Бона Трэффик) - полиуретановый, двухкомпонентный паркетный лак на водной
-                    основе. Перед нанесением тщательно смешивается с отвердителем. После высыхания образует стойкую к
-                    истиранию полиуретановую пленку. Применяется внутри помещений, на полах подверженных высоким
-                    нагрузкам на истирание. Рекомендуется в жилых, общественных и коммерческих помещениях.
-                    Необходимое, минимальное количество слоёв - не менее трёх. Минимальный расход лака на один слой -
-                    100 гр./м.кв.&nbsp;</p>
-                <p>Лак Bona Traffic (Бона Трэффик) хорошо ложится практически на все породы дерева. При нанесении на
-                    обычные породы - дуб, ясень, клен, берёза можно не использовать грунтовку, и сразу наносить лак на
-                    шлифованный паркет. Для максимальной сохранности&nbsp; натурального цвета древесины используют
-                    грунтовку на водной основе&nbsp;<a href="#">Bona Prime</a>. Покрытие на экзотические и маслянистые
-                    породы древесины (мербау, венге, кемпас,...) необходимо предварять специальной грунтовкой на
-                    растворителях&nbsp;<a href="#">Bona D-5</a>.&nbsp;</p>
-                <p>Перед нанесением лака проводится качественная циклевка и шлифовка паркета. Для заключительного
-                    цикла шлифовки используйте абразивные материалы с зернистостью 100 или 120. Оптимальные условия
-                    для нанесения лака: влажность воздуха 50…60%; температура от +18 до +22ºС. Щели шпаклюются
-                    составом&nbsp;<a href="#">Bona Mix Fill</a>. Для заполнения пористой текстуры древесины
-                    используется&nbsp;<a href="#">Bona Gel</a>, после его применения поверхность становится идеально
-                    гладкой с зеркальным эффектом.&nbsp;</p>
-                <p>Лак Bona Traffic совместим с тонирующими составами Bona Create, тонировка может придать древесине
-                    дуба самые неожиданные оттенки. Не рекомендуется применять тонирующие составы и лаки разных
-                    производителей.</p>
+                <h3>{{$product->name}}</h3>
+                {!! $product->description !!}
             </div>
 
-
-
-            <div class="accessories-block">
-                <h4 class="accessories-block__title-orange">Инструмент <img src="{{asset('images/arr-orange-down.gif')}}" alt=""></h4>
-                <div class="row-line">
-                    @foreach($product->accessory as $accessoryItem)
-                        <?php /** @var \App\Models\Product\Product $accessoryItem */ ?>
-                        <div class="column">
-                            <div class="row-line">
-                                <a href="{{$accessoryItem->getRoute()}}">
-                                    <img alt="{{$accessoryItem->name}}" width="40" height="40" src="{{$accessoryItem->main_image_url}}">
-                                </a>
-                                <div class="product-special">
-                                    <p>
-                                        <a href="{{$accessoryItem->getRoute()}}">{{$accessoryItem->name}}</a><br>
-                                        <span class="accessories-block__cost-orange">{{$accessoryItem->price_retail_rub_formatted}}</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-
-
-
+            <x-product-accessories :product="$product"></x-product-accessories>
 
             <div class="characteristics__content" id="tab2">
-                <h3>характеристики: Лак Bona Traffic</h3>
-                <table cellspacing="0" cellpadding="0" class="product-properties">
-                    <thead>
-                    <tr>
-                        <th colspan="2">
-                            <div class="product-properties__title">Описание товара</div>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>
-                            Торговая марка
-                        </td>
-                        <td>
-                            <div class="dotted_line">Bona.</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Страна производитель
-                        </td>
-                        <td>
-                            <div class="dotted_line">
-                                Швеция.
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Единица измерения
-                        </td>
-                        <td>
-                            <div class="dotted_line">
-                                Банка лака и отвердитель.
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Фасовка
-                        </td>
-                        <td>
-                            <div class="dotted_line">
-                                4.95 литра.
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Светоотражение
-                        </td>
-                        <td>
-                            <div class="dotted_line">
-                                Полуматовый, Матовый
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Расход материала
-                        </td>
-                        <td>
-                            <div class="dotted_line">
-                                100-120 гр./м.кв.
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Инструмент нанесения
-                        </td>
-                        <td>
-                            <div class="dotted_line">
-                                Валик Micro Fleece
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Температура и влажность в помещении
-                        </td>
-                        <td>
-                            <div class="dotted_line">
-                                Температура 15-25 °C, Влажность 45-65%.
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Время высыхания
-                        </td>
-                        <td>
-                            <div class="dotted_line">
-                                Полное отверждение 5-7 суток.
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th colspan="2">
-                            <div class="product-properties__title">
-                                Совместимость с породой дерева (максимальная оценка - 5 баллов)
-                            </div>
-                        </th>
-                    </tr>
-                    <tr>
-                        <td>
-                            Обычные породы дерева
-                        </td>
-                        <td>
-                            <div class="dotted_line">
-                              <span>
-                                <img src="images/circle-active.gif">
-                              </span>
-                                <span>
-                                <img src="images/circle-active.gif">
-                              </span>
-                                <span>
-                                <img src="images/circle-active.gif">
-                              </span>
-                                <span>
-                                <img src="images/circle-active.gif">
-                              </span>
-                                <span>
-                                <img src="images/circle-active.gif">
-                              </span>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th colspan="2">
-                            <div class="product-properties__title">
-                                Хранение
-                            </div>
-                        </th>
-                    </tr>
-                    <tr>
-                        <td>
-                            Срок хранения
-                        </td>
-                        <td>
-                            <div class="dotted_line">
-                                12 месяцев.
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Условия хранения
-                        </td>
-                        <td>
-                            <div class="dotted_line">
-                                Береч от мороза.
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                <h3>характеристики: {{$product->name}}</h3>
+                <x-product-chars-props :product="$product"></x-product-chars-props>
             </div>
         </div>
 

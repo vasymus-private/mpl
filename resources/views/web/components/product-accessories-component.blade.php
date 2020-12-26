@@ -1,0 +1,24 @@
+<?php
+/** @var \App\Models\Product\Product $product */
+?>
+<div {{ $attributes->merge(["class" => "accessories-block"]) }}>
+    <h4 class="accessories-block__title-orange">Инструмент <img src="{{asset('images/arr-orange-down.gif')}}" alt=""></h4>
+    <div class="row-line">
+        @foreach($product->accessory as $accessoryItem)
+            <?php /** @var \App\Models\Product\Product $accessoryItem */ ?>
+            <div class="column">
+                <div class="row-line">
+                    <a href="{{$accessoryItem->getRoute()}}">
+                        <img alt="{{$accessoryItem->name}}" width="40" height="40" src="{{$accessoryItem->main_image_url}}">
+                    </a>
+                    <div class="product-special">
+                        <p>
+                            <a href="{{$accessoryItem->getRoute()}}">{{$accessoryItem->name}}</a><br>
+                            <span class="accessories-block__cost-orange">{{$accessoryItem->price_retail_rub_formatted}}</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+</div>
