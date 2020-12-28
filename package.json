@@ -32,7 +32,8 @@
         "mustache": "^4.0.1",
         "normalize.css": "^8.0.1",
         "slick-carousel": "^1.8.1",
-        "slideout": "^1.0.1"
+        "slideout": "^1.0.1",
+        "swiper": "^6.4.5"
     },
     "babel": {
         "plugins": [

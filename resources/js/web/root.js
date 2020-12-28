@@ -19,6 +19,7 @@ import slimScroll from './modules/slimScroll'
 import showSearchBlock from './modules/showSearchBlock'
 import "./modules/cart"
 import "./modules/putProductAside"
+import "./modules/product-sliders"
 import "../helpers/Rest"
 
 (($) => {

@@ -265,11 +265,6 @@
         </div>
     @endif
 
-
-
-
-
-
     <div class="characteristics">
 
         <x-product-accessories :product="$product" class="hidden-desktop"></x-product-accessories>
@@ -301,169 +296,12 @@
             </ul>
             <div class="tab-panes" id="product-descr-chars-tab-panes-mobile">
                 <div class="tab-pane active" id="product-descr-tab-pane-mobile" role="tabpanel" aria-labelledby="product-descr-tab">
-                    <h3>{{$product->name}}</h3>
+                    <h3>{!! $product->name !!}</h3>
                     {!! $product->description !!}
                 </div>
                 <div class="tab-pane" id="product-chars-tab-pane-mobile" role="tabpanel" aria-labelledby="product-chars-tab">
-                    <h3>характеристики: {{$product->name}}</h3>
+                    <h3>характеристики: {!! $product->name !!}</h3>
                     <x-product-chars-props :product="$product"></x-product-chars-props>
-                    <table cellspacing="0" cellpadding="0" class="product-properties">
-                        <thead>
-                        <tr>
-                            <th colspan="2">
-                                <div class="product-properties__title">Описание товара</div>
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>
-                                Торговая марка
-                            </td>
-                            <td>
-                                <div class="dotted_line">Bona.</div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Страна производитель
-                            </td>
-                            <td>
-                                <div class="dotted_line">
-                                    Швеция.
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Единица измерения
-                            </td>
-                            <td>
-                                <div class="dotted_line">
-                                    Банка лака и отвердитель.
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Фасовка
-                            </td>
-                            <td>
-                                <div class="dotted_line">
-                                    4.95 литра.
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Светоотражение
-                            </td>
-                            <td>
-                                <div class="dotted_line">
-                                    Полуматовый, Матовый
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Расход материала
-                            </td>
-                            <td>
-                                <div class="dotted_line">
-                                    100-120 гр./м.кв.
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Инструмент нанесения
-                            </td>
-                            <td>
-                                <div class="dotted_line">
-                                    Валик Micro Fleece
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Температура и влажность в помещении
-                            </td>
-                            <td>
-                                <div class="dotted_line">
-                                    Температура 15-25 °C, Влажность 45-65%.
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Время высыхания
-                            </td>
-                            <td>
-                                <div class="dotted_line">
-                                    Полное отверждение 5-7 суток.
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th colspan="2">
-                                <div class="product-properties__title">
-                                    Совместимость с породой дерева (максимальная оценка - 5 баллов)
-                                </div>
-                            </th>
-                        </tr>
-                        <tr>
-                            <td>
-                                Обычные породы дерева
-                            </td>
-                            <td>
-                                <div class="dotted_line">
-                              <span>
-                                <img src="images/circle-active.gif">
-                              </span>
-                                    <span>
-                                <img src="images/circle-active.gif">
-                              </span>
-                                    <span>
-                                <img src="images/circle-active.gif">
-                              </span>
-                                    <span>
-                                <img src="images/circle-active.gif">
-                              </span>
-                                    <span>
-                                <img src="images/circle-active.gif">
-                              </span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th colspan="2">
-                                <div class="product-properties__title">
-                                    Хранение
-                                </div>
-                            </th>
-                        </tr>
-                        <tr>
-                            <td>
-                                Срок хранения
-                            </td>
-                            <td>
-                                <div class="dotted_line">
-                                    12 месяцев.
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Условия хранения
-                            </td>
-                            <td>
-                                <div class="dotted_line">
-                                    Береч от мороза.
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>
@@ -475,135 +313,73 @@
                 <li><a href="#tab2">Характеристики</a></li>
             </ul>
             <div class="characteristics__content" id="tab1">
-                <h3>{{$product->name}}</h3>
+                <h3>{!! $product->name !!}</h3>
                 {!! $product->description !!}
             </div>
 
             <x-product-accessories :product="$product"></x-product-accessories>
 
             <div class="characteristics__content" id="tab2">
-                <h3>характеристики: {{$product->name}}</h3>
+                <h3>характеристики: {!! $product->name !!}</h3>
                 <x-product-chars-props :product="$product"></x-product-chars-props>
             </div>
         </div>
 
 
         <div class="block-green">
-            <p>{{$product->name}} в магазине, Вы можете купить {{$product->name}}, узнайте подробные технические характеристики и цену на {{$product->name}}, фотографии и отзывы посетителей помог1ут Вам определиться с покупкой, {{$product->name}} - закажите с доставкой на дом.</p>
+            <p>{!! $product->name !!} в магазине, Вы можете купить {!! $product->name !!}, узнайте подробные технические характеристики и цену на {!! $product->name !!}, фотографии и отзывы посетителей помог1ут Вам определиться с покупкой, {!! $product->name !!} - закажите с доставкой на дом.</p>
         </div>
 
     </div>
 
+</div>
 
+<div class="content-sliders">
+    @if($product->similar->isNotEmpty())
+        <div class="slider-blocker">
+            <div class="slider-blocker__header row-line row-line__between swiper-container">
+                <h2 class="slider-blocker__header-title">
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                    {{$product->similar_name}}
+                </h2>
+                <div class="block-arrow">
+                    <div class="swiper-button-prev btn-slider js-slider-btn-1">
+                        <i class="fa fa-arrow-left"></i>
+                    </div>
+                    <div class="swiper-button-next btn-slider js-slider-btn-1">
+                        <i class="fa fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            <div class="swiper-block">
+                <div class="swiper-container js-slider-1 swiper-container-initialized swiper-container-horizontal">
+                    <div class="swiper-wrapper">
+                        @foreach($product->similar as $item)
+                            <?php /** @var \App\Models\Product\Product $item */ ?>
+                            <div class="swiper-slide">
+                                <div class="slider-blocker__item">
+                                    <h3 class="slider-blocker__title"><a class="slider-blocker__link" href="#">{!! $item->name !!}</a></h3>
+                                    <div class="slider-blocker__photo">
+                                        <img src="{{$item->main_image_url}}" alt="">
+                                    </div>
+                                    <div class="slider-blocker__text-center">
+                                        <span class="slider-blocker__cost">{{$item->price_retail_rub_formatted}}</span>
+                                        <a href="{{$item->getRoute()}}" class="slider-blocker__buy">купить</a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 </div>
 
 
-{{-- Якоря для "Описание" и "Характеристики" --}}
-<div>
-    <p><a href="#description">Описание</a></p>
-    @if($product->characteristicsNotEmpty())<p><a href="#characteristics">Характеристики</a></p>@endif
-</div>
-
-{{-- Блок "Описание" --}}
-<div id="description">
-    {!! $product->description !!}
-</div>
-<div>
-    <p>Сравните {{$product->name}} с товарами других брендов, {{$product->name}} по низкой цене, купите или закажите с доставкой и гарантией качества {{$product->name}} в интернет-магазине.</p>
-</div>
-
-{{-- Связанные с продуктом иснтрументы --}}
-<div>
-    <p>{{$product->accessory_name}}</p>
-    @foreach($product->accessory as $accessoryItem)
-    <?php /** @var \App\Models\Product\Product $accessoryItem */ ?>
-    <div>
-        <p><a href="{{$accessoryItem->getRoute()}}"><img style="max-width: 40px;" src="{{$accessoryItem->main_image_url}}" alt="" /></a></p>
-        <p><a href="{{$accessoryItem->getRoute()}}">{{$accessoryItem->name}}</a></p>
-        <p>{{$accessoryItem->price_retail_rub_formatted}}</p>
-    </div>
-    @endforeach
-</div>
-
-{{-- Блок "Характеристики" --}}
-@if($product->characteristicsNotEmpty())
-<div id="characteristics">
-    <p><b>Характирестики: {{$product->name}}</b></p>
-    <table width="100%">
-        <tbody>
-    @foreach($product->characteristics() as $groupName => $labelValues)
-            <tr>
-                <td colspan="2"><b>{{$groupName}}</b></td>
-            </tr>
-            @foreach($labelValues as $label => $value)
-                @if($value)
-                    <tr>
-                        <td>{{$label}}</td>
-                        <td>
-                            @if(in_array($label, \App\Models\Product\Product::CH_RATE))
-                                @for($i = 0; $i < \App\Models\Product\Product::MAX_CHARACTERISTIC_RATE; $i++)
-                                    @if($value > $i)
-                                        <img src="{{asset("images//general/circle-active.gif")}}" alt="">
-                                    @else
-                                        <img src="{{asset("images//general/circle.gif")}}" alt="">
-                                    @endif
-                                @endfor
-                            @else
-                                {{$value}}
-                            @endif
-                        </td>
-                    </tr>
-                @endif
-            @endforeach
-    @endforeach
-        </tbody>
-    </table>
-</div>
-@endif
 
 
-{{-- Призыв купить (для сео) TODO подумать правильный тег --}}
-<p>
-    {{$product->name}} в магазине, Вы можете купить {{$product->name}}, узнайте подробные технические характеристики и цену на {{$product->name}}, фотографии и отзывы посетителей помогут Вам определиться с покупкой, {{$product->name}} - закажите с доставкой на дом.
-</p>
-
-{{-- Похожие товары --}}
-@if($product->similar->isNotEmpty())
-<p><b>{{$product->similar_name}}</b></p>
-<ul>
-@foreach($product->similar as $item)
-    <?php /** @var \App\Models\Product\Product $item */ ?>
-    <li>
-        <p>{{$item->name}}</p>
-        <p><img style="max-width: 150px" src="{{$item->main_image_url}}" alt="" /></p>
-        <p>{{$item->price_retail_rub_formatted}}</p>
-        <p><a href="{{$item->getRoute()}}">Купить</a></p>
-    </li>
-@endforeach
-</ul>
-@endif
 
 {{-- Сопряженные товары --}}
 @if($product->related->isNotEmpty())
