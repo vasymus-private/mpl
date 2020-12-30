@@ -375,40 +375,86 @@
             </div>
         </div>
     @endif
+
+    @if($product->related->isNotEmpty())
+        <div class="slider-blocker">
+            <div class="slider-blocker__header row-line row-line__between swiper-container">
+                <h2 class="slider-blocker__header-title">
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                    {{$product->related_name}}
+                </h2>
+                <div class="block-arrow">
+                    <div class="swiper-button-prev btn-slider js-slider-btn-2">
+                        <i class="fa fa-arrow-left"></i>
+                    </div>
+                    <div class="swiper-button-next btn-slider js-slider-btn-2">
+                        <i class="fa fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="swiper-block">
+                <div class="swiper-container js-slider-2 swiper-container-initialized swiper-container-horizontal">
+                    <div class="swiper-wrapper">
+                        @foreach($product->related as $item)
+                            <?php /** @var \App\Models\Product\Product $item */ ?>
+                            <div class="swiper-slide">
+                                <div class="slider-blocker__item">
+                                    <h3 class="slider-blocker__title"><a class="slider-blocker__link" href="#">{!! $item->name !!}</a></h3>
+                                    <div class="slider-blocker__photo">
+                                        <img src="{{$item->main_image_url}}" alt="">
+                                    </div>
+                                    <div class="slider-blocker__text-center">
+                                        <span class="slider-blocker__cost">{{$item->price_retail_rub_formatted}}</span>
+                                        <a href="{{$item->getRoute()}}" class="slider-blocker__buy">купить</a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    @if($product->works->isNotEmpty())
+        <div class="slider-blocker">
+            <div class="slider-blocker__header row-line row-line__between swiper-container">
+                <h2 class="slider-blocker__header-title">
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                    {{$product->work_name}}
+                </h2>
+                <div class="block-arrow">
+                    <div class="swiper-button-prev btn-slider js-slider-btn-3">
+                        <i class="fa fa-arrow-left"></i>
+                    </div>
+                    <div class="swiper-button-next btn-slider js-slider-btn-3">
+                        <i class="fa fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="swiper-block">
+                <div class="swiper-container js-slider-3 swiper-container-initialized swiper-container-horizontal">
+                    <div class="swiper-wrapper">
+                        @foreach($product->works as $item)
+                            <?php /** @var \App\Models\Product\Product $item */ ?>
+                            <div class="swiper-slide">
+                                <div class="slider-blocker__item">
+                                    <h3 class="slider-blocker__title"><a class="slider-blocker__link" href="#">{!! $item->name !!}</a></h3>
+                                    <div class="slider-blocker__photo">
+                                        <img src="{{$item->main_image_url}}" alt="">
+                                    </div>
+                                    <div class="slider-blocker__text-center">
+                                        <span class="slider-blocker__cost">{{$item->price_retail_rub_formatted}}</span>
+                                        <a href="{{$item->getRoute()}}" class="slider-blocker__buy">купить</a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 </div>
-
-
-
-
-
-{{-- Сопряженные товары --}}
-@if($product->related->isNotEmpty())
-    <p><b>{{$product->related_name}}</b></p>
-    <ul>
-        @foreach($product->related as $item)
-            <?php /** @var \App\Models\Product\Product $item */ ?>
-            <li>
-                <p>{{$item->name}}</p>
-                <p><img style="max-width: 150px" src="{{$item->main_image_url}}" alt="" /></p>
-                <p>{{$item->price_retail_rub_formatted}}</p>
-                <p><a href="{{$item->getRoute()}}">Купить</a></p>
-            </li>
-        @endforeach
-    </ul>
-@endif
-
-{{-- Работы --}}
-@if($product->works->isNotEmpty())
-    <p><b>{{$product->work_name}}</b></p>
-    <ul>
-        @foreach($product->works as $item)
-            <?php /** @var \App\Models\Product\Product $item */ ?>
-            <li>
-                <p>{{$item->name}}</p>
-                <p><img style="max-width: 150px" src="{{$item->main_image_url}}" alt="" /></p>
-                <p>{{$item->price_retail_rub_formatted}}</p>
-                <p><a href="{{$item->getRoute()}}">Купить</a></p>
-            </li>
-        @endforeach
-    </ul>
-@endif

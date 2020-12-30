@@ -2,7 +2,6 @@ import ajaxUrls from "../settings/ajaxUrls"
 import Rest from "../../helpers/Rest"
 import {getProductItemComponentClass, isProductsAsidePage, getProductsAsidePageContentWrapper, PRODUCT_HOVER_ON_POPOVER_CLASS} from "../helpers/products"
 
-
 (function($){
     $().ready(() => {
         let activeClass = "put-off-block__link--active"

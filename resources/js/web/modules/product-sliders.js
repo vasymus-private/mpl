@@ -1,7 +1,7 @@
 import Swiper from 'swiper'
 
 (function ($) {
-    $(document).ready(() => {
+    $().ready(() => {
         const sliders = [];
         for (let i = 0; i < 10; i++) {
             const selector = `.js-slider-${i + 1}`;
