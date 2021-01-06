@@ -1,9 +1,9 @@
-@extends('web.pages.page-layout')
+@extends('web.pages.page-service-layout')
 
 @section('page-content')
     <article class="article-content">
         <h1>Ремонт паркета</h1>
-                     
+
 <div class="news-detail">
                             <p>
      Компания «Современные Технологии Паркета» предлагает вам свой 10-летний опыт, новейшие технологии и материалы для ремонта паркета до идеального состояния.
@@ -226,6 +226,6 @@
     <br></div>
 
 
-            
+
                 </article>
 @endsection

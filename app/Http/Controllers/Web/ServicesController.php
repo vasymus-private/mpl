@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Models\Service;
+use App\Services\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
 
 class ServicesController extends BaseWebController
@@ -12,6 +13,8 @@ class ServicesController extends BaseWebController
         /** @var Service|null $service */
         $service = $request->service_slug;
 
-        return view("web.pages.services.{$service->slug}");
+        $breadcrumbs = Breadcrumbs::serviceRoute($service);
+
+        return view("web.pages.services.{$service->slug}", compact("breadcrumbs"));
     }
 }

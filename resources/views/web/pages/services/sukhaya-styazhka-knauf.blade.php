@@ -1,9 +1,9 @@
-@extends('web.pages.page-layout')
+@extends('web.pages.page-service-layout')
 
 @section('page-content')
     <article class="article-content">
         <h1>Сухая стяжка Кнауф</h1>
-                     
+
 <div class="news-detail">
                             <p align="center" style="text-align: left;">
      Сухая стяжка – это гипсоволокнистые листы (ГВЛ), которые укладываются на слой сухой засыпки Кнауф. Пол также называется насыпным, но в России больше прижилось название «сухая стяжка Knauf».
@@ -162,6 +162,6 @@
     <br></div>
 
 
-            
+
                 </article>
 @endsection

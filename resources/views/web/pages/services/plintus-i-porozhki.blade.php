@@ -1,9 +1,9 @@
-@extends('web.pages.page-layout')
+@extends('web.pages.page-service-layout')
 
 @section('page-content')
     <article class="article-content">
         <h1>Плинтусы и порожки для паркетного пола – самая полная статья</h1>
-                     
+
 <div class="news-detail">
                             <p>
      Любая модница скажет, что главное в деталях, а точнее – в аксессуарах.<br></p>
@@ -284,6 +284,6 @@
     <br></div>
 
 
-            
+
                 </article>
 @endsection

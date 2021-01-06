@@ -1,9 +1,9 @@
-@extends('web.pages.page-layout')
+@extends('web.pages.page-service-layout')
 
 @section('page-content')
     <article class="article-content">
         <h1>Тонировка паркета</h1>
-                     
+
 <div class="news-detail">
                             <p>
      Хотите изменить цвет паркета – получите бесплатную, профессиональную консультацию, как это сделать без потерь.<br> +7 (926) 779 46 03 Владимир, инженер-технолог нашей компании.
@@ -239,6 +239,6 @@
     <br></div>
 
 
-            
+
                 </article>
 @endsection

@@ -1,9 +1,9 @@
-@extends('web.pages.page-layout')
+@extends('web.pages.page-article-layout')
 
 @section('page-content')
     <article class="article-content">
         <h1>Экспертное мнение: как выбрать штучный паркет</h1>
-                      
+
 
 
 
@@ -212,6 +212,6 @@
 <p>
     Мы подробно рассказываем о технологиях проведения паркетных работ на <a href="/ukladka-shtuchnogo-parketa/">этой странице</a>. Пожалуйста, переходите и знакомьтесь с материалом.
 </p>
-            
+
                 </article>
 @endsection

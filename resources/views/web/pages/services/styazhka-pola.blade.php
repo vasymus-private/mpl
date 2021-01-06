@@ -1,9 +1,9 @@
-@extends('web.pages.page-layout')
+@extends('web.pages.page-service-layout')
 
 @section('page-content')
     <article class="article-content">
         <h1>Стяжка пола для укладки паркета — «гарантия от 3-х лет» </h1>
-                     
+
 <div class="news-detail">
                             <p>
      Вам необходима стяжка – получите бесплатную, профессиональную консультацию о видах и технологиях стяжек.<br> +7 (926) 779 46 03 Владимир, инженер-технолог нашей компании.
@@ -270,6 +270,6 @@
     <br></div>
 
 
-            
+
                 </article>
 @endsection

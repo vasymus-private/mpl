@@ -1,9 +1,9 @@
-@extends('web.pages.page-layout')
+@extends('web.pages.page-service-layout')
 
 @section('page-content')
     <article class="article-content">
         <h1>Укладка массивной доски</h1>
-                     
+
 <div class="news-detail">
                             <p>
      Хотите массивную доску - есть нюансы, получите бесплатную, профессиональную консультацию +7 (926) 779 46 03 Владимир, инженер-технолог нашей компании.
@@ -219,6 +219,6 @@
     <br></div>
 
 
-            
+
                 </article>
 @endsection

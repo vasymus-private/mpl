@@ -1,9 +1,9 @@
-@extends('web.pages.page-layout')
+@extends('web.pages.page-service-layout')
 
 @section('page-content')
     <article class="article-content">
         <h1>Укладка ламината</h1>
-                     
+
 <div class="news-detail">
                             <p align="center" style="text-align: left;">
      Ламинат (ламинированный паркет, ламинированное покрытие для пола) – многослойный материал на основе древесно-волокнистой плиты (ДВП), использующийся как имитация паркетного пола:
@@ -242,6 +242,6 @@
     <br></div>
 
 
-            
+
                 </article>
 @endsection

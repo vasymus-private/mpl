@@ -1,9 +1,9 @@
-@extends('web.pages.page-layout')
+@extends('web.pages.page-service-layout')
 
 @section('page-content')
     <article class="article-content">
         <h1>Пол на лагах под укладку паркета со сроком службы более 50 лет</h1>
-                     
+
 <div class="news-detail">
                             <h3 style="text-align: center;">Монтаж пола на лагах по бетонным опорам от 200 руб./м<sup>2</sup></h3>
 <p>
@@ -214,6 +214,6 @@
     <br></div>
 
 
-            
+
                 </article>
 @endsection

@@ -1,4 +1,4 @@
-@extends('web.pages.page-layout')
+@extends('web.pages.page-article-layout')
 
 @section('page-content')
     <article class="article-content">

@@ -3,6 +3,9 @@
 @section('wrapper-class')
     js-sidebar-slide-main-1 slideout-panel
 @endsection
+@section('toggle-class')
+    another-page
+@endsection
 
 @section('content')
     <div class="container">
