@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\View\Components\BreadcrumbsComponent;
+use App\View\Components\ContactTechnologistBtnComponent;
 use App\View\Components\GoBackComponent;
 use App\View\Components\H1Component;
 use App\View\Components\MbBrandsFilterComponent;
@@ -54,6 +55,7 @@ class ViewsServiceProvider extends ServiceProvider
         Blade::component("mb-menu-materials", MbMenuMaterialsComponent::class);
         Blade::component("sidebar-menu-cart", SidebarMenuCartComponent::class);
         Blade::component("sidebar-menu-viewed", SidebarMenuViewedComponent::class);
+        Blade::component("contact-technologist-btn", ContactTechnologistBtnComponent::class);
 
         Blade::component("product-item", ProductItemComponent::class);
         Blade::component("product-accessories", ProductAccessoriesComponent::class);

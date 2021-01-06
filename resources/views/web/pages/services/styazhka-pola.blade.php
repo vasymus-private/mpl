@@ -151,7 +151,7 @@
      Для составления сметы и определения сроков работ нужен детальный анализ объекта. Его проводит инженер-технолог компании «СТП». Но прежде всего – бесплатная телефонная консультация. Позвоните <b>+7 (495) 363-87-99</b> и мы ответим на все ваши вопросы.
 </p>
 <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+    <x-contact-technologist-btn></x-contact-technologist-btn>
 </p>
 <p>
 </p>
@@ -265,7 +265,7 @@
      Поэтому наш инженер-технолог бесплатно консультирует вас. Заполните форму обратной связи или позвоните <b>+7 (495) 363-87-99</b>
 </p>
 <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+    <x-contact-technologist-btn></x-contact-technologist-btn>
 </p>        <div style="clear:both"></div>
     <br></div>
 

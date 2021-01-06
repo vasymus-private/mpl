@@ -109,7 +109,7 @@
     </p>
 </div>
 <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+    <x-contact-technologist-btn></x-contact-technologist-btn>
 </p>
 <p align="center" style="text-align: left;">
  <b> <br></b>
@@ -230,7 +230,7 @@
     </div>
 </div>
 <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+    <x-contact-technologist-btn></x-contact-technologist-btn>
 </p>
 <div class="white-bg">
     <p>
@@ -283,7 +283,7 @@
      Для консультации с инженером-технологом звоните <b>+7 (495) 363-87-99</b>
 </p>
 <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+    <x-contact-technologist-btn></x-contact-technologist-btn>
 </p>
  <br><div style="clear:both"></div>
     <br></div>

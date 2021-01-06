@@ -166,7 +166,7 @@
          Вам нужна бесплатная консультация специалиста прямо сейчас? Напишите нашему мастеру:
     </p>
     <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+        <x-contact-technologist-btn></x-contact-technologist-btn>
     </p>
 </div>
 <p>
@@ -277,7 +277,7 @@
          У вас остались вопросы по этой теме или связанной с паркетом? Задавайте их нашему мастеру в разделе «Вопрос-Ответ»:
     </p>
     <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+        <x-contact-technologist-btn></x-contact-technologist-btn>
     </p>
 </div>
  <br><div style="clear:both"></div>

@@ -79,7 +79,7 @@
      или заполните форму обратной связи
 </p>
 <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+    <x-contact-technologist-btn></x-contact-technologist-btn>
 </p>
 <p align="center">
  <b>ДЛЯ ЮРИДИЧЕСКИХ ЛИЦ – НОЧНЫЕ СМЕНЫ</b>
@@ -126,7 +126,7 @@
     </p>
 </div>
 <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+    <x-contact-technologist-btn></x-contact-technologist-btn>
 </p>
 <p style="text-align: center;">
  <b>Рекомендации</b>

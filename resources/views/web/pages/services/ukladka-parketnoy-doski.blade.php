@@ -53,7 +53,7 @@
     <td>
           от 750 р./м<sup>2</sup></td>
 </tr></tbody></table><br><p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+        <x-contact-technologist-btn></x-contact-technologist-btn>
 </p>
 <p>
      Кроме указанных выше факторов, цена монтажа пола зависит от технологии укладки. Их две:
@@ -269,7 +269,7 @@
      Проконсультируйтесь с инженером-технологом компании «СТП». Это бесплатно.
 </p>
 <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+    <x-contact-technologist-btn></x-contact-technologist-btn>
 </p>
 <p align="center">
      ЦЕНА или КАЧЕСТВО?
@@ -290,7 +290,7 @@
      Телефон: <b>+7 (495) 363-87-99</b>
 </p>
 <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+    <x-contact-technologist-btn></x-contact-technologist-btn>
 </p>
  <span style="font-size: 9px;"> 03.04.15 - 50</span>        <div style="clear:both"></div>
     <br></div>
