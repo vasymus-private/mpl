@@ -1,0 +1,27 @@
+.btn-lg-custom {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    touch-action: manipulation;
+    cursor: pointer;
+    user-select: none;
+    color: #fff;
+    font-size: 18px;
+    line-height: 1.33;
+    text-shadow: 0 -1px 0 rgba(0,0,0,.2);
+    background: linear-gradient(to bottom, #558cd7 0%,#3064bc 2%,#2065c0 44%,#0168c8 100%);
+    padding: 20px 40px;
+    border-radius: 10px;
+    border: 2px solid #71abe1;
+    box-shadow: 0px 3px 4px #aaa;
+    &:hover, &:active {
+        border: 2px solid #0058ba;
+        background: linear-gradient(to bottom, #0168c8 0%,#2065c0 56%,#3064bc 99%,#558cd7 100%);
+        color: #fff;
+        text-decoration: none;
+        outline: 0;
+    }
+}
