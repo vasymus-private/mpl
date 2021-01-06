@@ -1,6 +1,7 @@
 .product {
   &__breadcrumbs-header {
     margin: 0 0 10px;
+      align-items: center;
     .column {
       width: 50%;
       &:last-child {
@@ -10,6 +11,10 @@
     }
   }
 
+    .breadcrumbs {
+        margin: 0;
+    }
+
   &__title {
     padding: 0;
   }
@@ -18,8 +23,7 @@
     display: block;
     width: 112px;
     height: 25px;
-    background-image: url(../images/back-product-arrow.svg);
-    background-repeat: no-repeat;
+    background: url(../images/back-product-arrow.svg) no-repeat;
     text-decoration: none;
     text-align: right;
   }

@@ -42,7 +42,6 @@
   }
 
   &__count {
-    box-sizing: border-box;
     width: 60px;
     height: 44px;
     color: #868686;
@@ -51,6 +50,7 @@
     background: #e5ecdb;
     border: 1px solid #cecece;
     margin-top: 0;
+      text-align: center;
   }
 
   .available-blocker {
@@ -62,10 +62,10 @@
   }
 
   &__add {
+      border: 0;
     display: block;
     width: 100%;
     height: 44px;
-    line-height: 44px;
     text-align: center;
     background-color: #dd522d;
     font-family: 'Roboto', Arial, sans-serif;
