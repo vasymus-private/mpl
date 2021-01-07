@@ -51,6 +51,9 @@
     border: 1px solid #cecece;
     margin-top: 0;
       text-align: center;
+      &:hover {
+          background: #fff;
+      }
   }
 
   .available-blocker {
