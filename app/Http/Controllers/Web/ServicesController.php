@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Events\ServiceViewedEvent;
 use App\Models\Service;
 use App\Services\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ServicesController extends BaseWebController
 {
@@ -12,6 +14,8 @@ class ServicesController extends BaseWebController
     {
         /** @var Service|null $service */
         $service = $request->service_slug;
+
+        event(new ServiceViewedEvent(Auth::user(), $service));
 
         $breadcrumbs = Breadcrumbs::serviceRoute($service);
 

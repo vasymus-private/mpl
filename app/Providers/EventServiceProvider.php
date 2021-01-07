@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Events\ProductViewedEvent;
+use App\Events\ServiceViewedEvent;
 use App\Listeners\MarkProductViewed;
+use App\Listeners\MarkServiceViewed;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -22,7 +24,10 @@ class EventServiceProvider extends ServiceProvider
         ],
         ProductViewedEvent::class => [
             MarkProductViewed::class,
-        ]
+        ],
+        ServiceViewedEvent::class => [
+            MarkServiceViewed::class,
+        ],
     ];
 
     /**

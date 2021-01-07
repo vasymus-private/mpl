@@ -22,7 +22,7 @@ class ProfileComposer
 
         if (!$user) return;
 
-        $user->loadCount(["viewed"]);
+        $user->loadCount(["viewed", "serviceViewed"]);
         $user->load(["aside:id"]);
 
         $asideIds = $user->aside->pluck("id")->toArray();
@@ -33,7 +33,7 @@ class ProfileComposer
             return $acc += ($product->pivot->count ?? 1);
         }, 0);
 
-        $view->with("viewedCount", $user->viewed_count)
+        $view->with("viewedCount", $user->viewed_count + $user->service_viewed_count)
             ->with("cartCount", $cartCount)
             ->with("asideCount", count($asideIds))
             ->with("asideIds", $asideIds)
