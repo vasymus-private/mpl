@@ -22,6 +22,9 @@ use Illuminate\Routing\Route;
  *
  * @see Service::scopeActive()
  * @method static static|Builder active()
+ *
+ * @see Service::getWebRouteAttribute()
+ * @property-read string $web_route
  * */
 class Service extends BaseModel
 {
@@ -58,5 +61,10 @@ class Service extends BaseModel
     public static function rbServiceSlug($value, Route $route)
     {
         return static::active()->where(static::TABLE . ".slug", $value)->firstOrFail();
+    }
+
+    public function getWebRouteAttribute(): string
+    {
+        return route("services.show", $this->slug);
     }
 }

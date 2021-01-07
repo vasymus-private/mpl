@@ -1,9 +1,9 @@
-@extends('web.pages.page-layout')
+@extends('web.pages.page-service-layout')
 
 @section('page-content')
     <article class="article-content">
         <h1>Укладка массивной доски</h1>
-                     
+
 <div class="news-detail">
                             <p>
      Хотите массивную доску - есть нюансы, получите бесплатную, профессиональную консультацию +7 (926) 779 46 03 Владимир, инженер-технолог нашей компании.
@@ -51,7 +51,7 @@
      Подробную смету мы рассчитаем после детального осмотра объекта. Но дать предварительную консультацию инженер-технолог может прямо сейчас – позвоните <b>+7 (495) 363-87-99</b> или
 </p>
 <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+    <x-contact-technologist-btn></x-contact-technologist-btn>
 </p>
 <p>
      Мы предлагаем вам 3 технологии укладки массивной доски. Нет плохих и хороших технологий – есть та, которая наиболее выгодна в вашем случае. Чтобы узнать какая … – нужно осмотреть объект и составить заключение. Прежде всего – о качестве основания, если оно уже готово. Если стяжка не соответствует СНиП (строительным нормам), мы проведём санацию.
@@ -111,7 +111,7 @@
      Какую из технологий выбрать? Для ответа необходим анализ помещения, а также предварительный разговор о ваших пожеланиях. Свяжитесь с нашим инженером-технологом для консультации
 </p>
 <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+    <x-contact-technologist-btn></x-contact-technologist-btn>
 </p>
 <div class="white-bg">
     <p>
@@ -210,7 +210,7 @@
      Для консультации звоните <b>+7 (495) 363-87-99</b>
 </p>
 <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+    <x-contact-technologist-btn></x-contact-technologist-btn>
 </p>
 <p align="center" style="text-align: left;">
      После завершения укладки не забывайте <a href="/ukhod-za-parketom/">ухаживать за паркетом</a>. Правильный и регулярный уход надолго избавит вас от необходимости циклевать паркет.
@@ -219,6 +219,6 @@
     <br></div>
 
 
-            
+
                 </article>
 @endsection

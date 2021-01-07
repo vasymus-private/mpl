@@ -1,9 +1,9 @@
-@extends('web.pages.page-layout')
+@extends('web.pages.page-service-layout')
 
 @section('page-content')
     <article class="article-content">
         <h1>Тонировка паркета</h1>
-                     
+
 <div class="news-detail">
                             <p>
      Хотите изменить цвет паркета – получите бесплатную, профессиональную консультацию, как это сделать без потерь.<br> +7 (926) 779 46 03 Владимир, инженер-технолог нашей компании.
@@ -54,7 +54,7 @@
      Закажите выезд инженера-технолога к вам на объект. Он составит экспертное заключение и предложит тонировку паркета в нескольких вариантах.
 </p>
 <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+    <x-contact-technologist-btn></x-contact-technologist-btn>
 </p>
 <div class="yellow-bg">
     <p align="center" style="text-align: left;">
@@ -115,7 +115,7 @@
      Лак или масло? Какое оборудование нужно? Какие материалы выбрать? Проконсультируйтесь с нашим специалистом – мы с удовольствием поможем вам. Оставьте ваш номер телефона.
 </p>
 <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+    <x-contact-technologist-btn></x-contact-technologist-btn>
 </p>
 <p>
  <b><span style="font-size: 24px;">Цена тонировки</span></b>
@@ -185,7 +185,7 @@
      После тонировки вы не узнаете ваш паркет. В эту фразу можно вложить разный смысл в зависимости от того, кто выполнял работу: «знакомый маляр» или профессиональная компания. Оставьте заявку ниже – мы составим заключение, предложим вам несколько вариантов решений, сделаем подбор цвета, пробное окрашивание, поможем с выбором экологичных материалов и проведём работы с помощью современного оборудования.
 </p>
 <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+    <x-contact-technologist-btn></x-contact-technologist-btn>
 </p>
 <p align="center">
      Некоторые стандартные цвета<b> </b>(тонировки паркета маслом можно смешивать между собой для придания паркету неповторимого оттенка)
@@ -239,6 +239,6 @@
     <br></div>
 
 
-            
+
                 </article>
 @endsection

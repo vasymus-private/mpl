@@ -1,9 +1,9 @@
-@extends('web.pages.page-layout')
+@extends('web.pages.page-service-layout')
 
 @section('page-content')
     <article class="article-content">
         <h1>Паркетная химия: просто о сложном</h1>
-                     
+
 <div class="news-detail">
                             <p>
     К нам в компанию «Современные Технологии Паркета» регулярно поступают запросы от клиентов – люди хотят купить паркетную химию и спрашивают совета, какую выбрать?
@@ -455,6 +455,6 @@
     <br></div>
 
 
-            
+
                 </article>
 @endsection

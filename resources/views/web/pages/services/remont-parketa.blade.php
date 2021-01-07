@@ -1,9 +1,9 @@
-@extends('web.pages.page-layout')
+@extends('web.pages.page-service-layout')
 
 @section('page-content')
     <article class="article-content">
         <h1>Ремонт паркета</h1>
-                     
+
 <div class="news-detail">
                             <p>
      Компания «Современные Технологии Паркета» предлагает вам свой 10-летний опыт, новейшие технологии и материалы для ремонта паркета до идеального состояния.
@@ -136,7 +136,7 @@
      Особенность реставрации в том, что после устранения причины нужно проводить <a href="/tsiklevka-parketa/" title="циклевка паркета">циклевку</a>. Именно эта завершающая часть влияет на внешний вид. Согласитесь, что нужно не только устранить скрипы, но и реставрировать паркет до идеального состояния.
 </p>
 <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+    <x-contact-technologist-btn></x-contact-technologist-btn>
 </p>
 <p style="text-align: center;">
  <b>Замена плашки и паркетной доски</b>
@@ -226,6 +226,6 @@
     <br></div>
 
 
-            
+
                 </article>
 @endsection

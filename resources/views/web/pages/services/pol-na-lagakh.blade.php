@@ -1,9 +1,9 @@
-@extends('web.pages.page-layout')
+@extends('web.pages.page-service-layout')
 
 @section('page-content')
     <article class="article-content">
         <h1>Пол на лагах под укладку паркета со сроком службы более 50 лет</h1>
-                     
+
 <div class="news-detail">
                             <h3 style="text-align: center;">Монтаж пола на лагах по бетонным опорам от 200 руб./м<sup>2</sup></h3>
 <p>
@@ -51,7 +51,7 @@
      Для консультации с инженером-технологом по устройству пола на лагах для паркета и плитки позвоните +7 (495) 363-87-99 или:
 </p>
 <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+    <x-contact-technologist-btn></x-contact-technologist-btn>
 </p>
  <br><h3 style="text-align: center;">О преимуществах пола на лагах для укладки паркета и плитки</h3>
 <div class="white-bg">
@@ -209,11 +209,11 @@
      Чтобы сделать правильный выбор, нужно каждый случай рассматривать отдельно. Мы разрабатываем проект специально для вас и помогаем вам выбрать оптимальный вариант. Позвоните <b>+7 (495) 363-87-99</b> или оставьте заявку:
 </p>
 <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+    <x-contact-technologist-btn></x-contact-technologist-btn>
 </p>        <div style="clear:both"></div>
     <br></div>
 
 
-            
+
                 </article>
 @endsection

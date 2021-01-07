@@ -2,8 +2,10 @@
 
 namespace App\Services\Breadcrumbs;
 
+use App\Models\Article;
 use App\Models\Category;
 use App\Models\Product\Product;
+use App\Models\Service;
 
 class Breadcrumbs
 {
@@ -80,6 +82,53 @@ class Breadcrumbs
             $breadcrumbs[] = new BreadcrumbDTO([
                 "name" => $subcategory3->name,
                 "url" => route("products.index", [$category->slug, $subcategory1->slug, $subcategory2->slug, $subcategory3->slug]),
+            ]);
+        }
+
+        return $breadcrumbs;
+    }
+
+    /**
+     * @param Service $service
+     *
+     * @return BreadcrumbDTO[]
+     * */
+    public static function serviceRoute(Service $service): array
+    {
+        return [
+            new BreadcrumbDTO([
+                "name" => "Главная",
+                "url" => route("home")
+            ]),
+            new BreadcrumbDTO([
+                "name" => $service->name,
+                "url" => null
+            ])
+        ];
+    }
+
+    /**
+     * @param Article $article
+     * @param Article|null $subarticle
+     *
+     * @return BreadcrumbDTO[]
+     * */
+    public static function articleRoute(Article $article, Article $subarticle = null): array
+    {
+        $breadcrumbs = [
+            new BreadcrumbDTO([
+                "name" => "Главная",
+                "url" => route("home")
+            ]),
+        ];
+        $breadcrumbs[] = new BreadcrumbDTO([
+            "name" => $article->name,
+            "url" => $subarticle === null ? null : route("articles.show", [$article->slug]),
+        ]);
+        if ($subarticle !== null) {
+            $breadcrumbs[] = new BreadcrumbDTO([
+                "name" => $subarticle->name,
+                "url" => null,
             ]);
         }
 

@@ -5,7 +5,7 @@
                 <a class="logo" href="{{route("home")}}">
                     <img alt="Parket Lux" title="Parket Lux" src="{{asset("images//logo.svg")}}">
                 </a>
-                <a class="toggle another-page" href="#"></a>
+                <a class="toggle @yield('toggle-class')" href="#"></a>
             </div>
             <div class="header-search-block hidden-sm hidden-xs">
                 <div class="search-block">

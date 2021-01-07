@@ -1,4 +1,4 @@
-<?php /** @var \App\Models\Product\Product[]|\Illuminate\Database\Eloquent\Collection $viewed */ ?>
+<?php /** @var \App\DTOs\ViewedDTO[]|\Illuminate\Database\Eloquent\Collection $viewed */ ?>
 @if($viewed->isNotEmpty())
 <div class="watched-block">
     <h4 class="watched-block__title">Вы смотрели</h4>
@@ -6,16 +6,18 @@
         @foreach($viewed as $viewedItem)
         <div class="row-line">
             <div class="column">
+                @if($viewedItem->image_url)
                 <a href="{{$viewedItem->web_route}}">
                     <img
                         width="40"
                         height="40"
                         align="left"
-                        src="{{$viewedItem->getFirstMediaUrl(\App\Models\Product\Product::MC_MAIN_IMAGE)}}"
+                        src="{{$viewedItem->image_url}}"
                         style="margin-right: 10px;"
                         alt="{{$viewedItem->name}}"
                     />
                 </a>
+                @endif
             </div>
             <div class="column">
                 <div class="product-special">

@@ -1,9 +1,9 @@
-@extends('web.pages.page-layout')
+@extends('web.pages.page-service-layout')
 
 @section('page-content')
     <article class="article-content">
         <h1>Укладка ламината</h1>
-                     
+
 <div class="news-detail">
                             <p align="center" style="text-align: left;">
      Ламинат (ламинированный паркет, ламинированное покрытие для пола) – многослойный материал на основе древесно-волокнистой плиты (ДВП), использующийся как имитация паркетного пола:
@@ -97,7 +97,7 @@
      Позвоните <b>+7 (495) 363-87-99 </b>и инженер-технолог компании «СТП» просчитает смету вашего проекта или
 </p>
 <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+ <x-contact-technologist-btn></x-contact-technologist-btn>
 </p>
 <p>
      Цена зависит от технологии укладки. Их две:
@@ -236,12 +236,12 @@
      Вам нужна консультация по укладке? Мы поможем вам и ответим на все вопросы – заполните форму обратной связи:
 </p>
 <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+    <x-contact-technologist-btn></x-contact-technologist-btn>
 </p>
  <span style="font-size: 9px;"> 03.04.15 - 79</span>        <div style="clear:both"></div>
     <br></div>
 
 
-            
+
                 </article>
 @endsection

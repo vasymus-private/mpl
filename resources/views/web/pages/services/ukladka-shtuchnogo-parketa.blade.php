@@ -1,9 +1,9 @@
-@extends('web.pages.page-layout')
+@extends('web.pages.page-service-layout')
 
 @section('page-content')
     <article class="article-content">
         <h1>Укладка штучного паркета</h1>
-                     
+
 <div class="news-detail">
                             <p align="center" style="text-align: left;">
      Решили уложить паркет – получите бесплатную, профессиональную консультацию по телефону +7 (926) 779 46 03 Владимир, инженер-технолог нашей компании.
@@ -109,7 +109,7 @@
     </p>
 </div>
 <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+    <x-contact-technologist-btn></x-contact-technologist-btn>
 </p>
 <p align="center" style="text-align: left;">
  <b> <br></b>
@@ -230,7 +230,7 @@
     </div>
 </div>
 <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+    <x-contact-technologist-btn></x-contact-technologist-btn>
 </p>
 <div class="white-bg">
     <p>
@@ -283,12 +283,12 @@
      Для консультации с инженером-технологом звоните <b>+7 (495) 363-87-99</b>
 </p>
 <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+    <x-contact-technologist-btn></x-contact-technologist-btn>
 </p>
  <br><div style="clear:both"></div>
     <br></div>
 
 
-            
+
                 </article>
 @endsection

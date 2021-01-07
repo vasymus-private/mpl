@@ -1,9 +1,9 @@
-@extends('web.pages.page-layout')
+@extends('web.pages.page-service-layout')
 
 @section('page-content')
     <article class="article-content">
         <h1>Паркетное оборудование</h1>
-                     
+
 <div class="news-detail">
                             <p style="text-align: center;">
 </p>
@@ -191,6 +191,6 @@
     <br></div>
 
 
-            
+
                 </article>
 @endsection

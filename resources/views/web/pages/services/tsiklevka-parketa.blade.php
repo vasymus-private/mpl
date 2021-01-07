@@ -1,9 +1,9 @@
-@extends('web.pages.page-layout')
+@extends('web.pages.page-service-layout')
 
 @section('page-content')
     <article class="article-content">
         <h1>Циклевка паркета без пыли на немецком оборудование LAGLER</h1>
-                     
+
 <div class="news-detail">
                             <p>
      Пришло время циклёвки паркета – получите бесплатную, профессиональную консультацию о всех возможным материалах и оборудованию. +7 (926) 779 46 03 Владимир, инженер-технолог нашей компании.
@@ -766,6 +766,6 @@
     <br></div>
 
 
-            
+
                 </article>
 @endsection

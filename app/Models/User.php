@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Pivots\ProductUserAside;
 use App\Models\Pivots\ProductUserCart;
 use App\Models\Pivots\ProductUserViewed;
+use App\Models\Pivots\ServiceUserViewed;
 use App\Models\Product\Product;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -49,6 +50,9 @@ use Illuminate\Notifications\Notifiable;
  *
  * @see User::viewed()
  * @property Product[]|Collection $viewed
+ *
+ * @see User::serviceViewed()
+ * @property Service[]|Collection $serviceViewed
  *
  * @see User::aside()
  * @property Product[]|Collection $aside
@@ -135,6 +139,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function viewed(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, ProductUserViewed::TABLE)->using(ProductUserViewed::class)->withPivot(["created_at"])->withTimestamps();
+    }
+
+    public function serviceViewed(): BelongsToMany
+    {
+        return $this->belongsToMany(Service::class, ServiceUserViewed::TABLE)->using(ServiceUserViewed::class)->withPivot(['created_at'])->withTimestamps();
     }
 
     public function aside(): BelongsToMany

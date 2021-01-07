@@ -1,9 +1,9 @@
-@extends('web.pages.page-layout')
+@extends('web.pages.page-service-layout')
 
 @section('page-content')
     <article class="article-content">
         <h1>Плинтусы и порожки для паркетного пола – самая полная статья</h1>
-                     
+
 <div class="news-detail">
                             <p>
      Любая модница скажет, что главное в деталях, а точнее – в аксессуарах.<br></p>
@@ -166,7 +166,7 @@
          Вам нужна бесплатная консультация специалиста прямо сейчас? Напишите нашему мастеру:
     </p>
     <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+        <x-contact-technologist-btn></x-contact-technologist-btn>
     </p>
 </div>
 <p>
@@ -277,13 +277,13 @@
          У вас остались вопросы по этой теме или связанной с паркетом? Задавайте их нашему мастеру в разделе «Вопрос-Ответ»:
     </p>
     <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+        <x-contact-technologist-btn></x-contact-technologist-btn>
     </p>
 </div>
  <br><div style="clear:both"></div>
     <br></div>
 
 
-            
+
                 </article>
 @endsection

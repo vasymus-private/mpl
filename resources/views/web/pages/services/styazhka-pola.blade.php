@@ -1,9 +1,9 @@
-@extends('web.pages.page-layout')
+@extends('web.pages.page-service-layout')
 
 @section('page-content')
     <article class="article-content">
         <h1>Стяжка пола для укладки паркета — «гарантия от 3-х лет» </h1>
-                     
+
 <div class="news-detail">
                             <p>
      Вам необходима стяжка – получите бесплатную, профессиональную консультацию о видах и технологиях стяжек.<br> +7 (926) 779 46 03 Владимир, инженер-технолог нашей компании.
@@ -151,7 +151,7 @@
      Для составления сметы и определения сроков работ нужен детальный анализ объекта. Его проводит инженер-технолог компании «СТП». Но прежде всего – бесплатная телефонная консультация. Позвоните <b>+7 (495) 363-87-99</b> и мы ответим на все ваши вопросы.
 </p>
 <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+    <x-contact-technologist-btn></x-contact-technologist-btn>
 </p>
 <p>
 </p>
@@ -265,11 +265,11 @@
      Поэтому наш инженер-технолог бесплатно консультирует вас. Заполните форму обратной связи или позвоните <b>+7 (495) 363-87-99</b>
 </p>
 <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+    <x-contact-technologist-btn></x-contact-technologist-btn>
 </p>        <div style="clear:both"></div>
     <br></div>
 
 
-            
+
                 </article>
 @endsection

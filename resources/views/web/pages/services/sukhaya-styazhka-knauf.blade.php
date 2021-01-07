@@ -1,9 +1,9 @@
-@extends('web.pages.page-layout')
+@extends('web.pages.page-service-layout')
 
 @section('page-content')
     <article class="article-content">
         <h1>Сухая стяжка Кнауф</h1>
-                     
+
 <div class="news-detail">
                             <p align="center" style="text-align: left;">
      Сухая стяжка – это гипсоволокнистые листы (ГВЛ), которые укладываются на слой сухой засыпки Кнауф. Пол также называется насыпным, но в России больше прижилось название «сухая стяжка Knauf».
@@ -157,11 +157,11 @@
      Мы рассказали вам о сухой стяжке, её плюсах и минусах, а также сравнили с другими основаниями. Чтобы не заблудиться в этом «лесу» информации, свяжитесь с нашим инженером-технологом <b>+7 (495) 363-87-99</b>. Он бесплатно проконсультирует вас:
 </p>
 <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+    <x-contact-technologist-btn></x-contact-technologist-btn>
 </p>        <div style="clear:both"></div>
     <br></div>
 
 
-            
+
                 </article>
 @endsection

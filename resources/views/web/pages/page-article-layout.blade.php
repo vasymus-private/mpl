@@ -12,7 +12,8 @@
         <div class="row-line no-margin">
             @include('web.layouts.sidebar-menu')
 
-            <div class="content product">
+            <div class="catalog @yield('page-content-wrapper-class')">
+                <x-breadcrumbs :breadcrumbs="$breadcrumbs"></x-breadcrumbs>
                 @yield('page-content')
             </div>
         </div>

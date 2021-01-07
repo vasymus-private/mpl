@@ -1,9 +1,9 @@
-@extends('web.pages.page-layout')
+@extends('web.pages.page-service-layout')
 
 @section('page-content')
     <article class="article-content">
         <h1>Уход за паркетом (чистка паркета)</h1>
-                     
+
 <div class="news-detail">
                             <p>
      Профессиональная чистка паркета – это современное оборудование плюс специальные средства для уборки и восстановления лаковой пленки или масляного покрытия. В процессе ухода удаляются мелкие царапины, жирные пятна, въевшаяся грязь – паркет становится как новый.
@@ -79,7 +79,7 @@
      или заполните форму обратной связи
 </p>
 <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+    <x-contact-technologist-btn></x-contact-technologist-btn>
 </p>
 <p align="center">
  <b>ДЛЯ ЮРИДИЧЕСКИХ ЛИЦ – НОЧНЫЕ СМЕНЫ</b>
@@ -126,7 +126,7 @@
     </p>
 </div>
 <p class="text-center">
- <a href="#" class="show_form btn btn-primary btn-lg connect-btn">Связаться с технологом</a>
+    <x-contact-technologist-btn></x-contact-technologist-btn>
 </p>
 <p style="text-align: center;">
  <b>Рекомендации</b>
@@ -149,6 +149,6 @@
     <br></div>
 
 
-            
+
                 </article>
 @endsection
