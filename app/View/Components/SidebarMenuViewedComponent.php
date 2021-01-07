@@ -37,7 +37,9 @@ class SidebarMenuViewedComponent extends Component
             }
         ]);
         $this->viewed = $user->viewed->merge($user->serviceViewed)
-                    ->sortByDesc("pivot_created_at")
+                    ->sort(function(Model $itemA, Model $itemB) {
+                        return $itemA->pivot_created_at - $itemB->pivot_created_at;
+                    })
                     ->map(function(Model $item) {
                         $web_route = $item instanceof Product
                                         ? $item->web_route
