@@ -44,6 +44,40 @@
                     </p>
                 </li>
             </ul>
+            <div class="sidebar-faq-block">
+                <h4 class="sidebar-faq-block__title">Вопросы и ответы:</h4>
+                <div class="sidebar-faq-block__row">
+                	<div class="sidebar-faq-block__content">
+                		 <p>Хочу сделать пол на лагах в новостройке. Фото и план прилагаю.</p>
+                		 <p>Прошу смету:</p>
+                		 <p><u>На первый этап</u></p>
+                		 <p>...</p>
+                    </div>
+                	<div class="sidebar-faq-block__more">
+                		<a href="#">Читать полностью</a>
+                	</div>
+                </div>
+                <div class="sidebar-faq-block__row">
+                	<div class="sidebar-faq-block__content">
+                	    <p>Добрый день!</p>
+                	    <p>Я живу в старом доме. Деревянные полы не ровные. Перепад от стен до центра комнаты до 4 см. Хочу...</p>
+                 	</div>
+                	<div class="sidebar-faq-block__more">
+                		<a href="#">Читать полностью</a>
+                	</div>
+                </div>
+                <div class="sidebar-faq-block__row">
+                	<div class="sidebar-faq-block__content">
+                		 <p>Здравствуйте! Скрипит паркет. Срочно надо устранить скрип. Циклевать, и т.д. срочно.</p>
+                	</div>
+                	<div class="sidebar-faq-block__more">
+                		<a href="#">Читать полностью</a>
+                	</div>
+                </div>
+                <div class="sidebar-faq-block__apply-question">
+                    <a href="/ask/">Задать свой вопрос</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
