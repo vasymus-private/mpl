@@ -6,6 +6,7 @@ use App\DTOs\ViewedDTO;
 use App\Models\Product\Product;
 use App\Models\Service;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -36,9 +37,26 @@ class SidebarMenuViewedComponent extends Component
                 $query->orderBy("pivot_created_at", "desc")->limit(5);
             }
         ]);
+
         $this->viewed = $user->viewed->merge($user->serviceViewed)
                     ->sort(function(Model $itemA, Model $itemB) {
-                        return $itemA->pivot_created_at - $itemB->pivot_created_at;
+                        $aCreatedAt = $itemA->pivot->created_at ?? null;
+                        $bCreatedAt = $itemB->pivot->created_at ?? null;
+
+                        $aCreatedAt = $aCreatedAt instanceof Carbon
+                                        ? $aCreatedAt->getTimestamp()
+                                        : (Carbon::canBeCreatedFromFormat($aCreatedAt, "Y-m-d H:i:s")
+                                            ? Carbon::createFromFormat($aCreatedAt, "Y-m-d H:i:s")->getTimestamp()
+                                            : null)
+                        ;
+                        $bCreatedAt = $bCreatedAt instanceof Carbon
+                                        ? $bCreatedAt->getTimestamp()
+                                        : (Carbon::canBeCreatedFromFormat($bCreatedAt, "Y-m-d H:i:s")
+                                            ? Carbon::createFromFormat($bCreatedAt, "Y-m-d H:i:s")->getTimestamp()
+                                            : null)
+                        ;
+
+                        return $bCreatedAt - $aCreatedAt;
                     })
                     ->map(function(Model $item) {
                         $web_route = $item instanceof Product
