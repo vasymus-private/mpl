@@ -105,7 +105,7 @@
                         <div class="product-variants__photo">
                             <a
                                 href="{{$variation->main_image_url}}"
-                                data-fancybox="variation-image-loop-{{$loop->index + 1}}"
+                                data-fancybox="variation-image-link-loop-{{$loop->index + 1}}"
                             >
                                 <img
                                     src="{{$variation->main_image_url}}"

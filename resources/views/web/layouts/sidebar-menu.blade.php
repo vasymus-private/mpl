@@ -4,8 +4,8 @@
  * @var int $asideCount
  * */
 ?>
-<div class="sidebar-left">
-    <div class="inner-wrapper-sticky">
+<div class="sidebar-left js-sticky-sidebar">
+    <div class="inner-wrapper-sticky js-inner-wrapper-sticky">
         <div class="sidebar-left__inner">
             <x-sidebar-menu-services />
 

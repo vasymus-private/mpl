@@ -17,6 +17,7 @@ import sidebarMenu from './modules/sidebarMenu'
 import accordionMob from './modules/accordionMob'
 import slimScroll from './modules/slimScroll'
 import showSearchBlock from './modules/showSearchBlock'
+import './modules/stickySidebar'
 import "./modules/cart"
 import "./modules/putProductAside"
 import "./modules/product-sliders"
