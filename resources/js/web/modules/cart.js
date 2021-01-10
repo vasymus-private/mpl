@@ -40,6 +40,8 @@ import Products from '../Products'
         let $cartRestores = $(".js-cart-restore")
         let $cartDestroys = $(".js-cart-destroy")
 
+        const TIMEOUT_MS = 4000
+
         handleSidebarCartMenu()
 
         handleCartPage()
@@ -241,12 +243,15 @@ import Products from '../Products'
 
         function tooltip() {
             isTooltip = true
-            $addToCartCountsTooltip.tooltip("show")
+            $addToCartCountsTooltip.each((ind, el) => {
+                let $el = $(el)
+                if ($el.is(":visible")) $el.tooltip("show")
+            })
 
             tooltipTimeout = setTimeout(() => {
                 $addToCartCountsTooltip.tooltip("hide")
                 isTooltip = false
-            }, 3000)
+            }, TIMEOUT_MS)
         }
 
         function clearTooltip() {
@@ -262,7 +267,7 @@ import Products from '../Products'
             animationTimeout = setTimeout(() => {
                 $addToCartCountsAnimate.removeClass(animationClass)
                 isAnimating = false
-            }, 3000)
+            }, TIMEOUT_MS)
         }
 
         function clearAnimation() {
