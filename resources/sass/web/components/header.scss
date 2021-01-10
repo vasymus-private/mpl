@@ -132,7 +132,7 @@
   }
   &.another-page {
     display: block;
-    @media (min-width: 876px) {
+    @media (min-width: 1000px) {
       display: none;
     }
   }

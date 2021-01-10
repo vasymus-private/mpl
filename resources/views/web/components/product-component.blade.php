@@ -123,7 +123,7 @@
                     <td>
                         <h3 class="product-variants__title">
                             <a
-                                href="#"
+                                href="javascript:void(0)"
                                 data-toggle="tooltip"
                                 data-placement="top"
                                 title="{!! $variation->preview !!}"
@@ -210,7 +210,7 @@
                         <div class="block-text-product">
                             <h4 class="product-variants__title">
                                 <a
-                                    href="#"
+                                    href="javascript:void(0)"
                                     class="pointer link-text"
                                     data-toggle="tooltip"
                                     data-placement="top"
@@ -361,7 +361,7 @@
                                 <div class="slider-blocker__item">
                                     <h3 class="slider-blocker__title"><a class="slider-blocker__link" href="#">{!! $item->name !!}</a></h3>
                                     <div class="slider-blocker__photo">
-                                        <img src="{{$item->main_image_url}}" alt="">
+                                        <a href="#"><img src="{{$item->main_image_url}}" alt=""></a>
                                     </div>
                                     <div class="slider-blocker__text-center">
                                         <span class="slider-blocker__cost">{{$item->price_retail_rub_formatted}}</span>
@@ -402,7 +402,7 @@
                                 <div class="slider-blocker__item">
                                     <h3 class="slider-blocker__title"><a class="slider-blocker__link" href="#">{!! $item->name !!}</a></h3>
                                     <div class="slider-blocker__photo">
-                                        <img src="{{$item->main_image_url}}" alt="">
+                                        <a href="#"><img src="{{$item->main_image_url}}" alt=""></a>
                                     </div>
                                     <div class="slider-blocker__text-center">
                                         <span class="slider-blocker__cost">{{$item->price_retail_rub_formatted}}</span>
@@ -443,7 +443,7 @@
                                 <div class="slider-blocker__item">
                                     <h3 class="slider-blocker__title"><a class="slider-blocker__link" href="#">{!! $item->name !!}</a></h3>
                                     <div class="slider-blocker__photo">
-                                        <img src="{{$item->main_image_url}}" alt="">
+                                        <a href="#"><img src="{{$item->main_image_url}}" alt=""></a>
                                     </div>
                                     <div class="slider-blocker__text-center">
                                         <span class="slider-blocker__cost">{{$item->price_retail_rub_formatted}}</span>
