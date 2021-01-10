@@ -1,0 +1,27 @@
+.photo-gallery-wrapper {
+    background: #fff;
+    border: 1px solid #cfcfcf;
+    padding: 15px;
+    &__title {
+        color: #0068c8;
+        font-size: 34px;
+        font-weight: bold;
+        background: url(../images/border.png) bottom left no-repeat;
+        padding-bottom: 10px;
+        margin: 0 0 20px;
+    }
+
+    &__list {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    &__item {
+        margin-right: 33px;
+        margin-top: 20px;
+        position: relative;
+    }
+}

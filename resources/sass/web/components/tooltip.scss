@@ -1,0 +1,16 @@
+.tooltip {
+    &.show {
+        opacity: 1;
+    }
+    .tooltip-inner {
+        background: #cfe !important;
+        color: #000;
+        font-size: 14px;
+        line-height: 1;
+        font-weight: bold;
+        padding: 10px 15px;
+    }
+    .arrow::before {
+        border-bottom-color: #cfe !important;
+    }
+}
