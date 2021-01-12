@@ -110,14 +110,12 @@ import Products from '../Products'
             ajaxDestroy(id)
                 .then(response => {
                     let {data: cartItems} = response
-                    Products.setCartIds(cartItems.map(item => item.id))
+                    Products.setCartItems(cartItems)
                     handleAnimate()
-                    handleRenderSidebarMenuCartList(cartItems)
-                    handleUpadeCount(cartItems)
+                    handleRenderSidebarMenuCartList()
+                    handleUpadeCount()
 
-                    let item = cartItems.find((it) => it.id === id)
-
-                    if (!item) {
+                    if (!Products.isInCartWithTrashed(id)) {
                         getCartRow$(id).remove()
                     }
                 })
@@ -127,24 +125,27 @@ import Products from '../Products'
             ajaxSoftDelete(id, shouldDelete)
                 .then(response => {
                     let {data: cartItems} = response
-                    Products.setCartIds(cartItems.map(item => item.id))
+                    Products.setCartItems(cartItems)
                     handleAnimate()
-                    handleRenderSidebarMenuCartList(cartItems)
-                    handleUpadeCount(cartItems)
+                    handleRenderSidebarMenuCartList()
+                    handleUpadeCount()
 
-                    let item = cartItems.find((it) => it.id === id)
-                    if (item && item.deleted_at) {
+                    console.log(Products.isInCart(id), Products.isInCartWithTrashed(id))
+
+                    if (Products.isInCart(id)) {
+                        let $cartRow = getCartRow$(id)
+                        $cartRow.removeClass("deleted-row")
+                        getCartColumnCountPartNormal$(id).show()
+                        getCartColumnCountPartDeleted$(id).hide()
+                        getCartDelete$(id).show()
+                    } else if (Products.isInCartWithTrashed(id)) {
                         let $cartRow = getCartRow$(id)
                         $cartRow.addClass("deleted-row")
                         getCartColumnCountPartNormal$(id).hide()
                         getCartColumnCountPartDeleted$(id).show()
                         getCartDelete$(id).hide()
                     } else {
-                        let $cartRow = getCartRow$(id)
-                        $cartRow.removeClass("deleted-row")
-                        getCartColumnCountPartNormal$(id).show()
-                        getCartColumnCountPartDeleted$(id).hide()
-                        getCartDelete$(id).show()
+                        console.warn("Something wrong. This item should not be force deleted.")
                     }
                 })
         }
@@ -153,16 +154,16 @@ import Products from '../Products'
             ajaxChangeCount(id, count, "new")
                 .then(response => {
                     let {data: cartItems} = response
-                    Products.setCartIds(cartItems.map(item => item.id))
+                    Products.setCartItems(cartItems)
                     handleAnimate()
-                    handleRenderSidebarMenuCartList(cartItems)
-                    handleUpadeCount(cartItems)
+                    handleRenderSidebarMenuCartList()
+                    handleUpadeCount()
 
-                    let item = cartItems.find((it) => it.id === id)
+                    let item = Products.find(id)
                     if (item) {
                         $input.val(item.count || 1)
                         let $cartItemSumFormatted = getCartItemSumFormatted$(id)
-                        $cartItemSumFormatted.text(`${(item.count || 1) * item.price_rub} р`)
+                        $cartItemSumFormatted.text(`${(item.count || 1) * item.price_rub} ${item.currency_rub_formatted}`)
                     }
                 })
         }
@@ -190,11 +191,11 @@ import Products from '../Products'
                         ajaxChangeCount(id, count)
                             .then(response => {
                                 let {data: cartItems} = response
-                                Products.setCartIds(cartItems.map(item => item.id))
+                                Products.setCartItems(cartItems)
                                 handleAnimate()
                                 handleTooltip()
-                                handleRenderSidebarMenuCartList(cartItems)
-                                handleUpadeCount(cartItems)
+                                handleRenderSidebarMenuCartList()
+                                handleUpadeCount()
 
                                 return response
                             })
@@ -202,11 +203,11 @@ import Products from '../Products'
                         ajaxAddNewItemToCart(id, count)
                             .then((response) => {
                                 let {data: cartItems} = response
-                                Products.setCartIds(cartItems.map(item => item.id))
+                                Products.setCartItems(cartItems)
                                 handleAnimate()
                                 handleTooltip()
-                                handleRenderSidebarMenuCartList(cartItems)
-                                handleUpadeCount(cartItems)
+                                handleRenderSidebarMenuCartList()
+                                handleUpadeCount()
                                 $addToCart.text("Добавить")
 
                                 return response
@@ -276,8 +277,8 @@ import Products from '../Products'
             $addToCartCountsAnimate.removeClass(animationClass)
         }
 
-        function handleRenderSidebarMenuCartList(cartItems = []) {
-            if (cartItems.filter(item => item.deleted_at === null).length) {
+        function handleRenderSidebarMenuCartList() {
+            if (Products.getCartItems().length) {
                 $sidebarMenuCart.show()
             } else {
                 $sidebarMenuCart.hide()
@@ -285,7 +286,7 @@ import Products from '../Products'
 
             let newHtml = ""
 
-            cartItems.slice(0, 10).forEach(({name, price_formatted, unit, count, route, price_name}) => {
+            Products.getCartItems().slice(0, 10).forEach(({name, price_formatted, unit, count, route, price_name}) => {
                 newHtml += Mustache.render(sidebarMenuTemplate, {
                     url: route,
                     name,
@@ -298,18 +299,13 @@ import Products from '../Products'
 
             $sidebarMenuCartList.html(newHtml)
 
-            let totalSum = cartItems.reduce((acc, {price_rub, count}) => {
-                return acc += (price_rub * count)
-            }, 0)
+            let totalSum = Products.getCartItemsTotalPrice()
 
             $totalSumFormatted.html(`${numberWithSpaces(totalSum)} р`)
         }
 
-        function handleUpadeCount(cartItems = []) {
-            let count = cartItems.reduce((acc, item) => {
-                return acc += (item.count || 1)
-            }, 0)
-            $addToCartCounts.text(count)
+        function handleUpadeCount() {
+            $addToCartCounts.text(Products.getCartItemsCount())
         }
 
         function ajaxAddNewItemToCart(id, count, $btn) {

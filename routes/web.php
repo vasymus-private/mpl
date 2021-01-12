@@ -93,6 +93,8 @@ Route::middleware(["anonymous-uid", "create-anonymous"])->group(function() {
 
     Route::get('cart', [\App\Http\Controllers\Web\CartController::class, "show"])->name("cart.show");
 
+    Route::post("cart-checkout", [\App\Http\Controllers\Web\CartCheckoutController::class])->name("cart.checkout");
+
     Route::get("/{service_slug}", [\App\Http\Controllers\Web\ServicesController::class, "show"])->name("services.show");
 
     Route::get("/", [\App\Http\Controllers\Web\HomeController::class, "index"])->name("home");

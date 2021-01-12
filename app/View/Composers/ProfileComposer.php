@@ -2,6 +2,7 @@
 
 namespace App\View\Composers;
 
+use App\Http\Resources\Web\Ajax\CartProductResource;
 use App\Models\Product\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -29,7 +30,11 @@ class ProfileComposer
 
         $cartIds = $user->cart->pluck("id")->toArray();
 
-        $cartCount = $user->cart->reduce(function(int $acc, Product $product) {
+        $cartItems = CartProductResource::collection($user->cart);
+
+        $cartCount = $user->cart->filter(function(Product $product) {
+            return ($product->pivot->deleted_at ?? null) === null;
+        })->reduce(function(int $acc, Product $product) {
             return $acc += ($product->pivot->count ?? 1);
         }, 0);
 
@@ -38,6 +43,7 @@ class ProfileComposer
             ->with("asideCount", count($asideIds))
             ->with("asideIds", $asideIds)
             ->with("cartIds", $cartIds)
+            ->with("cartItems", $cartItems)
         ;
     }
 }

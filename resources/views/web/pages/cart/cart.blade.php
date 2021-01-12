@@ -5,7 +5,8 @@
 
     <a href="#" class="js-back">Вернуться</a>
 
-    <form action="#" id="form-order">
+    <form action="{{route("cart.checkout")}}" method="POST" enctype="multipart/form-data" id="form-order">
+        @csrf
         <div>
             <label for="name">Имя:</label>
         </div>
@@ -55,7 +56,7 @@
                 <?php /** @var \App\Models\Product\Product $cartProduct */ ?>
                 <tr class="js-cart-row {{ ($cartProduct->pivot->deleted_at ?? null) !== null ? "deleted-row" : "" }}" data-id="{{$cartProduct->id}}">
                     <td>
-                        <img src="{{$cartProduct->getFirstMediaUrl(\App\Models\Product\Product::MC_MAIN_IMAGE)}}" alt="" style="max-width: 40px;" />
+                        <img src="{{$cartProduct->main_image_url}}" alt="" style="max-width: 40px;" />
                         {!! $cartProduct->name !!}
                     </td>
                     <td>
@@ -93,13 +94,13 @@
     <div>
         <p><b><label for="comment">Вы можете оставить комментарий:</label></b></p>
         <div>
-            <textarea name="comment" id="comment" style="width: 100%; min-height: 50px;" placeholder="Адрес доставки или самовывоз. Удобный способ оплаты."></textarea>
+            <textarea name="comment" id="comment" form="form-order" style="width: 100%; min-height: 50px;" placeholder="Адрес доставки или самовывоз. Удобный способ оплаты."></textarea>
         </div>
     </div>
     <div>
         <p><b><label for="file">Вы можете прикрепить файл:</label></b></p>
         <div>
-            <input type="file" id="file" name="file" />
+            <input form="form-order" type="file" id="file" name="file" />
         </div>
     </div>
     <div>
