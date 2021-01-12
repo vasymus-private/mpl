@@ -3,7 +3,7 @@
 namespace App\Http\Requests\Web\Ajax;
 
 use App\Models\Product\Product;
-use App\Models\User;
+use App\Models\User\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Http\FormRequest;

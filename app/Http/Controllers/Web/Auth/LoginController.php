@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Web\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\User\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -62,7 +62,7 @@ class LoginController extends Controller
     {
         $uid = $request->cookie("anonymous_uid");
         if ($uid === null) throw new \LogicException("No uid provided");
-        /** @var User|null $uidUser */
+        /** @var \App\Models\User\User|null $uidUser */
         $uidUser = User::query()->where(User::TABLE . ".anonymous_uid", $uid)->first();
 
         User::mergeUidUser($uidUser, $user);

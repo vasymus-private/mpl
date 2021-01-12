@@ -4,7 +4,7 @@ namespace App\View\Composers;
 
 use App\Http\Resources\Web\Ajax\CartProductResource;
 use App\Models\Product\Product;
-use App\Models\User;
+use App\Models\User\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
@@ -18,7 +18,7 @@ class ProfileComposer
      */
     public function compose(View $view)
     {
-        /** @var User $user */
+        /** @var \App\Models\User\User $user */
         $user = Auth::user();
 
         if (!$user) return;
@@ -32,9 +32,7 @@ class ProfileComposer
 
         $cartItems = CartProductResource::collection($user->cart);
 
-        $cartCount = $user->cart->filter(function(Product $product) {
-            return ($product->pivot->deleted_at ?? null) === null;
-        })->reduce(function(int $acc, Product $product) {
+        $cartCount = $user->cart->pivotNotTrashed()->reduce(function(int $acc, Product $product) {
             return $acc += ($product->pivot->count ?? 1);
         }, 0);
 

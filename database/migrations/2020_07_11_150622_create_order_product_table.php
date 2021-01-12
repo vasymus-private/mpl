@@ -19,7 +19,7 @@ class CreateOrderProductTable extends Migration
             $table->integer('count')->default(1);
             $table->double('price_purchase');
             $table->double('price_retail');
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->primary(['order_id', 'product_id']);
         });
     }

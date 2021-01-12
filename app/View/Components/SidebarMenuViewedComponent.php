@@ -5,7 +5,7 @@ namespace App\View\Components;
 use App\DTOs\ViewedDTO;
 use App\Models\Product\Product;
 use App\Models\Service;
-use App\Models\User;
+use App\Models\User\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -27,7 +27,7 @@ class SidebarMenuViewedComponent extends Component
      */
     public function __construct()
     {
-        /** @var User $user */
+        /** @var \App\Models\User\User $user */
         $user = Auth::user();
         $user->load([
             "viewed" => function(BelongsToMany $query) {

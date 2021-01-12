@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\Common\Common;
 use Closure;
 use Illuminate\Support\Facades\Log;
 
@@ -22,7 +23,7 @@ class AnonymousUid
             $cookie->queue(
                 $cookie->forever(
                     "anonymous_uid",
-                    $uid = uniqid(rand()),
+                    $uid = Common::uuid(),
                     null,
                     null,
                     null,

@@ -8,6 +8,8 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 /**
  * @property int $id
@@ -33,11 +35,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @see Order::products()
  * @property Collection|Product[] $products
  * */
-class Order extends BaseModel
+class Order extends BaseModel implements HasMedia
 {
     use SoftDeletes;
+    use HasMediaTrait;
 
     const TABLE = "orders";
+
+    const MC_INITIAL_ATTACHMENT = "initial-attachment";
+    const MC_PAYMENT_METHOD_ATTACHMENT = "payment-method-attachment";
 
     /**
      * The table associated with the model.
@@ -65,5 +71,12 @@ class Order extends BaseModel
                 "name",
             ])
         ;
+    }
+
+    public function registerMediaCollections()
+    {
+        $this->addMediaCollection(static::MC_INITIAL_ATTACHMENT);
+
+        $this->addMediaCollection(static::MC_PAYMENT_METHOD_ATTACHMENT);
     }
 }

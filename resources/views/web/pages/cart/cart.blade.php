@@ -98,9 +98,9 @@
         </div>
     </div>
     <div>
-        <p><b><label for="file">Вы можете прикрепить файл:</label></b></p>
+        <p><b><label for="attachment">Вы можете прикрепить файл:</label></b></p>
         <div>
-            <input form="form-order" type="file" id="file" name="file" />
+            <input form="form-order" type="file" id="attachment" name="attachment" />
         </div>
     </div>
     <div>

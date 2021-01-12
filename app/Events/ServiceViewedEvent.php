@@ -3,7 +3,7 @@
 namespace App\Events;
 
 use App\Models\Service;
-use App\Models\User;
+use App\Models\User\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -17,7 +17,7 @@ class ServiceViewedEvent
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * @var User
+     * @var \App\Models\User\User
      * */
     public $user;
 
@@ -29,7 +29,7 @@ class ServiceViewedEvent
     /**
      * Create a new event instance.
      *
-     * @param User $user
+     * @param \App\Models\User\User $user
      * @param Service $service
      *
      * @return void

@@ -7,7 +7,7 @@ use App\Models\AvailabilityStatus;
 use App\Models\BaseModel;
 use App\Models\Category;
 use App\Models\Currency;
-use App\Models\User;
+use App\Models\User\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -345,6 +345,12 @@ class Product extends BaseModel implements HasMedia
         $this->addMediaCollection(static::MC_FILES);
     }
 
+    public function newCollection(array $models = [])
+    {
+        return new ProductCollection($models);
+    }
+
+
     public function scopeActive(Builder $builder): Builder
     {
         return $builder->where(static::TABLE . ".is_active", true);
@@ -485,7 +491,7 @@ class Product extends BaseModel implements HasMedia
 
     public function getIsInCartAttribute(): ?bool
     {
-        /** @var User|null $user */
+        /** @var \App\Models\User\User|null $user */
         $user = Auth::user();
         if (!$user) return null;
 

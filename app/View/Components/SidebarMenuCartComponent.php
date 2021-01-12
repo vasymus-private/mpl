@@ -5,7 +5,7 @@ namespace App\View\Components;
 use App\H;
 use App\Models\Currency;
 use App\Models\Product\Product;
-use App\Models\User;
+use App\Models\User\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Component;
