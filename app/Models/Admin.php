@@ -29,7 +29,7 @@ class Admin extends User implements HasMedia
         });
     }
 
-    public static function firstOrCreateAnonymous(string $anonymousUid): User
+    public static function firstOrCreateViaSessionUuid(string $anonymousUid): User
     {
         throw new \LogicException("Can not create anonymous admin");
     }

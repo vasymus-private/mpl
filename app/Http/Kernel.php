@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Constants;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -63,7 +64,7 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'anonymous-uid' => \App\Http\Middleware\AnonymousUid::class,
-        'create-anonymous' => \App\Http\Middleware\AuthenticateAnonymousUser::class,
+        Constants::MIDDLEWARE_SESSION_UUID => \App\Http\Middleware\SessionUuid::class,
+        Constants::MIDDLEWARE_AUTHENTICATE_SESSION_UUID_USER => \App\Http\Middleware\AuthenticateSessionUuidUser::class,
     ];
 }

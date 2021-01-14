@@ -6,7 +6,7 @@ use App\Services\Common\Common;
 use Closure;
 use Illuminate\Support\Facades\Log;
 
-class AnonymousUid
+class SessionUuid
 {
     /**
      * Handle an incoming request.
@@ -17,12 +17,12 @@ class AnonymousUid
      */
     public function handle($request, Closure $next)
     {
-        $uid = $request->cookie("anonymous_uid");
+        $uid = $request->cookie("session_uuid");
         $cookie = cookie();
         if ($uid === null) {
             $cookie->queue(
                 $cookie->forever(
-                    "anonymous_uid",
+                    "session_uuid",
                     $uid = Common::uuid(),
                     null,
                     null,
@@ -30,7 +30,7 @@ class AnonymousUid
                     false
                 )
             );
-            $request->cookies->add(["anonymous_uid" => $uid]);
+            $request->cookies->add(["session_uuid" => $uid]);
         }
 
         return $next($request);

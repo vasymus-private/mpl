@@ -30,7 +30,8 @@ use Illuminate\Notifications\Notifiable;
  * @property string|null $password
  * @property string|null $remember_token
  *
- * @property string|null $anonymous_uid
+ * @property string|null $session_uuid
+ * @property string|null $credentials_session_uuid
  *
  * @property string|null $phone
  *
@@ -113,16 +114,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at',
     ];
 
-    public static function mergeUidUser(self $uidUser = null, self $user)
+    public static function firstOrCreateViaSessionUuid(string $sessionUid): self
     {
-        // TODO implement
-    }
-
-    public static function firstOrCreateAnonymous(string $anonymousUid): self
-    {
-        return static::unguarded(function() use($anonymousUid) {
+        return static::unguarded(function() use($sessionUid) {
             return static::firstOrCreate([
-                "anonymous_uid" => $anonymousUid,
+                "session_uuid" => $sessionUid,
             ]);
         });
     }
@@ -139,7 +135,18 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getIsAnonymousAttribute(): bool
     {
-        return $this->email === null && (bool) $this->anonymous_uid;
+        return
+                empty($this->credentials_session_uuid) ||
+                empty($this->session_uuid) ||
+                $this->session_uuid !== $this->credentials_session_uuid
+        ;
+    }
+
+    public function recognizeAnonymous(string $uuid)
+    {
+        $this->session_uuid = $uuid;
+        $this->credentials_session_uuid = $uuid;
+        $this->save();
     }
 
     public function cart(): BelongsToMany

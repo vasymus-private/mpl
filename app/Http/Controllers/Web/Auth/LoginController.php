@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web\Auth;
 
+use App\Exceptions\NoSessionUuidException;
 use App\Http\Controllers\Controller;
 use App\Models\User\User;
 use App\Providers\RouteServiceProvider;
@@ -50,21 +51,24 @@ class LoginController extends Controller
         return view("web.pages.auth.login");
     }
 
-
     /**
      * The user has been authenticated.
      *
      * @param \Illuminate\Http\Request $request
-     * @param mixed $user
+     * @param mixed|User $user
      * @return mixed
      */
     protected function authenticated(Request $request, $user)
     {
-        $uid = $request->cookie("anonymous_uid");
-        if ($uid === null) throw new \LogicException("No uid provided");
-        /** @var \App\Models\User\User|null $uidUser */
-        $uidUser = User::query()->where(User::TABLE . ".anonymous_uid", $uid)->first();
+        $uuid = $request->cookie("session_uuid");
 
-        User::mergeUidUser($uidUser, $user);
+        if ($uuid === null) throw new NoSessionUuidException();
+
+        /** @var User|null $uidUser */
+        $uidUser = User::query()->where(User::TABLE . ".session_uuid", $uuid)->first();
+
+        $user->recognizeAnonymous($uuid);
+
+
     }
 }

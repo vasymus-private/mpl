@@ -52,6 +52,8 @@ class CartCheckoutRequest extends FormRequest
             if ($user->cart->pivotNotTrashed()->isEmpty()) {
                 $validator->errors()->add("cart", "У вас пустая корзина.");
             }
+
+
         });
     }
 }
