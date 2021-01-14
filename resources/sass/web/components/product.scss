@@ -3,11 +3,14 @@
     margin: 0 0 10px;
       align-items: center;
     .column {
-      width: 50%;
-      &:last-child {
-        justify-content: flex-end;
-        display: flex;
-      }
+        width: 50%;
+        @media (max-width: 600px) {
+            width: 100%;
+        }
+        &:last-child {
+            justify-content: flex-end;
+            display: flex;
+        }
     }
   }
 
@@ -33,6 +36,9 @@
     background: url(../images/back-product-arrow.svg) no-repeat;
     text-decoration: none;
     text-align: right;
+      @media (max-width: 600px) {
+          display: none;
+      }
   }
 
   .product-line {
