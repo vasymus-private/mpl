@@ -130,8 +130,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $user;
     }
 
-
-
     /**
      * Create a new Eloquent query builder for the model.
      *
