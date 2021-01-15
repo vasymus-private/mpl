@@ -65,7 +65,7 @@ class LoginController extends Controller
         if ($uuid === null) throw new NoSessionUuidException();
 
         /** @var User|null $uidUser */
-        $uidUser = User::query()->where(User::TABLE . ".session_uuid", $uuid)->first();
+        $uidUser = User::query()->where("session_uuid", $uuid)->first();
 
         $user->recognizeAnonymous($uuid);
 

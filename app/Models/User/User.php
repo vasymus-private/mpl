@@ -13,10 +13,13 @@ use App\Models\Pivots\ServiceUserViewed;
 use App\Models\Product\Product;
 use App\Models\Product\ProductCollection;
 use App\Models\Service;
+use App\Models\UserSessionUuid;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -30,14 +33,11 @@ use Illuminate\Notifications\Notifiable;
  * @property string|null $password
  * @property string|null $remember_token
  *
- * @property string|null $session_uuid
- * @property string|null $credentials_session_uuid
- *
  * @property string|null $phone
  *
- * @property Carbon $created_at
- * @property Carbon $updated_at
- * @property Carbon $deleted_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
  *
  * @property Carbon|null $email_verified_at
  *
@@ -46,10 +46,10 @@ use Illuminate\Notifications\Notifiable;
  * @property bool $isAdmin
  *
  * @see User::getIsSuperAdminAttribute()
- * @property bool $isSuperAdmin
+ * @property bool $is_super_admin
  *
  * @see User::getIsAnonymousAttribute()
- * @property bool $isAnonymous
+ * @property bool $is_anonymous
  *
  * @see User::products()
  * @property Product[]|ProductCollection $products
@@ -69,6 +69,14 @@ use Illuminate\Notifications\Notifiable;
  * @see User::orders()
  * @property Order[]|Collection $orders
  *
+ * @see User::userSessionUuids()
+ * @property UserSessionUuid[]|Collection $userSessionUuids
+ *
+ * @see User::setCurrentSessionUuid()
+ * @property UserSessionUuid|null $currentSessionUuid
+ *
+ * @method static static|UserQueryBuilder query()
+ *
  * @mixin BaseModel
  * */
 class User extends Authenticatable implements MustVerifyEmail
@@ -81,13 +89,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     const ADMIN_THRESHOLD = 5;
     const SUPER_ADMIN = 10;
-
-    /**
-     * The connection name for the model.
-     *
-     * @var string|null
-     */
-    protected $connection = "mysql";
 
     /**
      * The table associated with the model.
@@ -114,13 +115,38 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at',
     ];
 
-    public static function firstOrCreateViaSessionUuid(string $sessionUid): self
+    public static function firstOrCreateBySessionUuid(string $sessionUuid): self
     {
-        return static::unguarded(function() use($sessionUid) {
-            return static::firstOrCreate([
-                "session_uuid" => $sessionUid,
-            ]);
-        });
+        /** @see User::$userSessionUuids */
+        /** @var User|null $user */
+        $user = static::query()->firstBySessionUuid($sessionUuid);
+        if ($user) return $user;
+
+        $user = User::create();
+        $userSessionUuid = UserSessionUuid::createBySessionUuid($user, $sessionUuid);
+
+        $user->setCurrentSessionUuid($userSessionUuid);
+
+        return $user;
+    }
+
+
+
+    /**
+     * Create a new Eloquent query builder for the model.
+     *
+     * @param  \Illuminate\Database\Query\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder|static
+     */
+    public function newEloquentBuilder($query)
+    {
+        return new UserQueryBuilder($query);
+    }
+
+
+    public function setCurrentSessionUuid(UserSessionUuid $userSessionUuid)
+    {
+        $this->setRelation("currentSessionUuid", $userSessionUuid);
     }
 
     public function getIsAdminAttribute(): bool
@@ -135,18 +161,17 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getIsAnonymousAttribute(): bool
     {
-        return
-                empty($this->credentials_session_uuid) ||
-                empty($this->session_uuid) ||
-                $this->session_uuid !== $this->credentials_session_uuid
-        ;
+        return $this->currentSessionUuid->via_credentials ?? false;
     }
 
     public function recognizeAnonymous(string $uuid)
     {
-        $this->session_uuid = $uuid;
-        $this->credentials_session_uuid = $uuid;
-        $this->save();
+        $userSessionUuid = UserSessionUuid::query()->forceCreate([
+            "session_uuid" => $uuid,
+            "user_id" => $this->id,
+            "via_credentials" => true,
+        ]);
+        $this->setCurrentSessionUuid($userSessionUuid);
     }
 
     public function cart(): BelongsToMany
@@ -169,12 +194,17 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(Product::class, ProductUserAside::TABLE)->using(ProductUserAside::class)->withPivot(["created_at"])->withTimestamps();
     }
 
-    public function orders(): BelongsToMany
+    public function orders(): HasMany
     {
         return $this->hasMany(Order::class, "user_id", "id");
     }
 
-    public static function handleTranser(self $from, self $to)
+    public function userSessionUuids(): HasMany
+    {
+        return $this->hasMany(UserSessionUuid::class, "user_id", "id");
+    }
+
+    public static function handleTransfer(self $from, self $to)
     {
         $viewedPrepared = [];
         $from->viewed->each(function(Product $product) use(&$viewedPrepared) {

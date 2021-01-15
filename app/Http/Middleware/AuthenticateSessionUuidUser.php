@@ -19,16 +19,11 @@ class AuthenticateSessionUuidUser
      */
     public function handle($request, Closure $next)
     {
-        /** @var User $user */
-        if ($user = $request->user()) {
-            return $next($request);
-        }
+        $uuid = $request->cookie("session_uuid");
 
-        $uid = $request->cookie("session_uuid");
+        if ($uuid === null) throw new NoSessionUuidException();
 
-        if ($uid === null) throw new NoSessionUuidException();
-
-        $user = User::firstOrCreateViaSessionUuid($uid);
+        $user = User::firstOrCreateBySessionUuid($uuid);
         Auth::guard()->login($user, true);
 
         return $next($request);

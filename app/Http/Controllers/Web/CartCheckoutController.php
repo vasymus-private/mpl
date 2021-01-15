@@ -25,7 +25,7 @@ class CartCheckoutController extends BaseWebController
         $emailUser = User::query()->where("email", $request->email)->first();
 
         if ($emailUser !== null) {
-            User::handleTranser($authUser, $emailUser);
+            User::handleTransfer($authUser, $emailUser);
             $user = $emailUser;
         } else {
             $user = $authUser;
