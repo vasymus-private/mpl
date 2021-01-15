@@ -19,7 +19,7 @@ class CreateUserSessionUuidsTable extends Migration
             $table->boolean("via_credentials")->default(false);
             $table->timestamps();
 
-            $table->primary("session_uuid");
+            $table->primary(["session_uuid", "user_id"]);
         });
 
         Schema::table('user_session_uuids', function (Blueprint $table) {

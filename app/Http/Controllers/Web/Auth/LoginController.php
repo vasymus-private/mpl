@@ -65,6 +65,16 @@ class LoginController extends Controller
 
         if (empty($uuid)) throw new SessionUuidNotProvidedException();
 
-        $user->recognizeAnonymous(Uuid::fromString($uuid));
+        // TODO move logic to separate action
+
+        $uuidI = Uuid::fromString($uuid);
+
+        $sessionUuidUser = User::query()->fistBySessionUuidOrFail($uuidI);
+
+        if ($sessionUuidUser->cart->isNotEmpty()) {
+            User::handleTransfer($sessionUuidUser, $user);
+        }
+
+        $user->identificate($uuidI);
     }
 }

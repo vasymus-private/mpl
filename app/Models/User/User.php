@@ -121,13 +121,14 @@ class User extends Authenticatable implements MustVerifyEmail
         /** @see User::$userSessionUuids */
         /** @var User|null $user */
         $user = static::query()->firstBySessionUuid($sessionUuid);
-        if ($user) return $user;
-
-        $user = User::create();
-        $userSessionUuid = UserSessionUuid::createBySessionUuid($user, $sessionUuid);
+        if ($user) {
+            $userSessionUuid = $user->userSessionUuids()->find($sessionUuid->toString());
+        } else {
+            $user = User::create();
+            $userSessionUuid = UserSessionUuid::createBySessionUuid($user, $sessionUuid);
+        }
 
         $user->setCurrentUserSessionUuid($userSessionUuid);
-
         return $user;
     }
 
@@ -141,7 +142,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return new UserQueryBuilder($query);
     }
-
 
     public function setCurrentUserSessionUuid(UserSessionUuid $userSessionUuid)
     {
@@ -160,17 +160,26 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getIsAnonymousAttribute(): bool
     {
-        return $this->currentSessionUuid->via_credentials ?? false;
+        $viaCredentials = $this->currentSessionUuid->via_credentials ?? false;
+        return !$viaCredentials;
     }
 
-    public function recognizeAnonymous(UuidInterface $uuid) // todo move to separate action class
+    public function identificate(UuidInterface $uuid) // todo move to separate action class
     {
-        $userSessionUuid = UserSessionUuid::query()->forceCreate([
-            "session_uuid" => $uuid->toString(),
-            "user_id" => $this->id,
-            "via_credentials" => true,
-        ]);
+        $userSessionUuid = UserSessionUuid::unguarded(function() use($uuid) {
+            UserSessionUuid::query()->firstOrCreate([
+                "session_uuid" => $uuid->toString(),
+                "user_id" => $this->id,
+            ]);
+        });
+        $userSessionUuid->via_credentials = true;
+        $userSessionUuid->save();
         $this->setCurrentUserSessionUuid($userSessionUuid);
+    }
+
+    public function makeAnonymous(UuidInterface $uuid)
+    {
+
     }
 
     public function cart(): BelongsToMany
