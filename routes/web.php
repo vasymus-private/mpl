@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('---test', [\App\Http\Controllers\TestController::class, 'test']);
 
 
-Route::middleware([\App\Constants::MIDDLEWARE_SESSION_UUID, \App\Constants::MIDDLEWARE_AUTHENTICATE_SESSION_UUID_USER])->group(function() {
+Route::middleware([\App\Constants::MIDDLEWARE_PROVIDE_SESSION_UUID, \App\Constants::MIDDLEWARE_AUTHENTICATE_SESSION_UUID_USER])->group(function() {
 
     /** @see \Laravel\Ui\AuthRouteMethods::auth() */
     Route::get('login', [\App\Http\Controllers\Web\Auth\LoginController::class, "showLoginForm"])->name('login');

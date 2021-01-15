@@ -5,8 +5,9 @@ namespace App\Http\Middleware;
 use App\Services\Common\Common;
 use Closure;
 use Illuminate\Support\Facades\Log;
+use Ramsey\Uuid\Uuid;
 
-class SessionUuid
+class ProvideSessionUuid
 {
     /**
      * Handle an incoming request.
@@ -17,20 +18,20 @@ class SessionUuid
      */
     public function handle($request, Closure $next)
     {
-        $uid = $request->cookie("session_uuid");
+        $uuid = $request->cookie("session_uuid");
         $cookie = cookie();
-        if ($uid === null) {
+        if ($uuid === null) {
             $cookie->queue(
                 $cookie->forever(
                     "session_uuid",
-                    $uid = Common::uuid(),
+                    $uuid = Uuid::uuid4()->toString(),
                     null,
                     null,
                     null,
                     false
                 )
             );
-            $request->cookies->add(["session_uuid" => $uid]);
+            $request->cookies->add(["session_uuid" => $uuid]);
         }
 
         return $next($request);

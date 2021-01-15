@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Web\Auth;
 
-use App\Exceptions\NoSessionUuidException;
+use App\Exceptions\SessionUuidNotProvidedException;
 use App\Http\Controllers\Controller;
 use App\Models\User\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Ramsey\Uuid\Uuid;
 
 class LoginController extends Controller
 {
@@ -62,13 +63,8 @@ class LoginController extends Controller
     {
         $uuid = $request->cookie("session_uuid");
 
-        if ($uuid === null) throw new NoSessionUuidException();
+        if (empty($uuid)) throw new SessionUuidNotProvidedException();
 
-        /** @var User|null $uidUser */
-        $uidUser = User::query()->where("session_uuid", $uuid)->first();
-
-        $user->recognizeAnonymous($uuid);
-
-
+        $user->recognizeAnonymous(Uuid::fromString($uuid));
     }
 }

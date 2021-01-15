@@ -14,7 +14,7 @@ class CreateUserSessionUuidsTable extends Migration
     public function up()
     {
         Schema::create('user_session_uuids', function (Blueprint $table) {
-            $table->char("session_uuid", 30);
+            $table->char("session_uuid", 36);
             $table->unsignedBigInteger("user_id");
             $table->boolean("via_credentials")->default(false);
             $table->timestamps();

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\User\User;
 use Carbon\Carbon;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @property string $session_uuid
@@ -53,10 +54,10 @@ class UserSessionUuid extends BaseModel
         "via_credentials" => "boolean",
     ];
 
-    public static function createBySessionUuid(User $user, string $sessionUuid): self // TODO move to actions
+    public static function createBySessionUuid(User $user, UuidInterface $sessionUuid): self // TODO move to actions
     {
         return static::query()->forceCreate([
-            "session_uuid" => $sessionUuid,
+            "session_uuid" => $sessionUuid->toString(),
             "user_id" => $user->id,
         ]);
     }

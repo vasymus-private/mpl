@@ -2,11 +2,12 @@
 
 namespace App\Http\Middleware;
 
-use App\Exceptions\NoSessionUuidException;
+use App\Exceptions\SessionUuidNotProvidedException;
 use App\Models\User\User;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Ramsey\Uuid\Uuid;
 
 class AuthenticateSessionUuidUser
 {
@@ -21,9 +22,9 @@ class AuthenticateSessionUuidUser
     {
         $uuid = $request->cookie("session_uuid");
 
-        if ($uuid === null) throw new NoSessionUuidException();
+        if (empty($uuid)) throw new SessionUuidNotProvidedException();
 
-        $user = User::firstOrCreateBySessionUuid($uuid);
+        $user = User::firstOrCreateBySessionUuid(Uuid::fromString($uuid));
         Auth::guard()->login($user, true);
 
         return $next($request);

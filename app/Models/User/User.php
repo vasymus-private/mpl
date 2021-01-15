@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Ramsey\Uuid\UuidInterface;
 
 // if will use HasMediaTrait do not forget to call parent::registerMediaCollections() in Admin
 /**
@@ -72,7 +73,7 @@ use Illuminate\Notifications\Notifiable;
  * @see User::userSessionUuids()
  * @property UserSessionUuid[]|Collection $userSessionUuids
  *
- * @see User::setCurrentSessionUuid()
+ * @see User::setCurrentUserSessionUuid()
  * @property UserSessionUuid|null $currentSessionUuid
  *
  * @method static static|UserQueryBuilder query()
@@ -115,7 +116,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at',
     ];
 
-    public static function firstOrCreateBySessionUuid(string $sessionUuid): self
+    public static function firstOrCreateBySessionUuid(UuidInterface $sessionUuid): self // todo move to separate action class
     {
         /** @see User::$userSessionUuids */
         /** @var User|null $user */
@@ -125,7 +126,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $user = User::create();
         $userSessionUuid = UserSessionUuid::createBySessionUuid($user, $sessionUuid);
 
-        $user->setCurrentSessionUuid($userSessionUuid);
+        $user->setCurrentUserSessionUuid($userSessionUuid);
 
         return $user;
     }
@@ -142,7 +143,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 
-    public function setCurrentSessionUuid(UserSessionUuid $userSessionUuid)
+    public function setCurrentUserSessionUuid(UserSessionUuid $userSessionUuid)
     {
         $this->setRelation("currentSessionUuid", $userSessionUuid);
     }
@@ -162,14 +163,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->currentSessionUuid->via_credentials ?? false;
     }
 
-    public function recognizeAnonymous(string $uuid)
+    public function recognizeAnonymous(UuidInterface $uuid) // todo move to separate action class
     {
         $userSessionUuid = UserSessionUuid::query()->forceCreate([
-            "session_uuid" => $uuid,
+            "session_uuid" => $uuid->toString(),
             "user_id" => $this->id,
             "via_credentials" => true,
         ]);
-        $this->setCurrentSessionUuid($userSessionUuid);
+        $this->setCurrentUserSessionUuid($userSessionUuid);
     }
 
     public function cart(): BelongsToMany
