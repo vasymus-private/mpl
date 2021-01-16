@@ -15,9 +15,18 @@
   }
 
     &__photo {
+        border: 1px solid #e6e6e6;
+        border-radius: 6px;
+        height: auto;
+        margin: 0 0 15px;
+        overflow: hidden;
+        padding: 10px;
         text-align: center;
         @media (max-width: 815px) {
             margin-bottom: 20px;
+        }
+        img {
+            max-height: 356px;
         }
     }
 
