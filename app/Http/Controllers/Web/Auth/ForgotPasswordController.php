@@ -27,6 +27,6 @@ class ForgotPasswordController extends Controller
      */
     public function showLinkRequestForm()
     {
-        return view('web.pages.auth.passwords.email');
+        return view('web.pages.auth.passwords-email');
     }
 }

@@ -28,7 +28,7 @@
                     <a href="{{route('cart.show')}}" class="top-bar__cart js-cart js-add-to-cart-tooltip">
                         Корзина <span class="js-add-to-cart-count js-add-to-cart-animate top-bar__count">{{$cartCount}}</span>
                     </a>
-                    @if(\Illuminate\Support\Facades\Auth::user()->is_anonymous)
+                    @if(\Illuminate\Support\Facades\Auth::user()->is_anonymous2)
                         <a href="{{route("login")}}" class="top-bar__enter">Вход</a>
                     @else
                         <a href="#" class="top-bar__enter">Выход</a>

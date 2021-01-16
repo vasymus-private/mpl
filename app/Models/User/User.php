@@ -52,6 +52,12 @@ use Ramsey\Uuid\UuidInterface;
  * @see User::getIsAnonymousAttribute()
  * @property bool $is_anonymous
  *
+ * @see User::getIsIdentifiedAttribute()
+ * @property bool $is_identified
+ *
+ * @see User::getIsAnonymous2Attribute()
+ * @property bool $is_anonymous2
+ *
  * @see User::products()
  * @property Product[]|ProductCollection $products
  *
@@ -116,6 +122,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at',
     ];
 
+    public static function createAnonymous(): self // todo move to separate action class
+    {
+        return static::create();
+    }
+
     public static function firstOrCreateBySessionUuid(UuidInterface $sessionUuid): self // todo move to separate action class
     {
         /** @see User::$userSessionUuids */
@@ -164,6 +175,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return !$viaCredentials;
     }
 
+    public function getIsIdentifiedAttribute(): bool
+    {
+        return !empty($this->email);
+    }
+
+    public function getIsAnonymous2Attribute(): bool
+    {
+        return empty($this->email);
+    }
+
     public function identificate(UuidInterface $uuid) // todo move to separate action class
     {
         $userSessionUuid = UserSessionUuid::unguarded(function() use($uuid) {
@@ -175,11 +196,6 @@ class User extends Authenticatable implements MustVerifyEmail
         $userSessionUuid->via_credentials = true;
         $userSessionUuid->save();
         $this->setCurrentUserSessionUuid($userSessionUuid);
-    }
-
-    public function makeAnonymous(UuidInterface $uuid)
-    {
-
     }
 
     public function cart(): BelongsToMany
@@ -203,7 +219,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function orders(): HasMany
-    {
+    {$this->notify();
         return $this->hasMany(Order::class, "user_id", "id");
     }
 
@@ -212,7 +228,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(UserSessionUuid::class, "user_id", "id");
     }
 
-    public static function handleTransfer(self $from, self $to)
+    public static function handleTransferProducts(self $from, self $to)
     {
         $viewedPrepared = [];
         $from->viewed->each(function(Product $product) use(&$viewedPrepared) {
@@ -221,7 +237,7 @@ class User extends Authenticatable implements MustVerifyEmail
                 "updated_at" => $product->pivot->updated_at ?? null,
             ];
         });
-        $to->viewed()->attach($viewedPrepared);
+        $to->viewed()->sync($viewedPrepared);
 
         $cartPrepared = [];
         $from->cart->each(function(Product $product) use(&$cartPrepared) {
@@ -231,7 +247,7 @@ class User extends Authenticatable implements MustVerifyEmail
                 "deleted_at" => $product->pivot->deleted_at ?? null,
             ];
         });
-        $to->cart()->attach($cartPrepared);
+        $to->cart()->sync($cartPrepared);
 
         $asidePrepared = [];
         $from->aside->each(function(Product $product) use(&$asidePrepared) {
@@ -240,6 +256,14 @@ class User extends Authenticatable implements MustVerifyEmail
                 "updated_at" => $product->pivot->updated_at ?? null,
             ];
         });
-        $to->aside()->attach($asidePrepared);
+        $to->aside()->sync($asidePrepared);
+    }
+
+    public static function handleTransferOrder(self $from, self $to)
+    {
+        $from->orders->each(function(Order $order) use($to) {
+            $order->user_id = $to->id;
+            $order->save();
+        });
     }
 }

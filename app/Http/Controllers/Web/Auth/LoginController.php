@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers\Web\Auth;
 
-use App\Exceptions\SessionUuidNotProvidedException;
-use App\Http\Controllers\Controller;
+use App\Constants;
 use App\Models\User\User;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use Ramsey\Uuid\Uuid;
 
-class LoginController extends Controller
+class LoginController extends BaseLoginController
 {
     /*
     |--------------------------------------------------------------------------
@@ -26,6 +23,11 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     /**
+     * @var User
+     * */
+    protected $anonymousUser;
+
+    /**
      * Where to redirect users after login.
      *
      * @var string
@@ -39,7 +41,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        //$this->middleware('guest')->except('logout');
+        $this->middleware(Constants::MIDDLEWARE_REDIRECT_IF_IDENTIFIED)->except('logout');
     }
 
     /**
@@ -53,6 +55,20 @@ class LoginController extends Controller
     }
 
     /**
+     * Handle a login request to the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Http\JsonResponse
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function login(Request $request)
+    {
+        $this->anonymousUser = $this->setAnonymousUser($request->user());
+        return parent::login($request);
+    }
+
+    /**
      * The user has been authenticated.
      *
      * @param \Illuminate\Http\Request $request
@@ -61,20 +77,23 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        $uuid = $request->cookie("session_uuid");
+        User::handleTransferProducts($this->getAnonymousUser(), $user);
+        User::handleTransferOrder($this->getAnonymousUser(), $user);
+    }
 
-        if (empty($uuid)) throw new SessionUuidNotProvidedException();
+    /**
+     * @return User
+     */
+    public function getAnonymousUser(): User
+    {
+        return $this->anonymousUser;
+    }
 
-        // TODO move logic to separate action
-
-        $uuidI = Uuid::fromString($uuid);
-
-        $sessionUuidUser = User::query()->fistBySessionUuidOrFail($uuidI);
-
-        if ($sessionUuidUser->cart->isNotEmpty()) {
-            User::handleTransfer($sessionUuidUser, $user);
-        }
-
-        $user->identificate($uuidI);
+    /**
+     * @param User $anonymousUser
+     */
+    public function setAnonymousUser(User $anonymousUser): void
+    {
+        $this->anonymousUser = $anonymousUser;
     }
 }

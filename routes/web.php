@@ -17,14 +17,22 @@ use Illuminate\Support\Facades\Route;
 Route::get('---test', [\App\Http\Controllers\TestController::class, 'test']);
 
 
-Route::middleware([\App\Constants::MIDDLEWARE_PROVIDE_SESSION_UUID, \App\Constants::MIDDLEWARE_AUTHENTICATE_SESSION_UUID_USER])->group(function() {
+Route::middleware([\App\Constants::MIDDLEWARE_AUTHENTICATE_ALL])->group(function() {
 
     /** @see \Laravel\Ui\AuthRouteMethods::auth() */
-    Route::get('login', [\App\Http\Controllers\Web\Auth\LoginController::class, "showLoginForm"])->name('login');
-    Route::post('login', [\App\Http\Controllers\Web\Auth\LoginController::class, "login"]);
+    Route
+        ::get('login', [\App\Http\Controllers\Web\Auth\LoginController::class, "showLoginForm"])
+        ->name('login')
+    ;
+    Route
+        ::post('login', [\App\Http\Controllers\Web\Auth\LoginController::class, "login"])
+    ;
 
     Route::get('password/reset', [\App\Http\Controllers\Web\Auth\ForgotPasswordController::class, "showLinkRequestForm"])->name('password.request');
     Route::post('password/email', [\App\Http\Controllers\Web\Auth\ForgotPasswordController::class, "sendResetLinkEmail"])->name('password.email');
+
+    Route::get('password/reset/{token}', [\App\Http\Controllers\Web\Auth\ResetPasswordController::class, "showResetForm"])->name('password.reset');
+    Route::post('password/reset', [\App\Http\Controllers\Web\Auth\ResetPasswordController::class, "reset"])->name('password.update');
 
     Route
         ::get(
