@@ -31,10 +31,10 @@ class CartProductResource extends JsonResource
             "currency_rub_formatted" => Currency::getFormattedName(Currency::ID_RUB),
             "price_formatted" => $this->resource->price_retail_rub_formatted,
             "unit" => $this->resource->unit,
-            "count" => $this->resource->pivot->count ?? null,
+            "count" => $this->resource->cart_product->count ?? null,
             "route" => $this->resource->web_route,
             "price_name" => $this->resource->price_name,
-            "deleted_at" => $this->resource->pivot->deleted_at ?? null,
+            "deleted_at" => $this->resource->cart_product->deleted_at ?? null,
         ];
     }
 }

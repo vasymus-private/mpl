@@ -28,19 +28,16 @@ class ProfileComposer
 
         $asideIds = $user->aside->pluck("id")->toArray();
 
-        $cartIds = $user->cart->pluck("id")->toArray();
-
         $cartItems = CartProductResource::collection($user->cart);
 
-        $cartCount = $user->cart->pivotNotTrashed()->reduce(function(int $acc, Product $product) {
-            return $acc += ($product->pivot->count ?? 1);
+        $cartCount = $user->cart_not_trashed->reduce(function(int $acc, Product $product) {
+            return $acc + ($product->cart_product->count ?? 1);
         }, 0);
 
         $view->with("viewedCount", $user->viewed_count + $user->service_viewed_count)
             ->with("cartCount", $cartCount)
             ->with("asideCount", count($asideIds))
             ->with("asideIds", $asideIds)
-            ->with("cartIds", $cartIds)
             ->with("cartItems", $cartItems)
         ;
     }

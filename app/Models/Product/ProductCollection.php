@@ -8,23 +8,34 @@ use Illuminate\Database\Eloquent\Collection;
 
 class ProductCollection extends Collection
 {
-    public function pivotNotTrashed(): self
+    public function sumCartRetailPriceRub(): float
+    {
+        return $this
+                ->reduce(function(float $acc, Product $product) {
+                    $count = $product->cart_product->count ?? 1;
+                    $priceRub = $product->price_retail_rub * $count;
+                    return $acc + $priceRub;
+                }, 0.0)
+            ;
+    }
+
+    public function cartProductNotTrashed(): self
     {
         return $this->filter(function(Product $product) {
-            return ($product->pivot->deleted_at ?? null) === null;
+            return ($product->cart_product->deleted_at ?? null) === null;
         });
     }
 
-    public function pivotSumRetailRubPrice(): float
+    public function orderProductSumRetailPriceRub(): float
     {
         return $this->reduce(function(float $acc, Product $product) {
-            $priceRetailRub = $product->pivot_price_retail_rub_sum;
+            $priceRetailRub = $product->order_product_price_retail_rub_sum;
             return $acc + $priceRetailRub;
         }, 0.0);
     }
 
-    public function pivotSumRetailRubPriceFormatted(): string
+    public function orderProductSumRetailPriceRubFormatted(): string
     {
-        return H::priceRubFormatted($this->pivotSumRetailRubPrice(), Currency::ID_RUB);
+        return H::priceRubFormatted($this->orderProductSumRetailPriceRub(), Currency::ID_RUB);
     }
 }

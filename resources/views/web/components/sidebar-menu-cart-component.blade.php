@@ -7,7 +7,7 @@
                 <div class="sidebar-basket-block__cartitem" data-id="{{$cartProduct->id}}">
                     <h4><a href="{{$cartProduct->web_route}}">{!! $cartProduct->name !!}</a></h4>
                     <div class="sidebar-basket-block__price">
-                        <span class="sidebar-basket-block__qty">{{ $cartProduct->pivot->count ?? 1 }} шт</span>
+                        <span class="sidebar-basket-block__qty">{{ $cartProduct->cart_product->count ?? 1 }} шт</span>
                         {{$cartProduct->price_name}}: <strong class="sidebar-basket-block__text-orange">{{$cartProduct->price_retail_rub_formatted}}</strong>
                         <strong> / {{$cartProduct->unit}}</strong>
                     </div>

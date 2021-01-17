@@ -11,6 +11,9 @@ class ProfileController extends BaseWebController
 {
     public function identify(Request $request)
     {
+        $id = $request->route('id');
+        $hash = $request->route("hash");
+
         /** @var User $user */
         $user = Auth::user();
         if (!$user) return redirect()->route('home');

@@ -25,7 +25,6 @@
 </head>
 <body>
 @javascript([
-    'cartIds' => $cartIds,
     'cartItems' => $cartItems,
 ])
 @include("web.layouts.mb-menu")

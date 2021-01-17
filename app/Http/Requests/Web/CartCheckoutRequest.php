@@ -35,9 +35,9 @@ class CartCheckoutRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => "string|required|max:199",
-            "email" => "string|required|email|max:199",
-            "phone" => "alpha_num|required|max:199",
+            "name" => "string|nullable|max:199",
+            "email" => "string|nullable|email|max:199",
+            "phone" => "alpha_num|nullable|max:199",
             "comment" => "string|nullable|max:199",
             "attachment" => "array|nullable",
             "attachment.*" => "file|max:10000", // TODO validations via mymetypes предполагается, что что-то типа файла с реквизитами (ексель, пдф, фото реквизитов) !!! может несколько файлов // ВОЗМОЖНО ПРОДУМАТЬ КАКОЙ-ТО общий размер файлов с какого-то ip адреса
@@ -47,13 +47,35 @@ class CartCheckoutRequest extends FormRequest
     public function withValidator(Validator $validator)
     {
         $validator->after(function(Validator $validator) {
-            /** @var User $user */
-            $user = Auth::user();
-            if ($user->cart->pivotNotTrashed()->isEmpty()) {
-                $validator->errors()->add("cart", "У вас пустая корзина.");
+            $this->validateCartNotEmpty();
+            if ($this->getAuthUser()->is_anonymous2) {
+                $this->validateAnonymous();
             }
-
-
         });
+    }
+
+    protected function validateCartNotEmpty()
+    {
+        if ($this->getAuthUser()->cart_not_trashed->isEmpty()) {
+            $this->getValidatorInstance()->errors()->add("cart", "У вас пустая корзина.");
+        }
+    }
+
+    protected function validateAnonymous()
+    {
+        if (empty($this->email)) {
+            $this->getValidatorInstance()->errors()->add("email", "E-mail поле обязательно.");
+        }
+        if (empty($this->name)) {
+            $this->getValidatorInstance()->errors()->add("name", "Имя обязательно.");
+        }
+        if (empty($this->phone)) {
+            $this->getValidatorInstance()->errors()->add("phone", "Телефон обязателен.");
+        }
+    }
+
+    protected function getAuthUser(): User
+    {
+        return Auth::user();
     }
 }

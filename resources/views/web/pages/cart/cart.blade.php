@@ -54,7 +54,7 @@
             <tbody>
                 @foreach($cartProducts as $cartProduct)
                 <?php /** @var \App\Models\Product\Product $cartProduct */ ?>
-                <tr class="js-cart-row {{ ($cartProduct->pivot->deleted_at ?? null) !== null ? "deleted-row" : "" }}" data-id="{{$cartProduct->id}}">
+                <tr class="js-cart-row {{ ($cartProduct->cart_product->deleted_at ?? null) !== null ? "deleted-row" : "" }}" data-id="{{$cartProduct->id}}">
                     <td>
                         <img src="{{$cartProduct->main_image_url}}" alt="" style="max-width: 40px;" />
                         {!! $cartProduct->name !!}
@@ -66,27 +66,27 @@
                         {{$cartProduct->unit}}
                     </td>
                     <td>
-                        <div class="js-cart-column-count-part-normal" @if(($cartProduct->pivot->deleted_at ?? null) !== null) style="display: none;" @endif data-id="{{$cartProduct->id}}">
+                        <div class="js-cart-column-count-part-normal" @if(($cartProduct->cart_product->deleted_at ?? null) !== null) style="display: none;" @endif data-id="{{$cartProduct->id}}">
                             <button type="button" class="js-cart-decrement" data-id="{{$cartProduct->id}}">-</button>
-                            <input type="text" value="{{$cartProduct->pivot->count ?? 1}}" class="js-input-hide-on-focus js-add-to-cart-input-count js-add-to-cart-input-count-{{$cartProduct->id}}" data-id="{{$cartProduct->id}}" />
+                            <input type="text" value="{{$cartProduct->cart_product->count ?? 1}}" class="js-input-hide-on-focus js-add-to-cart-input-count js-add-to-cart-input-count-{{$cartProduct->id}}" data-id="{{$cartProduct->id}}" />
                             <button type="button" class="js-cart-increment" data-id="{{$cartProduct->id}}">+</button>
                         </div>
-                        <div class="js-cart-column-count-part-deleted" @if(($cartProduct->pivot->deleted_at ?? null) === null) style="display: none;" @endif data-id="{{$cartProduct->id}}">
+                        <div class="js-cart-column-count-part-deleted" @if(($cartProduct->cart_product->deleted_at ?? null) === null) style="display: none;" @endif data-id="{{$cartProduct->id}}">
                             <button type="button" class="js-cart-restore" data-id="{{$cartProduct->id}}">Вернуть</button>
                             <button type="button" class="js-cart-destroy" data-id="{{$cartProduct->id}}">Удалить</button>
                         </div>
                     </td>
                     <td>
-                        <span class="js-cart-item-sum-formatted" data-id="{{$cartProduct->id}}">{{ ($cartProduct->pivot->count ?? 1) * $cartProduct->price_retail_rub }} р</span>
+                        <span class="js-cart-item-sum-formatted" data-id="{{$cartProduct->id}}">{{ ($cartProduct->cart_product->count ?? 1) * $cartProduct->price_retail_rub }} р</span>
                     </td>
                     <td>
-                        <a href="#" class="js-cart-delete" data-id="{{$cartProduct->id}}" @if(($cartProduct->pivot->deleted_at ?? null) !== null) style="display: none;" @endif>X</a>
+                        <a href="#" class="js-cart-delete" data-id="{{$cartProduct->id}}" @if(($cartProduct->cart_product->deleted_at ?? null) !== null) style="display: none;" @endif>X</a>
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
-        <p>Итого: <span class="js-cart-total-sum-formatted">{{$cartProducts->reduce(function($acc, \App\Models\Product\Product $item) { return $acc += ($item->price_retail_rub * ($item->pivot->count ?? 1)); }, 0)}} р</span></p>
+        <p>Итого: <span class="js-cart-total-sum-formatted">{{$cartProducts->reduce(function($acc, \App\Models\Product\Product $item) { return $acc += ($item->price_retail_rub * ($item->cart_product->count ?? 1)); }, 0)}} р</span></p>
     @else
         <p>У вас пустая корзина.</p>
     @endif

@@ -37,14 +37,14 @@ class SidebarMenuCartComponent extends Component
         /** @var User $user */
         $user = Auth::user();
 
-        $cartProducts = $user->cart->filter(function(Product $product) {
-            return ($product->pivot->deleted_at ?? null) === null;
+        $cartProducts = $user->cart_not_trashed->filter(function(Product $product) {
+            return ($product->cart_product->deleted_at ?? null) === null;
         });
 
         $this->cartProducts = $cartProducts->take(10);
 
         $this->totalSum = $cartProducts->reduce(function(float $acc, Product $product) {
-            return $acc += ($product->price_retail_rub * ($product->pivot->count ?? 1));
+            return $acc += ($product->price_retail_rub * ($product->cart_product->count ?? 1));
         }, 0.0);
 
         $this->totalSumFormatted = H::priceRubFormatted($this->totalSum, Currency::ID_RUB);

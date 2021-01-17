@@ -15,8 +15,8 @@
                 @foreach($order->products as $product)
                 <tr>
                     <td width="50%"><a href="{{$product->web_route}}">{{$product->name}}</a></td>
-                    <td width="25%" align="center">{{$product->pivot_count}} шт. x {{$product->pivot_price_retail_rub_formatted}}</td>
-                    <td width="25%" align="right">= <b>{{ $product->pivot_price_retail_rub_sum_formatted }}</b></td>
+                    <td width="25%" align="center">{{$product->order_product_count}} шт. x {{$product->order_product_price_retail_rub_formatted}}</td>
+                    <td width="25%" align="right">= <b>{{ $product->order_product_price_retail_rub_sum_formatted }}</b></td>
                 </tr>
                 @endforeach
             </tbody>

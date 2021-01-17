@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('---test', [\App\Http\Controllers\TestController::class, 'test'])->name('test');
+Route::get('---test/{id?}/{hash?}', [\App\Http\Controllers\TestController::class, 'test'])->name('test');
 Route::get('---test-email-order', [\App\Http\Controllers\TestController::class, 'testEmailOrder'])->middleware('auth');
 Route::get('---test-email-order-markup', [\App\Http\Controllers\TestController::class, 'testEmailOrderMarkup'])->middleware('auth');
 
@@ -109,7 +109,7 @@ Route::middleware([\App\Constants::MIDDLEWARE_AUTHENTICATE_ALL])->group(function
 
     Route::get("/profile", [\App\Http\Controllers\Web\ProfileController::class, "show"])->name("profile")->middleware(\App\Constants::MIDDLEWARE_REDIRECT_IF_NOT_IDENTIFIED);
 
-    Route::get("/profile-identify/{anonymous}/{hash}", [\App\Http\Controllers\Web\ProfileController::class, "identify"])->name("profile.identify");
+    Route::get("/profile-identify/{id}/{hash}", [\App\Http\Controllers\Web\ProfileController::class, "identify"])->name("profile.identify")->middleware(["signed"]);
 
     Route::get("/", [\App\Http\Controllers\Web\HomeController::class, "index"])->name("home");
 

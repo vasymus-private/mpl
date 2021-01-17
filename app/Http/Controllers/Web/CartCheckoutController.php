@@ -21,40 +21,28 @@ class CartCheckoutController extends BaseWebController
     {
         /** @var User $authUser */
         $authUser = Auth::user();
-        /** @var User $emailUser */
-        $emailUser = User::query()->where("email", $request->email)->first();
 
-        if ($emailUser !== null) {
-            User::handleTransferProducts($authUser, $emailUser);
-            $user = $emailUser;
-        } else {
-            $user = $authUser;
-        }
+        $priceRetail = $authUser->cart_not_trashed->sumCartRetailPriceRub();
 
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->phone = $request->phone;
-        $user->save();
+        $order = Order::forceCreate([
+            "user_id" => $authUser->id,
+            "price_retail" => $priceRetail,
+            "order_status_id" => OrderStatus::ID_OPEN,
+            "importance_id" => OrderImportance::ID_GREY,
+            "comment_user" => $request->comment,
+            "request" => [
+                "name" => $request->name,
+                "email" => $request->email,
+                "phone" => $request->phone,
+            ]
+        ]);
 
-        $order = new Order();
-
-        $order->user_id = $user->id;
-
-        $priceRetail = $user->cart->reduce(function(float $acc, Product $product) {
-            return $acc += $product->price_retail;
-        }, 0.0);
-
-        $order->price_retail = $priceRetail;
-        $order->order_status_id = OrderStatus::ID_OPEN;
-        $order->importance_id = OrderImportance::ID_GREY;
-        $order->comment_user = $request->comment;
-        $order->save();
 
         $productsPrepare = [];
 
-        $user->cart->each(function(Product $product) use(&$productsPrepare) {
+        $authUser->cart_not_trashed->each(function(Product $product) use(&$productsPrepare) {
             $productsPrepare[$product->id] = [
-                "count" => $product->pivot->count ?? 1,
+                "count" => $product->cart_product->count ?? 1,
                 "price_purchase" => $product->price_purchase,
                 "price_retail" => $product->price_retail,
             ];

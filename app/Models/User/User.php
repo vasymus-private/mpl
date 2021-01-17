@@ -82,6 +82,9 @@ use Ramsey\Uuid\UuidInterface;
  * @see User::setCurrentUserSessionUuid()
  * @property UserSessionUuid|null $currentSessionUuid
  *
+ * @see User::getCartNotTrashedAttribute()
+ * @property ProductCollection|Product[] $cart_not_trashed
+ *
  * @method static static|UserQueryBuilder query()
  *
  * @mixin BaseModel
@@ -200,27 +203,32 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function cart(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class, ProductUserCart::TABLE)->using(ProductUserCart::class)->withPivot(["count", "created_at", "deleted_at"])->withTimestamps();
+        return $this->belongsToMany(Product::class, ProductUserCart::TABLE)->using(ProductUserCart::class)->as('cart_product')->withPivot(["count", "created_at", "deleted_at"])->withTimestamps();
     }
 
     public function viewed(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class, ProductUserViewed::TABLE)->using(ProductUserViewed::class)->withPivot(["created_at"])->withTimestamps();
+        return $this->belongsToMany(Product::class, ProductUserViewed::TABLE)->using(ProductUserViewed::class)->as('viewed_product')->withPivot(["created_at"])->withTimestamps();
     }
 
     public function serviceViewed(): BelongsToMany
     {
-        return $this->belongsToMany(Service::class, ServiceUserViewed::TABLE)->using(ServiceUserViewed::class)->withPivot(['created_at'])->withTimestamps();
+        return $this->belongsToMany(Service::class, ServiceUserViewed::TABLE)->using(ServiceUserViewed::class)->as('viewed_service')->withPivot(['created_at'])->withTimestamps();
     }
 
     public function aside(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class, ProductUserAside::TABLE)->using(ProductUserAside::class)->withPivot(["created_at"])->withTimestamps();
+        return $this->belongsToMany(Product::class, ProductUserAside::TABLE)->using(ProductUserAside::class)->as('aside_product')->withPivot(["created_at"])->withTimestamps();
     }
 
     public function orders(): HasMany
     {$this->notify();
         return $this->hasMany(Order::class, "user_id", "id");
+    }
+
+    public function getCartNotTrashedAttribute(): Collection
+    {
+        return $this->cart->cartProductNotTrashed();
     }
 
     public function userSessionUuids(): HasMany
@@ -233,18 +241,18 @@ class User extends Authenticatable implements MustVerifyEmail
         $viewedPrepared = [];
         $from->viewed->each(function(Product $product) use(&$viewedPrepared) {
             $viewedPrepared[$product->id] = [
-                "created_at" => $product->pivot->created_at ?? null,
-                "updated_at" => $product->pivot->updated_at ?? null,
+                "created_at" => $product->viewed_product->created_at ?? null,
+                "updated_at" => $product->viewed_product->updated_at ?? null,
             ];
         });
         $to->viewed()->sync($viewedPrepared);
 
         $cartPrepared = [];
-        $from->cart->each(function(Product $product) use(&$cartPrepared) {
+        $from->cart_not_trashed->each(function(Product $product) use(&$cartPrepared) {
             $cartPrepared[$product->id] = [
-                "created_at" => $product->pivot->created_at ?? null,
-                "updated_at" => $product->pivot->updated_at ?? null,
-                "deleted_at" => $product->pivot->deleted_at ?? null,
+                "created_at" => $product->cart_product->created_at ?? null,
+                "updated_at" => $product->cart_product->updated_at ?? null,
+                "deleted_at" => $product->cart_product->deleted_at ?? null,
             ];
         });
         $to->cart()->sync($cartPrepared);
@@ -252,8 +260,8 @@ class User extends Authenticatable implements MustVerifyEmail
         $asidePrepared = [];
         $from->aside->each(function(Product $product) use(&$asidePrepared) {
             $asidePrepared[$product->id] = [
-                "created_at" => $product->pivot->created_at ?? null,
-                "updated_at" => $product->pivot->updated_at ?? null,
+                "created_at" => $product->aside_product->created_at ?? null,
+                "updated_at" => $product->aside_product->updated_at ?? null,
             ];
         });
         $to->aside()->sync($asidePrepared);

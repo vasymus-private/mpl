@@ -40,8 +40,16 @@ class SidebarMenuViewedComponent extends Component
 
         $this->viewed = $user->viewed->merge($user->serviceViewed)
                     ->sort(function(Model $itemA, Model $itemB) {
-                        $aCreatedAt = $itemA->pivot->created_at ?? null;
-                        $bCreatedAt = $itemB->pivot->created_at ?? null;
+                        $pivotA = $itemA instanceof Product
+                                    ? $itemA->viewed_product
+                                    : $itemA->viewed_service
+                        ;
+                        $pivotB = $itemB instanceof Product
+                                    ? $itemB->viewed_product
+                                    : $itemB->viewed_service
+                        ;
+                        $aCreatedAt = $pivotA->created_at ?? null;
+                        $bCreatedAt = $pivotB->created_at ?? null;
 
                         $aCreatedAt = $aCreatedAt instanceof Carbon
                                         ? $aCreatedAt->getTimestamp()

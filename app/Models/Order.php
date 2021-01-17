@@ -30,6 +30,7 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
  * @property string|null $ps_description
  * @property float|null $ps_amount
  * @property Carbon|null $ps_date
+ * @property array|null $request
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
@@ -67,11 +68,21 @@ class Order extends BaseModel implements HasMedia
      */
     protected $dates = ["ps_date"];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'request' => 'array'
+    ];
+
     public function products(): BelongsToMany
     {
         return $this
             ->belongsToMany(Product::class, OrderProduct::TABLE, "order_id", "product_id")
             ->using(OrderProduct::class)
+            ->as('order_product')
             ->withPivot([
                 "count",
                 "price_purchase",
@@ -92,11 +103,11 @@ class Order extends BaseModel implements HasMedia
 
     public function getOrderPriceRetailRubAttribute(): float
     {
-        return $this->products->pivotSumRetailRubPrice();
+        return $this->products->orderProductSumRetailPriceRub();
     }
 
     public function getOrderPriceRetailRubFormattedAttribute(): string
     {
-        return $this->products->pivotSumRetailRubPriceFormatted();
+        return $this->products->orderProductSumRetailPriceRubFormatted();
     }
 }

@@ -1,9 +1,5 @@
-import {arrayPrimitivesToObj} from '../helpers/common'
-
-
 class Products {
     constructor() {
-        this.cartIds = arrayPrimitivesToObj(window.cartIds || [], 1)
         this.cartItems = (window.cartItems || [])
             .map(item => ({
                 id : item.id,

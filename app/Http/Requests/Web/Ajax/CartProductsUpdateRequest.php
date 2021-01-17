@@ -75,7 +75,7 @@ class CartProductsUpdateRequest extends FormRequest
 
     protected function getProductCurrentCount(): int
     {
-        return $this->product->pivot->count ?? 1;
+        return $this->product->cart_product->count ?? 1;
     }
 
     /**
