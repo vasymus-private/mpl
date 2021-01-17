@@ -10,5 +10,7 @@ final class Constants
     const MIDDLEWARE_AUTHENTICATE_ALL = "authenticate-all";
     const MIDDLEWARE_REDIRECT_IF_IDENTIFIED = "redirect-if-identified";
 
+    const MIDDLEWARE_REDIRECT_IF_NOT_IDENTIFIED = "redirect-if-not-identified";
+
     private function __construct() {}
 }

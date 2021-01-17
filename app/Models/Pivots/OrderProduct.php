@@ -9,7 +9,9 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @property int $order_id
  * @property int $count
  * @property float $price_purchase
+ * @property int $price_purchase_currency_id
  * @property float $price_retail
+ * @property int $price_retail_currency_id
  * @property string|null $name
  * */
 class OrderProduct extends Pivot

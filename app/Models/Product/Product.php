@@ -7,6 +7,7 @@ use App\Models\AvailabilityStatus;
 use App\Models\BaseModel;
 use App\Models\Category;
 use App\Models\Currency;
+use App\Models\Pivots\OrderProduct;
 use App\Models\User\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -84,6 +85,8 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
  *
  * @mixin ProductRelations
  *
+ * @property OrderProduct|null $pivot
+ *
  * @see Product::scopeActive()
  * @method static static|Builder active()
  *
@@ -158,6 +161,21 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
  *
  * @see Product::getMainImageUrlAttribute()
  * @property string $main_image_url
+ *
+ * @see Product::getPivotCountAttribute()
+ * @property-read int|null $pivot_count
+ *
+ * @see Product::getPivotPriceRetailRubAttribute()
+ * @property-read float|null $pivot_price_retail_rub
+ *
+ * @see Product::getPivotPriceRetailRubFormattedAttribute()
+ * @property-read string|null $pivot_price_retail_rub_formatted
+ *
+ * @see Product::getPivotPriceRetailRubSumAttribute()
+ * @property-read float|null $pivot_price_retail_rub_sum
+ *
+ * @see Product::getPivotPriceRetailRubSumFormattedAttribute()
+ * @property-read string|null $pivot_price_retail_rub_sum_formatted
  **/
 class Product extends BaseModel implements HasMedia
 {
@@ -571,5 +589,45 @@ class Product extends BaseModel implements HasMedia
     public function getMainImageUrlAttribute(): string
     {
         return $this->getFirstMediaUrl(static::MC_MAIN_IMAGE);
+    }
+
+    public function getPivotCountAttribute(): ?int
+    {
+        return $this->pivot === null
+                ? null
+                : $this->pivot->count
+        ;
+    }
+
+    public function getPivotPriceRetailRubAttribute(): ?float
+    {
+        return $this->pivot === null
+                ? null
+                : H::priceRub($this->pivot->price_retail, $this->pivot->price_retail_currency_id)
+        ;
+    }
+
+    public function getPivotPriceRetailRubFormattedAttribute(): ?string
+    {
+        return $this->pivot === null
+                ? null
+                : H::priceRubFormatted($this->pivot->price_retail, $this->pivot->price_retail_currency_id)
+        ;
+    }
+
+    public function getPivotPriceRetailRubSumAttribute(): ?float
+    {
+        return $this->pivot === null
+                ? null
+                : $this->pivot_count * $this->pivot_price_retail_rub
+        ;
+    }
+
+    public function getPivotPriceRetailRubSumFormattedAttribute(): ?string
+    {
+        return $this->pivot === null
+            ? null
+            : H::priceRubFormatted($this->pivot->price_retail * $this->pivot->count, $this->pivot->price_retail_currency_id)
+        ;
     }
 }

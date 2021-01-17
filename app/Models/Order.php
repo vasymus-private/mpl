@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Pivots\OrderProduct;
 use App\Models\Product\Product;
+use App\Models\Product\ProductCollection;
 use App\Models\User\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -34,7 +35,13 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
  * @property Carbon|null $deleted_at
  *
  * @see Order::products()
- * @property Collection|Product[] $products
+ * @property ProductCollection|Product[] $products
+ *
+ * @see Order::getOrderPriceRetailRubAttribute()
+ * @property-read float $order_price_retail_rub
+ *
+ * @see Order::getOrderPriceRetailRubFormattedAttribute()
+ * @property-read string $order_price_retail_rub_formatted
  * */
 class Order extends BaseModel implements HasMedia
 {
@@ -68,7 +75,9 @@ class Order extends BaseModel implements HasMedia
             ->withPivot([
                 "count",
                 "price_purchase",
+                "price_purchase_currency_id",
                 "price_retail",
+                "price_retail_currency_id",
                 "name",
             ])
         ;
@@ -79,5 +88,15 @@ class Order extends BaseModel implements HasMedia
         $this->addMediaCollection(static::MC_INITIAL_ATTACHMENT);
 
         $this->addMediaCollection(static::MC_PAYMENT_METHOD_ATTACHMENT);
+    }
+
+    public function getOrderPriceRetailRubAttribute(): float
+    {
+        return $this->products->pivotSumRetailRubPrice();
+    }
+
+    public function getOrderPriceRetailRubFormattedAttribute(): string
+    {
+        return $this->products->pivotSumRetailRubPriceFormatted();
     }
 }
