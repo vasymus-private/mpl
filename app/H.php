@@ -4,6 +4,7 @@ namespace App;
 
 use App\Models\Currency;
 use App\Services\CBRcurrencyConverter\CBRcurrencyConverter;
+use Illuminate\Support\HtmlString;
 
 class H
 {
@@ -23,5 +24,51 @@ class H
         if ($rub === null) return "";
 
         return Currency::getFormattedValue($rub, Currency::ID_RUB) . " " . Currency::getFormattedName(Currency::ID_RUB);
+    }
+
+    public static function getPhone1(): HtmlString
+    {
+        return new HtmlString('<a href="tel:+74953638799">+7 (495) 363 87 99</a>');
+    }
+
+    public static function getPhone2(): HtmlString
+    {
+        return new HtmlString('<a href="tel:+74953638799">+7 (915) 363 93 63</a>');
+    }
+
+    public static function getMail(): HtmlString
+    {
+        return new HtmlString('<a href="mailto:parket-lux@mail.ru">parket-lux@mail.ru</a>');
+    }
+
+    /**
+     * Generate a random string, using a cryptographically secure
+     * pseudorandom number generator (random_int)
+     *
+     * For PHP 7, random_int is a PHP core function
+     * For PHP 5.x, depends on https://github.com/paragonie/random_compat
+     *
+     * @param int $length How many characters do we want?
+     * @param string $keyspace A string of all possible characters
+     *                         to select from
+     * @return string
+     *
+     * @throws \Exception
+     * @see https://stackoverflow.com/a/31284266/12540255
+     */
+    public static function random_str(
+        int $length,
+        string $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    ): string
+    {
+        $str = '';
+        $max = mb_strlen($keyspace, '8bit') - 1;
+        if ($max < 1) {
+            throw new Exception('$keyspace must be at least two characters long');
+        }
+        for ($i = 0; $i < $length; ++$i) {
+            $str .= $keyspace[random_int(0, $max)];
+        }
+        return $str;
     }
 }

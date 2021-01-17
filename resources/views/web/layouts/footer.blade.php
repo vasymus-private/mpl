@@ -110,7 +110,7 @@
                     </li>
                     <li>
                         <i class="fa fa-phone" aria-hidden="true"></i>
-                        <a href="tel:+74953638799">+7 (495) 363 87 99</a>
+                        {{\App\H::getPhone1()}}
                     </li>
                     <li>
                         <i class="fa fa-phone" aria-hidden="true"></i>
@@ -118,7 +118,8 @@
                     </li>
                     <li>
                         <i class="fa fa-at" aria-hidden="true"></i>
-                        <a href="mailto:parket-lux@mail.ru">parket-lux@mail.ru</a></li>
+                        {{\App\H::getMail()}}
+                    </li>
                 </ul>
             </div>
         </div>

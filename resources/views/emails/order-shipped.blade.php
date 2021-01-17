@@ -4,7 +4,7 @@
 
 @section('content')
     <h1>Спасибо, что обратились в наш интернет-магазин</h1>
-    <p>Ваш заказ номер {{$order->id}} @if($order->created_at instanceof \Carbon\Carbon) от {{$order->created_at->format("d.m.Y")}} @endif обрабатывается.</p>
+    <p>Ваш заказ номер <b>{{$order->id}}</b> @if($order->created_at instanceof \Carbon\Carbon) от {{$order->created_at->format("d.m.Y")}} @endif обрабатывается.</p>
     <p>Менеджер свяжется с Вами для уточнения способа оплаты и получения заказа.</p>
     <p>Стоимость заказа: <b>{{$order->order_price_retail_rub_formatted}}</b>.</p>
     <p>Состав заказа:</p>
@@ -14,9 +14,9 @@
                 <?php /** @var \App\Models\Product\Product $product */ ?>
                 @foreach($order->products as $product)
                 <tr>
-                    <td><a href="{{$product->web_route}}">{{$product->name}}</a></td>
-                    <td align="center">{{$product->pivot_count}} шт. x {{$product->pivot_price_retail_rub_formatted}}</td>
-                    <td align="right">{{ $product->pivot_price_retail_rub_sum_formatted }}</td>
+                    <td width="50%"><a href="{{$product->web_route}}">{{$product->name}}</a></td>
+                    <td width="25%" align="center">{{$product->pivot_count}} шт. x {{$product->pivot_price_retail_rub_formatted}}</td>
+                    <td width="25%" align="right">= <b>{{ $product->pivot_price_retail_rub_sum_formatted }}</b></td>
                 </tr>
                 @endforeach
             </tbody>
@@ -26,18 +26,20 @@
         <tbody>
             <tr>
                 <td align="center">
-                    <a href="#" class="button button-primary" target="_blank">Перейти в личный кабинет</a>
+                    <a href="{{route("profile")}}" class="button button-primary" target="_blank">Перейти в личный кабинет</a>
                 </td>
             </tr>
         </tbody>
     </table>
     <p>В личном кабинете Вы можете увидеть свои заказы.</p>
-    <p>Для входа в личный кабинет запомните присвоенный Вам пароль <b>IHFDEC</b>, логином является ваш e-mail.</p>
-    <p>Пожалуйста, при обращении к администрации сайта market-parket.ru ОБЯЗАТЕЛЬНО указывайте номер Вашего заказа - 9491. Связаться с менеджером можно по телефону: <a href="">+7(495) 760-05-18</a>.</p>
+    @if($password)
+        <p>Для входа в личный кабинет запомните присвоенный Вам пароль <b>{{$password}}</b>, логином является ваш e-mail.</p>
+    @endif
+    <p>Пожалуйста, при обращении к администрации сайта union.parket-lux ОБЯЗАТЕЛЬНО указывайте номер Вашего заказа - <b>{{$order->id}}</b>. Связаться с менеджером можно по телефону: {{\App\H::getPhone1()}}.</p>
     <p>Спасибо за покупку!</p>
     <p>
         С уважением,<br/>
-        администрация <a href="#">Интернет-магазина</a> <br/>
-        E-mail: <a href="#">mail@market-parket.ru</a>
+        администрация <a href="{{route('home')}}">Интернет-магазина</a> <br/>
+        E-mail: {{\App\H::getMail()}}
     </p>
 @endsection

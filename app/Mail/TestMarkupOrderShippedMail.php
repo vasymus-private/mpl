@@ -24,20 +24,14 @@ class TestMarkupOrderShippedMail extends Mailable
      */
     protected $viewFactory;
 
-    /** @var Order */
-    protected $order;
-
     /**
      * Create a new message instance.
      *
-     * @param Order $order
-     *
      * @return void
      */
-    public function __construct(Order $order)
+    public function __construct()
     {
         $this->viewFactory = resolve(\Illuminate\Contracts\View\Factory::class);
-        $this->order = $order;
     }
 
     /**
@@ -54,11 +48,10 @@ class TestMarkupOrderShippedMail extends Mailable
         $headerUrl = route('home');
         $headerLine = "Вы оформили заказ в интернет-магазине union.parket-lux";
         $subcopy = new HtmlString("Если не получается кликнуть на кнопку \"Перейти в личный кабинет\", скопируйте и вставьте УРЛ ниже в ваш веб браузер: <span class=\"break-all\">https://example.com</span>");
-        $order = $this->order;
 
-        $data = compact("headerUrl", "headerLine", "subcopy", "order");
+        $data = compact("headerUrl", "headerLine", "subcopy");
 
-        $contents = $this->viewFactory->make("emails.order-shipped", $data)->render();
+        $contents = $this->viewFactory->make("emails.order-shipped-test-markup", $data)->render();
 
         $cssInliner = new CssToInlineStyles;
         $css = $this->viewFactory->make("emails.themes.custom", $data)->render();
@@ -71,23 +64,5 @@ class TestMarkupOrderShippedMail extends Mailable
             ->html(new HtmlString($htmlAndCssInline))
             ->subject("market-parket.ru: Ваш заказ номер 9491 от 12.01.2021 обрабатывается")
             ;
-    }
-
-    /**
-     * Get the verification URL for the given notifiable.
-     *
-     * @param mixed $notifiable
-     * @return string
-     */
-    protected function verificationUrl($notifiable)
-    {
-        return URL::temporarySignedRoute(
-            'verification.verify',
-            Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
-            [
-                'id' => $notifiable->getKey(),
-                'hash' => sha1($notifiable->getEmailForVerification()),
-            ]
-        );
     }
 }

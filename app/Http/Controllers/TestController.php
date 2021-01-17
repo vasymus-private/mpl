@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\H;
 use App\Mail\OrderShippedMail;
 use App\Mail\TestMarkupOrderShippedMail;
 use App\Models\Category;
@@ -13,20 +14,25 @@ use App\Services\TransferFromOrigin\TransferFAQ2;
 use App\Services\TruncateHTML\TruncateHTML;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\HtmlString;
 use Ramsey\Uuid\Uuid;
 use SimpleXMLElement;
 
 class TestController extends Controller
 {
-    public function test()
+    public function test(Request $request)
     {
-        dump(Hash::make("secret"));
+        $url = URL::signedRoute('test', ['anonymous' => 1, 'identified' => 2, 'hash' => sha1('vvv@vv.com'),]);
+        dump($request->route());
+
+//        dump(hash_equals($request->route('anonymous'), '1'));
 
         return view('test');
     }

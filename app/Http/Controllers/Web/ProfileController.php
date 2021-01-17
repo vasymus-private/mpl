@@ -9,6 +9,17 @@ use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends BaseWebController
 {
+    public function identify(Request $request)
+    {
+        /** @var User $user */
+        $user = Auth::user();
+        if (!$user) return redirect()->route('home');
+
+        if ($user->is_identified) return redirect()->route('profile');
+
+
+    }
+
     public function show(Request $request)
     {
         /** @var User $user */
