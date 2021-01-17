@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Models\Order;
+use App\Models\PaymentMethod;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Http\Request;
@@ -25,5 +27,15 @@ class CartController extends BaseWebController
         $cartProducts = $user->cart;
 
         return view('web.pages.cart.cart', compact("cartProducts"));
+    }
+
+    public function success(Request $request)
+    {
+        /** @var User $user */
+        $user = Auth::user();
+        $order = Order::query()->where("user_id", $user->id)->findOrFail($request->order_id);
+        $paymentMethods = PaymentMethod::query()->get();
+
+        return view("web.pages.profile.profile-success", compact("order", "paymentMethods"));
     }
 }

@@ -617,7 +617,7 @@ class Product extends BaseModel implements HasMedia
     {
         return $this->order_product === null
                 ? null
-                : H::priceRub($this->order_product->price_retail, $this->order_product->price_retail_currency_id)
+                : H::priceRub($this->order_product->price_retail, $this->order_product->price_retail_currency_id ?? Product::DEFAULT_CURRENCY_ID)
         ;
     }
 
@@ -625,7 +625,7 @@ class Product extends BaseModel implements HasMedia
     {
         return $this->order_product === null
                 ? null
-                : H::priceRubFormatted($this->order_product->price_retail, $this->order_product->price_retail_currency_id)
+                : H::priceRubFormatted($this->order_product->price_retail, $this->order_product->price_retail_currency_id ?? Product::DEFAULT_CURRENCY_ID)
         ;
     }
 
@@ -641,7 +641,7 @@ class Product extends BaseModel implements HasMedia
     {
         return $this->order_product === null
             ? null
-            : H::priceRubFormatted($this->order_product->price_retail * $this->order_product->count, $this->order_product->price_retail_currency_id)
+            : H::priceRubFormatted($this->order_product->price_retail * $this->order_product->count, $this->order_product->price_retail_currency_id ?? Product::DEFAULT_CURRENCY_ID)
         ;
     }
 }

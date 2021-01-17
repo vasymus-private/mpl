@@ -103,13 +103,15 @@ Route::middleware([\App\Constants::MIDDLEWARE_AUTHENTICATE_ALL])->group(function
 
     Route::get('cart', [\App\Http\Controllers\Web\CartController::class, "show"])->name("cart.show");
 
+    Route::get('cart-success/{order_id}', [\App\Http\Controllers\Web\CartController::class, "success"])->name("cart.success");
+
     Route::post("cart-checkout", \App\Http\Controllers\Web\CartCheckoutController::class)->name("cart.checkout");
 
+    Route::get("profile", [\App\Http\Controllers\Web\ProfileController::class, "show"])->name("profile")->middleware(\App\Constants::MIDDLEWARE_REDIRECT_IF_NOT_IDENTIFIED);
+
+    Route::get("profile-identify/{id}/{hash}", [\App\Http\Controllers\Web\ProfileController::class, "identify"])->name("profile.identify")->middleware(["signed"]);
+
     Route::get("/{service_slug}", [\App\Http\Controllers\Web\ServicesController::class, "show"])->name("services.show");
-
-    Route::get("/profile", [\App\Http\Controllers\Web\ProfileController::class, "show"])->name("profile")->middleware(\App\Constants::MIDDLEWARE_REDIRECT_IF_NOT_IDENTIFIED);
-
-    Route::get("/profile-identify/{id}/{hash}", [\App\Http\Controllers\Web\ProfileController::class, "identify"])->name("profile.identify")->middleware(["signed"]);
 
     Route::get("/", [\App\Http\Controllers\Web\HomeController::class, "index"])->name("home");
 

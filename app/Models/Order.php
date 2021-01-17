@@ -8,6 +8,7 @@ use App\Models\Product\ProductCollection;
 use App\Models\User\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
@@ -30,6 +31,8 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
  * @property string|null $ps_description
  * @property float|null $ps_amount
  * @property Carbon|null $ps_date
+ * @property int|null $payment_method_id
+ * @property string|null $payment_method_description
  * @property array|null $request
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -37,6 +40,9 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
  *
  * @see Order::products()
  * @property ProductCollection|Product[] $products
+ *
+ * @see Order::status()
+ * @property OrderStatus $status
  *
  * @see Order::getOrderPriceRetailRubAttribute()
  * @property-read float $order_price_retail_rub
@@ -92,6 +98,11 @@ class Order extends BaseModel implements HasMedia
                 "name",
             ])
         ;
+    }
+
+    public function status(): BelongsTo
+    {
+        return $this->belongsTo(OrderStatus::class, "order_status_id", "id");
     }
 
     public function registerMediaCollections()

@@ -29,10 +29,10 @@ class OrderShippedMail extends Mailable
     protected $order;
 
     /** @var int */
-    protected $anonymousId;
+    protected $id;
 
-    /** @var int */
-    protected $identifiedId;
+    /** @var string */
+    protected $email;
 
     /** @var string|null */
     protected $password;
@@ -41,18 +41,18 @@ class OrderShippedMail extends Mailable
      * Create a new message instance.
      *
      * @param Order $order
-     * @param int $anonymousId
-     * @param int|null $identifiedId
+     * @param int $id
+     * @param string $email
      * @param string|null $password
      *
      * @return void
      */
-    public function __construct(Order $order, int $anonymousId, int $identifiedId = null, string $password = null)
+    public function __construct(Order $order, int $id, string $email, string $password = null)
     {
         $this->viewFactory = resolve(\Illuminate\Contracts\View\Factory::class);
         $this->order = $order;
-        $this->anonymousId = $anonymousId;
-        $this->identifiedId = $identifiedId;
+        $this->id = $id;
+        $this->email = $email;
         $this->password = $password;
     }
 
@@ -95,17 +95,15 @@ class OrderShippedMail extends Mailable
     /**
      * Get the verification URL for the given notifiable.
      *
-     * @param mixed $notifiable
      * @return string
      */
-    protected function verificationUrl()
+    protected function verificationUrl(): string
     {
         return URL::signedRoute(
             'profile.identify',
             [
-                'anonymous' => $this->anonymousId,
-                'identified' => $this->identifiedId,
-                //'hash' => sha1($notifiable->getEmailForVerification()),
+                'id' => $this->id,
+                'hash' => sha1($this->email),
             ]
         );
     }

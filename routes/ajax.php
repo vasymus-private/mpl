@@ -28,4 +28,6 @@ Route::middleware(["auth"])->group(function() {
     Route::post("products/cart", [\App\Http\Controllers\Web\Ajax\CartProductsController::class, "store"])->name("products.cart.store");
     Route::put("products/cart", [\App\Http\Controllers\Web\Ajax\CartProductsController::class, "update"])->name("products.cart.update");
     Route::delete("products/cart", [\App\Http\Controllers\Web\Ajax\CartProductsController::class, "delete"])->name("products.cart.delete");
+
+    Route::put("orders/{id}", [\App\Http\Controllers\Web\Ajax\OrderController::class, "update"])->name("orders.update");
 });

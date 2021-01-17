@@ -100,7 +100,7 @@
     <div>
         <p><b><label for="attachment">Вы можете прикрепить файл:</label></b></p>
         <div>
-            <input form="form-order" type="file" id="attachment" name="attachment" />
+            <input form="form-order" type="file" id="attachment" name="attachment[]" multiple />
         </div>
     </div>
     <div>
