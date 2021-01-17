@@ -18,7 +18,7 @@ class RedirectIfNotIdentified
      *
      * @throws \Illuminate\Auth\AuthenticationException
      */
-    public function handle($request, Closure $next, $guard)
+    public function handle($request, \Closure $next, $guard = null)
     {
         /** @var User|null $user */
         $user = Auth::guard($guard)->user();
