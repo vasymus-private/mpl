@@ -40,7 +40,7 @@ import Products from '../Products'
         let $cartRestores = $(".js-cart-restore")
         let $cartDestroys = $(".js-cart-destroy")
 
-        const TIMEOUT_MS = 400000
+        const TIMEOUT_MS = 4000
 
         handleSidebarCartMenu()
 
