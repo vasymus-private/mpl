@@ -29,6 +29,32 @@ class OrderStatus extends BaseModel
     const ID_CANCELED_BY_CUSTOMER = 17;
     const ID_CANCELED_BY_US = 18;
 
+    const IDS_OPEN = [
+        self::ID_OPEN,
+        self::ID_HELEN_CALLED,
+        self::ID_ALEX_CALLED,
+        self::ID_EGOR_CALLED,
+        self::ID_HELEN_AGREED_WITH_SUPPLIER,
+        self::ID_ALEX_AGREED_WITH_SUPPLIER,
+        self::ID_EGOR_AGREED_WITH_SUPPLIER,
+        self::ID_CUSTOMER_CONFIRMED_CASH,
+        self::ID_CUSTOMER_CONFIRMED_ACQUIRING_NO_COMMISSION,
+        self::ID_CUSTOMER_CONFIRMED_ACQUIRING_COMMISSION,
+        self::ID_CUSTOMER_CONFIRMED_CASHLESS,
+    ];
+    const IDS_PAYED = [
+        self::ID_PAYED_DELIVERY,
+        self::ID_PAYED_PICKUP,
+        self::ID_IN_OFFICE,
+        self::ID_IN_OFFICE,
+        self::ID_DELIVERED
+    ];
+    const IDS_CLOSED = [
+        self::ID_DELAYED,
+        self::ID_CANCELED_BY_CUSTOMER,
+        self::ID_CANCELED_BY_US,
+    ];
+
     const DEFAULT_ID = self::ID_OPEN;
 
     /**

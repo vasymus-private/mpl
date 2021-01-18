@@ -32,6 +32,7 @@
                         <a href="{{route("login")}}" class="top-bar__enter">Вход</a>
                     @else
                         <a href="#" class="top-bar__enter">Выход</a>
+
                     @endif
                 </div>
             </div>

@@ -9,14 +9,19 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * @property-read string $name
- * @property-read string $email
- * @property-read string $phone
- * @property-read string $comment
+ * @property-read string|null $name
+ * @property-read string|null $email
+ * @property-read string|null $phone
+ * @property-read string|null $comment
  * @property-read UploadedFile[]|null attachment
  * */
 class CartCheckoutRequest extends FormRequest
 {
+    /**
+     * @var User|null
+     * */
+    protected $emailUser;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -24,7 +29,11 @@ class CartCheckoutRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return
+                $this->getEmailUser() === null ||
+                !$this->getEmailUser()->is_admin ||
+                ($this->getEmailUser()->is_admin && !$this->isAuthUserEqualsEmailUser())
+            ;
     }
 
     /**
@@ -77,5 +86,20 @@ class CartCheckoutRequest extends FormRequest
     protected function getAuthUser(): User
     {
         return Auth::user();
+    }
+
+    public function getEmailUser(): ?User
+    {
+        if ($this->emailUser !== null) return $this->emailUser;
+
+        return $this->emailUser = User::query()->where("email", $this->email)->first();
+    }
+
+    public function isAuthUserEqualsEmailUser(): bool
+    {
+        $authUser = $this->getAuthUser();
+        $emailUser = $this->getEmailUser();
+
+        return $authUser->id === $emailUser->id;
     }
 }

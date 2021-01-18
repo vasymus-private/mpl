@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\H;
 use App\Models\Pivots\OrderProduct;
 use App\Models\Product\Product;
 use App\Models\Product\ProductCollection;
@@ -16,7 +17,7 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 /**
  * @property int $id
- * @property float $price_retail
+ * @property float $price_retail_rub
  * @property int $order_status_id
  * @property int $user_id
  * @property int $manager_id
@@ -49,6 +50,12 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
  *
  * @see Order::getOrderPriceRetailRubFormattedAttribute()
  * @property-read string $order_price_retail_rub_formatted
+ *
+ * @see Order::getPriceRetailRubFormattedAttribute()
+ * @property-read string $price_retail_rub_formatted
+ *
+ * @see Order::getStatusNameForUserAttribute()
+ * @property-read string $status_name_for_user
  * */
 class Order extends BaseModel implements HasMedia
 {
@@ -66,6 +73,7 @@ class Order extends BaseModel implements HasMedia
      * @var string
      */
     protected $table = self::TABLE;
+
 
     /**
      * The attributes that should be mutated to dates.
@@ -120,5 +128,25 @@ class Order extends BaseModel implements HasMedia
     public function getOrderPriceRetailRubFormattedAttribute(): string
     {
         return $this->products->orderProductSumRetailPriceRubFormatted();
+    }
+
+    public function getPriceRetailRubFormattedAttribute(): string
+    {
+        return H::priceRubFormatted($this->price_retail_rub, Currency::ID_RUB);
+    }
+
+    public function getStatusNameForUserAttribute(): string
+    {
+        switch (true) {
+            case in_array($this->order_status_id, OrderStatus::IDS_OPEN) : {
+                return "Открыт";
+            }
+            case in_array($this->order_status_id, OrderStatus::IDS_PAYED) : {
+                return "Оплачен";
+            }
+            default : {
+                return "Закрыт";
+            }
+        }
     }
 }

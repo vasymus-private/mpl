@@ -26,7 +26,7 @@
         <tbody>
             <tr>
                 <td align="center">
-                    <a href="{{route("profile")}}" class="button button-primary" target="_blank">Перейти в личный кабинет</a>
+                    <a href="{{$actionUrl}}" class="button button-primary" target="_blank">Перейти в личный кабинет</a>
                 </td>
             </tr>
         </tbody>

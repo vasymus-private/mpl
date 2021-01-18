@@ -8,6 +8,11 @@ use Ramsey\Uuid\UuidInterface;
 
 class UserQueryBuilder extends Builder
 {
+    public function notAdmin(): self
+    {
+        return $this->where("status", "<", User::ADMIN_THRESHOLD);
+    }
+
     public function whereSessionUuid(UuidInterface $sessionUuid): self
     {
         /** @see User::$userSessionUuids */

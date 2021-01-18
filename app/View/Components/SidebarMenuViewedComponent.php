@@ -35,7 +35,8 @@ class SidebarMenuViewedComponent extends Component
             },
             "serviceViewed" => function(BelongsToMany $query) {
                 $query->orderBy("pivot_created_at", "desc")->limit(5);
-            }
+            },
+            "viewed.category.parentCategory"
         ]);
 
         $this->viewed = $user->viewed->merge($user->serviceViewed)

@@ -7,26 +7,43 @@
 
     <form action="{{route("cart.checkout")}}" method="POST" enctype="multipart/form-data" id="form-order">
         @csrf
-        <div>
-            <label for="name">Имя:</label>
-        </div>
-        <div>
-            <input type="text" id="name" name="name" />
-        </div>
+        @if(\Illuminate\Support\Facades\Auth::user()->is_anonymous2)
+            <div>
+                <label for="name">Имя:</label>
+            </div>
+            <div>
+                <input type="text" id="name" name="name" value="{{old("name")}}"/>
+            </div>
+            @if($errors->has("name"))
+                <div>
+                    <span style="color:red">{{$errors->first("name")}}</span>
+                </div>
+            @endif
 
-        <div>
-            <label for="email">E-mail:</label>
-        </div>
-        <div>
-            <input type="text" id="email" name="email" />
-        </div>
+            <div>
+                <label for="email">E-mail:</label>
+            </div>
+            <div>
+                <input type="text" id="email" name="email" value="{{old("email")}}"/>
+            </div>
+            @if($errors->has("email"))
+                <div>
+                    <span style="color:red">{{$errors->first("email")}}</span>
+                </div>
+            @endif
 
-        <div>
-            <label for="phone">Телефон:</label>
-        </div>
-        <div>
-            +7 <input type="text" id="phone" name="phone" />
-        </div>
+            <div>
+                <label for="phone">Телефон:</label>
+            </div>
+            <div>
+                +7 <input type="text" id="phone" name="phone" value="{{old("phone")}}"/>
+            </div>
+            @if($errors->has("phone"))
+                <div>
+                    <span style="color:red">{{$errors->first("phone")}}</span>
+                </div>
+            @endif
+        @endif
     </form>
 
     <div>
@@ -94,17 +111,37 @@
     <div>
         <p><b><label for="comment">Вы можете оставить комментарий:</label></b></p>
         <div>
-            <textarea name="comment" id="comment" form="form-order" style="width: 100%; min-height: 50px;" placeholder="Адрес доставки или самовывоз. Удобный способ оплаты."></textarea>
+            <textarea name="comment" id="comment" form="form-order" style="width: 100%; min-height: 50px;" placeholder="Адрес доставки или самовывоз. Удобный способ оплаты.">{{old("comment")}}</textarea>
         </div>
+        @if($errors->has("comment"))
+            <div>
+                <span style="color:red">{{$errors->first("comment")}}</span>
+            </div>
+        @endif
     </div>
     <div>
         <p><b><label for="attachment">Вы можете прикрепить файл:</label></b></p>
         <div>
             <input form="form-order" type="file" id="attachment" name="attachment[]" multiple />
         </div>
+        @if($errors->has("attachment"))
+            <div>
+                <span style="color:red">{{$errors->first("attachment")}}</span>
+            </div>
+        @endif
     </div>
     <div>
         <button type="submit" form="form-order">Отправить заказ</button>
     </div>
+    @if($errors->has("cart"))
+        <div>
+            <span style="color:red">{{$errors->first("cart")}}</span>
+        </div>
+    @endif
+    @if(session()->has('cart-error'))
+        <div>
+            <span style="color:red">{{session()->get('cart-error')}}</span>
+        </div>
+    @endif
     <p>Нажимая на кнопку "Отправить заказ", я даю <a href="#" data-fancybox="consent-processing-personal-data" data-src="#consent-processing-personal-data">согласие на обработку своих персональных данных</a></p>
 @endsection

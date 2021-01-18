@@ -23,9 +23,9 @@ class LoginController extends BaseLoginController
     use AuthenticatesUsers;
 
     /**
-     * @var User
+     * @var int
      * */
-    protected $anonymousUser;
+    protected $anonymousUserId;
 
     /**
      * Where to redirect users after login.
@@ -64,7 +64,7 @@ class LoginController extends BaseLoginController
      */
     public function login(Request $request)
     {
-        $this->anonymousUser = $this->setAnonymousUser($request->user());
+        $this->setAnonymousUserId($request->user());
         return parent::login($request);
     }
 
@@ -77,8 +77,11 @@ class LoginController extends BaseLoginController
      */
     protected function authenticated(Request $request, $user)
     {
-        User::handleTransferProducts($this->getAnonymousUser(), $user);
-        User::handleTransferOrder($this->getAnonymousUser(), $user);
+        $anonymousUser = $this->getAnonymousUser();
+        User::handleTransferProducts($anonymousUser, $user);
+        User::handleTransferOrders($anonymousUser, $user);
+
+        return redirect()->route('profile');
     }
 
     /**
@@ -86,14 +89,14 @@ class LoginController extends BaseLoginController
      */
     public function getAnonymousUser(): User
     {
-        return $this->anonymousUser;
+        return User::query()->find($this->anonymousUserId);
     }
 
     /**
-     * @param User $anonymousUser
+     * @param User $user
      */
-    public function setAnonymousUser(User $anonymousUser): void
+    public function setAnonymousUserId(User $user): void
     {
-        $this->anonymousUser = $anonymousUser;
+        $this->anonymousUserId = $user->id;
     }
 }

@@ -5,8 +5,8 @@
     @foreach($orders as $order)
         <li>
             <p><a href="#">Заказ # {{$order->id}}</a> @if($order->created_at instanceof \Carbon\Carbon) от {{$order->created_at->format("d.m.Y H:i:s")}} @endif</p>
-            <p>Заказ {{$order->status->name}}</p>
-            <p>Сумма {{$order->price_retail}} руб</p>
+            <p>Заказ {{$order->status_name_for_user}}</p>
+            <p>Сумма {{$order->price_retail_rub_formatted}}</p>
             <ul>
             <?php /** @var \App\Models\Product\Product $product */ ?>
             @foreach($order->products as $product)

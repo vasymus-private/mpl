@@ -44,7 +44,7 @@ use Ramsey\Uuid\UuidInterface;
  *
  * Properties from Accessors / Mutators
  * @see User::getIsAdminAttribute()
- * @property bool $isAdmin
+ * @property bool $is_admin
  *
  * @see User::getIsSuperAdminAttribute()
  * @property bool $is_super_admin
@@ -222,7 +222,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function orders(): HasMany
-    {$this->notify();
+    {
         return $this->hasMany(Order::class, "user_id", "id");
     }
 
@@ -267,7 +267,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $to->aside()->sync($asidePrepared);
     }
 
-    public static function handleTransferOrder(self $from, self $to)
+    public static function handleTransferOrders(self $from, self $to)
     {
         $from->orders->each(function(Order $order) use($to) {
             $order->user_id = $to->id;

@@ -75,7 +75,7 @@ class OrderShippedMail extends Mailable
         $order = $this->order;
         $password = $this->password;
 
-        $data = compact("headerUrl", "headerLine", "subcopy", "order", "password");
+        $data = compact("headerUrl", "headerLine", "subcopy", "order", "password", "actionUrl");
 
         $contents = $this->viewFactory->make("emails.order-shipped", $data)->render();
 
@@ -87,8 +87,9 @@ class OrderShippedMail extends Mailable
         );
 
         return $this
+                ->to($this->email)
                 ->html(new HtmlString($htmlAndCssInline))
-                ->subject("union.parket-lux: Ваш заказ номер 9491 от 12.01.2021 обрабатывается")
+                ->subject("union.parket-lux: Ваш заказ номер {$order->id} обрабатывается")
             ;
     }
 
@@ -103,6 +104,7 @@ class OrderShippedMail extends Mailable
             'profile.identify',
             [
                 'id' => $this->id,
+                'email' => $this->email,
                 'hash' => sha1($this->email),
             ]
         );

@@ -29,12 +29,7 @@ class TestController extends Controller
 {
     public function test(Request $request)
     {
-        $url = URL::signedRoute('test', ['id' => 1, 'hash' => sha1('vvv@vv.com'),]);
-        dump($request->route('id'), $request->route('hash'));
-
-        dump($url);
-
-//        dump(hash_equals($request->route('anonymous'), '1'));
+        dump(sha1(null));
 
         return view('test');
     }
