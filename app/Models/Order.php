@@ -42,6 +42,9 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
  * @see Order::products()
  * @property ProductCollection|Product[] $products
  *
+ * @see Order::user()
+ * @property User $user
+ *
  * @see Order::status()
  * @property OrderStatus $status
  *
@@ -56,6 +59,15 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
  *
  * @see Order::getStatusNameForUserAttribute()
  * @property-read string $status_name_for_user
+ *
+ * @see Order::getUserNameAttribute()
+ * @property-read string $user_name
+ *
+ * @see Order::getUserEmailAttribute()
+ * @property-read string $user_email
+ *
+ * @see Order::getUserPhoneAttribute()
+ * @property-read string $user_phone
  * */
 class Order extends BaseModel implements HasMedia
 {
@@ -108,6 +120,11 @@ class Order extends BaseModel implements HasMedia
         ;
     }
 
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, "user_id", "id");
+    }
+
     public function status(): BelongsTo
     {
         return $this->belongsTo(OrderStatus::class, "order_status_id", "id");
@@ -148,5 +165,35 @@ class Order extends BaseModel implements HasMedia
                 return "Закрыт";
             }
         }
+    }
+
+    public function getUserNameAttribute(): string
+    {
+        return !empty($this->user->name)
+                ? $this->user->name
+                : (
+                $this->request["name"] ?? ""
+            )
+        ;
+    }
+
+    public function getUserEmailAttribute(): string
+    {
+        return !empty($this->user->email)
+                ? $this->user->email
+                : (
+                $this->request["email"] ?? ""
+            )
+        ;
+    }
+
+    public function getUserPhoneAttribute(): string
+    {
+        return !empty($this->user->phone)
+            ? $this->user->phone
+            : (
+                $this->request["phone"] ?? ""
+            )
+            ;
     }
 }
