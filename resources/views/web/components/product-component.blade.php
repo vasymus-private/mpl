@@ -59,7 +59,7 @@
                             </div>
                             <button
                                 type="button"
-                                class="js-add-to-cart product-price__add {{ $product->is_available_in_stock ? "available-in-stock" : "" }} {{$product->is_available_not_in_stock ? "available-not-in-stock" : ""}}"
+                                class="js-add-to-cart product-price__add {{$product->is_in_cart ? "is-in-cart" : ""}} {{ $product->is_available_in_stock ? "available-in-stock" : "" }} {{$product->is_available_not_in_stock ? "available-not-in-stock" : ""}}"
                                 data-id="{{$product->id}}"
                                 data-is-in-cart="{{(int)$product->is_in_cart}}"
                             >{{$product->is_in_cart ? "Добавить" : "В корзину"}}</button>
@@ -124,9 +124,10 @@
                         <h3 class="product-variants__title">
                             <a
                                 href="javascript:void(0)"
-                                data-toggle="tooltip"
+                                class="js-manual-tooltip"
                                 data-placement="top"
-                                title="{!! $variation->preview !!}"
+                                data-timeout="6000"
+                                data-title="{!! $variation->preview !!}"
                                 data-html="true"
                             >{{$variation->name}}</a>
                         </h3>
@@ -163,6 +164,7 @@
                                 js-add-to-cart
                                 button-buy
                                 addToCart
+                                {{$variation->is_in_cart ? "is-in-cart" : ""}}
                                 "
                                 type="button"
                                 data-id="{{$variation->id}}"
@@ -211,10 +213,10 @@
                             <h4 class="product-variants__title">
                                 <a
                                     href="javascript:void(0)"
-                                    class="pointer link-text"
-                                    data-toggle="tooltip"
+                                    data-timeout="6000"
+                                    class="pointer link-text js-manual-tooltip"
                                     data-placement="top"
-                                    title="{!! $variation->preview !!}"
+                                    data-title="{!! $variation->preview !!}"
                                     data-html="true"
                                 >{{$variation->name}}</a>
                             </h4>
@@ -243,6 +245,7 @@
                                         {{$variation->is_available_not_in_stock ? "color-orange" : ""}}
                                             js-add-to-cart
                                             add-basket
+                                            {{$variation->is_in_cart ? "is-in-cart" : ""}}
                                         "
                                         type="button"
                                         data-id="{{$variation->id}}"

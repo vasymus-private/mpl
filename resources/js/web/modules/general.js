@@ -6,6 +6,32 @@ import {getProductsHoverOnPopover} from '../helpers/products'
 
         $('[data-toggle="tooltip"]').tooltip()
 
+        const MANUAL_TOOLTIP_TIMEOUT_DEFAULT = 6000
+        let $manualTooltips = $(".js-manual-tooltip")
+        $manualTooltips.each((i, el) => {
+            let $el = $(el)
+
+            if (!$el.data("title")) return true
+
+            $el.tooltip({
+                placement : $el.data("placement"),
+                trigger : "manual"
+            })
+
+            let timeout
+            $el.on("click", (event) => {
+                event.preventDefault()
+                if (timeout) return true
+
+                $el.tooltip("show")
+                timeout = setTimeout(() => {
+                    $el.tooltip("hide")
+                    timeout = null
+                }, $el.data("timeout") || MANUAL_TOOLTIP_TIMEOUT_DEFAULT)
+            })
+
+        })
+
         $('.js-back').on('click', event => {
             event.preventDefault()
             window.history.go(-1)

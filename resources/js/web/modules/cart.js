@@ -42,6 +42,8 @@ import Products from '../Products'
 
         const TIMEOUT_MS = 4000
 
+        const IS_IN_CART_CLASS = "is-in-cart"
+
         handleSidebarCartMenu()
 
         handleCartPage()
@@ -174,7 +176,8 @@ import Products from '../Products'
                     trigger: "manual",
                     boundary: 'window',
                     placement: "bottom",
-                    title: "Добавлено в корзину",
+                    title: "<b>Добавлено в корзину</b>",
+                    html: true
                 })
             })
 
@@ -208,6 +211,7 @@ import Products from '../Products'
                                 handleTooltip()
                                 handleRenderSidebarMenuCartList()
                                 handleUpadeCount()
+                                $addToCart.removeClass(IS_IN_CART_CLASS)
                                 $addToCart.text("Добавить")
 
                                 return response
