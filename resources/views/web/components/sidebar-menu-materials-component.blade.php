@@ -23,10 +23,14 @@
                         <p class="dropdown-level_2">
                             <a class="text-bold" href="{{route("products.index", [ $category->slug, $subcategory1Part1->slug ?? null ])}}">{{$subcategory1Part1->name ?? null}}</a>
                         </p>
-                        @foreach($subcategory1Part1->subcategories as $subcategory2)
-                            <?php /** @var \App\Models\Category $subcategory2 */ ?>
-                            <p class="dropdown-level_3 text-small"><a href="{{route("products.index", [ $category->slug, $subcategory1Part1->slug, $subcategory2->slug ])}}">- {{$subcategory2->name}}</a></p>
-                        @endforeach
+                        @if($subcategory1Part1->subcategories->isNotEmpty())
+                            <div class="dropdown-level_3_wrapper">
+                            @foreach($subcategory1Part1->subcategories as $subcategory2)
+                                <?php /** @var \App\Models\Category $subcategory2 */ ?>
+                                <p class="dropdown-level_3 text-small"><a href="{{route("products.index", [ $category->slug, $subcategory1Part1->slug, $subcategory2->slug ])}}">- {{$subcategory2->name}}</a></p>
+                            @endforeach
+                            </div>
+                        @endif
                     @endforeach
                 </li>
 
@@ -36,10 +40,14 @@
                         <p class="dropdown-level_2">
                             <a class="text-bold" href="{{route("products.index", [ $category->slug, $subcategory1Part2->slug ?? null ])}}">{{$subcategory1Part2->name ?? null}}</a>
                         </p>
-                        @foreach($subcategory1Part2->subcategories as $subcategory2)
-                            <?php /** @var \App\Models\Category $subcategory2 */ ?>
-                            <p class="dropdown-level_3 text-small"><a href="{{route("products.index", [ $category->slug, $subcategory1Part2->slug ?? null, $subcategory2->slug ?? null ])}}">- {{$subcategory2->name ?? null}}</a></p>
-                        @endforeach
+                        @if($subcategory1Part1->subcategories->isNotEmpty())
+                            <div class="dropdown-level_3_wrapper">
+                                @foreach($subcategory1Part2->subcategories as $subcategory2)
+                                    <?php /** @var \App\Models\Category $subcategory2 */ ?>
+                                    <p class="dropdown-level_3 text-small"><a href="{{route("products.index", [ $category->slug, $subcategory1Part2->slug ?? null, $subcategory2->slug ?? null ])}}">- {{$subcategory2->name ?? null}}</a></p>
+                                @endforeach
+                            </div>
+                        @endif
                     @endforeach
                 </li>
             </ul>
