@@ -41,6 +41,11 @@ class H
         return new HtmlString('<a href="mailto:parket-lux@mail.ru">parket-lux@mail.ru</a>');
     }
 
+    public static function website(): string
+    {
+        return "parket-lux.ru";
+    }
+
     /**
      * Generate a random string, using a cryptographically secure
      * pseudorandom number generator (random_int)

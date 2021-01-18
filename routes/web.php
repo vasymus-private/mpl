@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('---test/{id?}/{hash?}', [\App\Http\Controllers\TestController::class, 'test'])->name('test');
 Route::get('---test-email-order', [\App\Http\Controllers\TestController::class, 'testEmailOrder'])->middleware('auth');
 Route::get('---test-email-order-markup', [\App\Http\Controllers\TestController::class, 'testEmailOrderMarkup'])->middleware('auth');
+Route::get("---test-email-password-reset", [\App\Http\Controllers\TestController::class, "testResetPasswordMarkup"])->middleware('auth');
 
 
 Route::middleware([\App\Constants::MIDDLEWARE_AUTHENTICATE_ALL])->group(function() {

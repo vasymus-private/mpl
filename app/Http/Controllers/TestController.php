@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\H;
 use App\Mail\OrderShippedMail;
 use App\Mail\TestMarkupOrderShippedMail;
+use App\Mail\TestMarkupResetPasswordMail;
 use App\Models\Category;
 use App\Models\FAQ;
 use App\Models\Product\Product;
@@ -42,5 +43,10 @@ class TestController extends Controller
     public function testEmailOrderMarkup()
     {
         return new TestMarkupOrderShippedMail();
+    }
+
+    public function testResetPasswordMarkup()
+    {
+        return new TestMarkupResetPasswordMail();
     }
 }
