@@ -4,7 +4,7 @@
 
 @section('page-content')
     <x-h1 :entity="'Мои заказы'"></x-h1>
-    <a href="#" class="js-back">Вернуться</a>
+    <x-go-back/>
 
     @if(count($orders))
 
