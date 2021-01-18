@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class CartCheckoutController extends BaseWebController
@@ -104,6 +105,7 @@ class CartCheckoutController extends BaseWebController
                 $order->addMedia($file)->toMediaCollection(Order::MC_INITIAL_ATTACHMENT);
             }
         } catch (\Exception $exception) {
+            Log::error($exception);
             $order = null;
             DB::rollBack();
         }
