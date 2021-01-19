@@ -289,3 +289,10 @@ input::-webkit-inner-spin-button {
 input[type=number] {
     -moz-appearance:textfield; /* Firefox */
 }
+
+.pull-left {
+    flot:left;
+}
+.pull-right {
+    float: right;
+}

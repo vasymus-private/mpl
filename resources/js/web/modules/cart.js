@@ -5,7 +5,9 @@ import {
     getCartDeletes$,
     getCartColumnCountPartNormal$,
     getCartColumnCountPartDeleted$,
-    getCartDelete$
+    getCartDelete$,
+    getAddToCartPopoverClass,
+    getAddToCartPopover$
 } from "../helpers/products"
 import Rest from "../../helpers/Rest"
 import ajaxUrls from "../settings/ajaxUrls"
@@ -18,6 +20,8 @@ import Products from '../Products'
 (function ($) {
     $().ready(() => {
         let animationClass = "pulsing"
+
+
 
         let $addToCarts = $(".js-add-to-cart")
         let $addToCartCounts = $(".js-add-to-cart-count")
@@ -41,6 +45,7 @@ import Products from '../Products'
         let $cartDestroys = $(".js-cart-destroy")
 
         const TIMEOUT_MS = 4000
+        const TIMEOUT_POPOVER_MS = 4000
 
         const IS_IN_CART_CLASS = "is-in-cart"
 
@@ -181,14 +186,51 @@ import Products from '../Products'
                 })
             })
 
+
             $addToCarts.each((ind, el) => {
                 let $addToCart = $(el)
+
+                let id = $addToCart.data('id')
+
+                $addToCart.popover({
+                        template : `
+                    <div class="popover popover-add-to-cart ${getAddToCartPopoverClass(id)}">
+                        <div class="popover-header"></div>
+                        <div class="line">
+                            <a href="${window.cartRoute}">Перейти в корзину</a>
+                            <a href="#" class="add-to-cart-hide">Остаться</a>
+                            <a href="#" class="add-to-cart-hide"><span>X</span></a>
+                        </div>
+                    </div>
+                `,
+                        trigger : 'manual',
+                        placement : 'bottom',
+                        title : "<b>Добавлено в корзину</b>",
+                        html: true,
+                        delay : 0
+                    })
+
+                let popoverTimout
+                $addToCart.on("shown.bs.popover", event => {
+                    popoverTimout = setTimeout(() => {
+                        $addToCart.popover("hide")
+                    }, TIMEOUT_POPOVER_MS)
+                    getAddToCartPopover$(id).find('.add-to-cart-hide').on("click", e => {
+                        e.preventDefault()
+                        clearTimeout(popoverTimout)
+                        $addToCart.popover("hide")
+                    })
+                })
+
                 $addToCart.on("click", debounce(event => {
                     event.preventDefault()
                     let id = +$addToCart.data("id")
                     let isInCart = Products.isInCart(id)
                     let $input = $(`.${getAddToCartInputCountClass(id)}`)
                     let count = Math.abs($input.val()) || 1
+
+                    clearTimeout(popoverTimout)
+                    $addToCart.popover('hide')
 
                     if (isInCart) {
                         ajaxChangeCount(id, count)
@@ -199,6 +241,7 @@ import Products from '../Products'
                                 handleTooltip()
                                 handleRenderSidebarMenuCartList()
                                 handleUpadeCount()
+                                $addToCart.popover("show")
 
                                 return response
                             })
@@ -211,8 +254,11 @@ import Products from '../Products'
                                 handleTooltip()
                                 handleRenderSidebarMenuCartList()
                                 handleUpadeCount()
-                                $addToCart.removeClass(IS_IN_CART_CLASS)
+                                $addToCart.addClass(IS_IN_CART_CLASS)
                                 $addToCart.text("Добавить")
+
+                                $addToCart.popover("show")
+
 
                                 return response
                             })
@@ -312,7 +358,7 @@ import Products from '../Products'
             $addToCartCounts.text(Products.getCartItemsCount())
         }
 
-        function ajaxAddNewItemToCart(id, count, $btn) {
+        function ajaxAddNewItemToCart(id, count) {
             return Rest.POST(ajaxUrls.productInCart, {id, count})
                 .then(Rest.middleThen)
                 .catch(Rest.simpleCatch)

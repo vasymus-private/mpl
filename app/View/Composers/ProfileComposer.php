@@ -33,12 +33,14 @@ class ProfileComposer
         $cartCount = $user->cart_not_trashed->reduce(function(int $acc, Product $product) {
             return $acc + ($product->cart_product->count ?? 1);
         }, 0);
+        $cartRoute = route("cart.show");
 
         $view->with("viewedCount", $user->viewed_count + $user->service_viewed_count)
             ->with("cartCount", $cartCount)
             ->with("asideCount", count($asideIds))
             ->with("asideIds", $asideIds)
             ->with("cartItems", $cartItems)
+            ->with("cartRoute", $cartRoute)
         ;
     }
 }

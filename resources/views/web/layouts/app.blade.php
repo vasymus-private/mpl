@@ -26,6 +26,7 @@
 <body>
 @javascript([
     'cartItems' => $cartItems,
+    'cartRoute' => $cartRoute,
 ])
 @include("web.layouts.mb-menu")
 @yield("mb-brands-filter")

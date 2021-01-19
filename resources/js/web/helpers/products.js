@@ -28,3 +28,6 @@ export const getCartItemSumFormatted$ = (id) => jQuery(`.js-cart-item-sum-format
 
 export const getCartDeletes$ = () => jQuery(`.${CART_DELETE_CLASS}`)
 export const getCartDelete$ = id => getCartDeletes$().filter(`[data-id=${id}]`)
+
+export const getAddToCartPopoverClass = id => `js-add-to-cart-popover-${id}`
+export const getAddToCartPopover$ = id => jQuery(`.${getAddToCartPopoverClass(id)}`)

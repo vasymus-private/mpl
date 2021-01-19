@@ -170,7 +170,7 @@
                                 data-id="{{$variation->id}}"
                                 data-is-in-cart="{{(int)$variation->is_in_cart}}"
                             >
-                                {{$variation->available_submit_label}}
+                                {{$variation->is_in_cart ? "Добавить" : $variation->available_submit_label}}
                             </button>
                         @else
                             <strong>{{$variation->available_submit_label}}</strong>
