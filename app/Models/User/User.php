@@ -130,22 +130,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return static::create();
     }
 
-    public static function firstOrCreateBySessionUuid(UuidInterface $sessionUuid): self // todo move to separate action class
-    {
-        /** @see User::$userSessionUuids */
-        /** @var User|null $user */
-        $user = static::query()->firstBySessionUuid($sessionUuid);
-        if ($user) {
-            $userSessionUuid = $user->userSessionUuids()->find($sessionUuid->toString());
-        } else {
-            $user = User::create();
-            $userSessionUuid = UserSessionUuid::createBySessionUuid($user, $sessionUuid);
-        }
-
-        $user->setCurrentUserSessionUuid($userSessionUuid);
-        return $user;
-    }
-
     /**
      * Create a new Eloquent query builder for the model.
      *

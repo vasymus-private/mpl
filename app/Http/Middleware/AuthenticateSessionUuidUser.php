@@ -20,12 +20,12 @@ class AuthenticateSessionUuidUser
      */
     public function handle($request, Closure $next)
     {
-        $uuid = $request->cookie("session_uuid");
-
-        if (empty($uuid)) throw new SessionUuidNotProvidedException();
-
-        $user = User::firstOrCreateBySessionUuid(Uuid::fromString($uuid));
-        Auth::guard()->login($user, true);
+//        $uuid = $request->cookie("session_uuid");
+//
+//        if (empty($uuid)) throw new SessionUuidNotProvidedException();
+//
+//        $user = User::firstOrCreateBySessionUuid(Uuid::fromString($uuid));
+//        Auth::guard()->login($user, true);
 
         return $next($request);
     }

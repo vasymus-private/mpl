@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Symfony\Component\DomCrawler\Crawler;
 
 class FAQTableSeeder extends Seeder
@@ -30,6 +31,9 @@ class FAQTableSeeder extends Seeder
             foreach ($asIsAttributes as $attribute) {
                 $seed[$attribute] = $rawSeed[$attribute];
             }
+            $name = $seed["name"];
+            $slug = $seed["slug"];
+            if (empty($slug)) $seed["slug"] = Str::slug($name);
             $seed["created_at"] = $rawSeed["created_at"]
                 ? Carbon::createFromFormat("d.m.Y", $rawSeed["created_at"])
                 : null

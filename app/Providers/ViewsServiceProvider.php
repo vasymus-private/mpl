@@ -16,6 +16,7 @@ use App\View\Components\ProductGalleryItemComponent;
 use App\View\Components\ProductItemComponent;
 use App\View\Components\SeoComponent;
 use App\View\Components\SidebarBrandsFilterComponent;
+use App\View\Components\SidebarFaqComponent;
 use App\View\Components\SidebarMenuCartComponent;
 use App\View\Components\SidebarMenuAsideCountComponent;
 use App\View\Components\SidebarMenuMaterialsComponent;
@@ -66,6 +67,7 @@ class ViewsServiceProvider extends ServiceProvider
 
         Blade::component("go-back", GoBackComponent::class);
 
+        Blade::component("sidebar-faq", SidebarFaqComponent::class);;
 
         $webViews = [];
 

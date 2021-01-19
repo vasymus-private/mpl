@@ -29,11 +29,6 @@ class Admin extends User implements HasMedia
         });
     }
 
-    public static function firstOrCreateBySessionUuid(string $anonymousUid): User
-    {
-        throw new \LogicException("Can not create anonymous admin");
-    }
-
     public function registerMediaCollections()
     {
         $this->addMediaCollection(static::MC_COMMON_MEDIA);
