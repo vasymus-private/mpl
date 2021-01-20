@@ -9,7 +9,7 @@
             </a>
         </div>
     </div>
-    <div class="content__white-block cart">
+    <div class="content__white-block cart form-group">
         <form action="{{route("cart.checkout")}}" method="POST" class="form-group" enctype="multipart/form-data" id="form-order">
             @csrf
             @if(\Illuminate\Support\Facades\Auth::user()->is_anonymous2)
@@ -46,7 +46,6 @@
                 </div>    
             @endif
         </form>
-
         <div class="cart-block">
             <h4 class="cart__title">Проверьте ваш заказ:</h4>
             @if(count($cartProducts))
@@ -98,38 +97,73 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div class="basket-mobile basket-mob">
+                @foreach($cartProducts as $cartProduct)
+                    <div class="basket-mobile__product-block">
+                        <div class="row-line">
+                            <div class="basket-mobile__photo">
+                                <img src="{{$cartProduct->main_image_url}}" alt="" class="cart__image" />
+                            </div>
+                            <div class="basket-mobile__text">
+                                <p>{!! $cartProduct->name !!}</p>
+                                <div class="row-basket">
+                                    <span class="text-large">{{$cartProduct->price_retail_rub_formatted}} / {{$cartProduct->unit}}.</span>
+                                    <a href="#" class="js-cart-delete" data-id="{{$cartProduct->id}}" @if(($cartProduct->cart_product->deleted_at ?? null) !== null) style="display: none;" @endif>&nbsp;</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-line row-line__right">
+                            <div class="basket-mobile__blocker-gree">
+                                <div class="basket-mobile__cost-basket">
+                                    <span class="basket-mobile__cost-basket-cost">
+                                        {{ ($cartProduct->cart_product->count ?? 1) * $cartProduct->price_retail_rub }} р
+                                    </span>
+                                </div>
+                                <div class="basket-mobile__count-basket">
+                                    <div class="js-cart-column-count-part-normal" @if(($cartProduct->cart_product->deleted_at ?? null) !== null) style="display: none;" @endif data-id="{{$cartProduct->id}}">
+                                        <button type="button" class="js-cart-decrement" data-id="{{$cartProduct->id}}">-</button>
+                                        <input type="text" value="{{$cartProduct->cart_product->count ?? 1}}" class="js-input-hide-on-focus js-add-to-cart-input-count js-add-to-cart-input-count-{{$cartProduct->id}}" data-id="{{$cartProduct->id}}" />
+                                        <button type="button" class="js-cart-increment" data-id="{{$cartProduct->id}}">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+                </div>
                 <div class="cart__items">
-                    <p>Итого: <span class="js-cart-total-sum-formatted">{{$cartProducts->reduce(function($acc, \App\Models\Product\Product $item) { return $acc += ($item->price_retail_rub * ($item->cart_product->count ?? 1)); }, 0)}} р</span></p>
+                    <span>Итого: <strong class="js-cart-total-sum-formatted">{{$cartProducts->reduce(function($acc, \App\Models\Product\Product $item) { return $acc += ($item->price_retail_rub * ($item->cart_product->count ?? 1)); }, 0)}} р</strong></span>
                 </div>                
             @else
                 <p>У вас пустая корзина.</p>
             @endif
         </div>
-
         <div class="cart__text-ar">
-            <p><b><label for="comment">Вы можете оставить комментарий:</label></b></p>
-            <div>
-                <textarea name="comment" id="comment" form="form-order" style="width: 100%; min-height: 50px;" placeholder="Адрес доставки или самовывоз. Удобный способ оплаты.">{{old("comment")}}</textarea>
-            </div>
+            <label for="comment">Вы можете оставить комментарий:</label>
+            <textarea name="comment" id="comment" form="form-order" placeholder="Адрес доставки или самовывоз. Удобный способ оплаты.">{{old("comment")}}</textarea>
             @if($errors->has("comment"))
                 <div>
                     <span style="color:red">{{$errors->first("comment")}}</span>
                 </div>
             @endif
         </div>
-        <div>
-            <p><b><label for="attachment">Вы можете прикрепить файл:</label></b></p>
-            <div>
-                <input form="form-order" type="file" id="attachment" name="attachment[]" multiple />
+        <div class="row-line center">
+            <div class="column">
+                <label for="attachment">Вы можете прикрепить файл:</label>
+                <div class="block-file">
+                    <div class="bg_img">
+                        <input form="form-order" type="file" id="attachment" name="attachment[]" multiple />
+                    </div>
+                </div>                
+                @if($errors->has("attachment"))
+                    <div>
+                        <span style="color:red">{{$errors->first("attachment")}}</span>
+                    </div>
+                @endif
             </div>
-            @if($errors->has("attachment"))
-                <div>
-                    <span style="color:red">{{$errors->first("attachment")}}</span>
-                </div>
-            @endif
-        </div>
-        <div>
-            <button type="submit" form="form-order">Отправить заказ</button>
+            <div class="column">
+                <button class="btn-submit" type="submit" form="form-order">Отправить заказ</button>
+            </div>
         </div>
         @if($errors->has("cart"))
             <div>
@@ -141,6 +175,8 @@
                 <span style="color:red">{{session()->get('cart-error')}}</span>
             </div>
         @endif
-        <p>Нажимая на кнопку "Отправить заказ", я даю <a href="#" data-fancybox="consent-processing-personal-data" data-src="#consent-processing-personal-data">согласие на обработку своих персональных данных</a></p>
+        <div class="cart__items">
+            <p class="sec-data-politics-p">Нажимая на кнопку "Отправить заказ", я даю <a href="#" data-fancybox="consent-processing-personal-data" data-src="#consent-processing-personal-data">согласие на обработку своих персональных данных</a></p>
+        </div>
     </div>
 @endsection
