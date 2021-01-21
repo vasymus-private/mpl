@@ -9,3 +9,42 @@
         margin: 0 0 3px;
     }
 }
+
+.popover-add-to-cart {
+    position: absolute;
+    width: 191px;
+    background: #fff;
+    -webkit-box-shadow: 0 0 10px rgba(0,0,0,.5);
+    box-shadow: 0 0 10px rgba(0,0,0,.5);
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    .popover-header {
+        background: none;
+        border: 0;
+        padding: 0;
+        color: #444;
+        font-size: 12px;
+    }
+    a {
+        font-size: 11px;
+        color: #ff5100;
+        text-decoration: underline;
+        span {
+            color: #fff;
+            padding: 0 2px;
+            background: red;
+            line-height: 15px;
+            margin-right: 2px;
+            font-size: 8px;
+        }
+    }
+
+    .line {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        padding: 5px 0 0;
+        justify-content: space-between;
+    }
+}

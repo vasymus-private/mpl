@@ -115,7 +115,7 @@
                         <div class="row-line row-line__right">
                             <div class="basket-mobile__blocker-gree">
                                 <div class="basket-mobile__cost-basket">
-                                    <span class="basket-mobile__cost-basket-cost">
+                                    <span>
                                         {{ ($cartProduct->cart_product->count ?? 1) * $cartProduct->price_retail_rub }} р
                                     </span>
                                 </div>

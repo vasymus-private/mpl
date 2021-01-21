@@ -109,13 +109,15 @@
   }
 
   .manager-area-price {
-    background-color: #eee;
+    background: rgb(49,121,206);
+    background: linear-gradient(90deg, rgba(49,121,206,1) 18%, rgba(77,181,234,1) 64%);
     padding: 5px 7px;
     border: 1px solid #999;
     text-align: center;
     p {
-      margin: 0;
-      padding: 0;
+        margin: 0;
+        padding: 0;
+        color: #fff;
     }
   }
 
