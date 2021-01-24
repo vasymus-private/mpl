@@ -9,8 +9,8 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property int $id
@@ -23,7 +23,7 @@ use Spatie\MediaLibrary\HasMedia\HasMedia;
 class Brand extends BaseModel implements HasMedia
 {
     use SoftDeletes;
-    use HasMediaTrait;
+    use InteractsWithMedia;
 
     const TABLE = "brands";
 
@@ -58,7 +58,7 @@ class Brand extends BaseModel implements HasMedia
         return $this->hasMany(Product::class, "brand_id", "id");
     }
 
-    public function registerMediaCollections()
+    public function registerMediaCollections(): void
     {
         $this
             ->addMediaCollection(static::MC_MAIN_IMAGE)

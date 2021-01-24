@@ -19,8 +19,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Auth;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property int $id
@@ -196,7 +196,7 @@ class Product extends BaseModel implements HasMedia
 {
     use ProductRelations;
     use SoftDeletes;
-    use HasMediaTrait;
+    use InteractsWithMedia;
 
     const DEFAULT_CURRENCY_ID = Currency::ID_RUB;
 
@@ -366,7 +366,7 @@ class Product extends BaseModel implements HasMedia
         ;
     }
 
-    public function registerMediaCollections()
+    public function registerMediaCollections(): void
     {
         $this
             ->addMediaCollection(static::MC_MAIN_IMAGE)

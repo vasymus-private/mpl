@@ -15,8 +15,8 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property int $id
@@ -75,7 +75,7 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 class Order extends \Domain\Common\Models\BaseModel implements HasMedia
 {
     use SoftDeletes;
-    use HasMediaTrait;
+    use InteractsWithMedia;
 
     const TABLE = "orders";
 
@@ -133,7 +133,7 @@ class Order extends \Domain\Common\Models\BaseModel implements HasMedia
         return $this->belongsTo(OrderStatus::class, "order_status_id", "id");
     }
 
-    public function registerMediaCollections()
+    public function registerMediaCollections(): void
     {
         $this->addMediaCollection(static::MC_INITIAL_ATTACHMENT);
 

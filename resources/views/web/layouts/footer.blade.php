@@ -110,7 +110,7 @@
                     </li>
                     <li>
                         <i class="fa fa-phone" aria-hidden="true"></i>
-                        {{SupportSupport\H::getPhone1()}}
+                        {{Support\H::getPhone1()}}
                     </li>
                     <li>
                         <i class="fa fa-phone" aria-hidden="true"></i>
@@ -118,7 +118,7 @@
                     </li>
                     <li>
                         <i class="fa fa-at" aria-hidden="true"></i>
-                        {{SupportSupport\H::getMail()}}
+                        {{Support\H::getMail()}}
                     </li>
                 </ul>
             </div>

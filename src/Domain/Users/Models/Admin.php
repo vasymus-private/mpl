@@ -4,12 +4,12 @@ namespace Domain\Users\Models;
 
 use Domain\Users\Models\User\User;
 use Illuminate\Database\Eloquent\Builder;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Admin extends User implements HasMedia
 {
-    use HasMediaTrait;
+    use InteractsWithMedia;
 
     const ID_CENTRAL_ADMIN = 1;
 
@@ -29,7 +29,7 @@ class Admin extends User implements HasMedia
         });
     }
 
-    public function registerMediaCollections()
+    public function registerMediaCollections(): void
     {
         $this->addMediaCollection(static::MC_COMMON_MEDIA);
     }

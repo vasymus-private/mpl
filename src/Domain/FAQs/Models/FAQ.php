@@ -8,8 +8,8 @@ use Domain\Seo\Models\Seo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property int $id
@@ -33,7 +33,7 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
  * */
 class FAQ extends BaseModel implements HasMedia
 {
-    use HasMediaTrait;
+    use InteractsWithMedia;
 
     const TABLE = "faq";
     const UPDATED_AT = null;
@@ -66,7 +66,7 @@ class FAQ extends BaseModel implements HasMedia
         return $this->morphOne(Seo::class, "seoable", "seoable_type", "seoable_id");
     }
 
-    public function registerMediaCollections()
+    public function registerMediaCollections(): void
     {
         $this->addMediaCollection(static::MC_FILES);
     }
