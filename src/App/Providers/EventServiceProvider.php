@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Events\ProductViewedEvent;
-use App\Events\ServiceViewedEvent;
+use Domain\Products\Events\ProductViewedEvent;
+use Domain\Services\Events\ServiceViewedEvent;
 use Domain\Products\Listeners\MarkProductViewed;
 use Domain\Services\Listeners\MarkServiceViewed;
 use Illuminate\Auth\Events\Registered;

@@ -1,4 +1,4 @@
-<?php /** @var \App\DTOs\ViewedDTO[]|\Illuminate\Database\Eloquent\Collection $viewed */ ?>
+<?php /** @var \Domain\Products\DTOs\ViewedDTO[]|\Illuminate\Database\Eloquent\Collection $viewed */ ?>
 @if($viewed->isNotEmpty())
 <div class="watched-block">
     <h4 class="watched-block__title">Вы смотрели</h4>

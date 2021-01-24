@@ -2,7 +2,7 @@
 
 namespace Domain\Services\Listeners;
 
-use App\Events\ServiceViewedEvent;
+use Domain\Services\Events\ServiceViewedEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 

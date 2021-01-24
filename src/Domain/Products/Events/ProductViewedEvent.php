@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Events;
+namespace Domain\Products\Events;
 
-use Domain\Services\Models\Service;
+use Domain\Products\Models\Product\Product;
 use Domain\Users\Models\User\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -12,32 +12,32 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ServiceViewedEvent
+class ProductViewedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * @var \Domain\Users\Models\User\User
+     * @var User
      * */
     public $user;
 
     /**
-     * @var Service
+     * @var Product
      * */
-    public $service;
+    public $product;
 
     /**
      * Create a new event instance.
      *
-     * @param \Domain\Users\Models\User\User $user
-     * @param Service $service
+     * @param User $user
+     * @param Product $product
      *
      * @return void
      */
-    public function __construct(User $user, Service $service)
+    public function __construct(User $user, Product $product)
     {
         $this->user = $user;
-        $this->service = $service;
+        $this->product = $product;
     }
 
     /**

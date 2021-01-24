@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Events\ProductViewedEvent;
+use Domain\Products\Events\ProductViewedEvent;
 use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
 use Support\Breadcrumbs\Breadcrumbs;

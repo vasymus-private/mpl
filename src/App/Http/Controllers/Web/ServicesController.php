@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Events\ServiceViewedEvent;
+use Domain\Services\Events\ServiceViewedEvent;
 use Domain\Services\Models\Service;
 use Support\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;

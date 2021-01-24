@@ -2,7 +2,7 @@
 
 namespace App\View\Components;
 
-use App\DTOs\ViewedDTO;
+use Domain\Products\DTOs\ViewedDTO;
 use Domain\Products\Models\Product\Product;
 use Domain\Services\Models\Service;
 use Domain\Users\Models\User\User;
