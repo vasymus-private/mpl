@@ -47,7 +47,7 @@ return [
             'hash' => false,
         ],
 
-        'web-admin' => [
+        \App\Constants::AUTH_GUARD_ADMIN => [
             'driver' => 'session',
             'provider' => 'admins',
         ],

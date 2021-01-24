@@ -31,8 +31,10 @@
                     @if(\Illuminate\Support\Facades\Auth::user()->is_anonymous2)
                         <a href="{{route("login")}}" class="top-bar__enter">Вход</a>
                     @else
-                        <a href="#" class="top-bar__enter">Выход</a>
-
+                        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="top-bar__enter">Выход</a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
                     @endif
                 </div>
             </div>
