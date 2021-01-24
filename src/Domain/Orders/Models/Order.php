@@ -2,9 +2,9 @@
 
 namespace Domain\Orders\Models;
 
-use App\Models\BaseModel;
-use App\Models\Currency;
-use App\Models\OrderStatus;
+use Domain\Common\Models\BaseModel;
+use Domain\Common\Models\Currency;
+use Domain\Orders\Models\OrderStatus;
 use Support\H;
 use Domain\Orders\Models\Pivots\OrderProduct;
 use Domain\Products\Models\Product\Product;
@@ -72,7 +72,7 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
  * @see Order::getUserPhoneAttribute()
  * @property-read string $user_phone
  * */
-class Order extends BaseModel implements HasMedia
+class Order extends \Domain\Common\Models\BaseModel implements HasMedia
 {
     use SoftDeletes;
     use HasMediaTrait;
@@ -152,7 +152,7 @@ class Order extends BaseModel implements HasMedia
 
     public function getPriceRetailRubFormattedAttribute(): string
     {
-        return H::priceRubFormatted($this->price_retail_rub, Currency::ID_RUB);
+        return H::priceRubFormatted($this->price_retail_rub, \Domain\Common\Models\Currency::ID_RUB);
     }
 
     public function getStatusNameForUserAttribute(): string

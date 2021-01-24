@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Models;
+namespace Domain\Products\Models;
+
+use Domain\Common\Models\BaseModel;
 
 /**
  * @property int $id
  * @property string $name
  * */
-class AvailabilityStatus extends BaseModel
+class AvailabilityStatus extends \Domain\Common\Models\BaseModel
 {
     const TABLE = "availability_statuses";
 

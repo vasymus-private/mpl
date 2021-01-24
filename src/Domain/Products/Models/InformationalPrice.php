@@ -1,21 +1,18 @@
 <?php
 
-namespace App\Models;
+namespace Domain\Products\Models;
+
+use Domain\Common\Models\BaseModel;
 
 /**
  * @property int $id
+ * @property int $product_id
+ * @property float $price
  * @property string $name
- * @property string $color
  * */
-class OrderImportance extends BaseModel
+class InformationalPrice extends BaseModel
 {
-    const TABLE = "order_importances";
-
-    const ID_GREY = 1;
-    const ID_ORANGE = 2;
-    const ID_RED = 3;
-
-    const DEFAULT_ID = self::ID_GREY;
+    const TABLE = "informational_prices";
 
     /**
      * The table associated with the model.

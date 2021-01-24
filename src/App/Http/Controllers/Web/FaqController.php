@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Models\FAQ;
+use Domain\FAQs\Models\FAQ;
 use Illuminate\Http\Request;
 
 class FaqController extends BaseWebController
@@ -16,7 +16,7 @@ class FaqController extends BaseWebController
 
     public function show(Request $request)
     {
-        /** @var FAQ $faq */
+        /** @var \Domain\FAQs\Models\FAQ $faq */
         $faq = $request->faq_slug;
 
         return view("web.pages.faqs.faq", compact("faq"));

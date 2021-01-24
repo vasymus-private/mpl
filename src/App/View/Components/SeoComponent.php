@@ -2,7 +2,7 @@
 
 namespace App\View\Components;
 
-use App\Models\Seo;
+use Domain\Seo\Models\Seo;
 use Illuminate\View\Component;
 
 class SeoComponent extends Component

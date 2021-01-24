@@ -2,14 +2,14 @@
 
 namespace App\View\Components;
 
-use App\Models\FAQ;
+use Domain\FAQs\Models\FAQ;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\Component;
 
 class SidebarFaqComponent extends Component
 {
     /**
-     * @var Collection|FAQ[]
+     * @var Collection|\Domain\FAQs\Models\FAQ[]
      * */
     public $sidebarFaqs;
 

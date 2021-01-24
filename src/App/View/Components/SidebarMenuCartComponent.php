@@ -3,7 +3,7 @@
 namespace App\View\Components;
 
 use Support\H;
-use App\Models\Currency;
+use Domain\Common\Models\Currency;
 use Domain\Products\Models\Product\Product;
 use Domain\Users\Models\User\User;
 use Illuminate\Database\Eloquent\Collection;

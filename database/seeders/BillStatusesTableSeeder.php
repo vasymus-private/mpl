@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\BillStatus;
+use Domain\Orders\Models\BillStatus;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 

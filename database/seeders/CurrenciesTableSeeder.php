@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Currency;
+use Domain\Common\Models\Currency;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 

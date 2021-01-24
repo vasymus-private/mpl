@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\OrderImportance;
+use Domain\Orders\Models\OrderImportance;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 

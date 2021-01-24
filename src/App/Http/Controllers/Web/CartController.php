@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use Domain\Orders\Models\Order;
-use App\Models\PaymentMethod;
+use Domain\Orders\Models\PaymentMethod;
 use Domain\Users\Models\User\User;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Http\Request;

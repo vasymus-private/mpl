@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace Domain\Articles\Models;
 
 use Carbon\Carbon;
+use Domain\Common\Models\BaseModel;
+use Domain\Seo\Models\Seo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphOne;

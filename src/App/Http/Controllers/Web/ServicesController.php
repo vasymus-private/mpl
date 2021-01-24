@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Events\ServiceViewedEvent;
-use App\Models\Service;
+use Domain\Services\Models\Service;
 use App\Services\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

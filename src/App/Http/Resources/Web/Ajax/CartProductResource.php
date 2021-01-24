@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Web\Ajax;
 
-use App\Models\Currency;
+use Domain\Common\Models\Currency;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Http\Resources\Json\JsonResource;
 

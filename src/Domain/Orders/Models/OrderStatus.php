@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace Domain\Orders\Models;
+
+use Domain\Common\Models\BaseModel;
 
 /**
  * @property int $id

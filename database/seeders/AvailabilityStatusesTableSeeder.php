@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\AvailabilityStatus;
+use Domain\Products\Models\AvailabilityStatus;
 use Illuminate\Support\Facades\DB;
 
 class AvailabilityStatusesTableSeeder extends Seeder

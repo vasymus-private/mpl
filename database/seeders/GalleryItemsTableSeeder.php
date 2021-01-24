@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\GalleryItem;
+use Domain\GalleryItems\Models\GalleryItem;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;

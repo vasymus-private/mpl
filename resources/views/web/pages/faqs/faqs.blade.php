@@ -11,7 +11,7 @@
 
         <ul>
             @foreach($faqs as $faq)
-                <?php /** @var \App\Models\FAQ $faq */ ?>
+                <?php /** @var \Domain\FAQs\Models\FAQ $faq */ ?>
                 <li>
                     <h2><a href="{{route("faq.show", $faq->slug)}}">{{$faq->name}}</a></h2>
                     <div>

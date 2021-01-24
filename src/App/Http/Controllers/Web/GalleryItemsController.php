@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Models\GalleryItem;
+use Domain\GalleryItems\Models\GalleryItem;
 use Illuminate\Http\Request;
 
 class GalleryItemsController extends BaseWebController
@@ -17,7 +17,7 @@ class GalleryItemsController extends BaseWebController
 
     public function show(Request $request)
     {
-        /** @var GalleryItem $parentGalleryItem */
+        /** @var \Domain\GalleryItems\Models\GalleryItem $parentGalleryItem */
         $parentGalleryItem = $request->parentGalleryItemSlug;
         $parentGalleryItem->load("child");
         $childGalleryItems = $parentGalleryItem->child;

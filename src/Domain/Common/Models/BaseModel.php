@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace Domain\Common\Models;
 
+use Domain\Common\Models\CommonTraits;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 

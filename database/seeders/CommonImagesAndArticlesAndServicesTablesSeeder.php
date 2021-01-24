@@ -3,11 +3,11 @@
 namespace Database\Seeders;
 
 use Domain\Users\Models\Admin;
-use App\Models\Article;
-use App\Models\Seo;
-use App\Models\Service;
+use Domain\Articles\Models\Article;
+use Domain\Seo\Models\Seo;
+use Domain\Services\Models\Service;
 use Illuminate\Database\Seeder;
-use App\Models\ServicesGroup;
+use Domain\Services\Models\ServicesGroup;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\DomCrawler\Crawler;
@@ -124,7 +124,7 @@ class CommonImagesAndArticlesAndServicesTablesSeeder extends Seeder
                 "is_active" => $seed["is_active"],
             ];
 
-            /** @var Article|Service $model */
+            /** @var Article|\Domain\Services\Models\Service $model */
             if ($isArticle) {
                 $model = Article::forceCreate($attr);
                 $oldUrlArr = explode("/", trim($seed["_oldUrl"], "\\/"));
@@ -132,7 +132,7 @@ class CommonImagesAndArticlesAndServicesTablesSeeder extends Seeder
 
                 if (!$isParent) {
                     $parentSlug = $oldUrlArr[1];
-                    /** @var Article $parent */
+                    /** @var \Domain\Articles\Models\Article $parent */
                     $parent = Article::query()->where(Article::TABLE . ".slug", $parentSlug)->firstOrFail();
                     $model->parent_id = $parent->id;
                     $model->save();

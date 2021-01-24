@@ -2,16 +2,16 @@
 
 namespace Database\Seeders;
 
-use App\Models\AvailabilityStatus;
-use App\Models\Currency;
-use App\Models\InformationalPrice;
+use Domain\Products\Models\AvailabilityStatus;
+use Domain\Common\Models\Currency;
+use Domain\Products\Models\InformationalPrice;
 use Domain\Products\Models\Pivots\CategoryProduct;
 use Domain\Products\Models\Pivots\ProductProduct;
 use Domain\Users\Models\Pivots\ProductUserAside;
 use Domain\Users\Models\Pivots\ProductUserCart;
 use Domain\Users\Models\Pivots\ProductUserViewed;
 use Domain\Products\Models\Product\Product;
-use App\Models\Seo;
+use Domain\Seo\Models\Seo;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;

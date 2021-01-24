@@ -48,7 +48,7 @@
         </div>
         <div class="column-price-mobile">
             <div class="column">
-                <span class="catalog__price">{{$product->price_retail}} {{\App\Models\Currency::getFormattedName($product->price_retail_currency_id)}}<span class="gray-color"> / {{$product->unit}}</span></span>
+                <span class="catalog__price">{{$product->price_retail}} {{\Domain\Common\Models\Currency::getFormattedName($product->price_retail_currency_id)}}<span class="gray-color"> / {{$product->unit}}</span></span>
             </div>
             <div class="column">
                 <a href="{{$product->web_route}}" class="catalog__addToCard">Купить</a>

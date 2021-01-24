@@ -2,13 +2,13 @@
 
 namespace App\Providers;
 
-use App\Models\Article;
+use Domain\Articles\Models\Article;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\Category;
-use App\Models\FAQ;
-use App\Models\GalleryItem;
+use Domain\FAQs\Models\FAQ;
+use Domain\GalleryItems\Models\GalleryItem;
 use Domain\Products\Models\Product\Product;
-use App\Models\Service;
+use Domain\Services\Models\Service;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 

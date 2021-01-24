@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace Domain\Services\Models;
 
+use Domain\Common\Models\BaseModel;
+use Domain\Seo\Models\Seo;
 use Domain\Users\Models\Pivots\ServiceUserViewed;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;

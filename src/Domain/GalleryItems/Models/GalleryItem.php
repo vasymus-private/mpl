@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace Domain\GalleryItems\Models;
 
+use Domain\Seo\Models\Seo;
 use Carbon\Carbon;
+use Domain\Common\Models\BaseModel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
@@ -47,7 +49,7 @@ class GalleryItem extends BaseModel implements HasMedia
 
     public function seo(): MorphOne
     {
-        return $this->morphOne(Seo::class, "seoable", "seoable_type", "seoable_id");
+        return $this->morphOne(\Domain\Seo\Models\Seo::class, "seoable", "seoable_type", "seoable_id");
     }
 
     public function registerMediaCollections()

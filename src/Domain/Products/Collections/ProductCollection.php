@@ -4,7 +4,7 @@ namespace Domain\Products\Collections;
 
 use Domain\Products\Models\Product\Product;
 use Support\H;
-use App\Models\Currency;
+use Domain\Common\Models\Currency;
 use Illuminate\Database\Eloquent\Collection;
 
 class ProductCollection extends Collection

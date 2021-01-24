@@ -3,7 +3,7 @@
 namespace Support;
 
 use App\Exception;
-use App\Models\Currency;
+use Domain\Common\Models\Currency;
 use App\Services\CBRcurrencyConverter\CBRcurrencyConverter;
 use Illuminate\Support\HtmlString;
 

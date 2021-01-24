@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace Domain\Users\Models;
 
+use Domain\Common\Models\BaseModel;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string|null $email
  * @property Carbon|null $created_at
  * */
-class Blacklist extends BaseModel
+class Blacklist extends \Domain\Common\Models\BaseModel
 {
     use SoftDeletes;
 

@@ -3,10 +3,10 @@
 namespace Domain\Products\Models\Product;
 
 use Domain\Products\Models\Category;
-use App\Models\InformationalPrice;
+use Domain\Products\Models\InformationalPrice;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\Pivots\ProductProduct;
-use App\Models\Seo;
+use Domain\Seo\Models\Seo;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -36,10 +36,10 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
  * @property Category|null $category
  *
  * @see ProductRelations::infoPrices()
- * @property Collection|InformationalPrice[] $infoPrices
+ * @property Collection|\Domain\Products\Models\InformationalPrice[] $infoPrices
  *
  * @see ProductRelations::seo()
- * @property Seo|null $seo
+ * @property \Domain\Seo\Models\Seo|null $seo
  *
  * @see ProductRelations::brand()
  * @property Brand|null $brand

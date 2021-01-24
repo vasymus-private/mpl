@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Models\Article;
+use Domain\Articles\Models\Article;
 use App\Services\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
 
@@ -10,7 +10,7 @@ class ArticlesController extends BaseWebController
 {
     public function show(Request $request)
     {
-        /** @var Article $article*/
+        /** @var \Domain\Articles\Models\Article $article*/
         $article = $request->article_slug;
 
         /** @var Article|null $subarticle */

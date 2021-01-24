@@ -2,10 +2,10 @@
 
 namespace App\Services\Breadcrumbs;
 
-use App\Models\Article;
+use Domain\Articles\Models\Article;
 use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
-use App\Models\Service;
+use Domain\Services\Models\Service;
 
 class Breadcrumbs
 {
@@ -89,7 +89,7 @@ class Breadcrumbs
     }
 
     /**
-     * @param Service $service
+     * @param \Domain\Services\Models\Service $service
      *
      * @return BreadcrumbDTO[]
      * */
@@ -108,8 +108,8 @@ class Breadcrumbs
     }
 
     /**
-     * @param Article $article
-     * @param Article|null $subarticle
+     * @param \Domain\Articles\Models\Article $article
+     * @param \Domain\Articles\Models\Article|null $subarticle
      *
      * @return BreadcrumbDTO[]
      * */

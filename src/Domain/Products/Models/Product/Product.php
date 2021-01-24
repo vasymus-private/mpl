@@ -4,10 +4,10 @@ namespace Domain\Products\Models\Product;
 
 use Domain\Products\Collections\ProductCollection;
 use Support\H;
-use App\Models\AvailabilityStatus;
-use App\Models\BaseModel;
+use Domain\Products\Models\AvailabilityStatus;
+use Domain\Common\Models\BaseModel;
 use Domain\Products\Models\Category;
-use App\Models\Currency;
+use Domain\Common\Models\Currency;
 use Domain\Orders\Models\Order;
 use Domain\Orders\Models\Pivots\OrderProduct;
 use Domain\Users\Models\Pivots\ProductUserAside;

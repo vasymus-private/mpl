@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use App\DTOs\ViewedDTO;
 use Domain\Products\Models\Product\Product;
-use App\Models\Service;
+use Domain\Services\Models\Service;
 use Domain\Users\Models\User\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;

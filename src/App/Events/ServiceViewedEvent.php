@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\Service;
+use Domain\Services\Models\Service;
 use Domain\Users\Models\User\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;

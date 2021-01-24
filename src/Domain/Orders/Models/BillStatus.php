@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Models;
+namespace Domain\Orders\Models;
+
+use Domain\Common\Models\BaseModel;
 
 /**
  * @property int $id
  * @property string $name
  * */
-class BillStatus extends BaseModel
+class BillStatus extends \Domain\Common\Models\BaseModel
 {
     const TABLE = "bill_statuses";
 

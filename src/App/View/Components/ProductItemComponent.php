@@ -3,8 +3,8 @@
 namespace App\View\Components;
 
 use Support\H;
-use App\Models\Currency;
-use App\Models\InformationalPrice;
+use Domain\Common\Models\Currency;
+use Domain\Products\Models\InformationalPrice;
 use Domain\Products\Models\Product\Product;
 use Illuminate\View\Component;
 

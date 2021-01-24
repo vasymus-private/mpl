@@ -3,7 +3,7 @@
 namespace App\Http\Requests\Web\Ajax;
 
 use Domain\Orders\Models\Order;
-use App\Models\PaymentMethod;
+use Domain\Orders\Models\PaymentMethod;
 use Domain\Users\Models\User\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\UploadedFile;

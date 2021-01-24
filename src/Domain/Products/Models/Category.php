@@ -2,8 +2,8 @@
 
 namespace Domain\Products\Models;
 
-use App\Models\BaseModel;
-use App\Models\Seo;
+use Domain\Common\Models\BaseModel;
+use Domain\Seo\Models\Seo;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -41,7 +41,7 @@ use Illuminate\Routing\Route;
  * @see Category::scopeOrdering()
  * @method static static|Builder ordering()
  * */
-class Category extends BaseModel
+class Category extends \Domain\Common\Models\BaseModel
 {
     use SoftDeletes;
 
@@ -93,7 +93,7 @@ class Category extends BaseModel
 
     public function seo(): MorphOne
     {
-        return $this->morphOne(Seo::class, "seoable", "seoable_type", "seoable_id");
+        return $this->morphOne(\Domain\Seo\Models\Seo::class, "seoable", "seoable_type", "seoable_id");
     }
 
     public function scopeParents(Builder $builder): Builder

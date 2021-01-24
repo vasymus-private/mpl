@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\ServicesGroup;
+use Domain\Services\Models\ServicesGroup;
 use Illuminate\Support\Facades\DB;
 
 class ServicesGroupsTableSeeder extends Seeder

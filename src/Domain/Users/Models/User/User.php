@@ -2,20 +2,16 @@
 
 namespace Domain\Users\Models\User;
 
-use App\Models\BaseModel;
-use App\Models\CommonTraits;
+use Domain\Common\Models\BaseModel;
+use Domain\Common\Models\CommonTraits;
 use Domain\Orders\Models\Order;
-use Domain\Orders\Models\Pivots\OrderProduct;
 use Domain\Users\Models\Pivots\ProductUserAside;
 use Domain\Users\Models\Pivots\ProductUserCart;
 use Domain\Users\Models\Pivots\ProductUserViewed;
 use Domain\Users\Models\Pivots\ServiceUserViewed;
 use Domain\Products\Models\Product\Product;
-use Domain\Products\Collections\ProductCollection;
-use App\Models\Service;
-use App\Models\UserSessionUuid;
+use Domain\Services\Models\Service;
 use Carbon\Carbon;
-use Domain\Users\Models\Admin;
 use Domain\Users\QueryBuilders\UserQueryBuilder;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
@@ -25,7 +21,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Ramsey\Uuid\UuidInterface;
 
 // if will use HasMediaTrait do not forget to call parent::registerMediaCollections() in Admin
 /**
@@ -51,9 +46,6 @@ use Ramsey\Uuid\UuidInterface;
  * @see User::getIsSuperAdminAttribute()
  * @property bool $is_super_admin
  *
- * @see User::getIsAnonymousAttribute()
- * @property bool $is_anonymous
- *
  * @see User::getIsIdentifiedAttribute()
  * @property bool $is_identified
  *
@@ -70,19 +62,13 @@ use Ramsey\Uuid\UuidInterface;
  * @property Product[]|\Domain\Products\Collections\ProductCollection $viewed
  *
  * @see User::serviceViewed()
- * @property Service[]|Collection $serviceViewed
+ * @property \Domain\Services\Models\Service[]|Collection $serviceViewed
  *
  * @see User::aside()
  * @property Product[]|\Domain\Products\Collections\ProductCollection $aside
  *
  * @see User::orders()
  * @property Order[]|Collection $orders
- *
- * @see User::userSessionUuids()
- * @property UserSessionUuid[]|Collection $userSessionUuids
- *
- * @see User::setCurrentUserSessionUuid()
- * @property UserSessionUuid|null $currentSessionUuid
  *
  * @see User::getCartNotTrashedAttribute()
  * @property \Domain\Products\Collections\ProductCollection|Product[] $cart_not_trashed
@@ -143,11 +129,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return new UserQueryBuilder($query);
     }
 
-    public function setCurrentUserSessionUuid(UserSessionUuid $userSessionUuid)
-    {
-        $this->setRelation("currentSessionUuid", $userSessionUuid);
-    }
-
     public function getIsAdminAttribute(): bool
     {
         return $this->status >= static::ADMIN_THRESHOLD;
@@ -158,12 +139,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->status >= static::SUPER_ADMIN;
     }
 
-    public function getIsAnonymousAttribute(): bool
-    {
-        $viaCredentials = $this->currentSessionUuid->via_credentials ?? false;
-        return !$viaCredentials;
-    }
-
     public function getIsIdentifiedAttribute(): bool
     {
         return !empty($this->email);
@@ -172,19 +147,6 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getIsAnonymous2Attribute(): bool
     {
         return empty($this->email);
-    }
-
-    public function identificate(UuidInterface $uuid) // todo move to separate action class
-    {
-        $userSessionUuid = UserSessionUuid::unguarded(function() use($uuid) {
-            UserSessionUuid::query()->firstOrCreate([
-                "session_uuid" => $uuid->toString(),
-                "user_id" => $this->id,
-            ]);
-        });
-        $userSessionUuid->via_credentials = true;
-        $userSessionUuid->save();
-        $this->setCurrentUserSessionUuid($userSessionUuid);
     }
 
     public function cart(): BelongsToMany
@@ -215,11 +177,6 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getCartNotTrashedAttribute(): Collection
     {
         return $this->cart->cartProductNotTrashed();
-    }
-
-    public function userSessionUuids(): HasMany
-    {
-        return $this->hasMany(UserSessionUuid::class, "user_id", "id");
     }
 
     public static function handleTransferProducts(self $from, self $to)

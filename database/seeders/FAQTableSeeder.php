@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Domain\Users\Models\Admin;
-use App\Models\FAQ;
+use Domain\FAQs\Models\FAQ;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;

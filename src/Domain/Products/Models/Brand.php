@@ -2,8 +2,8 @@
 
 namespace Domain\Products\Models;
 
-use App\Models\BaseModel;
-use App\Models\Seo;
+use Domain\Common\Models\BaseModel;
+use Domain\Seo\Models\Seo;
 use Domain\Products\Models\Product\Product;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\HasMany;
