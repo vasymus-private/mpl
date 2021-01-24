@@ -1,0 +1,84 @@
+.sale-order-detail {
+    &__title {
+        margin: 0 0 20px;
+        padding: 0;
+        font: 36px Open Sans,Helvetica Neue,Arial,Helvetica,sans-serif;
+        color: #262626;
+        line-height: 39px;
+    }
+
+    &__link-back {
+        color: #337ab7;
+        text-decoration: none;
+        &:hover {
+            text-decoration: none;
+        }
+    }
+
+    .row-line {
+        margin: 0 0 11px;
+        &.item {
+            padding: 17px 16px 22px 19px;
+            border: 1px solid #efecec;
+        }
+    }
+
+    .column {
+        padding: 0 15px;
+        width: 16.66666667%;
+        &:nth-child(1) {
+            width: 33.33333333%;
+        }
+        &:nth-child(2) {
+            width: 33.33333333%;
+        }
+    }
+
+    &__head {
+        background: #179ebb;
+        overflow: hidden;
+        padding: 11px 15px 13px;
+        color: #fff;
+        font: 700 15px Helvetica Neue,Helvetica,Arial,sans-serif;
+    }
+
+    &__subtitle {
+        color: #2f3435;
+        padding: 11px 15px 13px;
+        background: #f2f2f2;
+        margin: 0;
+        font: 700 15px Helvetica Neue,Helvetica,Arial,sans-serif;
+    }
+
+    &__name-title {
+        font-weight: 400;
+        font-size: 13px;
+        margin: 0;
+        padding: 0;
+    }
+
+    &__name-detail {
+        font: 700 14px Helvetica Neue,Helvetica,Arial,sans-serif;
+        color: #303030;
+    }
+
+    &__btn {
+        display: block;
+        height: 38px;
+        text-decoration: none;
+        background: #70bb18;
+        border-radius: 2px;
+        font: 700 12px/38px Helvetica Neue,Helvetica,Arial,sans-serif;
+        color: #fff;
+        text-align: center;
+    }
+
+    &__cancel {
+        display: block;
+        padding: 7px 0 0;
+        font: 13px Helvetica Neue,Helvetica,Arial,sans-serif;
+        color: #9b9b9b;
+        text-align: center;
+        text-decoration: underline;
+    }
+}

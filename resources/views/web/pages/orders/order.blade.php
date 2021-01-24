@@ -4,11 +4,40 @@
     <?php /** @var \App\Models\Order $order */ ?>
     <x-h1 :entity="'Мой заказ №' . $order->id"></x-h1>
 
-    <div class="content__white-block">
-        <h2 class="product__title">Заказ № {{$order->id}} @if($order->created_at instanceof \Carbon\Carbon) от {{$order->created_at->format("d.m.Y H:i:s")}} @endif</h2>
-
-        <x-go-back/>
-
+    <div class="content__white-block sale-order-detail">
+        <h2 class="sale-order-detail__title">Заказ № {{$order->id}} @if($order->created_at instanceof \Carbon\Carbon) от {{$order->created_at->format("d.m.Y H:i:s")}} @endif</h2>
+        <div class="row-line">
+            <a href="{{route("profile")}}" class="sale-order-detail__link-back">← Вернуться в список заказов</a>
+        </div>
+        <div class="sale-order-detail">
+            <div class="sale-order-detail__head">
+                <span class="sale-order-detail__item">Заказ №2131 от 11.12.2015, 4 товара на сумму 2 628 р</span>
+            </div>
+            <div class="sale-order-detail__container">
+                <h3 class="sale-order-detail__subtitle">Информация о заказе</h3>
+                <div class="row-line item">
+                    <div class="column">
+                        <h3 class="sale-order-detail__name-title">Ф.И.О.:</h3>
+                        <p class="sale-order-detail__name-detail">{{ $order->user_name }}</p>
+                    </div>
+                    <div class="column">
+                        <h3 class="sale-order-detail__name-title sale-order-detail__name-title--color-gree">Текущий статус, от 11.12.2015:</h3>
+                        <p class="sale-order-detail__name-detail">Заказ {{$order->status_name_for_user}}</p>
+                    </div>
+                    <div class="column">
+                        <h3 class="sale-order-detail__name-title sale-order-detail__name-title--color-gree">Сумма:</h3>
+                        <p class="sale-order-detail__name-detail">{{$order->price_retail_rub_formatted}}</p>
+                    </div>
+                    <div class="column">
+                        <a href="#" class="sale-order-detail__btn">Повторить заказ</a>
+                        <a href="#" class="sale-order-detail__cancel">Отменить</a>
+                    </div>
+                    <div class="column-full-width">
+                        <a href="javascript:void(0);" class="sale-order-detail__read-more">подробнее</a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <table width="100%">
             <tbody>
                 <tr>
@@ -96,6 +125,5 @@
                 </tr>
             </tbody>
         </table>
-        <p><a href="{{route("profile")}}">В список заказов</a></p>
     </div>
 @endsection
