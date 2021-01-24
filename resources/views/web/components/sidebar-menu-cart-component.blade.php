@@ -3,7 +3,7 @@
     <div class="sidebar-basket-block__body">
         <div class="js-sidebar-menu-cart-list">
             @foreach($cartProducts as $cartProduct)
-                <?php /** @var \App\Models\Product\Product $cartProduct */ ?>
+                <?php /** @var \Domain\Products\Models\Product\Product $cartProduct */ ?>
                 <div class="sidebar-basket-block__cartitem" data-id="{{$cartProduct->id}}">
                     <h4><a href="{{$cartProduct->web_route}}">{!! $cartProduct->name !!}</a></h4>
                     <div class="sidebar-basket-block__price">

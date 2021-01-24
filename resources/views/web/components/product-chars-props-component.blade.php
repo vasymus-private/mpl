@@ -1,5 +1,5 @@
 <?php
-/** @var \App\Models\Product\Product $product */
+/** @var \Domain\Products\Models\Product\Product $product */
 ?>
 
 @if($product->characteristicsNotEmpty())
@@ -16,8 +16,8 @@
                 <td>{{$label}}</td>
                 <td>
                     <div class="dotted_line">
-                        @if(in_array($label, \App\Models\Product\Product::CH_RATE))
-                            @for($i = 0; $i < \App\Models\Product\Product::MAX_CHARACTERISTIC_RATE; $i++)
+                        @if(in_array($label, \Domain\Products\Models\Product\Product::CH_RATE))
+                            @for($i = 0; $i < \Domain\Products\Models\Product\Product::MAX_CHARACTERISTIC_RATE; $i++)
                                 @if($value > $i)
                                     <span><img src="{{asset("images/general/circle-active.gif")}}" alt=""></span>
                                 @else

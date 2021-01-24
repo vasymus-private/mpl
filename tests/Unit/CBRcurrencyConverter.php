@@ -4,7 +4,7 @@ namespace Tests\Unit;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
-use App\Services\CBRcurrencyConverter\CBRcurrencyConverter as CBRcurrencyConverterService;
+use Support\CBRcurrencyConverter\CBRcurrencyConverter as CBRcurrencyConverterService;
 use Tests\TestCase;
 
 class CBRcurrencyConverter extends TestCase

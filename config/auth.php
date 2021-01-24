@@ -47,7 +47,7 @@ return [
             'hash' => false,
         ],
 
-        'web-admin' => [
+        \App\Constants::AUTH_GUARD_ADMIN => [
             'driver' => 'session',
             'provider' => 'admins',
         ],
@@ -73,12 +73,12 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => \App\Models\User\User::class,
+            'model' => \Domain\Users\Models\User\User::class,
         ],
 
         'admins' => [
             'driver' => 'eloquent',
-            'model' => \App\Models\Admin::class,
+            'model' => \Domain\Users\Models\Admin::class,
         ],
 
         // 'users' => [

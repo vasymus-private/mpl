@@ -1,7 +1,7 @@
 @extends('web.pages.page-layout')
 
 @section('page-content')
-    <?php /** @var \App\Models\Order $order */ ?>
+    <?php /** @var \Domain\Orders\Models\Order $order */ ?>
     <x-h1 :entity="'Мой заказ №' . $order->id"></x-h1>
 
     <div class="content__white-block sale-order-detail">

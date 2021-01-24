@@ -1,4 +1,4 @@
-<?php /** @var \App\Models\Order $order */ ?>
+<?php /** @var \Domain\Orders\Models\Order $order */ ?>
 
 @extends('emails.layouts.app')
 
@@ -11,7 +11,7 @@
     <div class="table">
         <table>
             <tbody>
-                <?php /** @var \App\Models\Product\Product $product */ ?>
+                <?php /** @var \Domain\Products\Models\Product\Product $product */ ?>
                 @foreach($order->products as $product)
                 <tr>
                     <td width="50%"><a href="{{$product->web_route}}">{{$product->name}}</a></td>
@@ -35,11 +35,11 @@
     @if($password)
         <p>Для входа в личный кабинет запомните присвоенный Вам пароль <b>{{$password}}</b>, логином является ваш e-mail.</p>
     @endif
-    <p>Пожалуйста, при обращении к администрации сайта {{\App\H::website()}} ОБЯЗАТЕЛЬНО указывайте номер Вашего заказа - <b>{{$order->id}}</b>. Связаться с менеджером можно по телефону: {{\App\H::getPhone1()}}.</p>
+    <p>Пожалуйста, при обращении к администрации сайта {{Support\H::website()}} ОБЯЗАТЕЛЬНО указывайте номер Вашего заказа - <b>{{$order->id}}</b>. Связаться с менеджером можно по телефону: {{Support\H::getPhone1()}}.</p>
     <p>Спасибо за покупку!</p>
     <p>
         С уважением,<br/>
         администрация <a href="{{route('home')}}">Интернет-магазина</a> <br/>
-        E-mail: {{\App\H::getMail()}}
+        E-mail: {{Support\H::getMail()}}
     </p>
 @endsection

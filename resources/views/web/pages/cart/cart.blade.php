@@ -35,7 +35,7 @@
                 <div class="form-group__item">
                     <label for="phone">Телефон:</label>
                     <div class="row-line row-line__center">
-                        <span class="phone-t">+7</span>  
+                        <span class="phone-t">+7</span>
                         <input class="form-control small" type="text" id="phone" name="phone" value="{{old("phone")}}"/>
                     </div>
                     @if($errors->has("phone"))
@@ -43,7 +43,7 @@
                             <span style="color:red">{{$errors->first("phone")}}</span>
                         </div>
                     @endif
-                </div>    
+                </div>
             @endif
         </form>
         <div class="cart-block">
@@ -62,13 +62,13 @@
                     </thead>
                     <tbody>
                         @foreach($cartProducts as $cartProduct)
-                        <?php /** @var \App\Models\Product\Product $cartProduct */ ?>
+                        <?php /** @var \Domain\Products\Models\Product\Product $cartProduct */ ?>
                         <tr class="js-cart-row {{ ($cartProduct->cart_product->deleted_at ?? null) !== null ? "deleted-row" : "" }}" data-id="{{$cartProduct->id}}">
                             <td>
                                 <div class="row-line">
                                     <img src="{{$cartProduct->main_image_url}}" alt="" class="cart__image" />
                                     <span class="cart__name-product">{!! $cartProduct->name !!}</span>
-                                </div>      
+                                </div>
                             </td>
                             <td>
                                 {{$cartProduct->price_retail_rub_formatted}}
@@ -132,8 +132,8 @@
                 @endforeach
                 </div>
                 <div class="cart__items">
-                    <span>Итого: <strong class="js-cart-total-sum-formatted">{{$cartProducts->reduce(function($acc, \App\Models\Product\Product $item) { return $acc += ($item->price_retail_rub * ($item->cart_product->count ?? 1)); }, 0)}} р</strong></span>
-                </div>                
+                    <span>Итого: <strong class="js-cart-total-sum-formatted">{{$cartProducts->reduce(function($acc, \Domain\Products\Models\Product\Product $item) { return $acc += ($item->price_retail_rub * ($item->cart_product->count ?? 1)); }, 0)}} р</strong></span>
+                </div>
             @else
                 <p>У вас пустая корзина.</p>
             @endif
@@ -154,7 +154,7 @@
                     <div class="bg_img">
                         <input form="form-order" type="file" id="attachment" name="attachment[]" multiple />
                     </div>
-                </div>                
+                </div>
                 @if($errors->has("attachment"))
                     <div>
                         <span style="color:red">{{$errors->first("attachment")}}</span>

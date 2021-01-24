@@ -9,7 +9,7 @@
 
 <div class="pure-menu-list">
     @foreach($categories as $category)
-    <?php /** @var \App\Models\Category $category */ ?>
+    <?php /** @var \Domain\Products\Models\Category $category */ ?>
         <div class="pure-menu-item pure-menu-has-children accordion-item">
             <a href="{{route("products.index", [$category->slug])}}" class="pure-menu-link">{{$category->name}}</a>
         </div>

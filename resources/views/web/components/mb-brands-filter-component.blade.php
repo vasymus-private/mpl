@@ -3,7 +3,7 @@
         <button type="button" class="filter-mobile__close js-sidebar-slide-toggle-2">Закрыть фильтры</button>
         <form action="#" id="filter-form-sidebar" class="filter-form">
             @foreach($brands as $brand)
-                <?php /** @var \App\Models\Brand $brand*/ ?>
+                <?php /** @var \Domain\Products\Models\Brand $brand*/ ?>
                 <div class="filter-form__item">
                     <input id="acm-sidebar" class="filter-form__checkbox" name="brands[]" value="{{$brand->id}}" type="checkbox"/>
                     <label for="acm-sidebar" class="filter-form__label">

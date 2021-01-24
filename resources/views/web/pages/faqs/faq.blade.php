@@ -1,7 +1,7 @@
 @extends('web.pages.page-layout')
 
 @section('page-content')
-    <?php /** @var \App\Models\FAQ $faq */ ?>
+    <?php /** @var \Domain\FAQs\Models\FAQ $faq */ ?>
     <x-h1 :entity="$faq"></x-h1>
     @if($faq->created_at)<p><time datetime="{{$faq->created_at->format("Y-m-d")}}">{{$faq->created_at->format("d.m.Y")}}</time></p>@endif
 
@@ -15,7 +15,7 @@
 
     @if($faq->children->isNotEmpty())
         @foreach($faq->children as $child)
-            <?php /** @var \App\Models\FAQ $child */ ?>
+            <?php /** @var \Domain\FAQs\Models\FAQ $child */ ?>
             <h2>{{$child->name}}</h2>
             @if($child->created_at)<p><time datetime="{{$child->created_at->format("Y-m-d")}}">{{$child->created_at->format("d.m.Y")}}</time></p>@endif
             <div>

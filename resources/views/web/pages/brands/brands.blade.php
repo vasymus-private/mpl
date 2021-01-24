@@ -10,11 +10,11 @@
         {{ $brandsList->onEachSide(1)->links('web.pagination.default') }}
         <div class="brands-list">
                 @foreach($brandsList as $item)
-                <?php /** @var \App\Models\Brand $item */ ?>
+                <?php /** @var \Domain\Products\Models\Brand $item */ ?>
                     <div class="brands-list__item row-line">
                         <div class="brands-list__colum-left">
                             <div class="brands-list__photo">
-                                <a href="{{route("brands.show", $item->slug)}}"><img src="{{$item->getFirstMediaUrl(\App\Models\Brand::MC_MAIN_IMAGE)}}" alt="" /></a>
+                                <a href="{{route("brands.show", $item->slug)}}"><img src="{{$item->getFirstMediaUrl(\Domain\Products\Models\Brand::MC_MAIN_IMAGE)}}" alt="" /></a>
                             </div>
                         </div>
                         <div class="brands-list__colurm-right">

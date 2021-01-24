@@ -30,6 +30,10 @@ Route::middleware([\App\Constants::MIDDLEWARE_AUTHENTICATE_ALL])->group(function
     Route
         ::post('login', [\App\Http\Controllers\Web\Auth\LoginController::class, "login"])
     ;
+    Route
+        ::post("logout", [\App\Http\Controllers\Web\Auth\LoginController::class, "logout"])
+        ->name("logout")
+    ;
 
     Route::get('password/reset', [\App\Http\Controllers\Web\Auth\ForgotPasswordController::class, "showLinkRequestForm"])->name('password.request');
     Route::post('password/email', [\App\Http\Controllers\Web\Auth\ForgotPasswordController::class, "sendResetLinkEmail"])->name('password.email');

@@ -1,5 +1,5 @@
-<?php /** @var \App\Models\Order $order */ ?>
-<?php /** @var \Illuminate\Database\Eloquent\Collection|\App\Models\PaymentMethod[] $paymentMethods */ ?>
+<?php /** @var \Domain\Orders\Models\Order $order */ ?>
+<?php /** @var \Illuminate\Database\Eloquent\Collection|\Domain\Orders\Models\PaymentMethod[] $paymentMethods */ ?>
 
 @extends('web.pages.page-layout')
 
