@@ -3,7 +3,7 @@
 <div class="content__white-block">
     <div class="cabinet desktop">
         <h2 class="cabinet__title">Мои последние заказы</h2>
-        <?php /** @var \App\Models\Order $order */ ?>
+        <?php /** @var \Domain\Orders\Models\Order $order */ ?>
         @foreach($orders as $order)
             <div class="product-selling">
                 <div class="product-selling__header">
@@ -25,7 +25,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                            <?php /** @var \App\Models\Product\Product $product */ ?>
+                            <?php /** @var \Domain\Products\Models\Product\Product $product */ ?>
                             @foreach($order->products as $product)
                                 <tr>
                                     <td><a href="{{$product->web_route}}">{{$product->name}}</a></td>
@@ -61,7 +61,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                            <?php /** @var \App\Models\Product\Product $product */ ?>
+                            <?php /** @var \Domain\Products\Models\Product\Product $product */ ?>
                             @foreach($order->products as $product)
                                 <tr>
                                     <td colspan="3">
@@ -81,7 +81,7 @@
         @endforeach
     </div>
     <ul>
-        <?php /** @var \App\Models\Order $order */ ?>
+        <?php /** @var \Domain\Orders\Models\Order $order */ ?>
         @foreach($orders as $order)
             <li>
                 <p></p>
