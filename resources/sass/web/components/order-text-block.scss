@@ -1,0 +1,19 @@
+.order-text-block {
+    background: #3179ce;
+    background: linear-gradient(90deg, #3179ce 18%, #4db5ea 64%);
+    padding: 15px;
+    border: 1px solid #999;
+    &__title {
+        color: #fff;
+        font-size: 15px;
+        font-weight: bold;
+        margin: 0 0 10px;
+        padding: 0;
+    }
+
+    &__text {
+        font-size: 13px;
+        margin: 0;
+        color: #fff;
+    }
+}
