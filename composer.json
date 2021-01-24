@@ -22,7 +22,7 @@
         "ramsey/uuid": "^4.1",
         "spatie/data-transfer-object": "^2.5",
         "spatie/laravel-blade-javascript": "^2.5",
-        "spatie/laravel-medialibrary": "^8.0.0",
+        "spatie/laravel-medialibrary": "^9.0.0",
         "symfony/css-selector": "^5.1",
         "symfony/dom-crawler": "^5.1"
     },
