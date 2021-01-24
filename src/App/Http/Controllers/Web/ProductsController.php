@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Events\ProductViewedEvent;
 use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
-use App\Services\Breadcrumbs\Breadcrumbs;
+use Support\Breadcrumbs\Breadcrumbs;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;

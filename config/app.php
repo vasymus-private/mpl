@@ -174,7 +174,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        \App\Services\RandomProxies\RandomProxiesServiceProvider::class,
+        \Support\RandomProxies\RandomProxiesServiceProvider::class,
         \App\Providers\ViewsServiceProvider::class,
 
     ],

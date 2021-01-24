@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use Domain\Articles\Models\Article;
-use App\Services\Breadcrumbs\Breadcrumbs;
+use Support\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
 
 class ArticlesController extends BaseWebController

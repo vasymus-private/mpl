@@ -1,4 +1,4 @@
-<?php /** @var \App\Services\Breadcrumbs\BreadcrumbDTO[] $breadcrumbs */ ?>
+<?php /** @var \Support\Breadcrumbs\BreadcrumbDTO[] $breadcrumbs */ ?>
 @if(count($breadcrumbs))
     <div class="row-line row-line__center breadcrumbs">
         @foreach($breadcrumbs as $breadcrumb)

@@ -2,7 +2,7 @@
 
 @section('page-content')
     <?php /** @var \Domain\Products\Models\Product\Product $product */ ?>
-    <?php /** @var \App\Services\Breadcrumbs\BreadcrumbDTO[] $breadcrumbs */ ?>
+    <?php /** @var \Support\Breadcrumbs\BreadcrumbDTO[] $breadcrumbs */ ?>
     <x-h1 :entity="$product"></x-h1>
 
     <div class="row-line product__breadcrumbs-header">

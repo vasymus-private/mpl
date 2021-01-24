@@ -4,7 +4,7 @@ namespace Support;
 
 use App\Exception;
 use Domain\Common\Models\Currency;
-use App\Services\CBRcurrencyConverter\CBRcurrencyConverter;
+use Support\CBRcurrencyConverter\CBRcurrencyConverter;
 use Illuminate\Support\HtmlString;
 
 class H

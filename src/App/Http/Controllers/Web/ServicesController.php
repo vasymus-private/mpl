@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Events\ServiceViewedEvent;
 use Domain\Services\Models\Service;
-use App\Services\Breadcrumbs\Breadcrumbs;
+use Support\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 

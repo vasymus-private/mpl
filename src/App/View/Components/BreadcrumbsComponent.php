@@ -2,7 +2,7 @@
 
 namespace App\View\Components;
 
-use App\Services\Breadcrumbs\BreadcrumbDTO;
+use Support\Breadcrumbs\BreadcrumbDTO;
 use Illuminate\View\Component;
 
 class BreadcrumbsComponent extends Component

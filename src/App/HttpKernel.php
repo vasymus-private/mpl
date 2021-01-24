@@ -64,8 +64,6 @@ class HttpKernel extends BaseKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        Constants::MIDDLEWARE_PROVIDE_SESSION_UUID => \App\Http\Middleware\ProvideSessionUuid::class,
-        Constants::MIDDLEWARE_AUTHENTICATE_SESSION_UUID_USER => \App\Http\Middleware\AuthenticateSessionUuidUser::class,
         Constants::MIDDLEWARE_AUTHENTICATE_ALL => \App\Http\Middleware\AuthenticateAll::class,
         Constants::MIDDLEWARE_REDIRECT_IF_IDENTIFIED => \App\Http\Middleware\RedirectIfIdentified::class,
         Constants::MIDDLEWARE_REDIRECT_IF_NOT_IDENTIFIED => \App\Http\Middleware\RedirectIfNotIdentified::class,

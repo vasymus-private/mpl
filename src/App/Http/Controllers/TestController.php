@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\TestMarkupOrderShippedMail;
 use App\Mail\TestMarkupResetPasswordMail;
 use App\Notifications\OrderShipped;
-use App\Services\TruncateHTML\TruncateHTML;
+use Support\TruncateHTML\TruncateHTML;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
