@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace Domain\Products\Models;
 
+use App\Models\BaseModel;
+use App\Models\Seo;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;

@@ -1,4 +1,4 @@
-<?php /** @var \App\Models\Product\Product $product */ ?>
+<?php /** @var \Domain\Products\Models\Product\Product $product */ ?>
 <div class="catalog__post js-product-item-component-{{$product->id}}">
     <h3 class="catalog__title"><a href="{{$route()}}" class="catalog__link">{!! $product->name !!}</a></h3>
     <div class="row-line">

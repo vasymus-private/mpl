@@ -2,13 +2,13 @@
 
 namespace App\Providers;
 
-use App\Models\Admin;
+use Domain\Users\Models\Admin;
 use App\Models\Article;
-use App\Models\Category;
+use Domain\Products\Models\Category;
 use App\Models\FAQ;
 use App\Models\GalleryItem;
-use App\Models\Brand;
-use App\Models\Product\Product;
+use Domain\Products\Models\Brand;
+use Domain\Products\Models\Product\Product;
 use App\Models\Service;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Schema;

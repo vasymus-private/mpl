@@ -1,7 +1,7 @@
 @extends('web.pages.page-product-layout')
 
 @section('page-content')
-    <?php /** @var \App\Models\Product\Product $product */ ?>
+    <?php /** @var \Domain\Products\Models\Product\Product $product */ ?>
     <?php /** @var \App\Services\Breadcrumbs\BreadcrumbDTO[] $breadcrumbs */ ?>
     <x-h1 :entity="$product"></x-h1>
 

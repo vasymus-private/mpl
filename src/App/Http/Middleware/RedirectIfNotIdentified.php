@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\User\User;
+use Domain\Users\Models\User\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Auth;
 

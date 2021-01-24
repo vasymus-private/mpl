@@ -1,11 +1,11 @@
 <?php
-/** @var \App\Models\Product\Product $product */
+/** @var \Domain\Products\Models\Product\Product $product */
 ?>
 <div {{ $attributes->merge(["class" => "accessories-block"]) }}>
     <h4 class="accessories-block__title-orange">Инструмент <img src="{{asset('images/arr-orange-down.gif')}}" alt=""></h4>
     <div class="row-line">
         @foreach($product->accessory as $accessoryItem)
-            <?php /** @var \App\Models\Product\Product $accessoryItem */ ?>
+            <?php /** @var \Domain\Products\Models\Product\Product $accessoryItem */ ?>
             <div class="column">
                 <div class="row-line">
                     <a href="{{$accessoryItem->getRoute()}}">

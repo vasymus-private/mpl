@@ -3,8 +3,8 @@
 namespace App\View\Composers;
 
 use App\Http\Resources\Web\Ajax\CartProductResource;
-use App\Models\Product\Product;
-use App\Models\User\User;
+use Domain\Products\Models\Product\Product;
+use Domain\Users\Models\User\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
@@ -18,7 +18,7 @@ class ProfileComposer
      */
     public function compose(View $view)
     {
-        /** @var \App\Models\User\User $user */
+        /** @var \Domain\Users\Models\User\User $user */
         $user = Auth::user();
 
         if (!$user) return;

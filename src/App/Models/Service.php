@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Pivots\ServiceUserViewed;
+use Domain\Users\Models\Pivots\ServiceUserViewed;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
@@ -28,7 +28,7 @@ use Illuminate\Routing\Route;
  * @property-read string $web_route
  *
  * @see User::serviceViewed()
- * @property ServiceUserViewed|null $viewed_service
+ * @property \Domain\Users\Models\Pivots\ServiceUserViewed|null $viewed_service
  * */
 class Service extends BaseModel
 {

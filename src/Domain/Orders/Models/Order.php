@@ -1,12 +1,15 @@
 <?php
 
-namespace App\Models;
+namespace Domain\Orders\Models;
 
+use App\Models\BaseModel;
+use App\Models\Currency;
+use App\Models\OrderStatus;
 use Support\H;
-use App\Models\Pivots\OrderProduct;
-use App\Models\Product\Product;
-use App\Models\Product\ProductCollection;
-use App\Models\User\User;
+use Domain\Orders\Models\Pivots\OrderProduct;
+use Domain\Products\Models\Product\Product;
+use Domain\Products\Collections\ProductCollection;
+use Domain\Users\Models\User\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

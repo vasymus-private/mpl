@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace Domain\Users\Models;
 
-use App\Models\User\User;
+use Domain\Users\Models\User\User;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;

@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Web\Ajax;
 
-use App\Models\Product\Product;
-use App\Models\User\User;
+use Domain\Products\Models\Product\Product;
+use Domain\Users\Models\User\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Http\FormRequest;

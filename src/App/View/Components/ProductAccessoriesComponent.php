@@ -2,7 +2,7 @@
 
 namespace App\View\Components;
 
-use App\Models\Product\Product;
+use Domain\Products\Models\Product\Product;
 use Illuminate\View\Component;
 
 class ProductAccessoriesComponent extends Component

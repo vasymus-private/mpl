@@ -1,4 +1,4 @@
-<?php /** @var \App\Models\Product\Product $product */ ?>
+<?php /** @var \Domain\Products\Models\Product\Product $product */ ?>
 <div class="content__white-block">
     <h2 class="product__title">{!! $product->name !!}</h2>
 
@@ -99,7 +99,7 @@
                 </thead>
                 <tbody>
                 @foreach($product->variations as $variation)
-                    <?php /** @var \App\Models\Product\Product $variation */ ?>
+                    <?php /** @var \Domain\Products\Models\Product\Product $variation */ ?>
                 <tr>
                     <td>
                         <div class="product-variants__photo">
@@ -359,7 +359,7 @@
                 <div class="swiper-container js-slider-1 swiper-container-initialized swiper-container-horizontal">
                     <div class="swiper-wrapper">
                         @foreach($product->similar as $item)
-                            <?php /** @var \App\Models\Product\Product $item */ ?>
+                            <?php /** @var \Domain\Products\Models\Product\Product $item */ ?>
                             <div class="swiper-slide">
                                 <div class="slider-blocker__item">
                                     <h3 class="slider-blocker__title"><a class="slider-blocker__link" href="#">{!! $item->name !!}</a></h3>
@@ -400,7 +400,7 @@
                 <div class="swiper-container js-slider-2 swiper-container-initialized swiper-container-horizontal">
                     <div class="swiper-wrapper">
                         @foreach($product->related as $item)
-                            <?php /** @var \App\Models\Product\Product $item */ ?>
+                            <?php /** @var \Domain\Products\Models\Product\Product $item */ ?>
                             <div class="swiper-slide">
                                 <div class="slider-blocker__item">
                                     <h3 class="slider-blocker__title"><a class="slider-blocker__link" href="#">{!! $item->name !!}</a></h3>
@@ -441,7 +441,7 @@
                 <div class="swiper-container js-slider-3 swiper-container-initialized swiper-container-horizontal">
                     <div class="swiper-wrapper">
                         @foreach($product->works as $item)
-                            <?php /** @var \App\Models\Product\Product $item */ ?>
+                            <?php /** @var \Domain\Products\Models\Product\Product $item */ ?>
                             <div class="swiper-slide">
                                 <div class="slider-blocker__item">
                                     <h3 class="slider-blocker__title"><a class="slider-blocker__link" href="#">{!! $item->name !!}</a></h3>

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Models\Product;
+namespace Domain\Products\Collections;
 
+use Domain\Products\Models\Product\Product;
 use Support\H;
 use App\Models\Currency;
 use Illuminate\Database\Eloquent\Collection;

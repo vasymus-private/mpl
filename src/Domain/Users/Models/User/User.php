@@ -1,20 +1,22 @@
 <?php
 
-namespace App\Models\User;
+namespace Domain\Users\Models\User;
 
 use App\Models\BaseModel;
 use App\Models\CommonTraits;
-use App\Models\Order;
-use App\Models\Pivots\OrderProduct;
-use App\Models\Pivots\ProductUserAside;
-use App\Models\Pivots\ProductUserCart;
-use App\Models\Pivots\ProductUserViewed;
-use App\Models\Pivots\ServiceUserViewed;
-use App\Models\Product\Product;
-use App\Models\Product\ProductCollection;
+use Domain\Orders\Models\Order;
+use Domain\Orders\Models\Pivots\OrderProduct;
+use Domain\Users\Models\Pivots\ProductUserAside;
+use Domain\Users\Models\Pivots\ProductUserCart;
+use Domain\Users\Models\Pivots\ProductUserViewed;
+use Domain\Users\Models\Pivots\ServiceUserViewed;
+use Domain\Products\Models\Product\Product;
+use Domain\Products\Collections\ProductCollection;
 use App\Models\Service;
 use App\Models\UserSessionUuid;
 use Carbon\Carbon;
+use Domain\Users\Models\Admin;
+use Domain\Users\QueryBuilders\UserQueryBuilder;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -59,19 +61,19 @@ use Ramsey\Uuid\UuidInterface;
  * @property bool $is_anonymous2
  *
  * @see User::products()
- * @property Product[]|ProductCollection $products
+ * @property Product[]|\Domain\Products\Collections\ProductCollection $products
  *
  * @see User::cart()
- * @property Product[]|ProductCollection $cart
+ * @property Product[]|\Domain\Products\Collections\ProductCollection $cart
  *
  * @see User::viewed()
- * @property Product[]|ProductCollection $viewed
+ * @property Product[]|\Domain\Products\Collections\ProductCollection $viewed
  *
  * @see User::serviceViewed()
  * @property Service[]|Collection $serviceViewed
  *
  * @see User::aside()
- * @property Product[]|ProductCollection $aside
+ * @property Product[]|\Domain\Products\Collections\ProductCollection $aside
  *
  * @see User::orders()
  * @property Order[]|Collection $orders
@@ -83,7 +85,7 @@ use Ramsey\Uuid\UuidInterface;
  * @property UserSessionUuid|null $currentSessionUuid
  *
  * @see User::getCartNotTrashedAttribute()
- * @property ProductCollection|Product[] $cart_not_trashed
+ * @property \Domain\Products\Collections\ProductCollection|Product[] $cart_not_trashed
  *
  * @method static static|UserQueryBuilder query()
  *

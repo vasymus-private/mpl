@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models\Product;
+namespace Domain\Products\Models\Product;
 
-use App\Models\Category;
+use Domain\Products\Models\Category;
 use App\Models\InformationalPrice;
-use App\Models\Brand;
-use App\Models\Pivots\ProductProduct;
+use Domain\Products\Models\Brand;
+use Domain\Products\Models\Pivots\ProductProduct;
 use App\Models\Seo;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

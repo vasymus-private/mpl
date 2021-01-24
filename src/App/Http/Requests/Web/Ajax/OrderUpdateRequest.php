@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Web\Ajax;
 
-use App\Models\Order;
+use Domain\Orders\Models\Order;
 use App\Models\PaymentMethod;
-use App\Models\User\User;
+use Domain\Users\Models\User\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;

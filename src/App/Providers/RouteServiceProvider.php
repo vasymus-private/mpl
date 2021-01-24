@@ -3,11 +3,11 @@
 namespace App\Providers;
 
 use App\Models\Article;
-use App\Models\Brand;
-use App\Models\Category;
+use Domain\Products\Models\Brand;
+use Domain\Products\Models\Category;
 use App\Models\FAQ;
 use App\Models\GalleryItem;
-use App\Models\Product\Product;
+use Domain\Products\Models\Product\Product;
 use App\Models\Service;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;

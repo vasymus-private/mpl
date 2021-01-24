@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Pivots;
+namespace Domain\Orders\Models\Pivots;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
 

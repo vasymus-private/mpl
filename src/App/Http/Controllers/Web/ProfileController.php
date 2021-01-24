@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Models\Order;
-use App\Models\User\User;
+use Domain\Orders\Models\Order;
+use Domain\Users\Models\User\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -55,7 +55,7 @@ class ProfileController extends BaseWebController
     {
         /** @var User $user */
         $user = Auth::user();
-        /** @see Order::products() */
+        /** @see \Domain\Orders\Models\Order::products() */
         $orders = $user->orders()->with(["products.parent.category.parentCategory", "products.category.parentCategory.parentCategory", "products.media"])->paginate($request->input("per_page"));
 
         return view("web.pages.profile.profile", compact("orders"));

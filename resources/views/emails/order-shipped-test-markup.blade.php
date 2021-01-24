@@ -1,4 +1,4 @@
-<?php /** @var \App\Models\Order $order */ ?>
+<?php /** @var \Domain\Orders\Models\Order $order */ ?>
 
 @extends('emails.layouts.app')
 

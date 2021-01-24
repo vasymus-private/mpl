@@ -2,14 +2,14 @@
 
 namespace App\View\Components;
 
-use App\Models\Category;
+use Domain\Products\Models\Category;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\Component;
 
 class SidebarMenuMaterialsComponent extends Component
 {
     /**
-     * @var Collection|Category[]
+     * @var Collection|\Domain\Products\Models\Category[]
      * */
     public $categories;
 

@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Models\User;
+namespace Domain\Users\QueryBuilders;
 
 use App\Exceptions\SessionUuidUserNotFoundException;
+use Domain\Users\Models\User\User;
 use Illuminate\Database\Eloquent\Builder;
 use Ramsey\Uuid\UuidInterface;
 

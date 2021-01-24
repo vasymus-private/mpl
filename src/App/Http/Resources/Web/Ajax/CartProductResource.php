@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Web\Ajax;
 
 use App\Models\Currency;
-use App\Models\Product\Product;
+use Domain\Products\Models\Product\Product;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CartProductResource extends JsonResource

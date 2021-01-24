@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Web;
 
 use App\Events\ProductViewedEvent;
-use App\Models\Category;
-use App\Models\Product\Product;
+use Domain\Products\Models\Category;
+use Domain\Products\Models\Product\Product;
 use App\Services\Breadcrumbs\Breadcrumbs;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -17,17 +17,17 @@ class ProductsController extends BaseWebController
     {
         $query = Product::query()->notVariations()->with("infoPrices");
 
-        /** @var Category|null $category */
+        /** @var \Domain\Products\Models\Category|null $category */
         $category = $request->category_slug;
         /** @var Category|null $subcategory1 */
         $subcategory1 = $request->subcategory1_slug;
         /** @var Category|null $subcategory2 */
         $subcategory2 = $request->subcategory2_slug;
-        /** @var Category|null $subcategory3 */
+        /** @var \Domain\Products\Models\Category|null $subcategory3 */
         $subcategory3 = $request->subcategory3_slug;
 
         foreach ([$subcategory3, $subcategory2, $subcategory1, $category] as $cat) {
-            /** @var Category $cat*/
+            /** @var \Domain\Products\Models\Category $cat*/
             if ($cat) {
                 $query->where(Product::TABLE . ".category_id", $cat->id);
                 break;
@@ -70,11 +70,11 @@ class ProductsController extends BaseWebController
 
     public function show(Request $request)
     {
-        /** @var Category $category */
+        /** @var \Domain\Products\Models\Category $category */
         $category = $request->category_slug;
-        /** @var Category|null $subcategory1 */
+        /** @var \Domain\Products\Models\Category|null $subcategory1 */
         $subcategory1 = $request->subcategory1_slug;
-        /** @var Category|null $subcategory2 */
+        /** @var \Domain\Products\Models\Category|null $subcategory2 */
         $subcategory2 = $request->subcategory2_slug;
         /** @var Category|null $subcategory3 */
         $subcategory3 = $request->subcategory3_slug;

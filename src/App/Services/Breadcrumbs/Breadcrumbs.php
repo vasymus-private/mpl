@@ -3,16 +3,16 @@
 namespace App\Services\Breadcrumbs;
 
 use App\Models\Article;
-use App\Models\Category;
-use App\Models\Product\Product;
+use Domain\Products\Models\Category;
+use Domain\Products\Models\Product\Product;
 use App\Models\Service;
 
 class Breadcrumbs
 {
     /**
-     * @param Category|null $category
-     * @param Category|null $subcategory1
-     * @param Category|null $subcategory2
+     * @param \Domain\Products\Models\Category|null $category
+     * @param \Domain\Products\Models\Category|null $subcategory1
+     * @param \Domain\Products\Models\Category|null $subcategory2
      * @param Category|null $subcategory3
      *
      * @return BreadcrumbDTO[]
@@ -52,7 +52,7 @@ class Breadcrumbs
     /**
      * @param Product $product
      * @param Category $category
-     * @param Category|null $subcategory1
+     * @param \Domain\Products\Models\Category|null $subcategory1
      * @param Category|null $subcategory2
      * @param Category|null $subcategory3
      *

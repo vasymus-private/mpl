@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Models\Brand;
-use App\Models\Product\Product;
+use Domain\Products\Models\Brand;
+use Domain\Products\Models\Product\Product;
 use Illuminate\Http\Request;
 
 class BrandsController extends BaseWebController

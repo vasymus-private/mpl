@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Web\Ajax;
 
-use App\Models\Product\Product;
+use Domain\Products\Models\Product\Product;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AsideProductsDeleteRequest extends FormRequest

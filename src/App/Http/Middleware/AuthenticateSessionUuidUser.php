@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Exceptions\SessionUuidNotProvidedException;
-use App\Models\User\User;
+use Domain\Users\Models\User\User;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Admin;
+use Domain\Users\Models\Admin;
 use App\Models\FAQ;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;

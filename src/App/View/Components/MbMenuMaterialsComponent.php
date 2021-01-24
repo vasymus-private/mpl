@@ -2,7 +2,7 @@
 
 namespace App\View\Components;
 
-use App\Models\Category;
+use Domain\Products\Models\Category;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\Component;
 

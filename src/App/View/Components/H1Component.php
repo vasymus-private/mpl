@@ -2,8 +2,8 @@
 
 namespace App\View\Components;
 
-use App\Models\Category;
-use App\Models\Product\Product;
+use Domain\Products\Models\Category;
+use Domain\Products\Models\Product\Product;
 use Illuminate\View\Component;
 
 class H1Component extends Component
@@ -16,7 +16,7 @@ class H1Component extends Component
     /**
      * Create a new component instance.
      *
-     * @param Category|Product|string|null $entity
+     * @param \Domain\Products\Models\Category|Product|string|null $entity
      *
      * @return void
      */

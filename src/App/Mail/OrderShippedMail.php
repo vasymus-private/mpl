@@ -2,8 +2,8 @@
 
 namespace App\Mail;
 
-use App\Models\Order;
-use App\Models\User\User;
+use Domain\Orders\Models\Order;
+use Domain\Users\Models\User\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -25,7 +25,7 @@ class OrderShippedMail extends Mailable
      */
     protected $viewFactory;
 
-    /** @var Order */
+    /** @var \Domain\Orders\Models\Order */
     protected $order;
 
     /** @var int */

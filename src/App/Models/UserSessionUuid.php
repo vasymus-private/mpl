@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\User\User;
+use Domain\Users\Models\User\User;
 use Carbon\Carbon;
 use Ramsey\Uuid\UuidInterface;
 

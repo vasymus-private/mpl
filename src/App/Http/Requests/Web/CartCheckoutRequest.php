@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Web;
 
-use App\Models\User\User;
+use Domain\Users\Models\User\User;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\UploadedFile;

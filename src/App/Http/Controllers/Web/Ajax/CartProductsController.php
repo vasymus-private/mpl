@@ -7,7 +7,7 @@ use App\Http\Requests\Web\Ajax\CartProductsDeleteRequest;
 use App\Http\Requests\Web\Ajax\CartProductsStoreRequest;
 use App\Http\Requests\Web\Ajax\CartProductsUpdateRequest;
 use App\Http\Resources\Web\Ajax\CartProductResource;
-use App\Models\User\User;
+use Domain\Users\Models\User\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Http\Request;
@@ -17,7 +17,7 @@ class CartProductsController extends BaseWebController
 {
     public function index(Request $request)
     {
-        /** @var \App\Models\User\User $user */
+        /** @var \Domain\Users\Models\User\User $user */
         $user = Auth::user();
 
         $user->load([

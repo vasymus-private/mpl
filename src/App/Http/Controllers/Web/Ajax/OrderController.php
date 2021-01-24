@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Web\Ajax;
 
 use App\Http\Controllers\Web\BaseWebController;
 use App\Http\Requests\Web\Ajax\OrderUpdateRequest;
-use App\Models\Order;
+use Domain\Orders\Models\Order;
 
 class OrderController extends BaseWebController
 {

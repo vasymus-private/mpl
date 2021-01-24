@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Admin;
+use Domain\Users\Models\Admin;
 use App\Models\Article;
 use App\Models\Seo;
 use App\Models\Service;
@@ -39,7 +39,7 @@ class CommonImagesAndArticlesAndServicesTablesSeeder extends Seeder
 
     protected function seedCommonImages()
     {
-        /** @var Admin $admin */
+        /** @var \Domain\Users\Models\Admin $admin */
         $admin = Admin::query()->findOrFail(Admin::ID_CENTRAL_ADMIN);
 
         foreach ($this->seeds as $seed) {

@@ -9,7 +9,7 @@
         <form action="#" id="filter-form" class="filter-form">
 
             @foreach($brands as $brand)
-                <?php /** @var \App\Models\Brand $brand*/ ?>
+                <?php /** @var \Domain\Products\Models\Brand $brand*/ ?>
                 <div class="filter-form__item">
                     <input id="acm" class="filter-form__checkbox" name="brands[]" value="{{$brand->id}}" type="checkbox"/>
                     <label for="acm" class="filter-form__label">

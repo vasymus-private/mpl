@@ -1,18 +1,19 @@
 <?php
 
-namespace App\Models\Product;
+namespace Domain\Products\Models\Product;
 
+use Domain\Products\Collections\ProductCollection;
 use Support\H;
 use App\Models\AvailabilityStatus;
 use App\Models\BaseModel;
-use App\Models\Category;
+use Domain\Products\Models\Category;
 use App\Models\Currency;
-use App\Models\Order;
-use App\Models\Pivots\OrderProduct;
-use App\Models\Pivots\ProductUserAside;
-use App\Models\Pivots\ProductUserCart;
-use App\Models\Pivots\ProductUserViewed;
-use App\Models\User\User;
+use Domain\Orders\Models\Order;
+use Domain\Orders\Models\Pivots\OrderProduct;
+use Domain\Users\Models\Pivots\ProductUserAside;
+use Domain\Users\Models\Pivots\ProductUserCart;
+use Domain\Users\Models\Pivots\ProductUserViewed;
+use Domain\Users\Models\User\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -89,17 +90,17 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
  *
  * @mixin ProductRelations
  *
- * @see Order::products()
+ * @see \Domain\Orders\Models\Order::products()
  * @property OrderProduct|null $order_product
  *
  * @see User::cart()
  * @property ProductUserCart|null $cart_product
  *
  * @see User::viewed()
- * @property ProductUserViewed|null $viewed_product
+ * @property \Domain\Users\Models\Pivots\ProductUserViewed|null $viewed_product
  *
  * @see User::aside()
- * @property ProductUserAside|null $aside_product
+ * @property \Domain\Users\Models\Pivots\ProductUserAside|null $aside_product
  *
  * @see Product::scopeActive()
  * @method static static|Builder active()
@@ -339,9 +340,9 @@ class Product extends BaseModel implements HasMedia
     {
         /** @var Category $category */
         $category = $route->category_slug;
-        /** @var Category|null $subcategory1 */
+        /** @var \Domain\Products\Models\Category|null $subcategory1 */
         $subcategory1 = $route->subcategory1_slug;
-        /** @var Category|null $subcategory2 */
+        /** @var \Domain\Products\Models\Category|null $subcategory2 */
         $subcategory2 = $route->subcategory2_slug;
         /** @var Category|null $subcategory3 */
         $subcategory3 = $route->subcategory3_slug;
@@ -523,7 +524,7 @@ class Product extends BaseModel implements HasMedia
 
     public function getIsInCartAttribute(): ?bool
     {
-        /** @var \App\Models\User\User|null $user */
+        /** @var \Domain\Users\Models\User\User|null $user */
         $user = Auth::user();
         if (!$user) return null;
 

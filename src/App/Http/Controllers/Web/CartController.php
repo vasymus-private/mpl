@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Models\Order;
+use Domain\Orders\Models\Order;
 use App\Models\PaymentMethod;
-use App\Models\User\User;
+use Domain\Users\Models\User\User;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,7 +13,7 @@ class CartController extends BaseWebController
 {
     public function show(Request $request)
     {
-        /** @var \App\Models\User\User $user */
+        /** @var \Domain\Users\Models\User\User $user */
         $user = Auth::user();
 
         $user->load([

@@ -2,8 +2,8 @@
 
 namespace App\View\Components;
 
-use App\Models\Brand;
-use App\Models\Product\Product;
+use Domain\Products\Models\Brand;
+use Domain\Products\Models\Product\Product;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\Component;
@@ -11,7 +11,7 @@ use Illuminate\View\Component;
 class MbBrandsFilterComponent extends Component
 {
     /**
-     * @var Collection|Brand[]
+     * @var Collection|\Domain\Products\Models\Brand[]
      * */
     public $brands;
 

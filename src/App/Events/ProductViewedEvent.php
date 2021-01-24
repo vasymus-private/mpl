@@ -2,8 +2,8 @@
 
 namespace App\Events;
 
-use App\Models\Product\Product;
-use App\Models\User\User;
+use Domain\Products\Models\Product\Product;
+use Domain\Users\Models\User\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;

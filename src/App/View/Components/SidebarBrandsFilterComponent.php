@@ -2,8 +2,8 @@
 
 namespace App\View\Components;
 
-use App\Models\Brand;
-use App\Models\Product\Product;
+use Domain\Products\Models\Brand;
+use Domain\Products\Models\Product\Product;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\Component;

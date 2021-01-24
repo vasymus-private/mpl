@@ -1,4 +1,4 @@
-<?php /** @var \App\Models\Order $order */ ?>
+<?php /** @var \Domain\Orders\Models\Order $order */ ?>
 
 @extends('emails.layouts.app')
 
@@ -11,7 +11,7 @@
     <div class="table">
         <table>
             <tbody>
-                <?php /** @var \App\Models\Product\Product $product */ ?>
+                <?php /** @var \Domain\Products\Models\Product\Product $product */ ?>
                 @foreach($order->products as $product)
                 <tr>
                     <td width="50%"><a href="{{$product->web_route}}">{{$product->name}}</a></td>
