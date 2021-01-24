@@ -12,7 +12,7 @@
             <p class="order-text-block__text">Менеджер свяжется с Вами для уточнения способа оплаты и получения заказа</p>
         </div>
 
-        <div class="accordion" id="accordionListPayment">
+        <div class="accordion-methods form-group" id="accordionListPayment">
             @foreach($paymentMethods as $paymentMethod)
                 <div class="js-payment-method-item">
                     <button
@@ -21,27 +21,40 @@
                         data-id="{{$paymentMethod->id}}"
                         data-order-id="{{$order->id}}"
                         data-toggle="collapse"
-                        data-target="{{$paymentMethod->id}}"
-                        aria-expanded="true"
+                        data-target="#js-method-{{$paymentMethod->id}}"
+                        aria-expanded="false"
                         aria-controls="{{$paymentMethod->id}}"
                     >
                         {{$paymentMethod->name}}
                     </button>
                     <div
                         class="collapse"
-                        id="{{$paymentMethod->id}}"
+                        id="js-method-{{$paymentMethod->id}}"
                         data-parent="#accordionListPayment"
                         aria-labelledby="heading{{$paymentMethod->id}}"
                     >
-                        <p>{{$paymentMethod->description}}</p>
-                        @if($paymentMethod->describable)
-                            <div>
-                                <textarea class="js-payment-method-description" name="payment_method_description" id="" cols="30" rows="10" placeholder="Реквизиты"></textarea>
+                        <div class="accordion-methods__parent">
+                            <div class="form-group__item">
+                                <p>{{$paymentMethod->description}}</p>
                             </div>
-                            <div>
-                                <input class="js-payment-method-attachment" type="file" name="attachment" multiple />
-                            </div>
-                        @endif
+                            @if($paymentMethod->describable)
+                                <div class="form-group__item">
+                                    <label>Вы можете указать реквизиты юридического лица:</label>
+                                    <textarea class="form-control js-payment-method-description" name="payment_method_description" id="" cols="30" rows="10" placeholder="Реквизиты"></textarea>
+                                </div>
+                                <div class="form-group__item">
+                                    <label>Приложить файл</label>
+                                    <div class="block-file">
+                                        <div class="bg_img">
+                                            <input class="form-control-file js-payment-method-attachment" type="file" name="attachment" multiple />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group__item">
+                                    <input type="submit" class="btn-submit" value="Отправить">
+                                </div>
+                            @endif
+                        </div>
                     </div>
                 </div>
             @endforeach

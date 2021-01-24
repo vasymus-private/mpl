@@ -1,0 +1,54 @@
+.accordion-methods {
+    margin-top: 20px;
+    p {
+        margin: 0;
+    }
+
+    .js-choose-payment-method {
+        -moz-box-shadow: inset 0px 1px 0px 0px #ffffff;
+        -webkit-box-shadow: inset 0px 1px 0px 0px #ffffff;
+        box-shadow: inset 0px 1px 0px 0px #ffffff;
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #f6f6f6));
+        background: -moz-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+        background: -webkit-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+        background: -o-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+        background: -ms-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+        background: linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f6f6f6',GradientType=0);
+        background-color: #ffffff;
+        -moz-border-radius: 6px;
+        -webkit-border-radius: 6px;
+        border-radius: 6px;
+        border: 1px solid #dcdcdc;
+        display: block;
+        cursor: pointer;
+        color: #333;
+        font-size: 14px;
+        font-weight: bold;
+        padding: 15px 30px;
+        text-decoration: none;
+        text-shadow: 0px 1px 0px #ffffff;
+        max-width: 420px;
+        width: 100%;
+        margin-bottom: 5px;
+        text-align: left;
+        outline: none;
+        &[aria-expanded="true"] {
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #fff3a6), color-stop(1, #ffca6e));
+            background: -moz-linear-gradient(top, #fff3a6 5%, #ffca6e 100%);
+            background: -webkit-linear-gradient(top, #fff3a6 5%, #ffca6e 100%);
+            background: -o-linear-gradient(top, #fff3a6 5%, #ffca6e 100%);
+            background: -ms-linear-gradient(top, #fff3a6 5%, #ffca6e 100%);
+            background: linear-gradient(to bottom, #fff3a6 5%, #ffca6e 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff3a6', endColorstr='#ffca6e',GradientType=0);
+            background-color: #fff3a6;
+        }
+    }
+
+    &__parent {
+        margin: 5px 0 10px 0;
+        padding: 5px;
+        color: #900;
+        font-size: 12px;
+    }
+}
