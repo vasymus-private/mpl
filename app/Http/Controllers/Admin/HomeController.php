@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+
 class HomeController extends BaseAdminController
 {
-    public function index()
+    public function index(Request $request)
     {
-        dd("hi");
+        dump($request->user());
         return view("admin.pages.home.home");
     }
 }

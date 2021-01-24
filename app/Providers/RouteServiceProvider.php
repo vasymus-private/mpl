@@ -70,6 +70,11 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->routeBinding();
 
+        //$this->ddRoutes();
+    }
+
+    protected function ddRoutes()
+    {
         $routes = [];
         $routeCollection = Route::getRoutes();
         /** @var \Illuminate\Routing\Route $value */
@@ -85,7 +90,7 @@ class RouteServiceProvider extends ServiceProvider
                 'matches' => $value->uri(),
             ];
         }
-        //dd($routes);
+        dd($routes);
     }
 
     protected function routeBinding()
@@ -151,7 +156,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix("admin")
             ->name("admin.")
-            //->middleware(['web', "auth:web-admin"])
+            ->middleware(['web', "auth:admin"])
             //->namespace($this->namespace)
             ->group(base_path('routes/admin.php'));
     }
@@ -160,7 +165,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix("admin-ajax")
             ->name("admin-ajax.")
-            ->middleware(['web', "auth:web-admin"])
+            ->middleware(['web', "auth:admin"])
             //->namespace($this->namespace)
             ->group(base_path('routes/admin-ajax.php'));
     }

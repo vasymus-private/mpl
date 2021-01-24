@@ -6,6 +6,7 @@ use App\Constants;
 use App\Models\User\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends BaseLoginController
 {
@@ -77,9 +78,12 @@ class LoginController extends BaseLoginController
      */
     protected function authenticated(Request $request, $user)
     {
+        /** @var User $user */
+
         $anonymousUser = $this->getAnonymousUser();
         User::handleTransferProducts($anonymousUser, $user);
         User::handleTransferOrders($anonymousUser, $user);
+        if ($user->is_admin) Auth::guard(Constants::AUTH_GUARD_ADMIN)->login($user, true);
 
         return redirect()->route('profile');
     }
