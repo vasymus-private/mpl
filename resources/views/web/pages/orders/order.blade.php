@@ -38,6 +38,47 @@
                 </div>
             </div>
         </div>
+        <div class="sale-order-detail__content">
+            <div class="order-info">
+                <h3 class="order-info__title">Информация о пользователе</h3>
+                <div class="order-info__item">
+                    <span class="order-info__label">Логин:</span>
+                    <p class="order-info__text">admin</p>
+                </div>
+                <div class="order-info__item">
+                    <span class="order-info__label">E-mail адрес:</span>
+                    <p class="order-info__text"><a href="mailto:parket-lux@mail.ru">parket-lux@mail.ru</a></p>
+                </div>
+                <div class="order-info__item">
+                    <span class="order-info__label">Тип плательщика:</span>
+                    <p class="order-info__text">Физические лица</p>
+                </div>
+                <div class="order-info__item">
+                    <span class="order-info__label">Имя:</span>
+                    <p class="order-info__text">ssddd</p>
+                </div>
+                <div class="order-info__item">
+                    <span class="order-info__label">Приложенный файл:</span>
+                    <p class="order-info__text"><a href="#">20cb7e6ee880859507618043c7eaa9a8.doc</a></p>
+                </div>
+                <div class="order-info__item">
+                    <span class="order-info__label"></span>
+                    <p class="order-info__text"><a href="mailto:parket-lux@mail.ru">parket-lux@mail.ru</a></p>
+                </div>
+                <div class="order-info__item">
+                    <span class="order-info__label">Телефон:</span>
+                    <p class="order-info__text">123123123</p>
+                </div>
+                <h3 class="order-info__title">Комментарии к заказу</h3>
+                <div class="order-info__item">
+                    <p class="order-info__text">Составил Александр для Камила Сиразеева <br>
+                        Специалист отдела продаж "VIVUS STROY" <br>
+                        Тел: 8(495) 970-34-26 <br>
+                        Моб.тел : +7(916) 637-50-51 <br>
+                        Моб.тел : +7(915) 492-80-86</p>
+                </div>
+            </div>
+        </div>
         <table width="100%">
             <tbody>
                 <tr>

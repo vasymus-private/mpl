@@ -17,6 +17,7 @@ import sidebarMenu from './modules/sidebarMenu'
 import accordionMob from './modules/accordionMob'
 import slimScroll from './modules/slimScroll'
 import showSearchBlock from './modules/showSearchBlock'
+import cabinetShow from "./modules/cabinet-show";
 import './modules/stickySidebar'
 import "./modules/cart"
 import "./modules/putProductAside"
@@ -34,5 +35,6 @@ import "./modules/product-sliders"
         accordionMob.init()
         slimScroll.init()
         showSearchBlock.init()
+        cabinetShow.init()
     })
 })(jQuery)
