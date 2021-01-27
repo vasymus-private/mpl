@@ -79,6 +79,105 @@
                 </div>
             </div>
         </div>
+        <div class="sale-order-detail__head">
+            <span class="sale-order-detail__item">Содержимое заказа</span>
+        </div>
+        <div class="sale-order-detail__container">
+            <div class="sale-order-table cabinet desktop">
+                <div class="product-selling">
+                    <table class="product-selling__table" cellspacing="0" cellpadding="0">
+                        <thead>
+                        <tr>
+                            <th>&nbsp;</th>
+                            <th>Цена</th>
+                            <th>Количество</th>
+                            <th>Сумма</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><a href="#">Dollken TL-51 (светло-серый) - пластиковый плинтус для ковролина (2,5м)</a></td>
+                            <td>348 р</td>
+                            <td>6</td>
+                            <td><strong>2500 р.</strong></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#">Внутренний угол для плинтуса Dollken TL-51</a></td>
+                            <td>348 р</td>
+                            <td>6</td>
+                            <td><strong>2500 р.</strong></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#">Внутренний угол для плинтуса Dollken TL-51</a></td>
+                            <td>90 р</td>
+                            <td>6</td>
+                            <td><strong>2500 р.</strong></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#">Внутренний угол для плинтуса Dollken TL-51</a></td>
+                            <td>90 р</td>
+                            <td>6</td>
+                            <td><strong>2500 р.</strong></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="sale-order-table cabinet mobile">
+                <div class="product-selling">
+                    <table class="product-selling__table" cellspacing="0" cellpadding="0">
+                        <thead>
+                        <tr>
+                            <th>&nbsp;</th>
+                            <th>Цена</th>
+                            <th>Количество</th>
+                            <th>Сумма</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td colspan="4"><a href="#">Dollken TL-51 (светло-серый) - пластиковый плинтус для ковролина (2,5м)</a></td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>90 р</td>
+                            <td>6</td>
+                            <td><strong>2500 р.</strong></td>
+                        </tr>
+                        <tr>
+                            <td colspan="4"><a href="#">Dollken TL-51 (светло-серый) - пластиковый плинтус для ковролина (2,5м)</a></td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>90 р</td>
+                            <td>6</td>
+                            <td><strong>2500 р.</strong></td>
+                        </tr>
+                        <tr>
+                            <td colspan="4"><a href="#">Dollken TL-51 (светло-серый) - пластиковый плинтус для ковролина (2,5м)</a></td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>90 р</td>
+                            <td>6</td>
+                            <td><strong>2500 р.</strong></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <a href="#" class="btn-repeat">Повторить</a>
+                </div>
+            </div>
+            <!--          				<div class="sale-order-detail__total-payment row-line row-line__right">-->
+            <!--          					<div class="column-offset row-line">-->
+            <!--          						<div class="column">-->
+            <!--          							<span class="total">Итого:</span>-->
+            <!--          						</div>-->
+            <!--          						<div class="column">-->
+            <!--          							<span class="total-price">2 628 р</span>-->
+            <!--          						</div>-->
+            <!--          					</div>-->
+            <!--          				</div>-->
+        </div>
         <table width="100%">
             <tbody>
                 <tr>
