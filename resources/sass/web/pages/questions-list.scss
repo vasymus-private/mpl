@@ -1,0 +1,107 @@
+.questions-page {
+    background: #fff;
+    border: 1px solid #cfcfcf;
+    padding: 15px 25px;
+    &__title {
+        color: #0068c8;
+        font-size: 34px;
+        font-weight: bold;
+        background: url(../images/border.png) bottom left no-repeat;
+        padding-bottom: 10px;
+        margin: 0;
+    }
+
+    &__row {
+        margin: 0 0 20px;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+    }
+}
+
+.questions-list {
+    @extend %listreset;
+
+    &__item {
+        border-bottom: 1px solid #eee;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+
+    &__ask-link {
+        width: 152px;
+    }
+
+    &__row {
+        display: flex;
+        align-items: center;
+        &--margin-top {
+            margin-top: 15px;
+        }
+    }
+
+    &__avatar {
+        margin: 0 15px 0 0;
+        img {
+            width: 40px;
+            height: auto;
+            display: block;
+        }
+    }
+
+    &__title {
+        font-weight: bold;
+        padding: 0;
+        margin: 0;
+        flex: 1 1;
+        a {
+            text-decoration: underline;
+        }
+    }
+
+    &__comment {
+        padding: 12px 15px;
+        border-radius: 12px;
+        background: #DDEEF8;
+        color: #000;
+        font-size: 16px;
+        margin: 13px 0 15px 10px;
+        position: relative;
+        box-shadow: 1px 2px 1px #E0E0E0;
+        &:before {
+            display: block;
+            width: 20px;
+            height: 14px;
+            position: absolute;
+            left: -9px;
+            top: 0px;
+            background: url(../images/corner_faq.png) bottom right no-repeat;
+            content: " ";
+        }
+
+        p {
+            margin: 0;
+            color: #000;
+            font-size: 16px;
+        }
+    }
+
+    &__answer {
+        border-bottom: 1px solid #eee;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+
+    &__more {
+        background: url(../images/arr-orange-right-2.gif) left center no-repeat;
+        padding-left: 14px;
+        font-size: 12px;
+        color: #a00;
+        text-decoration: underline;
+    }
+
+    &__date {
+        font-size: 12px;
+        padding-left: 10px;
+    }
+}
