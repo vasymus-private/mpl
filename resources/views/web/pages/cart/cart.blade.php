@@ -65,7 +65,7 @@
                         <?php /** @var \Domain\Products\Models\Product\Product $cartProduct */ ?>
                         <tr class="js-cart-row {{ ($cartProduct->cart_product->deleted_at ?? null) !== null ? "deleted-row" : "" }}" data-id="{{$cartProduct->id}}">
                             <td>
-                                <div class="row-line">
+                                <div class="row-line row-line__center">
                                     <img src="{{$cartProduct->main_image_url}}" alt="" class="cart__image" />
                                     <span class="cart__name-product">{!! $cartProduct->name !!}</span>
                                 </div>

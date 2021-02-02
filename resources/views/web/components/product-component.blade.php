@@ -181,8 +181,8 @@
                     <td colspan="7">
                         <div class="manager-area-price">
                             <p>
-                                Закупочная: <span style="color: #03c; font-weight: bold;">{{$variation->price_purchase_rub_formatted}}</span>,
-                                Маржа: <span style="color: #03c;">{{$variation->margin_rub_formatted}}</span>,
+                                Закупочная: <span>{{$variation->price_purchase_rub_formatted}}</span>,
+                                Маржа: <span>{{$variation->margin_rub_formatted}}</span>,
                                 Наценка: {{$variation->price_markup}} %,
                                 Заработок: {{$variation->price_income}} %
                             </p>
