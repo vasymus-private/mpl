@@ -179,8 +179,32 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @see Product::getMainImageUrlAttribute()
  * @property string $main_image_url
  *
+ * @see Product::getMainImageXsThumbUrlAttribute()
+ * @property string $main_image_xs_thumb_url
+ *
+ * @see Product::getMainImageSmThumbUrlAttribute()
+ * @property string $main_image_sm_thumb_url
+ *
+ * @see Product::getMainImageMdThumbUrlAttribute()
+ * @property string $main_image_md_thumb_url
+ *
+ * @see Product::getMainImageLgThumbUrlAttribute()
+ * @property string $main_image_lg_thumb_url
+ *
  * @see Product::getImagesUrlsAttribute()
  * @property string[] $images_urls
+ *
+ * @see Product::getImagesXsThumbsUrlsAttribute()
+ * @property string[] $images_xs_thumbs_urls
+ *
+ * @see Product::getImagesSmThumbsUrlsAttribute()
+ * @property string[] $images_sm_thumbs_urls
+ *
+ * @see Product::getImagesMdThumbsUrlsAttribute()
+ * @property string[] $images_md_thumbs_urls
+ *
+ * @see Product::getImagesLgThumbsUrlsAttribute()
+ * @property string[] $images_lg_thumbs_urls
  *
  * @see Product::getOrderProductCountAttribute()
  * @property-read int|null $order_product_count
@@ -673,18 +697,64 @@ class Product extends BaseModel implements HasMedia
         return $this->getFirstMediaUrl(static::MC_MAIN_IMAGE);
     }
 
+    public function getMainImageXsThumbUrlAttribute(): string
+    {
+        return $this->getFirstMediaPath(static::MC_MAIN_IMAGE, static::MCONV_XS_THUMB);
+    }
+
+    public function getMainImageSmThumbUrlAttribute(): string
+    {
+        return $this->getFirstMediaUrl(static::MC_MAIN_IMAGE, static::MCONV_SM_THUMB);
+    }
+
+    public function getMainImageMdThumbUrlAttribute(): string
+    {
+        return $this->getFirstMediaUrl(static::MC_MAIN_IMAGE, static::MCONV_MD_THUMB);
+    }
+
+    public function getMainImageLgThumbUrlAttribute(): string
+    {
+        return $this->getFirstMediaUrl(static::MC_MAIN_IMAGE, static::MCONV_LG_THUMB);
+    }
+
     /**
      * @return string[]
      * */
     public function getImagesUrlsAttribute(): array
     {
-        $urls = [];
-        $medias = $this->getMedia(static::MC_ADDITIONAL_IMAGES) ?? [];
-        /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
-        foreach ($medias as $media) {
-            $urls[] = $media->getFullUrl();
-        }
-        return $urls;
+        return $this->getMedia(static::MC_ADDITIONAL_IMAGES)->map(fn(Media $media) => $media->getFullUrl())->toArray();
+    }
+
+    /**
+     * @return string[]
+     * */
+    public function getImagesXsThumbsUrlsAttribute(): array
+    {
+        return $this->getMedia(static::MC_ADDITIONAL_IMAGES)->map(fn(Media $media) => $media->getFullUrl(static::MCONV_XS_THUMB))->toArray();
+    }
+
+    /**
+     * @return string[]
+     * */
+    public function getImagesSmThumbsUrlsAttribute(): array
+    {
+        return $this->getMedia(static::MC_ADDITIONAL_IMAGES)->map(fn(Media $media) => $media->getFullUrl(static::MCONV_SM_THUMB))->toArray();
+    }
+
+    /**
+     * @return string[]
+     * */
+    public function getImagesMdThumbsUrlsAttribute(): array
+    {
+        return $this->getMedia(static::MC_ADDITIONAL_IMAGES)->map(fn(Media $media) => $media->getFullUrl(static::MCONV_MD_THUMB))->toArray();
+    }
+
+    /**
+     * @return string[]
+     * */
+    public function getImagesLgThumbsUrlsAttribute(): array
+    {
+        return $this->getMedia(static::MC_ADDITIONAL_IMAGES)->map(fn(Media $media) => $media->getFullUrl(static::MCONV_LG_THUMB))->toArray();
     }
 
     public function getOrderProductCountAttribute(): ?int

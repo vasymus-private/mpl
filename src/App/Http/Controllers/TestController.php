@@ -16,14 +16,17 @@ class TestController extends Controller
 {
     public function test(Request $request)
     {
-        $image = Image::load(storage_path("app/temp/temp-for-manipulations.jpg")); // 650x433
-        $image
-            ->fit(Manipulations::FIT_FILL, 200, 200)
-            ->background("ffffff")
-            ->save(storage_path("app/public/temp/temp-for-manipulations.jpg"))
-        ;
+        $product = Product::query()->find(6);
 
-        return view('test');
+//        dump(Product::query()->find(6)->images_urls);
+//        dump(Product::query()->find(6)->images_xs_thumbs_urls);
+//        dump(Product::query()->find(6)->images_sm_thumbs_urls);
+//        dump(Product::query()->find(6)->images_md_thumbs_urls);
+//        dump(Product::query()->find(6)->images_lg_thumbs_urls);
+
+        $images = array_merge([], $product->images_urls, $product->images_xs_thumbs_urls, $product->images_sm_thumbs_urls, $product->images_md_thumbs_urls, $product->images_lg_thumbs_urls);
+
+        return view('test', compact("images"));
     }
 
     public function testEmailOrder()
