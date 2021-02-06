@@ -1,4 +1,4 @@
-<?php /** @var \Illuminate\Database\Eloquent\Collection|\Spatie\MediaLibrary\Models\Media[] $instructions */ ?>
+<?php /** @var \Illuminate\Database\Eloquent\Collection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $instructions */ ?>
 @if(count($instructions))
     <div>
         @if(count($instructions) === 1)
@@ -11,7 +11,7 @@
 
                 <div class="dropdown-menu" aria-labelledby="js-product-files">
                     @foreach($instructions as $instruction)
-                        <?php /** @var \Spatie\MediaLibrary\Models\Media $instruction */ ?>
+                        <?php /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $instruction */ ?>
                         <a class="dropdown-item" target="_blank" href="{{$instruction->getFullUrl()}}">{{$instruction->name}}</a>
                     @endforeach
                 </div>

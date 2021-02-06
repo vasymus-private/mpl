@@ -9,12 +9,19 @@ use Domain\Products\Models\Product\Product;
 use Support\TruncateHTML\TruncateHTML;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Spatie\Image\Manipulations;
+use Spatie\Image\Image;
 
 class TestController extends Controller
 {
     public function test(Request $request)
     {
-        dump(Product::query()->find(1020)->images_urls);
+        $image = Image::load(storage_path("app/temp/temp-for-manipulations.jpg")); // 650x433
+        $image
+            ->fit(Manipulations::FIT_FILL, 200, 200)
+            ->background("ffffff")
+            ->save(storage_path("app/public/temp/temp-for-manipulations.jpg"))
+        ;
 
         return view('test');
     }

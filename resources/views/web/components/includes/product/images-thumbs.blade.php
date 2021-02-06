@@ -1,4 +1,4 @@
-<?php /** @var \Illuminate\Database\Eloquent\Collection|\Spatie\MediaLibrary\Models\Media[] $images */ ?>
+<?php /** @var \Illuminate\Database\Eloquent\Collection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $images */ ?>
 @if($images->isNotEmpty())
     <div class="wrapper-photos-block">
         <div class="line">
@@ -11,7 +11,7 @@
         </div>
         <div class="row-line">
             @foreach($images as $image)
-                <?php /** @var \Spatie\MediaLibrary\Models\Media $image */ ?>
+                <?php /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $image */ ?>
                 <a href="{{$image->getFullUrl()}}" data-fancybox="images" class="wrapper-photos-block__link"><img src="{{$image->getFullUrl()}}" alt="" title=""></a>
             @endforeach
         </div>

@@ -3,6 +3,7 @@
 namespace Domain\Products\Models\Product;
 
 use Domain\Products\Collections\ProductCollection;
+use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Support\H;
 use Domain\Products\Models\AvailabilityStatus;
@@ -211,6 +212,17 @@ class Product extends BaseModel implements HasMedia
     const MC_ADDITIONAL_IMAGES = "images";
     const MC_FILES = "files";
 
+    const MCONV_XS_THUMB = "xs-thumb"; // 40x40
+    const MCONV_XS_THUMB_SIZE = 40;
+    const MCONV_SM_THUMB = "sm-thumb"; // 50x50
+    const MCONV_SM_THUMB_SIZE = 50;
+    const MCONV_MD_THUMB = "md-thumb"; // 120x120
+    const MCONV_MD_THUMB_SIZE = 120;
+    const MCONV_LG_THUMB = "lg-thumb"; // 220x220
+    const MCONV_LG_THUMB_SIZE = 220;
+    const MCONV_FILL_BG = "ffffff";
+
+
     const CH_NAME_DESC_TRADE_MARK = "Торговая марка";
     const CH_NAME_DESC_COUNTRY_NAME = "Страна производитель";
     const CH_NAME_DESC_UNIT = "Единица измерения";
@@ -380,6 +392,57 @@ class Product extends BaseModel implements HasMedia
         $this->addMediaCollection(static::MC_ADDITIONAL_IMAGES);
 
         $this->addMediaCollection(static::MC_FILES);
+    }
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion(static::MCONV_XS_THUMB)
+            ->fit(
+                Manipulations::FIT_FILL,
+                static::MCONV_XS_THUMB_SIZE,
+                static::MCONV_XS_THUMB_SIZE
+            )
+            ->background(static::MCONV_FILL_BG)
+            ->performOnCollections(static::MC_MAIN_IMAGE, static::MC_ADDITIONAL_IMAGES)
+            ->nonQueued()
+            ->nonOptimized()
+        ;
+
+        $this->addMediaConversion(static::MCONV_SM_THUMB)
+            ->fit(
+                Manipulations::FIT_FILL,
+                static::MCONV_SM_THUMB_SIZE,
+                static::MCONV_SM_THUMB_SIZE
+            )
+            ->background(static::MCONV_FILL_BG)
+            ->performOnCollections(static::MC_MAIN_IMAGE, static::MC_ADDITIONAL_IMAGES)
+            ->nonQueued()
+            ->nonOptimized()
+        ;
+
+        $this->addMediaConversion(static::MCONV_MD_THUMB)
+            ->fit(
+                Manipulations::FIT_FILL,
+                static::MCONV_MD_THUMB_SIZE,
+                static::MCONV_MD_THUMB_SIZE
+            )
+            ->background(static::MCONV_FILL_BG)
+            ->performOnCollections(static::MC_MAIN_IMAGE, static::MC_ADDITIONAL_IMAGES)
+            ->nonQueued()
+            ->nonOptimized()
+        ;
+
+        $this->addMediaConversion(static::MCONV_LG_THUMB)
+            ->fit(
+                Manipulations::FIT_FILL,
+                static::MCONV_LG_THUMB_SIZE,
+                static::MCONV_LG_THUMB_SIZE
+            )
+            ->background(static::MCONV_FILL_BG)
+            ->performOnCollections(static::MC_MAIN_IMAGE, static::MC_ADDITIONAL_IMAGES)
+            ->nonQueued()
+            ->nonOptimized()
+        ;
     }
 
     public function newCollection(array $models = [])

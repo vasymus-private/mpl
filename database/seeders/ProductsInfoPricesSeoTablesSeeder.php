@@ -16,6 +16,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Intervention\Image\Exception\NotReadableException;
 
 class ProductsInfoPricesSeoTablesSeeder extends Seeder
 {
@@ -229,7 +230,11 @@ class ProductsInfoPricesSeoTablesSeeder extends Seeder
                             })
                         ;
                     }
-                    $fileAdder->toMediaCollection(Product::MC_MAIN_IMAGE);
+                    try {
+                        $fileAdder->toMediaCollection(Product::MC_MAIN_IMAGE);
+                    } catch (NotReadableException $exception) {
+                        dump($exception->getMessage());
+                    }
                 }
             }
         }
@@ -274,15 +279,20 @@ class ProductsInfoPricesSeoTablesSeeder extends Seeder
         $loop = function(array $mediaInfo, string $collectionName) use($product) {
             $src = $mediaInfo["src"];
             $name = $mediaInfo["name"];
-            $product
-                ->addMedia(storage_path("app/$src"))
-                ->preservingOriginal()
-                ->usingName($name)
-                ->sanitizingFileName(function($fileName) {
-                    return strtolower(str_replace(['#', '/', '\\', ' '], '-', $fileName));
-                })
-                ->toMediaCollection($collectionName)
-            ;
+            try {
+                $product
+                    ->addMedia(storage_path("app/$src"))
+                    ->preservingOriginal()
+                    ->usingName($name)
+                    ->sanitizingFileName(function($fileName) {
+                        return strtolower(str_replace(['#', '/', '\\', ' '], '-', $fileName));
+                    })
+                    ->toMediaCollection($collectionName)
+                ;
+            } catch (NotReadableException $exception) {
+                dump($exception->getMessage());
+            }
+
         };
 
         if ($media["mainImage"]) $loop($media["mainImage"], Product::MC_MAIN_IMAGE);
