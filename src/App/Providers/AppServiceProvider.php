@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Domain\Orders\Models\Order;
 use Domain\Users\Models\Admin;
 use Domain\Articles\Models\Article;
 use Domain\Products\Models\Category;
@@ -44,6 +45,7 @@ class AppServiceProvider extends ServiceProvider
             "gallery_items" => GalleryItem::class,
             "articles" => Article::class,
             "services" => Service::class,
+            "orders" => Order::class,
         ]);
     }
 }

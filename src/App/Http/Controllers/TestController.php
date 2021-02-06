@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\TestMarkupOrderShippedMail;
 use App\Mail\TestMarkupResetPasswordMail;
 use App\Notifications\OrderShipped;
+use Domain\Products\Models\Product\Product;
 use Support\TruncateHTML\TruncateHTML;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -13,7 +14,7 @@ class TestController extends Controller
 {
     public function test(Request $request)
     {
-        dump(Str::slug("Пол на лагах в новостройке - повторный вопрос"));
+        dump(Product::query()->find(1020)->images_urls);
 
         return view('test');
     }

@@ -3,6 +3,7 @@
 namespace Domain\Products\Models\Product;
 
 use Domain\Products\Collections\ProductCollection;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Support\H;
 use Domain\Products\Models\AvailabilityStatus;
 use Domain\Common\Models\BaseModel;
@@ -176,6 +177,9 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  *
  * @see Product::getMainImageUrlAttribute()
  * @property string $main_image_url
+ *
+ * @see Product::getImagesUrlsAttribute()
+ * @property string[] $images_urls
  *
  * @see Product::getOrderProductCountAttribute()
  * @property-read int|null $order_product_count
@@ -604,6 +608,20 @@ class Product extends BaseModel implements HasMedia
     public function getMainImageUrlAttribute(): string
     {
         return $this->getFirstMediaUrl(static::MC_MAIN_IMAGE);
+    }
+
+    /**
+     * @return string[]
+     * */
+    public function getImagesUrlsAttribute(): array
+    {
+        $urls = [];
+        $medias = $this->getMedia(static::MC_ADDITIONAL_IMAGES) ?? [];
+        /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
+        foreach ($medias as $media) {
+            $urls[] = $media->getFullUrl();
+        }
+        return $urls;
     }
 
     public function getOrderProductCountAttribute(): ?int

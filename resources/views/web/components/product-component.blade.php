@@ -118,6 +118,18 @@
                                 href="{{$variation->main_image_url}}"
                                 data-fancybox="variation-image-loop-{{$loop->index + 1}}"
                             ></a>
+                            @foreach($variation->images_urls as $url)
+                                <a
+                                    href="{{$url}}"
+                                    data-fancybox="variation-image-link-loop-{{$loop->index + 1}}"
+                                    style="display: none;"
+                                ></a>
+                                <a
+                                    href="{{$url}}"
+                                    data-fancybox="variation-image-loop-{{$loop->index + 1}}"
+                                    style="display: none;"
+                                ></a>
+                            @endforeach
                         </div>
                     </td>
                     <td>
