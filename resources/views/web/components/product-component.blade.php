@@ -98,30 +98,30 @@
                     </tr>
                 </thead>
                 <tbody>
-                @foreach($product->variations as $variation)
+                @foreach($product->variations as $index => $variation)
                     <?php /** @var \Domain\Products\Models\Product\Product $variation */ ?>
                 <tr>
                     <td>
                         <div class="product-variants__photo">
                             <a
                                 href="{{$variation->main_image_url}}"
-                                data-fancybox="variation-image-link-loop-{{$loop->index + 1}}"
+                                data-fancybox="variation-image-link-loop-{{$index + 1}}"
                             >
                                 <img
                                     src="{{$variation->main_image_sm_thumb_url}}"
                                     alt="{{$variation->name}}"
                                     title="{{$variation->name}}">
                             </a>
-                            <span class="product-variants__counter">{{$loop->index + 1}}</span>
+                            <span class="product-variants__counter">{{$index + 1}}</span>
                             <a
                                 class="product-variants__zoom"
                                 href="javascript:;"
-                                data-fancybox-trigger="variation-image-link-loop-{{$loop->index + 1}}"
+                                data-fancybox-trigger="variation-image-link-loop-{{$index + 1}}"
                             ></a>
                             @foreach($variation->images_urls as $url)
                                 <a
                                     href="{{$url}}"
-                                    data-fancybox="variation-image-link-loop-{{$loop->index + 1}}"
+                                    data-fancybox="variation-image-link-loop-{{$index + 1}}"
                                     style="display: none;"
                                 ></a>
                             @endforeach
