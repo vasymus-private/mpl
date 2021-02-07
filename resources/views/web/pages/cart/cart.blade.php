@@ -77,7 +77,7 @@
                             <td class="count-td">
                                 <div class="js-cart-column-count-part-normal" @if(($cartProduct->cart_product->deleted_at ?? null) !== null) style="display: none;" @endif data-id="{{$cartProduct->id}}">
                                     <button type="button" class="js-cart-decrement" data-id="{{$cartProduct->id}}">-</button>
-                                    <input type="text" value="{{$cartProduct->cart_product->count ?? 1}}" class="js-input-hide-on-focus js-add-to-cart-input-count js-add-to-cart-input-count-{{$cartProduct->id}}" data-id="{{$cartProduct->id}}" />
+                                    <input type="text" value="{{$cartProduct->cart_product->count ?? 1}}" class="js-input-hide-on-focus js-add-to-cart-instant-input js-add-to-cart-input-count-{{$cartProduct->id}}" data-id="{{$cartProduct->id}}" />
                                     <button type="button" class="js-cart-increment" data-id="{{$cartProduct->id}}">+</button>
                                 </div>
                                 <div class="js-cart-column-count-part-deleted" @if(($cartProduct->cart_product->deleted_at ?? null) === null) style="display: none;" @endif data-id="{{$cartProduct->id}}">
@@ -120,7 +120,7 @@
                                 <div class="basket-mobile__count-basket">
                                     <div class="js-cart-column-count-part-normal" @if(($cartProduct->cart_product->deleted_at ?? null) !== null) style="display: none;" @endif data-id="{{$cartProduct->id}}">
                                         <button type="button" class="js-cart-decrement" data-id="{{$cartProduct->id}}">-</button>
-                                        <input type="text" value="{{$cartProduct->cart_product->count ?? 1}}" class="js-input-hide-on-focus js-add-to-cart-input-count js-add-to-cart-input-count-{{$cartProduct->id}}" data-id="{{$cartProduct->id}}" />
+                                        <input type="text" value="{{$cartProduct->cart_product->count ?? 1}}" class="js-input-hide-on-focus js-add-to-cart-instant-input js-add-to-cart-input-count-{{$cartProduct->id}}" data-id="{{$cartProduct->id}}" />
                                         <button type="button" class="js-cart-increment" data-id="{{$cartProduct->id}}">+</button>
                                     </div>
                                 </div>

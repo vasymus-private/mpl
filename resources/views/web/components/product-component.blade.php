@@ -49,7 +49,19 @@
                     <div class="product-price__body row-line row-line__between">
                         <div class="column-price-part">
                             <span class="product-price__subtitle">Количество</span>
-                            <input type="number" min="1" class="js-add-to-cart-input-count-{{$product->id}} js-input-hide-on-focus product-price__count" value="1" />
+                            <input
+                                type="number"
+                                min="1"
+                                class="
+                                    js-add-to-cart-input-count-{{$product->id}}
+                                    js-input-hide-on-focus
+                                    product-price__count
+                                    js-add-to-cart-input-instant-highlighted
+                                    {{$product->is_in_cart ? "input-highlighted" : ""}}
+                                "
+                                data-id="{{$product->id}}"
+                                value="{{$product->cart_count ?? 1}}"
+                            />
                         </div>
                         @if($product->is_available)
                         <div class="column-price-part">
@@ -152,13 +164,16 @@
                         @if($variation->is_available)
                         <input
                             type="number"
-                            value="1"
+                            value="{{$variation->cart_count ?? 1}}"
                             min="1"
                             class="
                             product-variants__input_small
                             js-add-to-cart-input-count-{{$variation->id}}
                             js-input-hide-on-focus
+                            js-add-to-cart-input-instant-highlighted
+                            {{$variation->is_in_cart ? "input-highlighted" : ""}}
                             "
+                            data-id="{{$variation->id}}"
                         />
                         @endif
                     </td>
@@ -236,13 +251,16 @@
                                 <div class="column">
                                     <input
                                         type="number"
-                                        value="1"
+                                        value="{{$variation->cart_count ?? 1}}"
                                         min="1"
                                         class="
                                         product-variants__input_small
                                         js-add-to-cart-input-count-{{$variation->id}}
                                         js-input-hide-on-focus
+                                        js-add-to-cart-input-instant-highlighted
+                                        {{$variation->is_in_cart ? "input-highlighted" : ""}}
                                         "
+                                        data-id="{{$variation->id}}"
                                     />
                                 </div>
                                 <div class="column">

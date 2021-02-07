@@ -33,11 +33,14 @@ import Products from '../Products'
         let $_sidebarMenuTemplate = $("#sidebar-menu-cart-item")
         let sidebarMenuTemplate = $_sidebarMenuTemplate.html()
 
+        let $inputHighlighted = $(".js-add-to-cart-input-instant-highlighted")
+        let inputHighlightedClass = "input-highlighted"
+
         let $totalSumFormatted = $(".js-cart-total-sum-formatted")
 
         let $cartDecrement = $(".js-cart-decrement")
         let $cartIncrement = $(".js-cart-increment")
-        let $addToCartInputCounts = $(".js-add-to-cart-input-count")
+        let $addToCartInstantInput = $(".js-add-to-cart-instant-input")
 
         let $cartDeletes = getCartDeletes$()
 
@@ -77,7 +80,7 @@ import Products from '../Products'
                 handleAjaxChangeCountOnCartPage(id, count, $input)
             }, 500))
 
-            $addToCartInputCounts.on("blur", debounce(event => {
+            $addToCartInstantInput.on("blur", debounce(event => {
                 let $input = $(event.currentTarget)
                 let id = $input.data('id')
                 let count = Math.abs($input.val()) || 1
@@ -110,6 +113,17 @@ import Products from '../Products'
                 let id = $target.data('id')
 
                 handleAjaxDestroy(id)
+            })
+
+            $inputHighlighted.on("input", event => {
+
+                let $input = $(event.currentTarget)
+                let id = $input.data('id')
+
+
+                /// TODO
+
+                console.log(id, $input.val())
             })
         }
 

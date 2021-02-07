@@ -176,6 +176,9 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @see Product::getIsInCartAttribute()
  * @property bool|null $is_in_cart
  *
+ * @see Product::getCartCountAttribute()
+ * @property-read int|null $cart_count
+ *
  * @see Product::getMainImageUrlAttribute()
  * @property string $main_image_url
  *
@@ -620,6 +623,20 @@ class Product extends BaseModel implements HasMedia
         if (!$user) return null;
 
         return in_array($this->id, $user->cart_not_trashed->pluck("id")->toArray());
+    }
+
+    public function getCartCountAttribute(): ?int
+    {
+        /** @var \Domain\Users\Models\User\User|null $user */
+        $user = Auth::user();
+        if (!$user) return null;
+
+        /** @var \Domain\Products\Models\Product\Product $search|null */
+        $search = $user->cart_not_trashed->first(function(Product $product) {
+            return (string)$this->id === (string)$product->id;
+        });
+
+        return $search->cart_product->count ?? null;
     }
 
     public function scopeNotVariations(Builder $builder): Builder
