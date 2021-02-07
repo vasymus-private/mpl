@@ -11,7 +11,7 @@
         </div>
         <div class="sale-order-detail">
             <div class="sale-order-detail__head">
-                <span class="sale-order-detail__item">Заказ №2131 от 11.12.2015, 4 товара на сумму 2 628 р</span>
+                <span class="sale-order-detail__item">Заказ №{{$order->id}} @if($order->created_at instanceof \Carbon\Carbon) от {{$order->created_at->format("d.m.Y H:i:s")}} @endif, {{$order->order_products_count}} товар(а|ов) на сумму {{$order->price_retail_rub_formatted}}</span>
             </div>
             <div class="sale-order-detail__container">
                 <h3 class="sale-order-detail__subtitle">Информация о заказе</h3>
@@ -21,7 +21,7 @@
                         <p class="sale-order-detail__name-detail">{{ $order->user_name }}</p>
                     </div>
                     <div class="column">
-                        <h3 class="sale-order-detail__name-title sale-order-detail__name-title--color-gree">Текущий статус, от 11.12.2015:</h3>
+                        <h3 class="sale-order-detail__name-title sale-order-detail__name-title--color-gree">Текущий статус@if($order->updated_at instanceof \Carbon\Carbon), от {{$order->updated_at->format("d.m.Y")}}@endif:</h3>
                         <p class="sale-order-detail__name-detail">Заказ {{$order->status_name_for_user}}</p>
                     </div>
                     <div class="column">
@@ -38,47 +38,41 @@
                 </div>
             </div>
         </div>
+
         <div class="sale-order-detail__content">
             <div class="order-info">
                 <h3 class="order-info__title">Информация о пользователе</h3>
                 <div class="order-info__item">
-                    <span class="order-info__label">Логин:</span>
-                    <p class="order-info__text">admin</p>
-                </div>
-                <div class="order-info__item">
                     <span class="order-info__label">E-mail адрес:</span>
-                    <p class="order-info__text"><a href="mailto:parket-lux@mail.ru">parket-lux@mail.ru</a></p>
+                    <p class="order-info__text"><a href="mailto:{{\Illuminate\Support\Facades\Auth::user()->email}}">{{\Illuminate\Support\Facades\Auth::user()->email}}</a></p>
                 </div>
                 <div class="order-info__item">
                     <span class="order-info__label">Тип плательщика:</span>
-                    <p class="order-info__text">Физические лица</p>
+                    <p class="order-info__text">{{$order->payment_type_legal_entity_name ?: "-"}}</p>
                 </div>
                 <div class="order-info__item">
                     <span class="order-info__label">Имя:</span>
-                    <p class="order-info__text">ssddd</p>
+                    <p class="order-info__text">{{\Illuminate\Support\Facades\Auth::user()->name}}</p>
                 </div>
+                @if($order->initial_attachments->isNotEmpty())
                 <div class="order-info__item">
-                    <span class="order-info__label">Приложенный файл:</span>
-                    <p class="order-info__text"><a href="#">20cb7e6ee880859507618043c7eaa9a8.doc</a></p>
+                    <span class="order-info__label">Приложенные файлы:</span>
+                    @foreach($order->initial_attachments as $attachment)
+                        <p class="order-info__text"><a href="#">{{$attachment->file_name}}</a></p>
+                    @endforeach
                 </div>
-                <div class="order-info__item">
-                    <span class="order-info__label"></span>
-                    <p class="order-info__text"><a href="mailto:parket-lux@mail.ru">parket-lux@mail.ru</a></p>
-                </div>
+                @endif
                 <div class="order-info__item">
                     <span class="order-info__label">Телефон:</span>
-                    <p class="order-info__text">123123123</p>
+                    <p class="order-info__text">{{$order->user_phone}}</p>
                 </div>
                 <h3 class="order-info__title">Комментарии к заказу</h3>
                 <div class="order-info__item">
-                    <p class="order-info__text">Составил Александр для Камила Сиразеева <br>
-                        Специалист отдела продаж "VIVUS STROY" <br>
-                        Тел: 8(495) 970-34-26 <br>
-                        Моб.тел : +7(916) 637-50-51 <br>
-                        Моб.тел : +7(915) 492-80-86</p>
+                    <p class="order-info__text" style="white-space: pre-line">{{$order->comment_user}}</p>
                 </div>
             </div>
         </div>
+
         <div class="sale-order-detail__head">
             <span class="sale-order-detail__item">Содержимое заказа</span>
         </div>
@@ -95,30 +89,14 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td><a href="#">Dollken TL-51 (светло-серый) - пластиковый плинтус для ковролина (2,5м)</a></td>
-                            <td>348 р</td>
-                            <td>6</td>
-                            <td><strong>2500 р.</strong></td>
-                        </tr>
-                        <tr>
-                            <td><a href="#">Внутренний угол для плинтуса Dollken TL-51</a></td>
-                            <td>348 р</td>
-                            <td>6</td>
-                            <td><strong>2500 р.</strong></td>
-                        </tr>
-                        <tr>
-                            <td><a href="#">Внутренний угол для плинтуса Dollken TL-51</a></td>
-                            <td>90 р</td>
-                            <td>6</td>
-                            <td><strong>2500 р.</strong></td>
-                        </tr>
-                        <tr>
-                            <td><a href="#">Внутренний угол для плинтуса Dollken TL-51</a></td>
-                            <td>90 р</td>
-                            <td>6</td>
-                            <td><strong>2500 р.</strong></td>
-                        </tr>
+                        @foreach($order->products as $product)
+                            <tr>
+                                <td><a href="{{$product->web_route}}">{{$product->name}}</a></td>
+                                <td>{{$product->order_product_price_retail_rub_formatted}}</td>
+                                <td>{{$product->order_product_count}}</td>
+                                <td><b>{{$product->order_product_price_retail_rub_sum_formatted}}</b></td>
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -135,135 +113,22 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td colspan="4"><a href="#">Dollken TL-51 (светло-серый) - пластиковый плинтус для ковролина (2,5м)</a></td>
-                        </tr>
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td>90 р</td>
-                            <td>6</td>
-                            <td><strong>2500 р.</strong></td>
-                        </tr>
-                        <tr>
-                            <td colspan="4"><a href="#">Dollken TL-51 (светло-серый) - пластиковый плинтус для ковролина (2,5м)</a></td>
-                        </tr>
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td>90 р</td>
-                            <td>6</td>
-                            <td><strong>2500 р.</strong></td>
-                        </tr>
-                        <tr>
-                            <td colspan="4"><a href="#">Dollken TL-51 (светло-серый) - пластиковый плинтус для ковролина (2,5м)</a></td>
-                        </tr>
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td>90 р</td>
-                            <td>6</td>
-                            <td><strong>2500 р.</strong></td>
-                        </tr>
+                        @foreach($order->products as $product)
+                            <tr>
+                                <td colspan="4"><a href="{{$product->web_route}}">{{$product->name}}</a></td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>{{$product->order_product_price_retail_rub_formatted}}</td>
+                                <td>{{$product->order_product_count}}</td>
+                                <td><b>{{$product->order_product_price_retail_rub_sum_formatted}}</b></td>
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                     <a href="#" class="btn-repeat">Повторить</a>
                 </div>
             </div>
-            <!--          				<div class="sale-order-detail__total-payment row-line row-line__right">-->
-            <!--          					<div class="column-offset row-line">-->
-            <!--          						<div class="column">-->
-            <!--          							<span class="total">Итого:</span>-->
-            <!--          						</div>-->
-            <!--          						<div class="column">-->
-            <!--          							<span class="total-price">2 628 р</span>-->
-            <!--          						</div>-->
-            <!--          					</div>-->
-            <!--          				</div>-->
         </div>
-        <table width="100%">
-            <tbody>
-                <tr>
-                    <th colspan="2" align="left">Основная информация о заказе</th>
-                </tr>
-                <tr>
-                    <td>
-                        Текущий статус заказа
-                    </td>
-                    <td>
-                        Заказ {{$order->status_name_for_user}}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Сумма заказа
-                    </td>
-                    <td>
-                        {{$order->price_retail_rub_formatted}}
-                    </td>
-                </tr>
-                <tr>
-                    <th colspan="2" align="left">Параметры заказа</th>
-                </tr>
-                <tr>
-                    <td>
-                        Имя
-                    </td>
-                    <td>
-                        {{ $order->user_name }}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        E-mail
-                    </td>
-                    <td>
-                        {{ $order->user_email }}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Телефон
-                    </td>
-                    <td>
-                        {{ $order->user_phone }}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Комментарии покупателя
-                    </td>
-                    <td>
-                        {{ $order->comment_user }}
-                    </td>
-                </tr>
-                <tr>
-                    <th colspan="2" align="left">Содержимое заказа</th>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <table width="100%">
-                            <thead>
-                                <tr>
-                                    <td width="80%">Наименование</td>
-                                    <td width="10%">Кол-во</td>
-                                    <td width="10%">Цена</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($order->products as $product)
-                                    <tr>
-                                        <td><a href="{{$product->web_route}}">{{$product->name}}</a></td>
-                                        <td>{{$product->order_product_count}}</td>
-                                        <td>{{$product->order_product_price_retail_rub_formatted}}</td>
-                                    </tr>
-                                @endforeach
-                                <tr>
-                                    <td align="right">Итого:</td>
-                                    <td colspan="2" align="right">{{$order->price_retail_rub_formatted}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
     </div>
 @endsection

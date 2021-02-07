@@ -6,6 +6,7 @@
 ?>
 
 <div class="filter-head">
+    @if ($paginator->hasPages())
     <div class="column">
         <span class="filter-head__text">Страница:</span>
 
@@ -62,6 +63,8 @@
             </span>
         @endif
     </div>
+    @endif
+
     <div class="column">
         <span>Показывать по</span>
         <select class="js-form-select-autosubmit" data-form="{{request()->fullUrlWithQuery(request()->query())}}">

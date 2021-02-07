@@ -2,16 +2,13 @@
 
 namespace Domain\Orders\Models;
 
-use Domain\Common\Models\BaseModel;
-use Domain\Common\Models\Currency;
-use Domain\Orders\Models\OrderStatus;
+use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 use Support\H;
 use Domain\Orders\Models\Pivots\OrderProduct;
 use Domain\Products\Models\Product\Product;
 use Domain\Products\Collections\ProductCollection;
 use Domain\Users\Models\User\User;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -57,6 +54,9 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @see Order::getOrderPriceRetailRubFormattedAttribute()
  * @property-read string $order_price_retail_rub_formatted
  *
+ * @see Order::getOrderProductsCountAttribute()
+ * @property-read int $order_products_count
+ *
  * @see Order::getPriceRetailRubFormattedAttribute()
  * @property-read string $price_retail_rub_formatted
  *
@@ -71,6 +71,18 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  *
  * @see Order::getUserPhoneAttribute()
  * @property-read string $user_phone
+ *
+ * @see Order::getIsIndividualAttribute()
+ * @property-read bool $is_individual
+ *
+ * @see Order::getIsBusinessAttribute()
+ * @property-read bool $is_business
+ *
+ * @see Order::getPaymentTypeLegalEntityNameAttribute()
+ * @property-read string $payment_type_legal_entity_name
+ *
+ * @see Order::getInitialAttachmentsAttribute()
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $initial_attachments
  * */
 class Order extends \Domain\Common\Models\BaseModel implements HasMedia
 {
@@ -142,12 +154,17 @@ class Order extends \Domain\Common\Models\BaseModel implements HasMedia
 
     public function getOrderPriceRetailRubAttribute(): float
     {
-        return $this->products->orderProductSumRetailPriceRub();
+        return $this->products->orderProductsSumRetailPriceRub();
     }
 
     public function getOrderPriceRetailRubFormattedAttribute(): string
     {
-        return $this->products->orderProductSumRetailPriceRubFormatted();
+        return $this->products->orderProductsSumRetailPriceRubFormatted();
+    }
+
+    public function getOrderProductsCountAttribute(): int
+    {
+        return $this->products->orderProductsCount();
     }
 
     public function getPriceRetailRubFormattedAttribute(): string
@@ -198,5 +215,34 @@ class Order extends \Domain\Common\Models\BaseModel implements HasMedia
                 $this->request["phone"] ?? ""
             )
             ;
+    }
+
+    public function getIsIndividualAttribute(): bool
+    {
+        return in_array($this->payment_method_id, [PaymentMethod::ID_BANK_CARD, PaymentMethod::ID_CASH, PaymentMethod::ID_SBERBANK_INVOICE]);
+    }
+
+    public function getIsBusinessAttribute(): bool
+    {
+        return $this->payment_method_id === PaymentMethod::ID_CASHLESS_FROM_ACCOUNT;
+    }
+
+    public function getPaymentTypeLegalEntityNameAttribute(): string
+    {
+        return $this->is_individual
+                ? "Физическое лицо"
+                : (
+                    $this->is_business
+                        ? "Юридическое лицо"
+                        : ""
+            );
+    }
+
+    /**
+     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[]
+     * */
+    public function getInitialAttachmentsAttribute(): MediaCollection
+    {
+        return $this->getMedia(static::MC_INITIAL_ATTACHMENT);
     }
 }

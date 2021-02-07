@@ -80,20 +80,4 @@
             </div>
         @endforeach
     </div>
-    <ul>
-        <?php /** @var \Domain\Orders\Models\Order $order */ ?>
-        @foreach($orders as $order)
-            <li>
-                <p></p>
-                <p></p>
-                <p></p>
-                <ul>
-
-                </ul>
-                <p>
-                    <a href="#">Повторить</a>
-                </p>
-            </li>
-        @endforeach
-    </ul>
 </div>

@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Domain\Orders\Models\PaymentMethod;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class PaymentMethodsTableSeeder extends Seeder
 {

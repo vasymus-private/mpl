@@ -176,7 +176,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getCartNotTrashedAttribute(): Collection
     {
-        return $this->cart->cartProductNotTrashed();
+        return $this->cart->cartProductsNotTrashed();
     }
 
     public static function handleTransferProducts(self $from, self $to)

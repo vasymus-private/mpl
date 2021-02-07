@@ -96,6 +96,7 @@
                         <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                         <a href="{{route('cart.show')}}">Ваша корзина (<span class="js-add-to-cart-count">{{$cartCount}}</span>)</a>
                     </li>
+                    <li><a href="{{route('profile')}}"><i class="fa fa-angle-right" aria-hidden="true"></i>Мои заказы</a></li>
                     <li><a href="{{route('brands.index')}}"><i class="fa fa-angle-right" aria-hidden="true"></i>Производители</a></li>
                 </ul>
             </div>

@@ -20,14 +20,14 @@ class ProductCollection extends Collection
             ;
     }
 
-    public function cartProductNotTrashed(): self
+    public function cartProductsNotTrashed(): self
     {
         return $this->filter(function(Product $product) {
             return ($product->cart_product->deleted_at ?? null) === null;
         });
     }
 
-    public function orderProductSumRetailPriceRub(): float
+    public function orderProductsSumRetailPriceRub(): float
     {
         return $this->reduce(function(float $acc, Product $product) {
             $priceRetailRub = $product->order_product_price_retail_rub_sum;
@@ -35,8 +35,15 @@ class ProductCollection extends Collection
         }, 0.0);
     }
 
-    public function orderProductSumRetailPriceRubFormatted(): string
+    public function orderProductsSumRetailPriceRubFormatted(): string
     {
-        return H::priceRubFormatted($this->orderProductSumRetailPriceRub(), Currency::ID_RUB);
+        return H::priceRubFormatted($this->orderProductsSumRetailPriceRub(), Currency::ID_RUB);
+    }
+
+    public function orderProductsCount(): int
+    {
+        return $this->reduce(function(int $acc, Product $product) {
+            return $acc + $product->order_product_count;
+        }, 0);
     }
 }
