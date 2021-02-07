@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Providers\AuthServiceProvider;
+use Domain\Orders\Models\Order;
 use Domain\Services\Models\Service;
 use Domain\Users\Models\User\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class HomeController extends Controller
 {
@@ -20,6 +23,30 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         return view('web.pages.home.home');
+    }
+
+    public function media(Request $request)
+    {
+        /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
+        $media = Media::query()->findOrFail($request->id);
+
+        $model = $media->model()->firstOrFail();
+
+        switch (true) {
+            case $model instanceof Order : {
+                /** @var \Domain\Users\Models\User\User $user */
+                $user = $model->user;
+                if (!$user) abort(404);
+
+                $this->authorize(AuthServiceProvider::MEDIA_SHOW, $user);
+
+                return $media->toResponse($request);
+            }
+        }
+
+        abort(404);
+
+        return view('test');
     }
 
     public function howto(Request $request)

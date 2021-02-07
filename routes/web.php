@@ -122,6 +122,8 @@ Route::middleware([\App\Constants::MIDDLEWARE_AUTHENTICATE_ALL])->group(function
 
     Route::get("profile-identify/{id}/{email}/{hash}", [\App\Http\Controllers\Web\ProfileController::class, "identify"])->name("profile.identify")->middleware(["signed"]);
 
+    Route::get('media/{id}/{name}', [\App\Http\Controllers\Web\HomeController::class, "media"])->name("media");
+
     Route::get("/{service_slug}", [\App\Http\Controllers\Web\ServicesController::class, "show"])->name("services.show");
 
     Route::get("/", [\App\Http\Controllers\Web\HomeController::class, "index"])->name("home");

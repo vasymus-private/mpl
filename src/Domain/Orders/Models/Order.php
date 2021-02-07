@@ -147,9 +147,9 @@ class Order extends \Domain\Common\Models\BaseModel implements HasMedia
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection(static::MC_INITIAL_ATTACHMENT);
+        $this->addMediaCollection(static::MC_INITIAL_ATTACHMENT)->useDisk('private-media');
 
-        $this->addMediaCollection(static::MC_PAYMENT_METHOD_ATTACHMENT);
+        $this->addMediaCollection(static::MC_PAYMENT_METHOD_ATTACHMENT)->useDisk('private-media');
     }
 
     public function getOrderPriceRetailRubAttribute(): float
