@@ -12,39 +12,37 @@
     <div class="content__white-block cart form-group">
         <form action="{{route("cart.checkout")}}" method="POST" class="form-group" enctype="multipart/form-data" id="form-order">
             @csrf
-            @if(\Illuminate\Support\Facades\Auth::user()->is_anonymous2)
-                <div class="form-group__item">
-                    <label for="name">Имя:</label>
-                    <input type="text" class="form-control" id="name" name="name" value="{{old("name")}}"/>
-                    @if($errors->has("name"))
-                        <div>
-                            <span style="color:red">{{$errors->first("name")}}</span>
-                        </div>
-                    @endif
-                </div>
-
-                <div class="form-group__item">
-                    <label for="email">E-mail:</label>
-                    <input type="text" class="form-control" id="email" name="email" value="{{old("email")}}"/>
-                    @if($errors->has("email"))
-                        <div>
-                            <span style="color:red">{{$errors->first("email")}}</span>
-                        </div>
-                    @endif
-                </div>
-                <div class="form-group__item">
-                    <label for="phone">Телефон:</label>
-                    <div class="row-line row-line__center">
-                        <span class="phone-t">+7</span>
-                        <input class="form-control small" type="text" id="phone" name="phone" value="{{old("phone")}}"/>
+            <div class="form-group__item">
+                <label for="name">Имя:</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{old("name") ?? \Illuminate\Support\Facades\Auth::user()->name ?? null}}"/>
+                @if($errors->has("name"))
+                    <div>
+                        <span style="color:red">{{$errors->first("name")}}</span>
                     </div>
-                    @if($errors->has("phone"))
-                        <div>
-                            <span style="color:red">{{$errors->first("phone")}}</span>
-                        </div>
-                    @endif
+                @endif
+            </div>
+
+            <div class="form-group__item">
+                <label for="email">E-mail:</label>
+                <input type="text" class="form-control" id="email" name="email" value="{{old("email") ?? \Illuminate\Support\Facades\Auth::user()->email ?? null}}"/>
+                @if($errors->has("email"))
+                    <div>
+                        <span style="color:red">{{$errors->first("email")}}</span>
+                    </div>
+                @endif
+            </div>
+            <div class="form-group__item">
+                <label for="phone">Телефон:</label>
+                <div class="row-line row-line__center">
+                    <span class="phone-t">+7</span>
+                    <input class="form-control small" type="text" id="phone" name="phone" value="{{old("phone") ?? \Illuminate\Support\Facades\Auth::user()->phone ?? null}}"/>
                 </div>
-            @endif
+                @if($errors->has("phone"))
+                    <div>
+                        <span style="color:red">{{$errors->first("phone")}}</span>
+                    </div>
+                @endif
+            </div>
         </form>
         <div class="cart-block">
             <h4 class="cart__title">Проверьте ваш заказ:</h4>
@@ -66,8 +64,8 @@
                         <tr class="js-cart-row {{ ($cartProduct->cart_product->deleted_at ?? null) !== null ? "deleted-row" : "" }}" data-id="{{$cartProduct->id}}">
                             <td>
                                 <div class="row-line row-line__center">
-                                    <img src="{{$cartProduct->main_image_url}}" alt="" class="cart__image" />
-                                    <span class="cart__name-product">{!! $cartProduct->name !!}</span>
+                                    <img src="{{$cartProduct->main_image_xs_thumb_url}}" alt="" class="cart__image" />
+                                    <a href="{{$cartProduct->web_route}}" class="cart__name-product">{!! $cartProduct->name !!}</a>
                                 </div>
                             </td>
                             <td>

@@ -84,7 +84,12 @@ class ProductItemComponent extends Component
 
     public function mainImage(): string
     {
-        return $this->product->getFirstMediaUrl(Product::MC_MAIN_IMAGE);
+        return $this->product->main_image_url;
+    }
+
+    public function mainImageMdThumb()
+    {
+        return $this->product->main_image_md_thumb_url;
     }
 
     public function route(): string

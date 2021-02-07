@@ -4,7 +4,7 @@
     <div class="row-line">
         <div class="column-photo">
             <div class="catalog__photo">
-                <a href="{{$route()}}"><img style="max-width: 120px;" src="{{$mainImage()}}" alt="{{ strip_tags($product->name) }}" class="catalog__image"></a>
+                <a href="{{$route()}}"><img style="max-width: 120px;" src="{{$mainImageMdThumb()}}" alt="{{ strip_tags($product->name) }}" class="catalog__image"></a>
             </div>
             <div class="put-off-block">
                 <a href="#" data-id="{{$product->id}}" class="js-put-aside put-off-block__link {{in_array($product->id, $asideIds) ? "put-off-block__link--active" : ""}}">

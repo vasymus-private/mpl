@@ -17,12 +17,12 @@
     @if($isWithVariations())
         <div class="row-line product-line">
             <div class="column">
-                @include("web.components.includes.product.main-image", ["mainImage" => $mainImage(), "productName" => $product->name])
+                @include("web.components.includes.product.main-image", ["mainImage" => $mainImage(), "mainImageThumb" => $mainImageLgThumb(), "productName" => $product->name])
             </div>
             <div class="column">
                 @include("web.components.includes.product.brand", ["brand" => $product->brand])
 
-                @include("web.components.includes.product.images-thumbs", ["images" => $images()])
+                @include("web.components.includes.product.images-thumbs", ["imagesUrls" => $imagesUrls(), "imagesThumbs" => $imagesXsUrls()])
             </div>
         </div>
     @endif
@@ -30,9 +30,9 @@
     @if(! $isWithVariations())
         <div class="row-line product-line">
             <div class="column">
-                @include("web.components.includes.product.main-image", ["mainImage" => $mainImage(), "productName" => $product->name])
+                @include("web.components.includes.product.main-image", ["mainImage" => $mainImage(), "mainImageThumb" => $mainImageLgThumb(), "productName" => $product->name])
 
-                @include("web.components.includes.product.images-thumbs", ["images" => $images()])
+                @include("web.components.includes.product.images-thumbs", ["imagesUrls" => $imagesUrls(), "imagesThumbs" => $imagesXsUrls()])
             </div>
             <div class="column">
                 <div class="product-price">
@@ -108,25 +108,20 @@
                                 data-fancybox="variation-image-link-loop-{{$loop->index + 1}}"
                             >
                                 <img
-                                    src="{{$variation->main_image_url}}"
+                                    src="{{$variation->main_image_sm_thumb_url}}"
                                     alt="{{$variation->name}}"
                                     title="{{$variation->name}}">
                             </a>
                             <span class="product-variants__counter">{{$loop->index + 1}}</span>
                             <a
                                 class="product-variants__zoom"
-                                href="{{$variation->main_image_url}}"
-                                data-fancybox="variation-image-loop-{{$loop->index + 1}}"
+                                href="javascript:;"
+                                data-fancybox-trigger="variation-image-link-loop-{{$loop->index + 1}}"
                             ></a>
                             @foreach($variation->images_urls as $url)
                                 <a
                                     href="{{$url}}"
                                     data-fancybox="variation-image-link-loop-{{$loop->index + 1}}"
-                                    style="display: none;"
-                                ></a>
-                                <a
-                                    href="{{$url}}"
-                                    data-fancybox="variation-image-loop-{{$loop->index + 1}}"
                                     style="display: none;"
                                 ></a>
                             @endforeach
@@ -212,12 +207,12 @@
                         <div class="product-variants__photo">
                             <a href="{{$variation->main_image_url}}" data-fancybox="variation-image-loop-mobile-{{$loop->index + 1}}">
                                 <img
-                                    src="{{$variation->main_image_url}}"
+                                    src="{{$variation->main_image_sm_thumb_url}}"
                                     alt="{{$variation->name}}"
                                     title="{{$variation->name}}" />
                             </a>
                             <span class="product-variants__counter">{{$loop->index + 1}}</span>
-                            <a href="{{$variation->main_image_url}}" data-fancybox="variation-image-loop-mobile-{{$loop->index + 1}}" class="product-variants__zoom"></a>
+                            <a href="javascript:;" data-fancybox-trigger="variation-image-loop-mobile-{{$loop->index + 1}}" class="product-variants__zoom"></a>
                         </div>
                     </div>
                     <div class="column">

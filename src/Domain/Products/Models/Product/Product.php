@@ -699,7 +699,7 @@ class Product extends BaseModel implements HasMedia
 
     public function getMainImageXsThumbUrlAttribute(): string
     {
-        return $this->getFirstMediaPath(static::MC_MAIN_IMAGE, static::MCONV_XS_THUMB);
+        return $this->getFirstMediaUrl(static::MC_MAIN_IMAGE, static::MCONV_XS_THUMB);
     }
 
     public function getMainImageSmThumbUrlAttribute(): string

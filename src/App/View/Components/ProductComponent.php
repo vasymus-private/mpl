@@ -39,12 +39,33 @@ class ProductComponent extends Component
 
     public function mainImage(): string
     {
-        return $this->product->getFirstMediaUrl(Product::MC_MAIN_IMAGE);
+        return $this->product->main_image_url;
+    }
+
+    public function mainImageLgThumb()
+    {
+        return $this->product->main_image_lg_thumb_url;
     }
 
     public function images(): Collection
     {
         return $this->product->getMedia(Product::MC_ADDITIONAL_IMAGES);
+    }
+
+    /**
+     * @return string[]
+     * */
+    public function imagesUrls(): array
+    {
+        return $this->product->images_urls;
+    }
+
+    /**
+     * @return string[]
+     * */
+    public function imagesXsUrls(): array
+    {
+        return $this->product->images_xs_thumbs_urls;
     }
 
     public function isWithVariations(): bool
