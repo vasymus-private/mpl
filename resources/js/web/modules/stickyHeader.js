@@ -1,13 +1,16 @@
-var stickyHeader = (function ($) {
+let stickyHeader = (function ($) {
     'use strict';
 
     function init() {
         $(window).scroll(function () {
-            var sticky = $('.header-sticky'),
-                scroll = $(window).scrollTop();
+            let sticky = $('.header-sticky')
+            let scroll = $(window).scrollTop()
 
-            if (scroll >= 100) sticky.addClass('fixed');
-            else sticky.removeClass('fixed');
+            if (scroll >= 100) {
+                sticky.addClass('fixed')
+            } else {
+                sticky.removeClass('fixed')
+            }
         });
     }
 
