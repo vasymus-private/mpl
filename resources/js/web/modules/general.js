@@ -76,5 +76,23 @@ import {getProductsHoverOnPopover} from '../helpers/products'
                 if (!$input.val()) $input.val(value)
             })
         })
+
+        /*let $inputKeyupValidate = $('.js-keyup-validate')
+        $inputKeyupValidate.each((ind, el) => {
+            let $input = $(el)
+
+            let min = $input.attr('min')
+
+            $input.on('keyup keydown', (event) => {
+                debugger
+                if (
+                    $(event.currentTarget).val() < min &&
+                    event.keyCode !== 46 && // delete button
+                    event.keyCode !== 8 // delete button
+                ) {
+                    event.preventDefault()
+                }
+            })
+        })*/
     })
 })(jQuery)

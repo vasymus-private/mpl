@@ -47,6 +47,7 @@
                         </div>
                     </div>
                     <div class="product-price__body row-line row-line__between">
+                        @if($product->is_available)
                         <div class="column-price-part">
                             <span class="product-price__subtitle">Количество</span>
                             <input
@@ -57,12 +58,14 @@
                                     js-input-hide-on-focus
                                     product-price__count
                                     js-add-to-cart-input-instant-highlighted
+                                    js-keyup-validate
                                     {{$product->is_in_cart ? "input-highlighted" : ""}}
                                 "
                                 data-id="{{$product->id}}"
                                 value="{{$product->cart_count ?? 1}}"
                             />
                         </div>
+                        @endif
                         @if($product->is_available)
                         <div class="column-price-part">
                             <div class="available-blocker">
@@ -171,6 +174,7 @@
                             js-add-to-cart-input-count-{{$variation->id}}
                             js-input-hide-on-focus
                             js-add-to-cart-input-instant-highlighted
+                            js-keyup-validate
                             {{$variation->is_in_cart ? "input-highlighted" : ""}}
                             "
                             data-id="{{$variation->id}}"
@@ -258,6 +262,7 @@
                                         js-add-to-cart-input-count-{{$variation->id}}
                                         js-input-hide-on-focus
                                         js-add-to-cart-input-instant-highlighted
+                                        js-keyup-validate
                                         {{$variation->is_in_cart ? "input-highlighted" : ""}}
                                         "
                                         data-id="{{$variation->id}}"

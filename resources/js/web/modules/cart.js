@@ -116,16 +116,18 @@ import Products from '../Products'
             })
 
             $inputHighlighted.on("input", event => {
-
                 let $input = $(event.currentTarget)
                 let id = $input.data('id')
 
-
-                /// TODO
-
-                console.log(id, $input.val())
+                if ($input.val() > 1) {
+                    handleHighlightInput($input)
+                } else if(!Products.isInCart(id)) {
+                    handleRemoveHighlightInput($input)
+                }
             })
         }
+
+
 
         function handleAjaxDestroy(id) {
             ajaxDestroy(id)
@@ -255,7 +257,11 @@ import Products from '../Products'
                                 handleTooltip()
                                 handleRenderSidebarMenuCartList()
                                 handleUpadeCount()
+
                                 $addToCart.popover("show")
+
+                                let $input = $(`.${getAddToCartInputCountClass(id)}`)
+                                if ($input.length) handleHighlightInput($input)
 
                                 return response
                             })
@@ -273,6 +279,8 @@ import Products from '../Products'
 
                                 $addToCart.popover("show")
 
+                                let $input = $(`.${getAddToCartInputCountClass(id)}`)
+                                if ($input.length) handleHighlightInput($input)
 
                                 return response
                             })
@@ -394,6 +402,14 @@ import Products from '../Products'
             return Rest.DELETE(ajaxUrls.productInCart, {id})
                 .then(Rest.middleThen)
                 .catch(Rest.simpleCatch)
+        }
+
+        function handleHighlightInput($input) {
+            $input.addClass(inputHighlightedClass)
+        }
+
+        function handleRemoveHighlightInput($input) {
+            $input.removeClass(inputHighlightedClass)
         }
 
         // todo ajax request
