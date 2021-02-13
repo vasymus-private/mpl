@@ -26,11 +26,8 @@ class AddAdditionalImagesToProductVariationsTableSeeder extends Seeder
 
         if (!$product) return;
 
-//        dd($product->variations->count());
-
         $product->variations->each(function(Product $variation) {
-            dump($variation->id);
-            return true;
+//            dump($variation->id);
             $variation
                 ->addMedia(storage_path("app/seeds/for-transition-seeders/1.jpg"))
                 ->preservingOriginal()
@@ -47,8 +44,7 @@ class AddAdditionalImagesToProductVariationsTableSeeder extends Seeder
         if (!$product) return;
 
         $product->variations->each(function(Product $variation) {
-            dump($variation->id);
-            return true;
+//            dump($variation->id);
             $variation
                 ->addMedia(storage_path("app/seeds/for-transition-seeders/2.png"))
                 ->preservingOriginal()
