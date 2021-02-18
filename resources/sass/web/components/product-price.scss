@@ -84,6 +84,10 @@
     font-size: 15px;
     text-decoration: none !important;
     color: #fff !important;
+      &.is-in-cart {
+          background: #999;
+          border-color: #777;
+      }
   }
 
   &__description {

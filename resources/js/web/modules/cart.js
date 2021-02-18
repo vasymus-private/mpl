@@ -215,7 +215,6 @@ import Products from '../Products'
                         <div class="line">
                             <a href="${window.cartRoute}">Перейти в корзину</a>
                             <a href="#" class="add-to-cart-hide">Остаться</a>
-                            <a href="#" class="add-to-cart-hide"><span>X</span></a>
                         </div>
                     </div>
                 `,

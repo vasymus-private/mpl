@@ -13,7 +13,7 @@
         <form action="{{route("cart.checkout")}}" method="POST" class="form-group" enctype="multipart/form-data" id="form-order">
             @csrf
             <div class="form-group__item">
-                <label for="name">Имя:</label>
+                <label for="name">Имя: <span>*</span></label>
                 <input type="text" class="form-control" id="name" name="name" value="{{old("name") ?? \Illuminate\Support\Facades\Auth::user()->name ?? null}}"/>
                 @if($errors->has("name"))
                     <div>
@@ -23,7 +23,7 @@
             </div>
 
             <div class="form-group__item">
-                <label for="email">E-mail:</label>
+                <label for="email">E-mail: <span>*</span></label>
                 <input type="text" class="form-control" id="email" name="email" value="{{old("email") ?? \Illuminate\Support\Facades\Auth::user()->email ?? null}}"/>
                 @if($errors->has("email"))
                     <div>
@@ -32,7 +32,7 @@
                 @endif
             </div>
             <div class="form-group__item">
-                <label for="phone">Телефон:</label>
+                <label for="phone">Телефон: <span>*</span></label>
                 <div class="row-line row-line__center">
                     <span class="phone-t">+7</span>
                     <input class="form-control small" type="text" id="phone" name="phone" value="{{old("phone") ?? \Illuminate\Support\Facades\Auth::user()->phone ?? null}}"/>
