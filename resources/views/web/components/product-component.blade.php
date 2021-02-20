@@ -149,8 +149,10 @@
                                 class="js-manual-tooltip"
                                 data-placement="top"
                                 data-timeout="6000"
-                                data-title="{!! $variation->preview !!}"
+                                data-title="{!! trim($variation->preview) !!}"
                                 data-html="true"
+                                data-trigger="manual"
+                                data-class="tooltip-variants"
                             >{{$variation->name}}</a>
                         </h3>
                     </td>
@@ -244,6 +246,8 @@
                                     data-placement="top"
                                     data-title="{!! $variation->preview !!}"
                                     data-html="true"
+                                    data-trigger="manual"
+                                    data-class="tooltip-variants"
                                 >{{$variation->name}}</a>
                             </h4>
                             <div class="line-product right">
