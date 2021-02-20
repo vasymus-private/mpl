@@ -1,13 +1,16 @@
 .tooltip {
+    &.tooltip-variants {
+        .tooltip-inner {
+            width: 400px;
+            max-width: 400px;
+        }
+    }
     &.show {
         opacity: 1;
     }
 
-    &.bs-tooltip-top {
-        .tooltip-inner {
-            width: 400px !important;
-        }
-
+    &.bs-tooltip-top .arrow {
+        bottom: 1px;
     }
 
     .tooltip-inner {

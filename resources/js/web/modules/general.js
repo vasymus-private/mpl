@@ -15,7 +15,8 @@ import {getProductsHoverOnPopover} from '../helpers/products'
 
             $el.tooltip({
                 placement : $el.data("placement"),
-                trigger : "manual"
+                trigger : "manual",
+                template : '<div class="tooltip tooltip-variants" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
             })
 
             let timeout
