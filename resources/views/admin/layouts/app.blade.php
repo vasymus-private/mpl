@@ -15,6 +15,7 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
     <script src="{{ mix('_admin/js/app.js') }}" defer></script>
+    <script src="https://use.fontawesome.com/3c2996233b.js" defer></script>
 
     <!-- Styles -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
@@ -24,10 +25,16 @@
     <div id="wrapper" class="wrapper">
         @include("admin.layouts.header")
         <main>
-            <div class="content" id="content">
-                @yield('content')
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="content col-9 order-2" id="content">
+                        @yield('content')
+                    </div>
+                    <div class="col-3 order-1">
+                        @include("admin.layouts.aside")
+                    </div>
+                </div>
             </div>
-            @include("admin.layouts.aside")
         </main>
     </div>
 </body>
