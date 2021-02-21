@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Web;
 
+use Domain\Products\Actions\FiltrateByCategoriesAction;
+use Domain\Products\DTOs\FiltrateByCategoriesParamsDTO;
 use Domain\Products\Events\ProductViewedEvent;
 use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
@@ -13,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductsController extends BaseWebController
 {
-    public function index(Request $request)
+    public function index(Request $request, FiltrateByCategoriesAction $filtrate)
     {
         $query = Product::query()->notVariations()->with("infoPrices");
 
@@ -26,13 +28,7 @@ class ProductsController extends BaseWebController
         /** @var \Domain\Products\Models\Category|null $subcategory3 */
         $subcategory3 = $request->subcategory3_slug;
 
-        foreach ([$subcategory3, $subcategory2, $subcategory1, $category] as $cat) {
-            /** @var \Domain\Products\Models\Category $cat*/
-            if ($cat) {
-                $query->where(Product::TABLE . ".category_id", $cat->id);
-                break;
-            }
-        }
+        $query = $filtrate->execute($query, new FiltrateByCategoriesParamsDTO(compact("category", "subcategory1", "subcategory2", "subcategory3")));
 
         if (!empty($request->input("brands", []))) {
             $query->whereIn(Product::TABLE . ".brand_id", $request->input("brands"));

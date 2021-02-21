@@ -21,3 +21,19 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get("home", [\App\Http\Controllers\Admin\HomeController::class, "index"])->name("home");
+
+Route
+    ::get(
+        "products/{product_slug}",
+        [\App\Http\Controllers\Admin\ProductsController::class, "show"]
+    )
+    ->name("admin.product.show")
+;
+
+Route
+    ::get(
+        "products",
+        [\App\Http\Controllers\Admin\ProductsController::class, "index"]
+    )
+    ->name("admin.products.index")
+;
