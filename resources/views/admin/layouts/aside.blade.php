@@ -1,5 +1,5 @@
-<aside id="aside" class="aside">
-    <nav class="bg-light sidebar">
+<aside id="aside" class="bg-light sidebar {{$class ?? ''}}">
+    <nav>
         <ul class="nav flex-column">
             <li class="nav-item">
                 <a class="nav-link {{\Illuminate\Support\Facades\Route::is("admin.home") ? "active" : ""}}" href="#">

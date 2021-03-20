@@ -402,7 +402,7 @@
                                     </div>
                                     <div class="slider-blocker__text-center">
                                         <span class="slider-blocker__cost">{{$item->price_retail_rub_formatted}}</span>
-                                        <a href="{{$item->getRoute()}}" class="slider-blocker__buy">купить</a>
+                                        <a href="{{$item->web_route}}" class="slider-blocker__buy">купить</a>
                                     </div>
                                 </div>
                             </div>
@@ -443,7 +443,7 @@
                                     </div>
                                     <div class="slider-blocker__text-center">
                                         <span class="slider-blocker__cost">{{$item->price_retail_rub_formatted}}</span>
-                                        <a href="{{$item->getRoute()}}" class="slider-blocker__buy">купить</a>
+                                        <a href="{{$item->web_route}}" class="slider-blocker__buy">купить</a>
                                     </div>
                                 </div>
                             </div>
@@ -484,7 +484,7 @@
                                     </div>
                                     <div class="slider-blocker__text-center">
                                         <span class="slider-blocker__cost">{{$item->price_retail_rub_formatted}}</span>
-                                        <a href="{{$item->getRoute()}}" class="slider-blocker__buy">купить</a>
+                                        <a href="{{$item->web_route}}" class="slider-blocker__buy">купить</a>
                                     </div>
                                 </div>
                             </div>

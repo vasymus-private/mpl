@@ -30,9 +30,7 @@
                     <div class="content col-9 order-2" id="content">
                         @yield('content')
                     </div>
-                    <div class="col-3 order-1">
-                        @include("admin.layouts.aside")
-                    </div>
+                    @include("admin.layouts.aside", ["class" => "col-3 order-1"])
                 </div>
             </div>
         </main>

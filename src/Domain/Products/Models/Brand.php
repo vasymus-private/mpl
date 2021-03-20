@@ -53,6 +53,9 @@ class Brand extends BaseModel implements HasMedia
         return $this->morphOne(Seo::class, "seoable", "seoable_type", "seoable_id");
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany|\Domain\Products\QueryBuilders\ProductQueryBuilder
+     */
     public function products(): HasMany
     {
         return $this->hasMany(Product::class, "brand_id", "id");

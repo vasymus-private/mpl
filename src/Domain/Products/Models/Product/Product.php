@@ -3,24 +3,20 @@
 namespace Domain\Products\Models\Product;
 
 use Domain\Products\Collections\ProductCollection;
+use Domain\Products\QueryBuilders\ProductQueryBuilder;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Support\H;
-use Domain\Products\Models\AvailabilityStatus;
 use Domain\Common\Models\BaseModel;
 use Domain\Products\Models\Category;
 use Domain\Common\Models\Currency;
 use Domain\Orders\Models\Order;
 use Domain\Orders\Models\Pivots\OrderProduct;
-use Domain\Users\Models\Pivots\ProductUserAside;
 use Domain\Users\Models\Pivots\ProductUserCart;
-use Domain\Users\Models\Pivots\ProductUserViewed;
 use Domain\Users\Models\User\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Routing\Route;
-use Illuminate\Support\Facades\Auth;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -90,145 +86,30 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
  *
- * @mixin ProductRelations
  *
  * @see \Domain\Orders\Models\Order::products()
  * @property OrderProduct|null $order_product
  *
- * @see User::cart()
+ * @see \Domain\Users\Models\User\User::cart()
  * @property ProductUserCart|null $cart_product
  *
- * @see User::viewed()
+ * @see \Domain\Users\Models\User\User::viewed()
  * @property \Domain\Users\Models\Pivots\ProductUserViewed|null $viewed_product
  *
- * @see User::aside()
+ * @see \Domain\Users\Models\User\User::aside()
  * @property \Domain\Users\Models\Pivots\ProductUserAside|null $aside_product
  *
- * @see Product::scopeActive()
- * @method static static|Builder active()
+ * @mixin \Domain\Products\Models\Product\ProductRelations
+ * @mixin \Domain\Products\Models\Product\ProductAcM
  *
- * @see Product::scopeAvailable()
- * @method static static|Builder available()
- *
- * @see Product::scopeNotVariations()
- * @method static static|Builder notVariations()
- *
- * @see Product::scopeVariations()
- * @method static static|Builder variations()
- *
- * @see Product::scopeDoesntHaveVariations()
- * @method static static|Builder doesntHaveVariations()
- *
- * @see Product::getPriceRetailCurrencyNameAttribute()
- * @property string|null $price_retail_currency_name
- *
- * @see Product::getIsAvailableAttribute()
- * @property bool $is_available
- *
- * @see Product::getIsAvailableInStockAttribute()
- * @property bool $is_available_in_stock
- *
- * @see Product::getAvailableSubmitLabelAttribute()
- * @property string $available_submit_label
- *
- * @see Producet::getIsAvailableNotInStockAttribute()
- * @property bool $is_available_not_in_stock
- *
- * @see Product::getAvailabilityStatusNameAttribute()
- * @property string $availability_status_name
- *
- * @see Product::getPriceRetailRubAttribute()
- * @property float|null $price_retail_rub
- *
- * @see Product::getPriceRetailRubFormattedAttribute()
- * @property string $price_retail_rub_formatted
- *
- * @see Product::getPricePurchaseRubAttribute()
- * @property float|null $price_purchase_rub
- *
- * @see Product::getPricePurchaseRubFormattedAttribute()
- * @property string $price_purchase_rub_formatted
- *
- * @see Product::getCoefficientPriceRubAttribute()
- * @property float|null $coefficient_price_rub
- *
- * @see Product::getCoefficientPriceRubFormattedAttribute()
- * @property string $coefficient_price_rub_formatted
- *
- * @see Product::getMarginRubAttribute()
- * @property float|null $margin_rub
- *
- * @see Product::getMarginRubFormattedAttribute()
- * @property string $margin_rub_formatted
- *
- * @see Product::getPriceMarkupAttribute()
- * @property float|null $price_markup
- *
- * @see Product::getPriceIncomeAttribute()
- * @property float|null $price_income
- *
- * @see Product::getIsVariationAttribute()
- * @property bool $is_variation
- *
- * @see Product::getWebRouteAttribute()
- * @property string $web_route
- *
- * @see Product::getIsInCartAttribute()
- * @property bool|null $is_in_cart
- *
- * @see Product::getCartCountAttribute()
- * @property-read int|null $cart_count
- *
- * @see Product::getMainImageUrlAttribute()
- * @property string $main_image_url
- *
- * @see Product::getMainImageXsThumbUrlAttribute()
- * @property string $main_image_xs_thumb_url
- *
- * @see Product::getMainImageSmThumbUrlAttribute()
- * @property string $main_image_sm_thumb_url
- *
- * @see Product::getMainImageMdThumbUrlAttribute()
- * @property string $main_image_md_thumb_url
- *
- * @see Product::getMainImageLgThumbUrlAttribute()
- * @property string $main_image_lg_thumb_url
- *
- * @see Product::getImagesUrlsAttribute()
- * @property string[] $images_urls
- *
- * @see Product::getImagesXsThumbsUrlsAttribute()
- * @property string[] $images_xs_thumbs_urls
- *
- * @see Product::getImagesSmThumbsUrlsAttribute()
- * @property string[] $images_sm_thumbs_urls
- *
- * @see Product::getImagesMdThumbsUrlsAttribute()
- * @property string[] $images_md_thumbs_urls
- *
- * @see Product::getImagesLgThumbsUrlsAttribute()
- * @property string[] $images_lg_thumbs_urls
- *
- * @see Product::getOrderProductCountAttribute()
- * @property-read int|null $order_product_count
- *
- * @see Product::getOrderProductPriceRetailRubAttribute()
- * @property-read float|null $order_product_price_retail_rub
- *
- * @see Product::getOrderProductPriceRetailRubFormattedAttribute()
- * @property-read string|null $order_product_price_retail_rub_formatted
- *
- * @see Product::getOrderProductPriceRetailRubSumAttribute()
- * @property-read float|null $order_product_price_retail_rub_sum
- *
- * @see Product::getOrderProductPriceRetailRubSumFormattedAttribute()
- * @property-read string|null $order_product_price_retail_rub_sum_formatted
+ * @method static static|\Domain\Products\QueryBuilders\ProductQueryBuilder query()
  **/
 class Product extends BaseModel implements HasMedia
 {
     use ProductRelations;
     use SoftDeletes;
     use InteractsWithMedia;
+    use ProductAcM;
 
     const DEFAULT_CURRENCY_ID = Currency::ID_RUB;
 
@@ -472,215 +353,26 @@ class Product extends BaseModel implements HasMedia
         ;
     }
 
+    /**
+     * Create a new Eloquent Collection instance.
+     *
+     * @param  array  $models
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     public function newCollection(array $models = [])
     {
         return new ProductCollection($models);
     }
 
-
-    public function scopeActive(Builder $builder): Builder
-    {
-        return $builder->where(static::TABLE . ".is_active", true);
-    }
-
-    public function scopeAvailable(Builder $builder): Builder
-    {
-        return $builder->whereIn(static::TABLE . ".availability_status_id", [AvailabilityStatus::ID_AVAILABLE_IN_STOCK, AvailabilityStatus::ID_AVAILABLE_NOT_IN_STOCK]);
-    }
-
-    public function getPriceRetailCurrencyNameAttribute(): ?string
-    {
-        return Currency::getFormattedName($this->price_retail_currency_id);
-    }
-
-    public function getIsVariationAttribute(): bool
-    {
-        return $this->parent_id !== null;
-    }
-
-    public function getIsAvailableAttribute(): bool
-    {
-        return in_array($this->availability_status_id, [AvailabilityStatus::ID_AVAILABLE_IN_STOCK, AvailabilityStatus::ID_AVAILABLE_NOT_IN_STOCK]);
-    }
-
-    public function getIsAvailableInStockAttribute(): bool
-    {
-        return $this->availability_status_id === AvailabilityStatus::ID_AVAILABLE_IN_STOCK;
-    }
-
-    public function getAvailableSubmitLabelAttribute(): string
-    {
-        switch ($this->availability_status_id) {
-            case AvailabilityStatus::ID_AVAILABLE_IN_STOCK : {
-                return "В корзину";
-            }
-            case AvailabilityStatus::ID_AVAILABLE_NOT_IN_STOCK : {
-                return "На заказ";
-            }
-            default : {
-                return "Нет в наличии";
-            }
-        }
-    }
-
-    public function getIsAvailableNotInStockAttribute(): bool
-    {
-        return $this->availability_status_id === AvailabilityStatus::ID_AVAILABLE_NOT_IN_STOCK;
-    }
-
-    public function getAvailabilityStatusNameAttribute(): string
-    {
-        switch ($this->availability_status_id) {
-            case AvailabilityStatus::ID_AVAILABLE_IN_STOCK : {
-                return "Есть в наличии";
-                break;
-            }
-            case AvailabilityStatus::ID_AVAILABLE_NOT_IN_STOCK : {
-                return "Товар на заказ";
-                break;
-            }
-            default : {
-                return "Нет в наличии";
-                break;
-            }
-        }
-    }
-
-    public function getPriceRetailRubAttribute(): ?float
-    {
-        return H::priceRub($this->price_retail, $this->price_retail_currency_id ?? $this->parent->price_retail_currency_id ?? static::DEFAULT_CURRENCY_ID);
-    }
-
-    public function getPriceRetailRubFormattedAttribute(): string
-    {
-        return H::priceRubFormatted($this->price_retail, $this->price_retail_currency_id ?? $this->parent->price_retail_currency_id ?? static::DEFAULT_CURRENCY_ID);
-    }
-
-    public function getPricePurchaseRubAttribute(): ?float
-    {
-        return H::priceRub($this->price_purchase, $this->price_purchase_currency_id ?? $this->parent->price_purchase_currency_id ?? static::DEFAULT_CURRENCY_ID);
-    }
-
-    public function getPricePurchaseRubFormattedAttribute(): string
-    {
-        return H::priceRubFormatted($this->price_purchase, $this->price_purchase_currency_id ?? $this->parent->price_purchase_currency_id ?? static::DEFAULT_CURRENCY_ID);
-    }
-
-    public function getCoefficientPriceRubAttribute(): ?float
-    {
-        if (!$this->coefficient) return null;
-
-        $priceRetailRub = $this->price_retail_rub;
-        if (!$priceRetailRub) return null;
-
-        return $priceRetailRub / $this->coefficient;
-    }
-
-    public function getCoefficientPriceRubFormattedAttribute(): string
-    {
-        return H::priceRubFormatted($this->coefficient_price_rub, Currency::ID_RUB);
-    }
-
-    public function getMarginRubAttribute(): ?float
-    {
-        $retailRub = $this->price_retail_rub;
-        $purchaseRub = $this->price_purchase_rub;
-
-        return $retailRub - $purchaseRub;
-    }
-
-    public function getMarginRubFormattedAttribute(): string
-    {
-        $margin = $this->margin_rub;
-
-        return H::priceRubFormatted($margin, Currency::ID_RUB);
-    }
-
-    public function getPriceMarkupAttribute(): ?float
-    {
-        $margin = $this->margin_rub;
-        $purchaseRub = $this->price_purchase_rub;
-
-        if (!$margin || !$purchaseRub) return null;
-
-        return round($margin * 100 / $purchaseRub, 2);
-    }
-
-    public function getPriceIncomeAttribute(): ?float
-    {
-        $margin = $this->margin_rub;
-        $retailRub = $this->price_retail_rub;
-
-        if (!$margin || !$retailRub) return null;
-
-        return round($margin * 100 / $retailRub, 2);
-    }
-
-    public function getIsInCartAttribute(): ?bool
-    {
-        /** @var \Domain\Users\Models\User\User|null $user */
-        $user = Auth::user();
-        if (!$user) return null;
-
-        return in_array($this->id, $user->cart_not_trashed->pluck("id")->toArray());
-    }
-
-    public function getCartCountAttribute(): ?int
-    {
-        /** @var \Domain\Users\Models\User\User|null $user */
-        $user = Auth::user();
-        if (!$user) return null;
-
-        /** @var \Domain\Products\Models\Product\Product $search|null */
-        $search = $user->cart_not_trashed->first(function(Product $product) {
-            return (string)$this->id === (string)$product->id;
-        });
-
-        return $search->cart_product->count ?? null;
-    }
-
-    public function scopeNotVariations(Builder $builder): Builder
-    {
-        return $builder->whereNull(static::TABLE . ".parent_id");
-    }
-
-    public function scopeVariations(Builder $builder): Builder
-    {
-        return $builder->whereNotNull(static::TABLE . ".parent_id");
-    }
-
     /**
-     * @param Builder|static $builder
-     * @return Builder
-     * */
-    public function scopeDoesntHaveVariations(Builder $builder): Builder
+     * Create a new Eloquent query builder for the model.
+     *
+     * @param  \Illuminate\Database\Query\Builder  $query
+     * @return static|\Domain\Products\QueryBuilders\ProductQueryBuilder
+     */
+    public function newEloquentBuilder($query): ProductQueryBuilder
     {
-        return $builder->doesntHave("variations");
-    }
-
-    public function getRoute(): string
-    {
-        if ($this->is_variation) return $this->parent->getRoute();
-
-        $category = $this->category;
-
-        if ($category === null) return "";
-
-        $parent1 = $category->parentCategory;
-        if ($parent1 === null) return route("product.show.1", [$category->slug, $this->slug]);
-
-        $parent2 = $parent1->parentCategory;
-        if ($parent2 === null) return route("product.show.2", [$parent1->slug, $category->slug, $this->slug]);
-
-        $parent3 = $parent2->parentCategory;
-        if ($parent3 === null) return route("product.show.3", [$parent2->slug, $parent1->slug, $category->slug, $this->slug]);
-
-        return route("product.show.4", [$parent3->slug, $parent2->slug, $parent1->slug, $category->slug, $this->slug]);
-    }
-
-    public function getWebRouteAttribute()
-    {
-        return $this->getRoute();
+        return new ProductQueryBuilder($query);
     }
 
     public function characteristics(): array
@@ -707,110 +399,5 @@ class Product extends BaseModel implements HasMedia
             }
         }
         return false;
-    }
-
-    public function getMainImageUrlAttribute(): string
-    {
-        return $this->getFirstMediaUrl(static::MC_MAIN_IMAGE);
-    }
-
-    public function getMainImageXsThumbUrlAttribute(): string
-    {
-        return $this->getFirstMediaUrl(static::MC_MAIN_IMAGE, static::MCONV_XS_THUMB);
-    }
-
-    public function getMainImageSmThumbUrlAttribute(): string
-    {
-        return $this->getFirstMediaUrl(static::MC_MAIN_IMAGE, static::MCONV_SM_THUMB);
-    }
-
-    public function getMainImageMdThumbUrlAttribute(): string
-    {
-        return $this->getFirstMediaUrl(static::MC_MAIN_IMAGE, static::MCONV_MD_THUMB);
-    }
-
-    public function getMainImageLgThumbUrlAttribute(): string
-    {
-        return $this->getFirstMediaUrl(static::MC_MAIN_IMAGE, static::MCONV_LG_THUMB);
-    }
-
-    /**
-     * @return string[]
-     * */
-    public function getImagesUrlsAttribute(): array
-    {
-        return $this->getMedia(static::MC_ADDITIONAL_IMAGES)->map(fn(Media $media) => $media->getFullUrl())->toArray();
-    }
-
-    /**
-     * @return string[]
-     * */
-    public function getImagesXsThumbsUrlsAttribute(): array
-    {
-        return $this->getMedia(static::MC_ADDITIONAL_IMAGES)->map(fn(Media $media) => $media->getFullUrl(static::MCONV_XS_THUMB))->toArray();
-    }
-
-    /**
-     * @return string[]
-     * */
-    public function getImagesSmThumbsUrlsAttribute(): array
-    {
-        return $this->getMedia(static::MC_ADDITIONAL_IMAGES)->map(fn(Media $media) => $media->getFullUrl(static::MCONV_SM_THUMB))->toArray();
-    }
-
-    /**
-     * @return string[]
-     * */
-    public function getImagesMdThumbsUrlsAttribute(): array
-    {
-        return $this->getMedia(static::MC_ADDITIONAL_IMAGES)->map(fn(Media $media) => $media->getFullUrl(static::MCONV_MD_THUMB))->toArray();
-    }
-
-    /**
-     * @return string[]
-     * */
-    public function getImagesLgThumbsUrlsAttribute(): array
-    {
-        return $this->getMedia(static::MC_ADDITIONAL_IMAGES)->map(fn(Media $media) => $media->getFullUrl(static::MCONV_LG_THUMB))->toArray();
-    }
-
-    public function getOrderProductCountAttribute(): ?int
-    {
-        return $this->order_product === null
-                ? null
-                : $this->order_product->count
-        ;
-    }
-
-    public function getOrderProductPriceRetailRubAttribute(): ?float
-    {
-        return $this->order_product === null
-                ? null
-                : H::priceRub($this->order_product->price_retail, $this->order_product->price_retail_currency_id ?? Product::DEFAULT_CURRENCY_ID)
-        ;
-    }
-
-    public function getOrderProductPriceRetailRubFormattedAttribute(): ?string
-    {
-        return $this->order_product === null
-                ? null
-                : H::priceRubFormatted($this->order_product->price_retail, $this->order_product->price_retail_currency_id ?? Product::DEFAULT_CURRENCY_ID)
-        ;
-    }
-
-    public function getOrderProductPriceRetailRubSumAttribute(): ?float
-    {
-        return $this->order_product === null
-                ? null
-                : $this->order_product_count * $this->order_product_price_retail_rub
-        ;
-    }
-
-    public function getOrderProductPriceRetailRubSumFormattedAttribute(): ?string
-    {
-        return $this->order_product === null
-            ? null
-            : H::priceRubFormatted($this->order_product->price_retail * $this->order_product->count, $this->order_product->price_retail_currency_id ?? Product::DEFAULT_CURRENCY_ID)
-        ;
     }
 }
