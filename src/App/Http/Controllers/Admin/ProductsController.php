@@ -20,7 +20,8 @@ class ProductsController extends BaseAdminController
             $query->where("$table.name", "LIKE", "%{$request->search}%");
         }
 
-        $products = $query->paginate($request->per_page ?? 50);
+        $products = $query->paginate($request->per_page ?? 20);
+        $products->appends($request->query());
 
         return view("admin.pages.products.products", compact("products"));
     }

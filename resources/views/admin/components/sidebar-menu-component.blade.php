@@ -16,27 +16,27 @@
         <li class="nav-item">
             <x-sidebar-menu-item-category-collapser class="nav-link" :category="null"/>
             <x-sidebar-menu-item-category-submenu class="list-unstyled" :category="null">
-                <li><a href="{{route("admin.products.index")}}"><i class="fa fa-circle" aria-hidden="true"></i> Товары</a></li>
+                <x-sidebar-menu-item-category-products-list-item :category="null"/>
                 @foreach($categories as $category)
                     <li>
                         <x-sidebar-menu-item-category-collapser class="nav-sublink" :category="$category"/>
                         <x-sidebar-menu-item-category-submenu class="list-unstyled" :category="$category">
-                            <li><a href="{{route("admin.products.index", ["category_id" => $category->id])}}"><i class="fa fa-circle" aria-hidden="true"></i> Товары</a></li>
+                            <x-sidebar-menu-item-category-products-list-item :category="$category"/>
                             @foreach($category->subcategories as $subcategory1)
                                 <li>
                                     <x-sidebar-menu-item-category-collapser class="nav-sublink" :category="$subcategory1"/>
                                     <x-sidebar-menu-item-category-submenu class="list-unstyled" :category="$subcategory1">
-                                        <li><a href="{{route("admin.products.index", ["category_id" => $subcategory1->id])}}"><i class="fa fa-circle" aria-hidden="true"></i> Товары</a></li>
+                                        <x-sidebar-menu-item-category-products-list-item :category="$subcategory1"/>
                                         @foreach($subcategory1->subcategories as $subcategory2)
                                             <li>
                                                 <x-sidebar-menu-item-category-collapser class="nav-sublink" :category="$subcategory2" />
                                                 <x-sidebar-menu-item-category-submenu class="list-unstyled" :category="$subcategory2">
-                                                    <li><a href="{{route("admin.products.index", ["category_id" => $subcategory2->id])}}"><i class="fa fa-circle" aria-hidden="true"></i> Товары</a></li>
+                                                    <x-sidebar-menu-item-category-products-list-item :category="$subcategory2"/>
                                                     @foreach($subcategory2->subcategories as $subcategory3)
                                                     <li>
                                                         <x-sidebar-menu-item-category-collapser class="nav-sublink" :category="$subcategory3" />
                                                         <x-sidebar-menu-item-category-submenu class="list-unstyled" :category="$subcategory3">
-                                                            <li><a href="{{route("admin.products.index", ["category_id" => $subcategory3->id])}}"><i class="fa fa-circle" aria-hidden="true"></i> Товары</a></li>
+                                                            <x-sidebar-menu-item-category-products-list-item :category="$subcategory3" />
                                                         </x-sidebar-menu-item-category-submenu>
                                                     </li>
                                                     @endforeach

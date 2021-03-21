@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\View\Components\Admin\SidebarMenuComponent;
 use App\View\Components\Admin\SidebarMenuItemCategoryCollapserComponent;
+use App\View\Components\Admin\SidebarMenuItemCategoryProductsListItemComponent;
 use App\View\Components\Admin\SidebarMenuItemCategorySubmenuComponent;
 use App\View\Components\Web\BreadcrumbsComponent;
 use App\View\Components\Web\ContactTechnologistBtnComponent;
@@ -83,6 +84,7 @@ class ViewsServiceProvider extends ServiceProvider
         Blade::component('sidebar-menu', SidebarMenuComponent::class);
         Blade::component('sidebar-menu-item-category-collapser', SidebarMenuItemCategoryCollapserComponent::class);
         Blade::component('sidebar-menu-item-category-submenu', SidebarMenuItemCategorySubmenuComponent::class);
+        Blade::component('sidebar-menu-item-category-products-list-item', SidebarMenuItemCategoryProductsListItemComponent::class);
     }
 
     protected function composeWeb()

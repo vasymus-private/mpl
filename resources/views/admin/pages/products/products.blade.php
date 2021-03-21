@@ -70,4 +70,6 @@
             </tbody>
         </table>
     </div>
+
+    {{ $products->links("admin.pagination.default") }}
 @endsection
