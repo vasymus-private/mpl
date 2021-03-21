@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Web;
 
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\Product\Product;
@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\Component;
 
-class SidebarBrandsFilterComponent extends Component
+class MbBrandsFilterComponent extends Component
 {
     /**
-     * @var Collection|Brand[]
+     * @var Collection|\Domain\Products\Models\Brand[]
      * */
     public $brands;
 
@@ -43,6 +43,6 @@ class SidebarBrandsFilterComponent extends Component
      */
     public function render()
     {
-        return view('web.components.sidebar-brands-filter-component');
+        return view('web.components.mb-brands-filter-component');
     }
 }

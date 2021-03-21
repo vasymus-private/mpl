@@ -1,17 +1,17 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Admin;
 
-use Domain\FAQs\Models\FAQ;
+use Domain\Products\Models\Category;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\Component;
 
-class SidebarFaqComponent extends Component
+class SidebarMenuComponent extends Component
 {
     /**
-     * @var Collection|\Domain\FAQs\Models\FAQ[]
+     * @var Collection|Category[]
      * */
-    public $sidebarFaqs;
+    public $categories;
 
     /**
      * Create a new component instance.
@@ -20,7 +20,7 @@ class SidebarFaqComponent extends Component
      */
     public function __construct()
     {
-        $this->sidebarFaqs = FAQ::query()->parents()->inRandomOrder()->limit(3)->get();
+        $this->categories = Category::parents()->with("subcategories.subcategories.subcategories")->orderBy(Category::TABLE . ".ordering")->get();
     }
 
     /**
@@ -30,6 +30,6 @@ class SidebarFaqComponent extends Component
      */
     public function render()
     {
-        return view('web.components.sidebar-faq-component');
+        return view('admin.components.sidebar-menu-component');
     }
 }

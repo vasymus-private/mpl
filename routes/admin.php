@@ -27,47 +27,47 @@ Route
         "products",
         [\App\Http\Controllers\Admin\ProductsController::class, "index"]
     )
-    ->name("admin.products.index")
+    ->name("products.index")
 ;
 Route
     ::get(
         "products/create",
         [\App\Http\Controllers\Admin\ProductsController::class, "create"]
     )
-    ->name("admin.products.create")
+    ->name("products.create")
 ;
 Route
     ::post(
         "products",
         [\App\Http\Controllers\Admin\ProductsController::class, "store"]
     )
-    ->name("admin.products.store")
+    ->name("products.store")
 ;
 Route
     ::get(
         "products/{product_slug}",
         [\App\Http\Controllers\Admin\ProductsController::class, "show"]
     )
-    ->name("admin.products.show")
+    ->name("products.show")
 ;
 Route
     ::get(
         "products/{product_slug}/edit",
         [\App\Http\Controllers\Admin\ProductsController::class, "edit"]
     )
-    ->name("admin.products.edit")
+    ->name("products.edit")
 ;
 Route
     ::put(
         "products/{product_slug}",
         [\App\Http\Controllers\Admin\ProductsController::class, "update"]
     )
-    ->name("admin.products.update")
+    ->name("products.update")
 ;
 Route
     ::delete(
         "products/{product_slug}",
         [\App\Http\Controllers\Admin\ProductsController::class, "destroy"]
     )
-    ->name("admin.products.destroy")
+    ->name("products.destroy")
 ;

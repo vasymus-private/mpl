@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Web;
 
 use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;

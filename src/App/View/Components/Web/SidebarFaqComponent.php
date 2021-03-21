@@ -1,17 +1,17 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Web;
 
-use Domain\Products\Models\Category;
+use Domain\FAQs\Models\FAQ;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\Component;
 
-class MbMenuMaterialsComponent extends Component
+class SidebarFaqComponent extends Component
 {
     /**
-     * @var Collection|Category[]
+     * @var Collection|\Domain\FAQs\Models\FAQ[]
      * */
-    public $categories;
+    public $sidebarFaqs;
 
     /**
      * Create a new component instance.
@@ -20,7 +20,7 @@ class MbMenuMaterialsComponent extends Component
      */
     public function __construct()
     {
-        $this->categories = Category::parents()->with("subcategories.subcategories.subcategories")->orderBy(Category::TABLE . ".ordering")->get();
+        $this->sidebarFaqs = FAQ::query()->parents()->inRandomOrder()->limit(3)->get();
     }
 
     /**
@@ -30,6 +30,6 @@ class MbMenuMaterialsComponent extends Component
      */
     public function render()
     {
-        return view('web.components.mb-menu-materials-component');
+        return view('web.components.sidebar-faq-component');
     }
 }

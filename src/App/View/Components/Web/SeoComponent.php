@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Web;
 
 use Domain\Seo\Models\Seo;
 use Illuminate\View\Component;

@@ -2,7 +2,7 @@
 @extends("admin.layouts.app")
 
 @section("content")
-    <form action="{{route("admin.admin.products.index")}}" method="GET">
+    <form action="{{route("admin.products.index")}}" method="GET">
         <div class="form-group row">
             <div class="col-xs-12 col-sm-9">
                 <div class="input-group mb-3">
@@ -49,15 +49,15 @@
             </thead>
             <tbody>
             @foreach($products as $product)
-                <tr>
+                <tr class="js-product-item">
                     <td>
                         <div class="form-check">
                             <input class="form-check-input position-static" type="checkbox" aria-label="Check product with id {{$product->id}}, name {{$product->name}}">
                         </div>
                     </td>
-                    <td><a href="{{route("admin.admin.products.show", $product->slug)}}">{{$product->id}}</a></td>
+                    <td><a href="{{route("admin.products.show", $product->slug)}}">{{$product->id}}</a></td>
                     <td>{{$product->ordering}}</td>
-                    <td><a href="{{route("admin.admin.products.show", $product->slug)}}">{!! $product->name !!}</a></td>
+                    <td><a href="{{route("admin.products.show", $product->slug)}}">{!! $product->name !!}</a></td>
                     <td>{{$product->is_active_name}}</td>
                     <td>{{$product->unit}}</td>
                     <td>{{$product->price_purchase_formatted}}</td>
