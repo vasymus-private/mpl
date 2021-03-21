@@ -7,6 +7,6 @@
  * @var string|\Illuminate\View\InvokableComponentVariable $isActive
  */
 ?>
-<ul id="{{$id}}" {{ $attributes->class(["collapse" => !($isActive())]) }}>
+<ul id="{{$id}}" {{ $attributes->class(["collapse", "show" => $isActive()]) }}>
     {{ $slot }}
 </ul>

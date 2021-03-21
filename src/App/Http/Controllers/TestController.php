@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\TestMarkupOrderShippedMail;
 use App\Mail\TestMarkupResetPasswordMail;
 use App\Notifications\OrderShipped;
+use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
 use Support\TruncateHTML\TruncateHTML;
 use Illuminate\Http\Request;
@@ -15,6 +16,13 @@ use Spatie\Image\Image;
 class TestController extends Controller
 {
     public function test(Request $request)
+    {
+        $category = Category::query()->with("subcategories.subcategories.subcategories")->find(11);
+        dump($category->all_loaded_subcategories_ids);
+        return view('test');
+    }
+
+    public function testImages()
     {
         $product = Product::query()->find(6);
 

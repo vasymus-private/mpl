@@ -3,10 +3,10 @@
 namespace App\View\Components\Admin;
 
 use Domain\Products\Models\Category;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\HtmlString;
-use Illuminate\View\Component;
 
-class SidebarMenuItemCategoryCollapserComponent extends Component
+class SidebarMenuItemCategoryCollapserComponent extends BaseSidebarMenuItemCategoryComponent
 {
     protected ?Category $category;
 
@@ -20,9 +20,12 @@ class SidebarMenuItemCategoryCollapserComponent extends Component
 
     public function text(): HtmlString
     {
-        $text = $this->category
-            ? $this->category->name
-            : ("Каталог товаров" . ($this->isActive() ? ' <span class="sr-only">(current)</span>' : "") . '<i class="fa fa-shopping-cart" aria-hidden="true"></i>');
+        if (!$this->category) {
+            $accessibilityHtml = $this->isActive() ? '<span class="sr-only">(current)</span>' : "";
+            $text = "Каталог товаров $accessibilityHtml" . '<i class="fa fa-shopping-cart" aria-hidden="true"></i>';
+        } else {
+            $text = $this->category->name;
+        }
 
         return new HtmlString($text);
     }
@@ -34,17 +37,19 @@ class SidebarMenuItemCategoryCollapserComponent extends Component
 
     public function ariaControls(): string
     {
-        return $this->category ? "products-level-{$this->category->id}" : "products-level";
+        $baseIdHref = $this->getBaseIdHref();
+        return $this->category ? "$baseIdHref-{$this->category->id}" : $baseIdHref;
     }
 
     public function href(): string
     {
-        return $this->category ? "#products-level-{$this->category->id}" : "#products-level";
+        $baseIdHref = $this->getBaseIdHref();
+        return $this->category ? "#$baseIdHref-{$this->category->id}" : "#$baseIdHref";
     }
 
     public function isActive(): bool
     {
-        return false;
+        return parent::isActive();
     }
 
     /**

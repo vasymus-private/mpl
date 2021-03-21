@@ -3,9 +3,8 @@
 namespace App\View\Components\Admin;
 
 use Domain\Products\Models\Category;
-use Illuminate\View\Component;
 
-class SidebarMenuItemCategorySubmenuComponent extends Component
+class SidebarMenuItemCategorySubmenuComponent extends BaseSidebarMenuItemCategoryComponent
 {
     protected ?Category $category;
 
@@ -19,12 +18,13 @@ class SidebarMenuItemCategorySubmenuComponent extends Component
 
     public function id(): string
     {
-        return $this->category ? "products-level-{$this->category->id}" : "products-level";
+        $baseIdHref = $this->getBaseIdHref();
+        return $this->category ? "$baseIdHref-{$this->category->id}" : $baseIdHref;
     }
 
     public function isActive(): bool
     {
-        return false;
+        return parent::isActive();
     }
 
     /**
