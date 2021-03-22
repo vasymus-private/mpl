@@ -290,6 +290,11 @@ class Product extends BaseModel implements HasMedia
         ;
     }
 
+    public static function rbAdminProductSlug($value)
+    {
+        return static::query()->where(static::TABLE . ".slug")->firstOrFail();
+    }
+
     public function registerMediaCollections(): void
     {
         $this

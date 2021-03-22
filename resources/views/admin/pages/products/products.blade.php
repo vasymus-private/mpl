@@ -19,8 +19,8 @@
                         Создать
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Товар без вариантов</a>
-                        <a class="dropdown-item" href="#">Товар с вариантами</a>
+                        <a class="dropdown-item" href="{{route("admin.products.create")}}">Товар без вариантов</a>
+                        <a class="dropdown-item" href="{{route("admin.products.create")}}">Товар с вариантами</a>
                     </div>
                 </div>
             </div>
@@ -55,9 +55,9 @@
                             <input class="form-check-input position-static" type="checkbox" aria-label="Check product with id {{$product->id}}, name {{$product->name}}">
                         </div>
                     </td>
-                    <td><a href="{{route("admin.products.show", $product->slug)}}">{{$product->id}}</a></td>
+                    <td><a href="{{route("admin.products.edit", $product->slug)}}">{{$product->id}}</a></td>
                     <td>{{$product->ordering}}</td>
-                    <td><a href="{{route("admin.products.show", $product->slug)}}">{!! $product->name !!}</a></td>
+                    <td><a href="{{route("admin.products.edit", $product->slug)}}">{!! $product->name !!}</a></td>
                     <td>{{$product->is_active_name}}</td>
                     <td>{{$product->unit}}</td>
                     <td>{{$product->price_purchase_formatted}}</td>

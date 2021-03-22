@@ -26,8 +26,18 @@ class ProductsController extends BaseAdminController
         return view("admin.pages.products.products", compact("products"));
     }
 
-    public function show(Request $request)
+    public function create(Request $request)
     {
+        $product = new Product();
 
+        return view("admin.pages.products.product", compact("product"));
+    }
+
+    public function edit(Request $request)
+    {
+        /** @var \Domain\Products\Models\Product\Product $product */
+        $product = $request->admin_product_slug;
+
+        return view("admin.pages.products.product", compact("product"));
     }
 }

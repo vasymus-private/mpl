@@ -45,28 +45,21 @@ Route
 ;
 Route
     ::get(
-        "products/{product_slug}",
-        [\App\Http\Controllers\Admin\ProductsController::class, "show"]
-    )
-    ->name("products.show")
-;
-Route
-    ::get(
-        "products/{product_slug}/edit",
+        "products/{admin_product_slug}/edit",
         [\App\Http\Controllers\Admin\ProductsController::class, "edit"]
     )
     ->name("products.edit")
 ;
 Route
     ::put(
-        "products/{product_slug}",
+        "products/{admin_product_slug}",
         [\App\Http\Controllers\Admin\ProductsController::class, "update"]
     )
     ->name("products.update")
 ;
 Route
     ::delete(
-        "products/{product_slug}",
+        "products/{admin_product_slug}",
         [\App\Http\Controllers\Admin\ProductsController::class, "destroy"]
     )
     ->name("products.destroy")
