@@ -1,4 +1,7 @@
-<?php /** @var \Domain\Products\Models\Product\Product $product */ ?>
+<?php
+/** @var \Domain\Products\Models\Product\Product $product */
+/** @var \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\Brand[] $brands */
+?>
 <div>
     <ul class="nav nav-tabs" id="show-product-tabs" role="tablist">
         <li class="nav-item" role="presentation">
@@ -40,34 +43,120 @@
             <form wire:submit.prevent="save">
 
                 <div class="form-group row">
-                    <div class="col-sm-2">
-                        <label class="form-check-label" for="activity">
-                            Активность
+                    <div class="col-sm-3">
+                        <label class="form-check-label" for="is_active">
+                            Активность:
                         </label>
                     </div>
-                    <div class="col-sm-10">
+                    <div class="col-sm-9">
                         <div class="form-check">
-                            <input wire:model="product.is_active" class="form-check-input" type="checkbox" id="activity">
+                            <input wire:model="product.is_active" class="form-check-input" type="checkbox" id="is_active">
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="name" class="col-sm-2 col-form-label">Название:</label>
-                    <div class="col-sm-10">
-                        <input wire:model="product.name" type="text" class="form-control" id="name">
+                    <label for="name" class="col-sm-3 col-form-label">Название:</label>
+                    <div class="col-sm-9">
+                        <input wire:model.defer="product.name" type="text" class="form-control" id="name">
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="slug" class="col-sm-2 col-form-label">Символьный код:</label>
-                    <div class="col-sm-10">
-                        <input wire:model="product.slug" type="text" class="form-control" id="slug">
+                    <label for="slug" class="col-sm-3 col-form-label">Символьный код:</label>
+                    <div class="col-sm-9">
+                        <input wire:model.defer="product.slug" type="text" class="form-control" id="slug">
                     </div>
                 </div>
 
+                <div class="form-group row">
+                    <label for="ordering" class="col-sm-3 col-form-label">Сортировка:</label>
+                    <div class="col-sm-9">
+                        <input wire:model.defer="product.ordering" type="text" class="form-control" id="ordering">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="brand_id" class="col-sm-3 col-form-label">Производитель:</label>
+                    <div class="col-sm-9">
+                        <select wire:model.defer="product.brand_id" class="form-control" id="brand_id">
+                            <option value="">(не установлено)</option>
+                            @foreach($brands as $brand)
+                                <option value="{{$brand->id}}">{{$brand->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="coefficient" class="col-sm-3 col-form-label">Коэффициент на единицу расхода и единица расхода:</label>
+                    <div class="col-sm-9">
+                        <input wire:model.defer="product.coefficient" type="text" class="form-control" id="coefficient">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="coefficient_description" class="col-sm-3 col-form-label">Описание коэффициента:</label>
+                    <div class="col-sm-9">
+                        <input wire:model.defer="product.coefficient_description" type="text" class="form-control" id="coefficient_description">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-3">
+                        <label class="form-check-label" for="coefficient_description_show">
+                            Показывать описание коэффициента:
+                        </label>
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="form-check">
+                            <input wire:model="product.coefficient_description_show" class="form-check-input" type="checkbox" id="coefficient_description_show">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="price_name" class="col-sm-3 col-form-label">Наименование цены:</label>
+                    <div class="col-sm-9">
+                        <input wire:model.defer="product.price_name" type="text" class="form-control" id="price_name">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Информационные цены:</label>
+                    <div class="col-sm-9">
+                        @foreach($infoPrices as $index => $infoPrice)
+                            <div wire:key="product-info-price-{{$infoPrice->id}}" class="row mb-2">
+                                <div class="col-sm-5">
+                                    <input wire:model.defer="infoPrices.{{$index}}.price" type="text" class="form-control" placeholder="Цена">
+                                </div>
+                                <div class="col-sm-5">
+                                    <input wire:model.defer="infoPrices.{{$index}}.name" type="text" class="form-control" placeholder="Описание">
+                                </div>
+                                <div class="col-sm-2">
+                                    <button wire:click="deleteInfoPrice({{$infoPrice->id}})" type="button" class="btn btn-outline-danger">x</button>
+                                </div>
+                            </div>
+                        @endforeach
+                        <button wire:click="addInfoPrice" type="button" class="btn btn-primary">Добавить</button>
+                    </div>
+                </div>
+
+                {{--<div class="form-group row">
+                    <label for="price_name" class="col-sm-3 col-form-label">Служебная информация:</label>
+                    <div class="col-sm-9">
+                        <input wire:model.defer="product.price_name" type="text" class="form-control" id="price_name">
+                    </div>
+                </div>--}}
+
+
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
+            <style>
+                input:invalid {
+                    border: red;
+                }
+            </style>
         </div>
         <div class="tab-pane fade" id="description" role="tabpanel" aria-labelledby="description-tab">
             description

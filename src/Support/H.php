@@ -77,4 +77,20 @@ class H
         }
         return $str;
     }
+
+    /**
+     * @param mixed|string $value
+     *
+     * @return mixed|string|null
+     */
+    public static function trimAndNullEmptyString($value)
+    {
+        if (!is_string($value)) {
+            return $value;
+        }
+
+        $value = trim($value);
+
+        return $value === '' ? null : $value;
+    }
 }

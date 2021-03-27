@@ -55,9 +55,9 @@
                             <input class="form-check-input position-static" type="checkbox" aria-label="Check product with id {{$product->id}}, name {{$product->name}}">
                         </div>
                     </td>
-                    <td><a href="{{route("admin.products.edit", $product->slug)}}">{{$product->id}}</a></td>
+                    <td><a href="{{route("admin.products.edit", $product->id)}}">{{$product->id}}</a></td>
                     <td>{{$product->ordering}}</td>
-                    <td><a href="{{route("admin.products.edit", $product->slug)}}">{!! $product->name !!}</a></td>
+                    <td><a href="{{route("admin.products.edit", $product->id)}}">{!! $product->name !!}</a></td>
                     <td>{{$product->is_active_name}}</td>
                     <td>{{$product->unit}}</td>
                     <td>{{$product->price_purchase_formatted}}</td>

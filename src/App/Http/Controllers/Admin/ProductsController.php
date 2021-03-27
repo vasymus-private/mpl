@@ -36,7 +36,8 @@ class ProductsController extends BaseAdminController
     public function edit(Request $request)
     {
         /** @var \Domain\Products\Models\Product\Product $product */
-        $product = $request->admin_product_slug;
+        $product = $request->admin_product;
+        $product->load('infoPrices');
 
         return view("admin.pages.products.product", compact("product"));
     }

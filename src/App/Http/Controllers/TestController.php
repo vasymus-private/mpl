@@ -7,6 +7,7 @@ use App\Mail\TestMarkupResetPasswordMail;
 use App\Notifications\OrderShipped;
 use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
+use Livewire\Commands\ComponentParser;
 use Support\TruncateHTML\TruncateHTML;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -17,8 +18,6 @@ class TestController extends Controller
 {
     public function test(Request $request)
     {
-        $category = Category::query()->with("subcategories.subcategories.subcategories")->find(11);
-        dump($category->all_loaded_subcategories_ids);
         return view('test');
     }
 
