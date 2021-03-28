@@ -7,10 +7,14 @@ use Domain\Products\Models\InformationalPrice;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
+use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 use Support\H;
 
 class ShowProduct extends Component
 {
+    /**
+     * @var \Domain\Products\Models\Product\Product
+     */
     public Product $product;
 
     /**
@@ -22,6 +26,11 @@ class ShowProduct extends Component
      * @var \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\Brand[]
      */
     public Collection $brands;
+
+    /**
+     * @var \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Domain\Common\Models\CustomMedia[]
+     */
+    public MediaCollection $instructions;
 
     protected array $rules = [
         'product.name' => 'required|string|max:199',
@@ -36,12 +45,15 @@ class ShowProduct extends Component
 
         'infoPrices.*.price' => 'required|numeric',
         'infoPrices.*.name' => 'required|string|max:199',
+
+        'product.admin_comment' => 'nullable|string|max:199',
     ];
 
     public function mount()
     {
         $this->brands = Brand::query()->select(["id", "name"])->get();
         $this->infoPrices = $this->product->infoPrices;
+        $this->instructions = $this->product->getMedia(Product::MC_FILES);
     }
 
     public function save()
@@ -69,6 +81,11 @@ class ShowProduct extends Component
     public function addInfoPrice()
     {
         $this->infoPrices->add(new InformationalPrice());
+    }
+
+    public function deleteInstruction($id)
+    {
+
     }
 
     /**

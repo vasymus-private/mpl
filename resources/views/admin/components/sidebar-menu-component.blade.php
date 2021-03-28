@@ -4,13 +4,13 @@
         <li class="nav-item">
             <a class="nav-link {{\Illuminate\Support\Facades\Route::is("admin.home") ? "active" : ""}}" href="#">
                 Доска @if(\Illuminate\Support\Facades\Route::is("admin.home"))<span class="sr-only">(current)</span>@endif
-                <i class="fa fa-home" aria-hidden="true"></i>
+                <i class="bi bi-house-fill" aria-hidden="true"></i>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link {{\Illuminate\Support\Facades\Route::is("admin.orders") ? "active" : ""}}" href="#">
                 Заказы @if(\Illuminate\Support\Facades\Route::is("admin.orders"))<span class="sr-only">(current)</span>@endif
-                <i class="fa fa-file" aria-hidden="true"></i>
+                <i class="bi bi-card-checklist" aria-hidden="true"></i>
             </a>
         </li>
         <li class="nav-item">
@@ -54,13 +54,13 @@
         <li class="nav-item">
             <a class="nav-link {{\Illuminate\Support\Facades\Route::is("admin.users") ? "active" : ""}}" href="#" data-toggle="collapse" >
                 Клиенты @if(\Illuminate\Support\Facades\Route::is("admin.users"))<span class="sr-only">(current)</span>@endif
-                <i class="fa fa-users" aria-hidden="true"></i>
+                <i class="bi bi-people-fill" aria-hidden="true"></i>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link {{\Illuminate\Support\Facades\Route::is("admin.brands") ? "active" : ""}}" href="#">
                 Производители @if(\Illuminate\Support\Facades\Route::is("admin.brands"))<span class="sr-only">(current)</span>@endif
-                <i class="fa fa-industry" aria-hidden="true"></i>
+                <i class="bi bi-building" aria-hidden="true"></i>
             </a>
         </li>
     </ul>

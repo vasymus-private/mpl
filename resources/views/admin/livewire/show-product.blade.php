@@ -1,6 +1,8 @@
 <?php
 /** @var \Domain\Products\Models\Product\Product $product */
 /** @var \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\Brand[] $brands */
+/** @var \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\InformationalPrice[] $infoPrices */
+/** @var \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Domain\Common\Models\CustomMedia[] $instructions */
 ?>
 <div>
     <ul class="nav nav-tabs" id="show-product-tabs" role="tablist">
@@ -142,12 +144,28 @@
                     </div>
                 </div>
 
-                {{--<div class="form-group row">
-                    <label for="price_name" class="col-sm-3 col-form-label">Служебная информация:</label>
+                <div class="form-group row">
+                    <label for="admin_comment" class="col-sm-3 col-form-label">Служебная информация:</label>
                     <div class="col-sm-9">
-                        <input wire:model.defer="product.price_name" type="text" class="form-control" id="price_name">
+                        <textarea wire:model.defer="product.admin_comment" class="form-control" id="admin_comment" rows="3"></textarea>
                     </div>
-                </div>--}}
+                </div>
+
+
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Дополнительные файлы (инструкции):</label>
+                    <div class="col-sm-9">
+                        @foreach($instructions as $instruction)
+                            <div class="card">
+                                <div class="card-body">
+                                    <p class="card-text">{{$instruction->mime_type_name}}</p>
+                                    <h5 class="card-title">{{$instruction->file_name}}</h5>
+                                    <button wire:click="deleteInstruction({{$instruction->id}})" type="button" class="btn btn-outline-danger">x</button>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
 
 
                 <button type="submit" class="btn btn-primary">Submit</button>
