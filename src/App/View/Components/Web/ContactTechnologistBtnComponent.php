@@ -1,21 +1,17 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Web;
 
 use Illuminate\View\Component;
 
-class GoBackComponent extends Component
+class ContactTechnologistBtnComponent extends Component
 {
-    /**
-     * Create a new component instance.
-     *
-     * @return void
-     */
+    public $random;
+
     public function __construct()
     {
-
+        $this->random = rand(1, 1000);
     }
-
     /**
      * Get the view / contents that represent the component.
      *
@@ -23,6 +19,6 @@ class GoBackComponent extends Component
      */
     public function render()
     {
-        return view('web.components.go-back-component');
+        return view('web.components.contact-technologist-btn-component');
     }
 }

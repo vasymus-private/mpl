@@ -48,7 +48,6 @@ Route::middleware([\App\Constants::MIDDLEWARE_AUTHENTICATE_ALL])->group(function
         )
         ->name("product.show.1")
     ;
-
     Route
         ::get(
             "catalog/{category_slug}/{subcategory1_slug}/{product_slug}.html",

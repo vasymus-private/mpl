@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Web;
 
 use Domain\Products\Models\Product\Product;
 use Illuminate\View\Component;

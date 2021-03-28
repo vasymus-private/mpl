@@ -1,17 +1,21 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Web;
 
 use Illuminate\View\Component;
 
-class ContactTechnologistBtnComponent extends Component
+class SidebarMenuServicesComponent extends Component
 {
-    public $random;
-
+    /**
+     * Create a new component instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
-        $this->random = rand(1, 1000);
+
     }
+
     /**
      * Get the view / contents that represent the component.
      *
@@ -19,6 +23,6 @@ class ContactTechnologistBtnComponent extends Component
      */
     public function render()
     {
-        return view('web.components.contact-technologist-btn-component');
+        return view('web.components.sidebar-menu-services-component');
     }
 }

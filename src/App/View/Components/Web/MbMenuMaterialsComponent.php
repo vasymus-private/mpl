@@ -1,15 +1,15 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Web;
 
 use Domain\Products\Models\Category;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\Component;
 
-class SidebarMenuMaterialsComponent extends Component
+class MbMenuMaterialsComponent extends Component
 {
     /**
-     * @var Collection|\Domain\Products\Models\Category[]
+     * @var Collection|Category[]
      * */
     public $categories;
 
@@ -30,6 +30,6 @@ class SidebarMenuMaterialsComponent extends Component
      */
     public function render()
     {
-        return view('web.components.sidebar-menu-materials-component');
+        return view('web.components.mb-menu-materials-component');
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Web;
 
 use Illuminate\View\Component;
 
-class SidebarMenuServicesComponent extends Component
+class GoBackComponent extends Component
 {
     /**
      * Create a new component instance.
@@ -23,6 +23,6 @@ class SidebarMenuServicesComponent extends Component
      */
     public function render()
     {
-        return view('web.components.sidebar-menu-services-component');
+        return view('web.components.go-back-component');
     }
 }

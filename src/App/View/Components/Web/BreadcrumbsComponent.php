@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Web;
 
 use Support\Breadcrumbs\BreadcrumbDTO;
 use Illuminate\View\Component;
