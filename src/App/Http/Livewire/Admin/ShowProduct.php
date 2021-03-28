@@ -2,16 +2,23 @@
 
 namespace App\Http\Livewire\Admin;
 
+use Domain\Common\DTOs\InstructionDTO;
+use Domain\Common\Models\Currency;
+use Domain\Common\Models\CustomMedia;
+use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\InformationalPrice;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
-use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
+use Livewire\TemporaryUploadedFile;
 use Support\H;
+use Livewire\WithFileUploads;
 
 class ShowProduct extends Component
 {
+    use WithFileUploads;
+
     /**
      * @var \Domain\Products\Models\Product\Product
      */
@@ -28,9 +35,24 @@ class ShowProduct extends Component
     public Collection $brands;
 
     /**
-     * @var \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Domain\Common\Models\CustomMedia[]
+     * @var \Illuminate\Database\Eloquent\Collection|\Domain\Common\Models\Currency[]
      */
-    public MediaCollection $instructions;
+    public Collection $currencies;
+
+    /**
+     * @var array[]
+     */
+    public array $instructions;
+
+    /**
+     * @var \Livewire\TemporaryUploadedFile
+     */
+    public $tempInstruction;
+
+    /**
+     * @var \Illuminate\Database\Eloquent\Collection
+     */
+    public Collection $availabilityStatuses;
 
     protected array $rules = [
         'product.name' => 'required|string|max:199',
@@ -47,25 +69,36 @@ class ShowProduct extends Component
         'infoPrices.*.name' => 'required|string|max:199',
 
         'product.admin_comment' => 'nullable|string|max:199',
+
+        'instructions.*.name' => 'nullable',
+
+        'product.price_purchase' => 'nullable|numeric',
+        'product.price_purchase_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
+        'product.price_retail' => 'nullable|numeric',
+        'product.price_retail_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
+
+        'product.unit' => 'required|string|max:199',
+        'product.availability_status_id' => 'integer|nullable|exists:' . AvailabilityStatus::class . ",id",
     ];
 
     public function mount()
     {
         $this->brands = Brand::query()->select(["id", "name"])->get();
         $this->infoPrices = $this->product->infoPrices;
-        $this->instructions = $this->product->getMedia(Product::MC_FILES);
+        $this->instructions = $this->product->getMedia(Product::MC_FILES)->map(fn(CustomMedia $media) => InstructionDTO::fromCustomMedia($media)->toArray())->toArray();
+        $this->currencies = Currency::query()->get();
+        $this->availabilityStatuses = AvailabilityStatus::query()->get();
     }
 
     public function save()
     {
         $this->validate();
 
-        $this->product->save();
+        $this->saveProduct();
 
-        foreach ($this->infoPrices as $infoPrice) {
-            $infoPrice->product_id = $this->product->id;
-            $infoPrice->save();
-        }
+        $this->saveInfoPrices();
+
+        $this->saveInstructions();
     }
 
     public function deleteInfoPrice($id)
@@ -83,9 +116,9 @@ class ShowProduct extends Component
         $this->infoPrices->add(new InformationalPrice());
     }
 
-    public function deleteInstruction($id)
+    public function deleteInstruction($index)
     {
-
+        $this->instructions = collect($this->instructions)->values()->filter(fn(array $instruction, int $key) => (string)$index !== (string)$key)->toArray();
     }
 
     /**
@@ -99,8 +132,66 @@ class ShowProduct extends Component
         data_set($this, $name, H::trimAndNullEmptyString($value));
     }
 
+    /**
+     * @param \Livewire\TemporaryUploadedFile $value
+     */
+    public function updatedTempInstruction(TemporaryUploadedFile $value)
+    {
+        $instructionDTO = InstructionDTO::fromTemporaryUploadedFile($value);
+        $this->instructions[] = $instructionDTO->toArray();
+    }
+
     public function render()
     {
         return view('admin.livewire.show-product');
+    }
+
+    protected function saveProduct()
+    {
+        $this->product->save();
+    }
+
+    protected function saveInfoPrices()
+    {
+        foreach ($this->infoPrices as $infoPrice) {
+            $infoPrice->product_id = $this->product->id;
+            $infoPrice->save();
+        }
+    }
+
+    protected function saveInstructions()
+    {
+        $instructions = [];
+
+        foreach ($this->instructions as $instruction) {
+            if ($instruction['id'] !== null) {
+                /** @var \Domain\Common\Models\CustomMedia $media */
+                $media = $this->product->getMedia(Product::MC_FILES)->first(fn(CustomMedia $media) => $instruction['id'] === $media->id);
+                $media->name = $instruction['name'] ?: $instruction['file_name'];
+                $media->save();
+                $instructions[] = $instruction;
+                continue;
+            }
+
+            $media = $this->addMediaFromInstruction(new InstructionDTO($instruction));
+            $instructions[] = InstructionDTO::fromCustomMedia($media)->toArray();
+        }
+
+        $instructionsIds = collect($instructions)->pluck("id")->toArray();
+        $this->product->getMedia(Product::MC_FILES)->each(function(CustomMedia $media) use($instructionsIds) {
+            if (!in_array($media->id, $instructionsIds)) $media->forceDelete();
+        });
+        $this->instructions = $instructions;
+    }
+
+    protected function addMediaFromInstruction(InstructionDTO $instructionDTO): CustomMedia
+    {
+        $fileAdder = $this->product
+            ->addMedia($instructionDTO->path)
+            ->preservingOriginal()
+            ->usingFileName($instructionDTO->file_name)
+            ->usingName($instructionDTO->file_name)
+        ;
+        return $fileAdder->toMediaCollection(Product::MC_FILES);
     }
 }

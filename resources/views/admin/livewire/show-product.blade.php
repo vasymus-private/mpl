@@ -2,7 +2,9 @@
 /** @var \Domain\Products\Models\Product\Product $product */
 /** @var \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\Brand[] $brands */
 /** @var \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\InformationalPrice[] $infoPrices */
-/** @var \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Domain\Common\Models\CustomMedia[] $instructions */
+/** @var array[] $instructions {@see \Domain\Common\DTOs\InstructionDTO} */
+/** @var \Illuminate\Database\Eloquent\Collection|\Domain\Common\Models\Currency[] $currencies */
+/** @var \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\AvailabilityStatus[] $availabilityStatuses */
 ?>
 <div>
     <ul class="nav nav-tabs" id="show-product-tabs" role="tablist">
@@ -155,20 +157,99 @@
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label">Дополнительные файлы (инструкции):</label>
                     <div class="col-sm-9">
-                        @foreach($instructions as $instruction)
-                            <div class="card">
-                                <div class="card-body">
-                                    <p class="card-text">{{$instruction->mime_type_name}}</p>
-                                    <h5 class="card-title">{{$instruction->file_name}}</h5>
-                                    <button wire:click="deleteInstruction({{$instruction->id}})" type="button" class="btn btn-outline-danger">x</button>
+                        <div class="row">
+                            @foreach($instructions as $index => $instruction)
+                                <div wire:key="instructions-{{$index}}-{{$instruction['path']}}" class="card text-center">
+                                    <div class="card-body">
+                                        <p class="card-text">{{$instruction['mime_type_name']}}</p>
+                                        <h5 class="card-title">{{$instruction['file_name']}}</h5>
+                                        <div class="form-group">
+                                            <input wire:model.defer="instructions.{{$index}}.name" class="form-control" type="text" />
+                                        </div>
+                                        <button wire:click="deleteInstruction({{$index}})" type="button" class="btn btn-outline-danger">x</button>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="form-group">
+                            <label for="tempInstruction">Добавить инструкцию</label>
+                            <input type="file" wire:model="tempInstruction" class="form-control-file" id="tempInstruction" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="price_purchase" class="col-sm-3 col-form-label">Закупочная цена:</label>
+                    <div class="col-sm-9">
+                        <div class="row">
+                            <div class="col">
+                                <input wire:model.defer="product.price_purchase" type="text" class="form-control" id="price_purchase" placeholder="Цена">
+                            </div>
+                            <div class="col">
+                                <div class="form-group row">
+                                    <label for="price_purchase_currency_id" class="col-sm-3 col-form-label">Валюта:</label>
+                                    <div class="col-sm-9">
+                                        <select wire:model.defer="product.price_purchase_currency_id" class="form-control" id="price_purchase_currency_id">
+                                            <option value="">(не установлено)</option>
+                                            @foreach($currencies as $currency)
+                                                <option value="{{$currency->id}}">{{$currency->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                        @endforeach
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="price_retail" class="col-sm-3 col-form-label">Розничная цена:</label>
+                    <div class="col-sm-9">
+                        <div class="row">
+                            <div class="col">
+                                <input wire:model.defer="product.price_retail" type="text" class="form-control" id="price_retail" placeholder="Цена">
+                            </div>
+                            <div class="col">
+                                <div class="form-group row">
+                                    <label for="price_retail_currency_id" class="col-sm-3 col-form-label">Валюта:</label>
+                                    <div class="col-sm-9">
+                                        <select wire:model.defer="product.price_retail_currency_id" class="form-control" id="price_retail_currency_id">
+                                            <option value="">(не установлено)</option>
+                                            @foreach($currencies as $currency)
+                                                <option value="{{$currency->id}}">{{$currency->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="unit" class="col-sm-3 col-form-label">Упаковка / Единица:</label>
+                    <div class="col-sm-9">
+                        <input wire:model.defer="product.unit" type="text" class="form-control" id="unit">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="availability_status_id" class="col-sm-3 col-form-label">Наличие:</label>
+                    <div class="col-sm-9">
+                        <select wire:model.defer="product.availability_status_id" class="form-control" id="availability_status_id">
+                            <option value="">(не установлено)</option>
+                            @foreach($availabilityStatuses as $availabilityStatus)
+                                <option value="{{$availabilityStatus->id}}">{{$availabilityStatus->name}}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
 
 
-                <button type="submit" class="btn btn-primary">Submit</button>
+
+
+                <button type="submit" class="btn btn-primary">Сохранить</button>
             </form>
             <style>
                 input:invalid {

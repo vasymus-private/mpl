@@ -2,6 +2,7 @@
 
 namespace Support;
 
+use App\Constants;
 use App\Exception;
 use Domain\Common\Models\Currency;
 use Support\CBRcurrencyConverter\CBRcurrencyConverter;
@@ -92,5 +93,41 @@ class H
         $value = trim($value);
 
         return $value === '' ? null : $value;
+    }
+
+    public static function getMimeTypeName($mimeType): string
+    {
+        switch ($mimeType) {
+            case Constants::MIME_DOC :
+            case Constants::MIME_DOCX : {
+                return "MS Word";
+            }
+            case Constants::MIME_PPT :
+            case Constants::MIME_PPTX : {
+                return "MS PowerPoint";
+            }
+            case Constants::MIME_XLS :
+            case Constants::MIME_XLSX : {
+                return "MS Excel";
+            }
+            case Constants::MIME_GIF : {
+                return "gif";
+            }
+            case Constants::MIME_JPEG : {
+                return "jpeg";
+            }
+            case Constants::MIME_PNG : {
+                return "png";
+            }
+            case Constants::MIME_HTML : {
+                return "html";
+            }
+            case Constants::MIME_PDF : {
+                return "pdf";
+            }
+            default : {
+                return "";
+            }
+        }
     }
 }

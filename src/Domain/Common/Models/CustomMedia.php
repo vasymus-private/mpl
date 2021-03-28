@@ -2,8 +2,8 @@
 
 namespace Domain\Common\Models;
 
-use App\Constants;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Support\H;
 
 /**
  * @property int $id
@@ -30,39 +30,24 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  */
 class CustomMedia extends Media
 {
+    use CommonTraits;
+
+    /**
+     * The number of models to return for pagination.
+     *
+     * @var int
+     */
+    protected $perPage = 20;
+
+    /**
+     * The connection name for the model.
+     *
+     * @var string|null
+     */
+    protected $connection = "mysql";
+
     public function getMimeTypeNameAttribute(): string
     {
-        switch ($this->mime_type) {
-            case Constants::MIME_DOC :
-            case Constants::MIME_DOCX : {
-                return "MS Word";
-            }
-            case Constants::MIME_PPT :
-            case Constants::MIME_PPTX : {
-                return "MS PowerPoint";
-            }
-            case Constants::MIME_XLS :
-            case Constants::MIME_XLSX : {
-                return "MS Excel";
-            }
-            case Constants::MIME_GIF : {
-                return "gif";
-            }
-            case Constants::MIME_JPEG : {
-                return "jpeg";
-            }
-            case Constants::MIME_PNG : {
-                return "png";
-            }
-            case Constants::MIME_HTML : {
-                return "html";
-            }
-            case Constants::MIME_PDF : {
-                return "pdf";
-            }
-            default : {
-                return "";
-            }
-        }
+        return H::getMimeTypeName($this->mime_type);
     }
 }

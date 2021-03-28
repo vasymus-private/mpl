@@ -8,7 +8,7 @@ use Domain\Common\Models\BaseModel;
  * @property int $id
  * @property string $name
  * */
-class AvailabilityStatus extends \Domain\Common\Models\BaseModel
+class AvailabilityStatus extends BaseModel
 {
     const TABLE = "availability_statuses";
 
