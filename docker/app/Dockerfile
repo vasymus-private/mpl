@@ -84,7 +84,7 @@ COPY supervisord.conf /etc/supervisord.conf
 # Clean up
 RUN rm /var/cache/apk/*
 
-WORKDIR /var/www/mpl
+WORKDIR /var/www/html
 
 ENTRYPOINT ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisord.conf"]
 
