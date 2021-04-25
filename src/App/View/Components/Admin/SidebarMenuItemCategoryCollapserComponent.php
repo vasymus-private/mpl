@@ -22,7 +22,7 @@ class SidebarMenuItemCategoryCollapserComponent extends BaseSidebarMenuItemCateg
     {
         if (!$this->category) {
             $accessibilityHtml = $this->isActive() ? '<span class="sr-only">(current)</span>' : "";
-            $text = "Каталог товаров $accessibilityHtml" . '<i class="bi bi-cart-fill" aria-hidden="true"></i>';
+            $text = "Каталог товаров $accessibilityHtml";
         } else {
             $text = $this->category->name;
         }
