@@ -97,6 +97,9 @@ services:
 networks:
   mpl: ## !!!the name of network should be the same as ${DOCKER_NETWORK} !!!
     driver: bridge
+    ## custom name for network
+    ## if omit the name would be something like `mpl_mpl`
+    name: mpl
 
 volumes:
   db-data:
