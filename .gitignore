@@ -9,6 +9,7 @@
 /public/_admin/images
 /public/_admin/js
 /public/_admin/css
+/public/vendor/web-tinker/*
 /storage/*.key
 /storage/media-library
 /vendor

@@ -317,7 +317,6 @@ class Product extends BaseModel implements HasMedia
             )
             ->background(static::MCONV_FILL_BG)
             ->performOnCollections(static::MC_MAIN_IMAGE, static::MC_ADDITIONAL_IMAGES)
-            ->nonQueued()
             ->nonOptimized()
         ;
 
@@ -329,7 +328,6 @@ class Product extends BaseModel implements HasMedia
             )
             ->background(static::MCONV_FILL_BG)
             ->performOnCollections(static::MC_MAIN_IMAGE, static::MC_ADDITIONAL_IMAGES)
-            ->nonQueued()
             ->nonOptimized()
         ;
 
@@ -341,7 +339,6 @@ class Product extends BaseModel implements HasMedia
             )
             ->background(static::MCONV_FILL_BG)
             ->performOnCollections(static::MC_MAIN_IMAGE, static::MC_ADDITIONAL_IMAGES)
-            ->nonQueued()
             ->nonOptimized()
         ;
 
@@ -353,7 +350,6 @@ class Product extends BaseModel implements HasMedia
             )
             ->background(static::MCONV_FILL_BG)
             ->performOnCollections(static::MC_MAIN_IMAGE, static::MC_ADDITIONAL_IMAGES)
-            ->nonQueued()
             ->nonOptimized()
         ;
     }

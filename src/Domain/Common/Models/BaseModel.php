@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static static create()
  *
  * @see Builder::forceCreate()
- * @method static static forceCreate()
+ * @method static static forceCreate(array $attributes)
  *
  * @see Builder::firstOrCreate()
  * @method static static firstOrCreate()
