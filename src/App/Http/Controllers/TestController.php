@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Mail\TestMarkupOrderShippedMail;
 use App\Mail\TestMarkupResetPasswordMail;
-use App\Notifications\OrderShipped;
 use Domain\Common\DTOs\InstructionDTO;
 use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
@@ -14,25 +13,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Spatie\Image\Manipulations;
 use Spatie\Image\Image;
+use Illuminate\Support\Facades\Log;
 
 class TestController extends Controller
 {
     public function test(Request $request)
     {
-        $collection = collect([
-            new InstructionDTO([
-                "name" => "hello"
-            ]),
-            new InstructionDTO([
-                "name" => "world"
-            ])
-        ]);
-
-        dump($collection);
-
-        data_set($collection, "0.name", "hello2");
-
-        dd($collection);
+//        dispatch(function () {
+//            Log::info("hello");
+//        })->delay(new \DateInterval('PT10S'));
 
         return view('test');
     }
