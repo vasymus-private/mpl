@@ -1,0 +1,128 @@
+.header {
+    background: url(../images/header-big.png) repeat-x 0 0;
+    -webkit-box-shadow: inset 0 1px 0 0 rgb(148 155 157 / 35%);
+    box-shadow: inset 0 1px 0 0 rgb(148 155 157 / 35%);
+    color: #bdc1c8;
+    font-size: 12px;
+    position: relative;
+    z-index: 995;
+    .navbar {
+    	padding-top: 0;
+		padding-bottom: 0;
+		height: 50px;
+		margin: 0 0 -8px;
+    	.header-menu {
+			margin: 0 0 0px;
+			height: 42px;
+			padding: 7px 0 0;
+    	}
+    	.header-link {
+    		background-color: #dfe9ed;
+		    background-image: -webkit-linear-gradient(top, #f9fafa, #e0eaed);
+		    background-image: linear-gradient(to bottom, #f9fafa, #e0eaed);
+		    color: #575a61 !important;
+		    cursor: pointer;
+		    height: 36px;
+		    margin-right: 8px;
+		    text-shadow: 0 1px 1px rgb(255 255 255);
+		    padding: 8px 19px 0;
+		    position: relative;
+		    z-index: 3;
+		    border-radius: 4px 4px 0 0;
+		    display: inline-block;
+		    font-size: 17px;
+		    font-weight: bold;
+		    line-height: 16px;
+		    text-align: center;
+		    vertical-align: top;
+		    text-decoration: none!important;
+		    -webkit-transition: padding 0.25s linear;
+		    -moz-transition: padding 0.25s linear;
+		    -o-transition: padding 0.25s linear;
+		    transition: padding 0.25s linear;
+    	}
+    }
+
+    .navbar-brand {
+		border: 1px solid #141517;
+		border-bottom: none;
+		background-color: #1c2330;
+		background-image: -webkit-linear-gradient(top, #202736, #171a26);
+		background-image: linear-gradient(to bottom, #202736, #171a26);
+		color: #bdc1c8 !important;
+		cursor: pointer;
+		-webkit-box-shadow: inset 0 0 1px rgb(255 255 255 / 30%);
+		box-shadow: inset 0 0 1px rgb(255 255 255 / 30%);
+		margin-right: 8px;
+		padding: 8px 19px 0;
+		position: relative;
+		z-index: 3;
+		border-radius: 4px 4px 0 0;
+		display: inline-block;
+		font-size: 17px;
+		font-weight: bold;
+		line-height: 16px;
+		text-align: center;
+		vertical-align: top;
+		text-decoration: none!important;
+		-webkit-transition: padding 0.25s linear;
+		-moz-transition: padding 0.25s linear;
+		-o-transition: padding 0.25s l;
+		height: 35px;
+		margin-bottom: -7px;
+    }
+
+    .adm-header-user-block {
+    	background: #1b212e;
+	    border-radius: 4px;
+	    border: 1px solid #151618;
+	    cursor: pointer;
+	    color: #dde7e9;
+	    text-decoration: none;
+	    display: inline-block;
+	    -webkit-box-shadow: inset 1px 1px 0 0 #293244;
+	    box-shadow: inset 1px 1px 0 0 #293244;
+	    line-height: 27px;
+	    height: 27px;
+	    font-weight: bold;
+	    font-size: 12px;
+	    max-width: 200px;
+	    min-width: 20px;
+	    margin-left: 17px;
+	    text-align: left;
+	    text-overflow: ellipsis;
+	    overflow: hidden;
+	    padding: 0 16px 0 30px;
+	    position: relative;
+	    vertical-align: top;
+	    white-space: nowrap;
+	    line-height: 22px;
+	    &:before {
+			content: "";
+			background: url(../images/bx-admin-sprite-small-2.png) no-repeat 0 -155px;
+			left: 10px;
+			top: 7px;
+			height: 11px;
+			position: absolute;
+			width: 11px;
+	    }
+    }
+
+    .adm-header-exit {
+		color: #b1b9bd;
+		text-decoration: none;
+		cursor: pointer;
+		display: block;
+		font-weight: bold;
+		font-size: 12px;
+		height: 27px;
+		margin: 0 22px 0 13px;
+		vertical-align: top;
+		line-height: 27px;
+		padding: 0px 10px 0;
+		&:hover {
+			color: #fff;
+			text-decoration: none;
+		}
+    }
+}
