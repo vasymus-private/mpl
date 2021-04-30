@@ -46,16 +46,25 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
  * */
 trait ProductRelations
 {
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|\Domain\Products\QueryBuilders\ProductQueryBuilder
+     */
     public function parent(): BelongsTo
     {
         return $this->belongsTo(Product::class, "parent_id", "id");
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany|\Domain\Products\QueryBuilders\ProductQueryBuilder
+     */
     public function variations(): HasMany
     {
         return $this->hasMany(Product::class, "parent_id", "id");
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|\Domain\Products\QueryBuilders\ProductQueryBuilder
+     */
     public function products(): BelongsToMany
     {
         /** @var BelongsToMany $bm */

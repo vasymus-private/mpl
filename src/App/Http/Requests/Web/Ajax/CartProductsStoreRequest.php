@@ -48,11 +48,11 @@ class CartProductsStoreRequest extends FormRequest
                 ->where(function(Builder $query) {
                     $query
                         ->orWhere(function(Builder $qu) {
-                            /** @var Product|Builder $qu*/
+                            /** @var \Domain\Products\QueryBuilders\ProductQueryBuilder $qu*/
                             $qu->variations();
                         })
                         ->orWhere(function(Builder $qu) {
-                            /** @var Product|Builder $qu*/
+                            /** @var \Domain\Products\QueryBuilders\ProductQueryBuilder $qu*/
                             $qu->doesntHaveVariations();
                         })
                     ;

@@ -118,6 +118,9 @@ class Order extends \Domain\Common\Models\BaseModel implements HasMedia
         'request' => 'array'
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|\Domain\Products\QueryBuilders\ProductQueryBuilder
+     */
     public function products(): BelongsToMany
     {
         return $this

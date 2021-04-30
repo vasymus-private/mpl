@@ -149,8 +149,10 @@
                                 class="js-manual-tooltip"
                                 data-placement="top"
                                 data-timeout="6000"
-                                data-title="{!! $variation->preview !!}"
+                                data-title="{!! trim($variation->preview) !!}"
                                 data-html="true"
+                                data-trigger="manual"
+                                data-class="tooltip-variants"
                             >{{$variation->name}}</a>
                         </h3>
                     </td>
@@ -244,6 +246,8 @@
                                     data-placement="top"
                                     data-title="{!! $variation->preview !!}"
                                     data-html="true"
+                                    data-trigger="manual"
+                                    data-class="tooltip-variants"
                                 >{{$variation->name}}</a>
                             </h4>
                             <div class="line-product right">
@@ -398,7 +402,7 @@
                                     </div>
                                     <div class="slider-blocker__text-center">
                                         <span class="slider-blocker__cost">{{$item->price_retail_rub_formatted}}</span>
-                                        <a href="{{$item->getRoute()}}" class="slider-blocker__buy">купить</a>
+                                        <a href="{{$item->web_route}}" class="slider-blocker__buy">купить</a>
                                     </div>
                                 </div>
                             </div>
@@ -439,7 +443,7 @@
                                     </div>
                                     <div class="slider-blocker__text-center">
                                         <span class="slider-blocker__cost">{{$item->price_retail_rub_formatted}}</span>
-                                        <a href="{{$item->getRoute()}}" class="slider-blocker__buy">купить</a>
+                                        <a href="{{$item->web_route}}" class="slider-blocker__buy">купить</a>
                                     </div>
                                 </div>
                             </div>
@@ -480,7 +484,7 @@
                                     </div>
                                     <div class="slider-blocker__text-center">
                                         <span class="slider-blocker__cost">{{$item->price_retail_rub_formatted}}</span>
-                                        <a href="{{$item->getRoute()}}" class="slider-blocker__buy">купить</a>
+                                        <a href="{{$item->web_route}}" class="slider-blocker__buy">купить</a>
                                     </div>
                                 </div>
                             </div>

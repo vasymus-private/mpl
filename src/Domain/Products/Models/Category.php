@@ -4,7 +4,6 @@ namespace Domain\Products\Models;
 
 use Domain\Common\Models\BaseModel;
 use Domain\Seo\Models\Seo;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,27 +20,30 @@ use Illuminate\Routing\Route;
  * @property int $ordering
  * @property bool $is_active
  * @property string|null $description
- * @property Carbon|null $deleted_at
+ * @property \Carbon\Carbon|null $deleted_at
  *
- * @see Category::parentCategory()
- * @property Category|null $parentCategory
+ * @see \Domain\Products\Models\Category::parentCategory()
+ * @property \Domain\Products\Models\Category|null $parentCategory
  *
- * @see Category::subcategories()
- * @property Collection|Category[] $subcategories
+ * @see \Domain\Products\Models\Category::subcategories()
+ * @property Collection|\Domain\Products\Models\Category[] $subcategories
  *
- * @see Category::seo()
- * @property Seo|null $seo
+ * @see \Domain\Products\Models\Category::seo()
+ * @property \Domain\Seo\Models\Seo|null $seo
  *
- * @see Category::scopeParents()
- * @method static static|Builder parents()
+ * @see \Domain\Products\Models\Category::scopeParents()
+ * @method static static|\Illuminate\Database\Eloquent\Builder parents()
  *
- * @see Category::scopeActive()
- * @method static static|Builder active()
+ * @see \Domain\Products\Models\Category::scopeActive()
+ * @method static static|\Illuminate\Database\Eloquent\Builder active()
  *
- * @see Category::scopeOrdering()
- * @method static static|Builder ordering()
+ * @see \Domain\Products\Models\Category::scopeOrdering()
+ * @method static static|\Illuminate\Database\Eloquent\Builder ordering()
+ *
+ * @see \Domain\Products\Models\Category::getAllLoadedSubcategoriesIdsAttribute()
+ * @property-read int[] $all_loaded_subcategories_ids
  * */
-class Category extends \Domain\Common\Models\BaseModel
+class Category extends BaseModel
 {
     use SoftDeletes;
 
@@ -93,7 +95,7 @@ class Category extends \Domain\Common\Models\BaseModel
 
     public function seo(): MorphOne
     {
-        return $this->morphOne(\Domain\Seo\Models\Seo::class, "seoable", "seoable_type", "seoable_id");
+        return $this->morphOne(Seo::class, "seoable", "seoable_type", "seoable_id");
     }
 
     public function scopeParents(Builder $builder): Builder
@@ -135,22 +137,18 @@ class Category extends \Domain\Common\Models\BaseModel
             case static::_TEMP_ID_CARE_TOOLS :
             case static::_TEMP_ID_FLOOR_BASE : {
                 return 3;
-                break;
             }
             case static::_TEMP_ID_PARKET_LACQUER :
             case static::_TEMP_ID_PARKET_OIL :
             case static::_TEMP_ID_PUTTY: {
                 return 2;
-                break;
             }
             case static::_TEMP_ID_EQUIPMENT :
             case static::_TEMP_ID_RELATED_TOOLS : {
                 return 1;
-                break;
             }
             default : {
                 return $category->subcategories->count() / 2;
-                break;
             }
         }
     }
@@ -163,5 +161,29 @@ class Category extends \Domain\Common\Models\BaseModel
     public function scopeOrdering(Builder $builder): Builder
     {
         return $builder->orderBy(static::TABLE . ".ordering");
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getAllLoadedSubcategoriesIdsAttribute(): array
+    {
+        return $this->allLoadedSubcategoriesIds($this);
+    }
+
+    /**
+     * @param \Domain\Products\Models\Category $category
+     *
+     * @return int[]
+     */
+    public function allLoadedSubcategoriesIds(Category $category): array
+    {
+        $subcategoriesIds = $category->subcategories->pluck("id")->toArray();
+        foreach ($category->subcategories as $subcategory) {
+            if ($subcategory->relationLoaded("subcategories")) {
+                $subcategoriesIds = array_merge($subcategoriesIds, $this->allLoadedSubcategoriesIds($subcategory));
+            }
+        }
+        return $subcategoriesIds;
     }
 }

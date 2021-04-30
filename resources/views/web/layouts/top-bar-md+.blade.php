@@ -19,6 +19,7 @@
             </div>
             <div class="column row-line row-line__between">
                 <div class="column-left row-line row-line__between">
+                    @auth('admin') <a href="{{route('admin.home')}}" class="top-bar__link">Админ</a> @endauth
                     <a href="{{route('viewed')}}" class="top-bar__link">Вы смотрели</a>
                     <a href="{{route('contacts')}}" class="top-bar__link">Контакты</a>
                     <a href="tel:74953638799" class="top-bar__link">(495) 363 87 99</a>

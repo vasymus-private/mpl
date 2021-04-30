@@ -2,26 +2,30 @@
 
 namespace App\Providers;
 
-use App\View\Components\BreadcrumbsComponent;
-use App\View\Components\ContactTechnologistBtnComponent;
-use App\View\Components\GoBackComponent;
-use App\View\Components\H1Component;
-use App\View\Components\MbBrandsFilterComponent;
-use App\View\Components\MbMenuMaterialsComponent;
-use App\View\Components\ProductAccessoriesComponent;
-use App\View\Components\ProductAccessoryItemComponent;
-use App\View\Components\ProductCharsPropsComponent;
-use App\View\Components\ProductComponent;
-use App\View\Components\ProductGalleryItemComponent;
-use App\View\Components\ProductItemComponent;
-use App\View\Components\SeoComponent;
-use App\View\Components\SidebarBrandsFilterComponent;
-use App\View\Components\SidebarFaqComponent;
-use App\View\Components\SidebarMenuCartComponent;
-use App\View\Components\SidebarMenuAsideCountComponent;
-use App\View\Components\SidebarMenuMaterialsComponent;
-use App\View\Components\SidebarMenuServicesComponent;
-use App\View\Components\SidebarMenuViewedComponent;
+use App\View\Components\Admin\SidebarMenuComponent;
+use App\View\Components\Admin\SidebarMenuItemCategoryCollapserComponent;
+use App\View\Components\Admin\SidebarMenuItemCategoryProductsListItemComponent;
+use App\View\Components\Admin\SidebarMenuItemCategorySubmenuComponent;
+use App\View\Components\Web\BreadcrumbsComponent;
+use App\View\Components\Web\ContactTechnologistBtnComponent;
+use App\View\Components\Web\GoBackComponent;
+use App\View\Components\Web\H1Component;
+use App\View\Components\Web\MbBrandsFilterComponent;
+use App\View\Components\Web\MbMenuMaterialsComponent;
+use App\View\Components\Web\ProductAccessoriesComponent;
+use App\View\Components\Web\ProductAccessoryItemComponent;
+use App\View\Components\Web\ProductCharsPropsComponent;
+use App\View\Components\Web\ProductComponent;
+use App\View\Components\Web\ProductGalleryItemComponent;
+use App\View\Components\Web\ProductItemComponent;
+use App\View\Components\Web\SeoComponent;
+use App\View\Components\Web\SidebarBrandsFilterComponent;
+use App\View\Components\Web\SidebarFaqComponent;
+use App\View\Components\Web\SidebarMenuCartComponent;
+use App\View\Components\Web\SidebarMenuAsideCountComponent;
+use App\View\Components\Web\SidebarMenuMaterialsComponent;
+use App\View\Components\Web\SidebarMenuServicesComponent;
+use App\View\Components\Web\SidebarMenuViewedComponent;
 use App\View\Composers\ProfileComposer;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\File;
@@ -47,6 +51,15 @@ class ViewsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->registerWebBladeComponents();
+
+        $this->registerAdminBladeComponents();
+
+        $this->composeWeb();
+    }
+
+    protected function registerWebBladeComponents()
+    {
         Blade::component("seo", SeoComponent::class);
         Blade::component("h1", H1Component::class);
         Blade::component("sidebar-menu-materials", SidebarMenuMaterialsComponent::class);
@@ -57,18 +70,25 @@ class ViewsServiceProvider extends ServiceProvider
         Blade::component("sidebar-menu-cart", SidebarMenuCartComponent::class);
         Blade::component("sidebar-menu-viewed", SidebarMenuViewedComponent::class);
         Blade::component("contact-technologist-btn", ContactTechnologistBtnComponent::class);
-
         Blade::component("product-item", ProductItemComponent::class);
         Blade::component("product-accessories", ProductAccessoriesComponent::class);
         Blade::component("product-chars-props", ProductCharsPropsComponent::class);
         Blade::component("product", ProductComponent::class);
-
         Blade::component("breadcrumbs", BreadcrumbsComponent::class);
-
         Blade::component("go-back", GoBackComponent::class);
+        Blade::component("sidebar-faq", SidebarFaqComponent::class);
+    }
 
-        Blade::component("sidebar-faq", SidebarFaqComponent::class);;
+    protected function registerAdminBladeComponents()
+    {
+        Blade::component('sidebar-menu', SidebarMenuComponent::class);
+        Blade::component('sidebar-menu-item-category-collapser', SidebarMenuItemCategoryCollapserComponent::class);
+        Blade::component('sidebar-menu-item-category-submenu', SidebarMenuItemCategorySubmenuComponent::class);
+        Blade::component('sidebar-menu-item-category-products-list-item', SidebarMenuItemCategoryProductsListItemComponent::class);
+    }
 
+    protected function composeWeb()
+    {
         $webViews = [];
 
         $webDirs = File::directories(resource_path("views/web/pages"));

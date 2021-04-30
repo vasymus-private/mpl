@@ -8,12 +8,12 @@
             <?php /** @var \Domain\Products\Models\Product\Product $accessoryItem */ ?>
             <div class="column">
                 <div class="row-line">
-                    <a href="{{$accessoryItem->getRoute()}}">
+                    <a href="{{$accessoryItem->web_route}}">
                         <img alt="{{$accessoryItem->name}}" width="40" height="40" src="{{$accessoryItem->main_image_url}}">
                     </a>
                     <div class="product-special">
                         <p>
-                            <a href="{{$accessoryItem->getRoute()}}">{{$accessoryItem->name}}</a><br>
+                            <a href="{{$accessoryItem->web_route}}">{{$accessoryItem->name}}</a><br>
                             <span class="accessories-block__cost-orange">{{$accessoryItem->price_retail_rub_formatted}}</span>
                         </p>
                     </div>

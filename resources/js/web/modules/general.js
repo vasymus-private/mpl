@@ -1,4 +1,5 @@
 import {getProductsHoverOnPopover} from '../helpers/products'
+import {guidGenerator, hideOnClickOutside} from "../../helpers/common";
 
 (function($) {
     $().ready(() => {
@@ -13,21 +14,44 @@ import {getProductsHoverOnPopover} from '../helpers/products'
 
             if (!$el.data("title")) return true
 
+            let tooltipClass = $el.data("class")
+
             $el.tooltip({
                 placement : $el.data("placement"),
-                trigger : "manual"
+                trigger : "manual",
+                template : `
+                    <div class="tooltip ${tooltipClass}" role="tooltip">
+                        <div class="arrow"></div>
+                        <a class="js-tooltip-close tooltip-close" href="javascript:void(0)" type="button">X</a>
+                        <div class="tooltip-inner"></div>
+                    </div>
+                `
             })
 
             let timeout
+            let time = $el.data("timeout") || MANUAL_TOOLTIP_TIMEOUT_DEFAULT
+            let hideCB = () => {
+                $el.tooltip("hide")
+                clearTimeout(timeout)
+                timeout = null
+            }
+
             $el.on("click", (event) => {
                 event.preventDefault()
                 if (timeout) return true
 
                 $el.tooltip("show")
-                timeout = setTimeout(() => {
-                    $el.tooltip("hide")
-                    timeout = null
-                }, $el.data("timeout") || MANUAL_TOOLTIP_TIMEOUT_DEFAULT)
+                timeout = setTimeout(hideCB, time)
+            })
+
+            $el.on("shown.bs.tooltip", event => {
+                let tooltipId = $(event.target).attr("aria-describedby")
+
+                let tooltipSelector = `#${tooltipId}`
+                let $tooltip = $(tooltipSelector)
+
+                $tooltip.find(".js-tooltip-close").on('click', hideCB)
+                hideOnClickOutside(tooltipSelector, hideCB)
             })
 
         })

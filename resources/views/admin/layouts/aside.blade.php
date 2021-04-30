@@ -1,3 +1,3 @@
-<aside id="aside" class="aside">
-
+<aside id="aside" class="sidebar-left {{$class ?? ''}}">
+    <x-sidebar-menu />
 </aside>
