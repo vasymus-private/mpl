@@ -7,7 +7,12 @@ services:
             context: ./docker/nginx
             args:
                 - DOCKER_LOCALHOST_SERVERNAME=${DOCKER_LOCALHOST_SERVERNAME}
+        image: 127.0.0.1:5000/mpl-nginx:0.1.0
         container_name: mpl-nginx
+        deploy:
+            replicas: 1
+            restart_policy:
+                condition: on-failure
         volumes:
             - ./docker/nginx/logs/:/var/log/nginx
             #- ./docker/nginx/sites/:/etc/nginx/sites-available
@@ -23,10 +28,15 @@ services:
     app:
         build:
             context: ./docker/app
+        image: 127.0.0.1:5000/mpl-app:0.1.0
+        deploy:
+            replicas: 1
+            restart_policy:
+                condition: on-failure
         volumes:
             - ./docker/app/php.ini:/usr/local/etc/php/php.ini
             - ./docker/app/supervisor-logs:/var/log
-            - .:/var/www/html
+            - .:/var/www/html:delegated
         expose:
             - "9000"
         networks:
@@ -36,6 +46,14 @@ services:
     db:
         build:
             context: ./docker/mariadb
+        image: 127.0.0.1:5000/mpl-db:0.1.0
+        deploy:
+            replicas: 1
+            placement:
+                constraints:
+                    - "node.role == manager"
+            restart_policy:
+                condition: on-failure
         volumes:
             - db-data:/var/lib/mysql
             - ./docker/mariadb/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
@@ -49,10 +67,30 @@ services:
         networks:
             - "${DOCKER_NETWORK}"
 
+    ### Redis ################################################
+    redis:
+        build: ./docker/redis
+        image: 127.0.0.1:5000/mpl-redis:0.1.0
+        deploy:
+            replicas: 1
+            restart_policy:
+                condition: on-failure
+        volumes:
+            - ./docker/redis/data/:/data
+        ports:
+            - "${DOCKER_REDIS_PORT}:6379"
+        networks:
+            - "${DOCKER_NETWORK}"
+
     ### Adminer ###########################################
     adminer:
         build:
             context: ./docker/adminer
+        image: 127.0.0.1:5000/mpl-adminer:0.1.0
+        deploy:
+            replicas: 1
+            restart_policy:
+                condition: on-failure
         environment:
             - ADMINER_DESIGN=flat
             - ADM_DEFAULT_SERVER=db
@@ -65,19 +103,14 @@ services:
     ### Mailhog ################################################
     mailhog:
         build: ./docker/mailhog
+        image: 127.0.0.1:5000/mpl-mailhog:0.1.0
+        deploy:
+            replicas: 1
+            restart_policy:
+                condition: on-failure
         ports:
             - "${DOCKER_MAILHOG_PORT1}:1025"
             - "${DOCKER_MAILHOG_PORT2}:8025"
-        networks:
-            - "${DOCKER_NETWORK}"
-
-    ### Redis ################################################
-    redis:
-        build: ./docker/redis
-        volumes:
-            - ./docker/redis/data/:/data
-        ports:
-            - "${DOCKER_REDIS_PORT}:6379"
         networks:
             - "${DOCKER_NETWORK}"
 
@@ -85,6 +118,11 @@ services:
     redis-webui:
         build:
             context: ./docker/redis-webui
+        image: 127.0.0.1:5000/mpl-redis-webui:0.1.0
+        deploy:
+            replicas: 1
+            restart_policy:
+                condition: on-failure
         environment:
             - ADMIN_USER=${DOCKER_REDIS_WEBUI_USERNAME}
             - ADMIN_PASS=${DOCKER_REDIS_WEBUI_PASSWORD}
@@ -97,7 +135,7 @@ services:
 
 networks:
     mpl: ## !!!the name of network should be the same as ${DOCKER_NETWORK} !!!
-        driver: bridge
+        driver: overlay
         ## custom name for network
         ## if omit the name would be something like `mpl_mpl`
         name: mpl
