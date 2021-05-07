@@ -27,7 +27,8 @@ services:
     ### APP (php-fpm) ##############################################
     app:
         build:
-            context: ./docker/app
+            context: .
+            dockerfile: ./docker/app/Dockerfile
         image: 127.0.0.1:5000/mpl-app:0.1.0
         deploy:
             replicas: 1
