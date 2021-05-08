@@ -79,7 +79,7 @@ RUN docker-php-ext-install pcntl
 
 WORKDIR /etc
 
-COPY docker/app/supervisord.conf /etc/supervisord.conf
+COPY supervisord.conf /etc/supervisord.conf
 
 # Clean up
 RUN rm /var/cache/apk/*
