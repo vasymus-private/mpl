@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Domain\Orders\Models\Order;
-use Domain\Users\Models\User\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;

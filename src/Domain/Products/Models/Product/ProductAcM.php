@@ -280,8 +280,7 @@ trait ProductAcM
 
     public function getIsInCartAttribute(): ?bool
     {
-        /** @var \Domain\Users\Models\User\User|null $user */
-        $user = Auth::user();
+        $user = H::userOrAdmin();
         if (!$user) return null;
 
         return in_array($this->id, $user->cart_not_trashed->pluck("id")->toArray());
@@ -289,8 +288,7 @@ trait ProductAcM
 
     public function getCartCountAttribute(): ?int
     {
-        /** @var \Domain\Users\Models\User\User|null $user */
-        $user = Auth::user();
+        $user = H::userOrAdmin();
         if (!$user) return null;
 
         /** @var \Domain\Products\Models\Product\Product $search|null */

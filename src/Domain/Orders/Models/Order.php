@@ -2,13 +2,14 @@
 
 namespace Domain\Orders\Models;
 
+use Domain\Common\Models\BaseModel;
+use Domain\Common\Models\Currency;
+use Domain\Users\Models\BaseUser\BaseUser;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 use Support\H;
 use Domain\Orders\Models\Pivots\OrderProduct;
 use Domain\Products\Models\Product\Product;
 use Domain\Products\Collections\ProductCollection;
-use Domain\Users\Models\User\User;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -31,60 +32,60 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property string|null $ps_status
  * @property string|null $ps_description
  * @property float|null $ps_amount
- * @property Carbon|null $ps_date
+ * @property \Carbon\Carbon|null $ps_date
  * @property int|null $payment_method_id
  * @property string|null $payment_method_description
  * @property array|null $request
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @property Carbon|null $deleted_at
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
  *
- * @see Order::products()
+ * @see \Domain\Orders\Models\Order::products()
  * @property ProductCollection|Product[] $products
  *
- * @see Order::user()
- * @property User $user
+ * @see \Domain\Orders\Models\Order::user()
+ * @property \Domain\Users\Models\BaseUser\BaseUser $user
  *
- * @see Order::status()
+ * @see \Domain\Orders\Models\Order::status()
  * @property OrderStatus $status
  *
- * @see Order::getOrderPriceRetailRubAttribute()
+ * @see \Domain\Orders\Models\Order::getOrderPriceRetailRubAttribute()
  * @property-read float $order_price_retail_rub
  *
- * @see Order::getOrderPriceRetailRubFormattedAttribute()
+ * @see \Domain\Orders\Models\Order::getOrderPriceRetailRubFormattedAttribute()
  * @property-read string $order_price_retail_rub_formatted
  *
- * @see Order::getOrderProductsCountAttribute()
+ * @see \Domain\Orders\Models\Order::getOrderProductsCountAttribute()
  * @property-read int $order_products_count
  *
- * @see Order::getPriceRetailRubFormattedAttribute()
+ * @see \Domain\Orders\Models\Order::getPriceRetailRubFormattedAttribute()
  * @property-read string $price_retail_rub_formatted
  *
- * @see Order::getStatusNameForUserAttribute()
+ * @see \Domain\Orders\Models\Order::getStatusNameForUserAttribute()
  * @property-read string $status_name_for_user
  *
- * @see Order::getUserNameAttribute()
+ * @see \Domain\Orders\Models\Order::getUserNameAttribute()
  * @property-read string $user_name
  *
- * @see Order::getUserEmailAttribute()
+ * @see \Domain\Orders\Models\Order::getUserEmailAttribute()
  * @property-read string $user_email
  *
- * @see Order::getUserPhoneAttribute()
+ * @see \Domain\Orders\Models\Order::getUserPhoneAttribute()
  * @property-read string $user_phone
  *
- * @see Order::getIsIndividualAttribute()
+ * @see \Domain\Orders\Models\Order::getIsIndividualAttribute()
  * @property-read bool $is_individual
  *
- * @see Order::getIsBusinessAttribute()
+ * @see \Domain\Orders\Models\Order::getIsBusinessAttribute()
  * @property-read bool $is_business
  *
- * @see Order::getPaymentTypeLegalEntityNameAttribute()
+ * @see \Domain\Orders\Models\Order::getPaymentTypeLegalEntityNameAttribute()
  * @property-read string $payment_type_legal_entity_name
  *
- * @see Order::getInitialAttachmentsAttribute()
+ * @see \Domain\Orders\Models\Order::getInitialAttachmentsAttribute()
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $initial_attachments
  * */
-class Order extends \Domain\Common\Models\BaseModel implements HasMedia
+class Order extends BaseModel implements HasMedia
 {
     use SoftDeletes;
     use InteractsWithMedia;
@@ -140,7 +141,7 @@ class Order extends \Domain\Common\Models\BaseModel implements HasMedia
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, "user_id", "id");
+        return $this->belongsTo(BaseUser::class, "user_id", "id");
     }
 
     public function status(): BelongsTo
@@ -172,7 +173,7 @@ class Order extends \Domain\Common\Models\BaseModel implements HasMedia
 
     public function getPriceRetailRubFormattedAttribute(): string
     {
-        return H::priceRubFormatted($this->price_retail_rub, \Domain\Common\Models\Currency::ID_RUB);
+        return H::priceRubFormatted($this->price_retail_rub, Currency::ID_RUB);
     }
 
     public function getStatusNameForUserAttribute(): string

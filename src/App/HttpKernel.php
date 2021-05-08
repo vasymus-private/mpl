@@ -66,6 +66,5 @@ class HttpKernel extends BaseKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         Constants::MIDDLEWARE_AUTHENTICATE_ALL => \App\Http\Middleware\AuthenticateAll::class,
         Constants::MIDDLEWARE_REDIRECT_IF_IDENTIFIED => \App\Http\Middleware\RedirectIfIdentified::class,
-        Constants::MIDDLEWARE_REDIRECT_IF_NOT_IDENTIFIED => \App\Http\Middleware\RedirectIfNotIdentified::class,
     ];
 }

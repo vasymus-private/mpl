@@ -5,13 +5,12 @@ namespace App\View\Components\Web;
 use Domain\Products\DTOs\ViewedDTO;
 use Domain\Products\Models\Product\Product;
 use Domain\Services\Models\Service;
-use Domain\Users\Models\User\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Component;
+use Support\H;
 
 class SidebarMenuViewedComponent extends Component
 {
@@ -27,8 +26,7 @@ class SidebarMenuViewedComponent extends Component
      */
     public function __construct()
     {
-        /** @var \Domain\Users\Models\User\User $user */
-        $user = Auth::user();
+        $user = H::userOrAdmin();
         $user->load([
             "viewed" => function(BelongsToMany $query) {
                 $query->orderBy("pivot_created_at", "desc")->limit(5);

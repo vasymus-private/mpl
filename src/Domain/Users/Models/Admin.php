@@ -2,12 +2,12 @@
 
 namespace Domain\Users\Models;
 
-use Domain\Users\Models\User\User;
+use Domain\Users\Models\BaseUser\BaseUser;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Admin extends User implements HasMedia
+class Admin extends BaseUser implements HasMedia
 {
     use InteractsWithMedia;
 

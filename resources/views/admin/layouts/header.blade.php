@@ -14,8 +14,8 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <span class="adm-header-user-block" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {{\Illuminate\Support\Facades\Auth::user()->name}}
-                    </span>                    
+                        {{\Support\H::admin()->name}}
+                    </span>
                 </li>
                 <li class="nav-item">
                     <a class="adm-header-exit" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выйти</a>

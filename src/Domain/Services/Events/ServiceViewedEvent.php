@@ -3,7 +3,7 @@
 namespace Domain\Services\Events;
 
 use Domain\Services\Models\Service;
-use Domain\Users\Models\User\User;
+use Domain\Users\Models\BaseUser\BaseUser;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -17,24 +17,24 @@ class ServiceViewedEvent
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * @var \Domain\Users\Models\User\User
+     * @var \Domain\Users\Models\BaseUser\BaseUser
      * */
     public $user;
 
     /**
-     * @var Service
+     * @var \Domain\Services\Models\Service
      * */
     public $service;
 
     /**
      * Create a new event instance.
      *
-     * @param \Domain\Users\Models\User\User $user
-     * @param Service $service
+     * @param \Domain\Users\Models\BaseUser\BaseUser $user
+     * @param \Domain\Services\Models\Service $service
      *
      * @return void
      */
-    public function __construct(User $user, Service $service)
+    public function __construct(BaseUser $user, Service $service)
     {
         $this->user = $user;
         $this->service = $service;

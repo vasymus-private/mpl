@@ -11,7 +11,7 @@ use Support\Breadcrumbs\Breadcrumbs;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Auth;
+use Support\H;
 
 class ProductsController extends BaseWebController
 {
@@ -78,7 +78,8 @@ class ProductsController extends BaseWebController
         /** @var Product $product */
         $product = $request->product_slug;
 
-        event(new ProductViewedEvent(Auth::user(), $product));
+        $user = H::userOrAdmin();
+        event(new ProductViewedEvent($user, $product));
 
         $product->load(["variations.parent", "brand", "accessory.category.parentCategory.parentCategory.parentCategory", "similar.category.parentCategory.parentCategory.parentCategory", "related.category.parentCategory.parentCategory.parentCategory", "works.category.parentCategory.parentCategory.parentCategory"]);
 

@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => \App\Constants::AUTH_GUARD_WEB,
         'passwords' => 'users',
     ],
 
@@ -36,7 +36,7 @@ return [
     */
 
     'guards' => [
-        'web' => [
+        \App\Constants::AUTH_GUARD_WEB => [
             'driver' => 'session',
             'provider' => 'users',
         ],

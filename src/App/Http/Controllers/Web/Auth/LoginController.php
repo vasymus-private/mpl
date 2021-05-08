@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Web\Auth;
 
 use App\Constants;
+use Domain\Users\Actions\TransferOrdersAction;
+use Domain\Users\Actions\TransferProductsAction;
 use Domain\Users\Models\User\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -42,7 +44,8 @@ class LoginController extends BaseLoginController
      */
     public function __construct()
     {
-        $this->middleware(Constants::MIDDLEWARE_REDIRECT_IF_IDENTIFIED)->except('logout');
+        $redirectIfIdentifiedMiddleware = sprintf("%s:%s", Constants::MIDDLEWARE_REDIRECT_IF_IDENTIFIED, implode(',', [Constants::AUTH_GUARD_WEB, Constants::AUTH_GUARD_ADMIN]));
+        $this->middleware($redirectIfIdentifiedMiddleware)->except('logout');
     }
 
     /**
@@ -73,23 +76,27 @@ class LoginController extends BaseLoginController
      * The user has been authenticated.
      *
      * @param \Illuminate\Http\Request $request
-     * @param mixed|User $user
+     * @param mixed|\Domain\Users\Models\BaseUser\BaseUser $user
      * @return mixed
      */
     protected function authenticated(Request $request, $user)
     {
-        /** @var User $user */
-
         $anonymousUser = $this->getAnonymousUser();
-        User::handleTransferProducts($anonymousUser, $user);
-        User::handleTransferOrders($anonymousUser, $user);
+        /** @var TransferProductsAction $transferProductsAction */
+        $transferProductsAction = resolve(TransferProductsAction::class);
+        $transferProductsAction->execute($anonymousUser, $user);
+
+        /** @var \Domain\Users\Actions\TransferOrdersAction $transferOrdersAction */
+        $transferOrdersAction = resolve(TransferOrdersAction::class);
+        $transferOrdersAction->execute($anonymousUser, $user);
+
         if ($user->is_admin) Auth::guard(Constants::AUTH_GUARD_ADMIN)->login($user, true);
 
         return redirect()->route('profile');
     }
 
     /**
-     * @return User
+     * @return \Domain\Users\Models\User\User
      */
     public function getAnonymousUser(): User
     {
@@ -97,7 +104,7 @@ class LoginController extends BaseLoginController
     }
 
     /**
-     * @param User $user
+     * @param \Domain\Users\Models\User\User $user
      */
     public function setAnonymousUserId(User $user): void
     {

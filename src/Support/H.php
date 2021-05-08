@@ -3,13 +3,38 @@
 namespace Support;
 
 use App\Constants;
-use App\Exception;
 use Domain\Common\Models\Currency;
+use Domain\Users\Models\Admin;
+use Domain\Users\Models\BaseUser\BaseUser;
+use Illuminate\Support\Facades\Auth;
 use Support\CBRcurrencyConverter\CBRcurrencyConverter;
 use Illuminate\Support\HtmlString;
 
 class H
 {
+    public static function userOrAdmin(): BaseUser
+    {
+        /** @var \Domain\Users\Models\User\User|null $user */
+        $user = Auth::user();
+        if ($user) {
+            return $user;
+        }
+        /** @var \Domain\Users\Models\Admin|null $admin */
+        $admin = Auth::guard(Constants::AUTH_GUARD_ADMIN)->user();
+        if ($admin) {
+            return $admin;
+        }
+
+        throw new \LogicException("Has to be at least anonymous user.");
+    }
+
+    public static function admin(): ?Admin
+    {
+        /** @var \Domain\Users\Models\Admin $admin */
+        $admin = Auth::guard(Constants::AUTH_GUARD_ADMIN)->user();
+        return $admin;
+    }
+
     public static function priceRub(float $value = null, int $currencyId): ?float
     {
         $currencyIso = Currency::getIsoName($currencyId);
@@ -71,7 +96,7 @@ class H
         $str = '';
         $max = mb_strlen($keyspace, '8bit') - 1;
         if ($max < 1) {
-            throw new Exception('$keyspace must be at least two characters long');
+            throw new \Exception('$keyspace must be at least two characters long');
         }
         for ($i = 0; $i < $length; ++$i) {
             $str .= $keyspace[random_int(0, $max)];

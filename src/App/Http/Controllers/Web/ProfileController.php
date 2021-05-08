@@ -2,27 +2,30 @@
 
 namespace App\Http\Controllers\Web;
 
-use Domain\Orders\Models\Order;
-use Domain\Users\Models\User\User;
+use App\Constants;
+use Domain\Users\Actions\TransferOrdersAction;
+use Domain\Users\Actions\TransferProductsAction;
+use Domain\Users\Models\BaseUser\BaseUser;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Support\H;
 
 class ProfileController extends BaseWebController
 {
-    public function identify(Request $request)
+    public function identify(Request $request, TransferProductsAction $transferProductsAction, TransferOrdersAction $transferOrdersAction)
     {
         $id = $request->route('id');
         $email = $request->route("email");
         $hash = $request->route("hash");
 
-        /** @var User $user */
-        $user = Auth::user();
-        if (!$user)
+        $user = H::userOrAdmin();
+        if (!$user) {
             return redirect()->route('home');
+        }
 
-        /** @var User $emailUser */
-        $emailUser = User::query()->where("email", $email)->firstOrFail();
+        /** @var \Domain\Users\Models\BaseUser\BaseUser $emailUser */
+        $emailUser = BaseUser::query()->where("email", $email)->firstOrFail();
 
         if (
             ! hash_equals((string) $id, (string) $user->getKey()) &&
@@ -42,19 +45,22 @@ class ProfileController extends BaseWebController
             return redirect()->route("profile");
         }
 
-        User::handleTransferProducts($user, $emailUser);
-        User::handleTransferOrders($user, $emailUser);
+        $transferProductsAction->execute($user, $emailUser);
+        $transferOrdersAction->execute($user, $emailUser);
 
         Auth::logout();
-        Auth::login($emailUser);
+        if ($emailUser->is_admin) {
+            Auth::guard(Constants::AUTH_GUARD_ADMIN)->login($emailUser);
+        } else {
+            Auth::login($emailUser);
+        }
 
         return redirect()->route("profile");
     }
 
     public function show(Request $request)
     {
-        /** @var User $user */
-        $user = Auth::user();
+        $user = H::userOrAdmin();
         /** @see \Domain\Orders\Models\Order::products() */
         $orders = $user->orders()->with(["products.parent.category.parentCategory", "products.category.parentCategory.parentCategory", "products.media"])->paginate($request->input("per_page"));
 

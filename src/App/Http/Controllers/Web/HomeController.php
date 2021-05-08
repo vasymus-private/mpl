@@ -5,11 +5,9 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Providers\AuthServiceProvider;
 use Domain\Orders\Models\Order;
-use Domain\Services\Models\Service;
-use Domain\Users\Models\User\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Support\H;
 
 class HomeController extends Controller
 {
@@ -21,7 +19,7 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index(Request $request)
-    {
+    {dump(auth()->user(), auth('admin')->user());
         return view('web.pages.home.home');
     }
 
@@ -34,7 +32,7 @@ class HomeController extends Controller
 
         switch (true) {
             case $model instanceof Order : {
-                /** @var \Domain\Users\Models\User\User $user */
+                /** @var \Domain\Users\Models\BaseUser\BaseUser $user */
                 $user = $model->user;
                 if (!$user) abort(404);
 
@@ -42,11 +40,10 @@ class HomeController extends Controller
 
                 return $media->toResponse($request);
             }
+            default: {
+                abort(404);
+            }
         }
-
-        abort(404);
-
-        return view('test');
     }
 
     public function howto(Request $request)
@@ -76,8 +73,7 @@ class HomeController extends Controller
 
     public function viewed(Request $request)
     {
-        /** @var User $user */
-        $user = Auth::user();
+        $user = H::userOrAdmin();
 
         $products = $user->viewed()->orderBy("pivot_created_at", "desc")->paginate(
             $request->input("per_page")
@@ -88,8 +84,7 @@ class HomeController extends Controller
 
     public function aside(Request $request)
     {
-        /** @var User $user */
-        $user = Auth::user();
+        $user = H::userOrAdmin();
 
         $products = $user->aside()->orderBy("pivot_created_at", "desc")->get();
 
