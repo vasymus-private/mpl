@@ -8,6 +8,7 @@ class CreateAnonymousUserAction
 {
     public function execute(): User
     {
-        return User::create();
+        $user = User::create();
+        return User::query()->findOrFail($user->id);
     }
 }
