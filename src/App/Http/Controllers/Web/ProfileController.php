@@ -20,9 +20,6 @@ class ProfileController extends BaseWebController
         $hash = $request->route("hash");
 
         $user = H::userOrAdmin();
-        if (!$user) {
-            return redirect()->route('home');
-        }
 
         /** @var \Domain\Users\Models\BaseUser\BaseUser $emailUser */
         $emailUser = BaseUser::query()->where("email", $email)->firstOrFail();

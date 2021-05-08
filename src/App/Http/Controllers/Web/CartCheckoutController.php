@@ -45,7 +45,8 @@ class CartCheckoutController extends BaseWebController
             $authUser->save();
         }
 
-        Mail::send(
+        Mail::later(
+            new \DateInterval('PT10S'),
             new OrderShippedMail(
                 $order,
                 $authUser->id,

@@ -108,6 +108,15 @@ services:
             replicas: 1
             restart_policy:
                 condition: on-failure
+        volumes:
+            - ./docker/mailhog/maildir:/home/mailhog/maildir
+        environment:
+            - MH_STORAGE=maildir
+            - MH_MAILDIR_PATH=/home/mailhog/maildir/mails
+            # authentication: mpl:qwe123
+            #- MH_AUTH_FILE=/home/mailhog/maildir/auth.txt
+        # About command @see https://github.com/mailhog/MailHog/issues/187#issuecomment-733009406
+        command: -invite-jim=1
         ports:
             - "${DOCKER_MAILHOG_PORT1}:1025"
             - "${DOCKER_MAILHOG_PORT2}:8025"

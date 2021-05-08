@@ -145,7 +145,11 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
      */
     public function cart(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class, ProductUserCart::TABLE)->using(ProductUserCart::class)->as('cart_product')->withPivot(["count", "created_at", "deleted_at"])->withTimestamps();
+        return $this->belongsToMany(Product::class, ProductUserCart::TABLE, 'user_id', 'product_id')
+            ->using(ProductUserCart::class)
+            ->as('cart_product')
+            ->withPivot(["count", "created_at", "deleted_at"])
+            ->withTimestamps();
     }
 
     /**
@@ -153,12 +157,19 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
      */
     public function viewed(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class, ProductUserViewed::TABLE)->using(ProductUserViewed::class)->as('viewed_product')->withPivot(["created_at"])->withTimestamps();
+        return $this->belongsToMany(Product::class, ProductUserViewed::TABLE, 'user_id', 'product_id')
+            ->using(ProductUserViewed::class)
+            ->as('viewed_product')
+            ->withPivot(["created_at"])
+            ->withTimestamps();
     }
 
     public function serviceViewed(): BelongsToMany
     {
-        return $this->belongsToMany(Service::class, ServiceUserViewed::TABLE)->using(ServiceUserViewed::class)->as('viewed_service')->withPivot(['created_at'])->withTimestamps();
+        return $this->belongsToMany(Service::class, ServiceUserViewed::TABLE, 'user_id', 'service_id')
+            ->using(ServiceUserViewed::class)
+            ->as('viewed_service')
+            ->withPivot(['created_at'])->withTimestamps();
     }
 
     /**
@@ -166,7 +177,11 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
      */
     public function aside(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class, ProductUserAside::TABLE)->using(ProductUserAside::class)->as('aside_product')->withPivot(["created_at"])->withTimestamps();
+        return $this->belongsToMany(Product::class, ProductUserAside::TABLE, 'user_id', 'product_id')
+            ->using(ProductUserAside::class)
+            ->as('aside_product')
+            ->withPivot(["created_at"])
+            ->withTimestamps();
     }
 
     public function orders(): HasMany
