@@ -1,0 +1,49 @@
+.adm-icon {
+    background-repeat: no-repeat;
+    background-position: center left;
+    height: 30px;
+    display: inline-block;
+    width: 30px;
+}
+.adm-icon {
+    background: url(../images/icons-sprite-14.png) no-repeat center -1512px;
+}
+
+.iblock_menu_icon_types {
+    background-position: center -28px;
+}
+
+.iblock_menu_icon_iblocks {
+    background-position: center -56px;
+}
+
+.highloadblock_menu_icon {
+    background-position: center -168px;
+}
+.iblock_menu_icon_sections {
+    background-position: center -112px;
+}
+
+
+
+.adm-arrow-icon {
+    width: 20px;
+    height: 20px;
+}
+.adm-arrow-icon-right {
+    background: url(../images/bx-admin-sprite.png) no-repeat -7px -238px;
+    &:hover {
+        background-position: -7px -261px;
+    }
+}
+.adm-arrow-icon-down {
+    background: url(../images/bx-admin-sprite.png) no-repeat -7px -216px;
+    &:hover {
+        background-position: -7px -282px;
+    }
+}
+.adm-arrow-icon-dot {
+    width: 20px;
+    height: 20px;
+    background: url(../images/bx-admin-sprite-small-2.png) no-repeat left -1137px;
+}

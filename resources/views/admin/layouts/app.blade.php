@@ -26,13 +26,13 @@
 <body>
     <div id="wrapper" class="wrapper">
         @include("admin.layouts.header")
-        <main>
-            <div class="container-fluid">
-                <div class="row">
+        <main class="d-flex">
+            <div class="container-fluid d-flex">
+                <div class="row d-flex flex-grow-1">
                     <div class="content col-9 order-2" id="content">
                         @yield('content')
                     </div>
-                    @include("admin.layouts.aside", ["class" => "col-3 order-1"])
+                    @include("admin.layouts.aside", ["class" => "p-0 col-3 order-1"])
                 </div>
             </div>
         </main>
