@@ -59,26 +59,13 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
-                    <label for="name" class="col-sm-3 col-form-label">Название:</label>
-                    <div class="col-sm-9">
-                        <input wire:model.defer="product.name" type="text" class="form-control" id="name">
-                    </div>
-                </div>
+                @include('admin.livewire.includes.form-group-input', ['field' => 'name', 'label' => 'Название'])
 
-                <div class="form-group row">
-                    <label for="slug" class="col-sm-3 col-form-label">Символьный код:</label>
-                    <div class="col-sm-9">
-                        <input wire:model.defer="product.slug" type="text" class="form-control" id="slug">
-                    </div>
-                </div>
+                @include('admin.livewire.includes.form-group-input', ['field' => 'slug', 'label' => 'Символьный код'])
 
-                <div class="form-group row">
-                    <label for="ordering" class="col-sm-3 col-form-label">Сортировка:</label>
-                    <div class="col-sm-9">
-                        <input wire:model.defer="product.ordering" type="text" class="form-control" id="ordering">
-                    </div>
-                </div>
+                @include('admin.livewire.includes.form-group-input', ['field' => 'ordering', 'label' => 'Сортировка'])
+
+                {{--@include('admin.livewire.includes.form-group-select', ['field' => 'brand_id', 'label' => 'Производитель', 'options' => $brands])--}}
 
                 <div class="form-group row">
                     <label for="brand_id" class="col-sm-3 col-form-label">Производитель:</label>
