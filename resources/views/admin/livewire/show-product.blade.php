@@ -1,7 +1,7 @@
 <?php
 /** @var \Domain\Products\Models\Product\Product $product */
 /** @var array[] $brands {@see \Domain\Common\DTOs\OptionDTO} */
-/** @var \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\InformationalPrice[] $infoPrices */
+/** @var array[]|\Domain\Products\DTOs\InformationalPriceDTO[] $infoPrices */
 /** @var array[] $instructions {@see \Domain\Common\DTOs\InstructionDTO} */
 /** @var \Illuminate\Database\Eloquent\Collection|\Domain\Common\Models\Currency[] $currencies */
 /** @var \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\AvailabilityStatus[] $availabilityStatuses */
@@ -68,17 +68,17 @@
                     <label class="col-sm-3 col-form-label">Информационные цены:</label>
                     <div class="col-sm-9">
                         @foreach($infoPrices as $index => $infoPrice)
-                            <div wire:key="product-info-price-{{$infoPrice->id}}" class="row mb-2">
+                            <div wire:key="product-info-price-{{$infoPrice['temp_uuid']}}" class="row mb-2">
                                 <div class="col-sm-5">
-                                    <input wire:model.defer="infoPrices.{{$index}}.price" type="text" class="form-control @error("infoPrices.$index.price") is-invalid @enderror" placeholder="Цена">
-                                    @error("infoPrices.$index.price") <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                    <input wire:model.defer="infoPrices.{{$infoPrice['temp_uuid']}}.price" type="text" class="form-control @error("infoPrices.$infoPrice[temp_uuid].price") is-invalid @enderror" placeholder="Цена">
+                                    @error("infoPrices.$infoPrice[temp_uuid].price") <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
                                 <div class="col-sm-5">
-                                    <input wire:model.defer="infoPrices.{{$index}}.name" type="text" class="form-control @error("infoPrices.$index.name") is-invalid @enderror" placeholder="Описание">
-                                    @error("infoPrices.$index.name") <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                    <input wire:model.defer="infoPrices.{{$infoPrice['temp_uuid']}}.name" type="text" class="form-control @error("infoPrices.$infoPrice[temp_uuid].name") is-invalid @enderror" placeholder="Описание">
+                                    @error("infoPrices.$infoPrice[temp_uuid].name") <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
                                 <div class="col-sm-2">
-                                    <button wire:click="deleteInfoPrice({{$infoPrice->id}})" type="button" class="btn btn-outline-danger">x</button>
+                                    <button wire:click="deleteInfoPrice('{{$infoPrice['temp_uuid']}}')" type="button" class="btn btn-outline-danger">x</button>
                                 </div>
                             </div>
                         @endforeach

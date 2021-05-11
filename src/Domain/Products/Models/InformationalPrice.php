@@ -3,6 +3,7 @@
 namespace Domain\Products\Models;
 
 use Domain\Common\Models\BaseModel;
+use Domain\Products\DTOs\InformationalPriceDTO;
 
 /**
  * @property int $id

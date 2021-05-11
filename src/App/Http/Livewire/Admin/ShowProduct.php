@@ -6,6 +6,7 @@ use Domain\Common\DTOs\InstructionDTO;
 use Domain\Common\DTOs\OptionDTO;
 use Domain\Common\Models\Currency;
 use Domain\Common\Models\CustomMedia;
+use Domain\Products\DTOs\InformationalPriceDTO;
 use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\InformationalPrice;
@@ -26,9 +27,9 @@ class ShowProduct extends Component
     public Product $product;
 
     /**
-     * @var \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\InformationalPrice[]
+     * @var array[]|\Domain\Products\DTOs\InformationalPriceDTO[]
      */
-    public Collection $infoPrices;
+    public array $infoPrices;
 
     /**
      * @var array[]|\Domain\Common\DTOs\OptionDTO[]
@@ -85,7 +86,7 @@ class ShowProduct extends Component
     public function mount()
     {
         $this->brands = Brand::query()->select(["id", "name"])->get()->map(fn(Brand $brand) => OptionDTO::fromBrand($brand)->toArray())->toArray();
-        $this->infoPrices = $this->product->infoPrices;
+        $this->infoPrices = $this->product->infoPrices->map(fn(InformationalPrice $informationalPrice) => InformationalPriceDTO::fromModel($informationalPrice)->toArray())->keyBy('temp_uuid')->toArray();
         $this->instructions = $this->product->getMedia(Product::MC_FILES)->map(fn(CustomMedia $media) => InstructionDTO::fromCustomMedia($media)->toArray())->toArray();
         $this->currencies = Currency::query()->get();
         $this->availabilityStatuses = AvailabilityStatus::query()->get();
@@ -102,21 +103,20 @@ class ShowProduct extends Component
         $this->saveInstructions();
     }
 
-    public function deleteInfoPrice($id)
+    public function deleteInfoPrice($uuid)
     {
-        $this->resetErrorBag();
-        $this->resetValidation();
-        /** @var \Domain\Products\Models\InformationalPrice $infoPrice */
-        $infoPrice = $this->infoPrices->first(fn(InformationalPrice $ip) => (string)$ip->id === (string)$id);
-        if ($infoPrice) {
-            $infoPrice->delete();
-            $this->infoPrices = $this->infoPrices->filter(fn(InformationalPrice $ip) => (string)$ip->id !== (string)$id);
+        $infoPrice = $this->infoPrices[$uuid] ?? null;
+        if (!$infoPrice) {
+            return;
         }
+
+        unset($this->infoPrices[$uuid]);
     }
 
     public function addInfoPrice()
     {
-        $this->infoPrices->add(new InformationalPrice());
+        $infoPriceDTO = InformationalPriceDTO::create();
+        $this->infoPrices[$infoPriceDTO->temp_uuid] = $infoPriceDTO->toArray();
     }
 
     public function deleteInstruction($index)
@@ -157,8 +157,13 @@ class ShowProduct extends Component
     protected function saveInfoPrices()
     {
         foreach ($this->infoPrices as $infoPrice) {
-            $infoPrice->product_id = $this->product->id;
-            $infoPrice->save();
+            /** @var \Domain\Products\Models\InformationalPrice $infoPriceModel */
+            $infoPriceModel = InformationalPrice::query()->findOrNew($infoPrice['id']);
+            $infoPriceDto = InformationalPriceDTO::create($infoPrice);
+            $infoPriceModel->name = $infoPriceDto->name;
+            $infoPriceModel->price = $infoPriceDto->price;
+            $infoPriceModel->product_id = $this->product->id;
+            $infoPriceModel->save();
         }
     }
 
