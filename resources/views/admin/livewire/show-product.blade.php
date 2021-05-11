@@ -1,6 +1,6 @@
 <?php
 /** @var \Domain\Products\Models\Product\Product $product */
-/** @var \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\Brand[] $brands */
+/** @var array[] $brands {@see \Domain\Common\DTOs\OptionDTO} */
 /** @var \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\InformationalPrice[] $infoPrices */
 /** @var array[] $instructions {@see \Domain\Common\DTOs\InstructionDTO} */
 /** @var \Illuminate\Database\Eloquent\Collection|\Domain\Common\Models\Currency[] $currencies */
@@ -46,18 +46,7 @@
         <div class="tab-pane fade show active p-3" id="elements" role="tabpanel" aria-labelledby="elements-tab">
             <form wire:submit.prevent="save">
 
-                <div class="form-group row">
-                    <div class="col-sm-3">
-                        <label class="form-check-label" for="is_active">
-                            Активность:
-                        </label>
-                    </div>
-                    <div class="col-sm-9">
-                        <div class="form-check">
-                            <input wire:model="product.is_active" class="form-check-input" type="checkbox" id="is_active">
-                        </div>
-                    </div>
-                </div>
+                @include('admin.livewire.includes.form-group-checkbox', ['field' => 'is_active', 'label' => 'Активность'])
 
                 @include('admin.livewire.includes.form-group-input', ['field' => 'name', 'label' => 'Название'])
 
@@ -65,53 +54,15 @@
 
                 @include('admin.livewire.includes.form-group-input', ['field' => 'ordering', 'label' => 'Сортировка'])
 
-                {{--@include('admin.livewire.includes.form-group-select', ['field' => 'brand_id', 'label' => 'Производитель', 'options' => $brands])--}}
+                @include('admin.livewire.includes.form-group-select', ['field' => 'brand_id', 'label' => 'Производитель', 'options' => $brands])
 
-                <div class="form-group row">
-                    <label for="brand_id" class="col-sm-3 col-form-label">Производитель:</label>
-                    <div class="col-sm-9">
-                        <select wire:model.defer="product.brand_id" class="form-control" id="brand_id">
-                            <option value="">(не установлено)</option>
-                            @foreach($brands as $brand)
-                                <option value="{{$brand->id}}">{{$brand->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
+                @include('admin.livewire.includes.form-group-input', ['field' => 'coefficient', 'label' => 'Коэффициент на единицу расхода и единица расхода'])
 
-                <div class="form-group row">
-                    <label for="coefficient" class="col-sm-3 col-form-label">Коэффициент на единицу расхода и единица расхода:</label>
-                    <div class="col-sm-9">
-                        <input wire:model.defer="product.coefficient" type="text" class="form-control" id="coefficient">
-                    </div>
-                </div>
+                @include('admin.livewire.includes.form-group-input', ['field' => 'coefficient_description', 'label' => 'Описание коэффициента'])
 
-                <div class="form-group row">
-                    <label for="coefficient_description" class="col-sm-3 col-form-label">Описание коэффициента:</label>
-                    <div class="col-sm-9">
-                        <input wire:model.defer="product.coefficient_description" type="text" class="form-control" id="coefficient_description">
-                    </div>
-                </div>
+                @include('admin.livewire.includes.form-group-checkbox', ['field' => 'coefficient_description_show', 'label' => 'Показывать описание коэффициента'])
 
-                <div class="form-group row">
-                    <div class="col-sm-3">
-                        <label class="form-check-label" for="coefficient_description_show">
-                            Показывать описание коэффициента:
-                        </label>
-                    </div>
-                    <div class="col-sm-9">
-                        <div class="form-check">
-                            <input wire:model="product.coefficient_description_show" class="form-check-input" type="checkbox" id="coefficient_description_show">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="price_name" class="col-sm-3 col-form-label">Наименование цены:</label>
-                    <div class="col-sm-9">
-                        <input wire:model.defer="product.price_name" type="text" class="form-control" id="price_name">
-                    </div>
-                </div>
+                @include('admin.livewire.includes.form-group-input', ['field' => 'price_name', 'label' => 'Наименование цены'])
 
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label">Информационные цены:</label>
@@ -119,10 +70,12 @@
                         @foreach($infoPrices as $index => $infoPrice)
                             <div wire:key="product-info-price-{{$infoPrice->id}}" class="row mb-2">
                                 <div class="col-sm-5">
-                                    <input wire:model.defer="infoPrices.{{$index}}.price" type="text" class="form-control" placeholder="Цена">
+                                    <input wire:model.defer="infoPrices.{{$index}}.price" type="text" class="form-control @error("infoPrices.$index.price") is-invalid @enderror" placeholder="Цена">
+                                    @error("infoPrices.$index.price") <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
                                 <div class="col-sm-5">
-                                    <input wire:model.defer="infoPrices.{{$index}}.name" type="text" class="form-control" placeholder="Описание">
+                                    <input wire:model.defer="infoPrices.{{$index}}.name" type="text" class="form-control @error("infoPrices.$index.name") is-invalid @enderror" placeholder="Описание">
+                                    @error("infoPrices.$index.name") <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
                                 <div class="col-sm-2">
                                     <button wire:click="deleteInfoPrice({{$infoPrice->id}})" type="button" class="btn btn-outline-danger">x</button>

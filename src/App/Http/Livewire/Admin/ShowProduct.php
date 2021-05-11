@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin;
 
 use Domain\Common\DTOs\InstructionDTO;
+use Domain\Common\DTOs\OptionDTO;
 use Domain\Common\Models\Currency;
 use Domain\Common\Models\CustomMedia;
 use Domain\Products\Models\AvailabilityStatus;
@@ -30,9 +31,9 @@ class ShowProduct extends Component
     public Collection $infoPrices;
 
     /**
-     * @var \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\Brand[]
+     * @var array[]|\Domain\Common\DTOs\OptionDTO[]
      */
-    public Collection $brands;
+    public array $brands;
 
     /**
      * @var \Illuminate\Database\Eloquent\Collection|\Domain\Common\Models\Currency[]
@@ -83,7 +84,7 @@ class ShowProduct extends Component
 
     public function mount()
     {
-        $this->brands = Brand::query()->select(["id", "name"])->get();
+        $this->brands = Brand::query()->select(["id", "name"])->get()->map(fn(Brand $brand) => OptionDTO::fromBrand($brand)->toArray())->toArray();
         $this->infoPrices = $this->product->infoPrices;
         $this->instructions = $this->product->getMedia(Product::MC_FILES)->map(fn(CustomMedia $media) => InstructionDTO::fromCustomMedia($media)->toArray())->toArray();
         $this->currencies = Currency::query()->get();
@@ -103,6 +104,8 @@ class ShowProduct extends Component
 
     public function deleteInfoPrice($id)
     {
+        $this->resetErrorBag();
+        $this->resetValidation();
         /** @var \Domain\Products\Models\InformationalPrice $infoPrice */
         $infoPrice = $this->infoPrices->first(fn(InformationalPrice $ip) => (string)$ip->id === (string)$id);
         if ($infoPrice) {
