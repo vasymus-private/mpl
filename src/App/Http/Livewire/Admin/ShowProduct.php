@@ -105,6 +105,11 @@ class ShowProduct extends Component
         'product.availability_status_id' => 'required|integer|exists:' . AvailabilityStatus::class . ",id",
     ];
 
+    protected static function getActiveTabCacheKey(): string
+    {
+        return auth()->id() . '-show-product-active-tab';
+    }
+
     public function mount()
     {
         $this->brands = Brand::query()->select(["id", "name"])->get()->map(fn(Brand $brand) => OptionDTO::fromBrand($brand)->toArray())->toArray();
@@ -113,7 +118,7 @@ class ShowProduct extends Component
         $this->currencies = Currency::query()->get()->map(fn(Currency $currency) => OptionDTO::fromCurrency($currency)->toArray())->all();
         $this->availabilityStatuses = AvailabilityStatus::query()->get()->map(fn(AvailabilityStatus $availabilityStatus) => OptionDTO::fromAvailabilityStatus($availabilityStatus)->toArray())->all();
 
-        $this->activeTab = Cache::get('show-product-active-tab', self::DEFAULT_TAB);
+        $this->activeTab = Cache::get(static::getActiveTabCacheKey(), self::DEFAULT_TAB);
     }
 
     public function render()
@@ -124,7 +129,7 @@ class ShowProduct extends Component
     public function selectTab(string $tab)
     {
         if (in_array($tab, array_keys($this->tabs))) {
-            Cache::put('show-product-active-tab', $tab, new \DateInterval('PT15M'));
+            Cache::put(static::getActiveTabCacheKey(), $tab, new \DateInterval('PT15M'));
         }
     }
 
