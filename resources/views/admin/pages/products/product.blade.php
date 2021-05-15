@@ -2,5 +2,5 @@
 @extends("admin.layouts.app")
 
 @section("content")
-    <livewire:admin.show-product :product="$product"/>
+    <livewire:admin.show-product :product="$product" />
 @endsection

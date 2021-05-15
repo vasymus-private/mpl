@@ -11,6 +11,7 @@
 /public/_admin/js
 /public/_admin/css
 /public/vendor/web-tinker/*
+/public/mix-manifest.json
 
 /storage/*.key
 /storage/media-library

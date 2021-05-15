@@ -11,6 +11,7 @@ use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\InformationalPrice;
 use Domain\Products\Models\Product\Product;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 use Livewire\TemporaryUploadedFile;
 use Support\H;
@@ -20,7 +21,25 @@ class ShowProduct extends Component
 {
     use WithFileUploads;
 
-    protected CONST MAX_FILE_SIZE_MB = 30;
+    protected const MAX_FILE_SIZE_MB = 30;
+
+    protected const DEFAULT_TAB = 'elements';
+
+    public string $activeTab;
+
+    public array $tabs = [
+        'elements' => 'Элемент',
+        'description' => 'Описание',
+        'photo' => 'Фото',
+        'characteristics' => 'Характеристики',
+        'seo' => 'SEO',
+        'accessories' => 'Аксессуары',
+        'similar' => 'Похожие',
+        'related' => 'Сопряжённые',
+        'works' => 'Работы',
+        'variations' => 'Варианты',
+        'other' => 'Прочее',
+    ];
 
     /**
      * @var \Domain\Products\Models\Product\Product
@@ -93,6 +112,20 @@ class ShowProduct extends Component
         $this->instructions = $this->product->getMedia(Product::MC_FILES)->map(fn(CustomMedia $media) => InstructionDTO::fromCustomMedia($media)->toArray())->toArray();
         $this->currencies = Currency::query()->get()->map(fn(Currency $currency) => OptionDTO::fromCurrency($currency)->toArray())->all();
         $this->availabilityStatuses = AvailabilityStatus::query()->get()->map(fn(AvailabilityStatus $availabilityStatus) => OptionDTO::fromAvailabilityStatus($availabilityStatus)->toArray())->all();
+
+        $this->activeTab = Cache::get('show-product-active-tab', self::DEFAULT_TAB);
+    }
+
+    public function render()
+    {
+        return view('admin.livewire.show-product.show-product');
+    }
+
+    public function selectTab(string $tab)
+    {
+        if (in_array($tab, array_keys($this->tabs))) {
+            Cache::put('show-product-active-tab', $tab, new \DateInterval('PT15M'));
+        }
     }
 
     public function save()
@@ -145,11 +178,6 @@ class ShowProduct extends Component
     {
         $instructionDTO = InstructionDTO::fromTemporaryUploadedFile($value);
         $this->instructions[] = $instructionDTO->toArray();
-    }
-
-    public function render()
-    {
-        return view('admin.livewire.show-product');
     }
 
     protected function saveProduct()
