@@ -11,7 +11,6 @@ use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\InformationalPrice;
 use Domain\Products\Models\Product\Product;
-use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
 use Livewire\TemporaryUploadedFile;
 use Support\H;
@@ -21,28 +20,30 @@ class ShowProduct extends Component
 {
     use WithFileUploads;
 
+    protected CONST MAX_FILE_SIZE_MB = 30;
+
     /**
      * @var \Domain\Products\Models\Product\Product
      */
     public Product $product;
 
     /**
-     * @var array[]|\Domain\Products\DTOs\InformationalPriceDTO[]
+     * @var array[] @see {@link \Domain\Products\DTOs\InformationalPriceDTO}
      */
     public array $infoPrices;
 
     /**
-     * @var array[]|\Domain\Common\DTOs\OptionDTO[]
+     * @var array[] @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\Brand}
      */
     public array $brands;
 
     /**
-     * @var \Illuminate\Database\Eloquent\Collection|\Domain\Common\Models\Currency[]
+     * @var array[] @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Common\Models\Currency}
      */
-    public Collection $currencies;
+    public array $currencies;
 
     /**
-     * @var array[]
+     * @var array[] @see {@link \Domain\Common\DTOs\InstructionDTO}
      */
     public array $instructions;
 
@@ -52,9 +53,9 @@ class ShowProduct extends Component
     public $tempInstruction;
 
     /**
-     * @var \Illuminate\Database\Eloquent\Collection
+     * @var array[] @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\AvailabilityStatus}
      */
-    public Collection $availabilityStatuses;
+    public array $availabilityStatuses;
 
     protected array $rules = [
         'product.name' => 'required|string|max:199',
@@ -72,15 +73,17 @@ class ShowProduct extends Component
 
         'product.admin_comment' => 'nullable|string|max:199',
 
-        'instructions.*.name' => 'nullable',
+        'tempInstruction' => 'nullable|max:' . (1024 * self::MAX_FILE_SIZE_MB), // 1024 - 1mb
+
+        'instructions.*.name' => 'nullable|max:199',
 
         'product.price_purchase' => 'nullable|numeric',
         'product.price_purchase_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
         'product.price_retail' => 'nullable|numeric',
         'product.price_retail_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
 
-        'product.unit' => 'required|string|max:199',
-        'product.availability_status_id' => 'integer|nullable|exists:' . AvailabilityStatus::class . ",id",
+        'product.unit' => 'nullable|max:199',
+        'product.availability_status_id' => 'required|integer|exists:' . AvailabilityStatus::class . ",id",
     ];
 
     public function mount()
@@ -88,8 +91,8 @@ class ShowProduct extends Component
         $this->brands = Brand::query()->select(["id", "name"])->get()->map(fn(Brand $brand) => OptionDTO::fromBrand($brand)->toArray())->toArray();
         $this->infoPrices = $this->product->infoPrices->map(fn(InformationalPrice $informationalPrice) => InformationalPriceDTO::fromModel($informationalPrice)->toArray())->keyBy('temp_uuid')->toArray();
         $this->instructions = $this->product->getMedia(Product::MC_FILES)->map(fn(CustomMedia $media) => InstructionDTO::fromCustomMedia($media)->toArray())->toArray();
-        $this->currencies = Currency::query()->get();
-        $this->availabilityStatuses = AvailabilityStatus::query()->get();
+        $this->currencies = Currency::query()->get()->map(fn(Currency $currency) => OptionDTO::fromCurrency($currency)->toArray())->all();
+        $this->availabilityStatuses = AvailabilityStatus::query()->get()->map(fn(AvailabilityStatus $availabilityStatus) => OptionDTO::fromAvailabilityStatus($availabilityStatus)->toArray())->all();
     }
 
     public function save()
@@ -200,6 +203,8 @@ class ShowProduct extends Component
             ->usingFileName($instructionDTO->file_name)
             ->usingName($instructionDTO->file_name)
         ;
-        return $fileAdder->toMediaCollection(Product::MC_FILES);
+        /** @var \Domain\Common\Models\CustomMedia $customMedia */
+        $customMedia = $fileAdder->toMediaCollection(Product::MC_FILES);
+        return $customMedia;
     }
 }

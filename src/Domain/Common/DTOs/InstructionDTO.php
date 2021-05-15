@@ -31,7 +31,7 @@ class InstructionDTO extends DataTransferObject
             "mime_type_name" => $media->mime_type_name,
             "file_name" => $media->file_name,
             "name" => $media->name,
-            "path" => null,
+            "path" => $media->getUrl(),
         ]);
     }
 
