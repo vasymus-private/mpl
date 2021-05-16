@@ -1,1 +1,31 @@
-Photo
+<?php
+/** @var array[] $additionalImages @see {@link \Domain\Common\DTOs\FileDTO} */
+?>
+<div class="form-group row">
+    <label class="col-sm-3 col-form-label">Дополнительные фото:</label>
+    <div class="col-sm-9">
+        <div class="row">
+            @foreach($additionalImages as $index => $additionalImage)
+                <div wire:key="instructions-{{$index}}-{{$additionalImage['path']}}" class="card text-center">
+                    <div class="card-body">
+                        <a href="{{$additionalImage['path']}}" target="_blank"><img class="img-thumbnail" src="{{$additionalImage['path']}}" alt=""></a>
+                        <div class="form-group">
+                            @include('admin.livewire.includes.form-control-input', ['field' => "instructions.$index.name"])
+                        </div>
+                        <button wire:click="deleteAdditionalImage({{$index}})" type="button" class="btn btn-outline-danger">x</button>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+        <div class="form-group">
+            <label for="tempInstruction">Добавить дополнительное фото</label>
+            <input type="file" wire:model="tempAdditionalImage" class="form-control-file @error("tempAdditionalImage") is-invalid @enderror" id="tempAdditionalImage" />
+            <div wire:loading wire:target="tempAdditionalImage">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            @error("tempAdditionalImage") <div class="invalid-feedback">{{ $message }}</div> @enderror
+        </div>
+    </div>
+</div>

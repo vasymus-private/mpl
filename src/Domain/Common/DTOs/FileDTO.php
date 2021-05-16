@@ -7,7 +7,7 @@ use Livewire\TemporaryUploadedFile;
 use Spatie\DataTransferObject\DataTransferObject;
 use Support\H;
 
-class InstructionDTO extends DataTransferObject
+class FileDTO extends DataTransferObject
 {
     protected bool $ignoreMissing = true;
 

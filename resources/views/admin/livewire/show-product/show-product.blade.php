@@ -3,7 +3,7 @@
 /** @var string $activeTab */
 /** @var array[] $brands @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\Brand} */
 /** @var array[]|\Domain\Products\DTOs\InformationalPriceDTO[] $infoPrices */
-/** @var array[] $instructions {@see \Domain\Common\DTOs\InstructionDTO} */
+/** @var array[] $instructions {@see \Domain\Common\DTOs\FileDTO} */
 /** @var array[] $currencies @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Common\Models\Currency} */
 /** @var array[] $availabilityStatuses @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Common\Models\Currency} */
 ?>
@@ -11,7 +11,7 @@
     <ul class="nav nav-tabs" id="show-product-tabs" role="tablist">
         @foreach($tabs as $tab => $label)
             <li class="nav-item" role="presentation">
-                <a wire:ignore wire:click="selectTab('{{$tab}}')" class="nav-link @if($tab === $activeTab) active @endif" data-toggle="tab" id="{{$tab}}-tab" href="#{{$tab}}" role="tab" aria-controls="elements" aria-selected="{{$tab === $activeTab ? 'true' : 'false'}}">{{$label}}</a>
+                <a wire:ignore wire:click="selectTab('{{$tab}}')" class="nav-link @if($tab === $activeTab) active @endif" data-toggle="tab" id="{{$tab}}-tab" href="#{{$tab}}" role="tab" aria-controls="{{$tab}}" aria-selected="{{$tab === $activeTab ? 'true' : 'false'}}">{{$label}}</a>
             </li>
         @endforeach
     </ul>

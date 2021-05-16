@@ -1,7 +1,7 @@
 <?php
 /** @var array[] $brands @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\Brand} */
 /** @var array[]|\Domain\Products\DTOs\InformationalPriceDTO[] $infoPrices */
-/** @var array[] $instructions {@see \Domain\Common\DTOs\InstructionDTO} */
+/** @var array[] $instructions {@see \Domain\Common\DTOs\FileDTO} */
 /** @var array[] $currencies @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Common\Models\Currency} */
 /** @var array[] $availabilityStatuses @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Common\Models\Currency} */
 ?>

@@ -1,7 +1,8 @@
 let useDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-tinymce.init({
-    selector: 'textarea#tinymce',
+let tinymceOoptions
+
+window.___tinymceOptions = tinymceOoptions = {
     plugins: [
         'print',
         'preview',
@@ -9,8 +10,8 @@ tinymce.init({
         'importcss',
         'searchreplace',
         'autolink',
-        'autosave',
-        'save',
+        //'autosave',
+        //'save',
         'directionality',
         'code',
         'visualblocks',
@@ -86,7 +87,7 @@ tinymce.init({
         '|',
         'fullscreen',
         'preview',
-        'save',
+        //'save',
         'print',
         '|',
         'insertfile',
@@ -101,50 +102,50 @@ tinymce.init({
         'rtl',
     ].join(' '),
     toolbar_sticky: true,
-    autosave_ask_before_unload: true,
-    autosave_interval: '30s',
-    autosave_prefix: '{path}{query}-{id}-',
-    autosave_restore_when_empty: false,
-    autosave_retention: '2m',
+    autosave_ask_before_unload: false,
+    //autosave_interval: '30s',
+    //autosave_prefix: '{path}{query}-{id}-',
+    //autosave_restore_when_empty: false,
+    //autosave_retention: '2m',
     image_advtab: true,
-    link_list: [
-        { title: 'My page 1', value: 'https://www.tiny.cloud' },
-        { title: 'My page 2', value: 'http://www.moxiecode.com' }
-    ],
-    image_list: [
-        { title: 'My page 1', value: 'https://www.tiny.cloud' },
-        { title: 'My page 2', value: 'http://www.moxiecode.com' }
-    ],
-    image_class_list: [
-        { title: 'None', value: '' },
-        { title: 'Some class', value: 'class-name' }
-    ],
+    // link_list: [
+    //     { title: 'My page 1', value: 'https://www.tiny.cloud' },
+    //     { title: 'My page 2', value: 'http://www.moxiecode.com' }
+    // ],
+    // image_list: [
+    //     { title: 'My page 1', value: 'https://www.tiny.cloud' },
+    //     { title: 'My page 2', value: 'http://www.moxiecode.com' }
+    // ],
+    // image_class_list: [
+    //     { title: 'None', value: '' },
+    //     { title: 'Some class', value: 'class-name' }
+    // ],
     importcss_append: true,
-    file_picker_callback: function (callback, value, meta) {
-        /* Provide file and text for the link dialog */
-        if (meta.filetype === 'file') {
-            callback('https://www.google.com/logos/google.jpg', { text: 'My text' });
-        }
-
-        /* Provide image and alt text for the image dialog */
-        if (meta.filetype === 'image') {
-            callback('https://www.google.com/logos/google.jpg', { alt: 'My alt text' });
-        }
-
-        /* Provide alternative source and posted for the media dialog */
-        if (meta.filetype === 'media') {
-            callback('movie.mp4', { source2: 'alt.ogg', poster: 'https://www.google.com/logos/google.jpg' });
-        }
-    },
-    templates: [
-        { title: 'New Table', description: 'creates a new table', content: '<div class="mceTmpl"><table width="98%%"  border="0" cellspacing="0" cellpadding="0"><tr><th scope="col"> </th><th scope="col"> </th></tr><tr><td> </td><td> </td></tr></table></div>' },
-        { title: 'Starting my story', description: 'A cure for writers block', content: 'Once upon a time...' },
-        { title: 'New list with dates', description: 'New List with dates', content: '<div class="mceTmpl"><span class="cdate">cdate</span><br /><span class="mdate">mdate</span><h2>My List</h2><ul><li></li><li></li></ul></div>' }
-    ],
-    template_cdate_format: '[Date Created (CDATE): %m/%d/%Y : %H:%M:%S]',
-    template_mdate_format: '[Date Modified (MDATE): %m/%d/%Y : %H:%M:%S]',
+    // file_picker_callback: function (callback, value, meta) {
+    //     /* Provide file and text for the link dialog */
+    //     if (meta.filetype === 'file') {
+    //         callback('https://www.google.com/logos/google.jpg', { text: 'My text' });
+    //     }
+    //
+    //     /* Provide image and alt text for the image dialog */
+    //     if (meta.filetype === 'image') {
+    //         callback('https://www.google.com/logos/google.jpg', { alt: 'My alt text' });
+    //     }
+    //
+    //     /* Provide alternative source and posted for the media dialog */
+    //     if (meta.filetype === 'media') {
+    //         callback('movie.mp4', { source2: 'alt.ogg', poster: 'https://www.google.com/logos/google.jpg' });
+    //     }
+    // },
+    // templates: [
+    //     { title: 'New Table', description: 'creates a new table', content: '<div class="mceTmpl"><table width="98%%"  border="0" cellspacing="0" cellpadding="0"><tr><th scope="col"> </th><th scope="col"> </th></tr><tr><td> </td><td> </td></tr></table></div>' },
+    //     { title: 'Starting my story', description: 'A cure for writers block', content: 'Once upon a time...' },
+    //     { title: 'New list with dates', description: 'New List with dates', content: '<div class="mceTmpl"><span class="cdate">cdate</span><br /><span class="mdate">mdate</span><h2>My List</h2><ul><li></li><li></li></ul></div>' }
+    // ],
+    // template_cdate_format: '[Date Created (CDATE): %m/%d/%Y : %H:%M:%S]',
+    // template_mdate_format: '[Date Modified (MDATE): %m/%d/%Y : %H:%M:%S]',
     height: 600,
-    image_caption: true,
+    //image_caption: true,
     quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
     noneditable_noneditable_class: 'mceNonEditable',
     toolbar_mode: 'sliding',
@@ -152,4 +153,41 @@ tinymce.init({
     skin: useDarkMode ? 'oxide-dark' : 'oxide',
     content_css: useDarkMode ? 'dark' : 'default',
     content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-});
+}
+
+window.livewireTinymce = () => {
+    let selectors = [
+        {
+            editorId : 'product-preview-tinymce',
+            sourceId : 'product.preview'
+        },
+        {
+            editorId : 'product-description-tinymce',
+            sourceId : 'product.description'
+        }
+    ]
+
+    selectors.forEach(({editorId, sourceId}) => {
+        tinymce.init({
+            ...window.___tinymceOptions,
+            selector: `#${editorId}`,
+            setup: function (editor) { // https://stackoverflow.com/a/24284938
+                editor.on('init', () => {
+                    editor.setContent(
+                        document.getElementById(sourceId).value
+                    )
+                })
+                editor.on('input', () => {
+                    let elements = [
+                        document.getElementById(editorId),
+                        document.getElementById(sourceId)
+                    ]
+                    jQuery(elements).val(editor.getContent())
+                    elements.forEach(element => {
+                        element.dispatchEvent(new Event('input'))
+                    })
+                });
+            },
+        });
+    })
+}

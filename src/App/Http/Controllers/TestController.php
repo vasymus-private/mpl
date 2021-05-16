@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\TestMarkupOrderShippedMail;
 use App\Mail\TestMarkupResetPasswordMail;
-use Domain\Common\DTOs\InstructionDTO;
+use Domain\Common\DTOs\FileDTO;
 use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
 use Livewire\Commands\ComponentParser;
