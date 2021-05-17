@@ -116,6 +116,8 @@ class ShowProduct extends Component
         'tempAdditionalImage' => 'nullable|max:'  . (1024 * self::MAX_FILE_SIZE_MB), // 1024 - 1mb,
         'tempInstruction' => 'nullable|max:' . (1024 * self::MAX_FILE_SIZE_MB), // 1024 - 1mb
 
+        'mainImage.name' => 'nullable|max:199',
+        'additionalImages.*.name' => 'nullable|max:199',
         'instructions.*.name' => 'nullable|max:199',
 
         'product.price_purchase' => 'nullable|numeric',
@@ -195,6 +197,11 @@ class ShowProduct extends Component
         $this->infoPrices[$infoPriceDTO->temp_uuid] = $infoPriceDTO->toArray();
     }
 
+    public function deleteMainImage()
+    {
+        $this->mainImage = null;
+    }
+
     public function deleteAdditionalImage($index)
     {
         $this->additionalImages = collect($this->additionalImages)->values()->filter(fn(array $additinalImage, int $key) => (string)$index !== (string)$key)->toArray();
@@ -219,7 +226,16 @@ class ShowProduct extends Component
     /**
      * @param \Livewire\TemporaryUploadedFile $value
      */
-    public function updateTempAdditionalImage(TemporaryUploadedFile $value)
+    public function updatedTempMainImage(TemporaryUploadedFile $value)
+    {
+        $fileDTO = FileDTO::fromTemporaryUploadedFile($value);
+        $this->mainImage = $fileDTO->toArray();
+    }
+
+    /**
+     * @param \Livewire\TemporaryUploadedFile $value
+     */
+    public function updatedTempAdditionalImage(TemporaryUploadedFile $value)
     {
         $fileDTO = FileDTO::fromTemporaryUploadedFile($value);
         $this->additionalImages[] = $fileDTO->toArray();
