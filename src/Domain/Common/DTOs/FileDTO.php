@@ -43,7 +43,7 @@ class FileDTO extends DataTransferObject
             "mime_type_name" => H::getMimeTypeName($temporaryUploadedFile->getMimeType()),
             "file_name" => $temporaryUploadedFile->getClientOriginalName(),
             "name" => null,
-            "path" => $temporaryUploadedFile->getRealPath(),
+            "path" => $temporaryUploadedFile->temporaryUrl(),
         ]);
     }
 }
