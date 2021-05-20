@@ -23,6 +23,8 @@ class FileDTO extends DataTransferObject
 
     public ?string $path;
 
+    public ?string $url;
+
     public static function fromCustomMedia(CustomMedia $media): self
     {
         return new self([
@@ -31,7 +33,8 @@ class FileDTO extends DataTransferObject
             "mime_type_name" => $media->mime_type_name,
             "file_name" => $media->file_name,
             "name" => $media->name,
-            "path" => $media->getUrl(),
+            "path" => $media->getPath(),
+            "url" => $media->getUrl(),
         ]);
     }
 
@@ -42,8 +45,9 @@ class FileDTO extends DataTransferObject
             "mime_type" => $temporaryUploadedFile->getMimeType(),
             "mime_type_name" => H::getMimeTypeName($temporaryUploadedFile->getMimeType()),
             "file_name" => $temporaryUploadedFile->getClientOriginalName(),
-            "name" => null,
-            "path" => $temporaryUploadedFile->temporaryUrl(),
+            "name" => $temporaryUploadedFile->getClientOriginalName(),
+            "path" => $temporaryUploadedFile->getRealPath(),
+            "url" => $temporaryUploadedFile->temporaryUrl(),
         ]);
     }
 }

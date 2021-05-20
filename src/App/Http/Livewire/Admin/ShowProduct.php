@@ -64,7 +64,7 @@ class ShowProduct extends Component
     /**
      * @var array|null @see {@link \Domain\Common\DTOs\FileDTO}
      */
-    public ?array $mainImage;
+    public array $mainImage = [];
 
     /**
      * @var array[] @see {@link \Domain\Common\DTOs\FileDTO}
@@ -147,7 +147,7 @@ class ShowProduct extends Component
 
         /** @var \Domain\Common\Models\CustomMedia $mainImageMedia */
         $mainImageMedia = $this->product->getFirstMedia(Product::MC_MAIN_IMAGE);
-        $this->mainImage = $mainImageMedia ? FileDTO::fromCustomMedia($mainImageMedia)->toArray() : null;
+        $this->mainImage = $mainImageMedia ? FileDTO::fromCustomMedia($mainImageMedia)->toArray() : [];
 
         $this->additionalImages = $this->product->getMedia(Product::MC_ADDITIONAL_IMAGES)->map(fn(CustomMedia $media) => FileDTO::fromCustomMedia($media)->toArray())->toArray();
 
@@ -181,6 +181,12 @@ class ShowProduct extends Component
         $this->saveInstructions();
     }
 
+    public function addInfoPrice()
+    {
+        $infoPriceDTO = InformationalPriceDTO::create();
+        $this->infoPrices[$infoPriceDTO->temp_uuid] = $infoPriceDTO->toArray();
+    }
+
     public function deleteInfoPrice($uuid)
     {
         $infoPrice = $this->infoPrices[$uuid] ?? null;
@@ -191,15 +197,9 @@ class ShowProduct extends Component
         unset($this->infoPrices[$uuid]);
     }
 
-    public function addInfoPrice()
-    {
-        $infoPriceDTO = InformationalPriceDTO::create();
-        $this->infoPrices[$infoPriceDTO->temp_uuid] = $infoPriceDTO->toArray();
-    }
-
     public function deleteMainImage()
     {
-        $this->mainImage = null;
+        $this->mainImage = [];
     }
 
     public function deleteAdditionalImage($index)
@@ -270,9 +270,13 @@ class ShowProduct extends Component
 
     protected function saveMainImage()
     {
-        if (!$this->tempMainImage) return;
-
-        $mainImage = FileDTO::fromTemporaryUploadedFile($this->tempMainImage);
+        if (!$this->mainImage) {
+            /** @var CustomMedia|null $media */
+            $media = $this->product->getFirstMedia(Product::MC_MAIN_IMAGE);
+            if ($media) $media->forceDelete();
+            return;
+        }
+        $mainImage = new FileDTO($this->mainImage);
 
         $this->addMediaFrom($mainImage, Product::MC_MAIN_IMAGE);
     }
@@ -331,7 +335,7 @@ class ShowProduct extends Component
             ->addMedia($fileDTO->path)
             ->preservingOriginal()
             ->usingFileName($fileDTO->file_name)
-            ->usingName($fileDTO->file_name)
+            ->usingName($fileDTO->name ?? $fileDTO->file_name)
         ;
         /** @var \Domain\Common\Models\CustomMedia $customMedia */
         $customMedia = $fileAdder->toMediaCollection($from);

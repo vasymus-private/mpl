@@ -52,10 +52,10 @@
     <div class="col-sm-9">
         <div class="row">
             @foreach($instructions as $index => $instruction)
-                <div wire:key="instructions-{{$index}}-{{$instruction['path']}}" class="card text-center">
+                <div wire:key="instructions-{{$index}}-{{$instruction['url']}}" class="card text-center">
                     <div class="card-body">
                         <p class="card-text">{{$instruction['mime_type_name']}}</p>
-                        <h5 class="card-title"><a href="{{$instruction['path']}}" target="_blank">{{$instruction['file_name']}}</a></h5>
+                        <h5 class="card-title"><a href="{{$instruction['url']}}" target="_blank">{{$instruction['file_name']}}</a></h5>
                         <div class="form-group">
                             @include('admin.livewire.includes.form-control-input', ['field' => "instructions.$index.name"])
                         </div>

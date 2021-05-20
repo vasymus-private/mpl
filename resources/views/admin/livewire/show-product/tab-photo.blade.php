@@ -1,23 +1,23 @@
 <?php
-/** @var array|null $mainImage @see {@link \Domain\Common\DTOs\FileDTO} */
+/** @var array $mainImage @see {@link \Domain\Common\DTOs\FileDTO} */
 /** @var array[] $additionalImages @see {@link \Domain\Common\DTOs\FileDTO} */
 ?>
 <div class="form-group row">
     <label class="col-sm-3 col-form-label">Основное фото:</label>
     <div class="col-sm-9">
-        @if(!empty($mainImage))
         <div class="row">
             <div class="card text-center col-3">
+                @if(!empty($mainImage))
                 <div class="card-body">
-                    <a href="{{$mainImage['path']}}" target="_blank"><img class="img-thumbnail" src="{{$mainImage['path']}}" alt=""></a>
+                    <a href="{{$mainImage['url']}}" target="_blank"><img class="img-thumbnail" src="{{$mainImage['url']}}" alt=""></a>
                     <div class="form-group">
                         @include('admin.livewire.includes.form-control-input', ['field' => "mainImage.name"])
                     </div>
                     <button wire:click="deleteMainImage" type="button" class="btn btn-outline-danger">x</button>
                 </div>
+                @endif
             </div>
         </div>
-        @endif
         <div class="form-group">
             <label for="tempMainImage">Загрузить основное фото</label>
             <input type="file" wire:model="tempMainImage" class="form-control-file @error("tempMainImage") is-invalid @enderror" id="tempMainImage" />
@@ -35,9 +35,9 @@
     <div class="col-sm-9">
         <div class="row">
             @foreach($additionalImages as $index => $additionalImage)
-                <div wire:key="instructions-{{$index}}-{{$additionalImage['path']}}" class="card text-center col-3">
+                <div wire:key="instructions-{{$index}}-{{$additionalImage['url']}}" class="card text-center col-3">
                     <div class="card-body">
-                        <a href="{{$additionalImage['path']}}" target="_blank"><img class="img-thumbnail" src="{{$additionalImage['path']}}" alt=""></a>
+                        <a href="{{$additionalImage['url']}}" target="_blank"><img class="img-thumbnail" src="{{$additionalImage['url']}}" alt=""></a>
                         <div class="form-group">
                             @include('admin.livewire.includes.form-control-input', ['field' => "additionalImages.$index.name"])
                         </div>
