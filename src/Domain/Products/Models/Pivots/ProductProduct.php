@@ -17,6 +17,15 @@ class ProductProduct extends Pivot
     const TYPE_SIMILAR = 2;
     const TYPE_RELATED = 3;
     const TYPE_WORK = 4;
+    const TYPE_INSTRUMENT = 5;
+
+    const ALL_TYPES = [
+        self::TYPE_ACCESSORY,
+        self::TYPE_SIMILAR,
+        self::TYPE_RELATED,
+        self::TYPE_WORK,
+        self::TYPE_INSTRUMENT,
+    ];
 
     /**
      * The table associated with the model.

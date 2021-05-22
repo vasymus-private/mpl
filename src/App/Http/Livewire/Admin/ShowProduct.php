@@ -6,11 +6,16 @@ use Domain\Common\DTOs\FileDTO;
 use Domain\Common\DTOs\OptionDTO;
 use Domain\Common\Models\Currency;
 use Domain\Common\Models\CustomMedia;
+use Domain\Products\Actions\GetCategoryAndSubtreeIdsAction;
 use Domain\Products\DTOs\InformationalPriceDTO;
+use Domain\Products\DTOs\ProductProductAdminDTO;
 use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Brand;
+use Domain\Products\Models\Category;
 use Domain\Products\Models\InformationalPrice;
+use Domain\Products\Models\Pivots\ProductProduct;
 use Domain\Products\Models\Product\Product;
+use Domain\Seo\Models\Seo;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 use Livewire\TemporaryUploadedFile;
@@ -24,6 +29,54 @@ class ShowProduct extends Component
     protected const MAX_FILE_SIZE_MB = 30;
 
     protected const DEFAULT_TAB = 'elements';
+
+    protected const INIT_LOADED_PRODUCT_PRODUCT = [
+        ProductProduct::TYPE_ACCESSORY => [],
+        ProductProduct::TYPE_SIMILAR => [],
+        ProductProduct::TYPE_RELATED => [],
+        ProductProduct::TYPE_WORK => [],
+        ProductProduct::TYPE_INSTRUMENT => [],
+    ];
+
+    protected const INIT_SEARCH_FOR_PRODUCT_PRODUCT = [
+        ProductProduct::TYPE_ACCESSORY => [
+            'category_id' => null,
+            'product_name' => null,
+        ],
+        ProductProduct::TYPE_SIMILAR => [
+            'category_id' => null,
+            'product_name' => null,
+        ],
+        ProductProduct::TYPE_RELATED => [
+            'category_id' => null,
+            'product_name' => null,
+        ],
+        ProductProduct::TYPE_WORK => [
+            'category_id' => null,
+            'product_name' => null,
+        ],
+        ProductProduct::TYPE_INSTRUMENT => [
+            'category_id' => null,
+            'product_name' => null,
+        ],
+    ];
+
+    protected array $mapTypeToRelationName = [
+        /** @see \Domain\Products\Models\Product\Product::accessory() */
+        ProductProduct::TYPE_ACCESSORY => 'accessory',
+
+        /** @see \Domain\Products\Models\Product\Product::similar() */
+        ProductProduct::TYPE_SIMILAR => 'similar',
+
+        /** @see \Domain\Products\Models\Product\Product::related() */
+        ProductProduct::TYPE_RELATED => 'related',
+
+        /** @see \Domain\Products\Models\Product\Product::works() */
+        ProductProduct::TYPE_WORK => 'works',
+
+        /** @see \Domain\Products\Models\Product\Product::instruments() */
+        ProductProduct::TYPE_INSTRUMENT => 'instruments',
+    ];
 
     public string $activeTab;
 
@@ -96,6 +149,37 @@ class ShowProduct extends Component
      */
     public array $availabilityStatuses;
 
+    /**
+     * @var \Domain\Seo\Models\Seo
+     */
+    public Seo $seo;
+
+    /**
+     * @var array[][] @see {@link \Domain\Products\DTOs\ProductProductAdminDTO}
+     */
+    public array $productProducts = [
+        ProductProduct::TYPE_ACCESSORY => [],
+        ProductProduct::TYPE_SIMILAR => [],
+        ProductProduct::TYPE_RELATED => [],
+        ProductProduct::TYPE_WORK => [],
+        ProductProduct::TYPE_INSTRUMENT => [],
+    ];
+
+    /**
+     * @var array[][] @see {@link \Domain\Products\DTOs\ProductProductAdminDTO}
+     */
+    public array $loadedForProductProduct = self::INIT_LOADED_PRODUCT_PRODUCT;
+
+    /**
+     * @var array[]
+     */
+    public array $searchForProductProduct = self::INIT_SEARCH_FOR_PRODUCT_PRODUCT;
+
+    /**
+     * @var array[] @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\Category}
+     * */
+    public array $categories;
+
     protected array $rules = [
         'product.name' => 'required|string|max:199',
         'product.is_active' => 'nullable|boolean',
@@ -130,6 +214,23 @@ class ShowProduct extends Component
 
         'product.preview' => 'nullable|max:65000',
         'product.description' => 'nullable|max:65000',
+
+        'product.accessory_name' => 'required|max:199',
+        'product.similar_name' => 'required|max:199',
+        'product.related_name' => 'required|max:199',
+        'product.work_name' => 'required|max:199',
+        'product.instruments_name' => 'required|max:199',
+
+        'seo.title' => 'nullable|max:199',
+        'seo.h1' => 'nullable|max:199',
+        'seo.keywords' => 'nullable|max:65000',
+        'seo.description' => 'nullable|max:65000',
+
+        'productProducts.*.*.toDelete' => 'nullable|boolean',
+        'loadedForProductProduct.*.*.isSelected' => 'nullable|boolean',
+
+        'searchForProductProduct.*.category_id' => 'nullable|integer|exists:' . Category::class . ',id',
+        'searchForProductProduct.*.product_name' => 'nullable',
     ];
 
     protected static function getActiveTabCacheKey(int $productId = null): string
@@ -152,6 +253,14 @@ class ShowProduct extends Component
         $this->additionalImages = $this->product->getMedia(Product::MC_ADDITIONAL_IMAGES)->map(fn(CustomMedia $media) => FileDTO::fromCustomMedia($media)->toArray())->toArray();
 
         $this->activeTab = Cache::get(static::getActiveTabCacheKey($this->product->id), self::DEFAULT_TAB);
+
+        $this->seo = $this->product->seo ?: new Seo();
+
+        $this->initProductProduct();
+
+        $this->categories = Category::getTreeRuntimeCached()->reduce(function (array $acc, Category $category) {
+            return $this->categoryToOption($acc, $category, 1);
+        }, []);
     }
 
     public function render()
@@ -179,6 +288,10 @@ class ShowProduct extends Component
         $this->saveAdditionalImages();
 
         $this->saveInstructions();
+
+        $this->saveSeo();
+
+        $this->saveProductProduct();
     }
 
     public function addInfoPrice()
@@ -329,6 +442,54 @@ class ShowProduct extends Component
         $this->instructions = $instructions;
     }
 
+    protected function saveSeo()
+    {
+        $this->product->seo()->save($this->seo);
+    }
+
+    protected function saveProductProduct()
+    {
+        foreach ($this->mapTypeToRelationName as $type => $relation) {
+            $currentIds = collect($this->productProducts[$type])->filter(fn(array $item) => !$item['toDelete'])->pluck('id')->toArray();
+            $selectedIds = collect($this->loadedForProductProduct[$type])->filter(fn(array $item) => $item['isSelected'])->pluck('id')->toArray();
+            $ids = array_merge($currentIds, $selectedIds);
+            $sync = collect($ids)->reduce(function(array $acc, int $id) use($type) {
+                $acc[$id] = ["type" => $type];
+                return $acc;
+            }, []);
+            $this->product->{$relation}()->sync($sync);
+        }
+        $this->initProductProduct();
+        $this->initSearchForProductProduct();
+    }
+
+    public function loadProductProduct(int $for)
+    {
+        if (!in_array($for, ProductProduct::ALL_TYPES)) return;
+
+        $filters = $this->searchForProductProduct[$for];
+        $category_id = (int)$filters['category_id'];
+        $product_name = (string)$filters['product_name'];
+
+        if (!$category_id && !$product_name) return;
+
+        $productQuery = Product::query();
+
+        if ($category_id) {
+            /** @var \Domain\Products\Actions\GetCategoryAndSubtreeIdsAction $getCategoryAndSubtreeIdsAction */
+            $getCategoryAndSubtreeIdsAction = resolve(GetCategoryAndSubtreeIdsAction::class);
+            $categoryAndSubtreeIds = $getCategoryAndSubtreeIdsAction->execute($category_id);
+
+            $productQuery->forMainAndRelatedCategories($categoryAndSubtreeIds);
+        }
+
+        if ($product_name) {
+            $productQuery->where(Product::TABLE . ".name", "like", "%{$product_name}%");
+        }
+
+        $this->loadedForProductProduct[$for] = collect($productQuery->paginate(20)->items())->map(fn(Product $product) => ProductProductAdminDTO::fromModel($product)->toArray())->all();
+    }
+
     protected function addMediaFrom(FileDTO $fileDTO, string $from): CustomMedia
     {
         $fileAdder = $this->product
@@ -340,5 +501,33 @@ class ShowProduct extends Component
         /** @var \Domain\Common\Models\CustomMedia $customMedia */
         $customMedia = $fileAdder->toMediaCollection($from);
         return $customMedia;
+    }
+
+    public function categoryToOption(array $acc, Category $category, int $level = 1): array
+    {
+        $acc[] = OptionDTO::fromCategory($category, $level)->toArray();
+        if ($category->relationLoaded('subcategories')) {
+            foreach ($category->subcategories as $subcategory) {
+                $acc = $this->categoryToOption($acc, $subcategory, $level + 1);
+            }
+        }
+        return $acc;
+    }
+
+    protected function initProductProduct()
+    {
+        foreach ($this->mapTypeToRelationName as $type => $relation) {
+            $this->productProducts[$type] = $this->product->{$relation}->map(fn(Product $product) => ProductProductAdminDTO::fromModel($product)->toArray())->all();
+        }
+    }
+
+    protected function initLoadedForProductProduct()
+    {
+        $this->loadedForProductProduct = static::INIT_LOADED_PRODUCT_PRODUCT;
+    }
+
+    protected function initSearchForProductProduct()
+    {
+        $this->searchForProductProduct = static::INIT_SEARCH_FOR_PRODUCT_PRODUCT;
     }
 }

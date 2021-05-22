@@ -76,6 +76,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property string $similar_name
  * @property string $related_name
  * @property string $work_name
+ * @property string $instruments_name
  *
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at

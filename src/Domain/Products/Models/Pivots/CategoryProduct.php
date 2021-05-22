@@ -10,5 +10,5 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * */
 class CategoryProduct extends Pivot
 {
-
+    const TABLE = "category_product";
 }

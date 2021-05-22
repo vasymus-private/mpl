@@ -4,24 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Mail\TestMarkupOrderShippedMail;
 use App\Mail\TestMarkupResetPasswordMail;
-use Domain\Common\DTOs\FileDTO;
-use Domain\Products\Models\Category;
+use Domain\Products\Actions\GetCategoriesTreeAction;
+use Domain\Products\Actions\GetCategoryAndSubtreeAction;
+use Domain\Products\Actions\GetCategoryAndSubtreeIdsAction;
 use Domain\Products\Models\Product\Product;
-use Livewire\Commands\ComponentParser;
-use Support\TruncateHTML\TruncateHTML;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Spatie\Image\Manipulations;
-use Spatie\Image\Image;
-use Illuminate\Support\Facades\Log;
 
 class TestController extends Controller
 {
-    public function test(Request $request)
+    public function test(Request $request, GetCategoriesTreeAction $getCategoriesTreeAction, GetCategoryAndSubtreeAction $getCategoryAndSubtreeAction, GetCategoryAndSubtreeIdsAction $getCategoryAndSubtreeIdsAction)
     {
-//        dispatch(function () {
-//            Log::info("hello");
-//        })->delay(new \DateInterval('PT10S'));
+//        dump($getCategoriesTreeAction->execute());
+//
+//        dump($getCategoryAndSubtreeAction->execute(8));
+//
+//        dump($getCategoryAndSubtreeIdsAction->execute(8));
+
+        $products = Product::query()->forMainAndRelatedCategories([2])->get();
+        dump($products->pluck('id')->toArray());
 
         return view('test');
     }

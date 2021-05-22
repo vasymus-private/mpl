@@ -37,7 +37,7 @@ class ProductsController extends BaseAdminController
     {
         /** @var \Domain\Products\Models\Product\Product $product */
         $product = $request->admin_product;
-        $product->load('infoPrices');
+        $product->load(['infoPrices', 'media', 'accessory', 'similar', 'related', 'works', 'instruments']);
 
         return view("admin.pages.products.product", compact("product"));
     }
