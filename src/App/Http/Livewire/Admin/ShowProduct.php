@@ -181,6 +181,11 @@ class ShowProduct extends Component
      * */
     public array $categories;
 
+    /**
+     * @var int[]
+     */
+    public array $relatedCategories;
+
     protected array $rules = [
         'product.name' => 'required|string|max:199',
         'product.is_active' => 'nullable|boolean',
@@ -232,6 +237,8 @@ class ShowProduct extends Component
 
         'searchForProductProduct.*.category_id' => 'nullable|integer|exists:' . Category::class . ',id',
         'searchForProductProduct.*.product_name' => 'nullable',
+
+        'product.category_id' => 'nullable|integer|exists:' . Category::class . ',id',
     ];
 
     protected static function getActiveTabCacheKey(int $productId = null): string
@@ -262,6 +269,8 @@ class ShowProduct extends Component
         $this->categories = Category::getTreeRuntimeCached()->reduce(function (array $acc, Category $category) {
             return $this->categoryToOption($acc, $category, 1);
         }, []);
+
+        $this->relatedCategories = $this->product->relatedCategories->pluck('id')->toArray();
     }
 
     public function render()
@@ -293,6 +302,8 @@ class ShowProduct extends Component
         $this->saveSeo();
 
         $this->saveProductProduct();
+
+        $this->saveRelatedCategories();
     }
 
     public function addInfoPrice()
@@ -474,6 +485,11 @@ class ShowProduct extends Component
         $this->initSearchForProductProduct();
     }
 
+    protected function saveRelatedCategories()
+    {
+        $this->product->relatedCategories()->sync($this->relatedCategories);
+    }
+
     public function loadProductProduct(int $for)
     {
         if (!in_array($for, ProductProduct::ALL_TYPES)) return;
@@ -514,7 +530,7 @@ class ShowProduct extends Component
         return $customMedia;
     }
 
-    public function categoryToOption(array $acc, Category $category, int $level = 1): array
+    protected function categoryToOption(array $acc, Category $category, int $level = 1): array
     {
         $acc[] = OptionDTO::fromCategory($category, $level)->toArray();
         if ($category->relationLoaded('subcategories')) {
