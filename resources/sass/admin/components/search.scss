@@ -1,0 +1,52 @@
+.search {
+    .input-group {
+        overflow: hidden;
+        flex-wrap: nowrap;
+        position: relative;
+        height: 39px;
+        border: none;
+        border-radius: 2px;
+        background: #fff;
+        font: 15px/39px "Helvetica Neue", Arial, Helvetica, sans-serif;
+        display: flex;
+        margin: auto 19px auto 0;
+        width: 100%;
+        min-width: 300px;
+        outline: none;
+        z-index: 1;
+    }
+    .form-control {
+        border: 0;
+        &:focus {
+            box-shadow: 0 0 0 0;
+        }
+    }
+    .btn-outline-secondary {
+        border: 0;
+        background: transparent;
+        &:hover {
+            background: transparent;
+        }
+        &.search-icon {
+            height: 39px;
+            background-image: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2215%22%20height%3D%2215%22%20viewBox%3D%220%200%2015%2015%22%3E%3Cpath%20fill%3D%22%23535C68%22%20fill-rule%3D%22evenodd%22%20d%3D%22M1.33%205.5c0-2.304%201.866-4.17%204.17-4.17S9.67%203.195%209.67%205.5c0%202.305-1.865%204.17-4.17%204.17-2.305%200-4.17-1.865-4.17-4.17m12.528%206.944l-3.816-3.817-.014-.008C10.64%207.73%2011%206.66%2011%205.5%2011%202.462%208.537%200%205.5%200S0%202.462%200%205.5%202.463%2011%205.5%2011c1.158%200%202.232-.36%203.118-.972.004.004.005.01.01.014l3.816%203.817c.372.37.982.37%201.354%200l.06-.063c.372-.372.372-.982%200-1.354%22/%3E%3C/svg%3E);
+            background-position: center 12px;
+            background-repeat: no-repeat;
+            opacity: 0.3;
+            padding-left: 0;
+            width: 31px;
+            i {
+                display: none;
+            }
+        }
+    }
+
+    .btn-add {
+        text-transform: uppercase;
+        font: var(--ui-btn-font-size)/calc(var(--ui-btn-height) - 2px) "OpenSans-Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-weight: bold;
+        width: 100%;
+        padding: 0;
+        border-radius: 1px;
+    }
+}

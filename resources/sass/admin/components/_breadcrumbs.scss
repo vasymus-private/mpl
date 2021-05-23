@@ -1,0 +1,42 @@
+.breadcrumbs {
+	margin: 0 0 0 -7px;
+	padding: 10px 0;
+	display: flex;
+	&__item {
+		color: #396298;
+    	text-decoration: none;
+    	text-shadow: 0 1px #ffffff;
+		border-radius: 4px;
+		border-top: 1px solid transparent;
+		border: none;
+		font-size: 11px;
+    	&:hover {
+		    box-shadow: 0 0 2px rgb(0 0 0 / 30%), 0 1px 1px rgb(0 0 0 / 30%), inset 0 1px #fff, inset 0 0 2px rgb(255 255 255 / 50%);
+			background: -webkit-linear-gradient(bottom, #d7e3e7, #fff);
+			background: -moz-linear-gradient(bottom, #d7e3e7, #fff);
+			background: -ms-linear-gradient(bottom, #d7e3e7, #fff);
+			background: -o-linear-gradient(bottom, #d7e3e7, #fff);
+			background: linear-gradient(bottom, #d7e3e7, #fff);
+			color: #3f4b54;
+			text-decoration: none;
+			vertical-align: middle;
+    	}
+	}
+	&__text {
+		padding: 0 7px;
+		line-height: 25px;
+		height: 24px;
+		display: inline-block;
+	}
+
+	&__arrow {
+		background: url(../images/bx-admin-sprite-small-2.png) no-repeat 1px -1155px;
+		display: inline-block;
+		vertical-align: top;
+		padding-right: 8px;
+		padding: 0 7px;
+		line-height: 25px;
+		height: 24px;
+	}
+}
+
