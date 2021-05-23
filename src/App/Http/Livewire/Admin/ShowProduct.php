@@ -9,6 +9,7 @@ use Domain\Common\Models\CustomMedia;
 use Domain\Products\Actions\GetCategoryAndSubtreeIdsAction;
 use Domain\Products\DTOs\InformationalPriceDTO;
 use Domain\Products\DTOs\ProductProductAdminDTO;
+use Domain\Products\DTOs\VariationAdminDTO;
 use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\Category;
@@ -79,21 +80,6 @@ class ShowProduct extends Component
     ];
 
     public string $activeTab;
-
-    public array $tabs = [
-        'elements' => 'Элемент',
-        'description' => 'Описание',
-        'photo' => 'Фото',
-        'characteristics' => 'Характеристики',
-        'seo' => 'SEO',
-        'accessories' => 'Аксессуары',
-        'similar' => 'Похожие',
-        'related' => 'Сопряжённые',
-        'works' => 'Работы',
-        'instruments' => 'Инструменты',
-        'variations' => 'Варианты',
-        'other' => 'Прочее',
-    ];
 
     /**
      * @var \Domain\Products\Models\Product\Product
@@ -182,9 +168,52 @@ class ShowProduct extends Component
     public array $categories;
 
     /**
+     * @var bool
+     */
+    public bool $is_with_variations;
+
+    /**
      * @var int[]
      */
     public array $relatedCategories;
+
+    /**
+     * @var array[] @see {@link \Domain\Products\DTOs\VariationAdminDTO}
+     */
+    public array $variations;
+
+    /**
+     * @var array @see {@link \Domain\Products\DTOs\VariationAdminDTO}
+     */
+    public array $currentVariation;
+
+    /**
+     * @var \Livewire\TemporaryUploadedFile
+     */
+    public $tempVariationMainImage;
+
+    /**
+     * @var \Livewire\TemporaryUploadedFile
+     */
+    public $tempVariationAdditionalImage;
+
+    /**
+     * @var string[]
+     */
+    public array $tabs = [
+        'elements' => 'Элемент',
+        'description' => 'Описание',
+        'photo' => 'Фото',
+        'characteristics' => 'Характеристики',
+        'seo' => 'SEO',
+        'accessories' => 'Аксессуары',
+        'similar' => 'Похожие',
+        'related' => 'Сопряжённые',
+        'works' => 'Работы',
+        'instruments' => 'Инструменты',
+        'variations' => 'Варианты',
+        'other' => 'Прочее',
+    ];
 
     protected array $rules = [
         'product.name' => 'required|string|max:199',
@@ -205,6 +234,9 @@ class ShowProduct extends Component
         'tempMainImage' => 'nullable|max:'  . (1024 * self::MAX_FILE_SIZE_MB), // 1024 - 1mb,
         'tempAdditionalImage' => 'nullable|max:'  . (1024 * self::MAX_FILE_SIZE_MB), // 1024 - 1mb,
         'tempInstruction' => 'nullable|max:' . (1024 * self::MAX_FILE_SIZE_MB), // 1024 - 1mb
+
+        'tempVariationMainImage' => 'nullable|max:'  . (1024 * self::MAX_FILE_SIZE_MB), // 1024 - 1mb,
+        'tempVariationAdditionalImage' => 'nullable|max:'  . (1024 * self::MAX_FILE_SIZE_MB), // 1024 - 1mb,
 
         'mainImage.name' => 'nullable|max:199',
         'additionalImages.*.name' => 'nullable|max:199',
@@ -239,6 +271,18 @@ class ShowProduct extends Component
         'searchForProductProduct.*.product_name' => 'nullable',
 
         'product.category_id' => 'nullable|integer|exists:' . Category::class . ',id',
+
+        'currentVariation.name' => 'required|string|max:199',
+        'currentVariation.ordering' => 'integer|nullable',
+        'currentVariation.is_active' => 'nullable|boolean',
+        'currentVariation.coefficient' => 'nullable|numeric',
+        'currentVariation.price_purchase' => 'nullable|numeric',
+        'currentVariation.price_purchase_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
+        'currentVariation.unit' => 'nullable|max:199',
+        'currentVariation.price_retail' => 'nullable|numeric',
+        'currentVariation.price_retail_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
+        'currentVariation.availability_status_id' => 'required|integer|exists:' . AvailabilityStatus::class . ",id",
+        'currentVariation.preview' => 'nullable|max:65000',
     ];
 
     protected static function getActiveTabCacheKey(int $productId = null): string
@@ -271,6 +315,10 @@ class ShowProduct extends Component
         }, []);
 
         $this->relatedCategories = $this->product->relatedCategories->pluck('id')->toArray();
+
+        $this->is_with_variations = $this->product->is_with_variations;
+
+        $this->initVariations();
     }
 
     public function render()
@@ -306,6 +354,68 @@ class ShowProduct extends Component
         $this->saveRelatedCategories();
     }
 
+    public function saveVariations() // todo for mass update
+    {
+
+    }
+
+    public function restoreVariations() // todo for mass update
+    {
+
+    }
+
+    public function saveCurrentVariation()
+    {
+        $currentVariationDto = (new VariationAdminDTO($this->currentVariation));
+
+        $attributes = $currentVariationDto->only([
+            'name',
+            'ordering',
+            'is_active',
+            'coefficient',
+            'price_purchase',
+            'price_purchase_currency_id',
+            'unit',
+            'price_retail',
+            'price_retail_currency_id',
+            'availability_status_id',
+            'preview',
+        ])
+            ->toArray();
+        $attributes = array_merge($attributes, ['parent_id' => $this->product->id]);
+
+        if ($currentVariationDto['id']) {
+            $product = Product::query()->variations()->findOrFail($currentVariationDto['id']);
+            $product->forceFill($attributes);
+        } else {
+            $product = Product::forceCreate($attributes);
+        }
+
+        if (!empty($currentVariationDto->main_image)) $this->addMedia(new FileDTO($currentVariationDto->main_image), Product::MC_MAIN_IMAGE, $product);
+
+        foreach ($currentVariationDto->additional_images as $additionalImage) {
+            $this->addMedia(new FileDTO($additionalImage), Product::MC_ADDITIONAL_IMAGES, $product);
+        }
+
+        $this->initVariations();
+    }
+
+    public function setCurrentVariation(?int $id = null)
+    {
+        if (!$id) {
+            $this->currentVariation = (new VariationAdminDTO())->toArray();
+        } else {
+            /** @var \Domain\Products\Models\Product\Product $variation */
+            $variation = $this->product->variations()->with('media')->firstOrFail();
+            $this->currentVariation = VariationAdminDTO::fromModel($variation)->toArray();
+        }
+    }
+
+    public function cancelCurrentVariation()
+    {
+        $this->currentVariation = (new VariationAdminDTO())->toArray();
+    }
+
     public function addInfoPrice()
     {
         $infoPriceDTO = InformationalPriceDTO::create();
@@ -335,6 +445,11 @@ class ShowProduct extends Component
     public function deleteInstruction($index)
     {
         $this->instructions = collect($this->instructions)->values()->filter(fn(array $instruction, int $key) => (string)$index !== (string)$key)->toArray();
+    }
+
+    public function setWithVariations(bool $with)
+    {
+        $this->is_with_variations = $with;
     }
 
     /**
@@ -369,6 +484,24 @@ class ShowProduct extends Component
     /**
      * @param \Livewire\TemporaryUploadedFile $value
      */
+    public function updatedTempVariationMainImage(TemporaryUploadedFile $value)
+    {
+        $fileDTO = FileDTO::fromTemporaryUploadedFile($value);
+        $this->currentVariation['main_image'] = $fileDTO->toArray();
+    }
+
+    /**
+     * @param \Livewire\TemporaryUploadedFile $value
+     */
+    public function updatedTempVariationAdditionalImage(TemporaryUploadedFile $value)
+    {
+        $fileDTO = FileDTO::fromTemporaryUploadedFile($value);
+        $this->currentVariation['additional_images'][] = $fileDTO->toArray();
+    }
+
+    /**
+     * @param \Livewire\TemporaryUploadedFile $value
+     */
     public function updatedTempInstruction(TemporaryUploadedFile $value)
     {
         $fileDTO = FileDTO::fromTemporaryUploadedFile($value);
@@ -377,6 +510,7 @@ class ShowProduct extends Component
 
     protected function saveProduct()
     {
+        $this->product->is_with_variations = $this->is_with_variations;
         $this->product->save();
     }
 
@@ -411,7 +545,7 @@ class ShowProduct extends Component
             }
         } else {
             $mainImage = new FileDTO($this->mainImage);
-            $this->addMediaFrom($mainImage, Product::MC_MAIN_IMAGE);
+            $this->addMedia($mainImage, Product::MC_MAIN_IMAGE);
         }
     }
 
@@ -427,7 +561,7 @@ class ShowProduct extends Component
                 $media->save();
                 $additionalImages[] = $additionalImage;
             } else {
-                $media = $this->addMediaFrom(new FileDTO($additionalImage), Product::MC_ADDITIONAL_IMAGES);
+                $media = $this->addMedia(new FileDTO($additionalImage), Product::MC_ADDITIONAL_IMAGES);
                 $additionalImages[] = FileDTO::fromCustomMedia($media)->toArray();
             }
         }
@@ -451,7 +585,7 @@ class ShowProduct extends Component
                 $media->save();
                 $instructions[] = $instruction;
             } else {
-                $media = $this->addMediaFrom(new FileDTO($instruction), Product::MC_FILES);
+                $media = $this->addMedia(new FileDTO($instruction), Product::MC_FILES);
                 $instructions[] = FileDTO::fromCustomMedia($media)->toArray();
             }
         }
@@ -517,16 +651,17 @@ class ShowProduct extends Component
         $this->loadedForProductProduct[$for] = collect($productQuery->paginate(20)->items())->map(fn(Product $product) => ProductProductAdminDTO::fromModel($product, "loadedForProductProduct.{$for}.{$product->id}.")->toArray())->keyBy('id')->all();
     }
 
-    protected function addMediaFrom(FileDTO $fileDTO, string $from): CustomMedia
+    protected function addMedia(FileDTO $fileDTO, string $collectionName, ?Product $for = null): CustomMedia
     {
-        $fileAdder = $this->product
+        $for = $for ?: $this->product;
+        $fileAdder = $for
             ->addMedia($fileDTO->path)
             ->preservingOriginal()
             ->usingFileName($fileDTO->file_name)
             ->usingName($fileDTO->name ?? $fileDTO->file_name)
         ;
         /** @var \Domain\Common\Models\CustomMedia $customMedia */
-        $customMedia = $fileAdder->toMediaCollection($from);
+        $customMedia = $fileAdder->toMediaCollection($collectionName);
         return $customMedia;
     }
 
@@ -559,5 +694,11 @@ class ShowProduct extends Component
     protected function initSearchForProductProduct()
     {
         $this->searchForProductProduct = static::INIT_SEARCH_FOR_PRODUCT_PRODUCT;
+    }
+
+    protected function initVariations()
+    {
+        $this->variations = $this->product->variations()->with('media')->orderBy(Product::TABLE . '.ordering', 'desc')->get()->map(fn(Product $product) => VariationAdminDTO::fromModel($product)->toArray())->toArray();
+        $this->currentVariation = (new VariationAdminDTO())->toArray();
     }
 }

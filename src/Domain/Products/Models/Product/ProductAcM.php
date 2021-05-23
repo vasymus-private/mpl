@@ -4,7 +4,6 @@ namespace Domain\Products\Models\Product;
 
 use Domain\Common\Models\Currency;
 use Domain\Products\Models\AvailabilityStatus;
-use Illuminate\Support\Facades\Auth;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Support\H;
 
