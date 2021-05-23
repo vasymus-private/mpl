@@ -90,6 +90,7 @@ class ShowProduct extends Component
         'similar' => 'Похожие',
         'related' => 'Сопряжённые',
         'works' => 'Работы',
+        'instruments' => 'Инструменты',
         'variations' => 'Варианты',
         'other' => 'Прочее',
     ];
@@ -389,9 +390,18 @@ class ShowProduct extends Component
             if ($media) $media->forceDelete();
             return;
         }
-        $mainImage = new FileDTO($this->mainImage);
 
-        $this->addMediaFrom($mainImage, Product::MC_MAIN_IMAGE);
+        if ($this->mainImage['id'] !== null) {
+            /** @var CustomMedia|null $media */
+            $media = $this->product->getFirstMedia(Product::MC_MAIN_IMAGE);
+            if ($media) {
+                $media->name = $this->mainImage['name'];
+                $media->save();
+            }
+        } else {
+            $mainImage = new FileDTO($this->mainImage);
+            $this->addMediaFrom($mainImage, Product::MC_MAIN_IMAGE);
+        }
     }
 
     protected function saveAdditionalImages()
@@ -459,7 +469,8 @@ class ShowProduct extends Component
             }, []);
             $this->product->{$relation}()->sync($sync);
         }
-        $this->initProductProduct();
+        $this->initProductProduct(true);
+        $this->initLoadedForProductProduct();
         $this->initSearchForProductProduct();
     }
 
@@ -487,7 +498,7 @@ class ShowProduct extends Component
             $productQuery->where(Product::TABLE . ".name", "like", "%{$product_name}%");
         }
 
-        $this->loadedForProductProduct[$for] = collect($productQuery->paginate(20)->items())->map(fn(Product $product) => ProductProductAdminDTO::fromModel($product)->toArray())->all();
+        $this->loadedForProductProduct[$for] = collect($productQuery->paginate(20)->items())->map(fn(Product $product) => ProductProductAdminDTO::fromModel($product, "loadedForProductProduct.{$for}.{$product->id}.")->toArray())->keyBy('id')->all();
     }
 
     protected function addMediaFrom(FileDTO $fileDTO, string $from): CustomMedia
@@ -514,10 +525,13 @@ class ShowProduct extends Component
         return $acc;
     }
 
-    protected function initProductProduct()
+    protected function initProductProduct(bool $refresh = false)
     {
         foreach ($this->mapTypeToRelationName as $type => $relation) {
-            $this->productProducts[$type] = $this->product->{$relation}->map(fn(Product $product) => ProductProductAdminDTO::fromModel($product)->toArray())->all();
+            if ($refresh) $this->product->load($relation);
+            /** @var \Illuminate\Support\Collection $rel */
+            $rel = $this->product->{$relation};
+            $this->productProducts[$type] = $rel->map(fn(Product $product) => ProductProductAdminDTO::fromModel($product, "productProducts.{$type}.{$product->id}.")->toArray())->keyBy('id')->all();
         }
     }
 

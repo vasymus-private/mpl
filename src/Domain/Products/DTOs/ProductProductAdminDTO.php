@@ -21,14 +21,23 @@ class ProductProductAdminDTO extends DataTransferObject
 
     public bool $isSelected = false;
 
-    public static function fromModel(Product $product): self
+    public ?string $wireModelPrefix;
+
+    /**
+     * @param \Domain\Products\Models\Product\Product $product
+     * @param string|null $wireModelPrefix For i.e. "someProp.1.15." where 'someProp' - public property of LiveWire component; '1' - type of ProductProduct {@link \Domain\Products\Models\Pivots\ProductProduct}; '15' - id of pivot product
+     *
+     * @return static
+     */
+    public static function fromModel(Product $product, ?string $wireModelPrefix = null): self
     {
         return new self([
             'id' => $product->id,
             'name' => $product->name,
             'url' => route("admin.products.edit", $product->id),
-            'image' => $product->getFirstMediaUrl(Product::MC_MAIN_IMAGE),
+            'image' => $product->main_image_md_thumb_url,
             'price_rub_formatted' => $product->price_retail_rub_formatted,
+            'wireModelPrefix' => $wireModelPrefix,
         ]);
     }
 }

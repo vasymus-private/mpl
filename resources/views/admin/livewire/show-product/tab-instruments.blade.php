@@ -9,9 +9,9 @@
 @include(
     'admin.livewire.show-product.related',
     [
-        'type' => \Domain\Products\Models\Pivots\ProductProduct::TYPE_WORK,
-        'wire_field' => 'work_name',
-        'title' => 'Работы',
+        'type' => \Domain\Products\Models\Pivots\ProductProduct::TYPE_INSTRUMENT,
+        'wire_field' => 'instruments_name',
+        'title' => 'Инструменты',
         'productProducts' => $productProducts,
         'categories' => $categories,
         'loadedForProductProduct' => $loadedForProductProduct,
