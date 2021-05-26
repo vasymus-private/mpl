@@ -1,5 +1,5 @@
 ($ => {
     $(() => {
-
+        require('./modules/tinymce')
     })
 })(jQuery)

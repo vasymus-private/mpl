@@ -3,12 +3,11 @@
 namespace App\Http\Requests\Web\Ajax;
 
 use Domain\Products\Models\Product\Product;
-use Domain\Users\Models\User\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Validator;
+use Support\H;
 
 /**
  * @property int $id
@@ -24,12 +23,12 @@ class CartProductsUpdateRequest extends FormRequest
     const MODE_DEFAULT = self::MODE_ADD;
 
     /**
-     * @var Product
+     * @var \Domain\Products\Models\Product\Product
      * */
     protected $product;
 
     /**
-     * @return Product
+     * @return \Domain\Products\Models\Product\Product
      */
     protected function getProduct(): Product
     {
@@ -106,14 +105,13 @@ class CartProductsUpdateRequest extends FormRequest
     /**
      * Configure the validator instance.
      *
-     * @param  Validator  $validator
+     * @param  \Illuminate\Validation\Validator  $validator
      * @return void
      */
     public function withValidator(Validator $validator)
     {
         $validator->after(function (Validator $validator) {
-            /** @var User $user */
-            $user = Auth::user();
+            $user = H::userOrAdmin();
 
             $productQuery = $user->cart();
 

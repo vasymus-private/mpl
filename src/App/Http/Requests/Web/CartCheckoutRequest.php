@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests\Web;
 
-use Domain\Users\Models\User\User;
+use Domain\Users\Models\BaseUser\BaseUser;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Auth;
+use Support\H;
 
 /**
  * @property-read string|null $name
@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Auth;
 class CartCheckoutRequest extends FormRequest
 {
     /**
-     * @var User|null
+     * @var \Domain\Users\Models\BaseUser\BaseUser|null
      * */
     protected $emailUser;
 
@@ -83,16 +83,16 @@ class CartCheckoutRequest extends FormRequest
         }
     }
 
-    protected function getAuthUser(): User
+    protected function getAuthUser(): BaseUser
     {
-        return Auth::user();
+        return H::userOrAdmin();
     }
 
-    public function getEmailUser(): ?User
+    public function getEmailUser(): ?BaseUser
     {
         if ($this->emailUser !== null) return $this->emailUser;
 
-        return $this->emailUser = User::query()->where("email", $this->email)->first();
+        return $this->emailUser = BaseUser::query()->where("email", $this->email)->first();
     }
 
     public function isAuthUserEqualsEmailUser(): bool

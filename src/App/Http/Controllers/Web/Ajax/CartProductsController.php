@@ -7,18 +7,15 @@ use App\Http\Requests\Web\Ajax\CartProductsDeleteRequest;
 use App\Http\Requests\Web\Ajax\CartProductsStoreRequest;
 use App\Http\Requests\Web\Ajax\CartProductsUpdateRequest;
 use App\Http\Resources\Web\Ajax\CartProductResource;
-use Domain\Users\Models\User\User;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Support\H;
 
 class CartProductsController extends BaseWebController
 {
     public function index(Request $request)
     {
-        /** @var \Domain\Users\Models\User\User $user */
-        $user = Auth::user();
+        $user = H::userOrAdmin();
 
         $user->load([
             "cart" => function(BelongsToMany $builder) {
@@ -33,8 +30,7 @@ class CartProductsController extends BaseWebController
 
     public function store(CartProductsStoreRequest $request)
     {
-        /** @var User $user */
-        $user = Auth::user();
+        $user = H::userOrAdmin();
 
         $user->cart()->detach($request->id);
         $user->cart()->syncWithoutDetaching([
@@ -54,8 +50,7 @@ class CartProductsController extends BaseWebController
 
     public function update(CartProductsUpdateRequest $request)
     {
-        /** @var User $user */
-        $user = Auth::user();
+        $user = H::userOrAdmin();
 
         $user->cart()->syncWithoutDetaching($request->prepare());
 
@@ -72,8 +67,7 @@ class CartProductsController extends BaseWebController
 
     public function delete(CartProductsDeleteRequest $request)
     {
-        /** @var User $user */
-        $user = Auth::user();
+        $user = H::userOrAdmin();
         $user->cart()->detach($request->id);
 
         $user->load([

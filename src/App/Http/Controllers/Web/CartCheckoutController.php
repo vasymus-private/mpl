@@ -2,18 +2,14 @@
 
 namespace App\Http\Controllers\Web;
 
+use Domain\Users\Models\BaseUser\BaseUser;
 use Support\H;
 use App\Http\Requests\Web\CartCheckoutRequest;
 use App\Mail\OrderShippedMail;
-use Domain\Users\Models\Admin;
 use Domain\Orders\Models\Order;
 use Domain\Orders\Models\OrderImportance;
 use Domain\Orders\Models\OrderStatus;
 use Domain\Products\Models\Product\Product;
-use Domain\Users\Models\User\User;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -23,8 +19,7 @@ class CartCheckoutController extends BaseWebController
 {
     public function __invoke(CartCheckoutRequest $request)
     {
-        /** @var User $authUser */
-        $authUser = Auth::user();
+        $authUser = H::userOrAdmin();
 
         $order = $this->createOrder($request, $authUser);
 
@@ -32,13 +27,15 @@ class CartCheckoutController extends BaseWebController
             return redirect()->route("cart.show")->with('cart-error', "Что-то пошло не так. Попробуйте, пожалуйста, ещё раз.");
         }
 
-        /** @var User|null $emailUser */
-        $emailUser = User::query()->where("email", $request->email)->first();
+        $userWithEmailExists = BaseUser::query()->where("email", $request->email)->exists();
 
         if ($authUser->is_identified) {
             $email = $authUser->email;
             $password = null;
-        } else if (!$emailUser) {
+        } else if ($userWithEmailExists) {
+            $email = $request->email;
+            $password = null;
+        } else {
             $email = $request->email;
             $authUser->email = $request->email;
             $authUser->name = $request->name;
@@ -46,12 +43,10 @@ class CartCheckoutController extends BaseWebController
             $password = H::random_str(6);
             $authUser->password = Hash::make($password);
             $authUser->save();
-        } else {
-            $email = $request->email;
-            $password = null;
         }
 
-        Mail::send(
+        Mail::later(
+            new \DateInterval('PT10S'),
             new OrderShippedMail(
                 $order,
                 $authUser->id,
@@ -67,7 +62,7 @@ class CartCheckoutController extends BaseWebController
         return redirect()->route("cart.success", $order->id);
     }
 
-    protected function createOrder(CartCheckoutRequest $request, User $user): ?Order
+    protected function createOrder(CartCheckoutRequest $request, BaseUser $user): ?Order
     {
         $priceRetailRub = $user->cart_not_trashed->sumCartRetailPriceRub();
 

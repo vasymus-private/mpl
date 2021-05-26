@@ -14,7 +14,7 @@
             @csrf
             <div class="form-group__item">
                 <label for="name">Имя: <span>*</span></label>
-                <input type="text" class="form-control" id="name" name="name" value="{{old("name") ?? \Illuminate\Support\Facades\Auth::user()->name ?? null}}"/>
+                <input type="text" class="form-control" id="name" name="name" value="{{old("name") ?? \Support\H::userOrAdmin()->name ?? null}}"/>
                 @if($errors->has("name"))
                     <div>
                         <span style="color:red">{{$errors->first("name")}}</span>
@@ -24,7 +24,7 @@
 
             <div class="form-group__item">
                 <label for="email">E-mail: <span>*</span></label>
-                <input type="text" class="form-control" id="email" name="email" value="{{old("email") ?? \Illuminate\Support\Facades\Auth::user()->email ?? null}}"/>
+                <input type="text" class="form-control" id="email" name="email" value="{{old("email") ?? \Support\H::userOrAdmin()->email ?? null}}"/>
                 @if($errors->has("email"))
                     <div>
                         <span style="color:red">{{$errors->first("email")}}</span>
@@ -35,7 +35,7 @@
                 <label for="phone">Телефон: <span>*</span></label>
                 <div class="row-line row-line__center">
                     <span class="phone-t">+7</span>
-                    <input class="form-control small" type="text" id="phone" name="phone" value="{{old("phone") ?? \Illuminate\Support\Facades\Auth::user()->phone ?? null}}"/>
+                    <input class="form-control small" type="text" id="phone" name="phone" value="{{old("phone") ?? \Support\H::userOrAdmin()->phone ?? null}}"/>
                 </div>
                 @if($errors->has("phone"))
                     <div>

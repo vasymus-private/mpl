@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers\Web;
 
-use Domain\Users\Models\User\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Support\H;
 
 class OrdersConstroller extends BaseWebController
 {
     public function show(Request $request)
     {
-        /** @var User $user */
-        $user = Auth::user();
+        $user = H::userOrAdmin();
 
         $order = $user->orders()->findOrFail($request->id);
 

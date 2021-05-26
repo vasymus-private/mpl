@@ -3,9 +3,9 @@
 namespace App\Mail;
 
 use Domain\Orders\Models\Order;
-use Domain\Users\Models\User\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Carbon;
@@ -21,7 +21,7 @@ class OrderShippedMail extends Mailable
     /**
      * The view factory implementation.
      *
-     * @var \Illuminate\Contracts\View\Factory
+     * @var \Illuminate\Contracts\View\Factory|null
      */
     protected $viewFactory;
 
@@ -49,7 +49,6 @@ class OrderShippedMail extends Mailable
      */
     public function __construct(Order $order, int $id, string $email, string $password = null)
     {
-        $this->viewFactory = resolve(\Illuminate\Contracts\View\Factory::class);
         $this->order = $order;
         $this->id = $id;
         $this->email = $email;
@@ -65,6 +64,7 @@ class OrderShippedMail extends Mailable
      */
     public function build()
     {
+        $this->viewFactory = resolve(Factory::class);
         $this->viewFactory->flushFinderCache();
 
         $actionUrl = $this->verificationUrl();

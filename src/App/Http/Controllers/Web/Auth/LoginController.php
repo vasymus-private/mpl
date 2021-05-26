@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Web\Auth;
 
 use App\Constants;
+use Domain\Users\Actions\TransferOrdersAction;
+use Domain\Users\Actions\TransferProductsAction;
 use Domain\Users\Models\User\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -42,13 +45,14 @@ class LoginController extends BaseLoginController
      */
     public function __construct()
     {
-        $this->middleware(Constants::MIDDLEWARE_REDIRECT_IF_IDENTIFIED)->except('logout');
+        $redirectIfIdentifiedMiddleware = sprintf("%s:%s", Constants::MIDDLEWARE_REDIRECT_IF_IDENTIFIED, implode(',', [Constants::AUTH_GUARD_WEB, Constants::AUTH_GUARD_ADMIN]));
+        $this->middleware($redirectIfIdentifiedMiddleware)->except('logout');
     }
 
     /**
      * Show the application's login form.
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\View\View
      */
     public function showLoginForm()
     {
@@ -70,26 +74,76 @@ class LoginController extends BaseLoginController
     }
 
     /**
+     * Attempt to log the user into the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return bool
+     */
+    protected function attemptLogin(Request $request): bool
+    {
+        $credentials = $this->credentials($request);
+        $remember = $request->filled('remember');
+
+        $isValidUserCredentials = $this->guard()->validate($credentials);
+        $isValidAdminCredentials = Auth::guard(Constants::AUTH_GUARD_ADMIN)->validate($credentials);
+
+        if (!$isValidUserCredentials && !$isValidAdminCredentials) {
+            return false;
+        }
+
+        $this->guard()->logout();
+        Auth::guard(Constants::AUTH_GUARD_ADMIN)->logout();
+
+        $userAttempt = $this->guard()->attempt($credentials, $remember);
+
+        return $userAttempt ?: Auth::guard(Constants::AUTH_GUARD_ADMIN)->attempt($credentials, $remember);
+    }
+
+    /**
+     * Send the response after the user was authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    protected function sendLoginResponse(Request $request)
+    {
+        $request->session()->regenerate();
+
+        $this->clearLoginAttempts($request);
+
+        /** @var \Domain\Users\Models\User\User|\Domain\Users\Models\Admin $authUser */
+        $authUser = $this->guard()->user();
+        if (!$authUser) {
+            $authUser = Auth::guard(Constants::AUTH_GUARD_ADMIN)->user();
+        }
+
+        return $this->authenticated($request, $authUser);
+    }
+
+    /**
      * The user has been authenticated.
      *
      * @param \Illuminate\Http\Request $request
-     * @param mixed|User $user
-     * @return mixed
+     * @param \Domain\Users\Models\BaseUser\BaseUser $user
+     * @return \Illuminate\Http\RedirectResponse
      */
     protected function authenticated(Request $request, $user)
     {
-        /** @var User $user */
-
         $anonymousUser = $this->getAnonymousUser();
-        User::handleTransferProducts($anonymousUser, $user);
-        User::handleTransferOrders($anonymousUser, $user);
-        if ($user->is_admin) Auth::guard(Constants::AUTH_GUARD_ADMIN)->login($user, true);
+        /** @var TransferProductsAction $transferProductsAction */
+        $transferProductsAction = resolve(TransferProductsAction::class);
+        $transferProductsAction->execute($anonymousUser, $user);
+
+        /** @var \Domain\Users\Actions\TransferOrdersAction $transferOrdersAction */
+        $transferOrdersAction = resolve(TransferOrdersAction::class);
+        $transferOrdersAction->execute($anonymousUser, $user);
 
         return redirect()->route('profile');
     }
 
     /**
-     * @return User
+     * @return \Domain\Users\Models\User\User
      */
     public function getAnonymousUser(): User
     {
@@ -97,10 +151,34 @@ class LoginController extends BaseLoginController
     }
 
     /**
-     * @param User $user
+     * @param \Domain\Users\Models\User\User $user
      */
     public function setAnonymousUserId(User $user): void
     {
         $this->anonymousUserId = $user->id;
+    }
+
+    /**
+     * Log the user out of the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+        Auth::guard(Constants::AUTH_GUARD_ADMIN)->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        if ($response = $this->loggedOut($request)) {
+            return $response;
+        }
+
+        return $request->wantsJson()
+            ? new JsonResponse([], 204)
+            : redirect('/');
     }
 }

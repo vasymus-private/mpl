@@ -7,7 +7,7 @@ use Livewire\TemporaryUploadedFile;
 use Spatie\DataTransferObject\DataTransferObject;
 use Support\H;
 
-class InstructionDTO extends DataTransferObject
+class FileDTO extends DataTransferObject
 {
     protected bool $ignoreMissing = true;
 
@@ -23,6 +23,8 @@ class InstructionDTO extends DataTransferObject
 
     public ?string $path;
 
+    public ?string $url;
+
     public static function fromCustomMedia(CustomMedia $media): self
     {
         return new self([
@@ -31,7 +33,8 @@ class InstructionDTO extends DataTransferObject
             "mime_type_name" => $media->mime_type_name,
             "file_name" => $media->file_name,
             "name" => $media->name,
-            "path" => null,
+            "path" => $media->getPath(),
+            "url" => $media->getUrl(),
         ]);
     }
 
@@ -42,8 +45,9 @@ class InstructionDTO extends DataTransferObject
             "mime_type" => $temporaryUploadedFile->getMimeType(),
             "mime_type_name" => H::getMimeTypeName($temporaryUploadedFile->getMimeType()),
             "file_name" => $temporaryUploadedFile->getClientOriginalName(),
-            "name" => null,
+            "name" => $temporaryUploadedFile->getClientOriginalName(),
             "path" => $temporaryUploadedFile->getRealPath(),
+            "url" => $temporaryUploadedFile->temporaryUrl(),
         ]);
     }
 }

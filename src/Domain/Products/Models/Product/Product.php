@@ -9,11 +9,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Domain\Common\Models\BaseModel;
 use Domain\Products\Models\Category;
 use Domain\Common\Models\Currency;
-use Domain\Orders\Models\Order;
-use Domain\Orders\Models\Pivots\OrderProduct;
-use Domain\Users\Models\Pivots\ProductUserCart;
-use Domain\Users\Models\User\User;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Routing\Route;
@@ -81,22 +76,22 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property string $similar_name
  * @property string $related_name
  * @property string $work_name
+ * @property string $instruments_name
  *
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @property Carbon|null $deleted_at
- *
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
  *
  * @see \Domain\Orders\Models\Order::products()
- * @property OrderProduct|null $order_product
+ * @property \Domain\Orders\Models\Pivots\OrderProduct|null $order_product
  *
- * @see \Domain\Users\Models\User\User::cart()
- * @property ProductUserCart|null $cart_product
+ * @see \Domain\Users\Models\BaseUser\BaseUser::cart()
+ * @property \Domain\Users\Models\Pivots\ProductUserCart|null $cart_product
  *
- * @see \Domain\Users\Models\User\User::viewed()
+ * @see \Domain\Users\Models\BaseUser\BaseUser::viewed()
  * @property \Domain\Users\Models\Pivots\ProductUserViewed|null $viewed_product
  *
- * @see \Domain\Users\Models\User\User::aside()
+ * @see \Domain\Users\Models\BaseUser\BaseUser::aside()
  * @property \Domain\Users\Models\Pivots\ProductUserAside|null $aside_product
  *
  * @mixin \Domain\Products\Models\Product\ProductRelations
@@ -115,6 +110,8 @@ class Product extends BaseModel implements HasMedia
 
     const TABLE = "products";
     const MAX_CHARACTERISTIC_RATE = 5;
+
+    const ORDERING_DEFAULT = 500;
 
     const MC_MAIN_IMAGE = "main";
     const MC_ADDITIONAL_IMAGES = "images";

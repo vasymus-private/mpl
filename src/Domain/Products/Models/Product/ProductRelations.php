@@ -5,6 +5,7 @@ namespace Domain\Products\Models\Product;
 use Domain\Products\Models\Category;
 use Domain\Products\Models\InformationalPrice;
 use Domain\Products\Models\Brand;
+use Domain\Products\Models\Pivots\CategoryProduct;
 use Domain\Products\Models\Pivots\ProductProduct;
 use Domain\Seo\Models\Seo;
 use Illuminate\Database\Eloquent\Collection;
@@ -29,11 +30,17 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
  * @see ProductRelations::related()
  * @property Collection|Product[] $related
  *
+ * @see \Domain\Products\Models\Product\ProductRelations::instruments()
+ * @property \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\Product\Product[] $instruments
+ *
  * @see ProductRelations::works()
  * @property Collection|Product[] $works
  *
  * @see ProductRelations::category()
  * @property Category|null $category
+ *
+ * @see \Domain\Products\Models\Product\ProductRelations::relatedCategories()
+ * @property \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\Category[] $relatedCategories
  *
  * @see ProductRelations::infoPrices()
  * @property Collection|\Domain\Products\Models\InformationalPrice[] $infoPrices
@@ -95,6 +102,11 @@ trait ProductRelations
         return $this->products()->wherePivot("type", ProductProduct::TYPE_WORK);
     }
 
+    public function instruments(): BelongsToMany
+    {
+        return $this->products()->wherePivot("type", ProductProduct::TYPE_INSTRUMENT);
+    }
+
     public function brand(): BelongsTo
     {
         return $this->belongsTo(Brand::class, "brand_id", "id");
@@ -103,6 +115,11 @@ trait ProductRelations
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class, "category_id", "id");
+    }
+
+    public function relatedCategories(): BelongsToMany
+    {
+        return $this->belongsToMany(Category::class, CategoryProduct::TABLE, 'product_id', 'category_id')->using(CategoryProduct::class);
     }
 
     public function infoPrices(): HasMany

@@ -3,7 +3,7 @@
 namespace Domain\Products\Events;
 
 use Domain\Products\Models\Product\Product;
-use Domain\Users\Models\User\User;
+use Domain\Users\Models\BaseUser\BaseUser;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -17,24 +17,24 @@ class ProductViewedEvent
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * @var User
+     * @var \Domain\Users\Models\BaseUser\BaseUser
      * */
     public $user;
 
     /**
-     * @var Product
+     * @var \Domain\Products\Models\Product\Product
      * */
     public $product;
 
     /**
      * Create a new event instance.
      *
-     * @param User $user
-     * @param Product $product
+     * @param \Domain\Users\Models\BaseUser\BaseUser $user
+     * @param \Domain\Products\Models\Product\Product $product
      *
      * @return void
      */
-    public function __construct(User $user, Product $product)
+    public function __construct(BaseUser $user, Product $product)
     {
         $this->user = $user;
         $this->product = $product;

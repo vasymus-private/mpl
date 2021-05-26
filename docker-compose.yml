@@ -7,7 +7,7 @@ services:
             context: ./docker/nginx
             args:
                 - DOCKER_LOCALHOST_SERVERNAME=${DOCKER_LOCALHOST_SERVERNAME}
-        image: 127.0.0.1:5000/mpl-nginx:0.1.0
+        image: vasymus/mpl-nginx:0.1.0
         container_name: mpl-nginx
         deploy:
             replicas: 1
@@ -27,9 +27,8 @@ services:
     ### APP (php-fpm) ##############################################
     app:
         build:
-            context: .
-            dockerfile: ./docker/app/Dockerfile
-        image: 127.0.0.1:5000/mpl-app:0.1.0
+            context: ./docker/app
+        image: vasymus/mpl-app:0.1.0
         deploy:
             replicas: 1
             restart_policy:
@@ -47,7 +46,7 @@ services:
     db:
         build:
             context: ./docker/mariadb
-        image: 127.0.0.1:5000/mpl-db:0.1.0
+        image: vasymus/mpl-db:0.1.0
         deploy:
             replicas: 1
             placement:
@@ -71,7 +70,7 @@ services:
     ### Redis ################################################
     redis:
         build: ./docker/redis
-        image: 127.0.0.1:5000/mpl-redis:0.1.0
+        image: vasymus/mpl-redis:0.1.0
         deploy:
             replicas: 1
             restart_policy:
@@ -87,7 +86,7 @@ services:
     adminer:
         build:
             context: ./docker/adminer
-        image: 127.0.0.1:5000/mpl-adminer:0.1.0
+        image: vasymus/mpl-adminer:0.1.0
         deploy:
             replicas: 1
             restart_policy:
@@ -104,11 +103,20 @@ services:
     ### Mailhog ################################################
     mailhog:
         build: ./docker/mailhog
-        image: 127.0.0.1:5000/mpl-mailhog:0.1.0
+        image: vasymus/mpl-mailhog:0.1.0
         deploy:
             replicas: 1
             restart_policy:
                 condition: on-failure
+        volumes:
+            - ./docker/mailhog/maildir:/home/mailhog/maildir
+        environment:
+            - MH_STORAGE=maildir
+            - MH_MAILDIR_PATH=/home/mailhog/maildir/mails
+            # authentication: mpl:qwe123
+            #- MH_AUTH_FILE=/home/mailhog/maildir/auth.txt
+        # About command @see https://github.com/mailhog/MailHog/issues/187#issuecomment-733009406
+        command: -invite-jim=1
         ports:
             - "${DOCKER_MAILHOG_PORT1}:1025"
             - "${DOCKER_MAILHOG_PORT2}:8025"
@@ -119,7 +127,7 @@ services:
     redis-webui:
         build:
             context: ./docker/redis-webui
-        image: 127.0.0.1:5000/mpl-redis-webui:0.1.0
+        image: vasymus/mpl-redis-webui:0.1.0
         deploy:
             replicas: 1
             restart_policy:
@@ -136,7 +144,7 @@ services:
 
 networks:
     mpl: ## !!!the name of network should be the same as ${DOCKER_NETWORK} !!!
-        driver: overlay
+        driver: "${DOCKER_NETWORK_DRIVER}"
         ## custom name for network
         ## if omit the name would be something like `mpl_mpl`
         name: mpl

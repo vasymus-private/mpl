@@ -44,7 +44,7 @@
                 <h3 class="order-info__title">Информация о пользователе</h3>
                 <div class="order-info__item">
                     <span class="order-info__label">E-mail адрес:</span>
-                    <p class="order-info__text"><a href="mailto:{{\Illuminate\Support\Facades\Auth::user()->email}}">{{\Illuminate\Support\Facades\Auth::user()->email}}</a></p>
+                    <p class="order-info__text"><a href="mailto:{{\Support\H::userOrAdmin()->email}}">{{\Support\H::userOrAdmin()->email}}</a></p>
                 </div>
                 <div class="order-info__item">
                     <span class="order-info__label">Тип плательщика:</span>
@@ -52,7 +52,7 @@
                 </div>
                 <div class="order-info__item">
                     <span class="order-info__label">Имя:</span>
-                    <p class="order-info__text">{{\Illuminate\Support\Facades\Auth::user()->name}}</p>
+                    <p class="order-info__text">{{\Support\H::userOrAdmin()->name}}</p>
                 </div>
                 @if($order->initial_attachments->isNotEmpty())
                 <div class="order-info__item">
