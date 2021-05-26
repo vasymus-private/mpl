@@ -281,30 +281,40 @@ class ShowProduct extends Component
         'searchForProductProduct.*.product_name' => 'nullable',
 
         'product.category_id' => 'nullable|integer|exists:' . Category::class . ',id',
-
-        'currentVariation.name' => 'required|string|max:199',
-        'currentVariation.ordering' => 'integer|nullable',
-        'currentVariation.is_active' => 'nullable|boolean',
-        'currentVariation.coefficient' => 'nullable|numeric',
-        'currentVariation.price_purchase' => 'nullable|numeric',
-        'currentVariation.price_purchase_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
-        'currentVariation.unit' => 'nullable|max:199',
-        'currentVariation.price_retail' => 'nullable|numeric',
-        'currentVariation.price_retail_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
-        'currentVariation.availability_status_id' => 'required|integer|exists:' . AvailabilityStatus::class . ",id",
-        'currentVariation.preview' => 'nullable|max:65000',
-
-        'variations.*.name' => 'required|string|max:199',
-        'variations.*.is_active' => 'nullable|boolean',
-        'variations.*.ordering' => 'integer|nullable',
-        'variations.*.coefficient' => 'nullable|numeric',
-        'variations.*.price_purchase' => 'nullable|numeric',
-        'variations.*.price_purchase_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
-        'variations.*.price_retail' => 'nullable|numeric',
-        'variations.*.price_retail_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
-        'variations.*.unit' => 'nullable|string|max:199',
-        'variations.*.availability_status_id' => 'required|integer|exists:' . AvailabilityStatus::class . ",id",
     ];
+
+    protected function variationsRules(): array
+    {
+        return [
+            'variations.*.name' => 'required|string|max:199',
+            'variations.*.is_active' => 'nullable|boolean',
+            'variations.*.ordering' => 'integer|nullable',
+            'variations.*.coefficient' => 'nullable|numeric',
+            'variations.*.price_purchase' => 'nullable|numeric',
+            'variations.*.price_purchase_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
+            'variations.*.price_retail' => 'nullable|numeric',
+            'variations.*.price_retail_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
+            'variations.*.unit' => 'nullable|string|max:199',
+            'variations.*.availability_status_id' => 'required|integer|exists:' . AvailabilityStatus::class . ",id",
+        ];
+    }
+
+    protected function currentVariationRules(): array
+    {
+        return [
+            'currentVariation.name' => 'required|string|max:199',
+            'currentVariation.ordering' => 'integer|nullable',
+            'currentVariation.is_active' => 'nullable|boolean',
+            'currentVariation.coefficient' => 'nullable|numeric',
+            'currentVariation.price_purchase' => 'nullable|numeric',
+            'currentVariation.price_purchase_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
+            'currentVariation.unit' => 'nullable|max:199',
+            'currentVariation.price_retail' => 'nullable|numeric',
+            'currentVariation.price_retail_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
+            'currentVariation.availability_status_id' => 'required|integer|exists:' . AvailabilityStatus::class . ",id",
+            'currentVariation.preview' => 'nullable|max:65000',
+        ];
+    }
 
     protected static function getActiveTabCacheKey(int $productId = null): string
     {
@@ -377,6 +387,8 @@ class ShowProduct extends Component
 
     public function saveVariations()
     {
+        $this->validate($this->variationsRules());
+
         $dbVariations = $this->product->variations()->get();
         $dbVariations->each(function (Product $dbVariation) {
             /** @var array|null $variation @see {@link \Domain\Products\DTOs\VariationAdminDTO} */
@@ -405,6 +417,8 @@ class ShowProduct extends Component
 
     public function saveCurrentVariation()
     {
+        $this->validate($this->currentVariationRules());
+
         $currentVariationDto = (new VariationAdminDTO($this->currentVariation));
 
         $attributes = $currentVariationDto->only([
