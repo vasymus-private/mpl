@@ -188,6 +188,16 @@ class ShowProduct extends Component
     public array $currentVariation;
 
     /**
+     * @var bool
+     */
+    public bool $variationsEditMode = false;
+
+    /**
+     * @var bool
+     */
+    public bool $variationsSelectAll = false;
+
+    /**
      * @var \Livewire\TemporaryUploadedFile
      */
     public $tempVariationMainImage;
@@ -247,7 +257,7 @@ class ShowProduct extends Component
         'product.price_retail' => 'nullable|numeric',
         'product.price_retail_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
 
-        'product.unit' => 'nullable|max:199',
+        'product.unit' => 'nullable|string|max:199',
         'product.availability_status_id' => 'required|integer|exists:' . AvailabilityStatus::class . ",id",
 
         'product.preview' => 'nullable|max:65000',
@@ -283,6 +293,17 @@ class ShowProduct extends Component
         'currentVariation.price_retail_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
         'currentVariation.availability_status_id' => 'required|integer|exists:' . AvailabilityStatus::class . ",id",
         'currentVariation.preview' => 'nullable|max:65000',
+
+        'variations.*.name' => 'required|string|max:199',
+        'variations.*.is_active' => 'nullable|boolean',
+        'variations.*.ordering' => 'integer|nullable',
+        'variations.*.coefficient' => 'nullable|numeric',
+        'variations.*.price_purchase' => 'nullable|numeric',
+        'variations.*.price_purchase_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
+        'variations.*.price_retail' => 'nullable|numeric',
+        'variations.*.price_retail_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
+        'variations.*.unit' => 'nullable|string|max:199',
+        'variations.*.availability_status_id' => 'required|integer|exists:' . AvailabilityStatus::class . ",id",
     ];
 
     protected static function getActiveTabCacheKey(int $productId = null): string
@@ -354,14 +375,32 @@ class ShowProduct extends Component
         $this->saveRelatedCategories();
     }
 
-    public function saveVariations() // todo for mass update
+    public function saveVariations()
     {
-
-    }
-
-    public function restoreVariations() // todo for mass update
-    {
-
+        $dbVariations = $this->product->variations()->get();
+        $dbVariations->each(function (Product $dbVariation) {
+            /** @var array|null $variation @see {@link \Domain\Products\DTOs\VariationAdminDTO} */
+            $variation = collect($this->variations)->first(fn(array $var) => (string)$var['id'] === (string)$dbVariation->id);
+            if (!$variation) {
+                return true;
+            }
+            $dbVariation->forceFill(collect($variation)->only([
+                'name',
+                'is_active',
+                'ordering',
+                'price_purchase',
+                'price_purchase_currency_id',
+                'unit',
+                'coefficient',
+                'price_retail',
+                'price_retail_currency_id',
+                'availability_status_id',
+            ])->toArray());
+            $dbVariation->save();
+        });
+        $this->initVariations();
+        $this->handleSetVariationsEditMode(false);
+        $this->variationsSelectAll = false;
     }
 
     public function saveCurrentVariation()
@@ -506,6 +545,51 @@ class ShowProduct extends Component
     {
         $fileDTO = FileDTO::fromTemporaryUploadedFile($value);
         $this->instructions[] = $fileDTO->toArray();
+    }
+
+    public function updatedVariationsSelectAll(bool $value)
+    {
+        $this->handleCheckAllVariations($value);
+    }
+
+    public function getAnyVariationCheckedProperty(): bool
+    {
+        return collect($this->variations)->contains('is_checked', true);
+    }
+
+    public function handleSetVariationsEditMode(?bool $mode = null)
+    {
+        $this->variationsEditMode = $mode !== null ? $mode : !$this->variationsEditMode;
+    }
+
+    public function handleDeleteSelectedVariations()
+    {
+        $selectedVariationIds = collect($this->variations)
+            ->filter(fn(array $item) => !!$item['is_checked'] && !!$item['id'])
+            ->pluck('id')
+            ->values()
+            ->toArray();
+        if (!empty($selectedVariationIds)) {
+            $this->product->variations()->whereIn('id', $selectedVariationIds)->delete();
+        }
+
+        $this->initVariations();
+        $this->handleSetVariationsEditMode(false);
+        $this->variationsSelectAll = false;
+    }
+
+    public function handleCancelVariationsEditMode()
+    {
+        $this->handleSetVariationsEditMode(false);
+        $this->initVariations();
+    }
+
+    public function handleCheckAllVariations(bool $isChecked)
+    {
+        $this->variations = collect($this->variations)->map(function(array $item) use($isChecked) {
+            $item['is_checked'] = $isChecked;
+            return $item;
+        })->all();
     }
 
     protected function saveProduct()
@@ -698,7 +782,13 @@ class ShowProduct extends Component
 
     protected function initVariations()
     {
-        $this->variations = $this->product->variations()->with('media')->orderBy(Product::TABLE . '.ordering', 'desc')->get()->map(fn(Product $product) => VariationAdminDTO::fromModel($product)->toArray())->toArray();
+        $this->variations = $this->product->variations()
+            ->with('media')
+            ->orderBy(Product::TABLE . '.ordering', 'desc')
+            ->get()
+            ->map(fn(Product $product) => VariationAdminDTO::fromModel($product)->toArray())
+            ->keyBy('id')
+            ->toArray();
         $this->currentVariation = (new VariationAdminDTO())->toArray();
     }
 }

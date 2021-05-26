@@ -20,19 +20,34 @@ class VariationAdminDTO extends DataTransferObject
 
     public bool $is_active = false;
 
-    public ?string $coefficient;
+    /**
+     * @var string|float|int|null
+     */
+    public $coefficient;
 
-    public ?string $price_purchase;
+    /**
+     * @var string|float|int|null
+     */
+    public $price_purchase;
 
     public ?int $price_purchase_currency_id;
 
+    public ?string $price_purchase_rub_formatted;
+
     public ?string $unit;
 
-    public ?string $price_retail;
+    /**
+     * @var string|float|int|null
+     */
+    public $price_retail;
 
     public ?int $price_retail_currency_id;
 
+    public ?string $price_retail_rub_formatted;
+
     public int $availability_status_id = AvailabilityStatus::ID_NOT_AVAILABLE;
+
+    public ?string $availability_status_name;
 
     public ?string $preview;
 
@@ -45,6 +60,8 @@ class VariationAdminDTO extends DataTransferObject
      * @var array[] @see {@link \Domain\Common\DTOs\FileDTO[]}
      */
     public array $additional_images = [];
+
+    public bool $is_checked = false;
 
     public static function fromModel(Product $product): self
     {
@@ -60,10 +77,13 @@ class VariationAdminDTO extends DataTransferObject
             'coefficient' => $product->coefficient,
             'price_purchase' => $product->price_purchase,
             'price_purchase_currency_id' => $product->price_purchase_currency_id,
+            'price_purchase_rub_formatted' => $product->price_purchase_rub_formatted,
             'unit' => $product->unit,
             'price_retail' => $product->price_retail,
             'price_retail_currency_id' => $product->price_retail_currency_id,
+            'price_retail_rub_formatted' => $product->price_retail_rub_formatted,
             'availability_status_id' => $product->availability_status_id,
+            'availability_status_name' => $product->availability_status_name,
             'preview' => $product->preview,
             'main_image' => $mainImage ? FileDTO::fromCustomMedia($mainImage)->toArray() : null,
             'additional_images' => $product->getMedia(Product::MC_ADDITIONAL_IMAGES)->map(fn(CustomMedia $media) => FileDTO::fromCustomMedia($media)->toArray())->all(),
