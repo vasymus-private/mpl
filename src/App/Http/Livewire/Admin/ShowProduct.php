@@ -245,9 +245,6 @@ class ShowProduct extends Component
         'tempAdditionalImage' => 'nullable|max:'  . (1024 * self::MAX_FILE_SIZE_MB), // 1024 - 1mb,
         'tempInstruction' => 'nullable|max:' . (1024 * self::MAX_FILE_SIZE_MB), // 1024 - 1mb
 
-        'tempVariationMainImage' => 'nullable|max:'  . (1024 * self::MAX_FILE_SIZE_MB), // 1024 - 1mb,
-        'tempVariationAdditionalImage' => 'nullable|max:'  . (1024 * self::MAX_FILE_SIZE_MB), // 1024 - 1mb,
-
         'mainImage.name' => 'nullable|max:199',
         'additionalImages.*.name' => 'nullable|max:199',
         'instructions.*.name' => 'nullable|max:199',
@@ -313,6 +310,8 @@ class ShowProduct extends Component
             'currentVariation.price_retail_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
             'currentVariation.availability_status_id' => 'required|integer|exists:' . AvailabilityStatus::class . ",id",
             'currentVariation.preview' => 'nullable|max:65000',
+            'tempVariationMainImage' => 'nullable|max:'  . (1024 * self::MAX_FILE_SIZE_MB), // 1024 - 1mb,
+            'tempVariationAdditionalImage' => 'nullable|max:'  . (1024 * self::MAX_FILE_SIZE_MB), // 1024 - 1mb,
         ];
     }
 
@@ -445,11 +444,21 @@ class ShowProduct extends Component
             $product = Product::forceCreate($attributes);
         }
 
-        if (!empty($currentVariationDto->main_image)) $this->addMedia(new FileDTO($currentVariationDto->main_image), Product::MC_MAIN_IMAGE, $product);
+        if (!empty($currentVariationDto->main_image)) {
+            $this->addMedia(new FileDTO($currentVariationDto->main_image), Product::MC_MAIN_IMAGE, $product);
+        } else {
+            $mainImageMedia = $product->getFirstMedia(Product::MC_MAIN_IMAGE);
+            if ($mainImageMedia) $mainImageMedia->delete();
+        }
 
         foreach ($currentVariationDto->additional_images as $additionalImage) {
             $this->addMedia(new FileDTO($additionalImage), Product::MC_ADDITIONAL_IMAGES, $product);
         }
+
+        $additionalImageIds = collect($this->currentVariation['additional_images'])->pluck('id')->toArray();
+        $product->getMedia(Product::MC_ADDITIONAL_IMAGES)->each(function(CustomMedia $media) use($additionalImageIds) {
+            if (!in_array($media->id, $additionalImageIds)) $media->delete();
+        });
 
         $this->initVariations();
 
@@ -470,6 +479,8 @@ class ShowProduct extends Component
     public function cancelCurrentVariation()
     {
         $this->currentVariation = (new VariationAdminDTO())->toArray();
+        $this->tempVariationMainImage = null;
+        $this->tempVariationAdditionalImage = null;
     }
 
     public function addInfoPrice()
@@ -496,6 +507,16 @@ class ShowProduct extends Component
     public function deleteAdditionalImage($index)
     {
         $this->additionalImages = collect($this->additionalImages)->values()->filter(fn(array $additinalImage, int $key) => (string)$index !== (string)$key)->toArray();
+    }
+
+    public function deleteVariationMainImage()
+    {
+        $this->currentVariation['main_image'] = [];
+    }
+
+    public function deleteVariationAdditionalImage($index)
+    {
+        $this->currentVariation['additional_images'] = collect($this->currentVariation['additional_images'])->values()->filter(fn(array $additinalImage, int $key) => (string)$index !== (string)$key)->toArray();
     }
 
     public function deleteInstruction($index)
@@ -633,7 +654,7 @@ class ShowProduct extends Component
         if (!$this->mainImage) {
             /** @var CustomMedia|null $media */
             $media = $this->product->getFirstMedia(Product::MC_MAIN_IMAGE);
-            if ($media) $media->forceDelete();
+            if ($media) $media->delete();
             return;
         }
 
@@ -669,7 +690,7 @@ class ShowProduct extends Component
 
         $additionalImagesIds = collect($additionalImages)->pluck("id")->toArray();
         $this->product->getMedia(Product::MC_ADDITIONAL_IMAGES)->each(function(CustomMedia $media) use($additionalImagesIds) {
-            if (!in_array($media->id, $additionalImagesIds)) $media->forceDelete();
+            if (!in_array($media->id, $additionalImagesIds)) $media->delete();
         });
         $this->additionalImages = $additionalImages;
     }
@@ -693,7 +714,7 @@ class ShowProduct extends Component
 
         $instructionsIds = collect($instructions)->pluck("id")->toArray();
         $this->product->getMedia(Product::MC_FILES)->each(function(CustomMedia $media) use($instructionsIds) {
-            if (!in_array($media->id, $instructionsIds)) $media->forceDelete();
+            if (!in_array($media->id, $instructionsIds)) $media->delete();
         });
         $this->instructions = $instructions;
     }

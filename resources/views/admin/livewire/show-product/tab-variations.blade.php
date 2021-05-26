@@ -8,7 +8,7 @@
  */
 ?>
 <div class="row">
-    <button type="button" data-toggle="modal" data-target="#current-variation" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Добавить элемент</button>
+    <button onclick="@this.setCurrentVariation().then(() => {$('#current-variation').modal('show')})" type="button" data-target="#current-variation" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Добавить элемент</button>
 </div>
 
 <div class="table-responsive">
@@ -155,6 +155,7 @@
                 </ul>
 
                 <div class="tab-content" id="variation-modal-tab-content">
+
                     <div wire:ignore.self class="tab-pane p-3 fade show active" id="variation-elements" role="tabpanel" aria-labelledby="variation-elements-tab">
                         @include('admin.livewire.includes.form-group-checkbox', ['field' => 'currentVariation.is_active', 'label' => 'Активность'])
 
@@ -213,8 +214,65 @@
 
 
                     </div>
+
+
                     <div wire:ignore.self class="tab-pane p-3 fade" id="variation-photos" role="tabpanel" aria-labelledby="variation-photos-tab">
-                        элемент фото
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Основное фото:</label>
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div class="card text-center col-3">
+                                        @if(!empty($currentVariation['main_image']))
+                                            <div class="card-body">
+                                                <a href="{{$currentVariation['main_image']['url']}}" target="_blank"><img class="img-thumbnail" src="{{$currentVariation['main_image']['url']}}" alt=""></a>
+                                                <div class="form-group">
+                                                    @include('admin.livewire.includes.form-control-input', ['field' => "currentVariation.main_image.name"])
+                                                </div>
+                                                <button wire:click="deleteVariationMainImage" type="button" class="btn btn-outline-danger">x</button>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tempVariationMainImage">Загрузить основное фото</label>
+                                    <input type="file" wire:model="tempVariationMainImage" class="form-control-file @error("tempVariationMainImage") is-invalid @enderror" id="tempVariationMainImage" />
+                                    <div wire:loading wire:target="tempVariationMainImage">
+                                        <div class="spinner-border" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </div>
+                                    @error("tempVariationMainImage") <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Дополнительные фото:</label>
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    @foreach($currentVariation['additional_images'] as $index => $currentVariationAdditionalImage)
+                                        <div wire:key="instructions-{{$index}}-{{$currentVariationAdditionalImage['url']}}" class="card text-center col-3">
+                                            <div class="card-body">
+                                                <a href="{{$currentVariationAdditionalImage['url']}}" target="_blank"><img class="img-thumbnail" src="{{$currentVariationAdditionalImage['url']}}" alt=""></a>
+                                                <div class="form-group">
+                                                    @include('admin.livewire.includes.form-control-input', ['field' => "currentVariation.additional_images.$index.name"])
+                                                </div>
+                                                <button wire:click="deleteVariationAdditionalImage({{$index}})" type="button" class="btn btn-outline-danger">x</button>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <div class="form-group">
+                                    <label for="tempVariationAdditionalImage">Добавить дополнительное фото</label>
+                                    <input type="file" wire:model="tempVariationAdditionalImage" class="form-control-file @error("tempVariationAdditionalImage") is-invalid @enderror" id="tempVariationAdditionalImage" />
+                                    <div wire:loading wire:target="tempVariationAdditionalImage">
+                                        <div class="spinner-border" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </div>
+                                    @error("tempVariationAdditionalImage") <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -226,6 +284,11 @@
     </div>
 </div>
 
+<script>
+    $('#current-variation').on('hide.bs.modal', () => {
+        @this.cancelCurrentVariation();
+    })
+</script>
 
 <script>
     document.addEventListener('livewire:load', () => {
