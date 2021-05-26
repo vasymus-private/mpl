@@ -164,11 +164,15 @@ window.livewireTinymce = () => {
         {
             editorId : 'product-description-tinymce',
             sourceId : 'product.description'
+        },
+        {
+            editorId : 'currentVariation-preview-tinymce',
+            sourceId : 'currentVariation.preview'
         }
     ]
 
     selectors.forEach(({editorId, sourceId}) => {
-        tinymce.init({
+        window.__tinymce_inst = tinymce.init({
             ...window.___tinymceOptions,
             selector: `#${editorId}`,
             setup: function (editor) { // https://stackoverflow.com/a/24284938

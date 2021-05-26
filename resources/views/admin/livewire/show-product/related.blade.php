@@ -57,7 +57,7 @@
         <div class="input-group mb-3">
             <input wire:model.defer="searchForProductProduct.{{$type}}.product_name" type="text" class="form-control" id="searchForProductProduct.{{$type}}.product_name" />
             <div class="input-group-append">
-                <button wire:click="loadProductProduct({{$type}})" class="btn btn-outline-secondary" type="button" id="search-button"><i class="fa fa-search" aria-hidden="true"></i></button>
+                <button wire:click="loadProductProduct({{$type}})" class="btn btn-outline-secondary" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
             </div>
         </div>
     </div>

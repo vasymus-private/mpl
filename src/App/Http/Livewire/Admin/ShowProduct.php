@@ -421,7 +421,7 @@ class ShowProduct extends Component
 
         $currentVariationDto = (new VariationAdminDTO($this->currentVariation));
 
-        $attributes = $currentVariationDto->only([
+        $attributes = $currentVariationDto->only(
             'name',
             'ordering',
             'is_active',
@@ -432,14 +432,15 @@ class ShowProduct extends Component
             'price_retail',
             'price_retail_currency_id',
             'availability_status_id',
-            'preview',
-        ])
+            'preview'
+        )
             ->toArray();
         $attributes = array_merge($attributes, ['parent_id' => $this->product->id]);
 
-        if ($currentVariationDto['id']) {
-            $product = Product::query()->variations()->findOrFail($currentVariationDto['id']);
+        if ($currentVariationDto->id) {
+            $product = Product::query()->variations()->findOrFail($currentVariationDto->id);
             $product->forceFill($attributes);
+            $product->save();
         } else {
             $product = Product::forceCreate($attributes);
         }
@@ -451,6 +452,8 @@ class ShowProduct extends Component
         }
 
         $this->initVariations();
+
+        return true;
     }
 
     public function setCurrentVariation(?int $id = null)
@@ -459,7 +462,7 @@ class ShowProduct extends Component
             $this->currentVariation = (new VariationAdminDTO())->toArray();
         } else {
             /** @var \Domain\Products\Models\Product\Product $variation */
-            $variation = $this->product->variations()->with('media')->firstOrFail();
+            $variation = $this->product->variations()->with('media')->findOrFail($id);
             $this->currentVariation = VariationAdminDTO::fromModel($variation)->toArray();
         }
     }

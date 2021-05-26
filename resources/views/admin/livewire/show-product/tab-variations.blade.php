@@ -12,7 +12,7 @@
 </div>
 
 <div class="table-responsive">
-    <table class="table table-bordered" style="width: 3000px;">
+    <table class="table table-bordered table-hover" style="width: 3000px;">
         <thead>
             <tr>
                 <th>
@@ -32,7 +32,7 @@
         </thead>
         <tbody>
             @foreach($variations as $variation)
-                <tr wire:key="{{$variation['id']}}">
+                <tr wire:key="{{$variation['id']}}" ondblclick="@this.setCurrentVariation({{$variation['id']}}).then(() => {$('#current-variation').modal('show')})">
                     <td>
                         <div class="form-check form-check-inline">
                             <input wire:model="variations.{{$variation['id']}}.is_checked" class="form-check-input" type="checkbox" />
@@ -120,7 +120,7 @@
     @if(!$variationsEditMode)
     <div class="btn-group" role="group" aria-label="actions">
         <button wire:click="handleSetVariationsEditMode" aria-label="edit all mode" type="button" class="btn btn-light" @if(!$this->anyVariationChecked) disabled @endif><i class="fa fa-pencil" aria-hidden="true"></i></button>
-        <button onclick="let yes = confirm('Вы уверены, что хотите удалить отмеченные записи?'); if (yes) {@this.handleDeleteSelectedVariations();}" aria-label="delete all" type="button" class="btn btn-light" @if(!$this->anyVariationChecked) disabled @endif><i class="fa fa-times" aria-hidden="true"></i></button>
+        <button onclick="if (confirm('Вы уверены, что хотите удалить отмеченные записи?')) {@this.handleDeleteSelectedVariations();}" aria-label="delete all" type="button" class="btn btn-light" @if(!$this->anyVariationChecked) disabled @endif><i class="fa fa-times" aria-hidden="true"></i></button>
     </div>
     @else
         <button wire:click="saveVariations" type="button" class="btn btn-light">Сохранить</button>
@@ -128,7 +128,7 @@
     @endif
 </div>
 
-<div class="modal fade" wire:ignore id="current-variation" tabindex="-1" aria-labelledby="new-variation-label" aria-hidden="true">
+<div wire:ignore.self class="modal fade" id="current-variation" tabindex="-1" aria-labelledby="new-variation-label" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
@@ -156,7 +156,62 @@
 
                 <div class="tab-content" id="variation-modal-tab-content">
                     <div wire:ignore.self class="tab-pane p-3 fade show active" id="variation-elements" role="tabpanel" aria-labelledby="variation-elements-tab">
-                        элемент контент
+                        @include('admin.livewire.includes.form-group-checkbox', ['field' => 'currentVariation.is_active', 'label' => 'Активность'])
+
+                        @include('admin.livewire.includes.form-group-input', ['field' => 'currentVariation.name', 'label' => 'Название'])
+
+                        @include('admin.livewire.includes.form-group-input', ['field' => 'currentVariation.ordering', 'label' => 'Сортировка'])
+
+                        @include('admin.livewire.includes.form-group-input', ['field' => 'currentVariation.coefficient', 'label' => 'Коэффициент на единицу расхода и единица расхода'])
+
+                        @include('admin.livewire.includes.form-group-input', ['field' => 'currentVariation.unit', 'label' => 'Упаковка / Единица'])
+
+                        <div class="form-group row">
+                            <label for="price_purchase" class="col-sm-3 col-form-label">Закупочная цена:</label>
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div class="col">
+                                        @include('admin.livewire.includes.form-control-input', ['field' => "currentVariation.price_purchase"])
+                                    </div>
+                                    <div class="col">
+                                        @include('admin.livewire.includes.form-group-select', ['field' => 'currentVariation.price_purchase_currency_id', 'label' => 'Валюта', 'options' => $currencies])
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="price_retail" class="col-sm-3 col-form-label">Розничная цена:</label>
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div class="col">
+                                        @include('admin.livewire.includes.form-control-input', ['field' => "currentVariation.price_retail"])
+                                    </div>
+                                    <div class="col">
+                                        @include('admin.livewire.includes.form-group-select', ['field' => 'currentVariation.price_retail_currency_id', 'label' => 'Валюта', 'options' => $currencies])
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="currentVariation.preview">Описание для анонса</label>
+                            <div class="nav nav-tabs" role="tablist">
+                                <a class="nav-link" id="current-variation-preview-html-tab" data-toggle="tab" href="#current-variation-preview-html" role="tab" aria-controls="current-variation-preview-html" aria-selected="false">HTML</a>
+                                <a class="nav-link active" id="current-variation-preview-editor-tab" data-toggle="tab" href="#current-variation-preview-editor" role="tab" aria-controls="current-variation-preview-editor" aria-selected="true">Визуальный редактор</a>
+                            </div>
+                            <div class="tab-content" id="nav-tabContent">
+                                <div class="tab-pane fade" id="current-variation-preview-html" role="tabpanel" aria-labelledby="current-variation-preview-html-tab" style="height: 600px">
+                                    @include('admin.livewire.includes.form-control-textarea', ['field' => 'currentVariation.preview', 'class' => 'h-100'])
+                                </div>
+                                <div class="tab-pane fade show active" id="current-variation-preview-editor" role="tabpanel" aria-labelledby="current-variation-preview-editor-tab">
+                                    <textarea id="currentVariation-preview-tinymce"></textarea>
+                                    @error('currentVariation.preview') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                </div>
+                            </div>
+                        </div>
+
+
                     </div>
                     <div wire:ignore.self class="tab-pane p-3 fade" id="variation-photos" role="tabpanel" aria-labelledby="variation-photos-tab">
                         элемент фото
@@ -164,10 +219,21 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button wire:click="saveCurrentVariation" type="button" class="btn btn-primary">Сохранить</button>
+                <button onclick="@this.saveCurrentVariation().then(res => {console.log(res); if (res) {$('#current-variation').modal('hide')}})" type="button" class="btn btn-primary">Сохранить</button>
                 <button wire:click="cancelCurrentVariation" type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
             </div>
         </div>
     </div>
 </div>
 
+
+<script>
+    document.addEventListener('livewire:load', () => {
+        jQuery(() => {
+            if (typeof livewireTinymce === 'function') livewireTinymce()
+        })
+    })
+    document.addEventListener('livewire:update', () => {
+        if (typeof livewireTinymce === 'function') livewireTinymce()
+    })
+</script>

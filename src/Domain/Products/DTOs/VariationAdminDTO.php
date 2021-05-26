@@ -16,7 +16,10 @@ class VariationAdminDTO extends DataTransferObject
 
     public ?string $name;
 
-    public ?int $ordering;
+    /**
+     * @var int|string|null
+     */
+    public $ordering = Product::ORDERING_DEFAULT;
 
     public bool $is_active = false;
 
@@ -30,7 +33,10 @@ class VariationAdminDTO extends DataTransferObject
      */
     public $price_purchase;
 
-    public ?int $price_purchase_currency_id;
+    /**
+     * @var int|string|null
+     */
+    public $price_purchase_currency_id;
 
     public ?string $price_purchase_rub_formatted;
 
@@ -41,7 +47,10 @@ class VariationAdminDTO extends DataTransferObject
      */
     public $price_retail;
 
-    public ?int $price_retail_currency_id;
+    /**
+     * @var int|string|null
+     */
+    public $price_retail_currency_id;
 
     public ?string $price_retail_rub_formatted;
 

@@ -111,6 +111,8 @@ class Product extends BaseModel implements HasMedia
     const TABLE = "products";
     const MAX_CHARACTERISTIC_RATE = 5;
 
+    const ORDERING_DEFAULT = 500;
+
     const MC_MAIN_IMAGE = "main";
     const MC_ADDITIONAL_IMAGES = "images";
     const MC_FILES = "files";
