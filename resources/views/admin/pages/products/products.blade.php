@@ -33,13 +33,9 @@
             </div>
             <div class="col-xs-12 col-sm-2">
                 <div class="dropdown">
-                    <button class="btn btn-add btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a href="{{route('admin.products.create')}}" class="btn btn-add btn-secondary">
                         Создать товар
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="{{route("admin.products.create")}}">Товар без вариантов</a>
-                        <a class="dropdown-item" href="{{route("admin.products.create")}}">Товар с вариантами</a>
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>

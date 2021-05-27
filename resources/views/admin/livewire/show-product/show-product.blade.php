@@ -8,21 +8,23 @@
 /** @var array[] $availabilityStatuses @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Common\Models\Currency} */
 ?>
 <div class="py-4">
-    <div class="row pb-4">
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Параметры товара
-            </button>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" wire:click="setWithVariations(false)" href="#">@if(!$is_with_variations)<i class="fa fa-check" aria-hidden="true"></i>@endif Товар без вариантов</a>
-                <a class="dropdown-item" wire:click="setWithVariations(true)" href="#">@if($is_with_variations)<i class="fa fa-check" aria-hidden="true"></i>@endif Товар с вариантами</a>
+    @if($product->id)
+        <div class="row pb-4">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Параметры товара
+                </button>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" wire:click="setWithVariations(false)" href="#">@if(!$is_with_variations)<i class="fa fa-check" aria-hidden="true"></i>@endif Товар без вариантов</a>
+                    <a class="dropdown-item" wire:click="setWithVariations(true)" href="#">@if($is_with_variations)<i class="fa fa-check" aria-hidden="true"></i>@endif Товар с вариантами</a>
+                </div>
             </div>
         </div>
-    </div>
+    @endif
     <ul class="nav nav-tabs" id="show-product-tabs" role="tablist">
         @foreach($tabs as $tab => $label)
             <li wire:key="{{ $tab }}" class="nav-item @if(!$is_with_variations && $tab === 'variations') d-none @endif" role="presentation">
-                <a wire:click="selectTab('{{$tab}}')" class="nav-link @if($tab === $activeTab) active @endif" data-toggle="tab" id="{{$tab}}-tab" href="#{{$tab}}" role="tab" aria-controls="{{$tab}}" aria-selected="{{$tab === $activeTab ? 'true' : 'false'}}">{{$label}}</a>
+                <a wire:click="selectTab('{{$tab}}')" wire:ignore.self class="nav-link @if($tab === $activeTab) active @endif" data-toggle="tab" id="{{$tab}}-tab" href="#{{$tab}}" role="tab" aria-controls="{{$tab}}" aria-selected="{{$tab === $activeTab ? 'true' : 'false'}}">{{$label}}</a>
             </li>
         @endforeach
     </ul>

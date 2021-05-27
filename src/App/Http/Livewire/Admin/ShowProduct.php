@@ -18,6 +18,7 @@ use Domain\Products\Models\Pivots\ProductProduct;
 use Domain\Products\Models\Product\Product;
 use Domain\Seo\Models\Seo;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\TemporaryUploadedFile;
 use Support\H;
@@ -208,6 +209,11 @@ class ShowProduct extends Component
     public $tempVariationAdditionalImage;
 
     /**
+     * @var bool
+     */
+    public bool $generateSlugSyncMode = false;
+
+    /**
      * @var string[]
      */
     public array $tabs = [
@@ -228,7 +234,7 @@ class ShowProduct extends Component
     protected array $rules = [
         'product.name' => 'required|string|max:199',
         'product.is_active' => 'nullable|boolean',
-        'product.slug' => 'required|string|max:199',
+        'product.slug' => 'nullable|string|max:199',
         'product.ordering' => 'integer|nullable',
         'product.brand_id' => 'integer|nullable|exists:' . Brand::class . ",id",
         'product.coefficient' => 'nullable|numeric',
@@ -346,7 +352,7 @@ class ShowProduct extends Component
 
         $this->relatedCategories = $this->product->relatedCategories->pluck('id')->toArray();
 
-        $this->is_with_variations = $this->product->is_with_variations;
+        $this->is_with_variations = (bool)$this->product->is_with_variations;
 
         $this->initVariations();
     }
@@ -367,6 +373,11 @@ class ShowProduct extends Component
     {
         $this->validate();
 
+        $shouldRedirect = false;
+        if (!$this->product->id) {
+            $shouldRedirect = true;
+        }
+
         $this->saveProduct();
 
         $this->saveInfoPrices();
@@ -382,6 +393,10 @@ class ShowProduct extends Component
         $this->saveProductProduct();
 
         $this->saveRelatedCategories();
+
+        if ($shouldRedirect) {
+            return redirect()->route('admin.products.edit', $this->product->id);
+        }
     }
 
     public function saveVariations()
@@ -527,6 +542,33 @@ class ShowProduct extends Component
     public function setWithVariations(bool $with)
     {
         $this->is_with_variations = $with;
+        /** @var \Domain\Products\Models\Product\Product $product */
+        $product = Product::query()->findOrFail($this->product->id);
+        $product->is_with_variations = $with;
+        $product->save();
+    }
+
+    public function updatedProductName()
+    {
+        $this->handleGenerateSlug();
+    }
+
+    public function toggleGenerateSlugMode()
+    {
+        $this->generateSlugSyncMode = !$this->generateSlugSyncMode;
+        $this->handleGenerateSlug();
+    }
+
+    public function handleGenerateSlug()
+    {
+        if ($this->generateSlugSyncMode) {
+            $this->generateSlug();
+        }
+    }
+
+    protected function generateSlug()
+    {
+        $this->product->slug = Str::slug($this->product->name);
     }
 
     /**
@@ -632,7 +674,6 @@ class ShowProduct extends Component
 
     protected function saveProduct()
     {
-        $this->product->is_with_variations = $this->is_with_variations;
         $this->product->save();
     }
 

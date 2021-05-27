@@ -1,6 +1,6 @@
 <?php
 
-use Domain\Products\Models\AvailabilityStatus;
+use Domain\Products\Models\Product\Product;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -33,7 +33,7 @@ class CreateProductsTable extends Migration
             $table->string('unit')->nullable();
             $table->double('price_retail')->nullable();
             $table->integer('price_retail_currency_id')->nullable();
-            $table->unsignedBigInteger('availability_status_id')->default(AvailabilityStatus::ID_DEFAULT);
+            $table->unsignedBigInteger('availability_status_id')->default(Product::DEFAULT_AVAILABILITY_STATUS_ID);
             $table->text('preview')->nullable();
             $table->text('description')->nullable();
             $table->string('ch_desc_trade_mark')->nullable();
@@ -70,10 +70,10 @@ class CreateProductsTable extends Migration
             $table->string('ch_storage_term')->nullable();
             $table->string('ch_storage_conditions')->nullable();
 
-            $table->string("accessory_name")->default("Аксессуары");
-            $table->string("similar_name")->default("Похожие");
-            $table->string("related_name")->default("Сопряженные");
-            $table->string("work_name")->default("Работы");
+            $table->string("accessory_name")->default(Product::DEFAULT_ACCESSORY_NAME);
+            $table->string("similar_name")->default(Product::DEFAULT_SIMILAR_NAME);
+            $table->string("related_name")->default(Product::DEFAULT_RELATED_NAME);
+            $table->string("work_name")->default(Product::DEFAULT_WORK_NAME);
 
             $table->timestamps();
             $table->softDeletes();
