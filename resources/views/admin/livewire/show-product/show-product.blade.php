@@ -21,7 +21,7 @@
             </div>
         </div>
     @endif
-    <ul class="nav nav-tabs" id="show-product-tabs" role="tablist">
+    <ul class="nav nav-tabs" role="tablist">
         @foreach($tabs as $tab => $label)
             <li wire:key="{{ $tab }}" class="nav-item @if(!$is_with_variations && $tab === 'variations') d-none @endif" role="presentation">
                 <a wire:click="selectTab('{{$tab}}')" wire:ignore.self class="nav-link @if($tab === $activeTab) active @endif" data-toggle="tab" id="{{$tab}}-tab" href="#{{$tab}}" role="tab" aria-controls="{{$tab}}" aria-selected="{{$tab === $activeTab ? 'true' : 'false'}}">{{$label}}</a>
@@ -29,7 +29,7 @@
         @endforeach
     </ul>
     <form wire:submit.prevent="save">
-        <div class="tab-content" id="show-product-tab-content">
+        <div class="tab-content">
             @foreach($tabs as $tab => $label)
                     <div wire:key="{{ $tab }}"  wire:ignore.self class="tab-pane p-3 fade @if($tab === $activeTab) show active @endif" id="{{$tab}}" role="tabpanel" aria-labelledby="{{$tab}}-tab">
                         <div class="@if(!$is_with_variations && $tab === 'variations') d-none @endif">
@@ -40,6 +40,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary mb-2">Сохранить</button>
+
         @foreach($errors->all() as $error)
             <div wire:key="{{$error}}" class="alert alert-danger alert-dismissible fade show" role="alert">
                 {{$error}}

@@ -1,4 +1,4 @@
-<?php /** @var \Domain\Products\Models\Product\Product $product */ ?>
+<?php /** @var \Domain\Products\Models\Brand $brand */ ?>
 @extends("admin.layouts.app")
 
 @section("content")
@@ -9,10 +9,10 @@
         <span class="breadcrumbs__item">
             <span class="breadcrumbs__arrow"></span>
         </span>
-        <a href="{{route('admin.products.index')}}" class="breadcrumbs__item">
-            <span class="breadcrumbs__text">Каталог товаров</span>
+        <a href="{{route('admin.brands.index')}}" class="breadcrumbs__item">
+            <span class="breadcrumbs__text">Производители</span>
         </a>
     </div>
 
-    <livewire:admin.show-product :product="$product" />
+    <livewire:admin.show-brand :brand="$brand" />
 @endsection

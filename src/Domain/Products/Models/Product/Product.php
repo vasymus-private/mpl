@@ -319,7 +319,7 @@ class Product extends BaseModel implements HasMedia
 
     public static function rbAdminProduct($value)
     {
-        return static::query()->findOrFail($value);
+        return static::query()->select(["*"])->notVariations()->findOrFail($value);
     }
 
     public function registerMediaCollections(): void

@@ -37,30 +37,31 @@ Route
     ->name("products.create")
 ;
 Route
-    ::post(
-        "products",
-        [\App\Http\Controllers\Admin\ProductsController::class, "store"]
-    )
-    ->name("products.store")
-;
-Route
     ::get(
         "products/{admin_product}/edit",
         [\App\Http\Controllers\Admin\ProductsController::class, "edit"]
     )
     ->name("products.edit")
 ;
+
 Route
-    ::put(
-        "products/{admin_product}",
-        [\App\Http\Controllers\Admin\ProductsController::class, "update"]
+    ::get(
+        "brands",
+        [\App\Http\Controllers\Admin\BrandsController::class, "index"]
     )
-    ->name("products.update")
+    ->name("brands.index")
 ;
 Route
-    ::delete(
-        "products/{admin_product}",
-        [\App\Http\Controllers\Admin\ProductsController::class, "destroy"]
+    ::get(
+        "brands/create",
+        [\App\Http\Controllers\Admin\BrandsController::class, "create"]
     )
-    ->name("products.destroy")
+    ->name("brands.create")
+;
+Route
+    ::get(
+        "brands/{admin_brand}/edit",
+        [\App\Http\Controllers\Admin\BrandsController::class, "edit"]
+    )
+    ->name("brands.edit")
 ;

@@ -1,5 +1,6 @@
 <?php
 
+use Domain\Products\Models\Brand;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,7 +20,7 @@ class CreateBrandsTable extends Migration
             $table->string("slug")->unique();
             $table->text('preview')->nullable();
             $table->text('description')->nullable();
-            $table->unsignedBigInteger('ordering')->nullable();
+            $table->unsignedBigInteger('ordering')->nullable()->default(Brand::DEFAULT_ORDERING);
             $table->softDeletes();
             $table->unsignedBigInteger("_old_id")->nullable()->comment("Temporary for transfering data from old database");
         });

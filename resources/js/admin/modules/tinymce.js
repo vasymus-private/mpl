@@ -168,7 +168,15 @@ window.livewireTinymce = () => {
         {
             editorId : 'currentVariation-preview-tinymce',
             sourceId : 'currentVariation.preview'
-        }
+        },
+        {
+            editorId : 'brand-preview-tinymce',
+            sourceId : 'brand.preview'
+        },
+        {
+            editorId : 'brand-description-tinymce',
+            sourceId : 'brand.description'
+        },
     ]
 
     selectors.forEach(({editorId, sourceId}) => {
