@@ -4,12 +4,35 @@
 /** @var array[] $instructions {@see \Domain\Common\DTOs\FileDTO} */
 /** @var array[] $currencies @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Common\Models\Currency} */
 /** @var array[] $availabilityStatuses @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Common\Models\Currency} */
+/** @var bool $generateSlugSyncMode */
 ?>
 @include('admin.livewire.includes.form-group-checkbox', ['field' => 'product.is_active', 'label' => 'Активность'])
 
-@include('admin.livewire.includes.form-group-input', ['field' => 'product.name', 'label' => 'Название'])
+<div class="form-group row">
+    <label for="product.name" class="col-sm-3 col-form-label font-weight-bold">Название:</label>
+    <div class="col-sm-9">
+        <div class="input-group mb-3">
+            <input wire:model.debounce.1000ms="product.name" type="text" class="form-control @error('product.name') is-invalid @enderror" id="product.name">
+            <div class="input-group-append">
+                <button wire:click="toggleGenerateSlugMode" class="btn btn-outline-secondary" type="button"><i class="fa {{$generateSlugSyncMode ? 'fa-chain' : 'fa-chain-broken'}}" aria-hidden="true"></i></button>
+            </div>
+        </div>
+        @error('product.name') <div class="invalid-feedback">{{ $message }}</div> @enderror
+    </div>
+</div>
 
-@include('admin.livewire.includes.form-group-input', ['field' => 'product.slug', 'label' => 'Символьный код'])
+<div class="form-group row">
+    <label for="product.slug" class="col-sm-3 col-form-label">Символьный код:</label>
+    <div class="col-sm-9">
+        <div class="input-group mb-3">
+            <input wire:model.defer="product.slug" type="text" class="form-control @error('product.slug') is-invalid @enderror" id="product.slug">
+            <div class="input-group-append">
+                <button wire:click="toggleGenerateSlugMode" class="btn btn-outline-secondary" type="button"><i class="fa {{$generateSlugSyncMode ? 'fa-chain' : 'fa-chain-broken'}}" aria-hidden="true"></i></button>
+            </div>
+        </div>
+        @error('product.slug') <div class="invalid-feedback">{{ $message }}</div> @enderror
+    </div>
+</div>
 
 @include('admin.livewire.includes.form-group-input', ['field' => 'product.ordering', 'label' => 'Сортировка'])
 

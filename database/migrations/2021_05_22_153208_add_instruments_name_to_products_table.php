@@ -1,5 +1,6 @@
 <?php
 
+use Domain\Products\Models\Product\Product;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +15,7 @@ class AddInstrumentsNameToProductsTable extends Migration
     public function up()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->string("instruments_name")->default("Инструменты")->after('work_name');
+            $table->string("instruments_name")->default(Product::DEFAULT_INSTRUMENTS_NAME)->after('work_name');
         });
     }
 
