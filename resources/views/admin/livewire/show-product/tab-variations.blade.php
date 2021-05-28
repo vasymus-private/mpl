@@ -167,6 +167,8 @@
 
                         @include('admin.livewire.includes.form-group-input', ['field' => 'currentVariation.unit', 'label' => 'Упаковка / Единица'])
 
+                        @include('admin.livewire.includes.form-group-select', ['field' => 'currentVariation.availability_status_id', 'label' => 'Наличие', 'options' => $availabilityStatuses])
+
                         <div class="form-group row">
                             <label for="price_purchase" class="col-sm-3 col-form-label">Закупочная цена:</label>
                             <div class="col-sm-9">

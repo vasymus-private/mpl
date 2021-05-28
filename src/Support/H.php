@@ -115,9 +115,12 @@ class H
             return $value;
         }
 
-        $value = trim($value);
-
-        return $value === '' ? null : $value;
+        $trimmedValue = trim($value);
+        if ($trimmedValue === '') {
+            return null;
+        } else {
+            return $value;
+        }
     }
 
     public static function getMimeTypeName($mimeType): string

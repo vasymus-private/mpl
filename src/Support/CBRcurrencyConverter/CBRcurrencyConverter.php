@@ -92,7 +92,7 @@ class CBRcurrencyConverter
     {
         if (!in_array($currency, static::$currencies)) throw new \LogicException("Only " . implode(", ", static::$currencies) . " are allowed.");
 
-        if ($value < 0) throw new \LogicException("Value should positive or '0'");
+        //if ($value < 0) throw new \LogicException("Value should positive or '0'");
 
         if (
             $date !== null &&

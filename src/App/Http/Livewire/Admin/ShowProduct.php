@@ -1,5 +1,16 @@
 <?php
 
+// TODO добавление нескольких файлов: картинок, инструкций
+// TODO копирование вариантов
+// TODO копирование товаров
+// todo при копировании, в том числе фотографии
+// залипание кнопки сохранить и отменить
+// добавить кнопку -- вернуться в раздел
+// меню сохранялось
+// структура разделов -- менюшка слева
+// создание разделов -- name, slug, активность, seo, родительский раздел
+
+
 namespace App\Http\Livewire\Admin;
 
 use Domain\Common\DTOs\FileDTO;
@@ -579,7 +590,7 @@ class ShowProduct extends Component
      */
     public function updated($name, $value)
     {
-        data_set($this, $name, H::trimAndNullEmptyString($value));
+        data_set($this, $name, H::trimAndNullEmptyString($value)); // trim only left side
     }
 
     /**
