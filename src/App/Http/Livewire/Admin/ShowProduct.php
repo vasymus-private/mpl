@@ -1,5 +1,8 @@
 <?php
 
+// TODO добавление нескольких файлов: картинок, инструкций
+
+
 namespace App\Http\Livewire\Admin;
 
 use Domain\Common\DTOs\FileDTO;
