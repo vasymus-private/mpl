@@ -57,7 +57,7 @@ class VariationAdminDTO extends DataTransferObject
     /**
      * @var int|string|null
      */
-    public int $availability_status_id = AvailabilityStatus::ID_NOT_AVAILABLE;
+    public $availability_status_id = AvailabilityStatus::ID_NOT_AVAILABLE;
 
     public ?string $availability_status_name;
 
