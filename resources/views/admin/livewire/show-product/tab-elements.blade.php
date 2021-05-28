@@ -68,7 +68,7 @@
     </div>
 </div>
 
-@include('admin.livewire.includes.form-group-textarea', ['field' => 'admin_comment', 'label' => 'Служебная информация'])
+@include('admin.livewire.includes.form-group-textarea', ['field' => 'product.admin_comment', 'label' => 'Служебная информация'])
 
 <div class="form-group row">
     <label class="col-sm-3 col-form-label">Дополнительные файлы (инструкции):</label>
