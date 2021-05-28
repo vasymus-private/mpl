@@ -579,7 +579,7 @@ class ShowProduct extends Component
      */
     public function updated($name, $value)
     {
-        data_set($this, $name, H::trimAndNullEmptyString($value));
+        data_set($this, $name, H::trimAndNullEmptyString($value)); // trim only left side
     }
 
     /**
