@@ -1,4 +1,9 @@
-<?php /** @var \Illuminate\Pagination\LengthAwarePaginator|\Domain\Products\Models\Product\Product[] $products */ ?>
+<?php
+/**
+ * @var \Illuminate\Pagination\LengthAwarePaginator|\Domain\Products\Models\Product\Product[] $products
+ * @var \Domain\Products\Models\Category|null $category
+ */
+?>
 @extends("admin.layouts.app")
 
 @section("content")
@@ -11,26 +16,7 @@
 
     <h1 class="adm-title">Каталог товаров <span class="adm-fav-link"></span></h1>
 
-    <form action="{{route("admin.products.index")}}" method="GET">
-        <div class="search form-group row">
-            <div class="col-xs-12 col-sm-10">
-                <div class="input-group mb-3">
-                    <input type="text" name="search" value="{{request('search', '')}}" class="form-control js-search-input" placeholder="Фильтр + поиск" aria-label="Фильтр + поиск" aria-describedby="search-button">
-                    <div class="input-group-append">
-                        <button class="btn-outline-secondary js-search-clear" type="button"><i class="fa fa-times" aria-hidden="true"></i></button>
-                        <button class="btn-outline-secondary search-icon" type="submit" id="search-button"><i class="fa fa-search" aria-hidden="true"></i></button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-2">
-                <div class="dropdown">
-                    <a href="{{route('admin.products.create')}}" class="btn btn-add btn-secondary">
-                        Создать товар
-                    </a>
-                </div>
-            </div>
-        </div>
-    </form>
+    <livewire:admin.search-form current-route="admin.products.index" new-route="admin.products.create" :category="$category ?? null" />
 
     <div class="table-responsive">
         <table class="table">
