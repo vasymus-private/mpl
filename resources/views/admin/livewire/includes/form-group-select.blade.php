@@ -6,8 +6,8 @@
 ?>
 @if($isRow ?? true)
     <div class="form-group row">
-        <label for="{{$field}}" class="col-sm-3 col-form-label">{{$label}}:</label>
-        <div class="col-sm-9">
+        <label for="{{$field}}" class="col-sm-5 col-form-label">{{$label}}:</label>
+        <div class="col-sm-7 {{$className ?? ''}}">
             @include('admin.livewire.includes.form-control-select', ['field' => $field, 'options' => $options, 'wire' => $wire ?? []])
         </div>
     </div>
