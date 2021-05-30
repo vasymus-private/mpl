@@ -1,7 +1,7 @@
 @if($isRow ?? true)
     <div class="form-group row">
-        <label for="{{$field}}" class="col-sm-3 col-form-label {{$labelClass ?? ''}}">{{$label}}:</label>
-        <div class="col-sm-9">
+        <label for="{{$field}}" class="col-sm-5 col-form-label {{$labelClass ?? ''}}">{{$label}}:</label>
+        <div class="col-sm-7 {{$className ?? ''}}">
             @include('admin.livewire.includes.form-control-input', ['field' => $field])
         </div>
     </div>
