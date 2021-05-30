@@ -15,7 +15,7 @@ use Support\H;
 
 class ProductsController extends BaseWebController
 {
-    public function index(Request $request, FiltrateByCategoriesAction $filtrate)
+    public function index(Request $request, FiltrateByCategoriesAction $filtrateByCategoriesAction)
     {
         $query = Product::query()->notVariations()->with("infoPrices");
 
@@ -28,7 +28,7 @@ class ProductsController extends BaseWebController
         /** @var \Domain\Products\Models\Category|null $subcategory3 */
         $subcategory3 = $request->subcategory3_slug;
 
-        $query = $filtrate->execute($query, new FiltrateByCategoriesParamsDTO(compact("category", "subcategory1", "subcategory2", "subcategory3")));
+        $query = $filtrateByCategoriesAction->execute($query, new FiltrateByCategoriesParamsDTO(compact("category", "subcategory1", "subcategory2", "subcategory3")));
 
         if (!empty($request->input("brands", []))) {
             $query->whereIn(Product::TABLE . ".brand_id", $request->input("brands"));
@@ -81,10 +81,18 @@ class ProductsController extends BaseWebController
         $user = H::userOrAdmin();
         event(new ProductViewedEvent($user, $product));
 
-        $product->load(["variations.parent", "brand", "accessory.category.parentCategory.parentCategory.parentCategory", "similar.category.parentCategory.parentCategory.parentCategory", "related.category.parentCategory.parentCategory.parentCategory", "works.category.parentCategory.parentCategory.parentCategory"]);
+        $product->load(["seo", "variations.parent", "brand", "accessory.category.parentCategory.parentCategory.parentCategory", "similar.category.parentCategory.parentCategory.parentCategory", "related.category.parentCategory.parentCategory.parentCategory", "works.category.parentCategory.parentCategory.parentCategory"]);
 
         $breadcrumbs = Breadcrumbs::productRoute($product, $category, $subcategory1, $subcategory2, $subcategory3);
+        $seoArr = null;
+        if ($product->seo) {
+            $seoArr = [
+                'title' => $product->seo->title ?? null,
+                'keywords' => $product->seo->keywords ?? null,
+                'description' => $product->seo->description ?? null,
+            ];
+        }
 
-        return view("web.pages.products.product", compact("product", "breadcrumbs"));
+        return view("web.pages.products.product", compact("product", "breadcrumbs", "seoArr"));
     }
 }

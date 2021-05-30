@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * @property int $id
@@ -101,6 +102,13 @@ class Category extends BaseModel
     public function scopeParents(Builder $builder): Builder
     {
         return $builder->whereNull(static::TABLE . ".parent_id");
+    }
+
+    public static function getTreeRuntimeCached(): Collection
+    {
+        return Cache::store('array')->rememberForever('categories', function() {
+            return Category::parents()->with("subcategories.subcategories.subcategories")->orderBy(Category::TABLE . ".ordering")->get();
+        });
     }
 
     public static function rbCategorySlug($value)

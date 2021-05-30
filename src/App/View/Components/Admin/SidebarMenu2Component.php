@@ -20,7 +20,7 @@ class SidebarMenu2Component extends Component
      */
     public function __construct()
     {
-        $this->categories = Category::parents()->with("subcategories.subcategories.subcategories")->orderBy(Category::TABLE . ".ordering")->get();
+        $this->categories = Category::getTreeRuntimeCached();
     }
 
     /**

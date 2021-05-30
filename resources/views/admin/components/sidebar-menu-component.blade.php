@@ -110,7 +110,7 @@
                     </a>
                     <ul class="nav collapse" id="reference-1">
                         <li class="nav-item">
-                            <a href="#" class="nav-link sub-level-2">
+                            <a href="{{route('admin.brands.index')}}" class="nav-link sub-level-2">
                                 <span class="adm-arrow-icon-dot"></span>
                                 <span class="nav-link-text">Элементы</span>
                             </a>

@@ -4,7 +4,7 @@
  * @var array[] $options {@see \Domain\Common\DTOs\OptionDTO}
  */
 ?>
-<select wire:model.defer="{{$field}}" class="form-control @error($field) is-invalid @enderror" id="{{$field}}">
+<select wire:model.defer="{{$field}}" @foreach(($wire ?? []) as $wireName => $wireValue) wire:{{$wireName}}="{{$wireValue}}" @endforeach class="form-control @error($field) is-invalid @enderror" id="{{$field}}">
     <option value="">(не установлено)</option>
     @foreach($options as $option)
         <option value="{{$option['value']}}">{{$option['label']}}</option>

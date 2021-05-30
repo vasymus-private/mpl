@@ -2,29 +2,20 @@
 @extends("admin.layouts.app")
 
 @section("content")
+
     <div class="breadcrumbs">
-        <a href="#" class="breadcrumbs__item">
+        <a href="{{route('admin.home')}}" class="breadcrumbs__item">
             <span class="breadcrumbs__text">Рабочий стол</span>
         </a>
-        <span class="breadcrumbs__item">
-            <span class="breadcrumbs__arrow"></span>
-        </span>
-        <a href="#" class="breadcrumbs__item">
-            <span class="breadcrumbs__text">Контент</span>
-        </a>
-        <span class="breadcrumbs__item">
-            <span class="breadcrumbs__arrow"></span>
-        </span>
-        <a href="#" class="breadcrumbs__item">
-            <span class="breadcrumbs__text">Каталог товаров</span>
-        </a>
     </div>
+
     <h1 class="adm-title">Каталог товаров <span class="adm-fav-link"></span></h1>
+
     <form action="{{route("admin.products.index")}}" method="GET">
         <div class="search form-group row">
             <div class="col-xs-12 col-sm-10">
                 <div class="input-group mb-3">
-                    <input type="text" name="search" class="form-control js-search-input" placeholder="Фильтр + поиск" aria-label="Фильтр + поиск" aria-describedby="search-button">
+                    <input type="text" name="search" value="{{request('search', '')}}" class="form-control js-search-input" placeholder="Фильтр + поиск" aria-label="Фильтр + поиск" aria-describedby="search-button">
                     <div class="input-group-append">
                         <button class="btn-outline-secondary js-search-clear" type="button"><i class="fa fa-times" aria-hidden="true"></i></button>
                         <button class="btn-outline-secondary search-icon" type="submit" id="search-button"><i class="fa fa-search" aria-hidden="true"></i></button>
@@ -33,17 +24,14 @@
             </div>
             <div class="col-xs-12 col-sm-2">
                 <div class="dropdown">
-                    <button class="btn btn-add btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a href="{{route('admin.products.create')}}" class="btn btn-add btn-secondary">
                         Создать товар
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="{{route("admin.products.create")}}">Товар без вариантов</a>
-                        <a class="dropdown-item" href="{{route("admin.products.create")}}">Товар с вариантами</a>
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>
     </form>
+
     <div class="table-responsive">
         <table class="table">
             <thead class="thead-light">

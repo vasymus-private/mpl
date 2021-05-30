@@ -3,6 +3,7 @@
 namespace Domain\Products\QueryBuilders;
 
 use Domain\Products\Models\AvailabilityStatus;
+use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -36,5 +37,37 @@ class ProductQueryBuilder extends Builder
     public function doesntHaveVariations(): self
     {
         return $this->doesntHave("variations");
+    }
+
+    /**
+     * @param \Domain\Products\Models\Category[] $categories
+     *
+     * @return self
+     */
+    public function forMainCategory(array $categories): self
+    {
+        foreach ($categories as $cat) {
+            if ($cat) {
+                return $this->where("{$this->table}.category_id", $cat->id);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param int[] $categoryIds
+     *
+     * @return self
+     */
+    public function forMainAndRelatedCategories(array $categoryIds): self
+    {
+        return $this->where(function(Builder $builder) use($categoryIds) {
+            return $builder
+                ->whereIn("{$this->table}.category_id", $categoryIds)
+                ->orWhereHas('relatedCategories', function(Builder $categoryQuery) use($categoryIds) {
+                    return $categoryQuery->whereIn(Category::TABLE . '.id', $categoryIds);
+                });
+        });
     }
 }

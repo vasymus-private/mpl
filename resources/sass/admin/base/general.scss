@@ -153,3 +153,36 @@ body {
         text-decoration: none;
     }
 }
+
+.tab-content {
+    background-color: #fff;
+    border-radius: 0 0 4px 4px;
+    border: 1px solid #ced7d8;
+    border-top: none;
+    margin-bottom: 20px;
+}
+
+.btn {
+    &__save {
+        background-color: #86ad00!important;
+        -webkit-box-shadow: 0 1px 1px rgb(0 0 0 / 25%), inset 0 1px 0 #cbdc00;
+        box-shadow: 0 1px 1px rgb(0 0 0 / 25%), inset 0 1px 0 #cbdc00;
+        border: solid 1px;
+        border-color: #97c004 #7ea502 #648900;
+        background-image: -webkit-linear-gradient(bottom, #729e00, #97ba00)!important;
+        background-image: -moz-linear-gradient(bottom, #729e00, #97ba00)!important;
+        background-image: -ms-linear-gradient(bottom, #729e00, #97ba00)!important;
+        background-image: -o-linear-gradient(bottom, #729e00, #97ba00)!important;
+        background-image: linear-gradient(bottom, #729e00, #97ba00)!important;
+        color: #fff;
+        text-shadow: 0 1px rgb(0 0 0 / 10%);
+        -webkit-font-smoothing: antialiased;
+        padding: 0 13px 2px;
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-weight: bold;
+        font-size: 13px;
+        height: 29px;
+        text-decoration: none;
+        position: relative;
+    }
+}

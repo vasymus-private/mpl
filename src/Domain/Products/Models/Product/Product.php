@@ -3,6 +3,7 @@
 namespace Domain\Products\Models\Product;
 
 use Domain\Products\Collections\ProductCollection;
+use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\QueryBuilders\ProductQueryBuilder;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -76,6 +77,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property string $similar_name
  * @property string $related_name
  * @property string $work_name
+ * @property string $instruments_name
  *
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
@@ -105,10 +107,23 @@ class Product extends BaseModel implements HasMedia
     use InteractsWithMedia;
     use ProductAcM;
 
+    const DEFAULT_IS_ACTIVE = false;
+    const DEFAULT_IS_WITH_VARIATIONS = false;
+    const DEFAULT_COEFFICIENT_DESCRIPTION_SHOW = false;
+    const DEFAULT_PRICE_NAME = 'Цена';
+    const DEFAULT_AVAILABILITY_STATUS_ID = AvailabilityStatus::ID_NOT_AVAILABLE;
+    const DEFAULT_ACCESSORY_NAME = 'Аксессуары';
+    const DEFAULT_SIMILAR_NAME = 'Похожие';
+    const DEFAULT_RELATED_NAME = 'Сопряженные';
+    const DEFAULT_WORK_NAME = 'Работы';
+    const DEFAULT_INSTRUMENTS_NAME = 'Инструменты';
+
     const DEFAULT_CURRENCY_ID = Currency::ID_RUB;
 
     const TABLE = "products";
     const MAX_CHARACTERISTIC_RATE = 5;
+
+    const ORDERING_DEFAULT = 500;
 
     const MC_MAIN_IMAGE = "main";
     const MC_ADDITIONAL_IMAGES = "images";
@@ -244,6 +259,24 @@ class Product extends BaseModel implements HasMedia
     protected $table = self::TABLE;
 
     /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'is_active' => self::DEFAULT_IS_ACTIVE,
+        'is_with_variations' => self::DEFAULT_IS_WITH_VARIATIONS,
+        'coefficient_description_show' => self::DEFAULT_COEFFICIENT_DESCRIPTION_SHOW,
+        'price_name' => self::DEFAULT_PRICE_NAME,
+        'availability_status_id' => self::DEFAULT_AVAILABILITY_STATUS_ID,
+        'accessory_name' => self::DEFAULT_ACCESSORY_NAME,
+        'similar_name' => self::DEFAULT_SIMILAR_NAME,
+        'related_name' => self::DEFAULT_RELATED_NAME,
+        'work_name' => self::DEFAULT_WORK_NAME,
+        'instruments_name' => self::DEFAULT_INSTRUMENTS_NAME,
+    ];
+
+    /**
      * The attributes that should be cast.
      *
      * @var array
@@ -286,7 +319,7 @@ class Product extends BaseModel implements HasMedia
 
     public static function rbAdminProduct($value)
     {
-        return static::query()->findOrFail($value);
+        return static::query()->select(["*"])->notVariations()->findOrFail($value);
     }
 
     public function registerMediaCollections(): void
