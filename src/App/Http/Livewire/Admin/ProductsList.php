@@ -42,6 +42,8 @@ class ProductsList extends Component
 
     public $total = 0;
 
+    public $last_page;
+
     public $per_page = self::DEFAULT_PER_PAGE;
 
     public $request_query;
@@ -59,9 +61,9 @@ class ProductsList extends Component
     public function mount()
     {
         $this->mountQueryAndPagination();
-        $this->per_page_options = collect(
-            OptionDTO::fromPerPageArr([5, 10, 20, 50, 100, 200, 500])
-        )->map(fn(OptionDTO $optionDTO) => $optionDTO->toArray())->all();
+        $this->per_page_options = collect(OptionDTO::fromPerPageArr([5, 10, 20, 50, 100, 200, 500]))
+            ->map(fn(OptionDTO $optionDTO) => $optionDTO->toArray())
+            ->all();
         $this->setPaginatedProducts();
         $this->brands = Brand::query()->select(["id", "name"])->get()->map(fn(Brand $brand) => OptionDTO::fromBrand($brand)->toArray())->toArray();
     }
@@ -76,6 +78,12 @@ class ProductsList extends Component
                 $this->page
             ),
         ]);
+    }
+
+    public function setPage($page)
+    {
+        $this->page = $page;
+        $this->setPaginatedProducts();
     }
 
     public function handleSearch()
@@ -136,11 +144,20 @@ class ProductsList extends Component
             $query->where("$table.name", "LIKE", "%{$this->search}%");
         }
 
+        $copyQuery = clone $query;
         $products = $query->paginate($this->per_page);
-        if ($this->request_query) $products->appends($this->request_query);
+
+        if ($products->lastPage() < $this->page) {
+            $this->page = 1;
+            $products = $copyQuery->paginate($this->per_page);
+        }
+
+        if ($this->request_query) {
+            $products->appends($this->request_query);
+        }
 
         $this->total = $products->total();
-        $this->page = $products->currentPage();
+        $this->last_page = $products->lastPage();
 
         $this->paginatedProducts = collect($products->items())->map(fn(Product $product) => ProductItemAdminDTO::fromModel($product)->toArray())->keyBy('id')->all();
     }

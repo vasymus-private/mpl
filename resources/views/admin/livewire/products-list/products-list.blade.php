@@ -121,7 +121,7 @@
             {{ $products->links("admin.pagination.livewire-bootstrap") }}
         </div>
         <div class="col-sm-2">
-            @include('admin.livewire.includes.form-group-select', ['field' => 'per_page', 'label' => 'На странице', 'options' => $per_page_options, 'wire' => ['change' => 'handleSearch']])
+            @include('admin.livewire.includes.form-group-select', ['field' => 'per_page', 'label' => 'На странице', 'options' => $per_page_options, 'wire' => ['change' => 'handleSearch'], 'nullOption' => false])
         </div>
     </div>
 </div>
