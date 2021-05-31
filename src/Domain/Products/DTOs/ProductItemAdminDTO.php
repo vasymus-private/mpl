@@ -26,16 +26,6 @@ class ProductItemAdminDTO extends DataTransferObject
     /**
      * @var string|float|int|null
      */
-    public $coefficient;
-
-    /**
-     * @var string|float|int|null
-     */
-    public $coefficient_description;
-
-    /**
-     * @var string|float|int|null
-     */
     public $price_purchase;
 
     /**
@@ -78,8 +68,6 @@ class ProductItemAdminDTO extends DataTransferObject
             'price_purchase_currency_id' => $product->price_purchase_currency_id,
             'price_purchase_formatted' => $product->price_purchase_formatted,
             'unit' => $product->unit,
-            'coefficient' => $product->coefficient,
-            'coefficient_description' => $product->coefficient_description,
             'price_retail' => $product->price_retail,
             'price_retail_currency_id' => $product->price_retail_currency_id,
             'price_retail_formatted' => $product->price_retail_formatted,

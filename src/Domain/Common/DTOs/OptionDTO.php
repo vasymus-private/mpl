@@ -10,7 +10,10 @@ use Spatie\DataTransferObject\DataTransferObject;
 
 class OptionDTO extends DataTransferObject
 {
-    public int $value;
+    /**
+     * @var string|int
+     */
+    public $value;
 
     public string $label;
 
@@ -44,5 +47,24 @@ class OptionDTO extends DataTransferObject
             'value' => $category->id,
             'label' => implode('', array_fill(0, $level - 1, '.')) . $category->name,
         ]);
+    }
+
+    /**
+     * @param int[] $perPageArr
+     *
+     * @return self[]
+     */
+    public static function fromPerPageArr(array $perPageArr): array
+    {
+        $result = [];
+
+        foreach ($perPageArr as $perPage) {
+            $result[] = new self([
+                'value' => $perPage,
+                'label' => (string)$perPage,
+            ]);
+        }
+
+        return $result;
     }
 }
