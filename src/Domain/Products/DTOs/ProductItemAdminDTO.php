@@ -56,6 +56,8 @@ class ProductItemAdminDTO extends DataTransferObject
 
     public ?string $admin_comment;
 
+    public bool $is_checked = false;
+
     public static function fromModel(Product $product): self
     {
         return new self([

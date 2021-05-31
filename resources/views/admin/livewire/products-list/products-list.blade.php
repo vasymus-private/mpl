@@ -1,6 +1,7 @@
 <?php
 /**
- * @var \Illuminate\Pagination\LengthAwarePaginator|array[] $products @see {@link \Domain\Products\DTOs\ProductItemAdminDTO[]}
+ * @var array[] $products @see {@link \Domain\Products\DTOs\ProductItemAdminDTO[]}
+ * @var \Illuminate\Pagination\LengthAwarePaginator $paginator
  * @var string $currentRoute
  * @var string $newRoute
  * @var string|int|null $category_id
@@ -66,7 +67,7 @@
             <tr>
                 <th scope="col">
                     <div class="form-check">
-                        <input class="form-check-input position-static" type="checkbox" id="check-all" aria-label="Check all">
+                        <input wire:model="selectAll" @if($editMode) disabled @endif class="form-check-input position-static" type="checkbox">
                     </div>
                 </th>
                 <th scope="col"><span class="main-grid-head-title">&nbsp;</span></th>
@@ -85,7 +86,7 @@
                 <tr class="js-product-item">
                     <td>
                         <div class="form-check">
-                            <input class="form-check-input position-static" type="checkbox">
+                            <input wire:model="products.{{$product['id']}}.is_checked" @if($editMode) disabled @endif class="form-check-input position-static" type="checkbox">
                         </div>
                     </td>
                     <td>
@@ -118,10 +119,28 @@
             Всего: {{$total}}
         </div>
         <div class="col-sm-9">
-            {{ $products->links("admin.pagination.livewire-bootstrap") }}
+            {{ $paginator->links("admin.pagination.livewire-bootstrap") }}
         </div>
         <div class="col-sm-2">
             @include('admin.livewire.includes.form-group-select', ['field' => 'per_page', 'label' => 'На странице', 'options' => $per_page_options, 'wire' => ['change' => 'handleSearch'], 'nullOption' => false])
         </div>
+    </div>
+
+    <div class="row">
+        @if(!$editMode)
+            <div class="col-sm-2">
+                <button type="button" @if(!$this->anyProductChecked) disabled @endif class="btn btn-light"><i class="fa fa-edit"></i> Редактировать</button>
+            </div>
+            <div class="col-sm-2">
+                <button type="button" wire:click="deleteSelected" @if(!$this->anyProductChecked) disabled @endif class="btn btn-light"><i class="fa fa-times"></i> Удалить</button>
+            </div>
+        @else
+            <div class="col-sm-2">
+                <button wire:click="saveSelected" type="button" class="btn btn-info">Сохранить</button>
+            </div>
+            <div class="col-sm-2">
+                <button wire:click="deleteSelected" type="button" class="btn btn-light">Отменить</button>
+            </div>
+        @endif
     </div>
 </div>

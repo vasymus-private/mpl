@@ -53,10 +53,14 @@ class ProductsList extends Component
      */
     public $per_page_options = [];
 
+    public $editMode = false;
+
     /**
      * @var array[] @see {@link \Domain\Products\DTOs\ProductItemAdminDTO[]}
      */
-    protected array $paginatedProducts = [];
+    public array $products = [];
+
+    public $selectAll = false;
 
     public function mount()
     {
@@ -64,15 +68,15 @@ class ProductsList extends Component
         $this->per_page_options = collect(OptionDTO::fromPerPageArr([5, 10, 20, 50, 100, 200, 500]))
             ->map(fn(OptionDTO $optionDTO) => $optionDTO->toArray())
             ->all();
-        $this->setPaginatedProducts();
-        $this->brands = Brand::query()->select(["id", "name"])->get()->map(fn(Brand $brand) => OptionDTO::fromBrand($brand)->toArray())->toArray();
+        $this->setProducts();
+        $this->brands = Brand::query()->select(["id", "name"])->get()->map(fn(Brand $brand) => OptionDTO::fromBrand($brand)->toArray())->all();
     }
 
     public function render()
     {
         return view('admin.livewire.products-list.products-list', [
-            'products' => new LengthAwarePaginator(
-                $this->paginatedProducts,
+            'paginator' => new LengthAwarePaginator(
+                $this->products,
                 $this->total,
                 $this->per_page,
                 $this->page
@@ -80,15 +84,35 @@ class ProductsList extends Component
         ]);
     }
 
+    public function saveSelected()
+    {
+
+        $this->selectAll = false;
+    }
+
+    public function deleteSelected()
+    {
+
+        $this->selectAll = false;
+    }
+
+    public function updatedSelectAll(bool $isChecked)
+    {
+        $this->products = collect($this->products)->map(function(array $item) use($isChecked) {
+            $item['is_checked'] = $isChecked;
+            return $item;
+        })->all();
+    }
+
     public function setPage($page)
     {
         $this->page = $page;
-        $this->setPaginatedProducts();
+        $this->setProducts();
     }
 
     public function handleSearch()
     {
-        $this->setPaginatedProducts();
+        $this->setProducts();
     }
 
     public function clearAllFilters()
@@ -96,19 +120,19 @@ class ProductsList extends Component
         $this->search = '';
         $this->category_id = '';
         $this->brand_id = '';
-        $this->setPaginatedProducts();
+        $this->setProducts();
     }
 
     public function clearCategoryFilter()
     {
         $this->category_id = '';
-        $this->setPaginatedProducts();
+        $this->setProducts();
     }
 
     public function clearBrandFilter()
     {
         $this->brand_id = '';
-        $this->setPaginatedProducts();
+        $this->setProducts();
     }
 
     protected function mountQueryAndPagination()
@@ -123,7 +147,7 @@ class ProductsList extends Component
         $this->request_query = $request->query();
     }
 
-    protected function setPaginatedProducts()
+    protected function setProducts()
     {
         $query = Product::query()->select(["*"])->notVariations();
         $table = Product::TABLE;
@@ -159,6 +183,11 @@ class ProductsList extends Component
         $this->total = $products->total();
         $this->last_page = $products->lastPage();
 
-        $this->paginatedProducts = collect($products->items())->map(fn(Product $product) => ProductItemAdminDTO::fromModel($product)->toArray())->keyBy('id')->all();
+        $this->products = collect($products->items())->map(fn(Product $product) => ProductItemAdminDTO::fromModel($product)->toArray())->keyBy('id')->all();
+    }
+
+    public function getAnyProductCheckedProperty(): bool
+    {
+        return collect($this->products)->contains('is_checked', true);;
     }
 }

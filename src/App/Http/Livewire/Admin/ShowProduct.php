@@ -196,7 +196,7 @@ class ShowProduct extends Component
     /**
      * @var bool
      */
-    public bool $variationsSelectAll = false;
+    public bool $variationsanyVariationCheckedAll = false;
 
     /**
      * @var \Livewire\TemporaryUploadedFile
@@ -230,6 +230,8 @@ class ShowProduct extends Component
         'variations' => 'Варианты',
         'other' => 'Прочее',
     ];
+
+    public $variationsSelectAll = false;
 
     protected array $rules = [
         'product.name' => 'required|string|max:199',
@@ -328,7 +330,7 @@ class ShowProduct extends Component
 
     public function mount()
     {
-        $this->brands = Brand::query()->select(["id", "name"])->get()->map(fn(Brand $brand) => OptionDTO::fromBrand($brand)->toArray())->toArray();
+        $this->brands = Brand::query()->select(["id", "name"])->get()->map(fn(Brand $brand) => OptionDTO::fromBrand($brand)->toArray())->all();
         $this->infoPrices = $this->product->infoPrices->map(fn(InformationalPrice $informationalPrice) => InformationalPriceDTO::fromModel($informationalPrice)->toArray())->keyBy('temp_uuid')->toArray();
         $this->instructions = $this->product->getMedia(Product::MC_FILES)->map(fn(CustomMedia $media) => FileDTO::fromCustomMedia($media)->toArray())->toArray();
         $this->currencies = Currency::query()->get()->map(fn(Currency $currency) => OptionDTO::fromCurrency($currency)->toArray())->all();
