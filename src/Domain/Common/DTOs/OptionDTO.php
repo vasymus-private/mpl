@@ -11,7 +11,7 @@ use Spatie\DataTransferObject\DataTransferObject;
 class OptionDTO extends DataTransferObject
 {
     /**
-     * @var string|int
+     * @var string|int|float|bool|null
      */
     public $value;
 
@@ -50,18 +50,18 @@ class OptionDTO extends DataTransferObject
     }
 
     /**
-     * @param int[] $perPageArr
+     * @param string[]|int[]|float[]|bool[]|null[] $itemsArr
      *
      * @return self[]
      */
-    public static function fromPerPageArr(array $perPageArr): array
+    public static function fromItemsArr(array $itemsArr): array
     {
         $result = [];
 
-        foreach ($perPageArr as $perPage) {
+        foreach ($itemsArr as $item) {
             $result[] = new self([
-                'value' => $perPage,
-                'label' => (string)$perPage,
+                'value' => $item,
+                'label' => (string)$item,
             ]);
         }
 

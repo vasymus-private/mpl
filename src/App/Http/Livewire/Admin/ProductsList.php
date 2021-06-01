@@ -14,6 +14,9 @@ use Livewire\WithPagination;
 class ProductsList extends Component
 {
     use WithPagination;
+    use HasBrands;
+    use HasAvailabilityStatuses;
+    use HasCurrencies;
 
     protected const DEFAULT_PER_PAGE = 20;
 
@@ -26,11 +29,6 @@ class ProductsList extends Component
     public $brand_id = '';
 
     public $brand_name = '';
-
-    /**
-     * @var array[] @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\Brand}
-     */
-    public array $brands;
 
     protected $queryString = [
         'search' => ['except' => ''],
@@ -65,11 +63,13 @@ class ProductsList extends Component
     public function mount()
     {
         $this->mountQueryAndPagination();
-        $this->per_page_options = collect(OptionDTO::fromPerPageArr([5, 10, 20, 50, 100, 200, 500]))
+        $this->per_page_options = collect(OptionDTO::fromItemsArr([5, 10, 20, 50, 100, 200, 500]))
             ->map(fn(OptionDTO $optionDTO) => $optionDTO->toArray())
             ->all();
         $this->setProducts();
-        $this->brands = Brand::query()->select(["id", "name"])->get()->map(fn(Brand $brand) => OptionDTO::fromBrand($brand)->toArray())->all();
+        $this->initBrands();
+        $this->initAvailabilityStatuses();
+        $this->initCurrencies();
     }
 
     public function render()
@@ -189,5 +189,11 @@ class ProductsList extends Component
     public function getAnyProductCheckedProperty(): bool
     {
         return collect($this->products)->contains('is_checked', true);;
+    }
+
+    public function handleCancelEdit()
+    {
+        $this->editMode = false;
+        $this->setProducts();
     }
 }

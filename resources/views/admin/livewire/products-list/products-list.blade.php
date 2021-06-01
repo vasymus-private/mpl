@@ -129,7 +129,7 @@
     <div class="row">
         @if(!$editMode)
             <div class="col-sm-2">
-                <button type="button" @if(!$this->anyProductChecked) disabled @endif class="btn btn-light"><i class="fa fa-edit"></i> Редактировать</button>
+                <button wire:click="$set('editMode', true)" type="button" @if(!$this->anyProductChecked) disabled @endif class="btn btn-light"><i class="fa fa-edit"></i> Редактировать</button>
             </div>
             <div class="col-sm-2">
                 <button type="button" wire:click="deleteSelected" @if(!$this->anyProductChecked) disabled @endif class="btn btn-light"><i class="fa fa-times"></i> Удалить</button>
@@ -139,7 +139,7 @@
                 <button wire:click="saveSelected" type="button" class="btn btn-info">Сохранить</button>
             </div>
             <div class="col-sm-2">
-                <button wire:click="deleteSelected" type="button" class="btn btn-light">Отменить</button>
+                <button wire:click="handleCancelEdit" type="button" class="btn btn-light">Отменить</button>
             </div>
         @endif
     </div>
