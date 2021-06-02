@@ -28,7 +28,7 @@
         @include("admin.layouts.header")
         <main class="d-flex">
             <div class="container-fluid d-flex">
-                <div class="row d-flex flex-grow-1">
+                <div class="row d-flex flex-grow-1 row-overflow-hidden">
                     <div class="content col-9 order-2" id="content">
                         @yield('content')
                     </div>
