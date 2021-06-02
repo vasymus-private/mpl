@@ -100,6 +100,7 @@ class RouteServiceProvider extends ServiceProvider
 
         Route::bind("product_slug", [Product::class, "rbProductSlug"]);
         Route::bind("admin_product", [Product::class, "rbAdminProduct"]);
+        Route::bind("admin_category", [Category::class, "rbAdminCategory"]);
         Route::bind("admin_brand", [Brand::class, "rbAdminBrand"]);
 
         Route::bind("parentGalleryItemSlug", [GalleryItem::class, "rbParentGalleryItemSlug"]);

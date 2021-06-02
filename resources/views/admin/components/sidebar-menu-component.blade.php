@@ -1,5 +1,5 @@
 <?php /** @var \Domain\Products\Models\Category[] $categories */ ?>
-<nav class="min-vh-100">
+<nav class="min-vh-100 js-admin-sidbar">
     <ul class="nav pt-3">
         <li class="nav-item">
             <a href="#products" class="nav-link collapsed" data-toggle="collapse" role="button" aria-expanded="false">
