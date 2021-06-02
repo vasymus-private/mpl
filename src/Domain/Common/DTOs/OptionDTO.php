@@ -10,7 +10,10 @@ use Spatie\DataTransferObject\DataTransferObject;
 
 class OptionDTO extends DataTransferObject
 {
-    public int $value;
+    /**
+     * @var string|int|float|bool|null
+     */
+    public $value;
 
     public string $label;
 
@@ -44,5 +47,24 @@ class OptionDTO extends DataTransferObject
             'value' => $category->id,
             'label' => implode('', array_fill(0, $level - 1, '.')) . $category->name,
         ]);
+    }
+
+    /**
+     * @param string[]|int[]|float[]|bool[]|null[] $itemsArr
+     *
+     * @return self[]
+     */
+    public static function fromItemsArr(array $itemsArr): array
+    {
+        $result = [];
+
+        foreach ($itemsArr as $item) {
+            $result[] = new self([
+                'value' => $item,
+                'label' => (string)$item,
+            ]);
+        }
+
+        return $result;
     }
 }

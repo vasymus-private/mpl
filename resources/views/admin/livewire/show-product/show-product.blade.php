@@ -9,19 +9,46 @@
 ?>
 <div class="py-4">
     @if($product->id)
-        <div class="row pb-4">
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Параметры товара
-                </button>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" wire:click="setWithVariations(false)" href="#">@if(!$is_with_variations)<i class="fa fa-check" aria-hidden="true"></i>@endif Товар без вариантов</a>
-                    <a class="dropdown-item" wire:click="setWithVariations(true)" href="#">@if($is_with_variations)<i class="fa fa-check" aria-hidden="true"></i>@endif Товар с вариантами</a>
+        <div class="detail-toolbar">
+            <div class="row d-flex align-items-center">
+                <div class="col-sm-7">
+                    <a href="#" class="detail-toolbar__btn">
+                        <span class="detail-toolbar__btn-l"></span>
+                        <span class="detail-toolbar__btn-text">Товары</span>
+                        <span class="detail-toolbar__btn-r"></span>
+                    </a>
+                </div>
+                <div class="col-sm-5 d-flex align-items-center">
+                    <a href="#" class="detail-toolbar__copy">Копировать</a>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Параметры товара
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" wire:click="setWithVariations(false)" href="#">@if(!$is_with_variations)<i class="fa fa-check" aria-hidden="true"></i>@endif Товар без вариантов</a>
+                            <a class="dropdown-item" wire:click="setWithVariations(true)" href="#">@if($is_with_variations)<i class="fa fa-check" aria-hidden="true"></i>@endif Товар с вариантами</a>
+                        </div>
+                    </div>
+                    <div class="dropdown actions">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="add">Действия</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" wire:click="setWithVariations(false)" href="#">
+                                <span class="bx-core-popup-menu-item-icon edit"></span>
+                                Добавить элемент
+                            </a>
+                            <a class="dropdown-item" wire:click="setWithVariations(true)" href="#">
+                                <span class="bx-core-popup-menu-item-icon delete"></span>
+                                Удалить элемент
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     @endif
-    <ul class="nav nav-tabs" role="tablist">
+    <ul class="nav nav-tabs product-tabs" role="tablist">
         @foreach($tabs as $tab => $label)
             <li wire:key="{{ $tab }}" class="nav-item @if(!$is_with_variations && $tab === 'variations') d-none @endif" role="presentation">
                 <a wire:click="selectTab('{{$tab}}')" wire:ignore.self class="nav-link @if($tab === $activeTab) active @endif" data-toggle="tab" id="{{$tab}}-tab" href="#{{$tab}}" role="tab" aria-controls="{{$tab}}" aria-selected="{{$tab === $activeTab ? 'true' : 'false'}}">{{$label}}</a>
@@ -39,7 +66,7 @@
             @endforeach
         </div>
 
-        <button type="submit" class="btn btn-primary mb-2">Сохранить</button>
+        <button type="submit" class="btn btn-primary mb-2 btn__save">Сохранить</button>
 
         @foreach($errors->all() as $error)
             <div wire:key="{{$error}}" class="alert alert-danger alert-dismissible fade show" role="alert">

@@ -1,0 +1,29 @@
+.variants-btn-group {
+    display: flex;
+    flex-wrap: nowrap;
+    vertical-align: middle;
+    margin: 0 0 0 13px;
+    button {
+        cursor: pointer;
+        height: 32px;
+        width: 32px;
+        display: inline-block;
+        vertical-align: top;
+        outline: none;
+        border: 0;
+    }
+    .brn-edit {
+        background: url(../images/bx-admin-sprite-big1.png) no-repeat 0 -948px;
+        &:disabled {
+            background-position: 0 -1183px;
+            cursor: default;
+        }
+    }
+    .btn-delete {
+        background: url(../images/bx-admin-sprite-big1.png) no-repeat 0 -985px;
+        &:disabled {
+            background-position: 0 -1224px;
+            cursor: default;
+        }
+    }
+}

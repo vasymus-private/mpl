@@ -1,16 +1,5 @@
 <?php
 
-// TODO добавление нескольких файлов: картинок, инструкций
-// TODO копирование вариантов
-// TODO копирование товаров
-// todo при копировании, в том числе фотографии
-// залипание кнопки сохранить и отменить
-// добавить кнопку -- вернуться в раздел
-// меню сохранялось
-// структура разделов -- менюшка слева
-// создание разделов -- name, slug, активность, seo, родительский раздел
-
-
 namespace App\Http\Livewire\Admin;
 
 use Domain\Common\DTOs\FileDTO;
@@ -38,6 +27,9 @@ use Livewire\WithFileUploads;
 class ShowProduct extends Component
 {
     use WithFileUploads;
+    use HasBrands;
+    use HasCurrencies;
+    use HasAvailabilityStatuses;
 
     protected const MAX_FILE_SIZE_MB = 30;
 
@@ -104,16 +96,6 @@ class ShowProduct extends Component
     public array $infoPrices;
 
     /**
-     * @var array[] @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\Brand}
-     */
-    public array $brands;
-
-    /**
-     * @var array[] @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Common\Models\Currency}
-     */
-    public array $currencies;
-
-    /**
      * @var array|null @see {@link \Domain\Common\DTOs\FileDTO}
      */
     public array $mainImage = [];
@@ -142,11 +124,6 @@ class ShowProduct extends Component
      * @var \Livewire\TemporaryUploadedFile
      */
     public $tempInstruction;
-
-    /**
-     * @var array[] @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\AvailabilityStatus}
-     */
-    public array $availabilityStatuses;
 
     /**
      * @var \Domain\Seo\Models\Seo
@@ -207,7 +184,7 @@ class ShowProduct extends Component
     /**
      * @var bool
      */
-    public bool $variationsSelectAll = false;
+    public bool $variationsanyVariationCheckedAll = false;
 
     /**
      * @var \Livewire\TemporaryUploadedFile
@@ -241,6 +218,8 @@ class ShowProduct extends Component
         'variations' => 'Варианты',
         'other' => 'Прочее',
     ];
+
+    public $variationsSelectAll = false;
 
     protected array $rules = [
         'product.name' => 'required|string|max:199',
@@ -339,11 +318,12 @@ class ShowProduct extends Component
 
     public function mount()
     {
-        $this->brands = Brand::query()->select(["id", "name"])->get()->map(fn(Brand $brand) => OptionDTO::fromBrand($brand)->toArray())->toArray();
+        $this->initBrands();
+        $this->initCurrencies();
+        $this->initAvailabilityStatuses();
+
         $this->infoPrices = $this->product->infoPrices->map(fn(InformationalPrice $informationalPrice) => InformationalPriceDTO::fromModel($informationalPrice)->toArray())->keyBy('temp_uuid')->toArray();
         $this->instructions = $this->product->getMedia(Product::MC_FILES)->map(fn(CustomMedia $media) => FileDTO::fromCustomMedia($media)->toArray())->toArray();
-        $this->currencies = Currency::query()->get()->map(fn(Currency $currency) => OptionDTO::fromCurrency($currency)->toArray())->all();
-        $this->availabilityStatuses = AvailabilityStatus::query()->get()->map(fn(AvailabilityStatus $availabilityStatus) => OptionDTO::fromAvailabilityStatus($availabilityStatus)->toArray())->all();
 
         /** @var \Domain\Common\Models\CustomMedia $mainImageMedia */
         $mainImageMedia = $this->product->getFirstMedia(Product::MC_MAIN_IMAGE);

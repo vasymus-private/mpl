@@ -84,6 +84,11 @@ class Category extends BaseModel
         "is_active" => "boolean",
     ];
 
+    public static function rbAdminCategory($value)
+    {
+        return static::query()->select(["*"])->findOrFail($value);
+    }
+
     public function parentCategory(): BelongsTo
     {
         return $this->belongsTo(Category::class, "parent_id", "id");
