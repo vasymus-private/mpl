@@ -3,7 +3,9 @@
 namespace App\Http\Livewire\Admin;
 
 use Domain\Common\DTOs\OptionDTO;
+use Domain\Common\Models\Currency;
 use Domain\Products\DTOs\ProductItemAdminDTO;
+use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
@@ -60,6 +62,19 @@ class ProductsList extends Component
 
     public $selectAll = false;
 
+    protected array $rules = [
+        'products.*.name' => 'required|max:199',
+        'products.*.ordering' => 'integer|nullable',
+        'products.*.is_active' => 'nullable|boolean',
+        'products.*.unit' => 'nullable|string|max:199',
+        'products.*.price_purchase' => 'nullable|numeric',
+        'products.*.price_purchase_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
+        'products.*.price_retail' => 'nullable|numeric',
+        'products.*.price_retail_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
+        'products.*.admin_comment' => 'nullable|string|max:199',
+        'products.*.availability_status_id' => 'required|integer|exists:' . AvailabilityStatus::class . ",id",
+    ];
+
     public function mount()
     {
         $this->mountQueryAndPagination();
@@ -86,14 +101,44 @@ class ProductsList extends Component
 
     public function saveSelected()
     {
-
+        $checked = collect($this->products)->filter(fn(array $item) => $item['is_checked'])->all();
+        if (empty($checked)) {
+            $this->editMode = false;
+            $this->selectAll = false;
+            return;
+        }
+        $checkedIds = collect($checked)->pluck('id')->toArray();
+        $checkedModels = Product::query()->whereIn('id', $checkedIds)->get();
+        $checkedModels->each(function(Product $product) use($checked) {
+            $payload = $checked[$product->id] ?? [];
+            if (!$payload) {
+                return true;
+            }
+            $product->forceFill(
+                collect($payload)
+                    ->only(['name', 'ordering', 'is_active', 'unit', 'price_purchase', 'price_purchase_currency_id', 'price_retail', 'price_retail_currency_id', 'admin_comment', 'availability_status_id'])
+                    ->all()
+            );
+            $product->save();
+        });
+        $this->editMode = false;
         $this->selectAll = false;
+        $this->setProducts();
     }
 
     public function deleteSelected()
     {
-
+        $deleteIds = collect($this->products)->filter(fn(array $item) => $item['is_checked'])->pluck('id')->toArray();
+        $deleteProducts = Product::query()->whereIn('id', $deleteIds)->get();
+        $deleteProducts->each(function(Product $product) {
+            $product->clearMediaCollection(Product::MC_MAIN_IMAGE);
+            $product->clearMediaCollection(Product::MC_ADDITIONAL_IMAGES);
+            $product->clearMediaCollection(Product::MC_FILES);
+            $product->delete();
+        });
+        $this->editMode = false;
         $this->selectAll = false;
+        $this->setProducts();
     }
 
     public function updatedSelectAll(bool $isChecked)
@@ -191,9 +236,35 @@ class ProductsList extends Component
         return collect($this->products)->contains('is_checked', true);;
     }
 
-    public function handleCancelEdit()
+    public function cancelEdit()
     {
         $this->editMode = false;
+        $this->selectAll = false;
+        $this->setProducts();
+    }
+
+    public function toggleActive($id)
+    {
+        $product = Product::query()->find($id);
+        if (!$product) {
+            return;
+        }
+
+        $product->is_active = !$product->is_active;
+        $product->save();
+        $this->products[$product->id] = ProductItemAdminDTO::fromModel($product)->toArray();
+    }
+
+    public function handleDelete($id)
+    {
+        $product = Product::query()->find($id);
+        if (!$product) {
+            return;
+        }
+        $product->clearMediaCollection(Product::MC_MAIN_IMAGE);
+        $product->clearMediaCollection(Product::MC_ADDITIONAL_IMAGES);
+        $product->clearMediaCollection(Product::MC_FILES);
+        $product->delete();
         $this->setProducts();
     }
 }

@@ -14,15 +14,7 @@ class TestController extends Controller
 {
     public function test(Request $request, GetCategoriesTreeAction $getCategoriesTreeAction, GetCategoryAndSubtreeAction $getCategoryAndSubtreeAction, GetCategoryAndSubtreeIdsAction $getCategoryAndSubtreeIdsAction)
     {
-//        dump($getCategoriesTreeAction->execute());
-//
-//        dump($getCategoryAndSubtreeAction->execute(8));
-//
-//        dump($getCategoryAndSubtreeIdsAction->execute(8));
-
-        $products = Product::query()->forMainAndRelatedCategories([2])->get();
-        dump($products->pluck('id')->toArray());
-
+        dump(Product::withTrashed()->with('media')->find(2));
         return view('test');
     }
 
