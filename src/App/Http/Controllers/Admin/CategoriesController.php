@@ -13,6 +13,8 @@ class CategoriesController extends BaseAdminController
 
         if ($request->category_id) {
             $query->where(Category::TABLE . ".parent_id", $request->category_id);
+        } else {
+            $query->parents();
         }
 
         if ($request->search) {

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin;
 
 use Domain\Common\DTOs\OptionDTO;
+use Domain\Common\DTOs\SearchPrependAdminDTO;
 use Domain\Common\Models\Currency;
 use Domain\Products\DTOs\ProductItemAdminDTO;
 use Domain\Products\Models\AvailabilityStatus;
@@ -266,5 +267,29 @@ class ProductsList extends Component
         $product->clearMediaCollection(Product::MC_FILES);
         $product->delete();
         $this->setProducts();
+    }
+
+    /**
+     * @return array[] @see {@link \Domain\Common\DTOs\SearchPrependAdminDTO}
+     */
+    public function getPrepends(): array
+    {
+        $prepends = [];
+        if ($this->category_id) {
+            $prepends[] = (new SearchPrependAdminDTO([
+                'label' => $this->category_name,
+                /** @see \App\Http\Livewire\Admin\ProductsList::clearCategoryFilter() */
+                'onClear' => 'clearCategoryFilter',
+            ]))->toArray();
+        }
+        if ($this->brand_id) {
+            $prepends[] = (new SearchPrependAdminDTO([
+                'label' => $this->brand_name,
+                /** @see \App\Http\Livewire\Admin\ProductsList::clearBrandFilter() */
+                'onClear' => 'clearBrandFilter'
+            ]))->toArray();
+        }
+
+        return $prepends;
     }
 }
