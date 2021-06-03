@@ -61,6 +61,8 @@ class Category extends BaseModel
     const _TEMP_ID_EQUIPMENT = 54;
     const _TEMP_ID_RELATED_TOOLS = 60;
 
+    public const ORDERING_DEFAULT = 500;
+
     /**
      * The table associated with the model.
      *

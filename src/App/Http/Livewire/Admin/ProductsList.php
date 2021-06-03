@@ -64,7 +64,7 @@ class ProductsList extends Component
     public $selectAll = false;
 
     protected array $rules = [
-        'products.*.name' => 'required|max:199',
+        'products.*.name' => 'required|string|max:199',
         'products.*.ordering' => 'integer|nullable',
         'products.*.is_active' => 'nullable|boolean',
         'products.*.unit' => 'nullable|string|max:199',
@@ -78,11 +78,11 @@ class ProductsList extends Component
 
     public function mount()
     {
-        $this->mountQueryAndPagination();
+        $this->mountRequest();
         $this->per_page_options = collect(OptionDTO::fromItemsArr([5, 10, 20, 50, 100, 200, 500]))
             ->map(fn(OptionDTO $optionDTO) => $optionDTO->toArray())
             ->all();
-        $this->setProducts();
+        $this->setItems();
         $this->initBrands();
         $this->initAvailabilityStatuses();
         $this->initCurrencies();
@@ -124,7 +124,7 @@ class ProductsList extends Component
         });
         $this->editMode = false;
         $this->selectAll = false;
-        $this->setProducts();
+        $this->setItems();
     }
 
     public function deleteSelected()
@@ -139,7 +139,7 @@ class ProductsList extends Component
         });
         $this->editMode = false;
         $this->selectAll = false;
-        $this->setProducts();
+        $this->setItems();
     }
 
     public function updatedSelectAll(bool $isChecked)
@@ -153,12 +153,12 @@ class ProductsList extends Component
     public function setPage($page)
     {
         $this->page = $page;
-        $this->setProducts();
+        $this->setItems();
     }
 
     public function handleSearch()
     {
-        $this->setProducts();
+        $this->setItems();
     }
 
     public function clearAllFilters()
@@ -166,22 +166,22 @@ class ProductsList extends Component
         $this->search = '';
         $this->category_id = '';
         $this->brand_id = '';
-        $this->setProducts();
+        $this->setItems();
     }
 
     public function clearCategoryFilter()
     {
         $this->category_id = '';
-        $this->setProducts();
+        $this->setItems();
     }
 
     public function clearBrandFilter()
     {
         $this->brand_id = '';
-        $this->setProducts();
+        $this->setItems();
     }
 
-    protected function mountQueryAndPagination()
+    protected function mountRequest()
     {
         $request = request();
 
@@ -193,7 +193,7 @@ class ProductsList extends Component
         $this->request_query = $request->query();
     }
 
-    protected function setProducts()
+    protected function setItems()
     {
         $query = Product::query()->select(["*"])->notVariations();
         $table = Product::TABLE;
@@ -232,16 +232,11 @@ class ProductsList extends Component
         $this->products = collect($products->items())->map(fn(Product $product) => ProductItemAdminDTO::fromModel($product)->toArray())->keyBy('id')->all();
     }
 
-    public function getAnyProductCheckedProperty(): bool
-    {
-        return collect($this->products)->contains('is_checked', true);;
-    }
-
     public function cancelEdit()
     {
         $this->editMode = false;
         $this->selectAll = false;
-        $this->setProducts();
+        $this->setItems();
     }
 
     public function toggleActive($id)
@@ -266,7 +261,7 @@ class ProductsList extends Component
         $product->clearMediaCollection(Product::MC_ADDITIONAL_IMAGES);
         $product->clearMediaCollection(Product::MC_FILES);
         $product->delete();
-        $this->setProducts();
+        $this->setItems();
     }
 
     /**
