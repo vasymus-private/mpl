@@ -22,6 +22,8 @@ class CategoryItemAdminDTO extends DataTransferObject
 
     public bool $is_checked = false;
 
+    public bool $hasSubcategories;
+
     public static function fromModel(Category $category): self
     {
         return new self([
@@ -30,6 +32,7 @@ class CategoryItemAdminDTO extends DataTransferObject
             'ordering' => $category->ordering ?? Category::ORDERING_DEFAULT,
             'is_active' => $category->is_active ?? false,
             'is_active_name' => (($category->is_active ?? false) ? 'Да' : 'Нет'),
+            'hasSubcategories' => $category->subcategories->isNotEmpty(),
         ]);
     }
 }

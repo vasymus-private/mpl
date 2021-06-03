@@ -33,8 +33,8 @@ class CategoriesList extends Component
 
     protected array $rules = [
         'categories.*.name' => 'required|string|max:199',
-        'products.*.ordering' => 'integer|nullable',
-        'products.*.is_active' => 'nullable|boolean',
+        'categories.*.ordering' => 'integer|nullable',
+        'categories.*.is_active' => 'nullable|boolean',
     ];
 
     public function mount()
@@ -50,7 +50,7 @@ class CategoriesList extends Component
 
     public function setItems()
     {
-        $query = Category::query()->select(["*"]);
+        $query = Category::query()->select(["*"])->with('subcategories');
 
         if ($this->category_id === static::ALL_CATEGORIES_QUERY) {
             $this->category_name = '';
@@ -101,7 +101,7 @@ class CategoriesList extends Component
     public function getPrepends(): array
     {
         $prepends = [];
-        if ($this->category_id && $this->category_id !== static::ALL_CATEGORIES_QUERY) {
+        if (!$this->category_id || $this->category_id !== static::ALL_CATEGORIES_QUERY) {
             $prepends[] = (new SearchPrependAdminDTO([
                 'label' => $this->category_name,
                 /** @see \App\Http\Livewire\Admin\ProductsList::clearCategoryFilter() */
@@ -110,6 +110,35 @@ class CategoriesList extends Component
         }
 
         return $prepends;
+    }
+
+    public function saveSelected()
+    {
+
+    }
+
+    public function handleDelete($id)
+    {
+        return true;
+    }
+
+    public function deleteSelected()
+    {
+        return true;
+    }
+
+    public function navigate($categoryId)
+    {
+        $category = $this->categories[$categoryId] ?? null;
+        if (!$category) {
+            return;
+        }
+        if ($category['hasSubcategories']) {
+            $this->category_id = $category['id'];
+            $this->handleSearch();
+        } else {
+            return redirect()->route('admin.products.index', ['category_id' => $category['id']]);
+        }
     }
 
     protected function mountRequest()

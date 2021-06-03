@@ -11,8 +11,10 @@
                 <li class="nav-item">
                     <a href="#products-sub" class="nav-link collapsed sub-level-1" data-toggle="collapse" role="button" aria-expanded="false">
                         <span class="adm-arrow-icon"></span>
-                        <span class="adm-icon iblock_menu_icon_iblocks"></span>
-                        <span class="nav-link-text">Каталог товаров</span>
+                        <span class="d-flex align-items-center justify-content-center js-navigate-categories" data-route="{{route('admin.categories.index')}}">
+                            <span class="adm-icon iblock_menu_icon_iblocks"></span>
+                            <span class="nav-link-text">Каталог товаров</span>
+                        </span>
                     </a>
                     <ul class="nav collapse" id="products-sub">
                         <li class="nav-item">
@@ -26,8 +28,10 @@
                             <li class="nav-item">
                                 <a href="#products-{{$category->id}}" class="nav-link collapsed sub-level-2" data-toggle="collapse" role="button" aria-expanded="false">
                                     <span class="adm-arrow-icon"></span>
-                                    <span class="adm-icon iblock_menu_icon_sections"></span>
-                                    <span class="nav-link-text">{{$category->name}}</span>
+                                    <span class="d-flex align-items-center justify-content-center js-navigate-categories" data-route="{{route('admin.categories.index', ['category_id' => $category->id])}}">
+                                        <span class="adm-icon iblock_menu_icon_sections"></span>
+                                        <span class="nav-link-text">{{$category->name}}</span>
+                                    </span>
                                 </a>
                                 <ul class="nav collapse" id="products-{{$category->id}}">
                                     <li class="nav-item">
@@ -40,8 +44,10 @@
                                         <li class="nav-item">
                                             <a href="#products-{{$subcategory1->id}}" class="nav-link collapsed sub-level-3" data-toggle="collapse" role="button" aria-expanded="false">
                                                 <span class="adm-arrow-icon"></span>
-                                                <span class="adm-icon iblock_menu_icon_sections"></span>
-                                                <span class="nav-link-text">{{$subcategory1->name}}</span>
+                                                <span class="d-flex align-items-center justify-content-center js-navigate-categories" data-route="{{route('admin.categories.index', ['category_id' => $subcategory1->id])}}">
+                                                    <span class="adm-icon iblock_menu_icon_sections"></span>
+                                                    <span class="nav-link-text">{{$subcategory1->name}}</span>
+                                                </span>
                                             </a>
                                             <ul class="nav collapse" id="products-{{$subcategory1->id}}">
                                                 <li class="nav-item">
@@ -54,8 +60,10 @@
                                                     <li class="nav-item">
                                                         <a href="#products-{{$subcategory2->id}}" class="nav-link collapsed sub-level-4" data-toggle="collapse" role="button" aria-expanded="false">
                                                             <span class="adm-arrow-icon"></span>
-                                                            <span class="adm-icon iblock_menu_icon_sections"></span>
-                                                            <span class="nav-link-text">{{$subcategory2->name}}</span>
+                                                            <span class="d-flex align-items-center justify-content-center js-navigate-categories" data-route="{{route('admin.categories.index', ['category_id' => $subcategory2->id])}}">
+                                                                <span class="adm-icon iblock_menu_icon_sections"></span>
+                                                                <span class="nav-link-text">{{$subcategory2->name}}</span>
+                                                            </span>
                                                         </a>
                                                         <ul class="nav collapse" id="products-{{$subcategory2->id}}">
                                                             <li class="nav-item">

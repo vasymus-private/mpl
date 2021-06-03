@@ -70,7 +70,7 @@
                                     @if($product['is_active'])
                                         Деактивировать
                                     @else
-                                        Активироват
+                                        Активировать
                                     @endif
                                 </button>
                                 <a class="dropdown-item" href="#">Копировать</a>
