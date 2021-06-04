@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin;
 
 use Domain\Common\DTOs\SearchPrependAdminDTO;
+use Domain\Products\Actions\DeleteCategoryAction;
 use Domain\Products\DTOs\CategoryItemAdminDTO;
 use Domain\Products\Models\Category;
 use Livewire\Component;
@@ -119,12 +120,34 @@ class CategoriesList extends Component
 
     public function handleDelete($id)
     {
-        return true;
+        /** @var \Domain\Products\Models\Category $category */
+        $category = Category::query()->findOrFail($id);
+        if ($category->has_active_products_recursively) {
+            return false;
+        }
+        /** @var \Domain\Products\Actions\DeleteCategoryAction $deleteCategoryAction */
+        $deleteCategoryAction = resolve(DeleteCategoryAction::class);
+        $deleteCategoryAction->execute($category);
+        $this->setItems();
     }
 
     public function deleteSelected()
     {
-        return true;
+        $selectedIds = collect($this->categories)->filter(fn(array $item) => $item['is_checked'])->pluck('id')->values()->toArray();
+        if (empty($selectedIds)) {
+            return true;
+        }
+        $categories = Category::query()->with('products', 'subcategories.subcategories.subcategories')->whereIn(Category::TABLE . ".id", $selectedIds)->get();
+
+        if ($categories->contains(fn(Category $category) => $category->has_active_products_recursively)) {
+            return false;
+        }
+        $categories->each(function(Category $category) {
+            /** @var \Domain\Products\Actions\DeleteCategoryAction $deleteCategoryAction */
+            $deleteCategoryAction = resolve(DeleteCategoryAction::class);
+            $deleteCategoryAction->execute($category);
+        });
+        $this->setItems();
     }
 
     public function navigate($categoryId)

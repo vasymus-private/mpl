@@ -3,6 +3,7 @@
 namespace Domain\Products\Models;
 
 use Domain\Common\Models\BaseModel;
+use Domain\Products\Models\Product\Product;
 use Domain\Seo\Models\Seo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -27,10 +28,13 @@ use Illuminate\Support\Facades\Cache;
  * @property \Domain\Products\Models\Category|null $parentCategory
  *
  * @see \Domain\Products\Models\Category::subcategories()
- * @property Collection|\Domain\Products\Models\Category[] $subcategories
+ * @property \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\Category[] $subcategories
  *
  * @see \Domain\Products\Models\Category::seo()
  * @property \Domain\Seo\Models\Seo|null $seo
+ *
+ * @see \Domain\Products\Models\Category::products()
+ * @property \Domain\Products\Collections\ProductCollection|\Domain\Products\Models\Product\Product[] $products
  *
  * @see \Domain\Products\Models\Category::scopeParents()
  * @method static static|\Illuminate\Database\Eloquent\Builder parents()
@@ -43,6 +47,12 @@ use Illuminate\Support\Facades\Cache;
  *
  * @see \Domain\Products\Models\Category::getAllLoadedSubcategoriesIdsAttribute()
  * @property-read int[] $all_loaded_subcategories_ids
+ *
+ * @see \Domain\Products\Models\Category::getHasActiveProductsAttribute()
+ * @property-read bool $has_active_products
+ *
+ * @see \Domain\Products\Models\Category::getHasActiveProductsRecursivelyAttribute()
+ * @property-read bool $has_active_products_recursively
  * */
 class Category extends BaseModel
 {
@@ -104,6 +114,16 @@ class Category extends BaseModel
     public function seo(): MorphOne
     {
         return $this->morphOne(Seo::class, "seoable", "seoable_type", "seoable_id");
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany|\Domain\Products\QueryBuilders\ProductQueryBuilder
+     */
+    public function products(): HasMany
+    {
+        /** @var \Illuminate\Database\Eloquent\Relations\HasMany|\Domain\Products\QueryBuilders\ProductQueryBuilder $productsQuery */
+        $productsQuery = $this->hasMany(Product::class, 'category_id', 'id');
+        return $productsQuery->notVariations();
     }
 
     public function scopeParents(Builder $builder): Builder
@@ -191,7 +211,7 @@ class Category extends BaseModel
      *
      * @return int[]
      */
-    public function allLoadedSubcategoriesIds(Category $category): array
+    protected function allLoadedSubcategoriesIds(Category $category): array
     {
         $subcategoriesIds = $category->subcategories->pluck("id")->toArray();
         foreach ($category->subcategories as $subcategory) {
@@ -200,5 +220,42 @@ class Category extends BaseModel
             }
         }
         return $subcategoriesIds;
+    }
+
+    public function getHasActiveProductsAttribute(): bool
+    {
+        if ($this->relationLoaded('products')) {
+            return $this->products->containsActive();
+        } else {
+            return $this->products()->active()->exists();
+        }
+    }
+
+    public function getHasActiveProductsRecursivelyAttribute(): bool
+    {
+        return $this->hasActiveProductsRecursively($this);
+    }
+
+    /**
+     * @param \Domain\Products\Models\Category $category
+     *
+     * @return bool
+     */
+    protected function hasActiveProductsRecursively(Category $category): bool
+    {
+        if ($category->has_active_products) {
+            return true;
+        }
+
+        $hasActiveProducts = false;
+
+        $category->subcategories->each(function(Category $category) use(&$hasActiveProducts) {
+            if ($this->hasActiveProductsRecursively($category)) {
+                $hasActiveProducts = true;
+                return false;
+            }
+        });
+
+        return $hasActiveProducts;
     }
 }

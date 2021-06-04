@@ -7,6 +7,7 @@ use App\Mail\TestMarkupResetPasswordMail;
 use Domain\Products\Actions\GetCategoriesTreeAction;
 use Domain\Products\Actions\GetCategoryAndSubtreeAction;
 use Domain\Products\Actions\GetCategoryAndSubtreeIdsAction;
+use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,8 @@ class TestController extends Controller
 {
     public function test(Request $request, GetCategoriesTreeAction $getCategoriesTreeAction, GetCategoryAndSubtreeAction $getCategoryAndSubtreeAction, GetCategoryAndSubtreeIdsAction $getCategoryAndSubtreeIdsAction)
     {
-        dump(Product::withTrashed()->with('media')->find(2));
+        dump(Category::query()->findOrFail(1)->has_active_products_recursively);
+
         return view('test');
     }
 

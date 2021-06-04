@@ -46,4 +46,9 @@ class ProductCollection extends Collection
             return $acc + $product->order_product_count;
         }, 0);
     }
+
+    public function containsActive(): bool
+    {
+        return $this->contains(fn(Product $product) => $product->is_active);
+    }
 }
