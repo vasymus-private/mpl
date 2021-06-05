@@ -14,11 +14,16 @@ class CategoriesController extends BaseAdminController
 
     public function create()
     {
+        $category = new Category();
 
+        return view('admin.pages.categories.category', compact('category'));
     }
 
-    public function edit()
+    public function edit(Request $request)
     {
+        /** @var \Domain\Products\Models\Category $category */
+        $category = $request->admin_category;
 
+        return view('admin.pages.categories.category', compact('category'));
     }
 }

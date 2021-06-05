@@ -18,7 +18,7 @@ class TestController extends Controller
 {
     public function test(Request $request, GetCategoriesTreeAction $getCategoriesTreeAction, GetCategoryAndSubtreeAction $getCategoryAndSubtreeAction, GetCategoryAndSubtreeIdsAction $getCategoryAndSubtreeIdsAction, HasActiveProductsAction $hasActiveProductsAction)
     {
-        dump($hasActiveProductsAction->execute(9));
+        dump($getCategoryAndSubtreeIdsAction->execute(11));
 
         return view('test');
     }
