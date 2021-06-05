@@ -2,11 +2,15 @@
 
 namespace App\Http\Livewire\Admin;
 
+use App\Rules\CategoryDeactivatable;
 use Domain\Common\DTOs\SearchPrependAdminDTO;
 use Domain\Products\Actions\DeleteCategoryAction;
 use Domain\Products\DTOs\CategoryItemAdminDTO;
 use Domain\Products\Models\Category;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
+use Illuminate\Validation\Rules\Password;
 
 class CategoriesList extends Component
 {
@@ -32,11 +36,18 @@ class CategoriesList extends Component
 
     public $selectAll = false;
 
-    protected array $rules = [
-        'categories.*.name' => 'required|string|max:199',
-        'categories.*.ordering' => 'integer|nullable',
-        'categories.*.is_active' => 'nullable|boolean',
-    ];
+    protected function rules(): array
+    {
+        return [
+            'categories.*.name' => 'required|string|max:199',
+            'categories.*.ordering' => 'integer|nullable',
+            'categories.*.is_active' => [
+                'nullable',
+                'boolean',
+                new CategoryDeactivatable()
+            ],
+        ];
+    }
 
     public function mount()
     {
@@ -85,7 +96,7 @@ class CategoriesList extends Component
 
     public function clearCategoryFilter()
     {
-        $this->category_id = '';
+        $this->category_id = static::ALL_CATEGORIES_QUERY;
         $this->setItems();
     }
 
@@ -94,6 +105,26 @@ class CategoriesList extends Component
         $this->editMode = false;
         $this->selectAll = false;
         $this->setItems();
+    }
+
+    public function toggleActive($id)
+    {
+        if (isset($this->categories[$id])) {
+            $this->categories[$id]['is_active'] = !$this->categories[$id]['is_active'];
+            try {
+                $this->validateOnly("categories.*.is_active");
+            } catch (ValidationException $exc) {
+                $this->categories[$id]['is_active'] = !$this->categories[$id]['is_active'];
+                throw $exc;
+            }
+
+            /** @var \Domain\Products\Models\Category $category */
+            $category = Category::query()->findOrFail($id);
+            $category->is_active = !$category->is_active;
+            $category->save();
+
+            $this->categories[$id] = CategoryItemAdminDTO::fromModel($category)->toArray();
+        }
     }
 
     /**
@@ -115,14 +146,24 @@ class CategoriesList extends Component
 
     public function saveSelected()
     {
+        $this->validate();
 
+        $ids = collect($this->categories)->pluck('id')->values()->toArray();
+        $categories = Category::query()->whereIn(Category::TABLE . '.id', $ids)->get();
+        $categories->each(function(Category $category) {
+            $payload = $this->categories[$category->id] ?? [];
+            $category->forceFill(collect($payload)->only($this->getUpdateKeys())->toArray());
+            $category->save();
+        });
+
+        $this->cancelEdit();
     }
 
     public function handleDelete($id)
     {
         /** @var \Domain\Products\Models\Category $category */
         $category = Category::query()->findOrFail($id);
-        if ($category->has_active_products_recursively) {
+        if ($category->has_active_products) {
             return false;
         }
         /** @var \Domain\Products\Actions\DeleteCategoryAction $deleteCategoryAction */
@@ -137,9 +178,9 @@ class CategoriesList extends Component
         if (empty($selectedIds)) {
             return true;
         }
-        $categories = Category::query()->with('products', 'subcategories.subcategories.subcategories')->whereIn(Category::TABLE . ".id", $selectedIds)->get();
+        $categories = Category::query()->whereIn(Category::TABLE . ".id", $selectedIds)->get();
 
-        if ($categories->contains(fn(Category $category) => $category->has_active_products_recursively)) {
+        if ($categories->contains(fn(Category $category) => $category->has_active_products)) {
             return false;
         }
         $categories->each(function(Category $category) {
@@ -154,7 +195,7 @@ class CategoriesList extends Component
     {
         $category = $this->categories[$categoryId] ?? null;
         if (!$category) {
-            return;
+            return null;
         }
         if ($category['hasSubcategories']) {
             $this->category_id = $category['id'];
@@ -162,6 +203,15 @@ class CategoriesList extends Component
         } else {
             return redirect()->route('admin.products.index', ['category_id' => $category['id']]);
         }
+    }
+
+    protected function getUpdateKeys(): array
+    {
+        return [
+            'name',
+            'ordering',
+            'is_active',
+        ];
     }
 
     protected function mountRequest()

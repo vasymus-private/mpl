@@ -3,6 +3,7 @@
 namespace Domain\Products\Models;
 
 use Domain\Common\Models\BaseModel;
+use Domain\Products\Actions\HasActiveProductsAction;
 use Domain\Products\Models\Product\Product;
 use Domain\Seo\Models\Seo;
 use Illuminate\Database\Eloquent\Builder;
@@ -50,9 +51,6 @@ use Illuminate\Support\Facades\Cache;
  *
  * @see \Domain\Products\Models\Category::getHasActiveProductsAttribute()
  * @property-read bool $has_active_products
- *
- * @see \Domain\Products\Models\Category::getHasActiveProductsRecursivelyAttribute()
- * @property-read bool $has_active_products_recursively
  * */
 class Category extends BaseModel
 {
@@ -224,38 +222,8 @@ class Category extends BaseModel
 
     public function getHasActiveProductsAttribute(): bool
     {
-        if ($this->relationLoaded('products')) {
-            return $this->products->containsActive();
-        } else {
-            return $this->products()->active()->exists();
-        }
-    }
-
-    public function getHasActiveProductsRecursivelyAttribute(): bool
-    {
-        return $this->hasActiveProductsRecursively($this);
-    }
-
-    /**
-     * @param \Domain\Products\Models\Category $category
-     *
-     * @return bool
-     */
-    protected function hasActiveProductsRecursively(Category $category): bool
-    {
-        if ($category->has_active_products) {
-            return true;
-        }
-
-        $hasActiveProducts = false;
-
-        $category->subcategories->each(function(Category $category) use(&$hasActiveProducts) {
-            if ($this->hasActiveProductsRecursively($category)) {
-                $hasActiveProducts = true;
-                return false;
-            }
-        });
-
-        return $hasActiveProducts;
+        /** @var \Domain\Products\Actions\HasActiveProductsAction $hasActiveProductsAction */
+        $hasActiveProductsAction = Cache::store('array')->rememberForever(HasActiveProductsAction::class, fn() => resolve(HasActiveProductsAction::class));
+        return $hasActiveProductsAction->execute($this->id);
     }
 }

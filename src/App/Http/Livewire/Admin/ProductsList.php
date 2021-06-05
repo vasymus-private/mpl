@@ -117,7 +117,7 @@ class ProductsList extends Component
             }
             $product->forceFill(
                 collect($payload)
-                    ->only(['name', 'ordering', 'is_active', 'unit', 'price_purchase', 'price_purchase_currency_id', 'price_retail', 'price_retail_currency_id', 'admin_comment', 'availability_status_id'])
+                    ->only($this->getUpdateKeys())
                     ->all()
             );
             $product->save();
@@ -286,5 +286,21 @@ class ProductsList extends Component
         }
 
         return $prepends;
+    }
+
+    protected function getUpdateKeys(): array
+    {
+        return [
+            'name',
+            'ordering',
+            'is_active',
+            'unit',
+            'price_purchase',
+            'price_purchase_currency_id',
+            'price_retail',
+            'price_retail_currency_id',
+            'admin_comment',
+            'availability_status_id',
+        ];
     }
 }

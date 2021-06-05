@@ -109,4 +109,14 @@
             </div>
         @endif
     </div>
+    <div class="row pb-5">
+        @foreach($errors->all() as $error)
+            <div wire:key="{{$error}}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{$error}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endforeach
+    </div>
 </div>
