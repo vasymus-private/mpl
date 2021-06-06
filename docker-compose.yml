@@ -141,4 +141,3 @@ networks:
 
 volumes:
     db-data:
-        driver: local
