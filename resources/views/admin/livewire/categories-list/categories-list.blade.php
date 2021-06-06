@@ -51,6 +51,7 @@
                         <div class="dropdown">
                             <button class="btn btn-secondary" type="button" id="actions-dropdown-{{$category['id']}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
                             <div class="dropdown-menu" aria-labelledby="actions-dropdown-{{$category['id']}}">
+                                <a class="dropdown-item" href="{{route("admin.products.index", ['category_id' => $category['id']])}}">Товары</a>
                                 <a class="dropdown-item" href="{{route("admin.categories.edit", $category['id'])}}">Изменить</a>
                                 <button type="button" class="dropdown-item btn btn-link" wire:click="toggleActive({{$category['id']}})">
                                     @if($category['is_active'])

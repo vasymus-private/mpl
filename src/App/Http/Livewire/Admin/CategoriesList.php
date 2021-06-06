@@ -162,7 +162,7 @@ class CategoriesList extends Component
         /** @var \Domain\Products\Models\Category $category */
         $category = Category::query()->findOrFail($id);
         if ($category->has_active_products) {
-            $this->addError('delete', sprintf('Категория с id %s не может быть удалена, пока у этой категории и или у её подкатегорий есть активные продукты.', $id));
+            $this->addError('delete', sprintf('Раздел с id %s не может быть удалена, пока в этом разделе или в его подразделах есть активные товары. Перенесите товары в другой раздел или деактивируйте их.', $id));
             return false;
         }
         DeleteCategoryAction::cached()->execute($category);
