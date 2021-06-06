@@ -14,7 +14,7 @@ class CategoryItemAdminDTO extends DataTransferObject
     /**
      * @var int|string
      */
-    public $ordering = Category::ORDERING_DEFAULT;
+    public $ordering = Category::DEFAULT_ORDERING;
 
     public bool $is_active = false;
 
@@ -29,7 +29,7 @@ class CategoryItemAdminDTO extends DataTransferObject
         return new self([
             'id' => $category->id,
             'name' => $category->name,
-            'ordering' => $category->ordering ?? Category::ORDERING_DEFAULT,
+            'ordering' => $category->ordering ?? Category::DEFAULT_ORDERING,
             'is_active' => $category->is_active ?? false,
             'is_active_name' => (($category->is_active ?? false) ? 'Да' : 'Нет'),
             'hasSubcategories' => $category->subcategories->isNotEmpty(),

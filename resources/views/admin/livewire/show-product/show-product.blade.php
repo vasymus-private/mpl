@@ -9,16 +9,16 @@
 /** @var array[] $availabilityStatuses @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Common\Models\Currency} */
 ?>
 <div class="py-4">
-    @if($item->id)
-        <div class="detail-toolbar">
-            <div class="row d-flex align-items-center">
-                <div class="col-sm-7">
-                    <a href="#" class="detail-toolbar__btn">
-                        <span class="detail-toolbar__btn-l"></span>
-                        <span class="detail-toolbar__btn-text">Товары</span>
-                        <span class="detail-toolbar__btn-r"></span>
-                    </a>
-                </div>
+    <div class="detail-toolbar">
+        <div class="row d-flex align-items-center">
+            <div class="col-sm-7">
+                <a href="{{route('admin.products.index', ['category_id' => $item->category_id])}}" class="detail-toolbar__btn">
+                    <span class="detail-toolbar__btn-l"></span>
+                    <span class="detail-toolbar__btn-text">Товары</span>
+                    <span class="detail-toolbar__btn-r"></span>
+                </a>
+            </div>
+            @if($item->id)
                 <div class="col-sm-5 d-flex align-items-center">
                     <a href="#" class="detail-toolbar__copy">Копировать</a>
                     <div class="dropdown">
@@ -46,9 +46,10 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
         </div>
-    @endif
+    </div>
+
     <ul class="nav nav-tabs item-tabs" role="tablist">
         @foreach($tabs as $tab => $label)
             <li wire:key="{{ $tab }}" class="nav-item @if(!$is_with_variations && $tab === 'variations') d-none @endif" role="presentation">

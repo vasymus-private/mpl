@@ -21,6 +21,7 @@ trait HasTabs
         if (in_array($tab, array_keys($this->getTabs()))) {
             Cache::put(static::getActiveTabCacheKey(), $tab, new \DateInterval('PT15M'));
         }
+        $this->skipRender();
     }
 
     /**

@@ -51,7 +51,7 @@
                         <div class="dropdown">
                             <button class="btn btn-secondary" type="button" id="actions-dropdown-{{$category['id']}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
                             <div class="dropdown-menu" aria-labelledby="actions-dropdown-{{$category['id']}}">
-                                <a class="dropdown-item" href="{{route("admin.products.edit", $category['id'])}}">Изменить</a>
+                                <a class="dropdown-item" href="{{route("admin.categories.edit", $category['id'])}}">Изменить</a>
                                 <button type="button" class="dropdown-item btn btn-link" wire:click="toggleActive({{$category['id']}})">
                                     @if($category['is_active'])
                                         Деактивировать
@@ -59,7 +59,6 @@
                                         Активировать
                                     @endif
                                 </button>
-                                <a class="dropdown-item" href="#">Копировать</a>
                                 <button type="button" class="dropdown-item btn btn-link" onclick="@this.handleDelete({{$category['id']}}).then(res => console.log(res))">Удалить</button>
                             </div>
                         </div>

@@ -3,31 +3,33 @@
 namespace App\Http\Livewire\Admin;
 
 use App\Rules\CategoryDeactivatable;
-use Domain\Common\DTOs\OptionDTO;
+use Domain\Products\Actions\DeleteCategoryAction;
 use Domain\Products\Actions\GetCategoryAndSubtreeIdsAction;
+use Domain\Products\DTOs\CategoryProductItemAdminDTO;
 use Domain\Products\Models\Category;
-use Domain\Seo\Models\Seo;
-use Illuminate\Support\Str;
+use Domain\Products\Models\Product\Product;
 use Illuminate\Validation\Rules\Exists;
 use Illuminate\Validation\Rules\Unique;
 use Livewire\Component;
 
 class ShowCategory extends Component
 {
+    use HasTabs;
+    use HasSeo;
+    use HasCategories;
+    use HasGenerateSlug;
+
+    protected const DEFAULT_TAB = 'elements';
+
     /**
      * @var \Domain\Products\Models\Category
      */
-    public Category $category;
+    public Category $item;
 
     /**
-     * @var \Domain\Seo\Models\Seo
+     * @var array[] @see {@link \Domain\Products\DTOs\CategoryProductItemAdminDTO}
      */
-    public Seo $seo;
-
-    /**
-     * @var array[] @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\Category}
-     * */
-    public array $categories;
+    public array $products = [];
 
     /**
      * @var bool
@@ -40,57 +42,72 @@ class ShowCategory extends Component
     public array $tabs = [
         'elements' => 'Элемент',
         'seo' => 'SEO',
+        'products' => 'Товары',
     ];
 
+    /**
+     * @return string[]|array[]
+     */
     protected function rules(): array
     {
-        /** @var \Domain\Products\Actions\GetCategoryAndSubtreeIdsAction $getCategoryAndSubtreeIdsAction */
-        $getCategoryAndSubtreeIdsAction = resolve(GetCategoryAndSubtreeIdsAction::class);
         $notIn = [];
-        if ($this->category->id) {
-            $notIn = $getCategoryAndSubtreeIdsAction->execute($this->category->id);
+        if ($this->item->id) {
+            $notIn = GetCategoryAndSubtreeIdsAction::cached()->execute($this->item->id);
         }
-        return [
-            'category.name' => 'required|string|max:199',
-            'category.slug' => [
-                'required',
-                'string',
-                'max:199',
-                (new Unique(Category::TABLE, 'slug'))
-                    ->when(!!$this->category->id, function(Unique $unique) {
-                        return $unique->ignore($this->category->id);
-                    }),
-            ],
-            'category.ordering' => 'integer|nullable',
-            'category.is_active' => [
-                'nullable',
-                'boolean',
-                new CategoryDeactivatable(),
-            ],
-            'category.parent_id' => [
-                'nullable',
-                (new Exists(Category::TABLE, 'id'))
-                    ->when(!empty($notIn), function(Exists $exists) use($notIn) {
-                        return $exists->whereNotIn('id', $notIn);
-                    }),
-            ],
-            'seo.title' => 'nullable|max:199',
-            'seo.h1' => 'nullable|max:199',
-            'seo.keywords' => 'nullable|max:65000',
-            'seo.description' => 'nullable|max:65000',
-        ];
+
+        return array_merge(
+            $this->getSeoRules(),
+            [
+                'item.name' => 'required|string|max:199',
+                'item.slug' => [
+                    'required',
+                    'string',
+                    'max:199',
+                    (new Unique(Category::TABLE, 'slug'))
+                        ->when(!!$this->item->id, function(Unique $unique) {
+                            return $unique->ignore($this->item->id);
+                        }),
+                ],
+                'item.ordering' => 'integer|nullable',
+                'item.is_active' => [
+                    'nullable',
+                    'boolean',
+                    ($this->item->id ? new CategoryDeactivatable() : 'nullable'),
+                ],
+                'item.parent_id' => [
+                    'nullable',
+                    (new Exists(Category::TABLE, 'id'))
+                        ->when(!empty($notIn), function(Exists $exists) use($notIn) {
+                            return $exists->whereNotIn('id', $notIn);
+                        }),
+                ],
+                'item.description' => 'nullable|max:65000',
+            ]
+        );
     }
 
     protected $messages = [
-        'category.parent_id.exists' => 'У категории родительской не может быть сама категория или её подкатегории.',
+        'item.parent_id.exists' => 'У родительской категорией не может быть сама категория или её подкатегории.',
     ];
 
     public function mount()
     {
-        $this->seo = $this->category->seo ?: new Seo();
-        $this->categories = Category::getTreeRuntimeCached()->reduce(function (array $acc, Category $category) {
-            return $this->categoryToOption($acc, $category, 1);
-        }, []);
+        $this->initTabs();
+        $this->initSeo();
+
+        $exclude = [];
+        if ($this->item->id) {
+            $exclude = GetCategoryAndSubtreeIdsAction::cached()->execute($this->item->id);
+        }
+        $this->initCategories($exclude);
+        $this->initGenerateSlug();
+
+        $this->products = $this->item
+            ->products()
+            ->select(['id', 'name', 'is_active', 'category_id'])
+            ->get()
+            ->map(fn(Product $product) => CategoryProductItemAdminDTO::fromModel($product)->toArray())
+            ->all();
     }
 
     public function render()
@@ -103,58 +120,40 @@ class ShowCategory extends Component
         $this->validate();
 
         $shouldRedirect = false;
-        if (!$this->category->id) {
+        if (!$this->item->id) {
             $shouldRedirect = true;
         }
         $this->saveItem();
         $this->saveSeo();
 
         if ($shouldRedirect) {
-            return redirect()->route('admin.category.edit', $this->category->id);
+            return redirect()->route('admin.categories.edit', $this->item->id);
         }
     }
 
-    protected function categoryToOption(array $acc, Category $category, int $level = 1): array
+    public function deleteItem()
     {
-        $acc[] = OptionDTO::fromCategory($category, $level)->toArray();
-        if ($category->relationLoaded('subcategories')) {
-            foreach ($category->subcategories as $subcategory) {
-                $acc = $this->categoryToOption($acc, $subcategory, $level + 1);
-            }
+        if ($this->item->has_active_products) {
+            $this->addError('delete', sprintf('Категория с id %s не может быть удалена, пока у этой категории и или у её подкатегорий есть активные продукты.', $this->item->id));
+            return false;
         }
-        return $acc;
+        $parentId = $this->item->parent_id;
+        DeleteCategoryAction::cached()->execute($this->item);
+        return redirect()->route('admin.categories.index', ['category_id' => $parentId]);
     }
 
-    public function updatedCategoryName()
+    public function clearValidationErrors()
+    {
+        $this->clearValidation();
+    }
+
+    public function updatedItemName()
     {
         $this->handleGenerateSlug();
-    }
-
-    public function toggleGenerateSlugMode()
-    {
-        $this->generateSlugSyncMode = !$this->generateSlugSyncMode;
-        $this->handleGenerateSlug();
-    }
-
-    public function handleGenerateSlug()
-    {
-        if ($this->generateSlugSyncMode) {
-            $this->generateSlug();
-        }
-    }
-
-    protected function generateSlug()
-    {
-        $this->category->slug = Str::slug($this->category->name);
     }
 
     protected function saveItem()
     {
-        $this->category->save();
-    }
-
-    protected function saveSeo()
-    {
-        $this->category->seo()->save($this->seo);
+        $this->item->save();
     }
 }

@@ -7,10 +7,8 @@ use Domain\Common\DTOs\SearchPrependAdminDTO;
 use Domain\Products\Actions\DeleteCategoryAction;
 use Domain\Products\DTOs\CategoryItemAdminDTO;
 use Domain\Products\Models\Category;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
-use Illuminate\Validation\Rules\Password;
 
 class CategoriesList extends Component
 {
@@ -164,11 +162,10 @@ class CategoriesList extends Component
         /** @var \Domain\Products\Models\Category $category */
         $category = Category::query()->findOrFail($id);
         if ($category->has_active_products) {
+            $this->addError('delete', sprintf('Категория с id %s не может быть удалена, пока у этой категории и или у её подкатегорий есть активные продукты.', $id));
             return false;
         }
-        /** @var \Domain\Products\Actions\DeleteCategoryAction $deleteCategoryAction */
-        $deleteCategoryAction = resolve(DeleteCategoryAction::class);
-        $deleteCategoryAction->execute($category);
+        DeleteCategoryAction::cached()->execute($category);
         $this->setItems();
     }
 

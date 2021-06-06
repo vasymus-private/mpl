@@ -1,5 +1,6 @@
 <?php
 
+use Domain\Products\Models\Category;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,7 +19,7 @@ class CreateCategoriesTable extends Migration
             $table->string('name');
             $table->string('slug');
             $table->unsignedBigInteger('parent_id')->nullable();
-            $table->unsignedBigInteger('ordering')->nullable();
+            $table->unsignedBigInteger('ordering')->nullable()->default(Category::DEFAULT_ORDERING);
             $table->boolean('is_active')->default(false);
             $table->text('description')->nullable();
             $table->unsignedBigInteger('_old_id')->nullable()->comment('For reference: id from previous database.');

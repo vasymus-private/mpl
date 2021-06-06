@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\Admin;
 
 use Domain\Common\DTOs\FileDTO;
-use Domain\Common\DTOs\OptionDTO;
 use Domain\Common\Models\Currency;
 use Domain\Common\Models\CustomMedia;
 use Domain\Products\Actions\GetCategoryAndSubtreeIdsAction;
@@ -16,9 +15,6 @@ use Domain\Products\Models\Category;
 use Domain\Products\Models\InformationalPrice;
 use Domain\Products\Models\Pivots\ProductProduct;
 use Domain\Products\Models\Product\Product;
-use Domain\Seo\Models\Seo;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\TemporaryUploadedFile;
 use Support\H;
@@ -31,6 +27,9 @@ class ShowProduct extends Component
     use HasCurrencies;
     use HasAvailabilityStatuses;
     use HasTabs;
+    use HasSeo;
+    use HasGenerateSlug;
+    use HasCategories;
 
     protected const MAX_FILE_SIZE_MB = 30;
 
@@ -125,11 +124,6 @@ class ShowProduct extends Component
     public $tempInstruction;
 
     /**
-     * @var \Domain\Seo\Models\Seo
-     */
-    public Seo $seo;
-
-    /**
      * @var array[][] @see {@link \Domain\Products\DTOs\ProductProductAdminDTO}
      */
     public array $productProducts = [
@@ -149,11 +143,6 @@ class ShowProduct extends Component
      * @var array[]
      */
     public array $searchForProductProduct = self::INIT_SEARCH_FOR_PRODUCT_PRODUCT;
-
-    /**
-     * @var array[] @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\Category}
-     * */
-    public array $categories;
 
     /**
      * @var bool
@@ -196,11 +185,6 @@ class ShowProduct extends Component
     public $tempVariationAdditionalImage;
 
     /**
-     * @var bool
-     */
-    public bool $generateSlugSyncMode = false;
-
-    /**
      * @var string[]
      */
     public array $tabs = [
@@ -219,61 +203,6 @@ class ShowProduct extends Component
     ];
 
     public $variationsSelectAll = false;
-
-    protected array $rules = [
-        'item.name' => 'required|string|max:199',
-        'item.is_active' => 'nullable|boolean',
-        'item.slug' => 'nullable|string|max:199',
-        'item.ordering' => 'integer|nullable',
-        'item.brand_id' => 'integer|nullable|exists:' . Brand::class . ",id",
-        'item.coefficient' => 'nullable|numeric',
-        'item.coefficient_description' => 'nullable|string|max:199',
-        'item.coefficient_description_show' => 'nullable|boolean',
-        'item.price_name' => 'nullable|string|max:199',
-
-        'infoPrices.*.price' => 'required|numeric',
-        'infoPrices.*.name' => 'required|string|max:199',
-
-        'item.admin_comment' => 'nullable|string|max:199',
-
-        'tempMainImage' => 'nullable|max:'  . (1024 * self::MAX_FILE_SIZE_MB), // 1024 - 1mb,
-        'tempAdditionalImage' => 'nullable|max:'  . (1024 * self::MAX_FILE_SIZE_MB), // 1024 - 1mb,
-        'tempInstruction' => 'nullable|max:' . (1024 * self::MAX_FILE_SIZE_MB), // 1024 - 1mb
-
-        'mainImage.name' => 'nullable|max:199',
-        'additionalImages.*.name' => 'nullable|max:199',
-        'instructions.*.name' => 'nullable|max:199',
-
-        'item.price_purchase' => 'nullable|numeric',
-        'item.price_purchase_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
-        'item.price_retail' => 'nullable|numeric',
-        'item.price_retail_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
-
-        'item.unit' => 'nullable|string|max:199',
-        'item.availability_status_id' => 'required|integer|exists:' . AvailabilityStatus::class . ",id",
-
-        'item.preview' => 'nullable|max:65000',
-        'item.description' => 'nullable|max:65000',
-
-        'item.accessory_name' => 'required|max:199',
-        'item.similar_name' => 'required|max:199',
-        'item.related_name' => 'required|max:199',
-        'item.work_name' => 'required|max:199',
-        'item.instruments_name' => 'required|max:199',
-
-        'seo.title' => 'nullable|max:199',
-        'seo.h1' => 'nullable|max:199',
-        'seo.keywords' => 'nullable|max:65000',
-        'seo.description' => 'nullable|max:65000',
-
-        'productProducts.*.*.toDelete' => 'nullable|boolean',
-        'loadedForProductProduct.*.*.isSelected' => 'nullable|boolean',
-
-        'searchForProductProduct.*.category_id' => 'nullable|integer|exists:' . Category::class . ',id',
-        'searchForProductProduct.*.product_name' => 'nullable',
-
-        'item.category_id' => 'nullable|integer|exists:' . Category::class . ',id',
-    ];
 
     protected function variationsRules(): array
     {
@@ -310,6 +239,65 @@ class ShowProduct extends Component
         ];
     }
 
+    /**
+     * @return string[]|array[]
+     */
+    protected function rules(): array
+    {
+        return array_merge(
+            $this->getSeoRules(),
+            [
+                'item.name' => 'required|string|max:199',
+                'item.is_active' => 'nullable|boolean',
+                'item.slug' => 'nullable|string|max:199',
+                'item.ordering' => 'integer|nullable',
+                'item.brand_id' => 'integer|nullable|exists:' . Brand::class . ",id",
+                'item.coefficient' => 'nullable|numeric',
+                'item.coefficient_description' => 'nullable|string|max:199',
+                'item.coefficient_description_show' => 'nullable|boolean',
+                'item.price_name' => 'nullable|string|max:199',
+
+                'infoPrices.*.price' => 'required|numeric',
+                'infoPrices.*.name' => 'required|string|max:199',
+
+                'item.admin_comment' => 'nullable|string|max:199',
+
+                'tempMainImage' => 'nullable|max:'  . (1024 * self::MAX_FILE_SIZE_MB), // 1024 - 1mb,
+                'tempAdditionalImage' => 'nullable|max:'  . (1024 * self::MAX_FILE_SIZE_MB), // 1024 - 1mb,
+                'tempInstruction' => 'nullable|max:' . (1024 * self::MAX_FILE_SIZE_MB), // 1024 - 1mb
+
+                'mainImage.name' => 'nullable|max:199',
+                'additionalImages.*.name' => 'nullable|max:199',
+                'instructions.*.name' => 'nullable|max:199',
+
+                'item.price_purchase' => 'nullable|numeric',
+                'item.price_purchase_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
+                'item.price_retail' => 'nullable|numeric',
+                'item.price_retail_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
+
+                'item.unit' => 'nullable|string|max:199',
+                'item.availability_status_id' => 'required|integer|exists:' . AvailabilityStatus::class . ",id",
+
+                'item.preview' => 'nullable|max:65000',
+                'item.description' => 'nullable|max:65000',
+
+                'item.accessory_name' => 'required|max:199',
+                'item.similar_name' => 'required|max:199',
+                'item.related_name' => 'required|max:199',
+                'item.work_name' => 'required|max:199',
+                'item.instruments_name' => 'required|max:199',
+
+                'productProducts.*.*.toDelete' => 'nullable|boolean',
+                'loadedForProductProduct.*.*.isSelected' => 'nullable|boolean',
+
+                'searchForProductProduct.*.category_id' => 'nullable|integer|exists:' . Category::class . ',id',
+                'searchForProductProduct.*.product_name' => 'nullable',
+
+                'item.category_id' => 'nullable|integer|exists:' . Category::class . ',id',
+            ]
+        );
+    }
+
     public function mount()
     {
         $this->initBrands();
@@ -327,19 +315,19 @@ class ShowProduct extends Component
 
         $this->initTabs();
 
-        $this->seo = $this->item->seo ?: new Seo();
+        $this->initSeo();
 
         $this->initProductProduct();
 
-        $this->categories = Category::getTreeRuntimeCached()->reduce(function (array $acc, Category $category) {
-            return $this->categoryToOption($acc, $category, 1);
-        }, []);
+        $this->initCategories();
 
         $this->relatedCategories = $this->item->relatedCategories->pluck('id')->toArray();
 
         $this->is_with_variations = (bool)$this->item->is_with_variations;
 
         $this->initVariations();
+
+        $this->initGenerateSlug();
     }
 
     public function render()
@@ -526,27 +514,9 @@ class ShowProduct extends Component
         $product->save();
     }
 
-    public function updatedProductName()
+    public function updatedItemName()
     {
         $this->handleGenerateSlug();
-    }
-
-    public function toggleGenerateSlugMode()
-    {
-        $this->generateSlugSyncMode = !$this->generateSlugSyncMode;
-        $this->handleGenerateSlug();
-    }
-
-    public function handleGenerateSlug()
-    {
-        if ($this->generateSlugSyncMode) {
-            $this->generateSlug();
-        }
-    }
-
-    protected function generateSlug()
-    {
-        $this->item->slug = Str::slug($this->item->name);
     }
 
     /**
@@ -738,11 +708,6 @@ class ShowProduct extends Component
         $this->instructions = $instructions;
     }
 
-    protected function saveSeo()
-    {
-        $this->item->seo()->save($this->seo);
-    }
-
     protected function saveProductProduct()
     {
         foreach ($this->mapTypeToRelationName as $type => $relation) {
@@ -804,17 +769,6 @@ class ShowProduct extends Component
         /** @var \Domain\Common\Models\CustomMedia $customMedia */
         $customMedia = $fileAdder->toMediaCollection($collectionName);
         return $customMedia;
-    }
-
-    protected function categoryToOption(array $acc, Category $category, int $level = 1): array
-    {
-        $acc[] = OptionDTO::fromCategory($category, $level)->toArray();
-        if ($category->relationLoaded('subcategories')) {
-            foreach ($category->subcategories as $subcategory) {
-                $acc = $this->categoryToOption($acc, $subcategory, $level + 1);
-            }
-        }
-        return $acc;
     }
 
     protected function initProductProduct(bool $refresh = false)

@@ -6,7 +6,7 @@
 /** @var array[] $availabilityStatuses @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Common\Models\Currency} */
 /** @var bool $generateSlugSyncMode */
 ?>
-<div class="product-edit">
+<div class="item-edit">
     @include('admin.livewire.includes.form-group-checkbox', ['field' => 'item.is_active', 'label' => 'Активность'])
 
     <div class="form-group row">

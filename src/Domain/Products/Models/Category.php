@@ -3,6 +3,7 @@
 namespace Domain\Products\Models;
 
 use Domain\Common\Models\BaseModel;
+use Domain\Common\Models\HasDeletedItemSlug;
 use Domain\Products\Actions\HasActiveProductsAction;
 use Domain\Products\Models\Product\Product;
 use Domain\Seo\Models\Seo;
@@ -24,6 +25,8 @@ use Illuminate\Support\Facades\Cache;
  * @property bool $is_active
  * @property string|null $description
  * @property \Carbon\Carbon|null $deleted_at
+ *
+ * @property array $meta
  *
  * @see \Domain\Products\Models\Category::parentCategory()
  * @property \Domain\Products\Models\Category|null $parentCategory
@@ -51,10 +54,13 @@ use Illuminate\Support\Facades\Cache;
  *
  * @see \Domain\Products\Models\Category::getHasActiveProductsAttribute()
  * @property-read bool $has_active_products
+ *
+ * @mixin \Domain\Common\Models\HasDeletedItemSlug
  * */
 class Category extends BaseModel
 {
     use SoftDeletes;
+    use HasDeletedItemSlug;
 
     const TABLE = "categories";
 
@@ -69,7 +75,8 @@ class Category extends BaseModel
     const _TEMP_ID_EQUIPMENT = 54;
     const _TEMP_ID_RELATED_TOOLS = 60;
 
-    public const ORDERING_DEFAULT = 500;
+    public const DEFAULT_IS_ACTIVE = false;
+    public const DEFAULT_ORDERING = 500;
 
     /**
      * The table associated with the model.
@@ -78,6 +85,15 @@ class Category extends BaseModel
      */
     protected $table = self::TABLE;
 
+    /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'is_active' => self::DEFAULT_IS_ACTIVE,
+        'ordering' => self::DEFAULT_ORDERING,
+    ];
     /**
      * Indicates if the model should be timestamped.
      *
@@ -92,6 +108,7 @@ class Category extends BaseModel
      */
     protected $casts = [
         "is_active" => "boolean",
+        'meta' => 'array',
     ];
 
     public static function rbAdminCategory($value)
