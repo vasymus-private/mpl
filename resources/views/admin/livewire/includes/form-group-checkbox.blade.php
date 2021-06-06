@@ -10,6 +10,6 @@
         <label class="form-check-label" for="{{$field}}">{{$label}}:</label>
     </div>
     <div class="col-sm-7">
-        @include('admin.livewire.includes.form-check', ['field' => $field, 'defer' => $defer])
+        @include('admin.livewire.includes.form-check', ['field' => $field, 'defer' => $defer ?? true])
     </div>
 </div>

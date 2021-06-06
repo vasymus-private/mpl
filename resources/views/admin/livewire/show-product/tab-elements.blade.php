@@ -7,45 +7,45 @@
 /** @var bool $generateSlugSyncMode */
 ?>
 <div class="product-edit">
-    @include('admin.livewire.includes.form-group-checkbox', ['field' => 'product.is_active', 'label' => 'Активность'])
+    @include('admin.livewire.includes.form-group-checkbox', ['field' => 'item.is_active', 'label' => 'Активность'])
 
     <div class="form-group row">
-        <label for="product.name" class="col-sm-5 col-form-label font-weight-bold">Название:</label>
+        <label for="item.name" class="col-sm-5 col-form-label font-weight-bold">Название:</label>
         <div class="col-sm-7">
             <div class="input-group">
-                <input wire:model.debounce.1000ms="product.name" type="text" class="form-control @error('product.name') is-invalid @enderror" id="product.name">
+                <input wire:model.debounce.1000ms="item.name" type="text" class="form-control @error('item.name') is-invalid @enderror" id="item.name">
                 <div class="input-group-append">
                     <button wire:click="toggleGenerateSlugMode" class="btn btn-outline-secondary" type="button"><i class="fa {{$generateSlugSyncMode ? 'fa-chain' : 'fa-chain-broken'}}" aria-hidden="true"></i></button>
                 </div>
             </div>
-            @error('product.name') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            @error('item.name') <div class="invalid-feedback">{{ $message }}</div> @enderror
         </div>
     </div>
 
     <div class="form-group row">
-        <label for="product.slug" class="col-sm-5 col-form-label">Символьный код:</label>
+        <label for="item.slug" class="col-sm-5 col-form-label">Символьный код:</label>
         <div class="col-sm-7">
             <div class="input-group">
-                <input wire:model.defer="product.slug" type="text" class="form-control @error('product.slug') is-invalid @enderror" id="product.slug">
+                <input wire:model.defer="item.slug" type="text" class="form-control @error('item.slug') is-invalid @enderror" id="item.slug">
                 <div class="input-group-append">
                     <button wire:click="toggleGenerateSlugMode" class="btn btn-outline-secondary" type="button"><i class="fa {{$generateSlugSyncMode ? 'fa-chain' : 'fa-chain-broken'}}" aria-hidden="true"></i></button>
                 </div>
             </div>
-            @error('product.slug') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            @error('item.slug') <div class="invalid-feedback">{{ $message }}</div> @enderror
         </div>
     </div>
 
-    @include('admin.livewire.includes.form-group-input', ['field' => 'product.ordering', 'className' => 'width-27', 'label' => 'Сортировка'])
+    @include('admin.livewire.includes.form-group-input', ['field' => 'item.ordering', 'className' => 'width-27', 'label' => 'Сортировка'])
 
-    @include('admin.livewire.includes.form-group-select', ['field' => 'product.brand_id', 'className' => 'width-45', 'label' => 'Производитель', 'options' => $brands])
+    @include('admin.livewire.includes.form-group-select', ['field' => 'item.brand_id', 'className' => 'width-45', 'label' => 'Производитель', 'options' => $brands])
 
-    @include('admin.livewire.includes.form-group-input', ['field' => 'product.coefficient', 'className' => 'width-27', 'label' => 'Коэффициент на единицу расхода и единица расхода'])
+    @include('admin.livewire.includes.form-group-input', ['field' => 'item.coefficient', 'className' => 'width-27', 'label' => 'Коэффициент на единицу расхода и единица расхода'])
 
-    @include('admin.livewire.includes.form-group-input', ['field' => 'product.coefficient_description', 'className' => 'width-27', 'label' => 'Описание коэффициента'])
+    @include('admin.livewire.includes.form-group-input', ['field' => 'item.coefficient_description', 'className' => 'width-27', 'label' => 'Описание коэффициента'])
 
-    @include('admin.livewire.includes.form-group-checkbox', ['field' => 'product.coefficient_description_show', 'label' => 'Показывать описание коэффициента'])
+    @include('admin.livewire.includes.form-group-checkbox', ['field' => 'item.coefficient_description_show', 'label' => 'Показывать описание коэффициента'])
 
-    @include('admin.livewire.includes.form-group-input', ['field' => 'product.price_name', 'className' => 'width-50', 'label' => 'Наименование цены'])
+    @include('admin.livewire.includes.form-group-input', ['field' => 'item.price_name', 'className' => 'width-50', 'label' => 'Наименование цены'])
 
     <div class="form-group row">
         <label class="col-sm-5 col-form-label">Информационные цены:</label>
@@ -69,7 +69,7 @@
         </div>
     </div>
 
-    @include('admin.livewire.includes.form-group-textarea', ['field' => 'product.admin_comment', 'label' => 'Служебная информация'])
+    @include('admin.livewire.includes.form-group-textarea', ['field' => 'item.admin_comment', 'label' => 'Служебная информация'])
 
     <div class="form-group row">
         <label class="col-sm-5 col-form-label">Дополнительные файлы (инструкции):</label>
@@ -106,10 +106,10 @@
         <div class="col-sm-7">
             <div class="row">
                 <div class="col-3">
-                    @include('admin.livewire.includes.form-control-input', ['field' => "product.price_purchase"])
+                    @include('admin.livewire.includes.form-control-input', ['field' => "item.price_purchase"])
                 </div>
                 <div class="col-5">
-                    @include('admin.livewire.includes.form-group-select', ['field' => 'product.price_purchase_currency_id', 'label' => 'Валюта', 'options' => $currencies])
+                    @include('admin.livewire.includes.form-group-select', ['field' => 'item.price_purchase_currency_id', 'label' => 'Валюта', 'options' => $currencies])
                 </div>
             </div>
 
@@ -121,17 +121,17 @@
         <div class="col-sm-7">
             <div class="row">
                 <div class="col-3">
-                    @include('admin.livewire.includes.form-control-input', ['field' => "product.price_retail"])
+                    @include('admin.livewire.includes.form-control-input', ['field' => "item.price_retail"])
                 </div>
                 <div class="col-5">
-                    @include('admin.livewire.includes.form-group-select', ['field' => 'product.price_retail_currency_id', 'label' => 'Валюта', 'options' => $currencies])
+                    @include('admin.livewire.includes.form-group-select', ['field' => 'item.price_retail_currency_id', 'label' => 'Валюта', 'options' => $currencies])
                 </div>
             </div>
         </div>
     </div>
 
-    @include('admin.livewire.includes.form-group-input', ['field' => 'product.unit', 'className' => 'width-27', 'label' => 'Упаковка / Единица'])
+    @include('admin.livewire.includes.form-group-input', ['field' => 'item.unit', 'className' => 'width-27', 'label' => 'Упаковка / Единица'])
 
-    @include('admin.livewire.includes.form-group-select', ['field' => 'product.availability_status_id', 'className' => 'width-35', 'label' => 'Наличие', 'options' => $availabilityStatuses])
+    @include('admin.livewire.includes.form-group-select', ['field' => 'item.availability_status_id', 'className' => 'width-35', 'label' => 'Наличие', 'options' => $availabilityStatuses])
 </div>
 

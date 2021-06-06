@@ -8,7 +8,7 @@
  * @var array[][] $loadedForProductProduct @see {@link \Domain\Products\DTOs\ProductProductAdminDTO}
  */
 ?>
-@include('admin.livewire.includes.form-group-input', ['field' => "product.$wire_field", 'label' => "Переименовать '$title'"])
+@include('admin.livewire.includes.form-group-input', ['field' => "item.$wire_field", 'label' => "Переименовать '$title'"])
 
 <p class="h3">{{$title}}</p>
 @foreach(collect($productProducts[$type])->chunk(3) as $chunk)
