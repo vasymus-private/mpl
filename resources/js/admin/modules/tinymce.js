@@ -158,12 +158,12 @@ window.___tinymceOptions = tinymceOoptions = {
 window.livewireTinymce = () => {
     let selectors = [
         {
-            editorId : 'product-preview-tinymce',
-            sourceId : 'product.preview'
+            editorId : 'item-preview-tinymce',
+            sourceId : 'item.preview'
         },
         {
-            editorId : 'product-description-tinymce',
-            sourceId : 'product.description'
+            editorId : 'item-description-tinymce',
+            sourceId : 'item.description'
         },
         {
             editorId : 'currentVariation-preview-tinymce',

@@ -2,20 +2,8 @@
 
 namespace App\View\Components\Admin;
 
-use Domain\Products\Models\Category;
-
 class SidebarMenuItemCategorySubmenuComponent extends BaseSidebarMenuItemCategoryComponent
 {
-    protected ?Category $category;
-
-    /**
-     * @param \Domain\Products\Models\Category|null $category
-     */
-    public function __construct(Category $category = null)
-    {
-        $this->category = $category;
-    }
-
     public function id(): string
     {
         $baseIdHref = $this->getBaseIdHref();

@@ -4,18 +4,124 @@ namespace App\Http\Controllers;
 
 use App\Mail\TestMarkupOrderShippedMail;
 use App\Mail\TestMarkupResetPasswordMail;
+use App\Rules\CategoryDeactivatable;
 use Domain\Products\Actions\GetCategoriesTreeAction;
 use Domain\Products\Actions\GetCategoryAndSubtreeAction;
 use Domain\Products\Actions\GetCategoryAndSubtreeIdsAction;
+use Domain\Products\Actions\HasActiveProductsAction;
+use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class TestController extends Controller
 {
-    public function test(Request $request, GetCategoriesTreeAction $getCategoriesTreeAction, GetCategoryAndSubtreeAction $getCategoryAndSubtreeAction, GetCategoryAndSubtreeIdsAction $getCategoryAndSubtreeIdsAction)
+    public function test(Request $request, GetCategoriesTreeAction $getCategoriesTreeAction, GetCategoryAndSubtreeAction $getCategoryAndSubtreeAction, GetCategoryAndSubtreeIdsAction $getCategoryAndSubtreeIdsAction, HasActiveProductsAction $hasActiveProductsAction)
     {
-        dump(Product::withTrashed()->with('media')->find(2));
+
+
         return view('test');
+    }
+
+    protected function testRule()
+    {
+        /*$validator = Validator::make(
+            [
+                "search" => "",
+                "category_id" => "",
+                "category_name" => "Раздел: Верхний уровень",
+                "editMode" => true,
+                "categories" => [
+                    1 => [
+                        "id" => 1,
+                        "name" => "Паркет243",
+                        "ordering" => 100,
+                        "is_active" => false,
+                        "is_active_name" => "Да",
+                        "is_checked" => false,
+                        "hasSubcategories" => true,
+                    ],
+                    8 => [
+                        "id" => 8,
+                        "name" => "Паркетны111",
+                        "ordering" => 20,
+                        "is_active" => true,
+                        "is_active_name" => "Да",
+                        "is_checked" => true,
+                        "hasSubcategories" => true,
+                    ],
+                    19 => [
+                        "id" => 19,
+                        "name" => "Паркетный afgadgasd",
+                        "ordering" => 300,
+                        "is_active" => true,
+                        "is_active_name" => "Да",
+                        "is_checked" => true,
+                        "hasSubcategories" => true,
+                    ],
+                    31 => [
+                        "id" => 31,
+                        "name" => "SDFS",
+                        "ordering" => 4005,
+                        "is_active" => true,
+                        "is_active_name" => "Да",
+                        "is_checked" => false,
+                        "hasSubcategories" => true,
+                    ],
+                    36 => [
+                        "id" => 36,
+                        "name" => "Шпаклевка",
+                        "ordering" => 450,
+                        "is_active" => true,
+                        "is_active_name" => "Да",
+                        "is_checked" => false,
+                        "hasSubcategories" => true,
+                    ],
+                    39 => [
+                        "id" => 39,
+                        "name" => "Средства по уходу",
+                        "ordering" => 500,
+                        "is_active" => true,
+                        "is_active_name" => "Да",
+                        "is_checked" => false,
+                        "hasSubcategories" => true,
+                    ],
+                    46 => [
+                        "id" => 46,
+                        "name" => "Основание пола",
+                        "ordering" => 600,
+                        "is_active" => true,
+                        "is_active_name" => "Да",
+                        "is_checked" => false,
+                        "hasSubcategories" => true,
+                    ],
+                    54 => [
+                        "id" => 54,
+                        "name" => "Оборудование",
+                        "ordering" => 700,
+                        "is_active" => true,
+                        "is_active_name" => "Да",
+                        "is_checked" => false,
+                        "hasSubcategories" => true,
+                    ],
+                    60 => [
+                        "id" => 60,
+                        "name" => "Сопутствующие товары",
+                        "ordering" => 800,
+                        "is_active" => true,
+                        "is_active_name" => "Да",
+                        "is_checked" => false,
+                        "hasSubcategories" => true,
+                    ],
+                ],
+                "selectAll" => false
+            ],
+            [
+                'categories.*.is_active' => [new CategoryDeactivatable()]
+            ]
+        );
+
+        dump($validator->fails());*/
     }
 
     public function testImages()

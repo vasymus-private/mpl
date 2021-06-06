@@ -20,7 +20,7 @@ class CreateProductsTable extends Migration
             $table->string('slug')->nullable()->comment("Product variations slug could be nullable");
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->unsignedBigInteger('category_id')->nullable()->comment("Product variations category_id could be nullable");
-            $table->unsignedBigInteger('ordering')->nullable();
+            $table->unsignedBigInteger('ordering')->nullable()->default(Product::DEFAULT_ORDERING);
             $table->boolean('is_active')->default(false);
             $table->unsignedBigInteger('brand_id')->nullable();
             $table->double('coefficient')->nullable();

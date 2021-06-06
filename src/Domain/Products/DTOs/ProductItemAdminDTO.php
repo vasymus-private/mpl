@@ -15,7 +15,7 @@ class ProductItemAdminDTO extends DataTransferObject
     /**
      * @var int|string
      */
-    public $ordering = Product::ORDERING_DEFAULT;
+    public $ordering = Product::DEFAULT_ORDERING;
 
     public bool $is_active = false;
 

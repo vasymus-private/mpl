@@ -17,6 +17,8 @@ class OptionDTO extends DataTransferObject
 
     public string $label;
 
+    public bool $disabled = false;
+
     public static function fromBrand(Brand $brand): self
     {
         return new self([
@@ -41,11 +43,12 @@ class OptionDTO extends DataTransferObject
         ]);
     }
 
-    public static function fromCategory(Category $category, int $level = 1): self
+    public static function fromCategory(Category $category, int $level = 1, bool $disabled = false): self
     {
         return new self([
             'value' => $category->id,
             'label' => implode('', array_fill(0, $level - 1, '.')) . $category->name,
+            'disabled' => $disabled,
         ]);
     }
 
