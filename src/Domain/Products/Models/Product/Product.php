@@ -2,6 +2,7 @@
 
 namespace Domain\Products\Models\Product;
 
+use Domain\Common\Models\HasDeletedItemSlug;
 use Domain\Products\Collections\ProductCollection;
 use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\QueryBuilders\ProductQueryBuilder;
@@ -83,6 +84,8 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property \Carbon\Carbon|null $updated_at
  * @property \Carbon\Carbon|null $deleted_at
  *
+ * @property array $meta
+ *
  * @see \Domain\Orders\Models\Order::products()
  * @property \Domain\Orders\Models\Pivots\OrderProduct|null $order_product
  *
@@ -97,6 +100,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  *
  * @mixin \Domain\Products\Models\Product\ProductRelations
  * @mixin \Domain\Products\Models\Product\ProductAcM
+ * @mixin \Domain\Common\Models\HasDeletedItemSlug
  *
  * @method static static|\Domain\Products\QueryBuilders\ProductQueryBuilder query()
  **/
@@ -106,6 +110,7 @@ class Product extends BaseModel implements HasMedia
     use SoftDeletes;
     use InteractsWithMedia;
     use ProductAcM;
+    use HasDeletedItemSlug;
 
     const DEFAULT_IS_ACTIVE = false;
     const DEFAULT_IS_WITH_VARIATIONS = false;
@@ -117,13 +122,12 @@ class Product extends BaseModel implements HasMedia
     const DEFAULT_RELATED_NAME = 'Сопряженные';
     const DEFAULT_WORK_NAME = 'Работы';
     const DEFAULT_INSTRUMENTS_NAME = 'Инструменты';
-
     const DEFAULT_CURRENCY_ID = Currency::ID_RUB;
+    const DEFAULT_ORDERING = 500;
 
     const TABLE = "products";
-    const MAX_CHARACTERISTIC_RATE = 5;
 
-    const ORDERING_DEFAULT = 500;
+    const MAX_CHARACTERISTIC_RATE = 5;
 
     const MC_MAIN_IMAGE = "main";
     const MC_ADDITIONAL_IMAGES = "images";
@@ -274,6 +278,7 @@ class Product extends BaseModel implements HasMedia
         'related_name' => self::DEFAULT_RELATED_NAME,
         'work_name' => self::DEFAULT_WORK_NAME,
         'instruments_name' => self::DEFAULT_INSTRUMENTS_NAME,
+        'ordering' => self::DEFAULT_ORDERING,
     ];
 
     /**
@@ -285,6 +290,7 @@ class Product extends BaseModel implements HasMedia
         "is_active" => "boolean",
         "is_with_variations" => "boolean",
         "coefficient_description_show" => "boolean",
+        'meta' => 'array',
     ];
 
     public static function rbProductSlug($value, Route $route)

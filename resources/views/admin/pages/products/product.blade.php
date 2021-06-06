@@ -14,5 +14,5 @@
         </a>
     </div>
 
-    <livewire:admin.show-product :product="$product" />
+    <livewire:admin.show-product :item="$product" />
 @endsection

@@ -11,7 +11,7 @@ class SimpleCategoryDTO extends DataTransferObject
 
     public string $name;
 
-    public string $slug;
+    public ?string $slug;
 
     /**
      * @var \Domain\Products\DTOs\SimpleCategoryDTO[]

@@ -7,6 +7,24 @@ init()
 
 addListeners()
 
+$('.js-navigate-categories').on('click', event => {
+    event.stopPropagation()
+    event.preventDefault()
+    let $currentTarget = $(event.currentTarget)
+    let route = $currentTarget.data('route')
+
+    if (!route) return true
+
+    let $navLink = $currentTarget.parents('[data-toggle="collapse"]').first()
+
+    let collapsibleSelector = $navLink.attr('href') || $navLink.data('target')
+    let childCollapsibleId = collapsibleSelector.slice(1)
+
+    handleSaveOpen(childCollapsibleId)
+
+    location.href = route
+})
+
 function init() {
     let sidebarStorage = getSidebarStorage()
 

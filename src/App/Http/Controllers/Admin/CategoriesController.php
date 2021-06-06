@@ -9,27 +9,21 @@ class CategoriesController extends BaseAdminController
 {
     public function index(Request $request)
     {
-        $query = Category::query()->select(["*"]);
-
-        if ($request->category_id) {
-            $query->where(Category::TABLE . ".parent_id", $request->category_id);
-        }
-
-        if ($request->search) {
-            $query->where(Category::TABLE . ".name", "LIKE", "%{$request->search}%");
-        }
-
-        $categories = $query->paginate($request->per_page ?? 20);
-        $categories->appends($request->query());
+        return view('admin.pages.categories.categories');
     }
 
     public function create()
     {
+        $category = new Category();
 
+        return view('admin.pages.categories.category', compact('category'));
     }
 
-    public function edit()
+    public function edit(Request $request)
     {
+        /** @var \Domain\Products\Models\Category $category */
+        $category = $request->admin_category;
 
+        return view('admin.pages.categories.category', compact('category'));
     }
 }

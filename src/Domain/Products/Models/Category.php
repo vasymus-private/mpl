@@ -3,6 +3,9 @@
 namespace Domain\Products\Models;
 
 use Domain\Common\Models\BaseModel;
+use Domain\Common\Models\HasDeletedItemSlug;
+use Domain\Products\Actions\HasActiveProductsAction;
+use Domain\Products\Models\Product\Product;
 use Domain\Seo\Models\Seo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -23,14 +26,19 @@ use Illuminate\Support\Facades\Cache;
  * @property string|null $description
  * @property \Carbon\Carbon|null $deleted_at
  *
+ * @property array $meta
+ *
  * @see \Domain\Products\Models\Category::parentCategory()
  * @property \Domain\Products\Models\Category|null $parentCategory
  *
  * @see \Domain\Products\Models\Category::subcategories()
- * @property Collection|\Domain\Products\Models\Category[] $subcategories
+ * @property \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\Category[] $subcategories
  *
  * @see \Domain\Products\Models\Category::seo()
  * @property \Domain\Seo\Models\Seo|null $seo
+ *
+ * @see \Domain\Products\Models\Category::products()
+ * @property \Domain\Products\Collections\ProductCollection|\Domain\Products\Models\Product\Product[] $products
  *
  * @see \Domain\Products\Models\Category::scopeParents()
  * @method static static|\Illuminate\Database\Eloquent\Builder parents()
@@ -43,10 +51,16 @@ use Illuminate\Support\Facades\Cache;
  *
  * @see \Domain\Products\Models\Category::getAllLoadedSubcategoriesIdsAttribute()
  * @property-read int[] $all_loaded_subcategories_ids
+ *
+ * @see \Domain\Products\Models\Category::getHasActiveProductsAttribute()
+ * @property-read bool $has_active_products
+ *
+ * @mixin \Domain\Common\Models\HasDeletedItemSlug
  * */
 class Category extends BaseModel
 {
     use SoftDeletes;
+    use HasDeletedItemSlug;
 
     const TABLE = "categories";
 
@@ -61,6 +75,9 @@ class Category extends BaseModel
     const _TEMP_ID_EQUIPMENT = 54;
     const _TEMP_ID_RELATED_TOOLS = 60;
 
+    public const DEFAULT_IS_ACTIVE = false;
+    public const DEFAULT_ORDERING = 500;
+
     /**
      * The table associated with the model.
      *
@@ -68,6 +85,15 @@ class Category extends BaseModel
      */
     protected $table = self::TABLE;
 
+    /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'is_active' => self::DEFAULT_IS_ACTIVE,
+        'ordering' => self::DEFAULT_ORDERING,
+    ];
     /**
      * Indicates if the model should be timestamped.
      *
@@ -82,6 +108,7 @@ class Category extends BaseModel
      */
     protected $casts = [
         "is_active" => "boolean",
+        'meta' => 'array',
     ];
 
     public static function rbAdminCategory($value)
@@ -102,6 +129,16 @@ class Category extends BaseModel
     public function seo(): MorphOne
     {
         return $this->morphOne(Seo::class, "seoable", "seoable_type", "seoable_id");
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany|\Domain\Products\QueryBuilders\ProductQueryBuilder
+     */
+    public function products(): HasMany
+    {
+        /** @var \Illuminate\Database\Eloquent\Relations\HasMany|\Domain\Products\QueryBuilders\ProductQueryBuilder $productsQuery */
+        $productsQuery = $this->hasMany(Product::class, 'category_id', 'id');
+        return $productsQuery->notVariations();
     }
 
     public function scopeParents(Builder $builder): Builder
@@ -189,7 +226,7 @@ class Category extends BaseModel
      *
      * @return int[]
      */
-    public function allLoadedSubcategoriesIds(Category $category): array
+    protected function allLoadedSubcategoriesIds(Category $category): array
     {
         $subcategoriesIds = $category->subcategories->pluck("id")->toArray();
         foreach ($category->subcategories as $subcategory) {
@@ -198,5 +235,12 @@ class Category extends BaseModel
             }
         }
         return $subcategoriesIds;
+    }
+
+    public function getHasActiveProductsAttribute(): bool
+    {
+        /** @var \Domain\Products\Actions\HasActiveProductsAction $hasActiveProductsAction */
+        $hasActiveProductsAction = Cache::store('array')->rememberForever(HasActiveProductsAction::class, fn() => resolve(HasActiveProductsAction::class));
+        return $hasActiveProductsAction->execute($this->id);
     }
 }
