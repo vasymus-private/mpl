@@ -42,7 +42,7 @@ class ShowCategory extends Component
     public array $tabs = [
         'elements' => 'Элемент',
         'seo' => 'SEO',
-        'products' => 'Товары',
+        'product-list' => 'Товары',
     ];
 
     /**
