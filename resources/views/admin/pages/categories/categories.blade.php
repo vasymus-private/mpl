@@ -8,7 +8,7 @@
         </a>
     </div>
 
-    <h1 class="adm-title">Каталог товаров <span class="adm-fav-link"></span></h1>
+    <h1 class="adm-title">Каталог товаров: Разделы <span class="adm-fav-link"></span></h1>
 
-    <livewire:admin.products-list />
+    <livewire:admin.categories-list />
 @endsection

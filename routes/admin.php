@@ -46,6 +46,28 @@ Route
 
 Route
     ::get(
+        "categories",
+        [\App\Http\Controllers\Admin\CategoriesController::class, 'index']
+    )
+    ->name('categories.index')
+;
+Route
+    ::get(
+        "categories/create",
+        [\App\Http\Controllers\Admin\CategoriesController::class, 'create']
+    )
+    ->name('categories.create')
+;
+Route
+    ::get(
+        "categories/{admin_category}/edit",
+        [\App\Http\Controllers\Admin\CategoriesController::class, "edit"]
+    )
+    ->name("categories.edit")
+;
+
+Route
+    ::get(
         "brands",
         [\App\Http\Controllers\Admin\BrandsController::class, "index"]
     )
