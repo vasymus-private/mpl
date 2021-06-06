@@ -47,6 +47,7 @@ services:
         build:
             context: ./docker/mariadb
         image: vasymus/mpl-db:0.1.0
+        restart: always
         deploy:
             replicas: 1
             placement:
