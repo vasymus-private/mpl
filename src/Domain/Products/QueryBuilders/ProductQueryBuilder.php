@@ -19,6 +19,11 @@ class ProductQueryBuilder extends Builder
         return $this->where("{$this->table}.is_active", true);
     }
 
+    public function inactive(): self
+    {
+        return $this->where("{$this->table}.is_active", false);
+    }
+
     public function available(): self
     {
         return $this->whereIn("{$this->table}.availability_status_id", [AvailabilityStatus::ID_AVAILABLE_IN_STOCK, AvailabilityStatus::ID_AVAILABLE_NOT_IN_STOCK]);

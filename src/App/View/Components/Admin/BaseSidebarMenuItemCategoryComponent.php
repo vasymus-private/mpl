@@ -2,11 +2,22 @@
 
 namespace App\View\Components\Admin;
 
+use Domain\Products\Models\Category;
 use Illuminate\Support\Facades\Route;
 use Illuminate\View\Component;
 
 abstract class BaseSidebarMenuItemCategoryComponent extends Component
 {
+    protected ?Category $category;
+
+    /**
+     * @param \Domain\Products\Models\Category|null $category
+     */
+    public function __construct(Category $category = null)
+    {
+        $this->category = $category;
+    }
+
     protected function getBaseIdHref(): string
     {
         return "products-level";

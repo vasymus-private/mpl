@@ -52,8 +52,6 @@ services:
             placement:
                 constraints:
                     - "node.role == manager"
-            restart_policy:
-                condition: on-failure
         volumes:
             - db-data:/var/lib/mysql
             - ./docker/mariadb/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
@@ -73,8 +71,6 @@ services:
         image: vasymus/mpl-redis:0.1.0
         deploy:
             replicas: 1
-            restart_policy:
-                condition: on-failure
         volumes:
             - ./docker/redis/data/:/data
         ports:
@@ -89,8 +85,6 @@ services:
         image: vasymus/mpl-adminer:0.1.0
         deploy:
             replicas: 1
-            restart_policy:
-                condition: on-failure
         environment:
             - ADMINER_DESIGN=flat
             - ADM_DEFAULT_SERVER=db
@@ -106,8 +100,6 @@ services:
         image: vasymus/mpl-mailhog:0.1.0
         deploy:
             replicas: 1
-            restart_policy:
-                condition: on-failure
         volumes:
             - ./docker/mailhog/maildir:/home/mailhog/maildir
         environment:
@@ -130,8 +122,6 @@ services:
         image: vasymus/mpl-redis-webui:0.1.0
         deploy:
             replicas: 1
-            restart_policy:
-                condition: on-failure
         environment:
             - ADMIN_USER=${DOCKER_REDIS_WEBUI_USERNAME}
             - ADMIN_PASS=${DOCKER_REDIS_WEBUI_PASSWORD}

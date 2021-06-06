@@ -5,6 +5,7 @@
  * @var bool $defer Default `true`
  * @var bool $nullOption Default `true`
  * @var string $placeholder
+ * @var string $label
  */
 ?>
 @if($isRow ?? true)

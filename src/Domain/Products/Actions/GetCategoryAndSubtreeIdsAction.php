@@ -2,9 +2,10 @@
 
 namespace Domain\Products\Actions;
 
+use Domain\Common\Actions\BaseAction;
 use Domain\Products\DTOs\SimpleCategoryDTO;
 
-class GetCategoryAndSubtreeIdsAction
+class GetCategoryAndSubtreeIdsAction extends BaseAction
 {
     private GetCategoryAndSubtreeAction $getCategoryAndSubtreeAction;
 
