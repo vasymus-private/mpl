@@ -86,6 +86,12 @@ RUN rm /var/cache/apk/*
 
 WORKDIR /var/www/html
 
+RUN mkdir /var/www/html/bootstrap
+RUN mkdir /var/www/html/bootstrap/cache
+RUN mkdir /var/www/html/storage
+RUN chown -R www-data:www-data /var/www/html/bootstrap/cache
+RUN chown -R www-data:www-data /var/www/html/storage
+
 ENTRYPOINT ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisord.conf"]
 
 EXPOSE 9000

@@ -61,6 +61,7 @@ services:
             - MYSQL_PASSWORD=${DOCKER_MARIADB_PASSWORD}
             - MYSQL_ROOT_PASSWORD=root
             - TZ=UTC
+            - MYSQL_DATABASE=mpl
         ports:
             - "${DOCKER_MARIADB_PORT}:3306"
         networks:
@@ -142,3 +143,5 @@ networks:
 
 volumes:
     db-data:
+        external: true
+
