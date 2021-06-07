@@ -18,8 +18,6 @@ class TestController extends Controller
 {
     public function test(Request $request, GetCategoriesTreeAction $getCategoriesTreeAction, GetCategoryAndSubtreeAction $getCategoryAndSubtreeAction, GetCategoryAndSubtreeIdsAction $getCategoryAndSubtreeIdsAction, HasActiveProductsAction $hasActiveProductsAction)
     {
-
-
         return view('test');
     }
 

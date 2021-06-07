@@ -48,6 +48,8 @@ class ProductsInfoPricesSeoTablesSeeder extends Seeder
 
         $this->seedRelations();
         $this->seedVariations();
+
+        $this->seedProductIsWithVariants();
     }
 
     protected function initialSeed()
@@ -301,5 +303,12 @@ class ProductsInfoPricesSeoTablesSeeder extends Seeder
         foreach ($media["files"] as $fileMediaInfo) {
             $loop($fileMediaInfo, Product::MC_FILES);
         }
+    }
+
+    protected function seedProductIsWithVariants()
+    {
+        Product::query()->whereHas('variations')->update([
+            'is_with_variations' => 1
+        ]);
     }
 }
