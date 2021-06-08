@@ -5,17 +5,14 @@ let $collapse = $adminSidebar.find(collapseSelector)
 
 const STORAGE_KEY = 'admin-sidebar'
 
-let tree = getTree()
-let parentChildrenMap = getParentChildrenMap()
-let childParentsMap = getChildParentsMap()
-let siblingsMap = getSiblingsMap()
+// let tree = getTree()
+// let parentChildrenMap = getParentChildrenMap()
+// let childParentsMap = getChildParentsMap()
+// let siblingsMap = getSiblingsMap()
 
-console.log("---", getTree(), siblingsMap)
+// init()
 
-
-init()
-
-addListeners()
+// addListeners()
 
 $('.js-navigate-categories').on('click', event => {
     event.stopPropagation()
@@ -25,12 +22,12 @@ $('.js-navigate-categories').on('click', event => {
 
     if (!route) return true
 
-    let $navLink = $currentTarget.parents('[data-toggle="collapse"]').first()
+    //let $navLink = $currentTarget.parents('[data-toggle="collapse"]').first()
 
-    let collapsibleSelector = $navLink.attr('href') || $navLink.data('target')
-    let childCollapsibleId = collapsibleSelector.slice(1)
+    //let collapsibleSelector = $navLink.attr('href') || $navLink.data('target')
+    //let childCollapsibleId = collapsibleSelector.slice(1)
 
-    handleSaveOpen(childCollapsibleId)
+    //handleSaveOpen(childCollapsibleId)
 
     location.href = route
 })

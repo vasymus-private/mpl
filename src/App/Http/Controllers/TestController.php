@@ -18,6 +18,8 @@ class TestController extends Controller
 {
     public function test(Request $request, GetCategoriesTreeAction $getCategoriesTreeAction, GetCategoryAndSubtreeAction $getCategoryAndSubtreeAction, GetCategoryAndSubtreeIdsAction $getCategoryAndSubtreeIdsAction, HasActiveProductsAction $hasActiveProductsAction)
     {
+        dump($getCategoriesTreeAction->execute());
+        dump($getCategoryAndSubtreeAction->execute((int)'all'));
         return view('test');
     }
 

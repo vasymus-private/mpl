@@ -3,7 +3,6 @@
 namespace Domain\Products\Actions;
 
 use Domain\Products\DTOs\SimpleCategoryDTO;
-use Domain\Products\Models\Category;
 
 class GetCategoryAndSubtreeAction
 {
