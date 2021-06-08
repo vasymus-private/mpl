@@ -1,0 +1,13 @@
+.other-page {
+    font-size: 13px;
+    &__title {
+        text-align: right;
+        display: block;
+        font-size: 14px;
+    }
+
+    .column {
+        width: 50%;
+        padding: 5px 10px 7px;
+    }
+}
