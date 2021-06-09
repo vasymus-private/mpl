@@ -83,9 +83,9 @@ class ProductsList extends Component
             ->map(fn(OptionDTO $optionDTO) => $optionDTO->toArray())
             ->all();
         $this->setItems();
-        $this->initBrands();
-        $this->initAvailabilityStatuses();
-        $this->initCurrencies();
+        $this->initBrandsOptions();
+        $this->initAvailabilityStatusesOptions();
+        $this->initCurrenciesOptions();
     }
 
     public function render()

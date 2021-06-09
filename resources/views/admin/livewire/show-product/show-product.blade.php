@@ -1,12 +1,15 @@
 <?php
-/** @var \App\Http\Livewire\Admin\ShowProduct $this */
-/** @var \Domain\Products\Models\Product\Product $item */
-/** @var string $activeTab */
-/** @var array[] $brands @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\Brand} */
-/** @var array[]|\Domain\Products\DTOs\InformationalPriceDTO[] $infoPrices */
-/** @var array[] $instructions {@see \Domain\Common\DTOs\FileDTO} */
-/** @var array[] $currencies @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Common\Models\Currency} */
-/** @var array[] $availabilityStatuses @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Common\Models\Currency} */
+/**
+ * @var \App\Http\Livewire\Admin\ShowProduct $this
+ * @var \Domain\Products\Models\Product\Product $item @see {@link \App\Http\Livewire\Admin\ShowProduct::$item}
+ * @var string $activeTab @see {@link \App\Http\Livewire\Admin\ShowProduct::$activeTab}
+ * @var array[] $brands @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\Brand} {@link \App\Http\Livewire\Admin\ShowProduct::$brands}
+ * @var array[]|\Domain\Products\DTOs\InformationalPriceDTO[] $infoPrices @see {@link \App\Http\Livewire\Admin\ShowProduct::$infoPrices}
+ * @var array[] $instructions @see {@link \Domain\Common\DTOs\FileDTO} {@link \App\Http\Livewire\Admin\ShowProduct::$instructions}
+ * @var array[] $currencies @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Common\Models\Currency} {@link \App\Http\Livewire\Admin\ShowProduct::$currencies}
+ * @var array[] $availabilityStatuses @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Common\Models\Currency} {@link \App\Http\Livewire\Admin\ShowProduct::$availabilityStatuses}
+ * @var \Illuminate\Support\ViewErrorBag $errors
+ */
 ?>
 <div class="py-4">
     <div class="detail-toolbar">

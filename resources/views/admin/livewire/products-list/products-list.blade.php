@@ -73,7 +73,7 @@
                                         Активировать
                                     @endif
                                 </button>
-                                <a class="dropdown-item" href="#">Копировать</a>
+                                <a class="dropdown-item" href="{{route(\App\Constants::ROUTE_ADMIN_PRODUCTS_CREATE, ['copy_id' => $product['id']])}}">Копировать</a>
                                 <button type="button" class="dropdown-item btn btn-link" onclick="if (confirm('Вы уверены, что хотите удалить продукт `{{$product['id']}}` `{{$product['name']}}` ?')) {@this.handleDelete({{$product['id']}});}">Удалить</button>
                             </div>
                         </div>

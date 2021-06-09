@@ -4,6 +4,9 @@ namespace App\Http\Livewire\Admin;
 
 use Domain\Seo\Models\Seo;
 
+/**
+ * @property \Domain\Products\Models\Category|\Domain\Products\Models\Product\Product $item
+ */
 trait HasSeo
 {
     /**

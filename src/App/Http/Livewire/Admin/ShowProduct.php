@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin;
 
+use App\Constants;
 use Domain\Common\DTOs\FileDTO;
 use Domain\Common\Models\Currency;
 use Domain\Common\Models\CustomMedia;
@@ -15,6 +16,9 @@ use Domain\Products\Models\Category;
 use Domain\Products\Models\InformationalPrice;
 use Domain\Products\Models\Pivots\ProductProduct;
 use Domain\Products\Models\Product\Product;
+use Domain\Seo\Models\Seo;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 use Livewire\TemporaryUploadedFile;
 use Support\H;
@@ -34,6 +38,8 @@ class ShowProduct extends Component
     protected const MAX_FILE_SIZE_MB = 30;
 
     protected const DEFAULT_TAB = 'elements';
+
+    protected ?string $currentRouteName = null;
 
     protected const INIT_LOADED_PRODUCT_PRODUCT = [
         ProductProduct::TYPE_ACCESSORY => [],
@@ -204,6 +210,12 @@ class ShowProduct extends Component
 
     public $variationsSelectAll = false;
 
+    public $copy_id = '';
+
+    protected $queryString = [
+        'copy_id' => ['except' => ''],
+    ];
+
     protected function variationsRules(): array
     {
         return [
@@ -300,34 +312,19 @@ class ShowProduct extends Component
 
     public function mount()
     {
-        $this->initBrands();
-        $this->initCurrencies();
-        $this->initAvailabilityStatuses();
-
-        $this->infoPrices = $this->item->infoPrices->map(fn(InformationalPrice $informationalPrice) => InformationalPriceDTO::fromModel($informationalPrice)->toArray())->keyBy('temp_uuid')->toArray();
-        $this->instructions = $this->item->getMedia(Product::MC_FILES)->map(fn(CustomMedia $media) => FileDTO::fromCustomMedia($media)->toArray())->toArray();
-
-        /** @var \Domain\Common\Models\CustomMedia $mainImageMedia */
-        $mainImageMedia = $this->item->getFirstMedia(Product::MC_MAIN_IMAGE);
-        $this->mainImage = $mainImageMedia ? FileDTO::fromCustomMedia($mainImageMedia)->toArray() : [];
-
-        $this->additionalImages = $this->item->getMedia(Product::MC_ADDITIONAL_IMAGES)->map(fn(CustomMedia $media) => FileDTO::fromCustomMedia($media)->toArray())->toArray();
+        $this->currentRouteName = Route::currentRouteName();
+        $this->initBrandsOptions();
+        $this->initCurrenciesOptions();
+        $this->initAvailabilityStatusesOptions();
+        $this->initCategoriesOptions();
 
         $this->initTabs();
 
-        $this->initSeo();
-
-        $this->initProductProduct();
-
-        $this->initCategories();
-
-        $this->relatedCategories = $this->item->relatedCategories->pluck('id')->toArray();
-
-        $this->is_with_variations = (bool)$this->item->is_with_variations;
-
-        $this->initVariations();
-
         $this->initGenerateSlug();
+
+        $this->initItem();
+
+        dd($this);
     }
 
     public function render()
@@ -360,6 +357,11 @@ class ShowProduct extends Component
 
         $this->saveRelatedCategories();
 
+        if ($this->isCreatingFromCopy()) {
+            // TODO save variations
+            // $this->saveVariations();
+        }
+
         if ($shouldRedirect) {
             return redirect()->route('admin.products.edit', $this->item->id);
         }
@@ -390,7 +392,7 @@ class ShowProduct extends Component
             ])->toArray());
             $dbVariation->save();
         });
-        $this->initVariations();
+        $this->initVariations($this->item);
         $this->handleSetVariationsEditMode(false);
         $this->variationsSelectAll = false;
     }
@@ -441,7 +443,7 @@ class ShowProduct extends Component
             if (!in_array($media->id, $additionalImageIds)) $media->delete();
         });
 
-        $this->initVariations();
+        $this->initVariations($this->item);
 
         return true;
     }
@@ -601,7 +603,7 @@ class ShowProduct extends Component
             $this->item->variations()->whereIn('id', $selectedVariationIds)->delete();
         }
 
-        $this->initVariations();
+        $this->initVariations($this->item);
         $this->handleSetVariationsEditMode(false);
         $this->variationsSelectAll = false;
     }
@@ -609,7 +611,7 @@ class ShowProduct extends Component
     public function handleCancelVariationsEditMode()
     {
         $this->handleSetVariationsEditMode(false);
-        $this->initVariations();
+        $this->initVariations($this->item);
     }
 
     public function handleCheckAllVariations(bool $isChecked)
@@ -618,116 +620,6 @@ class ShowProduct extends Component
             $item['is_checked'] = $isChecked;
             return $item;
         })->all();
-    }
-
-    protected function saveProduct()
-    {
-        $this->item->save();
-    }
-
-    protected function saveInfoPrices()
-    {
-        foreach ($this->infoPrices as $infoPrice) {
-            /** @var \Domain\Products\Models\InformationalPrice $infoPriceModel */
-            $infoPriceModel = InformationalPrice::query()->findOrNew($infoPrice['id']);
-            $infoPriceDto = InformationalPriceDTO::create($infoPrice);
-            $infoPriceModel->name = $infoPriceDto->name;
-            $infoPriceModel->price = $infoPriceDto->price;
-            $infoPriceModel->product_id = $this->item->id;
-            $infoPriceModel->save();
-        }
-    }
-
-    protected function saveMainImage()
-    {
-        if (!$this->mainImage) {
-            /** @var CustomMedia|null $media */
-            $media = $this->item->getFirstMedia(Product::MC_MAIN_IMAGE);
-            if ($media) $media->delete();
-            return;
-        }
-
-        if ($this->mainImage['id'] !== null) {
-            /** @var CustomMedia|null $media */
-            $media = $this->item->getFirstMedia(Product::MC_MAIN_IMAGE);
-            if ($media) {
-                $media->name = $this->mainImage['name'];
-                $media->save();
-            }
-        } else {
-            $mainImage = new FileDTO($this->mainImage);
-            $this->addMedia($mainImage, Product::MC_MAIN_IMAGE);
-        }
-    }
-
-    protected function saveAdditionalImages()
-    {
-        $additionalImages = [];
-
-        foreach ($this->additionalImages as $additionalImage) {
-            if ($additionalImage['id'] !== null) {
-                /** @var \Domain\Common\Models\CustomMedia $media */
-                $media = $this->item->getMedia(Product::MC_ADDITIONAL_IMAGES)->first(fn(CustomMedia $media) => $additionalImage['id'] === $media->id);
-                $media->name = $additionalImage['name'] ?: $additionalImage['file_name'];
-                $media->save();
-                $additionalImages[] = $additionalImage;
-            } else {
-                $media = $this->addMedia(new FileDTO($additionalImage), Product::MC_ADDITIONAL_IMAGES);
-                $additionalImages[] = FileDTO::fromCustomMedia($media)->toArray();
-            }
-        }
-
-        $additionalImagesIds = collect($additionalImages)->pluck("id")->toArray();
-        $this->item->getMedia(Product::MC_ADDITIONAL_IMAGES)->each(function(CustomMedia $media) use($additionalImagesIds) {
-            if (!in_array($media->id, $additionalImagesIds)) $media->delete();
-        });
-        $this->additionalImages = $additionalImages;
-    }
-
-    protected function saveInstructions()
-    {
-        $instructions = [];
-
-        foreach ($this->instructions as $instruction) {
-            if ($instruction['id'] !== null) {
-                /** @var \Domain\Common\Models\CustomMedia $media */
-                $media = $this->item->getMedia(Product::MC_FILES)->first(fn(CustomMedia $media) => $instruction['id'] === $media->id);
-                $media->name = $instruction['name'] ?: $instruction['file_name'];
-                $media->save();
-                $instructions[] = $instruction;
-            } else {
-                $media = $this->addMedia(new FileDTO($instruction), Product::MC_FILES);
-                $instructions[] = FileDTO::fromCustomMedia($media)->toArray();
-            }
-        }
-
-        $instructionsIds = collect($instructions)->pluck("id")->toArray();
-        $this->item->getMedia(Product::MC_FILES)->each(function(CustomMedia $media) use($instructionsIds) {
-            if (!in_array($media->id, $instructionsIds)) $media->delete();
-        });
-        $this->instructions = $instructions;
-    }
-
-    protected function saveProductProduct()
-    {
-        foreach ($this->mapTypeToRelationName as $type => $relation) {
-            $currentIds = collect($this->productProducts[$type])->filter(fn(array $item) => !$item['toDelete'])->pluck('id')->toArray();
-            $selectedIds = collect($this->loadedForProductProduct[$type])->filter(fn(array $item) => $item['isSelected'])->pluck('id')->toArray();
-            $ids = array_merge($currentIds, $selectedIds);
-            $sync = collect($ids)->reduce(function(array $acc, int $id) use($type) {
-                $acc[$id] = ["type" => $type];
-                return $acc;
-            }, []);
-            $this->item->{$relation}()->sync($sync);
-        }
-        $this->initProductProduct(true);
-        $this->initLoadedForProductProduct();
-        $this->initSearchForProductProduct();
-    }
-
-    protected function saveRelatedCategories()
-    {
-        $this->item->relatedCategories()->sync($this->relatedCategories);
     }
 
     public function loadProductProduct(int $for)
@@ -757,6 +649,124 @@ class ShowProduct extends Component
         $this->loadedForProductProduct[$for] = collect($productQuery->paginate(20)->items())->map(fn(Product $product) => ProductProductAdminDTO::fromModel($product, "loadedForProductProduct.{$for}.{$product->id}.")->toArray())->keyBy('id')->all();
     }
 
+    protected function saveProduct()
+    {
+        $this->item->save();
+    }
+
+    protected function saveInfoPrices()
+    {
+        foreach ($this->infoPrices as $infoPrice) {
+            /** @var \Domain\Products\Models\InformationalPrice $infoPriceModel */
+            $infoPriceModel = InformationalPrice::query()->findOrNew($infoPrice['id']);
+            $infoPriceDto = InformationalPriceDTO::create($infoPrice);
+            $infoPriceModel->name = $infoPriceDto->name;
+            $infoPriceModel->price = $infoPriceDto->price;
+            $infoPriceModel->product_id = $this->item->id;
+            $infoPriceModel->save();
+        }
+    }
+
+    protected function saveMainImage()
+    {
+        if (!$this->mainImage) {
+            /** @var CustomMedia|null $media */
+            $media = $this->item->getFirstMedia(Product::MC_MAIN_IMAGE);
+            if ($media) $media->delete();
+            return;
+        }
+
+        if ($this->mainImage['id'] !== null && !$this->isCreatingFromCopy()) {
+            /** @var CustomMedia|null $media */
+            $media = $this->item->getFirstMedia(Product::MC_MAIN_IMAGE);
+            if ($media) {
+                $media->name = $this->mainImage['name'];
+                $media->save();
+            }
+        } else {
+            $mainImage = new FileDTO($this->mainImage);
+            $this->addMedia($mainImage, Product::MC_MAIN_IMAGE);
+        }
+    }
+
+    protected function saveAdditionalImages()
+    {
+        $additionalImages = [];
+
+        foreach ($this->additionalImages as $additionalImage) {
+            if ($additionalImage['id'] !== null && !$this->isCreatingFromCopy()) {
+                /** @var \Domain\Common\Models\CustomMedia $media */
+                $media = $this->item->getMedia(Product::MC_ADDITIONAL_IMAGES)->first(fn(CustomMedia $media) => $additionalImage['id'] === $media->id);
+                $media->name = $additionalImage['name'] ?: $additionalImage['file_name'];
+                $media->save();
+                $additionalImages[] = $additionalImage;
+            } else {
+                $media = $this->addMedia(new FileDTO($additionalImage), Product::MC_ADDITIONAL_IMAGES);
+                $additionalImages[] = FileDTO::fromCustomMedia($media)->toArray();
+            }
+        }
+
+        $additionalImagesIds = collect($additionalImages)->pluck("id")->toArray();
+        $this->item->getMedia(Product::MC_ADDITIONAL_IMAGES)->each(function(CustomMedia $media) use($additionalImagesIds) {
+            if (!in_array($media->id, $additionalImagesIds)) $media->delete();
+        });
+        $this->additionalImages = $additionalImages;
+    }
+
+    protected function saveInstructions()
+    {
+        $instructions = [];
+
+        foreach ($this->instructions as $instruction) {
+            if ($instruction['id'] !== null && !$this->isCreatingFromCopy()) {
+                /** @var \Domain\Common\Models\CustomMedia $media */
+                $media = $this->item->getMedia(Product::MC_FILES)->first(fn(CustomMedia $media) => $instruction['id'] === $media->id);
+                $media->name = $instruction['name'] ?: $instruction['file_name'];
+                $media->save();
+                $instructions[] = $instruction;
+            } else {
+                $media = $this->addMedia(new FileDTO($instruction), Product::MC_FILES);
+                $instructions[] = FileDTO::fromCustomMedia($media)->toArray();
+            }
+        }
+
+        $instructionsIds = collect($instructions)->pluck("id")->toArray();
+        $this->item->getMedia(Product::MC_FILES)->each(function(CustomMedia $media) use($instructionsIds) {
+            if (!in_array($media->id, $instructionsIds)) $media->delete();
+        });
+        $this->instructions = $instructions;
+    }
+
+    protected function saveProductProduct()
+    {
+        foreach ($this->mapTypeToRelationName as $type => $relation) {
+            $currentIds = collect($this->productProducts[$type])
+                ->filter(fn(array $item) => !$item['toDelete'])
+                ->pluck('id')
+                ->values()
+                ->toArray();
+            $selectedIds = collect($this->loadedForProductProduct[$type])
+                ->filter(fn(array $item) => $item['isSelected'])
+                ->pluck('id')
+                ->values()
+                ->toArray();
+            $ids = array_merge($currentIds, $selectedIds);
+            $sync = collect($ids)->reduce(function(array $acc, int $id) use($type) {
+                $acc[$id] = ["type" => $type];
+                return $acc;
+            }, []);
+            $this->item->{$relation}()->sync($sync);
+        }
+        $this->initProductProduct($this->item);
+        $this->initLoadedForProductProduct();
+        $this->initSearchForProductProduct();
+    }
+
+    protected function saveRelatedCategories()
+    {
+        $this->item->relatedCategories()->sync($this->relatedCategories);
+    }
+
     protected function addMedia(FileDTO $fileDTO, string $collectionName, ?Product $for = null): CustomMedia
     {
         $for = $for ?: $this->item;
@@ -771,13 +781,76 @@ class ShowProduct extends Component
         return $customMedia;
     }
 
-    protected function initProductProduct(bool $refresh = false)
+    protected function initItem()
+    {
+        if ($this->isCreatingFromCopy()) {
+            $copyProduct = $this->getCopyProduct();
+            if ($copyProduct !== null) {
+                $this->initAsCopiedItem($copyProduct);
+                return;
+            }
+        }
+
+        $this->initSeo();
+
+        $this->initInfoPrices($this->item);
+
+        $this->initInstructions($this->item);
+
+        $this->initImages($this->item);
+
+        $this->initProductProduct($this->item);
+
+        $this->initRelatedCategories($this->item);
+
+        $this->initIsWithVariations($this->item);
+
+        $this->initVariations($this->item);
+    }
+
+    protected function initAsCopiedItem(Product $origin)
+    {
+        // fill item with attributes
+        $attributes = collect($origin->toArray())
+            ->only($this->getCopyItemAttributes())
+            ->toArray();
+        $item = new Product();
+        $item->forceFill($attributes);
+        $this->item = $item;
+
+        // seo
+        $seo = $origin->seo ?: new Seo();
+        $seo->seoable_id = null;
+        $seo->seoable_type = null;
+
+        $this->initInfoPrices($origin);
+
+        $this->initInstructions($origin);
+
+        $this->initImages($origin);
+
+        $this->initProductProduct($origin);
+
+        $this->initRelatedCategories($origin);
+
+        $this->initIsWithVariations($origin);
+
+        $this->initVariations($origin);
+    }
+
+    protected function initProductProduct(Product $product)
     {
         foreach ($this->mapTypeToRelationName as $type => $relation) {
-            if ($refresh) $this->item->load($relation);
+            $product->load("$relation.media");
             /** @var \Illuminate\Support\Collection $rel */
-            $rel = $this->item->{$relation};
-            $this->productProducts[$type] = $rel->map(fn(Product $product) => ProductProductAdminDTO::fromModel($product, "productProducts.{$type}.{$product->id}.")->toArray())->keyBy('id')->all();
+            $rel = $product->{$relation};
+            $this->productProducts[$type] = $rel->map(
+                fn(Product $productProduct) => ProductProductAdminDTO::fromModel(
+                    $productProduct, "productProducts.{$type}.{$productProduct->id}."
+                )->toArray()
+            )
+                ->keyBy('id')
+                ->all();
         }
     }
 
@@ -791,15 +864,89 @@ class ShowProduct extends Component
         $this->searchForProductProduct = static::INIT_SEARCH_FOR_PRODUCT_PRODUCT;
     }
 
-    protected function initVariations()
+    protected function initVariations(Product $product)
     {
-        $this->variations = $this->item->variations()
+        $this->variations = $product->variations()
             ->with('media')
-            ->orderBy(Product::TABLE . '.ordering', 'desc')
             ->get()
-            ->map(fn(Product $product) => VariationAdminDTO::fromModel($product)->toArray())
+            ->map(fn(Product $variation) => VariationAdminDTO::fromModel($variation)->toArray())
             ->keyBy('id')
             ->toArray();
         $this->currentVariation = (new VariationAdminDTO())->toArray();
+    }
+
+    protected function initInfoPrices(Product $product)
+    {
+        $this->infoPrices = $product->infoPrices->map(fn(InformationalPrice $informationalPrice) => InformationalPriceDTO::fromModel($informationalPrice)->toArray())->keyBy('temp_uuid')->toArray();
+    }
+
+    protected function initInstructions(Product $product)
+    {
+        $this->instructions = $product->getMedia(Product::MC_FILES)->map(fn(CustomMedia $media) => FileDTO::fromCustomMedia($media)->toArray())->toArray();
+    }
+
+    protected function initImages(Product $product)
+    {
+        /** @var \Domain\Common\Models\CustomMedia $mainImageMedia */
+        $mainImageMedia = $product->getFirstMedia(Product::MC_MAIN_IMAGE);
+        $this->mainImage = $mainImageMedia ? FileDTO::fromCustomMedia($mainImageMedia)->toArray() : [];
+
+        $this->additionalImages = $product->getMedia(Product::MC_ADDITIONAL_IMAGES)->map(fn(CustomMedia $media) => FileDTO::fromCustomMedia($media)->toArray())->toArray();
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function getCopyItemAttributes(): array
+    {
+        return [
+            'name',
+            'slug',
+            'category_id',
+            'ordering',
+            'is_active',
+            'is_with_variations',
+            'brand_id',
+            'coefficient',
+            'coefficient_description',
+            'coefficient_description_show',
+            'price_name',
+            'admin_comment',
+            'price_purchase',
+            'price_purchase_currency_id',
+            'unit',
+            'price_retail',
+            'price_retail_currency_id',
+            'availability_status_id',
+            'preview',
+            'description',
+            'accessory_name',
+            'similar_name',
+            'related_name',
+            'work_name',
+            'instruments_name',
+        ];
+    }
+
+    protected function initRelatedCategories(Product $product)
+    {
+        $this->relatedCategories = $product->relatedCategories->pluck('id')->toArray();
+    }
+
+    protected function initIsWithVariations(Product $product)
+    {
+        $this->is_with_variations = (bool)$product->is_with_variations;
+    }
+
+    protected function isCreatingFromCopy(): bool
+    {
+        return $this->copy_id &&
+            $this->currentRouteName === Constants::ROUTE_ADMIN_PRODUCTS_CREATE &&
+            $this->getCopyProduct() !== null;
+    }
+
+    protected function getCopyProduct(): ?Product
+    {
+        return Cache::store('array')->rememberForever(sprintf("%s-%s-%s", static::class, 'copy-product', $this->copy_id), fn() => Product::query()->find($this->copy_id));
     }
 }
