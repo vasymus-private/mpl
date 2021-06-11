@@ -19,6 +19,7 @@ use Domain\Products\Models\Product\Product;
 use Domain\Seo\Models\Seo;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\Rules\Unique;
 use Livewire\Component;
 use Livewire\TemporaryUploadedFile;
 use Support\H;
@@ -39,7 +40,7 @@ class ShowProduct extends Component
 
     protected const DEFAULT_TAB = 'elements';
 
-    protected ?string $currentRouteName = null;
+    public ?string $currentRouteName = null;
 
     protected const INIT_LOADED_PRODUCT_PRODUCT = [
         ProductProduct::TYPE_ACCESSORY => [],
@@ -212,6 +213,10 @@ class ShowProduct extends Component
 
     public $copy_id = '';
 
+    public bool $isCreating;
+
+    public bool $isCreatingFromCopy;
+
     protected $queryString = [
         'copy_id' => ['except' => ''],
     ];
@@ -261,7 +266,14 @@ class ShowProduct extends Component
             [
                 'item.name' => 'required|string|max:199',
                 'item.is_active' => 'nullable|boolean',
-                'item.slug' => 'nullable|string|max:199',
+                'item.slug' => [
+                    'nullable',
+                    'string',
+                    'max:199',
+                    (new Unique(Product::TABLE, 'slug'))->when($this->item->id, function (Unique $unique) {
+                        return $unique->whereNot('id', $this->item->id);
+                    })
+                ],
                 'item.ordering' => 'integer|nullable',
                 'item.brand_id' => 'integer|nullable|exists:' . Brand::class . ",id",
                 'item.coefficient' => 'nullable|numeric',
@@ -313,6 +325,9 @@ class ShowProduct extends Component
     public function mount()
     {
         $this->currentRouteName = Route::currentRouteName();
+        $this->isCreating = $this->currentRouteName === Constants::ROUTE_ADMIN_PRODUCTS_CREATE;
+        $this->isCreatingFromCopy = $this->copy_id && $this->currentRouteName === Constants::ROUTE_ADMIN_PRODUCTS_CREATE && $this->getCopyProduct() !== null;
+
         $this->initBrandsOptions();
         $this->initCurrenciesOptions();
         $this->initAvailabilityStatusesOptions();
@@ -323,8 +338,6 @@ class ShowProduct extends Component
         $this->initGenerateSlug();
 
         $this->initItem();
-
-        dd($this);
     }
 
     public function render()
@@ -356,11 +369,6 @@ class ShowProduct extends Component
         $this->saveProductProduct();
 
         $this->saveRelatedCategories();
-
-        if ($this->isCreatingFromCopy()) {
-            // TODO save variations
-            // $this->saveVariations();
-        }
 
         if ($shouldRedirect) {
             return redirect()->route('admin.products.edit', $this->item->id);
@@ -651,6 +659,7 @@ class ShowProduct extends Component
 
     protected function saveProduct()
     {
+        $this->item->is_with_variations = (bool)$this->is_with_variations;
         $this->item->save();
     }
 
@@ -676,7 +685,7 @@ class ShowProduct extends Component
             return;
         }
 
-        if ($this->mainImage['id'] !== null && !$this->isCreatingFromCopy()) {
+        if ($this->mainImage['id'] !== null && !$this->isCreatingFromCopy) {
             /** @var CustomMedia|null $media */
             $media = $this->item->getFirstMedia(Product::MC_MAIN_IMAGE);
             if ($media) {
@@ -691,50 +700,53 @@ class ShowProduct extends Component
 
     protected function saveAdditionalImages()
     {
-        $additionalImages = [];
+        $additionalImages = $this->saveAdditionalMedias(Product::MC_ADDITIONAL_IMAGES, $this->additionalImages);
 
-        foreach ($this->additionalImages as $additionalImage) {
-            if ($additionalImage['id'] !== null && !$this->isCreatingFromCopy()) {
-                /** @var \Domain\Common\Models\CustomMedia $media */
-                $media = $this->item->getMedia(Product::MC_ADDITIONAL_IMAGES)->first(fn(CustomMedia $media) => $additionalImage['id'] === $media->id);
-                $media->name = $additionalImage['name'] ?: $additionalImage['file_name'];
-                $media->save();
-                $additionalImages[] = $additionalImage;
-            } else {
-                $media = $this->addMedia(new FileDTO($additionalImage), Product::MC_ADDITIONAL_IMAGES);
-                $additionalImages[] = FileDTO::fromCustomMedia($media)->toArray();
-            }
-        }
-
-        $additionalImagesIds = collect($additionalImages)->pluck("id")->toArray();
-        $this->item->getMedia(Product::MC_ADDITIONAL_IMAGES)->each(function(CustomMedia $media) use($additionalImagesIds) {
-            if (!in_array($media->id, $additionalImagesIds)) $media->delete();
-        });
         $this->additionalImages = $additionalImages;
     }
 
     protected function saveInstructions()
     {
-        $instructions = [];
+        $instructions = $this->saveAdditionalMedias(Product::MC_FILES, $this->instructions);
 
-        foreach ($this->instructions as $instruction) {
-            if ($instruction['id'] !== null && !$this->isCreatingFromCopy()) {
+        $this->instructions = $instructions;
+    }
+
+    /**
+     * @param string $collectionName
+     * @param array[] $fileDTOs @see {@link \Domain\Common\DTOs\FileDTO}
+     *
+     * @return array[] @see {@link \Domain\Common\DTOs\FileDTO}
+     */
+    protected function saveAdditionalMedias(string $collectionName, array $fileDTOs): array
+    {
+        $medias = [];
+
+        foreach ($fileDTOs as $fileDTO) {
+            if ($fileDTO['id'] !== null && !$this->isCreatingFromCopy) {
                 /** @var \Domain\Common\Models\CustomMedia $media */
-                $media = $this->item->getMedia(Product::MC_FILES)->first(fn(CustomMedia $media) => $instruction['id'] === $media->id);
-                $media->name = $instruction['name'] ?: $instruction['file_name'];
+                $media = $this->item->getMedia($collectionName)->first(fn(CustomMedia $customMedia) => $fileDTO['id'] === $customMedia->id);
+                $media->name = $fileDTO['name'] ?: $fileDTO['file_name'];
                 $media->save();
-                $instructions[] = $instruction;
+                $medias[] = $fileDTO;
             } else {
-                $media = $this->addMedia(new FileDTO($instruction), Product::MC_FILES);
-                $instructions[] = FileDTO::fromCustomMedia($media)->toArray();
+                $media = $this->addMedia(new FileDTO($fileDTO), $collectionName);
+                $medias[] = $this->isCreatingFromCopy
+                    ? FileDTO::copyFromCustomMedia($media)->toArray()
+                    : FileDTO::fromCustomMedia($media)->toArray();
             }
         }
 
-        $instructionsIds = collect($instructions)->pluck("id")->toArray();
-        $this->item->getMedia(Product::MC_FILES)->each(function(CustomMedia $media) use($instructionsIds) {
-            if (!in_array($media->id, $instructionsIds)) $media->delete();
-        });
-        $this->instructions = $instructions;
+        if (!$this->isCreatingFromCopy) {
+            $mediasIds = collect($medias)->pluck('id')->toArray();
+            $this->item->getMedia($collectionName)->each(function(CustomMedia $customMedia) use($mediasIds) {
+                if (!in_array($customMedia->id, $mediasIds)) {
+                    $customMedia->delete();
+                }
+            });
+        }
+
+        return $medias;
     }
 
     protected function saveProductProduct()
@@ -783,7 +795,7 @@ class ShowProduct extends Component
 
     protected function initItem()
     {
-        if ($this->isCreatingFromCopy()) {
+        if ($this->isCreatingFromCopy) {
             $copyProduct = $this->getCopyProduct();
             if ($copyProduct !== null) {
                 $this->initAsCopiedItem($copyProduct);
@@ -822,6 +834,7 @@ class ShowProduct extends Component
         $seo = $origin->seo ?: new Seo();
         $seo->seoable_id = null;
         $seo->seoable_type = null;
+        $this->seo = $seo;
 
         $this->initInfoPrices($origin);
 
@@ -836,22 +849,6 @@ class ShowProduct extends Component
         $this->initIsWithVariations($origin);
 
         $this->initVariations($origin);
-    }
-
-    protected function initProductProduct(Product $product)
-    {
-        foreach ($this->mapTypeToRelationName as $type => $relation) {
-            $product->load("$relation.media");
-            /** @var \Illuminate\Support\Collection $rel */
-            $rel = $product->{$relation};
-            $this->productProducts[$type] = $rel->map(
-                fn(Product $productProduct) => ProductProductAdminDTO::fromModel(
-                    $productProduct, "productProducts.{$type}.{$productProduct->id}."
-                )->toArray()
-            )
-                ->keyBy('id')
-                ->all();
-        }
     }
 
     protected function initLoadedForProductProduct()
@@ -869,7 +866,12 @@ class ShowProduct extends Component
         $this->variations = $product->variations()
             ->with('media')
             ->get()
-            ->map(fn(Product $variation) => VariationAdminDTO::fromModel($variation)->toArray())
+            ->map(
+                fn(Product $variation) =>
+                    $this->isCreatingFromCopy
+                        ? VariationAdminDTO::copyFromModel($variation)->toArray()
+                        : VariationAdminDTO::fromModel($variation)->toArray()
+            )
             ->keyBy('id')
             ->toArray();
         $this->currentVariation = (new VariationAdminDTO())->toArray();
@@ -877,21 +879,67 @@ class ShowProduct extends Component
 
     protected function initInfoPrices(Product $product)
     {
-        $this->infoPrices = $product->infoPrices->map(fn(InformationalPrice $informationalPrice) => InformationalPriceDTO::fromModel($informationalPrice)->toArray())->keyBy('temp_uuid')->toArray();
+        $this->infoPrices = $product->infoPrices
+            ->map(
+                fn(InformationalPrice $informationalPrice) =>
+                    $this->isCreatingFromCopy
+                        ? InformationalPriceDTO::copyFromModel($informationalPrice)->toArray()
+                        : InformationalPriceDTO::fromModel($informationalPrice)->toArray()
+            )
+            ->keyBy('temp_uuid')
+            ->toArray();
     }
 
     protected function initInstructions(Product $product)
     {
-        $this->instructions = $product->getMedia(Product::MC_FILES)->map(fn(CustomMedia $media) => FileDTO::fromCustomMedia($media)->toArray())->toArray();
+        $this->instructions = $product
+            ->getMedia(Product::MC_FILES)
+            ->map(
+                fn(CustomMedia $media) =>
+                    $this->isCreatingFromCopy
+                        ? FileDTO::copyFromCustomMedia($media)->toArray()
+                        : FileDTO::fromCustomMedia($media)->toArray()
+            )
+            ->toArray();
     }
 
     protected function initImages(Product $product)
     {
         /** @var \Domain\Common\Models\CustomMedia $mainImageMedia */
         $mainImageMedia = $product->getFirstMedia(Product::MC_MAIN_IMAGE);
-        $this->mainImage = $mainImageMedia ? FileDTO::fromCustomMedia($mainImageMedia)->toArray() : [];
+        $this->mainImage = $mainImageMedia
+            ? (
+                $this->isCreatingFromCopy
+                    ? FileDTO::copyFromCustomMedia($mainImageMedia)->toArray()
+                    : FileDTO::fromCustomMedia($mainImageMedia)->toArray()
+            )
+            : [];
 
-        $this->additionalImages = $product->getMedia(Product::MC_ADDITIONAL_IMAGES)->map(fn(CustomMedia $media) => FileDTO::fromCustomMedia($media)->toArray())->toArray();
+        $this->additionalImages = $product
+            ->getMedia(Product::MC_ADDITIONAL_IMAGES)
+            ->map(
+                fn(CustomMedia $media) =>
+                    $this->isCreatingFromCopy
+                        ? FileDTO::copyFromCustomMedia($media)->toArray()
+                        : FileDTO::fromCustomMedia($media)->toArray()
+            )
+            ->toArray();
+    }
+
+    protected function initProductProduct(Product $product)
+    {
+        foreach ($this->mapTypeToRelationName as $type => $relation) {
+            $product->load("$relation.media");
+            /** @var \Illuminate\Support\Collection $rel */
+            $rel = $product->{$relation};
+            $this->productProducts[$type] = $rel->map(
+                fn(Product $productProduct) => ProductProductAdminDTO::fromModel(
+                    $productProduct, "productProducts.{$type}.{$productProduct->id}."
+                )->toArray()
+            )
+                ->keyBy('id')
+                ->all();
+        }
     }
 
     /**
@@ -936,13 +984,6 @@ class ShowProduct extends Component
     protected function initIsWithVariations(Product $product)
     {
         $this->is_with_variations = (bool)$product->is_with_variations;
-    }
-
-    protected function isCreatingFromCopy(): bool
-    {
-        return $this->copy_id &&
-            $this->currentRouteName === Constants::ROUTE_ADMIN_PRODUCTS_CREATE &&
-            $this->getCopyProduct() !== null;
     }
 
     protected function getCopyProduct(): ?Product

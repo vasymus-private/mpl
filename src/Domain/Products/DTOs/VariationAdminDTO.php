@@ -101,4 +101,29 @@ class VariationAdminDTO extends DataTransferObject
             'additional_images' => $product->getMedia(Product::MC_ADDITIONAL_IMAGES)->map(fn(CustomMedia $media) => FileDTO::fromCustomMedia($media)->toArray())->all(),
         ]);
     }
+
+    public static function copyFromModel(Product $product): self
+    {
+        /** @var \Domain\Common\Models\CustomMedia|null $mainImage $mainImage */
+        $mainImage = $product->getFirstMedia(Product::MC_MAIN_IMAGE);
+
+        return new self([
+            'name' => $product->name,
+            'ordering' => $product->ordering ?: 500,
+            'is_active' => (bool)$product->is_active,
+            'coefficient' => $product->coefficient,
+            'price_purchase' => $product->price_purchase,
+            'price_purchase_currency_id' => $product->price_purchase_currency_id,
+            'price_purchase_rub_formatted' => $product->price_purchase_rub_formatted,
+            'unit' => $product->unit,
+            'price_retail' => $product->price_retail,
+            'price_retail_currency_id' => $product->price_retail_currency_id,
+            'price_retail_rub_formatted' => $product->price_retail_rub_formatted,
+            'availability_status_id' => $product->availability_status_id,
+            'availability_status_name' => $product->availability_status_name,
+            'preview' => $product->preview,
+            'main_image' => $mainImage ? FileDTO::copyFromCustomMedia($mainImage)->toArray() : null,
+            'additional_images' => $product->getMedia(Product::MC_ADDITIONAL_IMAGES)->map(fn(CustomMedia $media) => FileDTO::copyFromCustomMedia($media)->toArray())->all(),
+        ]);
+    }
 }

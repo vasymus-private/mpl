@@ -38,6 +38,19 @@ class FileDTO extends DataTransferObject
         ]);
     }
 
+    public static function copyFromCustomMedia(CustomMedia $media): self
+    {
+        return new self([
+            "id" => null,
+            "mime_type" => $media->mime_type,
+            "mime_type_name" => $media->mime_type_name,
+            "file_name" => $media->file_name,
+            "name" => $media->name,
+            "path" => $media->getPath(),
+            "url" => $media->getUrl(),
+        ]);
+    }
+
     public static function fromTemporaryUploadedFile(TemporaryUploadedFile $temporaryUploadedFile): self
     {
         return new self([

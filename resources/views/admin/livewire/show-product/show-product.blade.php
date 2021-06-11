@@ -23,7 +23,7 @@
             </div>
             @if($item->id)
                 <div class="col-sm-5 d-flex align-items-center">
-                    <a href="#" class="detail-toolbar__copy">Копировать</a>
+                    <a href="{{route(\App\Constants::ROUTE_ADMIN_PRODUCTS_CREATE, ['copy_id' => $item->id])}}" class="detail-toolbar__copy">Копировать</a>
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Параметры товара

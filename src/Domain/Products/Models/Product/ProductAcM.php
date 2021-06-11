@@ -211,7 +211,7 @@ trait ProductAcM
 
     public function getPricePurchaseRubFormattedAttribute(): string
     {
-        return H::priceRubFormatted($this->price_purchase, $this->price_purchase_currency_id ?? $this->parent->price_purchase_currency_id ?? static::DEFAULT_CURRENCY_ID);
+        return H::priceRubFormatted($this->price_purchase, $this->price_purchase_currency_id ?? static::DEFAULT_CURRENCY_ID);
     }
 
     public function getPricePurchaseFormattedAttribute(): string

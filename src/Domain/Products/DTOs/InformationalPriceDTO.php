@@ -32,6 +32,16 @@ class InformationalPriceDTO extends DataTransferObject
         ]);
     }
 
+    public static function copyFromModel(InformationalPrice $infoPrice): self
+    {
+        return new self([
+            'product_id' => $infoPrice->product_id,
+            'name' => $infoPrice->name,
+            'price' => $infoPrice->price,
+            'temp_uuid' => Str::uuid()->toString(),
+        ]);
+    }
+
     public static function create(array $params = []): self
     {
         return new self(array_merge(
