@@ -43,7 +43,7 @@
                     <tr wire:key="{{$variation['id']}}" ondblclick="@this.setCurrentVariation({{$variation['id']}}).then(() => {$('#current-variation').modal('show')})">
                         <td>
                             <div class="form-check form-check-inline">
-                                <input wire:model="variations.{{$variation['id']}}.is_checked" class="form-check-input" type="checkbox" />
+                                <input wire:model.defer="variations.{{$variation['id']}}.is_checked" class="form-check-input" type="checkbox" />
                             </div>
                         </td>
                         <td>
@@ -127,8 +127,8 @@
         <div class="admin-edit-variations__footer">
             @if(!$variationsEditMode)
                 <div class="variants-btn-group" role="group" aria-label="actions">
-                    <button wire:click="handleSetVariationsEditMode" aria-label="edit all mode" type="button" class="btn brn-edit" @if(!$this->anyVariationChecked) disabled @endif></button>
-                    <button onclick="if (confirm('Вы уверены, что хотите удалить отмеченные записи?')) {@this.handleDeleteSelectedVariations();}" aria-label="delete all" type="button" class="btn btn-delete" @if(!$this->anyVariationChecked) disabled @endif></button>
+                    <button wire:click="handleSetVariationsEditMode" aria-label="edit all mode" type="button" class="btn brn-edit"></button>
+                    <button onclick="if (confirm('Вы уверены, что хотите удалить отмеченные записи?')) {@this.handleDeleteSelectedVariations();}" aria-label="delete all" type="button" class="btn btn-delete"></button>
                 </div>
             @else
                 <button wire:click="saveVariations" type="button" class="btn btn-light">Сохранить</button>
