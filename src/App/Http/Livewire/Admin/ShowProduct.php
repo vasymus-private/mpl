@@ -436,20 +436,27 @@ class ShowProduct extends Component
             $product = Product::forceCreate($attributes);
         }
 
-        if (!empty($currentVariationDto->main_image)) {
-            $this->addMedia(new FileDTO($currentVariationDto->main_image), Product::MC_MAIN_IMAGE, $product);
-        } else {
+        if (empty($currentVariationDto->main_image)) {
             $mainImageMedia = $product->getFirstMedia(Product::MC_MAIN_IMAGE);
             if ($mainImageMedia) $mainImageMedia->delete();
         }
 
-        foreach ($currentVariationDto->additional_images as $additionalImage) {
-            $this->addMedia(new FileDTO($additionalImage), Product::MC_ADDITIONAL_IMAGES, $product);
+        if (!empty($currentVariationDto->main_image) && empty($currentVariationDto->main_image['id'])) {
+            $this->addMedia(new FileDTO($currentVariationDto->main_image), Product::MC_MAIN_IMAGE, $product);
         }
 
-        $additionalImageIds = collect($this->currentVariation['additional_images'])->pluck('id')->toArray();
-        $product->getMedia(Product::MC_ADDITIONAL_IMAGES)->each(function(CustomMedia $media) use($additionalImageIds) {
-            if (!in_array($media->id, $additionalImageIds)) $media->delete();
+        $additionalImagesIds = [];
+        foreach ($currentVariationDto->additional_images as $additionalImage) {
+            if (empty($additionalImage['id'])) {
+                $newAdditionalImage = $this->addMedia(new FileDTO($additionalImage), Product::MC_ADDITIONAL_IMAGES, $product);
+                $additionalImagesIds[] = $newAdditionalImage->id;
+            } else {
+                $additionalImagesIds[] = $additionalImage['id'];
+            }
+        }
+
+        $product->getMedia(Product::MC_ADDITIONAL_IMAGES)->each(function(CustomMedia $media) use($additionalImagesIds) {
+            if (!in_array($media->id, $additionalImagesIds)) $media->delete();
         });
 
         $this->initVariations($this->item);

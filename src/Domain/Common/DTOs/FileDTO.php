@@ -3,6 +3,7 @@
 namespace Domain\Common\DTOs;
 
 use Domain\Common\Models\CustomMedia;
+use Illuminate\Support\Str;
 use Livewire\TemporaryUploadedFile;
 use Spatie\DataTransferObject\DataTransferObject;
 use Support\H;
@@ -25,6 +26,8 @@ class FileDTO extends DataTransferObject
 
     public ?string $url;
 
+    public ?string $uuid;
+
     public static function fromCustomMedia(CustomMedia $media): self
     {
         return new self([
@@ -35,6 +38,7 @@ class FileDTO extends DataTransferObject
             "name" => $media->name,
             "path" => $media->getPath(),
             "url" => $media->getUrl(),
+            "uuid" => $media->uuid,
         ]);
     }
 
@@ -48,6 +52,7 @@ class FileDTO extends DataTransferObject
             "name" => $media->name,
             "path" => $media->getPath(),
             "url" => $media->getUrl(),
+            "uuid" => Str::uuid()->toString(),
         ]);
     }
 
@@ -61,6 +66,7 @@ class FileDTO extends DataTransferObject
             "name" => $temporaryUploadedFile->getClientOriginalName(),
             "path" => $temporaryUploadedFile->getRealPath(),
             "url" => $temporaryUploadedFile->temporaryUrl(),
+            "uuid" => Str::uuid()->toString(),
         ]);
     }
 }

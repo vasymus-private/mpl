@@ -29,6 +29,7 @@
                         </div>
                     </th>
                     <th>&nbsp;</th>
+                    <th>ID</th>
                     <th>Название</th>
                     <th>Активность</th>
                     <th>Детальная картинка</th>
@@ -54,9 +55,6 @@
                                 <button class="btn btn-secondary" type="button" id="actions-dropdown-{{$variation['id']}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
                                 <div class="dropdown-menu" aria-labelledby="actions-dropdown-{{$variation['id']}}">
                                     <button onclick="@this.setCurrentVariation({{$variation['id']}}).then(() => {$('#current-variation').modal('show')})" type="button" data-target="#current-variation" class="dropdown-item btn btn-link">Изменить</button>
-
-
-
                                     <button type="button" class="dropdown-item btn btn-link" wire:click="toggleVariationActive({{$variation['id']}})">
                                         @if($variation['is_active'])
                                             Деактивировать
@@ -68,6 +66,9 @@
                                     <button type="button" class="dropdown-item btn btn-link" onclick="if (confirm('Вы уверены, что хотите удалить вариант товара `{{$variation['id']}}` `{{$variation['name']}}` ?')) {@this.deleteVariation({{$variation['id']}});}">Удалить</button>
                                 </div>
                             </div>
+                        </td>
+                        <td>
+                            <a href="javascript:;" onclick="@this.setCurrentVariation({{$variation['id']}}).then(() => {$('#current-variation').modal('show')})" type="button">{{$variation['id']}}</a>
                         </td>
                         <td>
                             @if($variationsEditMode && $variation['is_checked'])
@@ -84,14 +85,19 @@
                             @endif
                         </td>
                         <td>
-                            @if($variation['main_image_xs_thumb_url']['xs_thumb'] ?? null)
-                                <a href="{{$variation['main_image_xs_thumb_url']['url'] ?? $variation['main_image_xs_thumb_url']['xs_thumb']}}" target="_blank"><img src="{{$variation['main_image_xs_thumb_url']['xs_thumb']}}" alt=""></a>
+                            @if($variation['main_image_media_urls']['xs_thumb'] ?? null)
+                                <a href="{{$variation['main_image_media_urls']['url']}}" target="_blank"><img class="img-fluid" src="{{$variation['main_image_media_urls']['xs_thumb']}}" alt=""></a>
                             @else
                                 &nbsp;
                             @endif
                         </td>
                         <td>
-
+                            @foreach($variation['additional_images_media_urls'] as $additionalImageMediaUrls)
+                                <?php /** @var array $additionalImageMediaUrls @see {@link \Domain\Products\DTOs\ProductMediaUrlsDTO} */ ?>
+                                <div class="mb-2" style="max-width: 40px">
+                                    <a href="{{$additionalImageMediaUrls['url']}}" target="_blank"><img class="img-fluid" src="{{$additionalImageMediaUrls['xs_thumb']}}" alt=""></a>
+                                </div>
+                            @endforeach
                         </td>
                         <td>
                             @if($variationsEditMode && $variation['is_checked'])

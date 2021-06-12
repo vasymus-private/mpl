@@ -74,19 +74,14 @@ class VariationAdminDTO extends DataTransferObject
     public array $additional_images = [];
 
     /**
-     * @var string|null
-     */
-    public ?string $main_image_url;
-
-    /**
      * @var array|null @see {@link \Domain\Products\DTOs\ProductMediaUrlsDTO}
      */
-    public ?array $main_image_product_media_urls;
+    public ?array $main_image_media_urls;
 
     /**
      * @var array[] @see {@link \Domain\Products\DTOs\ProductMediaUrlsDTO}
      */
-    public array $additional_images_xs_thumb_urls = [];
+    public array $additional_images_media_urls = [];
 
     public bool $is_checked = false;
 
@@ -114,8 +109,8 @@ class VariationAdminDTO extends DataTransferObject
             'preview' => $product->preview,
             'main_image' => $mainImage ? FileDTO::fromCustomMedia($mainImage)->toArray() : null,
             'additional_images' => $product->getMedia(Product::MC_ADDITIONAL_IMAGES)->map(fn(CustomMedia $media) => FileDTO::fromCustomMedia($media)->toArray())->all(),
-            'main_image_xs_thumb_url' => ProductMediaUrlsDTO::fromModel($product)->toArray(),
-            'additional_images_xs_thumb_urls' => $product->getMedia(Product::MC_ADDITIONAL_IMAGES)->map(function(CustomMedia $customMedia) {
+            'main_image_media_urls' => ProductMediaUrlsDTO::fromModel($product)->toArray(),
+            'additional_images_media_urls' => $product->getMedia(Product::MC_ADDITIONAL_IMAGES)->map(function(CustomMedia $customMedia) {
                 return ProductMediaUrlsDTO::fromCustomMedia($customMedia)->toArray();
             })->all(),
         ]);
