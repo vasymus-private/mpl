@@ -28,8 +28,11 @@
                             <input wire:model="variationsSelectAll" class="form-check-input" type="checkbox" />
                         </div>
                     </th>
+                    <th>&nbsp;</th>
                     <th>Название</th>
                     <th>Активность</th>
+                    <th>Детальная картинка</th>
+                    <th>Дополнительные фото</th>
                     <th>Сортировка</th>
                     <th>Закупочная цена</th>
                     <th>Упаковка / единица измерения</th>
@@ -47,6 +50,26 @@
                             </div>
                         </td>
                         <td>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary" type="button" id="actions-dropdown-{{$variation['id']}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
+                                <div class="dropdown-menu" aria-labelledby="actions-dropdown-{{$variation['id']}}">
+                                    <button onclick="@this.setCurrentVariation({{$variation['id']}}).then(() => {$('#current-variation').modal('show')})" type="button" data-target="#current-variation" class="dropdown-item btn btn-link">Изменить</button>
+
+
+
+                                    <button type="button" class="dropdown-item btn btn-link" wire:click="toggleVariationActive({{$variation['id']}})">
+                                        @if($variation['is_active'])
+                                            Деактивировать
+                                        @else
+                                            Активировать
+                                        @endif
+                                    </button>
+                                    <button wire:click="copyVariation({{$variation['id']}})" type="button" class="btn btn-link">Копировать</button>
+                                    <button type="button" class="dropdown-item btn btn-link" onclick="if (confirm('Вы уверены, что хотите удалить вариант товара `{{$variation['id']}}` `{{$variation['name']}}` ?')) {@this.deleteVariation({{$variation['id']}});}">Удалить</button>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
                             @if($variationsEditMode && $variation['is_checked'])
                                 @include('admin.livewire.includes.form-control-input', ['field' => "variations.$variation[id].name"])
                             @else
@@ -59,6 +82,16 @@
                             @else
                                 {{$variation['is_active'] ? 'Да' : 'Нет'}}
                             @endif
+                        </td>
+                        <td>
+                            @if($variation['main_image_xs_thumb_url']['xs_thumb'] ?? null)
+                                <a href="{{$variation['main_image_xs_thumb_url']['url'] ?? $variation['main_image_xs_thumb_url']['xs_thumb']}}" target="_blank"><img src="{{$variation['main_image_xs_thumb_url']['xs_thumb']}}" alt=""></a>
+                            @else
+                                &nbsp;
+                            @endif
+                        </td>
+                        <td>
+
                         </td>
                         <td>
                             @if($variationsEditMode && $variation['is_checked'])
@@ -135,6 +168,10 @@
                 <button wire:click="handleCancelVariationsEditMode" type="button" class="btn btn-light">Отменить</button>
             @endif
         </div>
+
+
+
+
 
         <div wire:ignore.self class="modal fade" id="current-variation" tabindex="-1" aria-labelledby="new-variation-label" aria-hidden="true">
             <div class="modal-dialog modal-xl">

@@ -6,6 +6,7 @@ use App\Constants;
 use Domain\Common\DTOs\FileDTO;
 use Domain\Common\Models\Currency;
 use Domain\Common\Models\CustomMedia;
+use Domain\Products\Actions\DeleteVariationAction;
 use Domain\Products\Actions\GetCategoryAndSubtreeIdsAction;
 use Domain\Products\DTOs\InformationalPriceDTO;
 use Domain\Products\DTOs\ProductProductAdminDTO;
@@ -495,9 +496,22 @@ class ShowProduct extends Component
         $this->mainImage = [];
     }
 
+    public function toggleVariationActive($id)
+    {
+        /** @var \Domain\Products\Models\Product\Product|null $variation */
+        $variation = $this->item->variations()->find($id);
+        if (!$variation) {
+            return;
+        }
+
+        $variation->is_active = !$variation->is_active;
+        $variation->save();
+        $this->variations[$id] = VariationAdminDTO::fromModel($variation)->toArray();
+    }
+
     public function deleteAdditionalImage($index)
     {
-        $this->additionalImages = collect($this->additionalImages)->values()->filter(fn(array $additinalImage, int $key) => (string)$index !== (string)$key)->toArray();
+        $this->additionalImages = collect($this->additionalImages)->values()->filter(fn(array $additionalImage, int $key) => (string)$index !== (string)$key)->toArray();
     }
 
     public function deleteVariationMainImage()
@@ -590,11 +604,6 @@ class ShowProduct extends Component
         $this->handleCheckAllVariations($value);
     }
 
-    public function getAnyVariationCheckedProperty(): bool
-    {
-        return collect($this->variations)->contains('is_checked', true);
-    }
-
     public function handleSetVariationsEditMode(?bool $mode = null)
     {
         $this->variationsEditMode = $mode !== null ? $mode : !$this->variationsEditMode;
@@ -608,12 +617,56 @@ class ShowProduct extends Component
             ->values()
             ->toArray();
         if (!empty($selectedVariationIds)) {
-            $this->item->variations()->whereIn('id', $selectedVariationIds)->delete();
+            $deleteVariations = $this->item->variations()->whereIn('id', $selectedVariationIds)->get();
+            $deleteVariations->each(function(Product $variation) {
+                DeleteVariationAction::cached()->execute($variation);
+            });
         }
 
         $this->initVariations($this->item);
         $this->handleSetVariationsEditMode(false);
         $this->variationsSelectAll = false;
+    }
+
+    public function deleteVariation($id)
+    {
+        /** @var \Domain\Products\Models\Product\Product|null $variation */
+        $variation = $this->item->variations()->find($id);
+        if (!$variation) {
+            return;
+        }
+        DeleteVariationAction::cached()->execute($variation);
+        $this->variations = collect($this->variations)->filter(fn(array $variation) => (string)$variation['id'] !== (string)$id)->all();
+    }
+
+    public function copyVariation($copyId)
+    {
+        /** @var \Domain\Products\Models\Product\Product|null $original */
+        $original = $this->item->variations()->find($copyId);
+
+        if (!$original) {
+            return;
+        }
+
+        $attributes = collect($original->toArray())->only($this->getCopyVariationAttributes())->toArray();
+        $copy = new Product();
+        $copy->forceFill($attributes);
+        $copy->save();
+
+        /** @var \Domain\Common\Models\CustomMedia|null $mainImageMedia */
+        $mainImageMedia = $original->getFirstMedia(Product::MC_MAIN_IMAGE);
+        if ($mainImageMedia) {
+            $mainImage = FileDTO::fromCustomMedia($mainImageMedia);
+            $this->addMedia($mainImage, Product::MC_MAIN_IMAGE, $copy);
+        }
+
+        $additionalImages = $original->getMedia(Product::MC_ADDITIONAL_IMAGES);
+        foreach ($additionalImages as $additionalImageMedia) {
+            $additionalImage = FileDTO::fromCustomMedia($additionalImageMedia);
+            $this->addMedia($additionalImage, Product::MC_ADDITIONAL_IMAGES, $copy);
+        }
+
+        $this->initVariations($this->item);
     }
 
     public function handleCancelVariationsEditMode()
@@ -973,6 +1026,27 @@ class ShowProduct extends Component
             'related_name',
             'work_name',
             'instruments_name',
+        ];
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function getCopyVariationAttributes(): array
+    {
+        return [
+            'name',
+            'parent_id',
+            'ordering',
+            'is_active',
+            'coefficient',
+            'unit',
+            'availability_status_id',
+            'price_purchase',
+            'price_purchase_currency_id',
+            'price_retail',
+            'price_retail_currency_id',
+            'preview',
         ];
     }
 

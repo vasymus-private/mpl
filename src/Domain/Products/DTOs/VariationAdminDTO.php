@@ -73,6 +73,21 @@ class VariationAdminDTO extends DataTransferObject
      */
     public array $additional_images = [];
 
+    /**
+     * @var string|null
+     */
+    public ?string $main_image_url;
+
+    /**
+     * @var array|null @see {@link \Domain\Products\DTOs\ProductMediaUrlsDTO}
+     */
+    public ?array $main_image_product_media_urls;
+
+    /**
+     * @var array[] @see {@link \Domain\Products\DTOs\ProductMediaUrlsDTO}
+     */
+    public array $additional_images_xs_thumb_urls = [];
+
     public bool $is_checked = false;
 
     public static function fromModel(Product $product): self
@@ -99,31 +114,18 @@ class VariationAdminDTO extends DataTransferObject
             'preview' => $product->preview,
             'main_image' => $mainImage ? FileDTO::fromCustomMedia($mainImage)->toArray() : null,
             'additional_images' => $product->getMedia(Product::MC_ADDITIONAL_IMAGES)->map(fn(CustomMedia $media) => FileDTO::fromCustomMedia($media)->toArray())->all(),
+            'main_image_xs_thumb_url' => ProductMediaUrlsDTO::fromModel($product)->toArray(),
+            'additional_images_xs_thumb_urls' => $product->getMedia(Product::MC_ADDITIONAL_IMAGES)->map(function(CustomMedia $customMedia) {
+                return ProductMediaUrlsDTO::fromCustomMedia($customMedia)->toArray();
+            })->all(),
         ]);
     }
 
     public static function copyFromModel(Product $product): self
     {
-        /** @var \Domain\Common\Models\CustomMedia|null $mainImage $mainImage */
-        $mainImage = $product->getFirstMedia(Product::MC_MAIN_IMAGE);
-
-        return new self([
-            'name' => $product->name,
-            'ordering' => $product->ordering ?: 500,
-            'is_active' => (bool)$product->is_active,
-            'coefficient' => $product->coefficient,
-            'price_purchase' => $product->price_purchase,
-            'price_purchase_currency_id' => $product->price_purchase_currency_id,
-            'price_purchase_rub_formatted' => $product->price_purchase_rub_formatted,
-            'unit' => $product->unit,
-            'price_retail' => $product->price_retail,
-            'price_retail_currency_id' => $product->price_retail_currency_id,
-            'price_retail_rub_formatted' => $product->price_retail_rub_formatted,
-            'availability_status_id' => $product->availability_status_id,
-            'availability_status_name' => $product->availability_status_name,
-            'preview' => $product->preview,
-            'main_image' => $mainImage ? FileDTO::copyFromCustomMedia($mainImage)->toArray() : null,
-            'additional_images' => $product->getMedia(Product::MC_ADDITIONAL_IMAGES)->map(fn(CustomMedia $media) => FileDTO::copyFromCustomMedia($media)->toArray())->all(),
-        ]);
+        $dto = static::fromModel($product);
+        $dto->id = null;
+        $dto->parent_id = null;
+        return $dto;
     }
 }
