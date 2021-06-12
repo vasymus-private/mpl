@@ -60,6 +60,7 @@
             </li>
         @endforeach
     </ul>
+
     <form wire:submit.prevent="save">
         <div class="tab-content">
             @foreach($tabs as $tab => $label)
@@ -71,15 +72,19 @@
             @endforeach
         </div>
 
-        <button type="submit" class="btn btn-primary mb-2 btn__save">Сохранить</button>
+        <div>
+            <button type="submit" class="btn btn-primary mb-2 btn__save mr-2">Сохранить</button>
 
-        @foreach($errors->all() as $error)
-            <div wire:key="{{$error}}" class="alert alert-danger alert-dismissible fade show" role="alert">
-                {{$error}}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        @endforeach
+            <a href="{{route('admin.products.index', ['category_id' => $item->category_id])}}" type="button" class="btn btn-info mb-2">Отменить</a>
+        </div>
     </form>
+
+    @foreach($errors->all() as $error)
+        <div wire:key="{{$error}}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{$error}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endforeach
 </div>
