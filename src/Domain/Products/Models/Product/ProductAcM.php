@@ -183,12 +183,12 @@ trait ProductAcM
 
     public function getPriceRetailRubAttribute(): ?float
     {
-        return H::priceRub($this->price_retail, $this->price_retail_currency_id ?? $this->parent->price_retail_currency_id ?? static::DEFAULT_CURRENCY_ID);
+        return H::priceRub($this->price_retail, $this->price_retail_currency_id ?? static::DEFAULT_CURRENCY_ID);
     }
 
     public function getPriceRetailRubFormattedAttribute(): string
     {
-        return H::priceRubFormatted($this->price_retail, $this->price_retail_currency_id ?? $this->parent->price_retail_currency_id ?? static::DEFAULT_CURRENCY_ID);
+        return H::priceRubFormatted($this->price_retail, $this->price_retail_currency_id ?? static::DEFAULT_CURRENCY_ID);
     }
 
     public function getPriceRetailFormattedAttribute(): string
@@ -211,7 +211,7 @@ trait ProductAcM
 
     public function getPricePurchaseRubFormattedAttribute(): string
     {
-        return H::priceRubFormatted($this->price_purchase, $this->price_purchase_currency_id ?? $this->parent->price_purchase_currency_id ?? static::DEFAULT_CURRENCY_ID);
+        return H::priceRubFormatted($this->price_purchase, $this->price_purchase_currency_id ?? static::DEFAULT_CURRENCY_ID);
     }
 
     public function getPricePurchaseFormattedAttribute(): string

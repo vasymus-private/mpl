@@ -73,6 +73,16 @@ class VariationAdminDTO extends DataTransferObject
      */
     public array $additional_images = [];
 
+    /**
+     * @var array|null @see {@link \Domain\Products\DTOs\ProductMediaUrlsDTO}
+     */
+    public ?array $main_image_media_urls;
+
+    /**
+     * @var array[] @see {@link \Domain\Products\DTOs\ProductMediaUrlsDTO}
+     */
+    public array $additional_images_media_urls = [];
+
     public bool $is_checked = false;
 
     public static function fromModel(Product $product): self
@@ -99,6 +109,18 @@ class VariationAdminDTO extends DataTransferObject
             'preview' => $product->preview,
             'main_image' => $mainImage ? FileDTO::fromCustomMedia($mainImage)->toArray() : null,
             'additional_images' => $product->getMedia(Product::MC_ADDITIONAL_IMAGES)->map(fn(CustomMedia $media) => FileDTO::fromCustomMedia($media)->toArray())->all(),
+            'main_image_media_urls' => ProductMediaUrlsDTO::fromModel($product)->toArray(),
+            'additional_images_media_urls' => $product->getMedia(Product::MC_ADDITIONAL_IMAGES)->map(function(CustomMedia $customMedia) {
+                return ProductMediaUrlsDTO::fromCustomMedia($customMedia)->toArray();
+            })->all(),
         ]);
+    }
+
+    public static function copyFromModel(Product $product): self
+    {
+        $dto = static::fromModel($product);
+        $dto->id = null;
+        $dto->parent_id = null;
+        return $dto;
     }
 }

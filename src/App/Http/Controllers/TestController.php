@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Mail\TestMarkupOrderShippedMail;
 use App\Mail\TestMarkupResetPasswordMail;
 use App\Rules\CategoryDeactivatable;
+use Domain\Common\DTOs\FileDTO;
+use Domain\Common\Models\CustomMedia;
 use Domain\Products\Actions\GetCategoriesTreeAction;
 use Domain\Products\Actions\GetCategoryAndSubtreeAction;
 use Domain\Products\Actions\GetCategoryAndSubtreeIdsAction;
@@ -13,13 +15,14 @@ use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator;
+use Spatie\MediaLibrary\Support\UrlGenerator\UrlGeneratorFactory;
 
 class TestController extends Controller
 {
-    public function test(Request $request, GetCategoriesTreeAction $getCategoriesTreeAction, GetCategoryAndSubtreeAction $getCategoryAndSubtreeAction, GetCategoryAndSubtreeIdsAction $getCategoryAndSubtreeIdsAction, HasActiveProductsAction $hasActiveProductsAction)
+    public function test(Request $request, GetCategoriesTreeAction $getCategoriesTreeAction, GetCategoryAndSubtreeAction $getCategoryAndSubtreeAction, GetCategoryAndSubtreeIdsAction $getCategoryAndSubtreeIdsAction, HasActiveProductsAction $hasActiveProductsAction, DefaultUrlGenerator $defaultUrlGenerator)
     {
-
-
+        dump(UrlGeneratorFactory::createForMedia());
         return view('test');
     }
 

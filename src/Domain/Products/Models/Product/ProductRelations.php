@@ -66,7 +66,7 @@ trait ProductRelations
      */
     public function variations(): HasMany
     {
-        return $this->hasMany(Product::class, "parent_id", "id");
+        return $this->hasMany(Product::class, "parent_id", "id")->orderBy(Product::TABLE . '.ordering', 'asc');
     }
 
     /**

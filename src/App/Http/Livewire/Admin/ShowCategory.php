@@ -99,7 +99,7 @@ class ShowCategory extends Component
         if ($this->item->id) {
             $exclude = GetCategoryAndSubtreeIdsAction::cached()->execute($this->item->id);
         }
-        $this->initCategories($exclude);
+        $this->initCategoriesOptions($exclude);
         $this->initGenerateSlug();
 
         $this->products = $this->item

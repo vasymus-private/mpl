@@ -11,79 +11,77 @@
 |
 */
 
-/**
- * !!!
- * Prefix "admin"
- * Name "admin."
- * !!!
- * */
-
+use App\Constants;
+use App\Http\Controllers\Admin\BrandsController;
+use App\Http\Controllers\Admin\CategoriesController;
+use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\ProductsController;
 use Illuminate\Support\Facades\Route;
 
-Route::get("home", [\App\Http\Controllers\Admin\HomeController::class, "index"])->name("home");
+Route::get("home", [HomeController::class, "index"])->name(Constants::ROUTE_ADMIN_HOME);
 
 Route
     ::get(
         "products",
-        [\App\Http\Controllers\Admin\ProductsController::class, "index"]
+        [ProductsController::class, "index"]
     )
-    ->name("products.index")
+    ->name(Constants::ROUTE_ADMIN_PRODUCTS_INDEX)
 ;
 Route
     ::get(
         "products/create",
-        [\App\Http\Controllers\Admin\ProductsController::class, "create"]
+        [ProductsController::class, "create"]
     )
-    ->name("products.create")
+    ->name(Constants::ROUTE_ADMIN_PRODUCTS_CREATE)
 ;
 Route
     ::get(
         "products/{admin_product}/edit",
-        [\App\Http\Controllers\Admin\ProductsController::class, "edit"]
+        [ProductsController::class, "edit"]
     )
-    ->name("products.edit")
+    ->name(Constants::ROUTE_ADMIN_PRODUCTS_EDIT)
 ;
 
 Route
     ::get(
         "categories",
-        [\App\Http\Controllers\Admin\CategoriesController::class, 'index']
+        [CategoriesController::class, 'index']
     )
-    ->name('categories.index')
+    ->name(Constants::ROUTE_ADMIN_CATEGORIES_INDEX)
 ;
 Route
     ::get(
         "categories/create",
-        [\App\Http\Controllers\Admin\CategoriesController::class, 'create']
+        [CategoriesController::class, 'create']
     )
-    ->name('categories.create')
+    ->name(Constants::ROUTE_ADMIN_CATEGORIES_CREATE)
 ;
 Route
     ::get(
         "categories/{admin_category}/edit",
-        [\App\Http\Controllers\Admin\CategoriesController::class, "edit"]
+        [CategoriesController::class, "edit"]
     )
-    ->name("categories.edit")
+    ->name(Constants::ROUTE_ADMIN_CATEGORIES_EDIT)
 ;
 
 Route
     ::get(
         "brands",
-        [\App\Http\Controllers\Admin\BrandsController::class, "index"]
+        [BrandsController::class, "index"]
     )
-    ->name("brands.index")
+    ->name(Constants::ROUTE_ADMIN_BRANDS_INDEX)
 ;
 Route
     ::get(
         "brands/create",
-        [\App\Http\Controllers\Admin\BrandsController::class, "create"]
+        [BrandsController::class, "create"]
     )
-    ->name("brands.create")
+    ->name(Constants::ROUTE_ADMIN_BRANDS_CREATE)
 ;
 Route
     ::get(
         "brands/{admin_brand}/edit",
-        [\App\Http\Controllers\Admin\BrandsController::class, "edit"]
+        [BrandsController::class, "edit"]
     )
-    ->name("brands.edit")
+    ->name(Constants::ROUTE_ADMIN_BRANDS_EDIT)
 ;

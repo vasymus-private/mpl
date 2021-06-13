@@ -48,6 +48,8 @@ class ProductsInfoPricesSeoTablesSeeder extends Seeder
 
         $this->seedRelations();
         $this->seedVariations();
+
+        $this->seedProductIsWithVariants();
     }
 
     protected function initialSeed()
@@ -82,7 +84,7 @@ class ProductsInfoPricesSeoTablesSeeder extends Seeder
                             $seed["brand_id"] = $rawSeed["manufacturer_id"];
                             break;
                         }
-                        case $attribute === "is_in_stock" : {
+                        /*case $attribute === "is_in_stock" : {
                             if ($rawSeed[$attribute]) $seed["availability_status_id"] = AvailabilityStatus::ID_AVAILABLE_IN_STOCK;
                             else $seed["availability_status_id"] = AvailabilityStatus::ID_AVAILABLE_NOT_IN_STOCK;
                             break;
@@ -92,7 +94,7 @@ class ProductsInfoPricesSeoTablesSeeder extends Seeder
                                 $seed["availability_status_id"] = AvailabilityStatus::ID_NOT_AVAILABLE;
                             }
                             break;
-                        }
+                        }*/
                         case $attribute === "price_purchase" :
                         case $attribute === "coefficient" : {
                             $seed[$attribute] = !empty($rawSeed[$attribute]) ? $rawSeed[$attribute] : null;
@@ -137,6 +139,7 @@ class ProductsInfoPricesSeoTablesSeeder extends Seeder
             if (empty($seed["slug"])) $seed["slug"] = str_slug($seed["name"]);
 
             try {
+                $seed['availability_status_id'] = rand(1, 3);
                 $product = Product::forceCreate($seed);
             } catch (\Exception $exception) {
                 dd($exception->getMessage(), $seed);
@@ -212,6 +215,7 @@ class ProductsInfoPricesSeoTablesSeeder extends Seeder
                 $seed["is_active"] = true;
                 $seed["parent_id"] = $parentProduct["id"];
 
+                $seed['availability_status_id'] = rand(1, 3);
                 $product = Product::forceCreate($seed);
 
                 if (!empty($variation["image"]["src"])) {
@@ -301,5 +305,12 @@ class ProductsInfoPricesSeoTablesSeeder extends Seeder
         foreach ($media["files"] as $fileMediaInfo) {
             $loop($fileMediaInfo, Product::MC_FILES);
         }
+    }
+
+    protected function seedProductIsWithVariants()
+    {
+        Product::query()->whereHas('variations')->update([
+            'is_with_variations' => 1
+        ]);
     }
 }

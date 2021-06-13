@@ -19,17 +19,20 @@ trait HasTabs
     public function selectTab(string $tab)
     {
         if (in_array($tab, array_keys($this->getTabs()))) {
-            Cache::put(static::getActiveTabCacheKey(), $tab, new \DateInterval('PT15M'));
+            $id = property_exists($this, 'item') ? ($this->item->id ?? null) : null;
+            Cache::put(static::getActiveTabCacheKey($id), $tab, new \DateInterval('PT15M'));
         }
         $this->skipRender();
     }
 
     /**
+     * @param string|int|null $id
+     *
      * @return string
      */
-    protected static function getActiveTabCacheKey(): string
+    protected static function getActiveTabCacheKey($id = null): string
     {
-        return sprintf('%s-%s-show-active-tab', auth()->id(), static::class);
+        return sprintf('%s-%s-%s-show-active-tab', auth()->id(), static::class, $id);
     }
 
     /**

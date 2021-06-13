@@ -12,7 +12,7 @@ trait HasCurrencies
      */
     public array $currencies;
 
-    protected function initCurrencies()
+    protected function initCurrenciesOptions()
     {
         $this->currencies = Currency::query()->get()->map(fn(Currency $currency) => OptionDTO::fromCurrency($currency)->toArray())->all();
     }

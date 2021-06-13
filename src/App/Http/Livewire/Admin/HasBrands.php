@@ -12,7 +12,7 @@ trait HasBrands
      */
     public array $brands;
 
-    protected function initBrands()
+    protected function initBrandsOptions()
     {
         $this->brands = Brand::query()->select(["id", "name"])->get()->map(fn(Brand $brand) => OptionDTO::fromBrand($brand)->toArray())->all();
     }

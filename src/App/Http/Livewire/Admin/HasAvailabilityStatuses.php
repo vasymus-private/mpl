@@ -12,7 +12,7 @@ trait HasAvailabilityStatuses
      */
     public array $availabilityStatuses;
 
-    protected function initAvailabilityStatuses()
+    protected function initAvailabilityStatusesOptions()
     {
         $this->availabilityStatuses = AvailabilityStatus::query()->get()->map(fn(AvailabilityStatus $availabilityStatus) => OptionDTO::fromAvailabilityStatus($availabilityStatus)->toArray())->all();
     }
