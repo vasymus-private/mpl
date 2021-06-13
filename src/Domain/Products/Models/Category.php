@@ -94,6 +94,7 @@ class Category extends BaseModel
         'is_active' => self::DEFAULT_IS_ACTIVE,
         'ordering' => self::DEFAULT_ORDERING,
     ];
+
     /**
      * Indicates if the model should be timestamped.
      *
