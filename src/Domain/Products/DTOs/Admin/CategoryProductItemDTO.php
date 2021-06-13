@@ -1,11 +1,11 @@
 <?php
 
-namespace Domain\Products\DTOs;
+namespace Domain\Products\DTOs\Admin;
 
 use Domain\Products\Models\Product\Product;
 use Spatie\DataTransferObject\DataTransferObject;
 
-class CategoryProductItemAdminDTO extends DataTransferObject
+class CategoryProductItemDTO extends DataTransferObject
 {
     public int $id;
 

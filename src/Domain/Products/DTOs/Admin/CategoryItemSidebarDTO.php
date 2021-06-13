@@ -1,11 +1,11 @@
 <?php
 
-namespace Domain\Products\DTOs;
+namespace Domain\Products\DTOs\Admin;
 
 use Domain\Products\Models\Category;
 use Spatie\DataTransferObject\DataTransferObject;
 
-class CategoryItemAdminSidebarDTO extends DataTransferObject
+class CategoryItemSidebarDTO extends DataTransferObject
 {
     /**
      * @var int
@@ -18,7 +18,7 @@ class CategoryItemAdminSidebarDTO extends DataTransferObject
     public ?string $name;
 
     /**
-     * @var \Domain\Products\DTOs\CategoryItemAdminSidebarDTO[]
+     * @var \Domain\Products\DTOs\Admin\CategoryItemSidebarDTO[]
      */
     public array $subcategories;
 

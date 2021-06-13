@@ -1,12 +1,12 @@
 <?php
 
-namespace Domain\Products\DTOs;
+namespace Domain\Products\DTOs\Admin;
 
 use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Product\Product;
 use Spatie\DataTransferObject\DataTransferObject;
 
-class ProductItemAdminDTO extends DataTransferObject
+class ProductItemDTO extends DataTransferObject
 {
     public int $id;
 

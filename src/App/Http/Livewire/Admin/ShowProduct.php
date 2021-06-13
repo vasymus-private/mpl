@@ -4,16 +4,20 @@ namespace App\Http\Livewire\Admin;
 
 use App\Constants;
 use Domain\Common\DTOs\FileDTO;
+use Domain\Common\DTOs\OptionDTO;
 use Domain\Common\Models\Currency;
 use Domain\Common\Models\CustomMedia;
 use Domain\Products\Actions\DeleteVariationAction;
 use Domain\Products\Actions\GetCategoryAndSubtreeIdsAction;
+use Domain\Products\DTOs\Admin\CharCategoryDTO;
 use Domain\Products\DTOs\InformationalPriceDTO;
-use Domain\Products\DTOs\ProductProductAdminDTO;
-use Domain\Products\DTOs\VariationAdminDTO;
+use Domain\Products\DTOs\Admin\ProductProductDTO;
+use Domain\Products\DTOs\Admin\VariationDTO;
 use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\Category;
+use Domain\Products\Models\CharCategory;
+use Domain\Products\Models\CharType;
 use Domain\Products\Models\InformationalPrice;
 use Domain\Products\Models\Pivots\ProductProduct;
 use Domain\Products\Models\Product\Product;
@@ -132,7 +136,7 @@ class ShowProduct extends Component
     public $tempInstruction;
 
     /**
-     * @var array[][] @see {@link \Domain\Products\DTOs\ProductProductAdminDTO}
+     * @var array[][] @see {@link \Domain\Products\DTOs\Admin\ProductProductDTO}
      */
     public array $productProducts = [
         ProductProduct::TYPE_ACCESSORY => [],
@@ -143,7 +147,7 @@ class ShowProduct extends Component
     ];
 
     /**
-     * @var array[][] @see {@link \Domain\Products\DTOs\ProductProductAdminDTO}
+     * @var array[][] @see {@link \Domain\Products\DTOs\Admin\ProductProductDTO}
      */
     public array $loadedForProductProduct = self::INIT_LOADED_PRODUCT_PRODUCT;
 
@@ -163,12 +167,12 @@ class ShowProduct extends Component
     public array $relatedCategories;
 
     /**
-     * @var array[] @see {@link \Domain\Products\DTOs\VariationAdminDTO}
+     * @var array[] @see {@link \Domain\Products\DTOs\Admin\VariationDTO}
      */
     public array $variations;
 
     /**
-     * @var array @see {@link \Domain\Products\DTOs\VariationAdminDTO}
+     * @var array @see {@link \Domain\Products\DTOs\Admin\VariationDTO}
      */
     public array $currentVariation;
 
@@ -191,6 +195,26 @@ class ShowProduct extends Component
      * @var \Livewire\TemporaryUploadedFile
      */
     public $tempVariationAdditionalImage;
+
+    /**
+     * @var array[] @see {@link \Domain\Products\DTOs\Admin\CharCategoryDTO}
+     */
+    public array $charCategories;
+
+    /**
+     * @var array[] @see {@link \Domain\Common\DTOs\OptionDTO}
+     */
+    public array $charRateOptions;
+
+    /**
+     * @var array @see {@link \Domain\Products\DTOs\Admin\CharCategoryDTO}
+     */
+    public array $newCharCategory = [];
+
+    /**
+     * @var array @see {@link \Domain\Products\DTOs\Admin\CharDTO}
+     */
+    public array $newChar = [];
 
     /**
      * @var string[]
@@ -238,6 +262,15 @@ class ShowProduct extends Component
         ];
     }
 
+    protected function getCharsRules(): array
+    {
+        return [
+            'charCategories.*.name' => 'required|string|max:199',
+            'charCategories.*.chars.*.name' => 'required|string|max:199',
+            'charCategories.*.chars.*.value' => 'required|string|max:199',
+        ];
+    }
+
     protected function currentVariationRules(): array
     {
         return [
@@ -264,6 +297,7 @@ class ShowProduct extends Component
     {
         return array_merge(
             $this->getSeoRules(),
+            $this->getCharsRules(),
             [
                 'item.name' => 'required|string|max:199',
                 'item.is_active' => 'nullable|boolean',
@@ -333,6 +367,7 @@ class ShowProduct extends Component
         $this->initCurrenciesOptions();
         $this->initAvailabilityStatusesOptions();
         $this->initCategoriesOptions();
+        $this->initCharRateOptions();
 
         $this->initTabs();
 
@@ -371,6 +406,8 @@ class ShowProduct extends Component
 
         $this->saveRelatedCategories();
 
+        $this->saveChars();
+
         if ($shouldRedirect) {
             return redirect()->route('admin.products.edit', $this->item->id);
         }
@@ -382,7 +419,7 @@ class ShowProduct extends Component
 
         $dbVariations = $this->item->variations()->get();
         $dbVariations->each(function (Product $dbVariation) {
-            /** @var array|null $variation @see {@link \Domain\Products\DTOs\VariationAdminDTO} */
+            /** @var array|null $variation @see {@link \Domain\Products\DTOs\Admin\VariationDTO} */
             $variation = collect($this->variations)->first(fn(array $var) => (string)$var['id'] === (string)$dbVariation->id);
             if (!$variation) {
                 return true;
@@ -410,7 +447,7 @@ class ShowProduct extends Component
     {
         $this->validate($this->currentVariationRules());
 
-        $currentVariationDto = (new VariationAdminDTO($this->currentVariation));
+        $currentVariationDto = (new VariationDTO($this->currentVariation));
 
         $attributes = $currentVariationDto->only(
             'name',
@@ -467,17 +504,17 @@ class ShowProduct extends Component
     public function setCurrentVariation(?int $id = null)
     {
         if (!$id) {
-            $this->currentVariation = (new VariationAdminDTO())->toArray();
+            $this->currentVariation = (new VariationDTO())->toArray();
         } else {
             /** @var \Domain\Products\Models\Product\Product $variation */
             $variation = $this->item->variations()->with('media')->findOrFail($id);
-            $this->currentVariation = VariationAdminDTO::fromModel($variation)->toArray();
+            $this->currentVariation = VariationDTO::fromModel($variation)->toArray();
         }
     }
 
     public function cancelCurrentVariation()
     {
-        $this->currentVariation = (new VariationAdminDTO())->toArray();
+        $this->currentVariation = (new VariationDTO())->toArray();
         $this->tempVariationMainImage = null;
         $this->tempVariationAdditionalImage = null;
     }
@@ -513,7 +550,7 @@ class ShowProduct extends Component
 
         $variation->is_active = !$variation->is_active;
         $variation->save();
-        $this->variations[$id] = VariationAdminDTO::fromModel($variation)->toArray();
+        $this->variations[$id] = VariationDTO::fromModel($variation)->toArray();
     }
 
     public function deleteAdditionalImage($index)
@@ -714,7 +751,7 @@ class ShowProduct extends Component
             $productQuery->where(Product::TABLE . ".name", "like", "%{$product_name}%");
         }
 
-        $this->loadedForProductProduct[$for] = collect($productQuery->paginate(20)->items())->map(fn(Product $product) => ProductProductAdminDTO::fromModel($product, "loadedForProductProduct.{$for}.{$product->id}.")->toArray())->keyBy('id')->all();
+        $this->loadedForProductProduct[$for] = collect($productQuery->paginate(20)->items())->map(fn(Product $product) => ProductProductDTO::fromModel($product, "loadedForProductProduct.{$for}.{$product->id}.")->toArray())->keyBy('id')->all();
     }
 
     protected function saveProduct()
@@ -878,6 +915,8 @@ class ShowProduct extends Component
         $this->initIsWithVariations($this->item);
 
         $this->initVariations($this->item);
+
+        $this->initChars($this->item);
     }
 
     protected function initAsCopiedItem(Product $origin)
@@ -909,6 +948,8 @@ class ShowProduct extends Component
         $this->initIsWithVariations($origin);
 
         $this->initVariations($origin);
+
+        $this->initChars($origin);
     }
 
     protected function initLoadedForProductProduct()
@@ -929,12 +970,12 @@ class ShowProduct extends Component
             ->map(
                 fn(Product $variation) =>
                     $this->isCreatingFromCopy
-                        ? VariationAdminDTO::copyFromModel($variation)->toArray()
-                        : VariationAdminDTO::fromModel($variation)->toArray()
+                        ? VariationDTO::copyFromModel($variation)->toArray()
+                        : VariationDTO::fromModel($variation)->toArray()
             )
             ->keyBy('id')
             ->toArray();
-        $this->currentVariation = (new VariationAdminDTO())->toArray();
+        $this->currentVariation = (new VariationDTO())->toArray();
     }
 
     protected function initInfoPrices(Product $product)
@@ -993,7 +1034,7 @@ class ShowProduct extends Component
             /** @var \Illuminate\Support\Collection $rel */
             $rel = $product->{$relation};
             $this->productProducts[$type] = $rel->map(
-                fn(Product $productProduct) => ProductProductAdminDTO::fromModel(
+                fn(Product $productProduct) => ProductProductDTO::fromModel(
                     $productProduct, "productProducts.{$type}.{$productProduct->id}."
                 )->toArray()
             )
@@ -1070,5 +1111,85 @@ class ShowProduct extends Component
     protected function getCopyProduct(): ?Product
     {
         return Cache::store('array')->rememberForever(sprintf("%s-%s-%s", static::class, 'copy-product', $this->copy_id), fn() => Product::query()->find($this->copy_id));
+    }
+
+    protected function initCharRateOptions()
+    {
+        //$this->charRateOptions = collect(OptionDTO::fromRateSize())->map(fn(OptionDTO $optionDTO) => $optionDTO->toArray())->all();
+        $this->charRateOptions = collect(OptionDTO::fromItemsArr(range(0, CharType::RATE_SIZE)))->map(fn(OptionDTO $optionDTO) => $optionDTO->toArray())->all();
+    }
+
+    protected function initChars(Product $product)
+    {
+        $initOrdering = CharCategory::DEFAULT_ORDERING;
+
+        $this->charCategories = $product->charCategories
+            ->map(function(CharCategory $charCategory) use(&$initOrdering) {
+                if ($initOrdering >= $charCategory->ordering) {
+                    $charCategory->ordering = $initOrdering = $initOrdering + 100;
+                }
+                return CharCategoryDTO::fromModel($charCategory)->toArray();
+            })
+            ->sortBy('ordering')
+            ->values()
+            ->all();
+    }
+
+    public function charCategoryOrdering($index, bool $isUp = true)
+    {
+        $charCategory = $this->charCategories[$index] ?? null;
+        if (!$charCategory) {
+            $this->skipRender();
+            return;
+        }
+        $prevCharCategory = $this->charCategories[$index - 1] ?? null;
+        $nextCharCategory = $this->charCategories[$index + 1] ?? null;
+
+        if ($isUp && !$prevCharCategory) {
+            $this->skipRender();
+            return;
+        }
+
+        if (!$isUp && !$nextCharCategory) {
+            $this->skipRender();
+            return;
+        }
+        $currentOrdering = $charCategory['ordering'];
+
+        if ($isUp) {
+            $prevOrdering = $prevCharCategory['ordering'];
+            $prevCharCategory['ordering'] = $currentOrdering;
+            $charCategory['ordering'] = $prevOrdering;
+            $this->charCategories[$index - 1] = $prevCharCategory;
+        } else {
+            $nextOrdering = $nextCharCategory['ordering'];
+            $nextCharCategory['ordering'] = $currentOrdering;
+            $charCategory['ordering'] = $nextOrdering;
+            $this->charCategories[$index + 1] = $nextCharCategory;
+        }
+
+        $this->charCategories[$index] = $charCategory;
+
+        $this->charCategories = collect($this->charCategories)->sortBy('ordering')->values()->all();
+    }
+
+    public function charOrdering($index, bool $isUp = true)
+    {
+
+    }
+
+    public function deleteCharCategory($id)
+    {
+
+    }
+
+    public function deleteChar($id)
+    {
+
+    }
+
+    protected function saveChars()
+    {
+
     }
 }

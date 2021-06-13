@@ -4,7 +4,7 @@ namespace Domain\Products\Models\Product;
 
 use Domain\Common\Models\HasDeletedItemSlug;
 use Domain\Products\Collections\ProductCollection;
-use Domain\Products\DTOs\Web\CharCategoryCharsDTO;
+use Domain\Products\DTOs\Web\CharCategoryDTO;
 use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\CharCategory;
 use Domain\Products\QueryBuilders\ProductQueryBuilder;
@@ -268,7 +268,7 @@ class Product extends BaseModel implements HasMedia
     }
 
     /**
-     * @return \Domain\Products\DTOs\Web\CharCategoryCharsDTO[]
+     * @return \Domain\Products\DTOs\Web\CharCategoryDTO[]
      */
     public function characteristics2(): array
     {
@@ -276,7 +276,7 @@ class Product extends BaseModel implements HasMedia
             ::store('array')
             ->rememberForever(
                 sprintf('%s-characteristis-%s', static::class, $this->id),
-                fn() => $this->charCategories->map(fn(CharCategory $charCategory) => CharCategoryCharsDTO::fromModel($charCategory))->all()
+                fn() => $this->charCategories->map(fn(CharCategory $charCategory) => CharCategoryDTO::fromModel($charCategory))->all()
             );
     }
 

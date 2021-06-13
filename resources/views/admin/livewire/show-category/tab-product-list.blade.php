@@ -1,6 +1,6 @@
 <?php
 /**
- * @var array[] $products @see {@link \Domain\Products\DTOs\CategoryProductItemAdminDTO} @see {@link \App\Http\Livewire\Admin\ShowCategory::$products}
+ * @var array[] $products @see {@link \Domain\Products\DTOs\Admin\CategoryProductItemDTO} @see {@link \App\Http\Livewire\Admin\ShowCategory::$products}
  */
 ?>
 <div class="table-responsive">

@@ -263,6 +263,8 @@ class ProductsInfoPricesSeoTablesSeeder extends Seeder
 
         /** @var \Domain\Products\Models\CharCategory[] $charCategoriesByName */
         $charCategoriesByName = [];
+        $lastCharCategoryOrdering = CharCategory::DEFAULT_ORDERING;
+        $lastCharOrdering = Char::DEFAULT_ORDERING;
 
         foreach ($characteristics as $key => $charValue) {
             if ($charValue === null || $charValue === '') {
@@ -279,7 +281,9 @@ class ProductsInfoPricesSeoTablesSeeder extends Seeder
                         $charCategory = $charCategoriesByName[$groupName] = CharCategory::forceCreate([
                             'name' => $groupName,
                             'product_id' => $product->id,
+                            'ordering' => $lastCharCategoryOrdering,
                         ]);
+                        $lastCharCategoryOrdering += 100;
                     }
 
                     Char::forceCreate([
@@ -289,6 +293,7 @@ class ProductsInfoPricesSeoTablesSeeder extends Seeder
                         'type_id' => in_array($charName, static::CH_RATE) ? CharType::ID_RATE : CharType::ID_TEXT,
                         'value' => $charValue,
                     ]);
+                    $lastCharOrdering += 100;
                 }
             }
         }

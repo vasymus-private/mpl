@@ -5,11 +5,12 @@ namespace App\Http\Livewire\Admin;
 use Domain\Common\DTOs\OptionDTO;
 use Domain\Common\DTOs\SearchPrependAdminDTO;
 use Domain\Common\Models\Currency;
-use Domain\Products\DTOs\ProductItemAdminDTO;
+use Domain\Products\DTOs\Admin\ProductItemDTO;
 use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -57,7 +58,7 @@ class ProductsList extends Component
     public $editMode = false;
 
     /**
-     * @var array[] @see {@link \Domain\Products\DTOs\ProductItemAdminDTO[]}
+     * @var array[] @see {@link \Domain\Products\DTOs\Admin\ProductItemDTO[]}
      */
     public array $products = [];
 
@@ -211,7 +212,11 @@ class ProductsList extends Component
         }
 
         if ($this->search) {
-            $query->where("$table.name", "LIKE", "%{$this->search}%");
+            $query->where(function(Builder $query) use($table) {
+                $query
+                    ->where("$table.name", "LIKE", "%{$this->search}%")
+                    ->orWhere("$table.slug", "LIKE", "%{$this->search}%");
+            });
         }
 
         $copyQuery = clone $query;
@@ -229,7 +234,7 @@ class ProductsList extends Component
         $this->total = $products->total();
         $this->last_page = $products->lastPage();
 
-        $this->products = collect($products->items())->map(fn(Product $product) => ProductItemAdminDTO::fromModel($product)->toArray())->keyBy('id')->all();
+        $this->products = collect($products->items())->map(fn(Product $product) => ProductItemDTO::fromModel($product)->toArray())->keyBy('id')->all();
     }
 
     public function cancelEdit()
@@ -248,7 +253,7 @@ class ProductsList extends Component
 
         $product->is_active = !$product->is_active;
         $product->save();
-        $this->products[$product->id] = ProductItemAdminDTO::fromModel($product)->toArray();
+        $this->products[$product->id] = ProductItemDTO::fromModel($product)->toArray();
     }
 
     public function handleDelete($id)

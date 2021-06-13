@@ -1,3 +1,23 @@
+.dotted_line {
+    & > * {
+        margin-right: 3px;
+        margin-left: 3px;
+    }
+}
+.rate-circle {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    filter: blur(0.5px);
+    border-radius: 100%;
+    &.rate-circle-full {
+        background-color: #666;
+    }
+    &.rate-circle-empty {
+        border: 1px solid #666;
+    }
+}
+
 .characteristics {
   &__content {
     padding: 20px 0 0;

@@ -142,7 +142,7 @@ trait ProductRelations
 
     public function charCategories(): HasMany
     {
-        return $this->hasMany(CharCategory::class, 'product_id', 'id');
+        return $this->hasMany(CharCategory::class, 'product_id', 'id')->orderBy(CharCategory::TABLE . ".ordering");
     }
 
     public function chars(): HasMany

@@ -6,7 +6,7 @@ use Domain\Products\Models\Char;
 use Domain\Products\Models\CharCategory;
 use Spatie\DataTransferObject\DataTransferObject;
 
-class CharCategoryCharsDTO extends DataTransferObject
+class CharCategoryDTO extends DataTransferObject
 {
     public int $id;
 
