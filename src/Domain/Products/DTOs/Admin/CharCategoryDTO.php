@@ -21,7 +21,18 @@ class CharCategoryDTO extends DataTransferObject
 
     public static function fromModel(CharCategory $charCategory): self
     {
-        $chars = $charCategory->chars->map(fn(Char $char) => CharDTO::fromModel($char))->sortBy('ordering')->values()->all();
+        $initOrdering = Char::DEFAULT_ORDERING;
+
+        $chars = $charCategory->chars
+            ->map(function (Char $char) use(&$initOrdering) {
+                if ($initOrdering >= $char->ordering) {
+                    $char->ordering = $initOrdering = $initOrdering + 100;
+                }
+                return CharDTO::fromModel($char);
+            })
+            ->sortBy('ordering')
+            ->values()
+            ->all();
         return new self([
             'id' => $charCategory->id,
             'name' => $charCategory->name,

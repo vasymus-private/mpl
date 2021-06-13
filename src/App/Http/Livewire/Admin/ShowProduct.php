@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin;
 
 use App\Constants;
+use Domain\Common\Actions\MoveOrderingItemAction;
 use Domain\Common\DTOs\FileDTO;
 use Domain\Common\DTOs\OptionDTO;
 use Domain\Common\Models\Currency;
@@ -10,6 +11,7 @@ use Domain\Common\Models\CustomMedia;
 use Domain\Products\Actions\DeleteVariationAction;
 use Domain\Products\Actions\GetCategoryAndSubtreeIdsAction;
 use Domain\Products\DTOs\Admin\CharCategoryDTO;
+use Domain\Products\DTOs\Admin\CharDTO;
 use Domain\Products\DTOs\InformationalPriceDTO;
 use Domain\Products\DTOs\Admin\ProductProductDTO;
 use Domain\Products\DTOs\Admin\VariationDTO;
@@ -24,6 +26,7 @@ use Domain\Products\Models\Product\Product;
 use Domain\Seo\Models\Seo;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\Rules\Exists;
 use Illuminate\Validation\Rules\Unique;
 use Livewire\Component;
 use Livewire\TemporaryUploadedFile;
@@ -209,12 +212,17 @@ class ShowProduct extends Component
     /**
      * @var array @see {@link \Domain\Products\DTOs\Admin\CharCategoryDTO}
      */
-    public array $newCharCategory = [];
+    public array $newCharCategory = [
+        'name' => '',
+    ];
 
     /**
      * @var array @see {@link \Domain\Products\DTOs\Admin\CharDTO}
      */
-    public array $newChar = [];
+    public array $newChar = [
+        'name' => '',
+        'category_id' => null,
+    ];
 
     /**
      * @var string[]
@@ -262,12 +270,21 @@ class ShowProduct extends Component
         ];
     }
 
-    protected function getCharsRules(): array
+    protected function getNewCharCategoryRules(): array
     {
         return [
-            'charCategories.*.name' => 'required|string|max:199',
-            'charCategories.*.chars.*.name' => 'required|string|max:199',
-            'charCategories.*.chars.*.value' => 'required|string|max:199',
+            'newCharCategory.name' => 'required|string|max:199',
+        ];
+    }
+
+    protected function getNewCharRules(): array
+    {
+        return [
+            'newChar.name' => 'required|string|max:199',
+            'newChar.category_id' => [
+                'required',
+                (new Exists(CharCategory::TABLE, 'id'))->where('product_id', $this->item->id)
+            ],
         ];
     }
 
@@ -297,7 +314,6 @@ class ShowProduct extends Component
     {
         return array_merge(
             $this->getSeoRules(),
-            $this->getCharsRules(),
             [
                 'item.name' => 'required|string|max:199',
                 'item.is_active' => 'nullable|boolean',
@@ -1137,53 +1153,54 @@ class ShowProduct extends Component
 
     public function charCategoryOrdering($index, bool $isUp = true)
     {
-        $charCategory = $this->charCategories[$index] ?? null;
+        $this->charCategories = MoveOrderingItemAction::cached()->execute($this->charCategories, (int)$index, $isUp);
+    }
+
+    public function charOrdering($charCategoryIndex, $index, bool $isUp = true)
+    {
+        $chars = $this->charCategories[$charCategoryIndex]['chars'] ?? null;
+        if (!$chars) {
+            $this->skipRender();
+            return;
+        }
+        $chars = MoveOrderingItemAction::cached()->execute($chars, (int)$index, $isUp);
+        $this->charCategories[$charCategoryIndex]['chars'] = $chars;
+    }
+
+    public function deleteCharCategory($index)
+    {
+        unset($this->charCategories[$index]);
+    }
+
+    public function deleteChar($charCategoryIndex, $index)
+    {
+        $charCategory = $this->charCategories[$charCategoryIndex];
         if (!$charCategory) {
             $this->skipRender();
             return;
         }
-        $prevCharCategory = $this->charCategories[$index - 1] ?? null;
-        $nextCharCategory = $this->charCategories[$index + 1] ?? null;
-
-        if ($isUp && !$prevCharCategory) {
-            $this->skipRender();
-            return;
-        }
-
-        if (!$isUp && !$nextCharCategory) {
-            $this->skipRender();
-            return;
-        }
-        $currentOrdering = $charCategory['ordering'];
-
-        if ($isUp) {
-            $prevOrdering = $prevCharCategory['ordering'];
-            $prevCharCategory['ordering'] = $currentOrdering;
-            $charCategory['ordering'] = $prevOrdering;
-            $this->charCategories[$index - 1] = $prevCharCategory;
-        } else {
-            $nextOrdering = $nextCharCategory['ordering'];
-            $nextCharCategory['ordering'] = $currentOrdering;
-            $charCategory['ordering'] = $nextOrdering;
-            $this->charCategories[$index + 1] = $nextCharCategory;
-        }
-
-        $this->charCategories[$index] = $charCategory;
-
-        $this->charCategories = collect($this->charCategories)->sortBy('ordering')->values()->all();
+        $chars = $charCategory['chars'];
+        unset($chars[$index]);
+        $charCategory['chars'] = $chars;
+        $this->charCategories[$charCategoryIndex] = $charCategory;
     }
 
-    public function charOrdering($index, bool $isUp = true)
+    public function addNewCharCategory()
     {
+        $this->validateOnly($this->getNewCharCategoryRules());
 
+        $largestOrdering = null; // todo calculate latest ordering
+
+        $charCategory = CharCategory::forceCreate([
+            'product_id' => $this->item->id,
+            'name' => $this->newCharCategory['name'],
+            'ordering' => $largestOrdering + 100,
+        ]);
+
+        // todo rerender chars
     }
 
-    public function deleteCharCategory($id)
-    {
-
-    }
-
-    public function deleteChar($id)
+    public function addNewChar()
     {
 
     }

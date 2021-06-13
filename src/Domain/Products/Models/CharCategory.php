@@ -10,8 +10,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $name
  * @property int $product_id
  * @property int $ordering
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
  *
  * @see \Domain\Products\Models\CharCategory::chars()
  * @property-read \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\Char[] $chars
