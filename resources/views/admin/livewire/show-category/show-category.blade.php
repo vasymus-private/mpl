@@ -8,6 +8,14 @@
  */
 ?>
 <div class="py-4">
+    <h1 class="h2">
+        Товары: раздел:
+        @if($item->id)
+            {!! $item->name !!} - редактирование
+        @else
+            добавление
+        @endif
+    </h1>
     <div class="detail-toolbar">
         <div class="row d-flex align-items-center">
             <div class="col-sm-7">

@@ -25,7 +25,7 @@
     <div class="form-group row">
         <label for="item.slug" class="col-sm-5 col-form-label">Символьный код:</label>
         <div class="col-sm-7">
-            <div class="input-group">
+            <div class="input-group @error('item.slug') is-invalid @enderror">
                 <input wire:model.defer="item.slug" type="text" class="form-control @error('item.slug') is-invalid @enderror" id="item.slug">
                 <div class="input-group-append">
                     <button wire:click="toggleGenerateSlugMode" class="btn btn-outline-secondary" type="button"><i class="fa {{$generateSlugSyncMode ? 'fa-chain' : 'fa-chain-broken'}}" aria-hidden="true"></i></button>

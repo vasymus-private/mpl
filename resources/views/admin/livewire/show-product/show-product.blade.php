@@ -12,6 +12,17 @@
  */
 ?>
 <div class="py-4">
+    <h1 class="h2">
+        Товары: элемент:
+        @if($isCreatingFromCopy)
+            добавление копированием
+        @elseif($isCreating)
+            добавление
+        @else
+            {!! $item->name !!} - редактирование
+        @endif
+    </h1>
+
     <div class="detail-toolbar">
         <div class="row d-flex align-items-center">
             <div class="col-sm-7">
@@ -20,6 +31,8 @@
                     <span class="detail-toolbar__btn-text">Товары</span>
                     <span class="detail-toolbar__btn-r"></span>
                 </a>
+
+                @if($item->id && $item->is_active && $item->slug) <a class="mx-2" href="{{$item->web_route}}" target="_blank">В магазин</a> @endif
             </div>
             @if($item->id)
                 <div class="col-sm-5 d-flex align-items-center">
