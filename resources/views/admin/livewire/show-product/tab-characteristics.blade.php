@@ -48,7 +48,7 @@
 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-char-category">+ Добавить заголовок для характеристик</button>
 
 <!-- Modals -->
-<div class="modal fade" id="add-char" tabindex="-1" aria-labelledby="add-char-title" aria-hidden="true">
+<div wire:ignore.self class="modal fade" id="add-char" tabindex="-1" aria-labelledby="add-char-title" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -58,42 +58,28 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="form-group row">
-                    <label for="" class="col-sm-3 col-form-label">Выбрать заголовок характеристики:</label>
-                    <div class="col-sm-9">
-                        <select class="form-control">
-                            <option value="">(не установлено)</option>
-                            <option value="">Описание товара</option>
-                            <option value="">Технические детали</option>
-                        </select>
-                    </div>
-                </div>
+                @include('admin.livewire.includes.form-group-select', [
+                    'field' => 'newChar.category_id',
+                    'options' => $this->getCharCategoryOptions(),
+                    'label' => 'Выбрать заголовок характеристики',
+                ])
 
-                <div class="form-group row">
-                    <label for="tl" class="col-sm-3 col-form-label">Название характерстики:</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" id="tl">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="" class="col-sm-3 col-form-label">Тип поля ввода:</label>
-                    <div class="col-sm-9">
-                        <select class="form-control" >
-                            <option value="">Текстовое</option>
-                            <option value="">Рейтинг</option>
-                        </select>
-                    </div>
-                </div>
+                @include('admin.livewire.includes.form-group-input', ['field' => 'newChar.name', 'label' => 'Название'])
+
+                @include('admin.livewire.includes.form-group-select', [
+                    'field' => 'newChar.type_id',
+                    'options' => $charTypes,
+                    'label' => 'Тип поля ввода',
+                ])
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                <button type="button" class="btn btn-primary">Добавить</button>
+                <button onclick="@this.addNewChar().then((res) => { if(res) $('#add-char').modal('hide') })" type="button" class="btn btn-primary">Добавить</button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="add-char-category" tabindex="-1" aria-labelledby="add-char-category-title" aria-hidden="true">
+<div wire:ignore.self class="modal fade" id="add-char-category" tabindex="-1" aria-labelledby="add-char-category-title" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -103,11 +89,10 @@
                 </button>
             </div>
             <div class="modal-body">
-                @include('admin.livewire.includes.form-group-input', ['field' => 'newCharCategory.name'])
+                @include('admin.livewire.includes.form-group-input', ['field' => 'newCharCategory.name', 'label' => 'Название'])
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                <button wire:click="addNewCharCategory" type="button" class="btn btn-primary">Добавить</button>
+                <button onclick="@this.addNewCharCategory().then((res) => {if(res) $('#add-char-category').modal('hide') })" type="button" class="btn btn-primary">Добавить</button>
             </div>
         </div>
     </div>

@@ -18,6 +18,7 @@ use Domain\Products\DTOs\Admin\VariationDTO;
 use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\Category;
+use Domain\Products\Models\Char;
 use Domain\Products\Models\CharCategory;
 use Domain\Products\Models\CharType;
 use Domain\Products\Models\InformationalPrice;
@@ -209,20 +210,29 @@ class ShowProduct extends Component
      */
     public array $charRateOptions;
 
+    protected const DEFAULT_NEW_CHAR_CATEGORY = [
+        'name' => '',
+    ];
+
+    protected const DEFAULT_NEW_CHAR = [
+        'name' => '',
+        'category_id' => null,
+    ];
+
     /**
      * @var array @see {@link \Domain\Products\DTOs\Admin\CharCategoryDTO}
      */
-    public array $newCharCategory = [
-        'name' => '',
-    ];
+    public array $newCharCategory = self::DEFAULT_NEW_CHAR_CATEGORY;
 
     /**
      * @var array @see {@link \Domain\Products\DTOs\Admin\CharDTO}
      */
-    public array $newChar = [
-        'name' => '',
-        'category_id' => null,
-    ];
+    public array $newChar = self::DEFAULT_NEW_CHAR;
+
+    /**
+     * @var array[] @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\CharType}
+     */
+    public array $charTypes;
 
     /**
      * @var string[]
@@ -284,6 +294,10 @@ class ShowProduct extends Component
             'newChar.category_id' => [
                 'required',
                 (new Exists(CharCategory::TABLE, 'id'))->where('product_id', $this->item->id)
+            ],
+            'newChar.type_id' => [
+                'required',
+                (new Exists(CharType::TABLE, 'id'))
             ],
         ];
     }
@@ -389,6 +403,7 @@ class ShowProduct extends Component
 
         $this->initGenerateSlug();
 
+        $this->charTypes = CharType::query()->get()->map(fn(CharType $charType) => OptionDTO::fromCharType($charType)->toArray())->all();
         $this->initItem();
     }
 
@@ -1187,9 +1202,9 @@ class ShowProduct extends Component
 
     public function addNewCharCategory()
     {
-        $this->validateOnly($this->getNewCharCategoryRules());
+        $this->validate($this->getNewCharCategoryRules());
 
-        $largestOrdering = null; // todo calculate latest ordering
+        $largestOrdering = max(collect($this->charCategories)->max('ordering'), 0);
 
         $charCategory = CharCategory::forceCreate([
             'product_id' => $this->item->id,
@@ -1197,16 +1212,54 @@ class ShowProduct extends Component
             'ordering' => $largestOrdering + 100,
         ]);
 
-        // todo rerender chars
+        $this->charCategories[] = CharCategoryDTO::fromModel($charCategory)->toArray();
+        $this->newCharCategory = static::DEFAULT_NEW_CHAR_CATEGORY;
+
+        return true;
     }
 
     public function addNewChar()
     {
+        // todo not working
+        $this->validate($this->getNewCharRules());
 
+        $charCategoryId = $this->newChar['category_id'];
+        $charCategory = $this->charCategories[$charCategoryId] ?? null;
+        if ($charCategory === null) {
+            $this->skipRender();
+            return;
+        }
+        $largestOrdering = max(collect($charCategory['chars'])->max('ordering'), 0);
+
+        $char = Char::forceCreate([
+            'product_id' => $this->item->id,
+            'name' => $this->newChar['name'],
+            'ordering' => $largestOrdering + 100,
+            'type_id' => $this->newChar['type_id'],
+            'category_id' => $charCategoryId,
+        ]);
+
+        $charCategory['chars'][] = CharDTO::fromModel($char)->toArray();
+        $this->newChar = static::DEFAULT_NEW_CHAR;
+
+        return true;
     }
 
     protected function saveChars()
     {
 
+    }
+
+    /**
+     * @return array[] @see {@link \Domain\Common\DTOs\OptionDTO}
+     */
+    public function getCharCategoryOptions(): array
+    {
+        return collect($this->charCategories)
+            ->map(fn(array $charCategory) => (new OptionDTO([
+                'value' => $charCategory['id'],
+                'label' => $charCategory['name'],
+            ]))->toArray())
+            ->all();
     }
 }

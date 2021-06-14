@@ -99,4 +99,17 @@ class OptionDTO extends DataTransferObject
 
         return $result;
     }
+
+    /**
+     * @param \Domain\Products\Models\CharType $charType
+     *
+     * @return self
+     */
+    public static function fromCharType(CharType $charType): self
+    {
+        return new self([
+            'value' => $charType->id,
+            'label' => $charType->name,
+        ]);
+    }
 }
