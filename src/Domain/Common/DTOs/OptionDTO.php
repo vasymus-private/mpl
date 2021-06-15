@@ -3,9 +3,11 @@
 namespace Domain\Common\DTOs;
 
 use Domain\Common\Models\Currency;
+use Domain\Products\Actions\GetCharDotsHtmlStringAction;
 use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\Category;
+use Domain\Products\Models\CharType;
 use Illuminate\Support\HtmlString;
 use Spatie\DataTransferObject\DataTransferObject;
 
@@ -78,5 +80,36 @@ class OptionDTO extends DataTransferObject
         }
 
         return $result;
+    }
+
+    /**
+     * @return self[]
+     */
+    public static function fromRateSize(): array
+    {
+        $result = [];
+
+        for ($i = 0; $i < CharType::RATE_SIZE; $i++) {
+            $result[] = new self([
+                'value' => $i,
+                'label' => GetCharDotsHtmlStringAction::cached()->execute($i),
+                'isHtmlString' => true,
+            ]);
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param \Domain\Products\Models\CharType $charType
+     *
+     * @return self
+     */
+    public static function fromCharType(CharType $charType): self
+    {
+        return new self([
+            'value' => $charType->id,
+            'label' => $charType->name,
+        ]);
     }
 }

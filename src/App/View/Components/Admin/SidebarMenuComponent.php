@@ -4,7 +4,7 @@ namespace App\View\Components\Admin;
 
 use App\Constants;
 use Domain\Products\Actions\GetCategoryAndSubtreeIdsAction;
-use Domain\Products\DTOs\CategoryItemAdminSidebarDTO;
+use Domain\Products\DTOs\Admin\CategoryItemSidebarDTO;
 use Domain\Products\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -14,7 +14,7 @@ use Illuminate\View\Component;
 class SidebarMenuComponent extends Component
 {
     /**
-     * @var \Domain\Products\DTOs\CategoryItemAdminSidebarDTO[]
+     * @var \Domain\Products\DTOs\Admin\CategoryItemSidebarDTO[]
      * */
     public array $categories;
 
@@ -50,7 +50,7 @@ class SidebarMenuComponent extends Component
      */
     public function __construct(Request $request, GetCategoryAndSubtreeIdsAction $getCategoryAndSubtreeIdsAction)
     {
-        $this->categories = Category::getTreeRuntimeCached()->map(fn(Category $category) => CategoryItemAdminSidebarDTO::fromModel($category))->all();
+        $this->categories = Category::getTreeRuntimeCached()->map(fn(Category $category) => CategoryItemSidebarDTO::fromModel($category))->all();
         $this->currentRouteName = Route::currentRouteName();
         $this->categoriesRoutes = [
             Constants::ROUTE_ADMIN_CATEGORIES_INDEX,

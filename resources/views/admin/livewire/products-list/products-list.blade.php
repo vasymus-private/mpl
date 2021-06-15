@@ -1,6 +1,6 @@
 <?php
 /**
- * @var array[] $products @see {@link \Domain\Products\DTOs\ProductItemAdminDTO[]}
+ * @var array[] $products @see {@link \Domain\Products\DTOs\Admin\ProductItemDTO[]}
  * @var \Illuminate\Pagination\LengthAwarePaginator $paginator
  * @var string|int|null $category_id
  * @var string|int|null $category_name

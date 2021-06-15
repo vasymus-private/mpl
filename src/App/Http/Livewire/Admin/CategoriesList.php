@@ -5,7 +5,7 @@ namespace App\Http\Livewire\Admin;
 use App\Rules\CategoryDeactivatable;
 use Domain\Common\DTOs\SearchPrependAdminDTO;
 use Domain\Products\Actions\DeleteCategoryAction;
-use Domain\Products\DTOs\CategoryItemAdminDTO;
+use Domain\Products\DTOs\Admin\CategoryItemDTO;
 use Domain\Products\Models\Category;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
@@ -28,7 +28,7 @@ class CategoriesList extends Component
     public $editMode = false;
 
     /**
-     * @var array[] @see {@link \Domain\Products\DTOs\CategoryItemAdminDTO}
+     * @var array[] @see {@link \Domain\Products\DTOs\Admin\CategoryItemDTO}
      */
     public array $categories = [];
 
@@ -77,7 +77,7 @@ class CategoriesList extends Component
             $query->where(Category::TABLE . ".name", "LIKE", "%{$this->search}%");
         }
 
-        $this->categories = $query->get()->map(fn(Category $category) => CategoryItemAdminDTO::fromModel($category)->toArray())->keyBy('id')->all();
+        $this->categories = $query->get()->map(fn(Category $category) => CategoryItemDTO::fromModel($category)->toArray())->keyBy('id')->all();
     }
 
     public function handleSearch()
@@ -121,7 +121,7 @@ class CategoriesList extends Component
             $category->is_active = !$category->is_active;
             $category->save();
 
-            $this->categories[$id] = CategoryItemAdminDTO::fromModel($category)->toArray();
+            $this->categories[$id] = CategoryItemDTO::fromModel($category)->toArray();
         }
     }
 

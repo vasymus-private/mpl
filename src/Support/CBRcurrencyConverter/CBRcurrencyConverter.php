@@ -3,6 +3,7 @@
 namespace Support\CBRcurrencyConverter;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Ixudra\Curl\Facades\Curl;
 use Ixudra\Curl\Builder;
 use SimpleXMLElement;
@@ -49,11 +50,17 @@ class CBRcurrencyConverter
 
     public static function getRate(string $currency, Carbon $date = null): float
     {
-        if ($date === null) $date = Carbon::now();
+        if ($date === null) {
+            $date = Carbon::now();
+        }
 
         $key = $date->format(static::$format);
 
-        if (isset(static::$cacheRates[$key][$currency])) return static::$cacheRates[$key][$currency];
+        //return Cache::remember() TODO think of caching
+
+        if (isset(static::$cacheRates[$key][$currency])) {
+            return static::$cacheRates[$key][$currency];
+        }
 
         $xml = static::fetchXml($date);
 

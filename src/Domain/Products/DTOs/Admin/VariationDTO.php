@@ -1,14 +1,15 @@
 <?php
 
-namespace Domain\Products\DTOs;
+namespace Domain\Products\DTOs\Admin;
 
 use Domain\Common\DTOs\FileDTO;
 use Domain\Common\Models\CustomMedia;
+use Domain\Products\DTOs\ProductMediaUrlsDTO;
 use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Product\Product;
 use Spatie\DataTransferObject\DataTransferObject;
 
-class VariationAdminDTO extends DataTransferObject
+class VariationDTO extends DataTransferObject
 {
     public ?int $id;
 

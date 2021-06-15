@@ -1,8 +1,8 @@
 <?php
 /**
  * @var \App\Http\Livewire\Admin\ShowProduct $this
- * @var array[] $variations @see {@link \Domain\Products\DTOs\VariationAdminDTO}
- * @var array $currentVariation @see {@link \Domain\Products\DTOs\VariationAdminDTO}
+ * @var array[] $variations @see {@link \Domain\Products\DTOs\Admin\VariationDTO}
+ * @var array $currentVariation @see {@link \Domain\Products\DTOs\Admin\VariationDTO}
  * @var bool $variationsEditMode
  * @var array[] $currencies @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Common\Models\Currency}
  * @var array[] $availabilityStatuses @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Common\Models\Currency}
