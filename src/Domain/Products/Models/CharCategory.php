@@ -40,6 +40,6 @@ class CharCategory extends BaseModel
 
     public function chars(): HasMany
     {
-        return $this->hasMany(Char::class, 'category_id', 'id');
+        return $this->hasMany(Char::class, 'category_id', 'id')->orderBy(Char::TABLE . ".ordering");
     }
 }

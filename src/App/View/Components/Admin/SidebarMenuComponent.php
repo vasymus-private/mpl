@@ -34,6 +34,11 @@ class SidebarMenuComponent extends Component
     protected array $productsRoutes;
 
     /**
+     * @var string[]
+     */
+    protected array $brandsRoutes;
+
+    /**
      * @var \Illuminate\Http\Request
      */
     protected Request $request;
@@ -61,6 +66,11 @@ class SidebarMenuComponent extends Component
             Constants::ROUTE_ADMIN_PRODUCTS_INDEX,
             Constants::ROUTE_ADMIN_PRODUCTS_CREATE,
             Constants::ROUTE_ADMIN_PRODUCTS_EDIT,
+        ];
+        $this->brandsRoutes = [
+            Constants::ROUTE_ADMIN_BRANDS_INDEX,
+            Constants::ROUTE_ADMIN_BRANDS_CREATE,
+            Constants::ROUTE_ADMIN_BRANDS_EDIT,
         ];
         $this->request = $request;
         $this->getCategoryAndSubtreeIdsAction = $getCategoryAndSubtreeIdsAction;
@@ -113,6 +123,13 @@ class SidebarMenuComponent extends Component
 
                             return false;
                         }
+                        case 'reference':
+                        case 'reference-brands': {
+                            if ($this->isBrandsRoute()) {
+                                return true;
+                            }
+                            return false;
+                        }
                         default : {
                             return false;
                         }
@@ -129,5 +146,10 @@ class SidebarMenuComponent extends Component
     protected function isCategoriesRoute(): bool
     {
         return in_array($this->currentRouteName, $this->categoriesRoutes);
+    }
+
+    protected function isBrandsRoute(): bool
+    {
+        return in_array($this->currentRouteName, $this->brandsRoutes);
     }
 }
