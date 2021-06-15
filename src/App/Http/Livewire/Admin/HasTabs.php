@@ -18,11 +18,11 @@ trait HasTabs
      */
     public function selectTab(string $tab)
     {
+        $this->skipRender();
         if (in_array($tab, array_keys($this->getTabs()))) {
             $id = property_exists($this, 'item') ? ($this->item->id ?? null) : null;
             Cache::put(static::getActiveTabCacheKey($id), $tab, new \DateInterval('PT15M'));
         }
-        $this->skipRender();
     }
 
     /**
@@ -56,6 +56,6 @@ trait HasTabs
      */
     protected function initTabs()
     {
-        $this->activeTab = Cache::get(static::getActiveTabCacheKey(), $this->getDefaultTab());
+        $this->activeTab = Cache::get(static::getActiveTabCacheKey($this->item->id ?? null), $this->getDefaultTab());
     }
 }

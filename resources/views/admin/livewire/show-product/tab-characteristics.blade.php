@@ -50,6 +50,13 @@
 <!-- Modals -->
 <div wire:ignore.self class="modal fade" id="add-char" tabindex="-1" aria-labelledby="add-char-title" aria-hidden="true">
     <div class="modal-dialog">
+        <div wire:loading.flex wire:target="addNewChar">
+            <div class="d-flex justify-content-center align-items-center bg-light" style="opacity: 0.5; position:absolute; top:0; bottom:0; right:0; left:0; z-index: 20; ">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="add-char-title">Добавление новой характеристики</h5>
@@ -81,6 +88,13 @@
 
 <div wire:ignore.self class="modal fade" id="add-char-category" tabindex="-1" aria-labelledby="add-char-category-title" aria-hidden="true">
     <div class="modal-dialog">
+        <div wire:loading.flex wire:target="addNewCharCategory">
+            <div class="d-flex justify-content-center align-items-center bg-light" style="opacity: 0.5; position:absolute; top:0; bottom:0; right:0; left:0; z-index: 20; ">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="add-char-category-title">Добавление нового заголовка для характеристик</h5>

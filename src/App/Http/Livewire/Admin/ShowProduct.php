@@ -1185,6 +1185,7 @@ class ShowProduct extends Component
     public function deleteCharCategory($index)
     {
         unset($this->charCategories[$index]);
+        $this->charCategories = array_values($this->charCategories);
     }
 
     public function deleteChar($charCategoryIndex, $index)
@@ -1196,6 +1197,7 @@ class ShowProduct extends Component
         }
         $chars = $charCategory['chars'];
         unset($chars[$index]);
+        $chars = array_values($chars);
         $charCategory['chars'] = $chars;
         $this->charCategories[$charCategoryIndex] = $charCategory;
     }
@@ -1224,7 +1226,8 @@ class ShowProduct extends Component
         $this->validate($this->getNewCharRules());
 
         $charCategoryId = $this->newChar['category_id'];
-        $charCategory = $this->charCategories[$charCategoryId] ?? null;
+        $charCategory = collect($this->charCategories)->first(fn(array $item) => (string)$item['id'] === (string)$charCategoryId);
+
         if ($charCategory === null) {
             $this->skipRender();
             return;
@@ -1235,19 +1238,71 @@ class ShowProduct extends Component
             'product_id' => $this->item->id,
             'name' => $this->newChar['name'],
             'ordering' => $largestOrdering + 100,
-            'type_id' => $this->newChar['type_id'],
+            'type_id' => (int)$this->newChar['type_id'],
             'category_id' => $charCategoryId,
         ]);
 
         $charCategory['chars'][] = CharDTO::fromModel($char)->toArray();
         $this->newChar = static::DEFAULT_NEW_CHAR;
+        foreach ($this->charCategories as $index => $item) {
+            if ((string)$item['id'] === (string)$charCategoryId) {
+                $this->charCategories[$index] = $charCategory;
+                break;
+            }
+        }
 
         return true;
     }
 
     protected function saveChars()
     {
+        $charsIds = [];
+        $charCategoriesIds = [];
+        foreach ($this->charCategories as $charCategoryItem) {
+            if ($this->isCreatingFromCopy) {
+                $charCategory = CharCategory::forceCreate([
+                    'name' => $charCategoryItem['name'],
+                    'product_id' => $this->item->id,
+                    'ordering' => $charCategoryItem['ordering'],
+                ]);
+            } else {
+                $charCategory = CharCategory::query()->findOrFail($charCategoryItem['id']);
+                $charCategory->ordering = $charCategoryItem['ordering'];
+            }
+            $charCategoriesIds[] = $charCategory->id;
 
+            foreach ($charCategoryItem['chars'] as $charItem) {
+                if ($this->isCreatingFromCopy) {
+                    $char = Char::forceCreate([
+                        'name' => $charItem['name'],
+                        'value' => $charItem['value'],
+                        'ordering' => $charItem['ordering'],
+                        'type_id' => $charItem['type_id'],
+                        'category_id' => $charCategory->id,
+                    ]);
+                } else {
+                    $char = Char::query()->findOrFail($charItem['id']);
+                    $char->value = $charItem['value'];
+                    $char->ordering = $charItem['ordering'];
+                    $char->save();
+                }
+                $charsIds[] = $char->id;
+            }
+        }
+        $charCategories = $this->item->charCategories()->get();
+        $chars = $this->item->chars()->get();
+
+        $chars->each(function(Char $char) use($charsIds) {
+            if (!in_array($char->id, $charsIds)) {
+                $char->delete();
+            }
+        });
+
+        $charCategories->each(function(CharCategory $charCategory) use($charCategoriesIds) {
+            if (!in_array($charCategory->id, $charCategoriesIds)) {
+                $charCategory->delete();
+            }
+        });
     }
 
     /**
