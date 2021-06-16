@@ -22,8 +22,8 @@ class OrderStatusesTableSeeder extends Seeder
             "name" => "Покупателю позвонил или написал Саша",
         ],
         [
-            "id" => OrderStatus::ID_EGOR_CALLED,
-            "name" => "Покупателю позвонил или написал Егор",
+            "id" => OrderStatus::ID_NASTYA_CALLED,
+            "name" => "Покупателю позвонила или написала Настя",
         ],
         [
             "id" => OrderStatus::ID_HELEN_AGREED_WITH_SUPPLIER,

@@ -5,6 +5,7 @@ namespace Domain\Orders\Models;
 use Domain\Common\Models\BaseModel;
 use Domain\Common\Models\Currency;
 use Domain\Users\Models\BaseUser\BaseUser;
+use Illuminate\Support\Carbon;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 use Support\H;
 use Domain\Orders\Models\Pivots\OrderProduct;
@@ -21,14 +22,14 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property float $price_retail_rub
  * @property int $order_status_id
  * @property int $user_id
- * @property int $manager_id
+ * @property int $admin_id
  * @property int $importance_id
  * @property int $customer_bill_status_id
  * @property string|null $customer_bill_description
  * @property int $provider_bill_status_id
  * @property string|null $provider_bill_description
  * @property string|null $comment_user
- * @property string|null $comment_manager
+ * @property string|null $comment_admin
  * @property string|null $ps_status
  * @property string|null $ps_description
  * @property float|null $ps_amount
@@ -84,6 +85,9 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  *
  * @see \Domain\Orders\Models\Order::getInitialAttachmentsAttribute()
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $initial_attachments
+ *
+ * @see \Domain\Orders\Models\Order::getDateFormattedAttribute()
+ * @property-read string|null $date_formatted
  * */
 class Order extends BaseModel implements HasMedia
 {
@@ -248,5 +252,12 @@ class Order extends BaseModel implements HasMedia
     public function getInitialAttachmentsAttribute(): MediaCollection
     {
         return $this->getMedia(static::MC_INITIAL_ATTACHMENT);
+    }
+
+    public function getDateFormattedAttribute(): ?string
+    {
+        return $this->created_at instanceof Carbon
+            ? $this->created_at->format('Y-m-d H:i:s')
+            : null;
     }
 }

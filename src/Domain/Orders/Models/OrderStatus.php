@@ -15,7 +15,7 @@ class OrderStatus extends BaseModel
     const ID_OPEN = 1;
     const ID_HELEN_CALLED = 2; // todo temporary decision
     const ID_ALEX_CALLED = 3; // todo temporary decision
-    const ID_EGOR_CALLED = 4; // todo temporary decision
+    const ID_NASTYA_CALLED = 4; // todo temporary decision
     const ID_HELEN_AGREED_WITH_SUPPLIER = 5; // todo temporary decision
     const ID_ALEX_AGREED_WITH_SUPPLIER = 6; // todo temporary decision
     const ID_EGOR_AGREED_WITH_SUPPLIER = 7; // todo temporary decision
@@ -35,7 +35,7 @@ class OrderStatus extends BaseModel
         self::ID_OPEN,
         self::ID_HELEN_CALLED,
         self::ID_ALEX_CALLED,
-        self::ID_EGOR_CALLED,
+        self::ID_NASTYA_CALLED,
         self::ID_HELEN_AGREED_WITH_SUPPLIER,
         self::ID_ALEX_AGREED_WITH_SUPPLIER,
         self::ID_EGOR_AGREED_WITH_SUPPLIER,
