@@ -1,6 +1,6 @@
 <?php
 /**
- * @var array[] $products @see {@link \Domain\Products\DTOs\Admin\ProductItemDTO[]}
+ * @var array[] $items @see {@link \Domain\Products\DTOs\Admin\ProductItemDTO[]}
  * @var \Illuminate\Pagination\LengthAwarePaginator $paginator
  * @var string|int|null $category_id
  * @var string|int|null $category_name
@@ -54,11 +54,11 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($products as $product)
+            @foreach($items as $product)
                 <tr class="js-product-item" wire:key="product-{{$product['id']}}">
                     <td>
                         <div class="form-check">
-                            <input wire:model.defer="products.{{$product['id']}}.is_checked" @if($editMode) disabled @endif class="form-check-input position-static" type="checkbox">
+                            <input wire:model.defer="items.{{$product['id']}}.is_checked" @if($editMode) disabled @endif class="form-check-input position-static" type="checkbox">
                         </div>
                     </td>
                     <td>
@@ -81,28 +81,28 @@
                     <td><span class="main-grid-cell-content">{{$product['id']}}</span></td>
                     <td @if($editMode && $product['is_checked']) style="width: 200px;" @endif>
                         @if($editMode && $product['is_checked'])
-                            @include('admin.livewire.includes.form-control-input', ['field' => "products.{$product['id']}.ordering"])
+                            @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['id']}.ordering"])
                         @else
                             <span class="main-grid-cell-content">{{$product['ordering']}}</span>
                         @endif
                     </td>
                     <td>
                         @if($editMode && $product['is_checked'])
-                            @include('admin.livewire.includes.form-control-input', ['field' => "products.{$product['id']}.name"])
+                            @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['id']}.name"])
                         @else
                             <span class="main-grid-cell-content"><a href="{{route("admin.products.edit", $product['id'])}}">{!! $product['name'] !!}</a></span>
                         @endif
                     </td>
                     <td>
                         @if($editMode && $product['is_checked'])
-                            @include('admin.livewire.includes.form-check', ['field' => "products.{$product['id']}.is_active"])
+                            @include('admin.livewire.includes.form-check', ['field' => "items.{$product['id']}.is_active"])
                         @else
                             <span class="main-grid-cell-content">{{$product['is_active_name']}}</span>
                         @endif
                     </td>
                     <td>
                         @if($editMode && $product['is_checked'])
-                            @include('admin.livewire.includes.form-control-input', ['field' => "products.{$product['id']}.unit"])
+                            @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['id']}.unit"])
                         @else
                             <span class="main-grid-cell-content">{{$product['unit']}}</span>
                         @endif
@@ -111,10 +111,10 @@
                         @if($editMode && $product['is_checked'])
                             <div class="form-row">
                                 <div class="col">
-                                    @include('admin.livewire.includes.form-control-input', ['field' => "products.{$product['id']}.price_purchase"])
+                                    @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['id']}.price_purchase"])
                                 </div>
                                 <div class="col">
-                                    @include('admin.livewire.includes.form-control-select', ['field' => "products.{$product['id']}.price_purchase_currency_id", 'options' => $currencies])
+                                    @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['id']}.price_purchase_currency_id", 'options' => $currencies])
                                 </div>
                             </div>
                         @else
@@ -125,10 +125,10 @@
                         @if($editMode && $product['is_checked'])
                             <div class="form-row">
                                 <div class="col">
-                                    @include('admin.livewire.includes.form-control-input', ['field' => "products.{$product['id']}.price_retail"])
+                                    @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['id']}.price_retail"])
                                 </div>
                                 <div class="col">
-                                    @include('admin.livewire.includes.form-control-select', ['field' => "products.{$product['id']}.price_retail_currency_id", 'options' => $currencies])
+                                    @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['id']}.price_retail_currency_id", 'options' => $currencies])
                                 </div>
                             </div>
                         @else
@@ -137,14 +137,14 @@
                     </td>
                     <td>
                         @if($editMode && $product['is_checked'])
-                            @include('admin.livewire.includes.form-control-textarea', ['field' => "products.{$product['id']}.admin_comment"])
+                            @include('admin.livewire.includes.form-control-textarea', ['field' => "items.{$product['id']}.admin_comment"])
                         @else
                             <span class="main-grid-cell-content">{{$product['admin_comment']}}</span>
                         @endif
                     </td>
                     <td>
                         @if($editMode && $product['is_checked'])
-                            @include('admin.livewire.includes.form-control-select', ['field' => "products.{$product['id']}.availability_status_id", 'options' => $availabilityStatuses])
+                            @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['id']}.availability_status_id", 'options' => $availabilityStatuses])
                         @else
                             <span class="main-grid-cell-content">{{$product['availability_status_name']}}</span>
                         @endif

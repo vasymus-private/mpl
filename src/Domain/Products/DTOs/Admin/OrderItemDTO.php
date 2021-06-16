@@ -8,25 +8,10 @@ use Spatie\DataTransferObject\DataTransferObject;
 
 class OrderItemDTO extends DataTransferObject
 {
-    /*
-дата создания (с указанием времени)
-id
-статус
-комментарии (для внутреннего пользования)
-комментарий покупателя
-менеджер (кто первый из менеджеров открыл)
-сумма (всегда в рублях)
-имя (клиента)
-телефон (клиента)
-позиции (все, что кинул в корзину)
-email
-платежная система
-     */
-
     public int $id;
 
     /**
-     * @var string Format 'Y-m-d H:i:s'
+     * @var string|null Format 'd-m-Y H:i:s'
      */
     public ?string $date;
 
@@ -39,6 +24,8 @@ email
     public ?string $comment_user;
 
     public ?int $admin_id;
+
+    public ?string $admin_name;
 
     public int $user_id;
 
@@ -55,6 +42,10 @@ email
      */
     public array $products;
 
+    public ?int $payment_method_id;
+
+    public ?string $payment_method_name;
+
     public static function fromModel(Order $order): self
     {
         return new self([
@@ -65,12 +56,15 @@ email
             'comment_admin' => $order->comment_admin,
             'comment_user' => $order->comment_user,
             'admin_id' => $order->admin_id,
+            'admin_name' => $order->admin->name ?? null,
             'user_id' => $order->user_id,
             'user_name' => $order->user->name,
             'user_email' => $order->user->email,
             'user_phone' => $order->user->phone,
             'order_price_retail_rub_formatted' => $order->order_price_retail_rub_formatted,
             'products' => $order->products->map(fn(Product $product) => OrderProductItemDTO::fromModel($product))->all(),
+            'payment_method_id' => $order->payment_method_id,
+            'payment_method_name' => $order->payment->name ?? null,
         ]);
     }
 }

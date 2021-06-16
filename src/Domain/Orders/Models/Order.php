@@ -4,6 +4,7 @@ namespace Domain\Orders\Models;
 
 use Domain\Common\Models\BaseModel;
 use Domain\Common\Models\Currency;
+use Domain\Users\Models\Admin;
 use Domain\Users\Models\BaseUser\BaseUser;
 use Illuminate\Support\Carbon;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
@@ -22,7 +23,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property float $price_retail_rub
  * @property int $order_status_id
  * @property int $user_id
- * @property int $admin_id
+ * @property int|null $admin_id
  * @property int $importance_id
  * @property int $customer_bill_status_id
  * @property string|null $customer_bill_description
@@ -47,8 +48,14 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @see \Domain\Orders\Models\Order::user()
  * @property \Domain\Users\Models\BaseUser\BaseUser $user
  *
+ * @see \Domain\Orders\Models\Order::admin()
+ * @property \Domain\Users\Models\Admin|null $admin
+ *
  * @see \Domain\Orders\Models\Order::status()
- * @property OrderStatus $status
+ * @property \Domain\Orders\Models\OrderStatus $status
+ *
+ * @see \Domain\Orders\Models\Order::payment()
+ * @property \Domain\Orders\Models\PaymentMethod $payment
  *
  * @see \Domain\Orders\Models\Order::getOrderPriceRetailRubAttribute()
  * @property-read float $order_price_retail_rub
@@ -148,9 +155,19 @@ class Order extends BaseModel implements HasMedia
         return $this->belongsTo(BaseUser::class, "user_id", "id");
     }
 
+    public function admin(): BelongsTo
+    {
+        return $this->belongsTo(Admin::class, "admin_id", "id");
+    }
+
     public function status(): BelongsTo
     {
         return $this->belongsTo(OrderStatus::class, "order_status_id", "id");
+    }
+
+    public function payment(): BelongsTo
+    {
+        return $this->belongsTo(PaymentMethod::class, 'payment_method_id', 'id');
     }
 
     public function registerMediaCollections(): void
@@ -257,7 +274,7 @@ class Order extends BaseModel implements HasMedia
     public function getDateFormattedAttribute(): ?string
     {
         return $this->created_at instanceof Carbon
-            ? $this->created_at->format('Y-m-d H:i:s')
+            ? $this->created_at->format('d-m-Y H:i:s')
             : null;
     }
 }

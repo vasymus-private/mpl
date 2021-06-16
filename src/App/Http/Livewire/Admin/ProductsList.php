@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Admin;
 
-use Domain\Common\DTOs\OptionDTO;
 use Domain\Common\DTOs\SearchPrependAdminDTO;
 use Domain\Common\Models\Currency;
 use Domain\Products\DTOs\Admin\ProductItemDTO;
@@ -18,9 +17,11 @@ use Livewire\WithPagination;
 class ProductsList extends Component
 {
     use WithPagination;
+    use HasPagination;
     use HasBrands;
     use HasAvailabilityStatuses;
     use HasCurrencies;
+    use HasSelectAll;
 
     protected const DEFAULT_PER_PAGE = 20;
 
@@ -34,55 +35,45 @@ class ProductsList extends Component
 
     public $brand_name = '';
 
-    protected $queryString = [
-        'search' => ['except' => ''],
-        'page' => ['except' => 1],
-        'per_page' => ['except' => self::DEFAULT_PER_PAGE],
-        'category_id' => ['except' => ''],
-        'brand_id' => ['except' => ''],
-    ];
-
     public $total = 0;
 
     public $last_page;
 
-    public $per_page = self::DEFAULT_PER_PAGE;
-
     public $request_query;
-
-    /**
-     * @var array[] @see {@link \Domain\Common\DTOs\OptionDTO[]}
-     */
-    public $per_page_options = [];
 
     public $editMode = false;
 
     /**
      * @var array[] @see {@link \Domain\Products\DTOs\Admin\ProductItemDTO[]}
      */
-    public array $products = [];
-
-    public $selectAll = false;
+    public array $items = [];
 
     protected array $rules = [
-        'products.*.name' => 'required|string|max:199',
-        'products.*.ordering' => 'integer|nullable',
-        'products.*.is_active' => 'nullable|boolean',
-        'products.*.unit' => 'nullable|string|max:199',
-        'products.*.price_purchase' => 'nullable|numeric',
-        'products.*.price_purchase_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
-        'products.*.price_retail' => 'nullable|numeric',
-        'products.*.price_retail_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
-        'products.*.admin_comment' => 'nullable|string|max:199',
-        'products.*.availability_status_id' => 'required|integer|exists:' . AvailabilityStatus::class . ",id",
+        'items.*.name' => 'required|string|max:199',
+        'items.*.ordering' => 'integer|nullable',
+        'items.*.is_active' => 'nullable|boolean',
+        'items.*.unit' => 'nullable|string|max:199',
+        'items.*.price_purchase' => 'nullable|numeric',
+        'items.*.price_purchase_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
+        'items.*.price_retail' => 'nullable|numeric',
+        'items.*.price_retail_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
+        'items.*.admin_comment' => 'nullable|string|max:199',
+        'items.*.availability_status_id' => 'required|integer|exists:' . AvailabilityStatus::class . ",id",
     ];
+
+    protected function queryString(): array
+    {
+        return array_merge($this->getPerPageQueryString(), [
+            'search' => ['except' => ''],
+            'category_id' => ['except' => ''],
+            'brand_id' => ['except' => ''],
+        ]);
+    }
 
     public function mount()
     {
         $this->mountRequest();
-        $this->per_page_options = collect(OptionDTO::fromItemsArr([5, 10, 20, 50, 100, 200, 500]))
-            ->map(fn(OptionDTO $optionDTO) => $optionDTO->toArray())
-            ->all();
+        $this->mountPerPage();
         $this->setItems();
         $this->initBrandsOptions();
         $this->initAvailabilityStatusesOptions();
@@ -93,7 +84,7 @@ class ProductsList extends Component
     {
         return view('admin.livewire.products-list.products-list', [
             'paginator' => new LengthAwarePaginator(
-                $this->products,
+                $this->items,
                 $this->total,
                 $this->per_page,
                 $this->page
@@ -103,7 +94,7 @@ class ProductsList extends Component
 
     public function saveSelected()
     {
-        $checked = collect($this->products)->filter(fn(array $item) => $item['is_checked'])->all();
+        $checked = collect($this->items)->filter(fn(array $item) => $item['is_checked'])->all();
         if (empty($checked)) {
             $this->editMode = false;
             $this->selectAll = false;
@@ -130,7 +121,7 @@ class ProductsList extends Component
 
     public function deleteSelected()
     {
-        $deleteIds = collect($this->products)->filter(fn(array $item) => $item['is_checked'])->pluck('id')->toArray();
+        $deleteIds = collect($this->items)->filter(fn(array $item) => $item['is_checked'])->pluck('id')->toArray();
         $deleteProducts = Product::query()->whereIn('id', $deleteIds)->get();
         $deleteProducts->each(function(Product $product) {
             $product->clearMediaCollection(Product::MC_MAIN_IMAGE);
@@ -141,14 +132,6 @@ class ProductsList extends Component
         $this->editMode = false;
         $this->selectAll = false;
         $this->setItems();
-    }
-
-    public function updatedSelectAll(bool $isChecked)
-    {
-        $this->products = collect($this->products)->map(function(array $item) use($isChecked) {
-            $item['is_checked'] = $isChecked;
-            return $item;
-        })->all();
     }
 
     public function setPage($page)
@@ -189,7 +172,6 @@ class ProductsList extends Component
         $this->category_id = $request->input('category_id');
         $this->brand_id = $request->input('brand_id');
         $this->search = $request->input('search', '');
-        $this->per_page = $request->input('per_page', static::DEFAULT_PER_PAGE);
 
         $this->request_query = $request->query();
     }
@@ -220,21 +202,21 @@ class ProductsList extends Component
         }
 
         $copyQuery = clone $query;
-        $products = $query->paginate($this->per_page);
+        $items = $query->paginate((int)$this->per_page);
 
-        if ($products->lastPage() < $this->page) {
+        if ($items->lastPage() < $this->page) {
             $this->page = 1;
-            $products = $copyQuery->paginate($this->per_page);
+            $items = $copyQuery->paginate($this->per_page);
         }
 
         if ($this->request_query) {
-            $products->appends($this->request_query);
+            $items->appends($this->request_query);
         }
 
-        $this->total = $products->total();
-        $this->last_page = $products->lastPage();
+        $this->total = $items->total();
+        $this->last_page = $items->lastPage();
 
-        $this->products = collect($products->items())->map(fn(Product $product) => ProductItemDTO::fromModel($product)->toArray())->keyBy('id')->all();
+        $this->items = collect($items->items())->map(fn(Product $product) => ProductItemDTO::fromModel($product)->toArray())->all();
     }
 
     public function cancelEdit()
@@ -253,7 +235,7 @@ class ProductsList extends Component
 
         $product->is_active = !$product->is_active;
         $product->save();
-        $this->products[$product->id] = ProductItemDTO::fromModel($product)->toArray();
+        $this->items[$product->id] = ProductItemDTO::fromModel($product)->toArray();
     }
 
     public function handleDelete($id)

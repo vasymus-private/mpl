@@ -11,9 +11,13 @@ class Admin extends BaseUser implements HasMedia
 {
     use InteractsWithMedia;
 
-    const ID_CENTRAL_ADMIN = 1;
+    public const ID_CENTRAL_ADMIN = 1;
 
-    const MC_COMMON_MEDIA = "common-media"; // use as walkaround to many-to-one of spatie/medialibrary @see https://github.com/spatie/laravel-medialibrary/issues/1215#issuecomment-415555175
+    public const ID_HELEN_ADMIN = 2;
+
+    public const ID_NASTYA_ADMIN = 3;
+
+    public const MC_COMMON_MEDIA = "common-media"; // use as walkaround to many-to-one of spatie/medialibrary @see https://github.com/spatie/laravel-medialibrary/issues/1215#issuecomment-415555175
 
     /**
      * Bootstrap the model and its traits.

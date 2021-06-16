@@ -13,12 +13,15 @@ class OrderProductItemDTO extends DataTransferObject
 
     public int $count;
 
+    public ?string $unit;
+
     public static function fromModel(Product $product): self
     {
         return new self([
             'id' => $product->id,
             'name' => $product->name,
             'count' => $product->order_product_count ?? 0,
+            'unit' => $product->unit,
         ]);
     }
 }

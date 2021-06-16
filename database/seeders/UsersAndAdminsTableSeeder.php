@@ -23,10 +23,26 @@ class UsersAndAdminsTableSeeder extends Seeder
 
         Admin::query()->forceCreate([
             'id' => Admin::ID_CENTRAL_ADMIN,
-            'name' => 'admin',
+            'name' => 'Саша',
             'email' => 'test@test.test',
             'password' => Hash::make('secret'),
             'status' => Admin::SUPER_ADMIN,
+        ]);
+
+        Admin::query()->forceCreate([
+            'id' => Admin::ID_HELEN_ADMIN,
+            'name' => 'Лена',
+            'email' => 'lena@test.test',
+            'password' => Hash::make('secret'),
+            'status' => Admin::ADMIN_THRESHOLD,
+        ]);
+
+        Admin::query()->forceCreate([
+            'id' => Admin::ID_NASTYA_ADMIN,
+            'name' => 'Настя',
+            'email' => 'nastya@test.test',
+            'password' => Hash::make('secret'),
+            'status' => Admin::ADMIN_THRESHOLD,
         ]);
     }
 }
