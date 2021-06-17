@@ -4,7 +4,7 @@
 
 @if(!$product->characteristicsIsEmpty())
 <table cellspacing="0" cellpadding="0" class="product-properties">
-    @foreach($product->characteristics2() as $charCategoryCharsDTO)
+    @foreach($product->characteristics() as $charCategoryCharsDTO)
     <tbody>
         <tr>
             <th colspan="2">

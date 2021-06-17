@@ -33,5 +33,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CharTypesTableSeeder::class);
         $this->call(ProductsInfoPricesSeoTablesSeeder::class);
         $this->call(GalleryItemsTableSeeder::class);
+
+        $this->call(OrdersTableSeeder::class);
     }
 }

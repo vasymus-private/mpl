@@ -109,19 +109,19 @@
         </li>
 
         <li class="nav-item">
-            <a href="#reference" class="nav-link collapsed" data-toggle="collapse" role="button" aria-expanded="false">
+            <a href="#reference" class="nav-link {{$isActive('reference', null) ? '' : 'collapsed'}}" data-toggle="collapse" role="button" aria-expanded="{{$isActive('reference', null) ? 'true' : 'false'}}">
                 <span class="adm-arrow-icon"></span>
                 <span class="adm-icon iblock_menu_icon_types"></span>
                 <span class="nav-link-text">Справочники</span>
             </a>
-            <ul class="nav collapse" id="reference">
+            <ul class="nav collapse {{$isActive('reference', null) ? 'show' : ''}}" id="reference">
                 <li class="nav-item">
-                    <a href="#reference-1" class="nav-link collapsed sub-level-1" data-toggle="collapse" role="button" aria-expanded="false">
+                    <a href="#reference-1" class="nav-link {{$isActive('reference-brands', null) ? '' : 'collapsed'}} sub-level-1" data-toggle="collapse" role="button" aria-expanded="{{$isActive('reference-brands', null) ? 'true' : 'false'}}">
                         <span class="adm-arrow-icon"></span>
                         <span class="adm-icon iblock_menu_icon_iblocks"></span>
                         <span class="nav-link-text">Производители</span>
                     </a>
-                    <ul class="nav collapse" id="reference-1">
+                    <ul class="nav collapse {{$isActive('reference-brands', null) ? 'show' : ''}}" id="reference-1">
                         <li class="nav-item">
                             <a href="{{route('admin.brands.index')}}" class="nav-link sub-level-2">
                                 <span class="adm-arrow-icon-dot"></span>
@@ -193,5 +193,15 @@
                 </li>
             </ul>
         </li>
+
+        <li class="nav-item">
+            <a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_INDEX)}}" class="nav-link">
+                <span style="width: 20px;"></span>
+                <span class="adm-icon iblock_menu_icon_types"></span>
+                <span class="nav-link-text">Заказы</span>
+            </a>
+        </li>
+
+
     </ul>
 </nav>

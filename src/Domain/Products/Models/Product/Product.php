@@ -270,19 +270,19 @@ class Product extends BaseModel implements HasMedia
     /**
      * @return \Domain\Products\DTOs\Web\CharCategoryDTO[]
      */
-    public function characteristics2(): array
+    public function characteristics(): array
     {
         return Cache
             ::store('array')
             ->rememberForever(
-                sprintf('%s-characteristis-%s', static::class, $this->id),
+                sprintf('%s-characteristics-%s', static::class, $this->id),
                 fn() => $this->charCategories->map(fn(CharCategory $charCategory) => CharCategoryDTO::fromModel($charCategory))->all()
             );
     }
 
     public function characteristicsIsEmpty(): bool
     {
-        $characteristics = $this->characteristics2();
+        $characteristics = $this->characteristics();
 
         foreach ($characteristics as $charCategory) {
             foreach ($charCategory->chars as $char) {

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddPhoneColumnToUsersTable extends Migration
+class DeletePriceRetailRubColumnFromOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddPhoneColumnToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string("phone")->after('email')->nullable()->index();
+        Schema::table('orders', function (Blueprint $table) {
+            $table->dropColumn('price_retail_rub');
         });
     }
 
@@ -25,8 +25,8 @@ class AddPhoneColumnToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn("phone");
+        Schema::table('orders', function (Blueprint $table) {
+            $table->double('price_retail_rub');
         });
     }
 }

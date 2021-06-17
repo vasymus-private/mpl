@@ -81,7 +81,7 @@ class ProductsController extends BaseWebController
         $user = H::userOrAdmin();
         event(new ProductViewedEvent($user, $product));
 
-        $product->load(["seo", "variations.parent", "brand", "accessory.category.parentCategory.parentCategory.parentCategory", "similar.category.parentCategory.parentCategory.parentCategory", "related.category.parentCategory.parentCategory.parentCategory", "works.category.parentCategory.parentCategory.parentCategory"]);
+        $product->load(["seo", "variations.parent", "brand", "accessory.category.parentCategory.parentCategory.parentCategory", "similar.category.parentCategory.parentCategory.parentCategory", "related.category.parentCategory.parentCategory.parentCategory", "works.category.parentCategory.parentCategory.parentCategory", "charCategories.chars"]);
 
         $breadcrumbs = Breadcrumbs::productRoute($product, $category, $subcategory1, $subcategory2, $subcategory3);
         $seoArr = null;
