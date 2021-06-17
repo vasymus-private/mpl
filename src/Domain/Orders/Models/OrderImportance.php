@@ -14,7 +14,7 @@ class OrderImportance extends BaseModel
     const TABLE = "order_importances";
 
     const ID_GREY = 1;
-    const ID_ORANGE = 2;
+    const ID_YELLOW = 2;
     const ID_RED = 3;
 
     const DEFAULT_ID = self::ID_GREY;

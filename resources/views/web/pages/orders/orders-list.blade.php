@@ -11,7 +11,7 @@
                     @if($order->created_at instanceof \Carbon\Carbon)
                         <span class="product-selling__date">от {{$order->created_at->format("d.m.Y")}}</span>
                     @endif
-                    <span class="product-selling__text">Сумма <em>{{$order->price_retail_rub_formatted}}</em></span>
+                    <span class="product-selling__text">Сумма <em>{{$order->order_price_retail_rub_formatted}}</em></span>
                     <span class="product-selling__text order">Заказ {{$order->status_name_for_user}}</span>
                     <a class="product-selling__repeat" href="#">Повторить</a>
                 </div>
@@ -48,7 +48,7 @@
                     @if($order->created_at instanceof \Carbon\Carbon)
                         <span class="product-selling__date">от {{$order->created_at->format("d.m.Y")}}</span>
                     @endif
-                    <span class="product-selling__text">Сумма <em>{{$order->price_retail_rub_formatted}}</em></span>
+                    <span class="product-selling__text">Сумма <em>{{$order->order_price_retail_rub_formatted}}</em></span>
                     <span class="product-selling__text order">Заказ {{$order->status_name_for_user}}</span>
                 </div>
                 <div class="product-selling__body">

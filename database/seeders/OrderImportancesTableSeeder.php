@@ -12,17 +12,17 @@ class OrderImportancesTableSeeder extends Seeder
         [
             "id" => OrderImportance::ID_GREY,
             "name" => "серый",
-            "color" => "#E7ECE6",
+            "color" => "#eeeeee",
         ],
         [
-            "id" => OrderImportance::ID_ORANGE,
-            "name" => "оранжевый",
-            "color" => "#FFA000",
+            "id" => OrderImportance::ID_YELLOW,
+            "name" => "желтый",
+            "color" => "#ffff00",
         ],
         [
             "id" => OrderImportance::ID_RED,
             "name" => "красный",
-            "color" => "#FF0000",
+            "color" => "#ff0000",
         ]
     ];
     /**

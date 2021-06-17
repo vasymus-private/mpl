@@ -19,13 +19,23 @@ class OrderItemDTO extends DataTransferObject
 
     public string $order_status_name;
 
+    public ?string $order_status_color;
+
     public ?string $comment_admin;
 
     public ?string $comment_user;
 
+    public ?int $importance_id;
+
+    public ?string $importance_name;
+
+    public ?string $importance_color;
+
     public ?int $admin_id;
 
     public ?string $admin_name;
+
+    public ?string $admin_color;
 
     public int $user_id;
 
@@ -53,10 +63,15 @@ class OrderItemDTO extends DataTransferObject
             'date' => $order->date_formatted,
             'order_status_id' => $order->order_status_id,
             'order_status_name' => $order->status->name ?? "",
+            'order_status_color' => $order->status->color ?? null,
             'comment_admin' => $order->comment_admin,
             'comment_user' => $order->comment_user,
+            'importance_id' => $order->importance_id,
+            'importance_name' => $order->importance->name ?? null,
+            'importance_color' => $order->importance->color ?? null,
             'admin_id' => $order->admin_id,
             'admin_name' => $order->admin->name ?? null,
+            'admin_color' => $order->admin->admin_color ?? null,
             'user_id' => $order->user_id,
             'user_name' => $order->user->name,
             'user_email' => $order->user->email,

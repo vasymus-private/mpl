@@ -8,16 +8,11 @@ use Domain\Products\DTOs\Admin\OrderItemDTO;
 use Domain\Users\Models\BaseUser\BaseUser;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
-use Livewire\Component;
-use Livewire\WithPagination;
+use Illuminate\Database\Eloquent\Builder;
 
-class OrdersList extends Component
+class OrdersList extends BaseItemsListComponent
 {
-    use WithPagination;
-    use HasPagination;
     use HasSelectAll;
-
-    protected const DEFAULT_PER_PAGE = 20;
 
     protected const DATE_FORMAT_DISPLAY = 'd-m-Y H:i:s';
 
@@ -34,10 +29,6 @@ class OrdersList extends Component
     public $name = '';
 
     public $admin_id = '';
-
-    public $total = 0;
-
-    public $last_page;
 
     public $request_query;
 
@@ -62,7 +53,7 @@ class OrdersList extends Component
     {
         $this->mountRequest();
         $this->mountPerPage();
-        $this->setItems();
+        $this->fetchItems();
     }
 
     public function render()
@@ -77,7 +68,10 @@ class OrdersList extends Component
         ]);
     }
 
-    protected function setItems()
+    /**
+     * @inheritDoc
+     */
+    protected function getItemsQuery(): Builder
     {
         $query = Order::query()->select(['*']);
         $table = Order::TABLE;
@@ -105,22 +99,19 @@ class OrdersList extends Component
             $query->where("$table.admin_id", $this->admin_id);
         }
 
-        $copyQuery = clone $query;
-        $items = $query->paginate((int)$this->per_page);
-
-        if ($items->lastPage() < $this->page) {
-            $this->page = 1;
-            $items = $copyQuery->paginate($this->per_page);
+        if ($this->order_id) {
+            $query->whereIn("$table.id", $this->order_id);
         }
 
-        if ($this->request_query) {
-            $items->appends($this->request_query);
-        }
+        return $query;
+    }
 
-        $this->total = $items->total();
-        $this->last_page = $items->lastPage();
-
-        $this->items = collect($items->items())->map(fn(Order $order) => OrderItemDTO::fromModel($order)->toArray())->all();
+    /**
+     * @inheritDoc
+     */
+    protected function setItems(array $items)
+    {
+        $this->items = collect($items)->map(fn(Order $order) => OrderItemDTO::fromModel($order)->toArray())->all();
     }
 
     protected function mountRequest()

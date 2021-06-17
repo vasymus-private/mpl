@@ -64,8 +64,6 @@ class CartCheckoutController extends BaseWebController
 
     protected function createOrder(CartCheckoutRequest $request, BaseUser $user): ?Order
     {
-        $priceRetailRub = $user->cart_not_trashed->sumCartRetailPriceRub();
-
         $productsPrepare = [];
 
         $user->cart_not_trashed->each(function(Product $product) use(&$productsPrepare) {
@@ -83,7 +81,6 @@ class CartCheckoutController extends BaseWebController
         try {
             $order = Order::forceCreate([
                 "user_id" => $user->id,
-                "price_retail_rub" => $priceRetailRub,
                 "order_status_id" => OrderStatus::ID_OPEN,
                 "importance_id" => OrderImportance::ID_GREY,
                 "comment_user" => $request->comment,

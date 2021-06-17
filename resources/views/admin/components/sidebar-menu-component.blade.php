@@ -195,7 +195,7 @@
         </li>
 
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_INDEX)}}" class="nav-link">
                 <span style="width: 20px;"></span>
                 <span class="adm-icon iblock_menu_icon_types"></span>
                 <span class="nav-link-text">Заказы</span>

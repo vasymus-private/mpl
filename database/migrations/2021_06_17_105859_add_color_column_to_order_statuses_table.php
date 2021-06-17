@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddPhoneColumnToUsersTable extends Migration
+class AddColorColumnToOrderStatusesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddPhoneColumnToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string("phone")->after('email')->nullable()->index();
+        Schema::table('order_statuses', function (Blueprint $table) {
+            $table->string('color')->nullable();
         });
     }
 
@@ -25,8 +25,8 @@ class AddPhoneColumnToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn("phone");
+        Schema::table('order_statuses', function (Blueprint $table) {
+            $table->dropColumn('color');
         });
     }
 }

@@ -11,19 +11,13 @@ use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Livewire\Component;
-use Livewire\WithPagination;
 
-class ProductsList extends Component
+class ProductsList extends BaseItemsListComponent
 {
-    use WithPagination;
-    use HasPagination;
     use HasBrands;
     use HasAvailabilityStatuses;
     use HasCurrencies;
     use HasSelectAll;
-
-    protected const DEFAULT_PER_PAGE = 20;
 
     public $search = '';
 
@@ -34,10 +28,6 @@ class ProductsList extends Component
     public $brand_id = '';
 
     public $brand_name = '';
-
-    public $total = 0;
-
-    public $last_page;
 
     public $request_query;
 
@@ -74,7 +64,7 @@ class ProductsList extends Component
     {
         $this->mountRequest();
         $this->mountPerPage();
-        $this->setItems();
+        $this->fetchItems();
         $this->initBrandsOptions();
         $this->initAvailabilityStatusesOptions();
         $this->initCurrenciesOptions();
@@ -116,7 +106,7 @@ class ProductsList extends Component
         });
         $this->editMode = false;
         $this->selectAll = false;
-        $this->setItems();
+        $this->fetchItems();
     }
 
     public function deleteSelected()
@@ -131,18 +121,7 @@ class ProductsList extends Component
         });
         $this->editMode = false;
         $this->selectAll = false;
-        $this->setItems();
-    }
-
-    public function setPage($page)
-    {
-        $this->page = $page;
-        $this->setItems();
-    }
-
-    public function handleSearch()
-    {
-        $this->setItems();
+        $this->fetchItems();
     }
 
     public function clearAllFilters()
@@ -150,19 +129,19 @@ class ProductsList extends Component
         $this->search = '';
         $this->category_id = '';
         $this->brand_id = '';
-        $this->setItems();
+        $this->fetchItems();
     }
 
     public function clearCategoryFilter()
     {
         $this->category_id = '';
-        $this->setItems();
+        $this->fetchItems();
     }
 
     public function clearBrandFilter()
     {
         $this->brand_id = '';
-        $this->setItems();
+        $this->fetchItems();
     }
 
     protected function mountRequest()
@@ -176,7 +155,10 @@ class ProductsList extends Component
         $this->request_query = $request->query();
     }
 
-    protected function setItems()
+    /**
+     * @inheritDoc
+     */
+    protected function getItemsQuery(): Builder
     {
         $query = Product::query()->select(["*"])->notVariations();
         $table = Product::TABLE;
@@ -201,29 +183,22 @@ class ProductsList extends Component
             });
         }
 
-        $copyQuery = clone $query;
-        $items = $query->paginate((int)$this->per_page);
+        return $query;
+    }
 
-        if ($items->lastPage() < $this->page) {
-            $this->page = 1;
-            $items = $copyQuery->paginate($this->per_page);
-        }
-
-        if ($this->request_query) {
-            $items->appends($this->request_query);
-        }
-
-        $this->total = $items->total();
-        $this->last_page = $items->lastPage();
-
-        $this->items = collect($items->items())->map(fn(Product $product) => ProductItemDTO::fromModel($product)->toArray())->all();
+    /**
+     * @inheritDoc
+     */
+    protected function setItems(array $items)
+    {
+        $this->items = collect($items)->map(fn(Product $product) => ProductItemDTO::fromModel($product)->toArray())->all();
     }
 
     public function cancelEdit()
     {
         $this->editMode = false;
         $this->selectAll = false;
-        $this->setItems();
+        $this->fetchItems();
     }
 
     public function toggleActive($id)
@@ -248,7 +223,7 @@ class ProductsList extends Component
         $product->clearMediaCollection(Product::MC_ADDITIONAL_IMAGES);
         $product->clearMediaCollection(Product::MC_FILES);
         $product->delete();
-        $this->setItems();
+        $this->fetchItems();
     }
 
     /**

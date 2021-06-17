@@ -7,6 +7,7 @@ use Domain\Common\Models\BaseModel;
 /**
  * @property int $id
  * @property string $name
+ * @property string|null $color
  * */
 class OrderStatus extends BaseModel
 {
