@@ -13,7 +13,7 @@
                 <div class="other-page__item">
                     <div class="form-check form-check-inline">
                         <input wire:model="item.category_id" class="form-check-input" type="radio" name="main-category" value="{{$category['value']}}" />
-                        <input wire:model="relatedCategories" class="form-check-input" type="checkbox" value="{{$category['value']}}" id="related-category-{{$category['value']}}" />
+                        <input wire:model="relatedCategories" class="custom-checkbox" type="checkbox" value="{{$category['value']}}" id="related-category-{{$category['value']}}" />
                         <label for="related-category-{{$category['value']}}" class="form-check-label">{{$category['label']}}</label>
                     </div>
                 </div>
