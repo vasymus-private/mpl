@@ -37,7 +37,7 @@ class OrderItemDTO extends DataTransferObject
 
     public ?string $admin_color;
 
-    public int $user_id;
+    public ?int $user_id;
 
     public ?string $user_name;
 
@@ -72,10 +72,10 @@ class OrderItemDTO extends DataTransferObject
             'admin_id' => $order->admin_id,
             'admin_name' => $order->admin->name ?? null,
             'admin_color' => $order->admin->admin_color ?? null,
-            'user_id' => $order->user_id,
-            'user_name' => $order->user->name,
-            'user_email' => $order->user->email,
-            'user_phone' => $order->user->phone,
+            'user_id' => $order->user_id ?? null,
+            'user_name' => $order->user->name ?? null,
+            'user_email' => $order->user->email ?? null,
+            'user_phone' => $order->user->phone ?? null,
             'order_price_retail_rub_formatted' => $order->order_price_retail_rub_formatted,
             'products' => $order->products->map(fn(Product $product) => OrderProductItemDTO::fromModel($product))->all(),
             'payment_method_id' => $order->payment_method_id,

@@ -8,6 +8,7 @@ use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\Category;
 use Domain\Products\Models\CharType;
+use Domain\Users\Models\Admin;
 use Illuminate\Support\HtmlString;
 use Spatie\DataTransferObject\DataTransferObject;
 
@@ -110,6 +111,14 @@ class OptionDTO extends DataTransferObject
         return new self([
             'value' => $charType->id,
             'label' => $charType->name,
+        ]);
+    }
+
+    public static function fromAdmin(Admin $admin): self
+    {
+        return new self([
+            'value' => $admin->id,
+            'label' => $admin->name,
         ]);
     }
 }

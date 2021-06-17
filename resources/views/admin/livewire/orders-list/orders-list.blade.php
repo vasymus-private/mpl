@@ -3,9 +3,42 @@
  * @var \App\Http\Livewire\Admin\OrdersList $this
  * @var array[] $items @see {@link \Domain\Products\DTOs\Admin\OrderItemDTO}
  * @var array[] $per_page_options @see {@link \Domain\Common\DTOs\OptionDTO[]}
+ * @var array[] $managers @see {@link \Domain\Common\DTOs\OptionDTO}
  */
 ?>
 <div>
+    <form wire:submit.prevent="handleSearch">
+        <div class="form-group row">
+            <label for="item.slug" class="col-sm-5 col-form-label">Дата с:</label>
+            <div class="col-sm-7">
+                <div class="input-group @error('date_from') is-invalid @enderror">
+                    <input wire:model.defer="date_from" type="date" class="form-control @error('date_from') is-invalid @enderror" id="date_from">
+                </div>
+                @error('date_from') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="item.slug" class="col-sm-5 col-form-label">Дата по:</label>
+            <div class="col-sm-7">
+                <div class="input-group @error('date_to') is-invalid @enderror">
+                    <input wire:model.defer="date_to" type="date" class="form-control @error('date_to') is-invalid @enderror" id="date_to">
+                </div>
+                @error('date_to') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+        </div>
+
+        @include('admin.livewire.includes.form-group-input', ['field' => 'order_id', 'label' => 'Номер заказа'])
+
+        @include('admin.livewire.includes.form-group-input', ['field' => 'email', 'label' => 'Емейл'])
+
+        @include('admin.livewire.includes.form-group-input', ['field' => 'name', 'label' => 'Имя'])
+
+        @include('admin.livewire.includes.form-group-select', ['field' => 'admin_id', 'label' => 'Менеджер', 'options' => $managers])
+
+        <button type="submit" class="btn btn-primary mb-2 btn__save mr-2">Найти</button>
+        <button wire:click="clearFilters" type="button" class="btn btn-primary mb-2 btn__save mr-2">Отменить</button>
+    </form>
+
     <div class="table-responsive position-relative">
         <div wire:loading.flex>
             <div class="d-flex justify-content-center align-items-center bg-light" style="opacity: 0.5; position:absolute; top:0; bottom:0; right:0; left:0; z-index: 20; ">
@@ -64,11 +97,13 @@
                         <td><span class="main-grid-cell-content">{{$order['comment_user']}}</span></td>
                         <td @if($order['importance_color']) style="background-color: {{$order['importance_color']}};" @endif><span class="main-grid-cell-content">{{$order['importance_name']}}</span></td>
                         <td>
-                            <span class="main-grid-cell-content">
-                                <span style="border: 1px solid black; padding: 3px 6px; border-radius: 3px; width: 50px; display: inline-block; text-align: center; background-color: {{$order['admin_color'] ?: 'transparent'}};">
-                                    {{$order['admin_name']}}
+                            @if($order['admin_id'])
+                                <span class="main-grid-cell-content">
+                                    <span style="border: 1px solid black; padding: 3px 6px; border-radius: 3px; width: 50px; display: inline-block; text-align: center; background-color: {{$order['admin_color'] ?: 'transparent'}};">
+                                        {{$order['admin_name']}}
+                                    </span>
                                 </span>
-                            </span>
+                            @endif
                         </td>
                         <td><span class="main-grid-cell-content">{{$order['order_price_retail_rub_formatted']}}</span></td>
                         <td><span class="main-grid-cell-content">{{$order['user_name']}}</span></td>

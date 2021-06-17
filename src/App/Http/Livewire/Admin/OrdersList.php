@@ -3,8 +3,10 @@
 namespace App\Http\Livewire\Admin;
 
 use Carbon\Exceptions\InvalidFormatException;
+use Domain\Common\DTOs\OptionDTO;
 use Domain\Orders\Models\Order;
 use Domain\Products\DTOs\Admin\OrderItemDTO;
+use Domain\Users\Models\Admin;
 use Domain\Users\Models\BaseUser\BaseUser;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
@@ -32,6 +34,8 @@ class OrdersList extends BaseItemsListComponent
 
     public $request_query;
 
+    public array $managers;
+
     /**
      * @var array[] @see {@link \Domain\Products\DTOs\Admin\OrderItemDTO}
      */
@@ -54,6 +58,7 @@ class OrdersList extends BaseItemsListComponent
         $this->mountRequest();
         $this->mountPerPage();
         $this->fetchItems();
+        $this->managers = Admin::query()->get()->map(fn(Admin $admin) => OptionDTO::fromAdmin($admin)->toArray())->all();
     }
 
     public function render()
@@ -68,6 +73,17 @@ class OrdersList extends BaseItemsListComponent
         ]);
     }
 
+    public function clearFilters()
+    {
+        $this->date_from = '';
+        $this->date_to = '';
+        $this->order_id = '';
+        $this->email = '';
+        $this->name = '';
+        $this->admin_id = '';
+        $this->fetchItems();
+    }
+
     /**
      * @inheritDoc
      */
@@ -78,11 +94,25 @@ class OrdersList extends BaseItemsListComponent
         $usersT = BaseUser::TABLE;
 
         if ($this->date_from) {
-            $query->where("$table.created_at", ">=", Carbon::createFromFormat(static::DATE_FORMAT_DISPLAY, $this->date_from)->format(static::DATE_FORMAT_DB_QUERY));
+            try {
+                $parsed = Carbon::parse($this->date_from);
+            } catch (InvalidFormatException $exception) {
+                $parsed = null;
+            }
+            if ($parsed) {
+                $query->where("$table.created_at", ">=", $parsed->format(static::DATE_FORMAT_DB_QUERY));
+            }
         }
 
         if ($this->date_to) {
-            $query->where("$table.created_at", "<=", Carbon::createFromFormat(static::DATE_FORMAT_DISPLAY, $this->date_to)->format(static::DATE_FORMAT_DB_QUERY));
+            try {
+                $parsed = Carbon::parse($this->date_to);
+            } catch (InvalidFormatException $exception) {
+                $parsed = null;
+            }
+            if ($parsed) {
+                $query->where("$table.created_at", "<=", $parsed->format(static::DATE_FORMAT_DB_QUERY));
+            }
         }
 
         if ($this->email || $this->name) {
@@ -100,8 +130,10 @@ class OrdersList extends BaseItemsListComponent
         }
 
         if ($this->order_id) {
-            $query->whereIn("$table.id", $this->order_id);
+            $query->where("$table.id", $this->order_id);
         }
+
+        $query->orderBy("$table.id", 'desc');
 
         return $query;
     }
