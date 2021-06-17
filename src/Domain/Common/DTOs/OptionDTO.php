@@ -3,9 +3,13 @@
 namespace Domain\Common\DTOs;
 
 use Domain\Common\Models\Currency;
+use Domain\Products\Actions\GetCharDotsHtmlStringAction;
 use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\Category;
+use Domain\Products\Models\CharType;
+use Domain\Users\Models\Admin;
+use Illuminate\Support\HtmlString;
 use Spatie\DataTransferObject\DataTransferObject;
 
 class OptionDTO extends DataTransferObject
@@ -15,9 +19,14 @@ class OptionDTO extends DataTransferObject
      */
     public $value;
 
-    public string $label;
+    /**
+     * @var string|\Illuminate\Support\HtmlString
+     */
+    public $label;
 
     public bool $disabled = false;
+
+    public bool $isHtmlString = false;
 
     public static function fromBrand(Brand $brand): self
     {
@@ -45,10 +54,13 @@ class OptionDTO extends DataTransferObject
 
     public static function fromCategory(Category $category, int $level = 1, bool $disabled = false): self
     {
+        $dot = '<span>.</span>';
+        $label = implode('', array_fill(0, $level - 1, $dot)) . $category->name;
         return new self([
             'value' => $category->id,
-            'label' => implode('', array_fill(0, $level - 1, '.')) . $category->name,
+            'label' => $label,
             'disabled' => $disabled,
+            'isHtmlString' => true,
         ]);
     }
 
@@ -69,5 +81,44 @@ class OptionDTO extends DataTransferObject
         }
 
         return $result;
+    }
+
+    /**
+     * @return self[]
+     */
+    public static function fromRateSize(): array
+    {
+        $result = [];
+
+        for ($i = 0; $i < CharType::RATE_SIZE; $i++) {
+            $result[] = new self([
+                'value' => $i,
+                'label' => GetCharDotsHtmlStringAction::cached()->execute($i),
+                'isHtmlString' => true,
+            ]);
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param \Domain\Products\Models\CharType $charType
+     *
+     * @return self
+     */
+    public static function fromCharType(CharType $charType): self
+    {
+        return new self([
+            'value' => $charType->id,
+            'label' => $charType->name,
+        ]);
+    }
+
+    public static function fromAdmin(Admin $admin): self
+    {
+        return new self([
+            'value' => $admin->id,
+            'label' => $admin->name,
+        ]);
     }
 }

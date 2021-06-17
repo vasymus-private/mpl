@@ -3,6 +3,8 @@
 namespace Domain\Products\Models\Product;
 
 use Domain\Products\Models\Category;
+use Domain\Products\Models\Char;
+use Domain\Products\Models\CharCategory;
 use Domain\Products\Models\InformationalPrice;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\Pivots\CategoryProduct;
@@ -16,40 +18,46 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 /**
  * @see ProductRelations::parent()
- * @property Product|null $parent
+ * @property \Domain\Products\Models\Product\Product|null $parent
  *
  * @see ProductRelations::variations()
- * @property Collection|Product[] $variations
+ * @property \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\Product\Product[] $variations
  *
  * @see ProductRelations::accessory()
- * @property Collection|Product[] $accessory
+ * @property \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\Product\Product[] $accessory
  *
  * @see ProductRelations::similar()
- * @property Collection|Product[] $similar
+ * @property \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\Product\Product[] $similar
  *
  * @see ProductRelations::related()
- * @property Collection|Product[] $related
+ * @property \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\Product\Product[] $related
  *
  * @see \Domain\Products\Models\Product\ProductRelations::instruments()
  * @property \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\Product\Product[] $instruments
  *
  * @see ProductRelations::works()
- * @property Collection|Product[] $works
+ * @property \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\Product\Product[] $works
  *
  * @see ProductRelations::category()
- * @property Category|null $category
+ * @property \Domain\Products\Models\Category|null $category
  *
  * @see \Domain\Products\Models\Product\ProductRelations::relatedCategories()
  * @property \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\Category[] $relatedCategories
  *
  * @see ProductRelations::infoPrices()
- * @property Collection|\Domain\Products\Models\InformationalPrice[] $infoPrices
+ * @property \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\InformationalPrice[] $infoPrices
  *
  * @see ProductRelations::seo()
  * @property \Domain\Seo\Models\Seo|null $seo
  *
  * @see ProductRelations::brand()
- * @property Brand|null $brand
+ * @property \Domain\Products\Models\Brand|null $brand
+ *
+ * @see \Domain\Products\Models\Product\ProductRelations::charCategories()
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\CharCategory[] $charCategories
+ *
+ * @see \Domain\Products\Models\Product\ProductRelations::chars()
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\Char[] $chars
  * */
 trait ProductRelations
 {
@@ -66,7 +74,7 @@ trait ProductRelations
      */
     public function variations(): HasMany
     {
-        return $this->hasMany(Product::class, "parent_id", "id");
+        return $this->hasMany(Product::class, "parent_id", "id")->orderBy(Product::TABLE . '.ordering', 'asc');
     }
 
     /**
@@ -130,5 +138,15 @@ trait ProductRelations
     public function seo(): MorphOne
     {
         return $this->morphOne(Seo::class, "seoable", "seoable_type", "seoable_id");
+    }
+
+    public function charCategories(): HasMany
+    {
+        return $this->hasMany(CharCategory::class, 'product_id', 'id')->orderBy(CharCategory::TABLE . ".ordering");
+    }
+
+    public function chars(): HasMany
+    {
+        return $this->hasMany(Char::class, 'product_id', 'id');
     }
 }

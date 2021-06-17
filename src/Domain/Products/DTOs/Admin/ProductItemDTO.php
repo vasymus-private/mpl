@@ -1,32 +1,27 @@
 <?php
 
-namespace Domain\Products\DTOs;
+namespace Domain\Products\DTOs\Admin;
 
-use Domain\Common\DTOs\FileDTO;
-use Domain\Common\Models\CustomMedia;
 use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Product\Product;
 use Spatie\DataTransferObject\DataTransferObject;
 
-class VariationAdminDTO extends DataTransferObject
+class ProductItemDTO extends DataTransferObject
 {
-    public ?int $id;
-
-    public ?int $parent_id;
+    public int $id;
 
     public ?string $name;
 
     /**
-     * @var int|string|null
+     * @var int|string
      */
     public $ordering = Product::DEFAULT_ORDERING;
 
     public bool $is_active = false;
 
-    /**
-     * @var string|float|int|null
-     */
-    public $coefficient;
+    public ?string $is_active_name;
+
+    public ?string $unit;
 
     /**
      * @var string|float|int|null
@@ -38,9 +33,7 @@ class VariationAdminDTO extends DataTransferObject
      */
     public $price_purchase_currency_id;
 
-    public ?string $price_purchase_rub_formatted;
-
-    public ?string $unit;
+    public ?string $price_purchase_formatted;
 
     /**
      * @var string|float|int|null
@@ -52,7 +45,7 @@ class VariationAdminDTO extends DataTransferObject
      */
     public $price_retail_currency_id;
 
-    public ?string $price_retail_rub_formatted;
+    public ?string $price_retail_formatted;
 
     /**
      * @var int|string|null
@@ -61,44 +54,28 @@ class VariationAdminDTO extends DataTransferObject
 
     public ?string $availability_status_name;
 
-    public ?string $preview;
-
-    /**
-     * @var array|null @see {@link \Domain\Common\DTOs\FileDTO}
-     */
-    public ?array $main_image;
-
-    /**
-     * @var array[] @see {@link \Domain\Common\DTOs\FileDTO[]}
-     */
-    public array $additional_images = [];
+    public ?string $admin_comment;
 
     public bool $is_checked = false;
 
     public static function fromModel(Product $product): self
     {
-        /** @var \Domain\Common\Models\CustomMedia|null $mainImage $mainImage */
-        $mainImage = $product->getFirstMedia(Product::MC_MAIN_IMAGE);
-
         return new self([
             'id' => $product->id,
-            'parent_id' => $product->parent_id,
             'name' => $product->name,
             'ordering' => $product->ordering ?: 500,
             'is_active' => (bool)$product->is_active,
-            'coefficient' => $product->coefficient,
+            'is_active_name' => $product->is_active_name,
             'price_purchase' => $product->price_purchase,
             'price_purchase_currency_id' => $product->price_purchase_currency_id,
-            'price_purchase_rub_formatted' => $product->price_purchase_rub_formatted,
+            'price_purchase_formatted' => $product->price_purchase_formatted,
             'unit' => $product->unit,
             'price_retail' => $product->price_retail,
             'price_retail_currency_id' => $product->price_retail_currency_id,
-            'price_retail_rub_formatted' => $product->price_retail_rub_formatted,
+            'price_retail_formatted' => $product->price_retail_formatted,
             'availability_status_id' => $product->availability_status_id,
             'availability_status_name' => $product->availability_status_name,
-            'preview' => $product->preview,
-            'main_image' => $mainImage ? FileDTO::fromCustomMedia($mainImage)->toArray() : null,
-            'additional_images' => $product->getMedia(Product::MC_ADDITIONAL_IMAGES)->map(fn(CustomMedia $media) => FileDTO::fromCustomMedia($media)->toArray())->all(),
+            'admin_comment' => $product->admin_comment,
         ]);
     }
 }

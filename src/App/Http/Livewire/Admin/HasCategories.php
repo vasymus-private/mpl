@@ -17,7 +17,7 @@ trait HasCategories
      *
      * @return void
      */
-    protected function initCategories(array $exclude = [])
+    protected function initCategoriesOptions(array $exclude = [])
     {
         $this->categories = Category::getTreeRuntimeCached()->reduce(function (array $acc, Category $category) use($exclude) {
             return $this->categoryToOption($acc, $category, 1, $exclude);

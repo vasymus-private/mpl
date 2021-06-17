@@ -4,7 +4,7 @@ namespace App\View\Components\Admin;
 
 use App\Constants;
 use Domain\Products\Actions\GetCategoryAndSubtreeIdsAction;
-use Domain\Products\DTOs\CategoryItemAdminSidebarDTO;
+use Domain\Products\DTOs\Admin\CategoryItemSidebarDTO;
 use Domain\Products\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -14,7 +14,7 @@ use Illuminate\View\Component;
 class SidebarMenuComponent extends Component
 {
     /**
-     * @var \Domain\Products\DTOs\CategoryItemAdminSidebarDTO[]
+     * @var \Domain\Products\DTOs\Admin\CategoryItemSidebarDTO[]
      * */
     public array $categories;
 
@@ -34,6 +34,11 @@ class SidebarMenuComponent extends Component
     protected array $productsRoutes;
 
     /**
+     * @var string[]
+     */
+    protected array $brandsRoutes;
+
+    /**
      * @var \Illuminate\Http\Request
      */
     protected Request $request;
@@ -50,7 +55,7 @@ class SidebarMenuComponent extends Component
      */
     public function __construct(Request $request, GetCategoryAndSubtreeIdsAction $getCategoryAndSubtreeIdsAction)
     {
-        $this->categories = Category::getTreeRuntimeCached()->map(fn(Category $category) => CategoryItemAdminSidebarDTO::fromModel($category))->all();
+        $this->categories = Category::getTreeRuntimeCached()->map(fn(Category $category) => CategoryItemSidebarDTO::fromModel($category))->all();
         $this->currentRouteName = Route::currentRouteName();
         $this->categoriesRoutes = [
             Constants::ROUTE_ADMIN_CATEGORIES_INDEX,
@@ -61,6 +66,11 @@ class SidebarMenuComponent extends Component
             Constants::ROUTE_ADMIN_PRODUCTS_INDEX,
             Constants::ROUTE_ADMIN_PRODUCTS_CREATE,
             Constants::ROUTE_ADMIN_PRODUCTS_EDIT,
+        ];
+        $this->brandsRoutes = [
+            Constants::ROUTE_ADMIN_BRANDS_INDEX,
+            Constants::ROUTE_ADMIN_BRANDS_CREATE,
+            Constants::ROUTE_ADMIN_BRANDS_EDIT,
         ];
         $this->request = $request;
         $this->getCategoryAndSubtreeIdsAction = $getCategoryAndSubtreeIdsAction;
@@ -113,6 +123,13 @@ class SidebarMenuComponent extends Component
 
                             return false;
                         }
+                        case 'reference':
+                        case 'reference-brands': {
+                            if ($this->isBrandsRoute()) {
+                                return true;
+                            }
+                            return false;
+                        }
                         default : {
                             return false;
                         }
@@ -129,5 +146,10 @@ class SidebarMenuComponent extends Component
     protected function isCategoriesRoute(): bool
     {
         return in_array($this->currentRouteName, $this->categoriesRoutes);
+    }
+
+    protected function isBrandsRoute(): bool
+    {
+        return in_array($this->currentRouteName, $this->brandsRoutes);
     }
 }

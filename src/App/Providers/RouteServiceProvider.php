@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Domain\Articles\Models\Article;
+use Domain\Orders\Models\Order;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\Category;
 use Domain\FAQs\Models\FAQ;
@@ -102,6 +103,7 @@ class RouteServiceProvider extends ServiceProvider
         Route::bind("admin_product", [Product::class, "rbAdminProduct"]);
         Route::bind("admin_category", [Category::class, "rbAdminCategory"]);
         Route::bind("admin_brand", [Brand::class, "rbAdminBrand"]);
+        Route::bind('admin_order', [Order::class, "rbAdminOrder"]);
 
         Route::bind("parentGalleryItemSlug", [GalleryItem::class, "rbParentGalleryItemSlug"]);
 

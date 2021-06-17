@@ -15,6 +15,7 @@ use App\Constants;
 use App\Http\Controllers\Admin\BrandsController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\ProductsController;
 use Illuminate\Support\Facades\Route;
 
@@ -84,4 +85,26 @@ Route
         [BrandsController::class, "edit"]
     )
     ->name(Constants::ROUTE_ADMIN_BRANDS_EDIT)
+;
+
+Route
+    ::get(
+        "orders",
+        [OrdersController::class, "index"]
+    )
+    ->name(Constants::ROUTE_ADMIN_ORDERS_INDEX)
+;
+Route
+    ::get(
+        "orders/create",
+        [OrdersController::class, "create"]
+    )
+    ->name(Constants::ROUTE_ADMIN_ORDERS_CREATE)
+;
+Route
+    ::get(
+        "orders/{admin_order}/edit",
+        [OrdersController::class, "edit"]
+    )
+    ->name(Constants::ROUTE_ADMIN_ORDERS_EDIT)
 ;

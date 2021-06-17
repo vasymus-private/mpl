@@ -11,7 +11,7 @@
         </div>
         <div class="sale-order-detail">
             <div class="sale-order-detail__head">
-                <span class="sale-order-detail__item">Заказ №{{$order->id}} @if($order->created_at instanceof \Carbon\Carbon) от {{$order->created_at->format("d.m.Y H:i:s")}} @endif, {{$order->order_products_count}} товар(а|ов) на сумму {{$order->price_retail_rub_formatted}}</span>
+                <span class="sale-order-detail__item">Заказ №{{$order->id}} @if($order->created_at instanceof \Carbon\Carbon) от {{$order->created_at->format("d.m.Y H:i:s")}} @endif, {{$order->order_products_count}} товар(а|ов) на сумму {{$order->order_price_retail_rub_formatted}}</span>
             </div>
             <div class="sale-order-detail__container">
                 <h3 class="sale-order-detail__subtitle">Информация о заказе</h3>
@@ -26,7 +26,7 @@
                     </div>
                     <div class="column">
                         <h3 class="sale-order-detail__name-title sale-order-detail__name-title--color-gree">Сумма:</h3>
-                        <p class="sale-order-detail__name-detail">{{$order->price_retail_rub_formatted}}</p>
+                        <p class="sale-order-detail__name-detail">{{$order->order_price_retail_rub_formatted}}</p>
                     </div>
                     <div class="column">
                         <a href="#" class="sale-order-detail__btn">Повторить заказ</a>

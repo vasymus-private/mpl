@@ -4,9 +4,10 @@ namespace Domain\Orders\Models;
 
 use Domain\Common\Models\BaseModel;
 use Domain\Common\Models\Currency;
+use Domain\Users\Models\Admin;
 use Domain\Users\Models\BaseUser\BaseUser;
+use Illuminate\Support\Carbon;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
-use Support\H;
 use Domain\Orders\Models\Pivots\OrderProduct;
 use Domain\Products\Models\Product\Product;
 use Domain\Products\Collections\ProductCollection;
@@ -18,17 +19,16 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property int $id
- * @property float $price_retail_rub
  * @property int $order_status_id
  * @property int $user_id
- * @property int $manager_id
+ * @property int|null $admin_id
  * @property int $importance_id
  * @property int $customer_bill_status_id
  * @property string|null $customer_bill_description
  * @property int $provider_bill_status_id
  * @property string|null $provider_bill_description
  * @property string|null $comment_user
- * @property string|null $comment_manager
+ * @property string|null $comment_admin
  * @property string|null $ps_status
  * @property string|null $ps_description
  * @property float|null $ps_amount
@@ -46,8 +46,14 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @see \Domain\Orders\Models\Order::user()
  * @property \Domain\Users\Models\BaseUser\BaseUser $user
  *
+ * @see \Domain\Orders\Models\Order::admin()
+ * @property \Domain\Users\Models\Admin|null $admin
+ *
  * @see \Domain\Orders\Models\Order::status()
- * @property OrderStatus $status
+ * @property \Domain\Orders\Models\OrderStatus $status
+ *
+ * @see \Domain\Orders\Models\Order::payment()
+ * @property \Domain\Orders\Models\PaymentMethod $payment
  *
  * @see \Domain\Orders\Models\Order::getOrderPriceRetailRubAttribute()
  * @property-read float $order_price_retail_rub
@@ -57,9 +63,6 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  *
  * @see \Domain\Orders\Models\Order::getOrderProductsCountAttribute()
  * @property-read int $order_products_count
- *
- * @see \Domain\Orders\Models\Order::getPriceRetailRubFormattedAttribute()
- * @property-read string $price_retail_rub_formatted
  *
  * @see \Domain\Orders\Models\Order::getStatusNameForUserAttribute()
  * @property-read string $status_name_for_user
@@ -84,6 +87,12 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  *
  * @see \Domain\Orders\Models\Order::getInitialAttachmentsAttribute()
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $initial_attachments
+ *
+ * @see \Domain\Orders\Models\Order::getDateFormattedAttribute()
+ * @property-read string|null $date_formatted
+ *
+ * @see \Domain\Orders\Models\OrderImportance importance
+ * @property \Domain\Orders\Models\OrderImportance|null $importance
  * */
 class Order extends BaseModel implements HasMedia
 {
@@ -119,6 +128,11 @@ class Order extends BaseModel implements HasMedia
         'request' => 'array'
     ];
 
+    public static function rbAdminOrder($value)
+    {
+        return static::query()->select(["*"])->findOrFail($value);
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|\Domain\Products\QueryBuilders\ProductQueryBuilder
      */
@@ -144,9 +158,24 @@ class Order extends BaseModel implements HasMedia
         return $this->belongsTo(BaseUser::class, "user_id", "id");
     }
 
+    public function admin(): BelongsTo
+    {
+        return $this->belongsTo(Admin::class, "admin_id", "id");
+    }
+
     public function status(): BelongsTo
     {
         return $this->belongsTo(OrderStatus::class, "order_status_id", "id");
+    }
+
+    public function payment(): BelongsTo
+    {
+        return $this->belongsTo(PaymentMethod::class, 'payment_method_id', 'id');
+    }
+
+    public function importance(): BelongsTo
+    {
+        return $this->belongsTo(OrderImportance::class, 'importance_id', 'id');
     }
 
     public function registerMediaCollections(): void
@@ -169,11 +198,6 @@ class Order extends BaseModel implements HasMedia
     public function getOrderProductsCountAttribute(): int
     {
         return $this->products->orderProductsCount();
-    }
-
-    public function getPriceRetailRubFormattedAttribute(): string
-    {
-        return H::priceRubFormatted($this->price_retail_rub, Currency::ID_RUB);
     }
 
     public function getStatusNameForUserAttribute(): string
@@ -248,5 +272,12 @@ class Order extends BaseModel implements HasMedia
     public function getInitialAttachmentsAttribute(): MediaCollection
     {
         return $this->getMedia(static::MC_INITIAL_ATTACHMENT);
+    }
+
+    public function getDateFormattedAttribute(): ?string
+    {
+        return $this->created_at instanceof Carbon
+            ? $this->created_at->format('d-m-Y H:i:s')
+            : null;
     }
 }

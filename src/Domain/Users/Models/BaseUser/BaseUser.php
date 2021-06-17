@@ -23,11 +23,13 @@ use Illuminate\Notifications\Notifiable;
  * @property int $id
  * @property string|null $name
  * @property string|null $email
- * @property int $status
+ * @property string|null $phone
+ *
  * @property string|null $password
  * @property string|null $remember_token
  *
- * @property string|null $phone
+ * @property int $status
+ * @property string|null $admin_color
  *
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at

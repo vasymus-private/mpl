@@ -3,9 +3,9 @@
  * @var string $title
  * @var int $type
  * @var string $wire_field
- * @var array[][] $productProducts @see {@link \Domain\Products\DTOs\ProductProductAdminDTO}
+ * @var array[][] $productProducts @see {@link \Domain\Products\DTOs\Admin\ProductProductDTO}
  * @var array[] $categories @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\Category}
- * @var array[][] $loadedForProductProduct @see {@link \Domain\Products\DTOs\ProductProductAdminDTO}
+ * @var array[][] $loadedForProductProduct @see {@link \Domain\Products\DTOs\Admin\ProductProductDTO}
  */
 ?>
 @include('admin.livewire.includes.form-group-input', ['field' => "item.$wire_field", 'label' => "Переименовать '$title'"])

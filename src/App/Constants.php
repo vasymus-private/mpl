@@ -23,15 +23,22 @@ final class Constants
     public const MIME_XLS = "application/vnd.ms-excel";
 
     public const ROUTE_ADMIN_HOME = 'admin.home';
+
     public const ROUTE_ADMIN_PRODUCTS_INDEX = 'admin.products.index';
     public const ROUTE_ADMIN_PRODUCTS_CREATE = 'admin.products.create';
     public const ROUTE_ADMIN_PRODUCTS_EDIT = 'admin.products.edit';
+
     public const ROUTE_ADMIN_CATEGORIES_INDEX = 'admin.categories.index';
     public const ROUTE_ADMIN_CATEGORIES_CREATE = 'admin.categories.create';
     public const ROUTE_ADMIN_CATEGORIES_EDIT = 'admin.categories.edit';
+
     public const ROUTE_ADMIN_BRANDS_INDEX = 'admin.brands.index';
     public const ROUTE_ADMIN_BRANDS_CREATE = 'admin.brands.create';
     public const ROUTE_ADMIN_BRANDS_EDIT = 'admin.brands.edit';
+
+    public const ROUTE_ADMIN_ORDERS_INDEX = 'admin.orders.index';
+    public const ROUTE_ADMIN_ORDERS_CREATE = 'admin.orders.create';
+    public const ROUTE_ADMIN_ORDERS_EDIT = 'admin.orders.edit';
 
 
     private function __construct() {}

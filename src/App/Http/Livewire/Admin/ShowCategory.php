@@ -5,7 +5,7 @@ namespace App\Http\Livewire\Admin;
 use App\Rules\CategoryDeactivatable;
 use Domain\Products\Actions\DeleteCategoryAction;
 use Domain\Products\Actions\GetCategoryAndSubtreeIdsAction;
-use Domain\Products\DTOs\CategoryProductItemAdminDTO;
+use Domain\Products\DTOs\Admin\CategoryProductItemDTO;
 use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Validation\Rules\Exists;
@@ -27,7 +27,7 @@ class ShowCategory extends Component
     public Category $item;
 
     /**
-     * @var array[] @see {@link \Domain\Products\DTOs\CategoryProductItemAdminDTO}
+     * @var array[] @see {@link \Domain\Products\DTOs\Admin\CategoryProductItemDTO}
      */
     public array $products = [];
 
@@ -99,14 +99,14 @@ class ShowCategory extends Component
         if ($this->item->id) {
             $exclude = GetCategoryAndSubtreeIdsAction::cached()->execute($this->item->id);
         }
-        $this->initCategories($exclude);
+        $this->initCategoriesOptions($exclude);
         $this->initGenerateSlug();
 
         $this->products = $this->item
             ->products()
             ->select(['id', 'name', 'is_active', 'category_id'])
             ->get()
-            ->map(fn(Product $product) => CategoryProductItemAdminDTO::fromModel($product)->toArray())
+            ->map(fn(Product $product) => CategoryProductItemDTO::fromModel($product)->toArray())
             ->all();
     }
 

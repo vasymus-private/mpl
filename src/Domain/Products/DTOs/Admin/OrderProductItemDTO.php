@@ -1,27 +1,27 @@
 <?php
 
-namespace Domain\Products\DTOs;
+namespace Domain\Products\DTOs\Admin;
 
 use Domain\Products\Models\Product\Product;
 use Spatie\DataTransferObject\DataTransferObject;
 
-class CategoryProductItemAdminDTO extends DataTransferObject
+class OrderProductItemDTO extends DataTransferObject
 {
     public int $id;
 
     public string $name;
 
-    public bool $is_active;
+    public int $count;
 
-    public string $is_active_name;
+    public ?string $unit;
 
     public static function fromModel(Product $product): self
     {
         return new self([
             'id' => $product->id,
             'name' => $product->name,
-            'is_active' => $product->is_active,
-            'is_active_name' => $product->is_active_name,
+            'count' => $product->order_product_count ?? 0,
+            'unit' => $product->unit,
         ]);
     }
 }

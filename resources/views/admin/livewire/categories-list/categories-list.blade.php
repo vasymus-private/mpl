@@ -1,6 +1,6 @@
 <?php
 /**
- * @var array[] $categories @see {@link \Domain\Products\DTOs\ProductItemAdminDTO[]}
+ * @var array[] $categories @see {@link \Domain\Products\DTOs\Admin\ProductItemDTO[]}
  * @var string|int|null $category_id
  * @var string|int|null $category_name
  * @var bool $editMode
