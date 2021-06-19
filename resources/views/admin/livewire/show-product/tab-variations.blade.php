@@ -1,6 +1,6 @@
 <?php
 /**
- * @var \App\Http\Livewire\Admin\ShowProduct $this
+ * @var \App\Http\Livewire\Admin\ShowProduct\ShowProduct $this
  * @var array[] $variations @see {@link \Domain\Products\DTOs\Admin\VariationDTO}
  * @var array $currentVariation @see {@link \Domain\Products\DTOs\Admin\VariationDTO}
  * @var bool $variationsEditMode

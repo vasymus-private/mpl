@@ -86,13 +86,21 @@ class ShowCategory extends Component
         );
     }
 
+    /**
+     * @return array
+     */
+    protected function queryString(): array
+    {
+        return array_merge($this->getHasTabsQueryString(), []);
+    }
+
     protected $messages = [
         'item.parent_id.exists' => 'У родительской категорией не может быть сама категория или её подкатегории.',
     ];
 
     public function mount()
     {
-        $this->initTabs();
+        $this->initHasTabs();
         $this->initSeo();
 
         $exclude = [];

@@ -1,17 +1,17 @@
 <?php
 /**
- * @var \App\Http\Livewire\Admin\ShowProduct $this
- * @var \Domain\Products\Models\Product\Product $item @see {@link \App\Http\Livewire\Admin\ShowProduct::$item}
- * @var string $activeTab @see {@link \App\Http\Livewire\Admin\ShowProduct::$activeTab}
- * @var array[] $brands @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\Brand} {@link \App\Http\Livewire\Admin\ShowProduct::$brands}
- * @var array[]|\Domain\Products\DTOs\InformationalPriceDTO[] $infoPrices @see {@link \App\Http\Livewire\Admin\ShowProduct::$infoPrices}
- * @var array[] $instructions @see {@link \Domain\Common\DTOs\FileDTO} {@link \App\Http\Livewire\Admin\ShowProduct::$instructions}
- * @var array[] $currencies @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Common\Models\Currency} {@link \App\Http\Livewire\Admin\ShowProduct::$currencies}
- * @var array[] $availabilityStatuses @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Common\Models\Currency} {@link \App\Http\Livewire\Admin\ShowProduct::$availabilityStatuses}
+ * @var \App\Http\Livewire\Admin\ShowProduct\ShowProduct $this
+ * @var \Domain\Products\Models\Product\Product $item @see {@link \App\Http\Livewire\Admin\ShowProduct\ShowProduct::$item}
+ * @var string $activeTab @see {@link \App\Http\Livewire\Admin\ShowProduct\ShowProduct::$activeTab}
+ * @var array[] $brands @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\Brand} {@link \App\Http\Livewire\Admin\ShowProduct\ShowProduct::$brands}
+ * @var array[]|\Domain\Products\DTOs\InformationalPriceDTO[] $infoPrices @see {@link \App\Http\Livewire\Admin\ShowProduct\ShowProduct::$infoPrices}
+ * @var array[] $instructions @see {@link \Domain\Common\DTOs\FileDTO} {@link \App\Http\Livewire\Admin\ShowProduct\ShowProduct::$instructions}
+ * @var array[] $currencies @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Common\Models\Currency} {@link \App\Http\Livewire\Admin\ShowProduct\ShowProduct::$currencies}
  * @var \Illuminate\Support\ViewErrorBag $errors
  */
 ?>
 <div class="py-4">
+    <div class="h1">{{now()}}</div>
     <h1 class="h2">
         Товары: элемент:
         @if($isCreatingFromCopy)

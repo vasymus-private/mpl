@@ -9,20 +9,31 @@ trait HasTabs
     /**
      * @var string
      */
-    public string $activeTab;
+    public $activeTab = '';
 
     /**
-     * @param string $tab
+     * @param string|null $tab
      *
      * @return void
      */
-    public function selectTab(string $tab)
+    public function selectTab($tab = null)
     {
         $this->skipRender();
-        if (in_array($tab, array_keys($this->getTabs()))) {
+        if ($this->isValidTab($tab)) {
             $id = property_exists($this, 'item') ? ($this->item->id ?? null) : null;
             Cache::put(static::getActiveTabCacheKey($id), $tab, new \DateInterval('PT15M'));
+            $this->activeTab = $tab;
         }
+    }
+
+    /**
+     * @return array
+     */
+    protected function getHasTabsQueryString(): array
+    {
+        return [
+            'activeTab' => ['except' => '']
+        ];
     }
 
     /**
@@ -54,8 +65,21 @@ trait HasTabs
     /**
      * @return void
      */
-    protected function initTabs()
+    protected function initHasTabs()
     {
-        $this->activeTab = Cache::get(static::getActiveTabCacheKey($this->item->id ?? null), $this->getDefaultTab());
+        $activeTab = $this->isValidTab($this->activeTab) ? $this->activeTab : null;
+        $cacheKey = static::getActiveTabCacheKey($this->item->id ?? null);
+        $defaultTab = $this->getDefaultTab();
+        $this->activeTab = $activeTab ?: Cache::get($cacheKey, $defaultTab);
+    }
+
+    /**
+     * @param string|null $tab
+     *
+     * @return bool
+     */
+    protected function isValidTab($tab = null): bool
+    {
+        return in_array($tab, array_keys($this->getTabs()));
     }
 }
