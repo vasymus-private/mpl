@@ -8,6 +8,7 @@
 ?>
 
 <div class="item-edit product-edit">
+    <div class="h2">{{now()}}</div>
     @include('admin.livewire.includes.form-group-checkbox', ['field' => 'item.is_active', 'label' => 'Активность'])
 
     <div class="form-group row">

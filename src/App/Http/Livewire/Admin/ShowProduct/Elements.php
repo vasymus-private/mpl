@@ -20,7 +20,7 @@ use Livewire\TemporaryUploadedFile;
 
 class Elements extends Component
 {
-    use HasShowProduct;
+    use HasCommonShowProduct;
     use HasBrands;
     use HasCurrencies;
     use HasAvailabilityStatuses;
@@ -58,6 +58,14 @@ class Elements extends Component
     /**
      * @return array
      */
+    protected function queryString(): array
+    {
+        return array_merge($this->getHasShowProductQueryString(), []);
+    }
+
+    /**
+     * @return array
+     */
     protected function rules(): array
     {
         return [
@@ -88,13 +96,15 @@ class Elements extends Component
             'infoPrices.*.price' => 'required|numeric',
             'infoPrices.*.name' => 'required|string|max:199',
 
+            'instructions.*.name' => 'nullable|max:199',
+
             'tempInstruction' => 'nullable|max:' . (1024 * self::MAX_FILE_SIZE_MB), // 1024 -> 1024 kb = 1 mb
         ];
     }
 
     public function mount()
     {
-        $this->initHasShowProduct();
+        $this->initCommonShowProduct();
         $this->initBrandsOptions();
         $this->initCurrenciesOptions();
         $this->initAvailabilityStatusesOptions();
@@ -112,6 +122,8 @@ class Elements extends Component
     public function saveElements()
     {
         $this->validate();
+
+        $this->saveProduct();
 
         $this->saveInfoPrices();
 
@@ -205,6 +217,36 @@ class Elements extends Component
                     : FileDTO::fromCustomMedia($media)->toArray()
             )
             ->toArray();
+    }
+
+    protected function saveProduct()
+    {
+        $saveAttributes = [
+            'name' => $this->item->name,
+            'is_active' => $this->item->is_active,
+            'slug' => $this->item->slug,
+            'ordering' => $this->item->ordering,
+            'brand_id' => $this->item->brand_id,
+            'coefficient' => $this->item->coefficient,
+            'coefficient_description' => $this->item->coefficient_description,
+            'coefficient_description_show' => $this->item->coefficient_description_show,
+            'price_name' => $this->item->price_name,
+            'admin_comment' => $this->item->admin_comment,
+            'price_purchase' => $this->item->price_purchase,
+            'price_purchase_currency_id' => $this->item->price_purchase_currency_id,
+            'price_retail' => $this->item->price_retail,
+            'price_retail_currency_id' => $this->item->price_retail_currency_id,
+            'unit' => $this->item->unit,
+            'availability_status_id' => $this->item->availability_status_id,
+        ];
+        /** @var \Domain\Products\Models\Product\Product $item */
+        $item = $this->isCreating
+            ? new Product()
+            : Product::query()->findOrFail($this->item->id);
+        $item->forceFill($saveAttributes);
+        $item->save();
+
+        $this->item = $item;
     }
 
     protected function saveInfoPrices()

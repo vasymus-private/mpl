@@ -7,26 +7,18 @@ use App\Http\Livewire\Admin\HasCategories;
 use App\Http\Livewire\Admin\HasCurrencies;
 use App\Http\Livewire\Admin\HasSeo;
 use App\Http\Livewire\Admin\HasTabs;
-use Domain\Common\Actions\MoveOrderingItemAction;
 use Domain\Common\DTOs\FileDTO;
-use Domain\Common\DTOs\OptionDTO;
 use Domain\Common\Models\Currency;
 use Domain\Common\Models\CustomMedia;
 use Domain\Products\Actions\DeleteVariationAction;
 use Domain\Products\Actions\GetCategoryAndSubtreeIdsAction;
-use Domain\Products\DTOs\Admin\CharCategoryDTO;
-use Domain\Products\DTOs\Admin\CharDTO;
 use Domain\Products\DTOs\Admin\ProductProductDTO;
 use Domain\Products\DTOs\Admin\VariationDTO;
 use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Category;
-use Domain\Products\Models\Char;
-use Domain\Products\Models\CharCategory;
-use Domain\Products\Models\CharType;
 use Domain\Products\Models\Pivots\ProductProduct;
 use Domain\Products\Models\Product\Product;
 use Domain\Seo\Models\Seo;
-use Illuminate\Validation\Rules\Exists;
 use Livewire\Component;
 use Livewire\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
@@ -39,7 +31,7 @@ class ShowProduct extends Component
     use HasSeo;
     use HasCategories;
     use HasTabs;
-    use HasShowProduct;
+    use HasCommonShowProduct;
 
     protected const MAX_FILE_SIZE_MB = ShowProductConstants::MAX_FILE_SIZE_MB;
 
@@ -99,26 +91,6 @@ class ShowProduct extends Component
     public Product $item;
 
     /**
-     * @var array|null @see {@link \Domain\Common\DTOs\FileDTO}
-     */
-    public array $mainImage = [];
-
-    /**
-     * @var array[] @see {@link \Domain\Common\DTOs\FileDTO}
-     */
-    public array $additionalImages;
-
-    /**
-     * @var \Livewire\TemporaryUploadedFile
-     */
-    public $tempMainImage;
-
-    /**
-     * @var \Livewire\TemporaryUploadedFile
-     */
-    public $tempAdditionalImage;
-
-    /**
      * @var array[][] @see {@link \Domain\Products\DTOs\Admin\ProductProductDTO}
      */
     public array $productProducts = [
@@ -175,40 +147,6 @@ class ShowProduct extends Component
     public $tempVariationAdditionalImage;
 
     /**
-     * @var array[] @see {@link \Domain\Products\DTOs\Admin\CharCategoryDTO}
-     */
-    public array $charCategories;
-
-    /**
-     * @var array[] @see {@link \Domain\Common\DTOs\OptionDTO}
-     */
-    public array $charRateOptions;
-
-    protected const DEFAULT_NEW_CHAR_CATEGORY = [
-        'name' => '',
-    ];
-
-    protected const DEFAULT_NEW_CHAR = [
-        'name' => '',
-        'category_id' => null,
-    ];
-
-    /**
-     * @var array @see {@link \Domain\Products\DTOs\Admin\CharCategoryDTO}
-     */
-    public array $newCharCategory = self::DEFAULT_NEW_CHAR_CATEGORY;
-
-    /**
-     * @var array @see {@link \Domain\Products\DTOs\Admin\CharDTO}
-     */
-    public array $newChar = self::DEFAULT_NEW_CHAR;
-
-    /**
-     * @var array[] @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\CharType}
-     */
-    public array $charTypes;
-
-    /**
      * @var string[]
      */
     public array $tabs = [
@@ -227,6 +165,13 @@ class ShowProduct extends Component
     ];
 
     public $variationsSelectAll = false;
+
+    /**
+     * @var string[]
+     */
+    protected $listeners = [
+        ShowProductConstants::EVENT_HANDLE_REDIRECT => 'handleRedirect',
+    ];
 
     /**
      * @return array
@@ -253,28 +198,6 @@ class ShowProduct extends Component
             'variations.*.price_retail_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
             'variations.*.unit' => 'nullable|string|max:199',
             'variations.*.availability_status_id' => 'required|integer|exists:' . AvailabilityStatus::class . ",id",
-        ];
-    }
-
-    protected function getNewCharCategoryRules(): array
-    {
-        return [
-            'newCharCategory.name' => 'required|string|max:199',
-        ];
-    }
-
-    protected function getNewCharRules(): array
-    {
-        return [
-            'newChar.name' => 'required|string|max:199',
-            'newChar.category_id' => [
-                'required',
-                (new Exists(CharCategory::TABLE, 'id'))->where('product_id', $this->item->id)
-            ],
-            'newChar.type_id' => [
-                'required',
-                (new Exists(CharType::TABLE, 'id'))
-            ],
         ];
     }
 
@@ -305,16 +228,6 @@ class ShowProduct extends Component
         return array_merge(
             $this->getSeoRules(),
             [
-                'tempMainImage' => 'nullable|max:'  . (1024 * self::MAX_FILE_SIZE_MB), // 1024 - 1mb,
-                'tempAdditionalImage' => 'nullable|max:'  . (1024 * self::MAX_FILE_SIZE_MB), // 1024 - 1mb,
-
-                'mainImage.name' => 'nullable|max:199',
-                'additionalImages.*.name' => 'nullable|max:199',
-                'instructions.*.name' => 'nullable|max:199',
-
-                'item.preview' => 'nullable|max:65000',
-                'item.description' => 'nullable|max:65000',
-
                 'item.accessory_name' => 'required|max:199',
                 'item.similar_name' => 'required|max:199',
                 'item.related_name' => 'required|max:199',
@@ -334,16 +247,14 @@ class ShowProduct extends Component
 
     public function mount()
     {
-        $this->initHasShowProduct();
+        $this->initCommonShowProduct();
 
         $this->initCurrenciesOptions();
         $this->initAvailabilityStatusesOptions();
         $this->initCategoriesOptions();
-        $this->initCharRateOptions();
 
         $this->initHasTabs();
 
-        $this->charTypes = CharType::query()->get()->map(fn(CharType $charType) => OptionDTO::fromCharType($charType)->toArray())->all();
         $this->initItem();
     }
 
@@ -352,22 +263,16 @@ class ShowProduct extends Component
         return view('admin.livewire.show-product.show-product');
     }
 
-    public function save()
+    public function handleSave()
     {
         $this->validate();
 
-        $shouldRedirect = false;
-        if (!$this->item->id) {
-            $shouldRedirect = true;
-        }
-
         $this->emit(ShowProductConstants::EVENT_SAVE_ELEMENTS);
+        $this->emit(ShowProductConstants::EVENT_SAVE_DESCRIPTIONS);
+        $this->emit(ShowProductConstants::EVENT_SAVE_PHOTO);
+        $this->emit(ShowProductConstants::EVENT_SAVE_CHARACTERISTICS);
 
         $this->saveProduct();
-
-        $this->saveMainImage();
-
-        $this->saveAdditionalImages();
 
         $this->saveSeo();
 
@@ -375,8 +280,18 @@ class ShowProduct extends Component
 
         $this->saveRelatedCategories();
 
-        $this->saveChars();
+        if ($this->isCreating) {
+            $this->emit(ShowProductConstants::EVENT_HANDLE_REDIRECT, true);
+        }
+    }
 
+    /**
+     * @param bool $shouldRedirect
+     *
+     * @return \Illuminate\Http\RedirectResponse|void
+     */
+    public function handleRedirect(bool $shouldRedirect = false)
+    {
         if ($shouldRedirect) {
             return redirect()->route('admin.products.edit', $this->item->id);
         }
@@ -488,11 +403,6 @@ class ShowProduct extends Component
         $this->tempVariationAdditionalImage = null;
     }
 
-    public function deleteMainImage()
-    {
-        $this->mainImage = [];
-    }
-
     public function toggleVariationActive($id)
     {
         /** @var \Domain\Products\Models\Product\Product|null $variation */
@@ -504,11 +414,6 @@ class ShowProduct extends Component
         $variation->is_active = !$variation->is_active;
         $variation->save();
         $this->variations[$id] = VariationDTO::fromModel($variation)->toArray();
-    }
-
-    public function deleteAdditionalImage($index)
-    {
-        $this->additionalImages = collect($this->additionalImages)->values()->filter(fn(array $additionalImage, int $key) => (string)$index !== (string)$key)->toArray();
     }
 
     public function deleteVariationMainImage()
@@ -528,24 +433,6 @@ class ShowProduct extends Component
         $product = Product::query()->findOrFail($this->item->id);
         $product->is_with_variations = $with;
         $product->save();
-    }
-
-    /**
-     * @param \Livewire\TemporaryUploadedFile $value
-     */
-    public function updatedTempMainImage(TemporaryUploadedFile $value)
-    {
-        $fileDTO = FileDTO::fromTemporaryUploadedFile($value);
-        $this->mainImage = $fileDTO->toArray();
-    }
-
-    /**
-     * @param \Livewire\TemporaryUploadedFile $value
-     */
-    public function updatedTempAdditionalImage(TemporaryUploadedFile $value)
-    {
-        $fileDTO = FileDTO::fromTemporaryUploadedFile($value);
-        $this->additionalImages[] = $fileDTO->toArray();
     }
 
     /**
@@ -681,8 +568,6 @@ class ShowProduct extends Component
     {
         $saveAttributes = [
             'is_with_variations' => (bool)$this->is_with_variations,
-            'preview' => $this->item->preview,
-            'description' => $this->item->description,
             'accessory_name' => $this->item->accessory_name,
             'similar_name' => $this->item->similar_name,
             'related_name' => $this->item->related_name,
@@ -698,35 +583,6 @@ class ShowProduct extends Component
         $item->save();
 
         $this->item = $item;
-    }
-
-    protected function saveMainImage()
-    {
-        if (!$this->mainImage) {
-            /** @var CustomMedia|null $media */
-            $media = $this->item->getFirstMedia(Product::MC_MAIN_IMAGE);
-            if ($media) $media->delete();
-            return;
-        }
-
-        if ($this->mainImage['id'] !== null && !$this->isCreatingFromCopy) {
-            /** @var CustomMedia|null $media */
-            $media = $this->item->getFirstMedia(Product::MC_MAIN_IMAGE);
-            if ($media) {
-                $media->name = $this->mainImage['name'];
-                $media->save();
-            }
-        } else {
-            $mainImage = new FileDTO($this->mainImage);
-            $this->addMedia($mainImage, Product::MC_MAIN_IMAGE);
-        }
-    }
-
-    protected function saveAdditionalImages()
-    {
-        $additionalImages = $this->saveAdditionalMedias(Product::MC_ADDITIONAL_IMAGES, $this->additionalImages);
-
-        $this->additionalImages = $additionalImages;
     }
 
     protected function saveProductProduct()
@@ -771,8 +627,6 @@ class ShowProduct extends Component
 
         $this->initSeo();
 
-        $this->initImages($this->item);
-
         $this->initProductProduct($this->item);
 
         $this->initRelatedCategories($this->item);
@@ -780,8 +634,6 @@ class ShowProduct extends Component
         $this->initIsWithVariations($this->item);
 
         $this->initVariations($this->item);
-
-        $this->initChars($this->item);
     }
 
     protected function initAsCopiedItem(Product $origin)
@@ -800,8 +652,6 @@ class ShowProduct extends Component
         $seo->seoable_type = null;
         $this->seo = $seo;
 
-        $this->initImages($origin);
-
         $this->initProductProduct($origin);
 
         $this->initRelatedCategories($origin);
@@ -809,8 +659,6 @@ class ShowProduct extends Component
         $this->initIsWithVariations($origin);
 
         $this->initVariations($origin);
-
-        $this->initChars($origin);
     }
 
     protected function initLoadedForProductProduct()
@@ -837,29 +685,6 @@ class ShowProduct extends Component
             ->keyBy('id')
             ->toArray();
         $this->currentVariation = (new VariationDTO())->toArray();
-    }
-
-    protected function initImages(Product $product)
-    {
-        /** @var \Domain\Common\Models\CustomMedia $mainImageMedia */
-        $mainImageMedia = $product->getFirstMedia(Product::MC_MAIN_IMAGE);
-        $this->mainImage = $mainImageMedia
-            ? (
-                $this->isCreatingFromCopy
-                    ? FileDTO::copyFromCustomMedia($mainImageMedia)->toArray()
-                    : FileDTO::fromCustomMedia($mainImageMedia)->toArray()
-            )
-            : [];
-
-        $this->additionalImages = $product
-            ->getMedia(Product::MC_ADDITIONAL_IMAGES)
-            ->map(
-                fn(CustomMedia $media) =>
-                    $this->isCreatingFromCopy
-                        ? FileDTO::copyFromCustomMedia($media)->toArray()
-                        : FileDTO::fromCustomMedia($media)->toArray()
-            )
-            ->toArray();
     }
 
     protected function initProductProduct(Product $product)
@@ -907,179 +732,5 @@ class ShowProduct extends Component
     protected function initIsWithVariations(Product $product)
     {
         $this->is_with_variations = (bool)$product->is_with_variations;
-    }
-
-    protected function initCharRateOptions()
-    {
-        //$this->charRateOptions = collect(OptionDTO::fromRateSize())->map(fn(OptionDTO $optionDTO) => $optionDTO->toArray())->all();
-        $this->charRateOptions = collect(OptionDTO::fromItemsArr(range(0, CharType::RATE_SIZE)))->map(fn(OptionDTO $optionDTO) => $optionDTO->toArray())->all();
-    }
-
-    protected function initChars(Product $product)
-    {
-        $initOrdering = CharCategory::DEFAULT_ORDERING;
-
-        $this->charCategories = $product->charCategories
-            ->map(function(CharCategory $charCategory) use(&$initOrdering) {
-                if ($initOrdering >= $charCategory->ordering) {
-                    $charCategory->ordering = $initOrdering = $initOrdering + 100;
-                }
-                return CharCategoryDTO::fromModel($charCategory)->toArray();
-            })
-            ->sortBy('ordering')
-            ->values()
-            ->all();
-    }
-
-    public function charCategoryOrdering($index, bool $isUp = true)
-    {
-        $this->charCategories = MoveOrderingItemAction::cached()->execute($this->charCategories, (int)$index, $isUp);
-    }
-
-    public function charOrdering($charCategoryIndex, $index, bool $isUp = true)
-    {
-        $chars = $this->charCategories[$charCategoryIndex]['chars'] ?? null;
-        if (!$chars) {
-            $this->skipRender();
-            return;
-        }
-        $chars = MoveOrderingItemAction::cached()->execute($chars, (int)$index, $isUp);
-        $this->charCategories[$charCategoryIndex]['chars'] = $chars;
-    }
-
-    public function deleteCharCategory($index)
-    {
-        unset($this->charCategories[$index]);
-        $this->charCategories = array_values($this->charCategories);
-    }
-
-    public function deleteChar($charCategoryIndex, $index)
-    {
-        $charCategory = $this->charCategories[$charCategoryIndex];
-        if (!$charCategory) {
-            $this->skipRender();
-            return;
-        }
-        $chars = $charCategory['chars'];
-        unset($chars[$index]);
-        $chars = array_values($chars);
-        $charCategory['chars'] = $chars;
-        $this->charCategories[$charCategoryIndex] = $charCategory;
-    }
-
-    public function addNewCharCategory()
-    {
-        $this->validate($this->getNewCharCategoryRules());
-
-        $largestOrdering = max(collect($this->charCategories)->max('ordering'), 0);
-
-        $charCategory = CharCategory::forceCreate([
-            'product_id' => $this->item->id,
-            'name' => $this->newCharCategory['name'],
-            'ordering' => $largestOrdering + 100,
-        ]);
-
-        $this->charCategories[] = CharCategoryDTO::fromModel($charCategory)->toArray();
-        $this->newCharCategory = static::DEFAULT_NEW_CHAR_CATEGORY;
-
-        return true;
-    }
-
-    public function addNewChar()
-    {
-        // todo not working
-        $this->validate($this->getNewCharRules());
-
-        $charCategoryId = $this->newChar['category_id'];
-        $charCategory = collect($this->charCategories)->first(fn(array $item) => (string)$item['id'] === (string)$charCategoryId);
-
-        if ($charCategory === null) {
-            $this->skipRender();
-            return;
-        }
-        $largestOrdering = max(collect($charCategory['chars'])->max('ordering'), 0);
-
-        $char = Char::forceCreate([
-            'product_id' => $this->item->id,
-            'name' => $this->newChar['name'],
-            'ordering' => $largestOrdering + 100,
-            'type_id' => (int)$this->newChar['type_id'],
-            'category_id' => $charCategoryId,
-        ]);
-
-        $charCategory['chars'][] = CharDTO::fromModel($char)->toArray();
-        $this->newChar = static::DEFAULT_NEW_CHAR;
-        foreach ($this->charCategories as $index => $item) {
-            if ((string)$item['id'] === (string)$charCategoryId) {
-                $this->charCategories[$index] = $charCategory;
-                break;
-            }
-        }
-
-        return true;
-    }
-
-    protected function saveChars()
-    {
-        $charsIds = [];
-        $charCategoriesIds = [];
-        foreach ($this->charCategories as $charCategoryItem) {
-            if ($this->isCreatingFromCopy) {
-                $charCategory = CharCategory::forceCreate([
-                    'name' => $charCategoryItem['name'],
-                    'product_id' => $this->item->id,
-                    'ordering' => $charCategoryItem['ordering'],
-                ]);
-            } else {
-                $charCategory = CharCategory::query()->findOrFail($charCategoryItem['id']);
-                $charCategory->ordering = $charCategoryItem['ordering'];
-            }
-            $charCategoriesIds[] = $charCategory->id;
-
-            foreach ($charCategoryItem['chars'] as $charItem) {
-                if ($this->isCreatingFromCopy) {
-                    $char = Char::forceCreate([
-                        'name' => $charItem['name'],
-                        'value' => $charItem['value'],
-                        'ordering' => $charItem['ordering'],
-                        'type_id' => $charItem['type_id'],
-                        'category_id' => $charCategory->id,
-                    ]);
-                } else {
-                    $char = Char::query()->findOrFail($charItem['id']);
-                    $char->value = $charItem['value'];
-                    $char->ordering = $charItem['ordering'];
-                    $char->save();
-                }
-                $charsIds[] = $char->id;
-            }
-        }
-        $charCategories = $this->item->charCategories()->get();
-        $chars = $this->item->chars()->get();
-
-        $chars->each(function(Char $char) use($charsIds) {
-            if (!in_array($char->id, $charsIds)) {
-                $char->delete();
-            }
-        });
-
-        $charCategories->each(function(CharCategory $charCategory) use($charCategoriesIds) {
-            if (!in_array($charCategory->id, $charCategoriesIds)) {
-                $charCategory->delete();
-            }
-        });
-    }
-
-    /**
-     * @return array[] @see {@link \Domain\Common\DTOs\OptionDTO}
-     */
-    public function getCharCategoryOptions(): array
-    {
-        return collect($this->charCategories)
-            ->map(fn(array $charCategory) => (new OptionDTO([
-                'value' => $charCategory['id'],
-                'label' => $charCategory['name'],
-            ]))->toArray())
-            ->all();
     }
 }

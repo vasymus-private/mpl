@@ -175,10 +175,6 @@
             @endif
         </div>
 
-
-
-
-
         <div wire:ignore.self class="modal fade" id="current-variation" tabindex="-1" aria-labelledby="new-variation-label" aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
@@ -264,10 +260,7 @@
                                         </div>
                                     </div>
                                 </div>
-
-
                             </div>
-
 
                             <div wire:ignore.self class="tab-pane p-3 fade" id="variation-photos" role="tabpanel" aria-labelledby="variation-photos-tab">
                                 <div class="form-group row">

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Support\H;
 
-trait HasShowProduct
+trait HasCommonShowProduct
 {
     /**
      * @var string|null
@@ -56,7 +56,7 @@ trait HasShowProduct
     /**
      * @return void
      */
-    protected function initHasShowProduct()
+    protected function initCommonShowProduct()
     {
         $this->currentRouteName = Route::currentRouteName();
         $this->isCreating = $this->currentRouteName === Constants::ROUTE_ADMIN_PRODUCTS_CREATE;
