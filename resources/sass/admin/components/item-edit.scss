@@ -35,6 +35,12 @@
         .form-check-label {
             display: block;
             text-align: right;
+            span {
+                display: inline-block;
+                min-height: 12px;
+                min-width: 12px;
+                text-align: left;
+            }
         }
     }
 }
