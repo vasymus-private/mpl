@@ -5,21 +5,14 @@ namespace App\Http\Livewire\Admin\ShowProduct;
 use Domain\Common\DTOs\FileDTO;
 use Domain\Common\Models\CustomMedia;
 use Domain\Products\Models\Product\Product;
-use Livewire\Component;
 use Livewire\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 
-class Photo extends Component
+class Photo extends BaseShowProduct
 {
     use WithFileUploads;
-    use HasCommonShowProduct;
 
     protected const MAX_FILE_SIZE_MB = ShowProductConstants::MAX_FILE_SIZE_MB;
-
-    /**
-     * @var \Domain\Products\Models\Product\Product
-     */
-    public Product $item;
 
     /**
      * @var array|null @see {@link \Domain\Common\DTOs\FileDTO}
@@ -42,13 +35,6 @@ class Photo extends Component
     public $tempAdditionalImage;
 
     /**
-     * @var string[]
-     */
-    protected $listeners = [
-        ShowProductConstants::EVENT_SAVE_PHOTO => 'savePhoto',
-    ];
-
-    /**
      * @return array
      */
     protected function rules(): array
@@ -68,6 +54,11 @@ class Photo extends Component
     protected function queryString(): array
     {
         return array_merge($this->getHasShowProductQueryString(), []);
+    }
+
+    protected function getComponentName(): string
+    {
+        return ShowProductConstants::COMPONENT_NAME_PHOTO;
     }
 
     public function mount()
@@ -125,13 +116,7 @@ class Photo extends Component
 
     protected function initAsCopiedItem(Product $origin)
     {
-        // fill item with attributes
-        $attributes = collect($origin->toArray())
-            ->only($this->getCopyItemAttributes())
-            ->toArray();
-        $item = new Product();
-        $item->forceFill($attributes);
-        $this->item = $item;
+        parent::initAsCopiedItem($origin);
 
         $this->initImages($origin);
     }
@@ -159,7 +144,7 @@ class Photo extends Component
             ->toArray();
     }
 
-    public function savePhoto()
+    public function handleSave()
     {
         $this->saveMainImage();
 
@@ -171,7 +156,9 @@ class Photo extends Component
         if (!$this->mainImage) {
             /** @var CustomMedia|null $media */
             $media = $this->item->getFirstMedia(Product::MC_MAIN_IMAGE);
-            if ($media) $media->delete();
+            if ($media) {
+                $media->delete();
+            }
             return;
         }
 

@@ -15,23 +15,16 @@ use Domain\Products\Models\Brand;
 use Domain\Products\Models\InformationalPrice;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Validation\Rules\Unique;
-use Livewire\Component;
 use Livewire\TemporaryUploadedFile;
 
-class Elements extends Component
+class Elements extends BaseShowProduct
 {
-    use HasCommonShowProduct;
     use HasBrands;
     use HasCurrencies;
     use HasAvailabilityStatuses;
     use HasGenerateSlug;
 
     protected const MAX_FILE_SIZE_MB = ShowProductConstants::MAX_FILE_SIZE_MB;
-
-    /**
-     * @var \Domain\Products\Models\Product\Product
-     */
-    public Product $item;
 
     /**
      * @var array[] @see {@link \Domain\Products\DTOs\InformationalPriceDTO}
@@ -47,13 +40,6 @@ class Elements extends Component
      * @var \Livewire\TemporaryUploadedFile
      */
     public $tempInstruction;
-
-    /**
-     * @var string[]
-     */
-    protected $listeners = [
-        ShowProductConstants::EVENT_SAVE_ELEMENTS => 'saveElements',
-    ];
 
     /**
      * @return array
@@ -102,6 +88,12 @@ class Elements extends Component
         ];
     }
 
+    protected function getComponentName(): string
+    {
+        return ShowProductConstants::COMPONENT_NAME_ELEMENTS;
+    }
+
+
     public function mount()
     {
         $this->initCommonShowProduct();
@@ -119,9 +111,15 @@ class Elements extends Component
         return view('admin.livewire.show-product.elements');
     }
 
-    public function saveElements()
+    public function handleSave()
     {
-        $this->validate();
+        try {
+            $this->validate();
+            $this->emitValidationStatus(true);
+        } catch (\Illuminate\Validation\ValidationException $exception) {
+            $this->emitValidationStatus(false, $exception->errors());
+            throw $exception;
+        }
 
         $this->saveProduct();
 
@@ -181,13 +179,7 @@ class Elements extends Component
 
     protected function initAsCopiedItem(Product $origin)
     {
-        // fill item with attributes
-        $attributes = collect($origin->toArray())
-            ->only($this->getCopyItemAttributes())
-            ->toArray();
-        $item = new Product();
-        $item->forceFill($attributes);
-        $this->item = $item;
+        parent::initAsCopiedItem($origin);
 
         $this->initInfoPrices($origin);
         $this->initInstructions($origin);
@@ -240,9 +232,7 @@ class Elements extends Component
             'availability_status_id' => $this->item->availability_status_id,
         ];
         /** @var \Domain\Products\Models\Product\Product $item */
-        $item = $this->isCreating
-            ? new Product()
-            : Product::query()->findOrFail($this->item->id);
+        $item = Product::query()->firstOrNew(['uuid' => $this->item->uuid]);
         $item->forceFill($saveAttributes);
         $item->save();
 

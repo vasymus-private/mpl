@@ -11,17 +11,9 @@ use Domain\Products\Models\CharCategory;
 use Domain\Products\Models\CharType;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Validation\Rules\Exists;
-use Livewire\Component;
 
-class Characteristics extends Component
+class Characteristics extends BaseShowProduct
 {
-    use HasCommonShowProduct;
-
-    /**
-     * @var \Domain\Products\Models\Product\Product
-     */
-    public Product $item;
-
     /**
      * @var array[] @see {@link \Domain\Products\DTOs\Admin\CharCategoryDTO}
      */
@@ -55,13 +47,6 @@ class Characteristics extends Component
      * @var array[] @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\CharType}
      */
     public array $charTypes;
-
-    /**
-     * @var string[]
-     */
-    protected $listeners = [
-        ShowProductConstants::EVENT_SAVE_CHARACTERISTICS => 'saveCharacteristics',
-    ];
 
     /**
      * @return string[]|array[]
@@ -101,6 +86,11 @@ class Characteristics extends Component
         ];
     }
 
+    protected function getComponentName(): string
+    {
+        return ShowProductConstants::COMPONENT_NAME_CHARACTERISTICS;
+    }
+
     public function mount()
     {
         $this->initCommonShowProduct();
@@ -115,33 +105,7 @@ class Characteristics extends Component
         return view('admin.livewire.show-product.characteristics');
     }
 
-    protected function initItem()
-    {
-        if ($this->isCreatingFromCopy) {
-            $copyProduct = $this->getCopyProduct();
-            if ($copyProduct !== null) {
-                $this->initAsCopiedItem($copyProduct);
-                return;
-            }
-        }
-
-        $this->initChars($this->item);
-    }
-
-    protected function initAsCopiedItem(Product $origin)
-    {
-        // fill item with attributes
-        $attributes = collect($origin->toArray())
-            ->only($this->getCopyItemAttributes())
-            ->toArray();
-        $item = new Product();
-        $item->forceFill($attributes);
-        $this->item = $item;
-
-        $this->initChars($origin);
-    }
-
-    public function saveCharacteristics()
+    public function handleSave()
     {
         if ($this->isCreatingFromCopy) {
             return;
@@ -209,6 +173,27 @@ class Characteristics extends Component
                 'label' => $charCategory['name'],
             ]))->toArray())
             ->all();
+    }
+
+
+    protected function initItem()
+    {
+        if ($this->isCreatingFromCopy) {
+            $copyProduct = $this->getCopyProduct();
+            if ($copyProduct !== null) {
+                $this->initAsCopiedItem($copyProduct);
+                return;
+            }
+        }
+
+        $this->initChars($this->item);
+    }
+
+    protected function initAsCopiedItem(Product $origin)
+    {
+        parent::initAsCopiedItem($origin);
+
+        $this->initChars($origin);
     }
 
     protected function initCharRateOptions()

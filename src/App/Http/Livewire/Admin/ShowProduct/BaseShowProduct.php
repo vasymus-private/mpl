@@ -8,10 +8,16 @@ use Domain\Common\Models\CustomMedia;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
+use Livewire\Component;
 use Support\H;
 
-trait HasCommonShowProduct
+abstract class BaseShowProduct extends Component
 {
+    /**
+     * @var \Domain\Products\Models\Product\Product
+     */
+    public Product $item;
+
     /**
      * @var string|null
      */
@@ -43,6 +49,10 @@ trait HasCommonShowProduct
         data_set($this, $name, H::trimAndNullEmptyString($value)); // trim only left side
     }
 
+    abstract public function handleSave();
+
+    abstract protected function getComponentName(): string;
+
     /**
      * @return array
      */
@@ -51,6 +61,15 @@ trait HasCommonShowProduct
         return [
             'copy_id' => ['except' => ''],
         ];
+    }
+
+    protected function initAsCopiedItem(Product $origin)
+    {
+        // fill item with attributes
+        $attributes = collect($origin->toArray())
+            ->only($this->getCopyItemAttributes())
+            ->toArray();
+        $this->item->forceFill($attributes);
     }
 
     /**
@@ -143,7 +162,13 @@ trait HasCommonShowProduct
         $medias = [];
 
         foreach ($fileDTOs as $fileDTO) {
-            if ($fileDTO['id'] !== null && !$this->isCreatingFromCopy) {
+            if ($this->isCreatingFromCopy) {
+                $this->addMedia(new FileDTO($fileDTO), $collectionName);
+                $medias[] = $fileDTO;
+                continue;
+            }
+
+            if ($fileDTO['id'] !== null) {
                 /** @var \Domain\Common\Models\CustomMedia $media */
                 $media = $this->item->getMedia($collectionName)->first(fn(CustomMedia $customMedia) => $fileDTO['id'] === $customMedia->id);
                 $media->name = $fileDTO['name'] ?: $fileDTO['file_name'];
@@ -151,13 +176,11 @@ trait HasCommonShowProduct
                 $medias[] = $fileDTO;
             } else {
                 $media = $this->addMedia(new FileDTO($fileDTO), $collectionName);
-                $medias[] = $this->isCreatingFromCopy
-                    ? FileDTO::copyFromCustomMedia($media)->toArray()
-                    : FileDTO::fromCustomMedia($media)->toArray();
+                $medias[] = FileDTO::fromCustomMedia($media)->toArray();
             }
         }
 
-        if (!$this->isCreatingFromCopy) {
+        if (!$this->isCreating) {
             $mediasIds = collect($medias)->pluck('id')->toArray();
             $this->item->getMedia($collectionName)->each(function(CustomMedia $customMedia) use($mediasIds) {
                 if (!in_array($customMedia->id, $mediasIds)) {
@@ -167,5 +190,14 @@ trait HasCommonShowProduct
         }
 
         return $medias;
+    }
+
+    protected function emitValidationStatus(bool $isValid, array $errors = [])
+    {
+        $this->emitTo(ShowProductConstants::COMPONENT_NAME_SHOW_PRODUCT, ShowProductConstants::EVENT_VALIDATION_NOTIFICATION, [
+            'name' => $this->getComponentName(),
+            'isValid' => $isValid,
+            'errors' => $errors,
+        ]);
     }
 }

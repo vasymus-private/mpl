@@ -3,24 +3,9 @@
 namespace App\Http\Livewire\Admin\ShowProduct;
 
 use Domain\Products\Models\Product\Product;
-use Livewire\Component;
 
-class Description extends Component
+class Description extends BaseShowProduct
 {
-    use HasCommonShowProduct;
-
-    /**
-     * @var \Domain\Products\Models\Product\Product
-     */
-    public Product $item;
-
-    /**
-     * @var string[]
-     */
-    protected $listeners = [
-        ShowProductConstants::EVENT_SAVE_DESCRIPTIONS => 'saveDescription',
-    ];
-
     /**
      * @return array
      */
@@ -40,6 +25,12 @@ class Description extends Component
         return array_merge($this->getHasShowProductQueryString(), []);
     }
 
+    protected function getComponentName(): string
+    {
+        return ShowProductConstants::COMPONENT_NAME_DESCRIPTION;
+    }
+
+
     public function mount()
     {
         $this->initCommonShowProduct();
@@ -52,9 +43,15 @@ class Description extends Component
         return view('admin.livewire.show-product.description');
     }
 
-    public function saveDescription()
+    public function handleSave()
     {
-        $this->validate();
+        try {
+            $this->validate();
+            $this->emitValidationStatus(true);
+        } catch (\Illuminate\Validation\ValidationException $exception) {
+            $this->emitValidationStatus(false, $exception->errors());
+            throw $exception;
+        }
 
         $this->saveProduct();
     }
@@ -66,9 +63,7 @@ class Description extends Component
             'description' => $this->item->description,
         ];
         /** @var \Domain\Products\Models\Product\Product $item */
-        $item = $this->isCreating
-            ? new Product()
-            : Product::query()->findOrFail($this->item->id);
+        $item = Product::query()->firstOrNew(['uuid' => $this->item->uuid]);
         $item->forceFill($saveAttributes);
         $item->save();
 
@@ -84,16 +79,5 @@ class Description extends Component
                 return;
             }
         }
-    }
-
-    protected function initAsCopiedItem(Product $origin)
-    {
-        // fill item with attributes
-        $attributes = collect($origin->toArray())
-            ->only($this->getCopyItemAttributes())
-            ->toArray();
-        $item = new Product();
-        $item->forceFill($attributes);
-        $this->item = $item;
     }
 }

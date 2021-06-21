@@ -22,7 +22,10 @@ class TestController extends Controller
 {
     public function test(Request $request, GetCategoriesTreeAction $getCategoriesTreeAction, GetCategoryAndSubtreeAction $getCategoryAndSubtreeAction, GetCategoryAndSubtreeIdsAction $getCategoryAndSubtreeIdsAction, HasActiveProductsAction $hasActiveProductsAction, DefaultUrlGenerator $defaultUrlGenerator)
     {
-        dump(UrlGeneratorFactory::createForMedia());
+        /** @var \Domain\Products\Models\Product\Product $product */
+//        $product = Product::query()->find(1);
+//        $media = $product->addMedia(storage_path('app/media/6372/Screenshot-at-Jun-16-15-40-53.png'))->preservingOriginal()->toMediaCollection(Product::MC_ADDITIONAL_IMAGES);
+//        dump($media);
         return view('test');
     }
 

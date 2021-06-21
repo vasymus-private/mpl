@@ -19,11 +19,10 @@ use Domain\Products\Models\Category;
 use Domain\Products\Models\Pivots\ProductProduct;
 use Domain\Products\Models\Product\Product;
 use Domain\Seo\Models\Seo;
-use Livewire\Component;
 use Livewire\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 
-class ShowProduct extends Component
+class ShowProduct extends BaseShowProduct
 {
     use WithFileUploads;
     use HasCurrencies;
@@ -31,7 +30,6 @@ class ShowProduct extends Component
     use HasSeo;
     use HasCategories;
     use HasTabs;
-    use HasCommonShowProduct;
 
     protected const MAX_FILE_SIZE_MB = ShowProductConstants::MAX_FILE_SIZE_MB;
 
@@ -84,11 +82,6 @@ class ShowProduct extends Component
         /** @see \Domain\Products\Models\Product\Product::instruments() */
         ProductProduct::TYPE_INSTRUMENT => 'instruments',
     ];
-
-    /**
-     * @var \Domain\Products\Models\Product\Product
-     */
-    public Product $item;
 
     /**
      * @var array[][] @see {@link \Domain\Products\DTOs\Admin\ProductProductDTO}
@@ -167,10 +160,36 @@ class ShowProduct extends Component
     public $variationsSelectAll = false;
 
     /**
+     * @var array[]
+     */
+    public array $validationStatuses = [
+        ShowProductConstants::COMPONENT_NAME_ELEMENTS => [
+            'name' => ShowProductConstants::COMPONENT_NAME_ELEMENTS,
+            'isValid' => true,
+            'errors' => [],
+        ],
+        ShowProductConstants::COMPONENT_NAME_CHARACTERISTICS => [
+            'name' => ShowProductConstants::COMPONENT_NAME_CHARACTERISTICS,
+            'isValid' => true,
+            'errors' => [],
+        ],
+        ShowProductConstants::COMPONENT_NAME_PHOTO => [
+            'name' => ShowProductConstants::COMPONENT_NAME_PHOTO,
+            'isValid' => true,
+            'errors' => [],
+        ],
+        ShowProductConstants::COMPONENT_NAME_DESCRIPTION => [
+            'name' => ShowProductConstants::COMPONENT_NAME_DESCRIPTION,
+            'isValid' => true,
+            'errors' => [],
+        ],
+    ];
+
+    /**
      * @var string[]
      */
     protected $listeners = [
-        ShowProductConstants::EVENT_HANDLE_REDIRECT => 'handleRedirect',
+        ShowProductConstants::EVENT_VALIDATION_NOTIFICATION => 'validationNotification',
     ];
 
     /**
@@ -245,6 +264,12 @@ class ShowProduct extends Component
         );
     }
 
+    protected function getComponentName(): string
+    {
+        return ShowProductConstants::COMPONENT_NAME_SHOW_PRODUCT;
+    }
+
+
     public function mount()
     {
         $this->initCommonShowProduct();
@@ -267,11 +292,6 @@ class ShowProduct extends Component
     {
         $this->validate();
 
-        $this->emit(ShowProductConstants::EVENT_SAVE_ELEMENTS);
-        $this->emit(ShowProductConstants::EVENT_SAVE_DESCRIPTIONS);
-        $this->emit(ShowProductConstants::EVENT_SAVE_PHOTO);
-        $this->emit(ShowProductConstants::EVENT_SAVE_CHARACTERISTICS);
-
         $this->saveProduct();
 
         $this->saveSeo();
@@ -279,21 +299,22 @@ class ShowProduct extends Component
         $this->saveProductProduct();
 
         $this->saveRelatedCategories();
+    }
 
-        if ($this->isCreating) {
-            $this->emit(ShowProductConstants::EVENT_HANDLE_REDIRECT, true);
+    public function afterSave()
+    {
+        if ($this->canRedirect() && $this->isCreating) {
+            return redirect()->route('admin.products.edit', $this->item->id);
         }
     }
 
-    /**
-     * @param bool $shouldRedirect
-     *
-     * @return \Illuminate\Http\RedirectResponse|void
-     */
-    public function handleRedirect(bool $shouldRedirect = false)
+    public function validationNotification(array $validationNotification)
     {
-        if ($shouldRedirect) {
-            return redirect()->route('admin.products.edit', $this->item->id);
+        $this->validationStatuses[$validationNotification['name']] = $validationNotification;
+        foreach ($validationNotification['errors'] as $errorName => $errors) {
+            foreach ($errors as $error) {
+                $this->addError($errorName, $error);
+            }
         }
     }
 
@@ -576,9 +597,7 @@ class ShowProduct extends Component
             'category_id' => $this->item->category_id,
         ];
         /** @var \Domain\Products\Models\Product\Product $item */
-        $item = $this->isCreating
-            ? new Product()
-            : Product::query()->findOrFail($this->item->id);
+        $item = Product::query()->firstOrNew(['uuid' => $this->item->uuid]);
         $item->forceFill($saveAttributes);
         $item->save();
 
@@ -638,13 +657,7 @@ class ShowProduct extends Component
 
     protected function initAsCopiedItem(Product $origin)
     {
-        // fill item with attributes
-        $attributes = collect($origin->toArray())
-            ->only($this->getCopyItemAttributes())
-            ->toArray();
-        $item = new Product();
-        $item->forceFill($attributes);
-        $this->item = $item;
+        parent::initAsCopiedItem($origin);
 
         // seo
         $seo = $origin->seo ?: new Seo();
@@ -732,5 +745,22 @@ class ShowProduct extends Component
     protected function initIsWithVariations(Product $product)
     {
         $this->is_with_variations = (bool)$product->is_with_variations;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function canRedirect(): bool
+    {
+        $can = true;
+
+        foreach ($this->validationStatuses as $validationStatus) {
+            if (!$validationStatus['isValid']) {
+                $can = false;
+                break;
+            }
+        }
+
+        return $can;
     }
 }
