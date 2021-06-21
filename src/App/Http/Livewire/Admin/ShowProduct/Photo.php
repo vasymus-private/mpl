@@ -63,6 +63,7 @@ class Photo extends BaseShowProduct
 
     public function mount()
     {
+//        dump($this->item->uuid);
         $this->initCommonShowProduct();
 
         $this->initItem();
@@ -146,6 +147,9 @@ class Photo extends BaseShowProduct
 
     public function handleSave()
     {
+        $this->validateBeforeHandleSave();
+        $this->getRefreshedItemOrNew();
+
         $this->saveMainImage();
 
         $this->saveAdditionalImages();

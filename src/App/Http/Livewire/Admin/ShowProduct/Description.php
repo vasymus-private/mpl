@@ -33,6 +33,7 @@ class Description extends BaseShowProduct
 
     public function mount()
     {
+//        dump($this->item->uuid);
         $this->initCommonShowProduct();
 
         $this->initItem();
@@ -45,13 +46,8 @@ class Description extends BaseShowProduct
 
     public function handleSave()
     {
-        try {
-            $this->validate();
-            $this->emitValidationStatus(true);
-        } catch (\Illuminate\Validation\ValidationException $exception) {
-            $this->emitValidationStatus(false, $exception->errors());
-            throw $exception;
-        }
+        $this->validateBeforeHandleSave();
+        $this->getRefreshedItemOrNew();
 
         $this->saveProduct();
     }

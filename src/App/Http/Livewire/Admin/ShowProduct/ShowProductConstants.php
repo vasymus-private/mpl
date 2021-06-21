@@ -11,6 +11,7 @@ final class ShowProductConstants
     public const COMPONENT_NAME_ELEMENTS = 'admin.show-product.elements';
     public const COMPONENT_NAME_PHOTO = 'admin.show-product.photo';
     public const COMPONENT_NAME_DESCRIPTION = 'admin.show-product.description';
+    public const COMPONENT_NAME_SEO = 'admin.show-product.seo';
 
     public const MAX_FILE_SIZE_MB = 30;
 

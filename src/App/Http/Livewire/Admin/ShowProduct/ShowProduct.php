@@ -5,7 +5,6 @@ namespace App\Http\Livewire\Admin\ShowProduct;
 use App\Http\Livewire\Admin\HasAvailabilityStatuses;
 use App\Http\Livewire\Admin\HasCategories;
 use App\Http\Livewire\Admin\HasCurrencies;
-use App\Http\Livewire\Admin\HasSeo;
 use App\Http\Livewire\Admin\HasTabs;
 use Domain\Common\DTOs\FileDTO;
 use Domain\Common\Models\Currency;
@@ -18,7 +17,6 @@ use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Category;
 use Domain\Products\Models\Pivots\ProductProduct;
 use Domain\Products\Models\Product\Product;
-use Domain\Seo\Models\Seo;
 use Livewire\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 
@@ -27,7 +25,6 @@ class ShowProduct extends BaseShowProduct
     use WithFileUploads;
     use HasCurrencies;
     use HasAvailabilityStatuses;
-    use HasSeo;
     use HasCategories;
     use HasTabs;
 
@@ -245,7 +242,6 @@ class ShowProduct extends BaseShowProduct
     protected function rules(): array
     {
         return array_merge(
-            $this->getSeoRules(),
             [
                 'item.accessory_name' => 'required|max:199',
                 'item.similar_name' => 'required|max:199',
@@ -272,6 +268,7 @@ class ShowProduct extends BaseShowProduct
 
     public function mount()
     {
+//        dump($this->item->uuid);
         $this->initCommonShowProduct();
 
         $this->initCurrenciesOptions();
@@ -292,9 +289,9 @@ class ShowProduct extends BaseShowProduct
     {
         $this->validate();
 
-        $this->saveProduct();
+        $this->getRefreshedItemOrNew();
 
-        $this->saveSeo();
+        $this->saveProduct();
 
         $this->saveProductProduct();
 
@@ -303,6 +300,7 @@ class ShowProduct extends BaseShowProduct
 
     public function afterSave()
     {
+        dd($this->canRedirect());
         if ($this->canRedirect() && $this->isCreating) {
             return redirect()->route('admin.products.edit', $this->item->id);
         }
@@ -596,12 +594,8 @@ class ShowProduct extends BaseShowProduct
             'instruments_name' => $this->item->instruments_name,
             'category_id' => $this->item->category_id,
         ];
-        /** @var \Domain\Products\Models\Product\Product $item */
-        $item = Product::query()->firstOrNew(['uuid' => $this->item->uuid]);
-        $item->forceFill($saveAttributes);
-        $item->save();
-
-        $this->item = $item;
+        $this->item->forceFill($saveAttributes);
+        $this->item->save();
     }
 
     protected function saveProductProduct()
@@ -644,8 +638,6 @@ class ShowProduct extends BaseShowProduct
             }
         }
 
-        $this->initSeo();
-
         $this->initProductProduct($this->item);
 
         $this->initRelatedCategories($this->item);
@@ -658,12 +650,6 @@ class ShowProduct extends BaseShowProduct
     protected function initAsCopiedItem(Product $origin)
     {
         parent::initAsCopiedItem($origin);
-
-        // seo
-        $seo = $origin->seo ?: new Seo();
-        $seo->seoable_id = null;
-        $seo->seoable_type = null;
-        $this->seo = $seo;
 
         $this->initProductProduct($origin);
 

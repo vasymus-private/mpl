@@ -185,7 +185,9 @@ class Product extends BaseModel implements HasMedia
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->uuid = (string) Str::uuid();
+        if (!$this->uuid) {
+            $this->uuid = (string) Str::uuid();
+        }
     }
 
 

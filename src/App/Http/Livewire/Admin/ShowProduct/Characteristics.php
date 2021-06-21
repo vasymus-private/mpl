@@ -93,6 +93,7 @@ class Characteristics extends BaseShowProduct
 
     public function mount()
     {
+//        dump($this->item->uuid);
         $this->initCommonShowProduct();
         $this->initCharRateOptions();
         $this->initCharTypeOptions();
@@ -107,9 +108,7 @@ class Characteristics extends BaseShowProduct
 
     public function handleSave()
     {
-        if ($this->isCreatingFromCopy) {
-            return;
-        }
+        $item = $this->getRefreshedItemOrNew();
 
         $charsIds = [];
         $charCategoriesIds = [];

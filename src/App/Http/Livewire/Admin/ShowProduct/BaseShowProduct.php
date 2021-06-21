@@ -49,9 +49,29 @@ abstract class BaseShowProduct extends Component
         data_set($this, $name, H::trimAndNullEmptyString($value)); // trim only left side
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getComponentsNames(): array
+    {
+        return [
+            ShowProductConstants::COMPONENT_NAME_SHOW_PRODUCT,
+            ShowProductConstants::COMPONENT_NAME_ELEMENTS,
+            ShowProductConstants::COMPONENT_NAME_DESCRIPTION,
+            ShowProductConstants::COMPONENT_NAME_PHOTO,
+            ShowProductConstants::COMPONENT_NAME_CHARACTERISTICS,
+            ShowProductConstants::COMPONENT_NAME_SEO,
+        ];
+    }
+
     abstract public function handleSave();
 
     abstract protected function getComponentName(): string;
+
+    protected function getRefreshedItemOrNew(): Product
+    {
+        return Product::query()->firstOrNew(['uuid' => $this->item->uuid]);
+    }
 
     /**
      * @return array
@@ -199,5 +219,16 @@ abstract class BaseShowProduct extends Component
             'isValid' => $isValid,
             'errors' => $errors,
         ]);
+    }
+
+    protected function validateBeforeHandleSave()
+    {
+        try {
+            $this->validate();
+            $this->emitValidationStatus(true);
+        } catch (\Illuminate\Validation\ValidationException $exception) {
+            $this->emitValidationStatus(false, $exception->errors());
+            throw $exception;
+        }
     }
 }

@@ -74,7 +74,7 @@
         @endforeach
     </ul>
 
-    <form onsubmit="event.preventDefault(); Promise.all(livewire.components.components().map(item => livewire.find(item.id).handleSave())).then(() => @this.afterSave())" class="position-relative">
+    <form class="js-show-product-form position-relative" data-names="{{json_encode($this::getComponentsNames())}}" data-id="{{$this->id}}">
         <div wire:loading.flex wire:target="save">
             <div class="d-flex justify-content-center align-items-center bg-light" style="opacity: 0.5; position:absolute; top:0; bottom:0; right:0; left:0; z-index: 20; ">
                 <div class="spinner-border" role="status">

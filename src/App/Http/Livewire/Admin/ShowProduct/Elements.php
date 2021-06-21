@@ -93,9 +93,9 @@ class Elements extends BaseShowProduct
         return ShowProductConstants::COMPONENT_NAME_ELEMENTS;
     }
 
-
     public function mount()
     {
+//        dump($this->item->uuid);
         $this->initCommonShowProduct();
         $this->initBrandsOptions();
         $this->initCurrenciesOptions();
@@ -113,13 +113,7 @@ class Elements extends BaseShowProduct
 
     public function handleSave()
     {
-        try {
-            $this->validate();
-            $this->emitValidationStatus(true);
-        } catch (\Illuminate\Validation\ValidationException $exception) {
-            $this->emitValidationStatus(false, $exception->errors());
-            throw $exception;
-        }
+        $this->validateBeforeHandleSave();
 
         $this->saveProduct();
 
@@ -231,12 +225,10 @@ class Elements extends BaseShowProduct
             'unit' => $this->item->unit,
             'availability_status_id' => $this->item->availability_status_id,
         ];
-        /** @var \Domain\Products\Models\Product\Product $item */
-        $item = Product::query()->firstOrNew(['uuid' => $this->item->uuid]);
+        $item = $this->getRefreshedItemOrNew();
         $item->forceFill($saveAttributes);
         $item->save();
 
-        $this->item = $item;
     }
 
     protected function saveInfoPrices()
