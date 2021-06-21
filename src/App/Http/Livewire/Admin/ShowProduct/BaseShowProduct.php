@@ -49,25 +49,6 @@ abstract class BaseShowProduct extends Component
         data_set($this, $name, H::trimAndNullEmptyString($value)); // trim only left side
     }
 
-    /**
-     * @return string[]
-     */
-    public static function getComponentsNames(): array
-    {
-        return [
-            ShowProductConstants::COMPONENT_NAME_SHOW_PRODUCT,
-            ShowProductConstants::COMPONENT_NAME_ELEMENTS,
-            ShowProductConstants::COMPONENT_NAME_DESCRIPTION,
-            ShowProductConstants::COMPONENT_NAME_PHOTO,
-            ShowProductConstants::COMPONENT_NAME_CHARACTERISTICS,
-            ShowProductConstants::COMPONENT_NAME_SEO,
-        ];
-    }
-
-    abstract public function handleSave();
-
-    abstract protected function getComponentName(): string;
-
     protected function getRefreshedItemOrNew(): Product
     {
         return Product::query()->firstOrNew(['uuid' => $this->item->uuid]);
@@ -99,13 +80,13 @@ abstract class BaseShowProduct extends Component
     {
         $this->currentRouteName = Route::currentRouteName();
         $this->isCreating = $this->currentRouteName === Constants::ROUTE_ADMIN_PRODUCTS_CREATE;
-        $this->isCreatingFromCopy = $this->copy_id && $this->currentRouteName === Constants::ROUTE_ADMIN_PRODUCTS_CREATE && $this->getCopyProduct() !== null;
+        $this->isCreatingFromCopy = $this->copy_id && $this->currentRouteName === Constants::ROUTE_ADMIN_PRODUCTS_CREATE && $this->getOriginProduct() !== null;
     }
 
     /**
      * @return \Domain\Products\Models\Product\Product|null
      */
-    protected function getCopyProduct(): ?Product
+    protected function getOriginProduct(): ?Product
     {
         return Cache::store('array')->rememberForever(sprintf("%s-%s", 'copy-product', $this->copy_id), fn() => Product::query()->find($this->copy_id));
     }

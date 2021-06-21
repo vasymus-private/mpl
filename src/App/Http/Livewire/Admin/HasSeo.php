@@ -17,7 +17,7 @@ trait HasSeo
     /**
      * @return string[]
      */
-    protected function getSeoRules(): array
+    protected function getSeoTabRules(): array
     {
         return [
             'seo.title' => 'nullable|max:199',

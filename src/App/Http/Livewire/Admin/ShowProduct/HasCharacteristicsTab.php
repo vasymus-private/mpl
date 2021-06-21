@@ -12,7 +12,7 @@ use Domain\Products\Models\CharType;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Validation\Rules\Exists;
 
-class Characteristics extends BaseShowProduct
+trait HasCharacteristicsTab
 {
     /**
      * @var array[] @see {@link \Domain\Products\DTOs\Admin\CharCategoryDTO}
@@ -24,11 +24,11 @@ class Characteristics extends BaseShowProduct
      */
     public array $charRateOptions;
 
-    protected const DEFAULT_NEW_CHAR_CATEGORY = [
+    protected static $defaultNewCharCategory = [
         'name' => '',
     ];
 
-    protected const DEFAULT_NEW_CHAR = [
+    protected static $defaultNewChar = [
         'name' => '',
         'category_id' => null,
     ];
@@ -36,12 +36,12 @@ class Characteristics extends BaseShowProduct
     /**
      * @var array @see {@link \Domain\Products\DTOs\Admin\CharCategoryDTO}
      */
-    public array $newCharCategory = self::DEFAULT_NEW_CHAR_CATEGORY;
+    public array $newCharCategory = [];
 
     /**
      * @var array @see {@link \Domain\Products\DTOs\Admin\CharDTO}
      */
-    public array $newChar = self::DEFAULT_NEW_CHAR;
+    public array $newChar = [];
 
     /**
      * @var array[] @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\CharType}
@@ -51,17 +51,9 @@ class Characteristics extends BaseShowProduct
     /**
      * @return string[]|array[]
      */
-    protected function rules(): array
+    protected function getCharacteristicsTabRules(): array
     {
         return [];
-    }
-
-    /**
-     * @return array
-     */
-    protected function queryString(): array
-    {
-        return array_merge($this->getHasShowProductQueryString(), []);
     }
 
     protected function getNewCharCategoryRules(): array
@@ -86,30 +78,31 @@ class Characteristics extends BaseShowProduct
         ];
     }
 
-    protected function getComponentName(): string
+    protected function initCharacteristicsTab()
     {
-        return ShowProductConstants::COMPONENT_NAME_CHARACTERISTICS;
-    }
-
-    public function mount()
-    {
-//        dump($this->item->uuid);
-        $this->initCommonShowProduct();
         $this->initCharRateOptions();
         $this->initCharTypeOptions();
 
-        $this->initItem();
+        $this->newCharCategory = static::$defaultNewCharCategory;
+        $this->newChar = static::$defaultNewChar;
+
+        $product = $this->item;
+
+        if ($this->isCreatingFromCopy) {
+            $originProduct = $this->getOriginProduct();
+            $product = $originProduct ?: $product;
+        }
+
+        $this->initChars($product);
     }
 
-    public function render()
+    protected function getCharacteristicsAttributes(): array
     {
-        return view('admin.livewire.show-product.characteristics');
+        return [];
     }
 
-    public function handleSave()
+    public function saveCharacteristics()
     {
-        $item = $this->getRefreshedItemOrNew();
-
         $charsIds = [];
         $charCategoriesIds = [];
 
@@ -172,27 +165,6 @@ class Characteristics extends BaseShowProduct
                 'label' => $charCategory['name'],
             ]))->toArray())
             ->all();
-    }
-
-
-    protected function initItem()
-    {
-        if ($this->isCreatingFromCopy) {
-            $copyProduct = $this->getCopyProduct();
-            if ($copyProduct !== null) {
-                $this->initAsCopiedItem($copyProduct);
-                return;
-            }
-        }
-
-        $this->initChars($this->item);
-    }
-
-    protected function initAsCopiedItem(Product $origin)
-    {
-        parent::initAsCopiedItem($origin);
-
-        $this->initChars($origin);
     }
 
     protected function initCharRateOptions()
@@ -274,7 +246,7 @@ class Characteristics extends BaseShowProduct
         ]);
 
         $this->charCategories[] = CharCategoryDTO::fromModel($charCategory)->toArray();
-        $this->newCharCategory = static::DEFAULT_NEW_CHAR_CATEGORY;
+        $this->newCharCategory = static::$defaultNewCharCategory;
 
         return true;
     }
@@ -306,7 +278,7 @@ class Characteristics extends BaseShowProduct
         ]);
 
         $charCategory['chars'][] = CharDTO::fromModel($char)->toArray();
-        $this->newChar = static::DEFAULT_NEW_CHAR;
+        $this->newChar = static::$defaultNewChar;
         foreach ($this->charCategories as $index => $item) {
             if ((string)$item['id'] === (string)$charCategoryId) {
                 $this->charCategories[$index] = $charCategory;

@@ -2,9 +2,6 @@
 
 namespace App\Http\Livewire\Admin\ShowProduct;
 
-use App\Http\Livewire\Admin\HasAvailabilityStatuses;
-use App\Http\Livewire\Admin\HasBrands;
-use App\Http\Livewire\Admin\HasCurrencies;
 use App\Http\Livewire\Admin\HasGenerateSlug;
 use Domain\Common\DTOs\FileDTO;
 use Domain\Common\Models\Currency;
@@ -17,14 +14,9 @@ use Domain\Products\Models\Product\Product;
 use Illuminate\Validation\Rules\Unique;
 use Livewire\TemporaryUploadedFile;
 
-class Elements extends BaseShowProduct
+trait HasElementsTab
 {
-    use HasBrands;
-    use HasCurrencies;
-    use HasAvailabilityStatuses;
     use HasGenerateSlug;
-
-    protected const MAX_FILE_SIZE_MB = ShowProductConstants::MAX_FILE_SIZE_MB;
 
     /**
      * @var array[] @see {@link \Domain\Products\DTOs\InformationalPriceDTO}
@@ -44,15 +36,7 @@ class Elements extends BaseShowProduct
     /**
      * @return array
      */
-    protected function queryString(): array
-    {
-        return array_merge($this->getHasShowProductQueryString(), []);
-    }
-
-    /**
-     * @return array
-     */
-    protected function rules(): array
+    protected function getElementsTabRules(): array
     {
         return [
             'item.name' => 'required|string|max:199',
@@ -88,38 +72,19 @@ class Elements extends BaseShowProduct
         ];
     }
 
-    protected function getComponentName(): string
+    protected function initElementsTab()
     {
-        return ShowProductConstants::COMPONENT_NAME_ELEMENTS;
-    }
-
-    public function mount()
-    {
-//        dump($this->item->uuid);
-        $this->initCommonShowProduct();
-        $this->initBrandsOptions();
-        $this->initCurrenciesOptions();
-        $this->initAvailabilityStatusesOptions();
-
         $this->initGenerateSlug();
 
-        $this->initItem();
-    }
+        $product = $this->item;
 
-    public function render()
-    {
-        return view('admin.livewire.show-product.elements');
-    }
+        if ($this->isCreatingFromCopy) {
+            $originProduct = $this->getOriginProduct();
+            $product = $originProduct ?: $product;
+        }
 
-    public function handleSave()
-    {
-        $this->validateBeforeHandleSave();
-
-        $this->saveProduct();
-
-        $this->saveInfoPrices();
-
-        $this->saveInstructions();
+        $this->initInfoPrices($product);
+        $this->initInstructions($product);
     }
 
     public function updatedItemName()
@@ -157,28 +122,6 @@ class Elements extends BaseShowProduct
         $this->instructions[] = $fileDTO->toArray();
     }
 
-    protected function initItem()
-    {
-        if ($this->isCreatingFromCopy) {
-            $copyProduct = $this->getCopyProduct();
-            if ($copyProduct !== null) {
-                $this->initAsCopiedItem($copyProduct);
-                return;
-            }
-        }
-
-        $this->initInfoPrices($this->item);
-        $this->initInstructions($this->item);
-    }
-
-    protected function initAsCopiedItem(Product $origin)
-    {
-        parent::initAsCopiedItem($origin);
-
-        $this->initInfoPrices($origin);
-        $this->initInstructions($origin);
-    }
-
     protected function initInfoPrices(Product $product)
     {
         $this->infoPrices = $product->infoPrices
@@ -205,9 +148,9 @@ class Elements extends BaseShowProduct
             ->toArray();
     }
 
-    protected function saveProduct()
+    protected function getElementsTabAttributes(): array
     {
-        $saveAttributes = [
+        return [
             'name' => $this->item->name,
             'is_active' => $this->item->is_active,
             'slug' => $this->item->slug,
@@ -225,10 +168,6 @@ class Elements extends BaseShowProduct
             'unit' => $this->item->unit,
             'availability_status_id' => $this->item->availability_status_id,
         ];
-        $item = $this->getRefreshedItemOrNew();
-        $item->forceFill($saveAttributes);
-        $item->save();
-
     }
 
     protected function saveInfoPrices()

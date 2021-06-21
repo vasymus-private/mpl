@@ -11,7 +11,6 @@
  */
 ?>
 <div class="py-4">
-    <div class="h1">{{now()}}</div>
     <h1 class="h2">
         Товары: элемент:
         @if($isCreatingFromCopy)
@@ -74,7 +73,7 @@
         @endforeach
     </ul>
 
-    <form class="js-show-product-form position-relative" data-names="{{json_encode($this::getComponentsNames())}}" data-id="{{$this->id}}">
+    <form wire:submit.prevent="handleSave" class="position-relative">
         <div wire:loading.flex wire:target="save">
             <div class="d-flex justify-content-center align-items-center bg-light" style="opacity: 0.5; position:absolute; top:0; bottom:0; right:0; left:0; z-index: 20; ">
                 <div class="spinner-border" role="status">
