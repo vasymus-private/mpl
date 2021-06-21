@@ -63,18 +63,33 @@
                     </td>
                     <td>
                         <div class="dropdown">
-                            <button class="btn btn-secondary" type="button" id="actions-dropdown-{{$product['id']}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
-                            <div class="dropdown-menu" aria-labelledby="actions-dropdown-{{$product['id']}}">
-                                <a class="dropdown-item" href="{{route("admin.products.edit", $product['id'])}}">Изменить</a>
-                                <button type="button" class="dropdown-item btn btn-link" wire:click="toggleActive({{$product['id']}})">
-                                    @if($product['is_active'])
-                                        Деактивировать
-                                    @else
-                                        Активировать
-                                    @endif
+                            <button class="btn btn__grid-row-action-button" type="button" id="actions-dropdown-{{$product['id']}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                            <div class="dropdown-menu bx-core-popup-menu" aria-labelledby="actions-dropdown-{{$product['id']}}">
+                                <div class="bx-core-popup-menu__arrow"></div>
+                                <a class="dropdown-item bx-core-popup-menu-item bx-core-popup-menu-item-default" href="{{route("admin.products.edit", $product['id'])}}">
+                                    <span class="bx-core-popup-menu-item-icon adm-menu-edit"></span>
+                                    <span class="bx-core-popup-menu-item-text">Изменить</span>
+                                </a>
+                                <button type="button" class="bx-core-popup-menu-item" wire:click="toggleActive({{$product['id']}})">
+                                    <span class="bx-core-popup-menu-item-icon"></span>
+                                    <span class="bx-core-popup-menu-item-text">
+                                        @if($product['is_active'])
+                                            Деактивировать
+                                        @else
+                                            Активировать
+                                        @endif
+                                    </span>
                                 </button>
-                                <a class="dropdown-item" href="{{route(\App\Constants::ROUTE_ADMIN_PRODUCTS_CREATE, ['copy_id' => $product['id']])}}">Копировать</a>
-                                <button type="button" class="dropdown-item btn btn-link" onclick="if (confirm('Вы уверены, что хотите удалить продукт `{{$product['id']}}` `{{$product['name']}}` ?')) {@this.handleDelete({{$product['id']}});}">Удалить</button>
+                                <span class="bx-core-popup-menu-separator"></span>
+                                <a class="bx-core-popup-menu-item" href="{{route(\App\Constants::ROUTE_ADMIN_PRODUCTS_CREATE, ['copy_id' => $product['id']])}}">
+                                    <span class="bx-core-popup-menu-item-icon adm-menu-copy"></span>
+                                    <span class="bx-core-popup-menu-item-text">Копировать</span>
+                                </a>
+                                <span class="bx-core-popup-menu-separator"></span>
+                                <button type="button" class="bx-core-popup-menu-item" onclick="if (confirm('Вы уверены, что хотите удалить продукт `{{$product['id']}}` `{{$product['name']}}` ?')) {@this.handleDelete({{$product['id']}});}">
+                                    <span class="bx-core-popup-menu-item-icon adm-menu-delete"></span>
+                                    <span class="bx-core-popup-menu-item-text">Удалить</span>
+                                </button>
                             </div>
                         </div>
                     </td>

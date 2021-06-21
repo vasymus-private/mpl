@@ -28,7 +28,7 @@
             <thead class="thead-light">
             <tr>
                 <th scope="col">
-                    <div class="form-check">
+                    <div class="form-check no-margin">
                         <input wire:model="selectAll" @if($editMode) disabled @endif class="form-check-input position-static" type="checkbox">
                     </div>
                 </th>

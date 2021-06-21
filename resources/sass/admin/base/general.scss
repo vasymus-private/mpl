@@ -156,6 +156,10 @@ body {
         color: #1c53a2;
         text-decoration: none;
     }
+
+    .dropdown {
+        margin: 10px 0;
+    }
 }
 
 .tab-content {
@@ -340,6 +344,30 @@ body {
                 vertical-align: top;
                 width: 13px;
             }
+        }
+    }
+
+    &__grid-row-action-button {
+        border: 0;
+        position: relative;
+        top: 3px;
+        display: inline-block;
+        width: 14px;
+        height: 12px;
+        border-radius: 0;
+        background: url(../images/sprite-interface.min.svg) 0 -201px no-repeat;
+        opacity: .3;
+        cursor: pointer;
+        -webkit-transition: opacity 200ms ease;
+        -o-transition: opacity 200ms ease;
+        transition: opacity 200ms ease;
+        &:active,
+        &:focus,
+        &:hover {
+            opacity: .7;
+            background-color: transparent;
+            border-color: transparent;
+            box-shadow: 0 0 0 0;
         }
     }
 }
