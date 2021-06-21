@@ -153,6 +153,9 @@ body {
         &.no-margin {
             margin: 0;
         }
+        &.no-padding-top {
+            padding-top: 0;
+        }
     }
 
     a {
@@ -162,6 +165,22 @@ body {
 
     .dropdown {
         margin: 10px 0;
+    }
+
+    .adm-list-table-icon {
+        background: url(../images/icons-sprite-14.png) no-repeat center -1512px;
+        display: inline-block;
+        height: 16px;
+        width: 21px;
+        margin-right: 5px;
+        &.iblock-section-icon {
+            background-position: center -118px;
+        }
+    }
+
+    &__column-name {
+        display: flex;
+        align-items: center;
     }
 }
 
