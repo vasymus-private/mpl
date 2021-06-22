@@ -56,7 +56,7 @@ class ShowCategory extends Component
         }
 
         return array_merge(
-            $this->getSeoTabRules(),
+            $this->getSeoRules(),
             [
                 'item.name' => 'required|string|max:199',
                 'item.slug' => [

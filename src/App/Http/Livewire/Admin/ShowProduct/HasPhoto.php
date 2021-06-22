@@ -17,7 +17,7 @@ trait HasPhoto
     /**
      * @var array[] @see {@link \Domain\Common\DTOs\FileDTO}
      */
-    public array $additionalImages;
+    public array $additionalImages = [];
 
     /**
      * @var \Livewire\TemporaryUploadedFile
@@ -53,6 +53,18 @@ trait HasPhoto
         }
 
         $this->initImages($product);
+    }
+
+    protected function handleSavePhotoTab()
+    {
+        $this->saveMainImage();
+
+        $this->saveAdditionalImages();
+    }
+
+    protected function getPhotoTabAttributes(): array
+    {
+        return [];
     }
 
     public function deleteMainImage()
@@ -106,13 +118,6 @@ trait HasPhoto
             ->toArray();
     }
 
-    public function savePhoto()
-    {
-        $this->saveMainImage();
-
-        $this->saveAdditionalImages();
-    }
-
     protected function saveMainImage()
     {
         if (!$this->mainImage) {
@@ -124,16 +129,17 @@ trait HasPhoto
             return;
         }
 
-        if ($this->mainImage['id'] !== null && !$this->isCreatingFromCopy) {
-            /** @var CustomMedia|null $media */
-            $media = $this->item->getFirstMedia(Product::MC_MAIN_IMAGE);
-            if ($media) {
-                $media->name = $this->mainImage['name'];
-                $media->save();
-            }
-        } else {
+        if ($this->isCreatingFromCopy || $this->mainImage['id'] === null) {
             $mainImage = new FileDTO($this->mainImage);
             $this->addMedia($mainImage, Product::MC_MAIN_IMAGE);
+            return;
+        }
+
+        /** @var CustomMedia|null $media */
+        $media = $this->item->getFirstMedia(Product::MC_MAIN_IMAGE);
+        if ($media) {
+            $media->name = $this->mainImage['name'];
+            $media->save();
         }
     }
 

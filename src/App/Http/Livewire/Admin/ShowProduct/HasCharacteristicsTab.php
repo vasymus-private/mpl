@@ -24,11 +24,11 @@ trait HasCharacteristicsTab
      */
     public array $charRateOptions;
 
-    protected static $defaultNewCharCategory = [
+    protected static array $defaultNewCharCategory = [
         'name' => '',
     ];
 
-    protected static $defaultNewChar = [
+    protected static array $defaultNewChar = [
         'name' => '',
         'category_id' => null,
     ];
@@ -53,7 +53,9 @@ trait HasCharacteristicsTab
      */
     protected function getCharacteristicsTabRules(): array
     {
-        return [];
+        return [
+            'charCategories.*.chars.*.value' => 'nullable|max:199',
+        ];
     }
 
     protected function getNewCharCategoryRules(): array
@@ -83,8 +85,8 @@ trait HasCharacteristicsTab
         $this->initCharRateOptions();
         $this->initCharTypeOptions();
 
-        $this->newCharCategory = static::$defaultNewCharCategory;
-        $this->newChar = static::$defaultNewChar;
+        $this->initNewCharCategory();
+        $this->initNewChar();
 
         $product = $this->item;
 
@@ -101,7 +103,12 @@ trait HasCharacteristicsTab
         return [];
     }
 
-    public function saveCharacteristics()
+    protected function getCharacteristicsTabAttributes(): array
+    {
+        return [];
+    }
+
+    protected function handleSaveCharacteristicsTab()
     {
         $charsIds = [];
         $charCategoriesIds = [];
@@ -246,7 +253,7 @@ trait HasCharacteristicsTab
         ]);
 
         $this->charCategories[] = CharCategoryDTO::fromModel($charCategory)->toArray();
-        $this->newCharCategory = static::$defaultNewCharCategory;
+        $this->initNewCharCategory();
 
         return true;
     }
@@ -278,7 +285,7 @@ trait HasCharacteristicsTab
         ]);
 
         $charCategory['chars'][] = CharDTO::fromModel($char)->toArray();
-        $this->newChar = static::$defaultNewChar;
+        $this->initNewChar();
         foreach ($this->charCategories as $index => $item) {
             if ((string)$item['id'] === (string)$charCategoryId) {
                 $this->charCategories[$index] = $charCategory;
@@ -287,5 +294,15 @@ trait HasCharacteristicsTab
         }
 
         return true;
+    }
+
+    protected function initNewCharCategory()
+    {
+        $this->newCharCategory = static::$defaultNewCharCategory;
+    }
+
+    protected function initNewChar()
+    {
+        $this->newChar = static::$defaultNewChar;
     }
 }

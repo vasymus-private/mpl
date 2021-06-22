@@ -111,6 +111,22 @@ trait HasProductProductTabs
         $this->initProductProduct($product);
     }
 
+    protected function getProductProductTabsAttributes(): array
+    {
+        return [
+            'accessory_name' => $this->item->accessory_name,
+            'similar_name' => $this->item->similar_name,
+            'related_name' => $this->item->related_name,
+            'work_name' => $this->item->work_name,
+            'instruments_name' => $this->item->instruments_name,
+        ];
+    }
+
+    protected function handleSaveProductProductTabs()
+    {
+        $this->saveProductProduct();
+    }
+
     public function loadProductProduct(int $for)
     {
         if (!in_array($for, ProductProduct::ALL_TYPES)) return;
@@ -121,7 +137,7 @@ trait HasProductProductTabs
 
         if (!$category_id && !$product_name) return;
 
-        $productQuery = Product::query();
+        $productQuery = Product::query()->notVariations();
 
         if ($category_id) {
             /** @var \Domain\Products\Actions\GetCategoryAndSubtreeIdsAction $getCategoryAndSubtreeIdsAction */
@@ -161,17 +177,6 @@ trait HasProductProductTabs
         $this->initProductProduct($this->item);
         $this->initLoadedForProductProduct();
         $this->initSearchForProductProduct();
-    }
-
-    protected function getProductProductTabsAttributes(): array
-    {
-        return [
-            'accessory_name' => $this->item->accessory_name,
-            'similar_name' => $this->item->similar_name,
-            'related_name' => $this->item->related_name,
-            'work_name' => $this->item->work_name,
-            'instruments_name' => $this->item->instruments_name,
-        ];
     }
 
     protected function initProductProduct(Product $product)

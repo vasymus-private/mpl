@@ -9,6 +9,14 @@ trait HasSeoTab
 {
     use HasSeo;
 
+    /**
+     * @return array
+     */
+    protected function getSeoTabRules(): array
+    {
+        return array_merge([], $this->getSeoRules());
+    }
+
     protected function initSeoTab()
     {
         if ($this->isCreatingFromCopy) {
@@ -22,5 +30,15 @@ trait HasSeoTab
             }
         }
         $this->initSeo();
+    }
+
+    protected function getSeoTabAttributes(): array
+    {
+        return [];
+    }
+
+    protected function handleSaveSeoTab()
+    {
+        $this->saveSeo();
     }
 }

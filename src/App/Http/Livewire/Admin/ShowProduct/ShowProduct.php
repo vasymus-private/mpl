@@ -7,37 +7,30 @@ use App\Http\Livewire\Admin\HasBrands;
 use App\Http\Livewire\Admin\HasCategories;
 use App\Http\Livewire\Admin\HasCurrencies;
 use App\Http\Livewire\Admin\HasTabs;
-use Domain\Products\Models\Category;
-use Domain\Products\Models\Product\Product;
 use Livewire\WithFileUploads;
 
-// TODO not finished refactoring and moving to tab traits
 class ShowProduct extends BaseShowProduct
 {
     use WithFileUploads;
     use HasCurrencies;
     use HasAvailabilityStatuses;
     use HasCategories;
-    use HasTabs;
     use HasBrands;
+    use HasTabs;
     use HasCurrencies;
-    use HasAvailabilityStatuses;
+
     use HasElementsTab;
-    use HasCharacteristicsTab;
-    use HasPhoto;
     use HasDescription;
+    use HasPhoto;
+    use HasCharacteristicsTab;
     use HasSeoTab;
-    use HasVariationsTab;
     use HasProductProductTabs;
+    use HasVariationsTab;
+    use HasOthersTab;
 
     protected const MAX_FILE_SIZE_MB = ShowProductConstants::MAX_FILE_SIZE_MB;
 
     protected const DEFAULT_TAB = 'elements';
-
-    /**
-     * @var int[]
-     */
-    public array $relatedCategories;
 
     /**
      * @var string[]
@@ -76,14 +69,12 @@ class ShowProduct extends BaseShowProduct
     {
         return array_merge(
             $this->getElementsTabRules(),
-            $this->getCharacteristicsTabRules(),
-            $this->getPhotoTabRules(),
             $this->getDescriptionTabRules(),
+            $this->getPhotoTabRules(),
+            $this->getCharacteristicsTabRules(),
             $this->getSeoTabRules(),
             $this->getProductProductTabsRules(),
-            [
-                'item.category_id' => 'nullable|integer|exists:' . Category::class . ',id',
-            ]
+            $this->getOthersTabRules()
         );
     }
 
@@ -98,15 +89,14 @@ class ShowProduct extends BaseShowProduct
 
         $this->initHasTabs();
 
-        $this->initItem();
-
         $this->initElementsTab();
-        $this->initCharacteristicsTab();
-        $this->initPhotoTab();
         $this->initDescriptionTab();
+        $this->initPhotoTab();
+        $this->initCharacteristicsTab();
         $this->initSeoTab();
-        $this->initVariationsTab();
         $this->initProductProductTabs();
+        $this->initVariationsTab();
+        $this->initOthersTab();
     }
 
     public function render()
@@ -120,11 +110,15 @@ class ShowProduct extends BaseShowProduct
 
         $this->saveProduct();
 
-        $this->saveProductProduct();
+        $this->handleSaveElementsTab();
+        $this->handleSaveDescriptionTab();
+        $this->handleSavePhotoTab();
+        $this->handleSaveCharacteristicsTab();
+        $this->handleSaveSeoTab();
+        $this->handleSaveProductProductTabs();
+
 
         $this->saveRelatedCategories();
-
-        $this->saveSeo();
 
         if ($this->isCreating) {
             return redirect()->route('admin.products.edit', $this->item->id);
@@ -133,35 +127,23 @@ class ShowProduct extends BaseShowProduct
 
     protected function saveProduct()
     {
-        $elementsAttributes = $this->getElementsTabAttributes();
-        $descriptionAttributes = $this->getDescriptionTabAttributes();
+        $elementsTabAttributes = $this->getElementsTabAttributes();
+        $descriptionTabAttributes = $this->getDescriptionTabAttributes();
+        $photoTabAttributes = $this->getPhotoTabAttributes();
+        $characteristicsTabAttributes = $this->getCharacteristicsTabAttributes();
         $variationsTabAttributes = $this->getVariationsTabAttributes();
-        $saveAttributes = [
-            'category_id' => $this->item->category_id,
-        ];
-        $this->item->forceFill(array_merge($elementsAttributes, $descriptionAttributes, $variationsTabAttributes, $saveAttributes));
+        $othersTabAttributes = $this->getOthersTabAttributes();
+
+        $this->item->forceFill(
+            array_merge(
+                $elementsTabAttributes,
+                $descriptionTabAttributes,
+                $photoTabAttributes,
+                $characteristicsTabAttributes,
+                $variationsTabAttributes,
+                $othersTabAttributes
+            )
+        );
         $this->item->save();
-    }
-
-    protected function saveRelatedCategories()
-    {
-        $this->item->relatedCategories()->sync($this->relatedCategories);
-    }
-
-    protected function initItem()
-    {
-        $product = $this->item;
-
-        if ($this->isCreatingFromCopy) {
-            $originProduct = $this->getOriginProduct();
-            $product = $originProduct ?: $product;
-        }
-
-        $this->initRelatedCategories($product);
-    }
-
-    protected function initRelatedCategories(Product $product)
-    {
-        $this->relatedCategories = $product->relatedCategories->pluck('id')->toArray();
     }
 }

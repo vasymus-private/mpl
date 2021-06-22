@@ -87,6 +87,12 @@ trait HasElementsTab
         $this->initInstructions($product);
     }
 
+    protected function handleSaveElementsTab()
+    {
+        $this->saveInfoPrices();
+        $this->saveInstructions();
+    }
+
     public function updatedItemName()
     {
         $this->handleGenerateSlug();
