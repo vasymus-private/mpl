@@ -74,6 +74,7 @@ class ShowProduct extends BaseShowProduct
             $this->getCharacteristicsTabRules(),
             $this->getSeoTabRules(),
             $this->getProductProductTabsRules(),
+            $this->getVariationsTabRules(),
             $this->getOthersTabRules()
         );
     }
@@ -116,9 +117,8 @@ class ShowProduct extends BaseShowProduct
         $this->handleSaveCharacteristicsTab();
         $this->handleSaveSeoTab();
         $this->handleSaveProductProductTabs();
-
-
-        $this->saveRelatedCategories();
+        $this->handleSaveVariationsTab();
+        $this->handleSaveOthersTab();
 
         if ($this->isCreating) {
             return redirect()->route('admin.products.edit', $this->item->id);
@@ -131,6 +131,7 @@ class ShowProduct extends BaseShowProduct
         $descriptionTabAttributes = $this->getDescriptionTabAttributes();
         $photoTabAttributes = $this->getPhotoTabAttributes();
         $characteristicsTabAttributes = $this->getCharacteristicsTabAttributes();
+        $productProductTabsAttributes = $this->getProductProductTabsAttributes();
         $variationsTabAttributes = $this->getVariationsTabAttributes();
         $othersTabAttributes = $this->getOthersTabAttributes();
 
@@ -140,6 +141,7 @@ class ShowProduct extends BaseShowProduct
                 $descriptionTabAttributes,
                 $photoTabAttributes,
                 $characteristicsTabAttributes,
+                $productProductTabsAttributes,
                 $variationsTabAttributes,
                 $othersTabAttributes
             )

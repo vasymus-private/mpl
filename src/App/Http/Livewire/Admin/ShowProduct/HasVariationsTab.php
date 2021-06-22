@@ -49,6 +49,14 @@ trait HasVariationsTab
     public $variationsSelectAll = false;
 
     /**
+     * @return array
+     */
+    protected function getVariationsTabRules(): array
+    {
+        return [];
+    }
+
+    /**
      * @return string[]
      */
     protected function variationsRules(): array
@@ -99,7 +107,6 @@ trait HasVariationsTab
         }
 
         $this->initIsWithVariations($product);
-
         $this->initVariations($product);
     }
 
@@ -108,6 +115,13 @@ trait HasVariationsTab
         return [
             'is_with_variations' => (bool)$this->is_with_variations,
         ];
+    }
+
+    protected function handleSaveVariationsTab()
+    {
+        if ($this->isCreatingFromCopy) {
+            // TODO
+        }
     }
 
     public function saveVariations()

@@ -40,7 +40,7 @@ trait HasOthersTab
         ];
     }
 
-    protected function saveRelatedCategories()
+    protected function handleSaveOthersTab()
     {
         $this->item->relatedCategories()->sync($this->relatedCategories);
     }
