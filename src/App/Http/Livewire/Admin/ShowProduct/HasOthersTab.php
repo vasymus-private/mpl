@@ -15,9 +15,7 @@ trait HasOthersTab
     protected function getOthersTabRules(): array
     {
         return [
-            [
-                'item.category_id' => 'nullable|integer|exists:' . Category::class . ',id',
-            ]
+            'item.category_id' => 'nullable|integer|exists:' . Category::class . ',id',
         ];
     }
 

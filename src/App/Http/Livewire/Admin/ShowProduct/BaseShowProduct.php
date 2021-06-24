@@ -3,15 +3,15 @@
 namespace App\Http\Livewire\Admin\ShowProduct;
 
 use App\Constants;
+use App\Http\Livewire\Admin\BaseShowComponent;
 use Domain\Common\DTOs\FileDTO;
 use Domain\Common\Models\CustomMedia;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
-use Livewire\Component;
 use Support\H;
 
-abstract class BaseShowProduct extends Component
+abstract class BaseShowProduct extends BaseShowComponent
 {
     /**
      * @var \Domain\Products\Models\Product\Product
@@ -64,15 +64,6 @@ abstract class BaseShowProduct extends Component
         ];
     }
 
-    protected function initAsCopiedItem(Product $origin)
-    {
-        // fill item with attributes
-        $attributes = collect($origin->toArray())
-            ->only($this->getCopyItemAttributes())
-            ->toArray();
-        $this->item->forceFill($attributes);
-    }
-
     /**
      * @return void
      */
@@ -81,6 +72,22 @@ abstract class BaseShowProduct extends Component
         $this->currentRouteName = Route::currentRouteName();
         $this->isCreating = $this->currentRouteName === Constants::ROUTE_ADMIN_PRODUCTS_CREATE;
         $this->isCreatingFromCopy = $this->copy_id && $this->currentRouteName === Constants::ROUTE_ADMIN_PRODUCTS_CREATE && $this->getOriginProduct() !== null;
+
+        if ($this->isCreatingFromCopy) {
+            $originProduct = $this->getOriginProduct();
+            if ($originProduct !== null) {
+                $this->initAsCopiedItem($originProduct);
+            }
+        }
+    }
+
+    protected function initAsCopiedItem(Product $origin)
+    {
+        // fill item with attributes
+        $attributes = collect($origin->toArray())
+            ->only($this->getCopyItemAttributes())
+            ->toArray();
+        $this->item->forceFill($attributes);
     }
 
     /**

@@ -11,6 +11,10 @@ use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Product\Product;
 use Livewire\TemporaryUploadedFile;
 
+/**
+ * @mixin \App\Http\Livewire\Admin\ShowProduct\ShowProduct
+ * @mixin \App\Http\Livewire\Admin\ShowProduct\BaseShowProduct
+ */
 trait HasVariationsTab
 {
     /**
@@ -119,13 +123,46 @@ trait HasVariationsTab
 
     protected function handleSaveVariationsTab()
     {
-        if ($this->isCreatingFromCopy) {
-            // TODO
+        if (!$this->isCreatingFromCopy) {
+            return;
+        }
+
+        foreach ($this->variations as $variationAttributes) {
+            $attributes = collect($variationAttributes)->only([
+                'uuid',
+                'name',
+                'ordering',
+                'is_active',
+                'coefficient',
+                'price_purchase',
+                'price_purchase_currency_id',
+                'unit',
+                'price_retail',
+                'price_retail_currency_id',
+                'availability_status_id',
+                'preview'
+            ])->toArray();
+            $attributes['parent_id'] = $this->item->id;
+            $variation = Product::forceCreate($attributes);
+
+            if (!empty($variationAttributes['main_image'])) {
+                $this->addMedia(new FileDTO($variationAttributes['main_image']), Product::MC_MAIN_IMAGE, $variation);
+            }
+
+            if (!empty($variationAttributes['additional_images'])) {
+                foreach ($variationAttributes['additional_images'] as $additionalImage) {
+                    $this->addMedia(new FileDTO($additionalImage), Product::MC_ADDITIONAL_IMAGES, $variation);
+                }
+            }
         }
     }
 
     public function saveVariations()
     {
+        if ($this->isCreatingFromCopy) {
+            return;
+        }
+
         $this->validate($this->variationsRules());
 
         $dbVariations = $this->item->variations()->get();
@@ -156,6 +193,10 @@ trait HasVariationsTab
 
     public function saveCurrentVariation()
     {
+        if ($this->isCreatingFromCopy) {
+            return;
+        }
+
         $this->validate($this->currentVariationRules());
 
         $currentVariationDto = (new VariationDTO($this->currentVariation));
@@ -212,13 +253,17 @@ trait HasVariationsTab
         return true;
     }
 
-    public function setCurrentVariation(?int $id = null)
+    public function setCurrentVariation(?string $uuid = null)
     {
-        if (!$id) {
+        if ($this->isCreatingFromCopy) {
+            return;
+        }
+
+        if (!$uuid) {
             $this->currentVariation = (new VariationDTO())->toArray();
         } else {
             /** @var \Domain\Products\Models\Product\Product $variation */
-            $variation = $this->item->variations()->with('media')->findOrFail($id);
+            $variation = $this->item->variations()->with('media')->where('uuid', $uuid)->firstOrFail();
             $this->currentVariation = VariationDTO::fromModel($variation)->toArray();
         }
     }
@@ -230,17 +275,21 @@ trait HasVariationsTab
         $this->tempVariationAdditionalImage = null;
     }
 
-    public function toggleVariationActive($id)
+    public function toggleVariationActive($uuid)
     {
+        if ($this->isCreatingFromCopy) {
+            return;
+        }
+
         /** @var \Domain\Products\Models\Product\Product|null $variation */
-        $variation = $this->item->variations()->find($id);
+        $variation = $this->item->variations()->where('uuid', $uuid)->first();
         if (!$variation) {
             return;
         }
 
         $variation->is_active = !$variation->is_active;
         $variation->save();
-        $this->variations[$id] = VariationDTO::fromModel($variation)->toArray();
+        $this->variations[$uuid] = VariationDTO::fromModel($variation)->toArray();
     }
 
     public function deleteVariationMainImage()
@@ -256,6 +305,9 @@ trait HasVariationsTab
     public function setWithVariations(bool $with)
     {
         $this->is_with_variations = $with;
+        if ($this->isCreatingFromCopy) {
+            return;
+        }
         /** @var \Domain\Products\Models\Product\Product $product */
         $product = Product::query()->findOrFail($this->item->id);
         $product->is_with_variations = $with;
@@ -292,6 +344,10 @@ trait HasVariationsTab
 
     public function handleDeleteSelectedVariations()
     {
+        if ($this->isCreatingFromCopy) {
+            return;
+        }
+
         $selectedVariationIds = collect($this->variations)
             ->filter(fn(array $item) => !!$item['is_checked'] && !!$item['id'])
             ->pluck('id')
@@ -309,21 +365,29 @@ trait HasVariationsTab
         $this->variationsSelectAll = false;
     }
 
-    public function deleteVariation($id)
+    public function deleteVariation($uuid)
     {
+        if ($this->isCreatingFromCopy) {
+            return;
+        }
+
         /** @var \Domain\Products\Models\Product\Product|null $variation */
-        $variation = $this->item->variations()->find($id);
+        $variation = $this->item->variations()->where('uuid', $uuid)->first();
         if (!$variation) {
             return;
         }
         DeleteVariationAction::cached()->execute($variation);
-        $this->variations = collect($this->variations)->filter(fn(array $variation) => (string)$variation['id'] !== (string)$id)->all();
+        $this->variations = collect($this->variations)->filter(fn(array $variation) => (string)$variation['uuid'] !== (string)$uuid)->all();
     }
 
-    public function copyVariation($copyId)
+    public function copyVariation($copyUuid)
     {
+        if ($this->isCreatingFromCopy) {
+            return;
+        }
+
         /** @var \Domain\Products\Models\Product\Product|null $original */
-        $original = $this->item->variations()->find($copyId);
+        $original = $this->item->variations()->where('uuid', $copyUuid)->first();
 
         if (!$original) {
             return;
@@ -352,6 +416,10 @@ trait HasVariationsTab
 
     public function handleCancelVariationsEditMode()
     {
+        if ($this->isCreatingFromCopy) {
+            return;
+        }
+
         $this->handleSetVariationsEditMode(false);
         $this->initVariations($this->item);
     }
@@ -375,7 +443,7 @@ trait HasVariationsTab
                     ? VariationDTO::copyFromModel($variation)->toArray()
                     : VariationDTO::fromModel($variation)->toArray()
             )
-            ->keyBy('id')
+            ->keyBy('uuid')
             ->toArray();
         $this->currentVariation = (new VariationDTO())->toArray();
     }

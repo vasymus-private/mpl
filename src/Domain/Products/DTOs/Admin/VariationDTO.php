@@ -7,11 +7,14 @@ use Domain\Common\Models\CustomMedia;
 use Domain\Products\DTOs\ProductMediaUrlsDTO;
 use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Product\Product;
+use Illuminate\Support\Str;
 use Spatie\DataTransferObject\DataTransferObject;
 
 class VariationDTO extends DataTransferObject
 {
     public ?int $id;
+
+    public ?string $uuid;
 
     public ?int $parent_id;
 
@@ -93,6 +96,7 @@ class VariationDTO extends DataTransferObject
 
         return new self([
             'id' => $product->id,
+            'uuid' => $product->uuid,
             'parent_id' => $product->parent_id,
             'name' => $product->name,
             'ordering' => $product->ordering ?: 500,
@@ -122,6 +126,7 @@ class VariationDTO extends DataTransferObject
         $dto = static::fromModel($product);
         $dto->id = null;
         $dto->parent_id = null;
+        $dto->uuid = Str::uuid()->toString();
         return $dto;
     }
 }

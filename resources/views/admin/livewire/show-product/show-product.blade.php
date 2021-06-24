@@ -108,7 +108,7 @@
     @foreach($errors->all() as $error)
         <div wire:key="{{$error}}" class="alert alert-danger alert-dismissible fade show" role="alert">
             {{$error}}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <button type="button" wire:click="clearValidationErrors" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>

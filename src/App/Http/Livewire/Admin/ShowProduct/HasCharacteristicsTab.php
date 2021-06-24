@@ -132,9 +132,10 @@ trait HasCharacteristicsTab
                     $char = Char::forceCreate([
                         'name' => $charItem['name'],
                         'value' => $charItem['value'],
+                        'product_id' => $this->item->id,
+                        'category_id' => $charCategory->id,
                         'ordering' => $charItem['ordering'],
                         'type_id' => $charItem['type_id'],
-                        'category_id' => $charCategory->id,
                     ]);
                 } else {
                     $char = Char::query()->findOrFail($charItem['id']);

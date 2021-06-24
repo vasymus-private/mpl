@@ -12,7 +12,7 @@ use Illuminate\Validation\Rules\Exists;
 use Illuminate\Validation\Rules\Unique;
 use Livewire\Component;
 
-class ShowCategory extends Component
+class ShowCategory extends BaseShowComponent
 {
     use HasTabs;
     use HasSeo;
@@ -148,11 +148,6 @@ class ShowCategory extends Component
         $parentId = $this->item->parent_id;
         DeleteCategoryAction::cached()->execute($this->item);
         return redirect()->route('admin.categories.index', ['category_id' => $parentId]);
-    }
-
-    public function clearValidationErrors()
-    {
-        $this->clearValidation();
     }
 
     public function updatedItemName()

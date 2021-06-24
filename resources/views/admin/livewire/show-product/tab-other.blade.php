@@ -1,6 +1,6 @@
 <?php
 /**
- * @var array[] $categories @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\Category}
+ * @var array[] $categories @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\Category} {@link \App\Http\Livewire\Admin\ShowProduct\ShowProduct::$categories}
  * @see {@link \App\Http\Livewire\Admin\ShowProduct\ShowProduct::$relatedCategories}
  * @see {@link \App\Http\Livewire\Admin\ShowProduct\ShowProduct::$item}
  */

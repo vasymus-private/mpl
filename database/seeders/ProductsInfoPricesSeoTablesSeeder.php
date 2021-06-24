@@ -196,11 +196,16 @@ class ProductsInfoPricesSeoTablesSeeder extends Seeder
             foreach ($asIsAttributes as $attribute) {
                 if (($rawSeed[$attribute] ?? null) !== null) {
                     switch (true) {
+                        case $attribute === 'admin_comment' :
+                        case $attribute === 'name' : {
+                            $seed[$attribute] = str_replace('&quot;', '"', $rawSeed[$attribute]);
+                            break;
+                        }
                         case $attribute === "manufacturer_id" : {
                             $seed["brand_id"] = $rawSeed["manufacturer_id"];
                             break;
                         }
-                        case $attribute === "is_available":
+                        case $attribute === "is_available" :
                         case $attribute === "is_in_stock" : {
                             $seed['availability_status_id'] = rand(1, 3);
                             break;

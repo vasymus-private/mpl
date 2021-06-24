@@ -8,161 +8,174 @@
  * @var array[] $availabilityStatuses @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Common\Models\Currency}
  */
 ?>
-@if($this->isCreatingFromCopy)
-    <p class="text-danger">Чтобы редактировать товарные предложения, необходимо сохранить скопированный товар.</p>
-@else
-    <div class="admin-edit-variations">
-        <div class="admin-edit-variations__header">
+<div class="admin-edit-variations">
+    <div class="admin-edit-variations__header">
+        @if($this->isCreatingFromCopy)
+            <p class="text-danger">Чтобы добавлять или редактировать новые варианты, необходимо сохранить скопированный товар.</p>
+        @else
             <button onclick="@this.setCurrentVariation().then(() => {$('#current-variation').modal('show')})" type="button" data-target="#current-variation" class="btn btn__add">Добавить элемент</button>
-            {{--<button class="btn btn__default">Добавить предложение с набором</button>
-            <button class="btn btn__default">Обновить список</button>
-            <button class="btn btn__default">Генерировать торговые предложения</button>--}}
-        </div>
+        @endif
+    </div>
 
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover" style="width: 3000px;">
-                <thead>
-                <tr>
-                    <th>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover" style="width: 3000px;">
+            <thead>
+            <tr>
+                <th>
+                    <div class="form-check form-check-inline">
+                        <input
+                            wire:model="variationsSelectAll"
+                            @if($this->isCreatingFromCopy) disabled @endif
+                            class="form-check-input"
+                            type="checkbox"
+                        />
+                    </div>
+                </th>
+                <th>&nbsp;</th>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Активность</th>
+                <th>Детальная картинка</th>
+                <th>Дополнительные фото</th>
+                <th>Сортировка</th>
+                <th>Закупочная цена</th>
+                <th>Упаковка / единица измерения</th>
+                <th>Коэффициент</th>
+                <th>Розничная цена за упаковку</th>
+                <th>Наличие</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($variations as $variation)
+                <tr wire:key="{{$variation['uuid']}}" ondblclick="@this.setCurrentVariation({{$variation['uuid']}}).then(() => {$('#current-variation').modal('show')})">
+                    <td>
                         <div class="form-check form-check-inline">
-                            <input wire:model="variationsSelectAll" class="form-check-input" type="checkbox" />
+                            <input
+                                wire:model.defer="variations.{{$variation['uuid']}}.is_checked"
+                                @if($this->isCreatingFromCopy) disabled @endif
+                                class="form-check-input"
+                                type="checkbox"
+                            />
                         </div>
-                    </th>
-                    <th>&nbsp;</th>
-                    <th>ID</th>
-                    <th>Название</th>
-                    <th>Активность</th>
-                    <th>Детальная картинка</th>
-                    <th>Дополнительные фото</th>
-                    <th>Сортировка</th>
-                    <th>Закупочная цена</th>
-                    <th>Упаковка / единица измерения</th>
-                    <th>Коэффициент</th>
-                    <th>Розничная цена за упаковку</th>
-                    <th>Наличие</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($variations as $variation)
-                    <tr wire:key="{{$variation['id']}}" ondblclick="@this.setCurrentVariation({{$variation['id']}}).then(() => {$('#current-variation').modal('show')})">
-                        <td>
-                            <div class="form-check form-check-inline">
-                                <input wire:model.defer="variations.{{$variation['id']}}.is_checked" class="form-check-input" type="checkbox" />
-                            </div>
-                        </td>
-                        <td>
+                    </td>
+                    <td>
+                        @if($this->isCreatingFromCopy)
+                            &nbsp;
+                        @else
                             <div class="dropdown">
-                                <button class="btn btn-secondary" type="button" id="actions-dropdown-{{$variation['id']}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
-                                <div class="dropdown-menu" aria-labelledby="actions-dropdown-{{$variation['id']}}">
-                                    <button onclick="@this.setCurrentVariation({{$variation['id']}}).then(() => {$('#current-variation').modal('show')})" type="button" data-target="#current-variation" class="dropdown-item btn btn-link">Изменить</button>
-                                    <button type="button" class="dropdown-item btn btn-link" wire:click="toggleVariationActive({{$variation['id']}})">
+                                <button class="btn btn-secondary" type="button" id="actions-dropdown-{{$variation['uuid']}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
+                                <div class="dropdown-menu" aria-labelledby="actions-dropdown-{{$variation['uuid']}}">
+                                    <button onclick="@this.setCurrentVariation({{$variation['uuid']}}).then(() => {$('#current-variation').modal('show')})" type="button" data-target="#current-variation" class="dropdown-item btn btn-link">Изменить</button>
+                                    <button type="button" class="dropdown-item btn btn-link" wire:click="toggleVariationActive({{$variation['uuid']}})">
                                         @if($variation['is_active'])
                                             Деактивировать
                                         @else
                                             Активировать
                                         @endif
                                     </button>
-                                    <button wire:click="copyVariation({{$variation['id']}})" type="button" class="btn btn-link">Копировать</button>
-                                    <button type="button" class="dropdown-item btn btn-link" onclick="if (confirm('Вы уверены, что хотите удалить вариант товара `{{$variation['id']}}` `{{$variation['name']}}` ?')) {@this.deleteVariation({{$variation['id']}});}">Удалить</button>
+                                    <button wire:click="copyVariation({{$variation['uuid']}})" type="button" class="btn btn-link">Копировать</button>
+                                    <button type="button" class="dropdown-item btn btn-link" onclick="if (confirm('Вы уверены, что хотите удалить вариант товара `{{$variation['uuid']}}` `{{$variation['name']}}` ?')) {@this.deleteVariation({{$variation['uuid']}});}">Удалить</button>
                                 </div>
                             </div>
-                        </td>
-                        <td>
-                            <a href="javascript:;" onclick="@this.setCurrentVariation({{$variation['id']}}).then(() => {$('#current-variation').modal('show')})" type="button">{{$variation['id']}}</a>
-                        </td>
-                        <td>
-                            @if($variationsEditMode && $variation['is_checked'])
-                                @include('admin.livewire.includes.form-control-input', ['field' => "variations.$variation[id].name"])
-                            @else
-                                {{$variation['name']}}
-                            @endif
-                        </td>
-                        <td>
-                            @if($variationsEditMode && $variation['is_checked'])
-                                @include('admin.livewire.includes.form-check', ['field' => "variations.$variation[id].is_active"])
-                            @else
-                                {{$variation['is_active'] ? 'Да' : 'Нет'}}
-                            @endif
-                        </td>
-                        <td>
-                            @if($variation['main_image_media_urls']['xs_thumb'] ?? null)
-                                <a href="{{$variation['main_image_media_urls']['url']}}" target="_blank"><img class="img-fluid" src="{{$variation['main_image_media_urls']['xs_thumb']}}" alt=""></a>
-                            @else
-                                &nbsp;
-                            @endif
-                        </td>
-                        <td>
-                            @foreach($variation['additional_images_media_urls'] as $additionalImageMediaUrls)
-                                <?php /** @var array $additionalImageMediaUrls @see {@link \Domain\Products\DTOs\ProductMediaUrlsDTO} */ ?>
-                                <div class="mb-2" style="max-width: 40px">
-                                    <a href="{{$additionalImageMediaUrls['url']}}" target="_blank"><img class="img-fluid" src="{{$additionalImageMediaUrls['xs_thumb']}}" alt=""></a>
-                                </div>
-                            @endforeach
-                        </td>
-                        <td>
-                            @if($variationsEditMode && $variation['is_checked'])
-                                @include('admin.livewire.includes.form-control-input', ['field' => "variations.$variation[id].ordering"])
-                            @else
-                                {{$variation['ordering']}}
-                            @endif
-                        </td>
-                        <td>
-                            @if($variationsEditMode && $variation['is_checked'])
-                                <div class="form-row">
-                                    <div class="col">
-                                        @include('admin.livewire.includes.form-control-input', ['field' => "variations.$variation[id].price_purchase"])
-                                    </div>
-                                    <div class="col">
-                                        @include('admin.livewire.includes.form-control-select', ['field' => "variations.$variation[id].price_purchase_currency_id", 'options' => $currencies])
-                                    </div>
-                                </div>
-                            @else
-                                {{$variation['price_purchase_rub_formatted']}}
-                            @endif
-                        </td>
-                        <td>
-                            @if($variationsEditMode && $variation['is_checked'])
-                                @include('admin.livewire.includes.form-control-input', ['field' => "variations.$variation[id].unit"])
-                            @else
-                                {{$variation['unit']}}
-                            @endif
-                        </td>
-                        <td>
-                            @if($variationsEditMode && $variation['is_checked'])
-                                @include('admin.livewire.includes.form-control-input', ['field' => "variations.$variation[id].coefficient"])
-                            @else
-                                {{$variation['coefficient']}}
-                            @endif
-                        </td>
-                        <td>
-                            @if($variationsEditMode && $variation['is_checked'])
-                                <div class="form-row">
-                                    <div class="col">
-                                        @include('admin.livewire.includes.form-control-input', ['field' => "variations.$variation[id].price_retail"])
-                                    </div>
-                                    <div class="col">
-                                        @include('admin.livewire.includes.form-control-select', ['field' => "variations.$variation[id].price_retail_currency_id", 'options' => $currencies])
-                                    </div>
-                                </div>
-                            @else
-                                {{$variation['price_retail_rub_formatted']}}
-                            @endif
-                        </td>
-                        <td>
-                            @if($variationsEditMode && $variation['is_checked'])
+                        @endif
+                    </td>
+                    <td>
+                        <a href="javascript:;" onclick="@this.setCurrentVariation({{$variation['uuid']}}).then(() => {$('#current-variation').modal('show')})" type="button">{{$variation['id']}}</a>
+                    </td>
+                    <td>
+                        @if($variationsEditMode && $variation['is_checked'])
+                            @include('admin.livewire.includes.form-control-input', ['field' => "variations.$variation[uuid].name"])
+                        @else
+                            {{$variation['name']}}
+                        @endif
+                    </td>
+                    <td>
+                        @if($variationsEditMode && $variation['is_checked'])
+                            @include('admin.livewire.includes.form-check', ['field' => "variations.$variation[uuid].is_active"])
+                        @else
+                            {{$variation['is_active'] ? 'Да' : 'Нет'}}
+                        @endif
+                    </td>
+                    <td>
+                        @if($variation['main_image_media_urls']['xs_thumb'] ?? null)
+                            <a href="{{$variation['main_image_media_urls']['url']}}" target="_blank"><img class="img-fluid" src="{{$variation['main_image_media_urls']['xs_thumb']}}" alt=""></a>
+                        @else
+                            &nbsp;
+                        @endif
+                    </td>
+                    <td>
+                        @foreach($variation['additional_images_media_urls'] as $additionalImageMediaUrls)
+                            <?php /** @var array $additionalImageMediaUrls @see {@link \Domain\Products\DTOs\ProductMediaUrlsDTO} */ ?>
+                            <div class="mb-2" style="max-width: 40px">
+                                <a href="{{$additionalImageMediaUrls['url']}}" target="_blank"><img class="img-fluid" src="{{$additionalImageMediaUrls['xs_thumb']}}" alt=""></a>
+                            </div>
+                        @endforeach
+                    </td>
+                    <td>
+                        @if($variationsEditMode && $variation['is_checked'])
+                            @include('admin.livewire.includes.form-control-input', ['field' => "variations.$variation[uuid].ordering"])
+                        @else
+                            {{$variation['ordering']}}
+                        @endif
+                    </td>
+                    <td>
+                        @if($variationsEditMode && $variation['is_checked'])
+                            <div class="form-row">
                                 <div class="col">
-                                    @include('admin.livewire.includes.form-control-select', ['field' => "variations.$variation[id].availability_status_id", 'options' => $availabilityStatuses])
+                                    @include('admin.livewire.includes.form-control-input', ['field' => "variations.$variation[uuid].price_purchase"])
                                 </div>
-                            @else
-                                {{$variation['availability_status_name']}}
-                            @endif
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
-        </div>
+                                <div class="col">
+                                    @include('admin.livewire.includes.form-control-select', ['field' => "variations.$variation[uuid].price_purchase_currency_id", 'options' => $currencies])
+                                </div>
+                            </div>
+                        @else
+                            {{$variation['price_purchase_rub_formatted']}}
+                        @endif
+                    </td>
+                    <td>
+                        @if($variationsEditMode && $variation['is_checked'])
+                            @include('admin.livewire.includes.form-control-input', ['field' => "variations.$variation[uuid].unit"])
+                        @else
+                            {{$variation['unit']}}
+                        @endif
+                    </td>
+                    <td>
+                        @if($variationsEditMode && $variation['is_checked'])
+                            @include('admin.livewire.includes.form-control-input', ['field' => "variations.$variation[uuid].coefficient"])
+                        @else
+                            {{$variation['coefficient']}}
+                        @endif
+                    </td>
+                    <td>
+                        @if($variationsEditMode && $variation['is_checked'])
+                            <div class="form-row">
+                                <div class="col">
+                                    @include('admin.livewire.includes.form-control-input', ['field' => "variations.$variation[uuid].price_retail"])
+                                </div>
+                                <div class="col">
+                                    @include('admin.livewire.includes.form-control-select', ['field' => "variations.$variation[uuid].price_retail_currency_id", 'options' => $currencies])
+                                </div>
+                            </div>
+                        @else
+                            {{$variation['price_retail_rub_formatted']}}
+                        @endif
+                    </td>
+                    <td>
+                        @if($variationsEditMode && $variation['is_checked'])
+                            <div class="col">
+                                @include('admin.livewire.includes.form-control-select', ['field' => "variations.$variation[uuid].availability_status_id", 'options' => $availabilityStatuses])
+                            </div>
+                        @else
+                            {{$variation['availability_status_name']}}
+                        @endif
+                    </td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
 
+    @if(!$this->isCreatingFromCopy)
         <div class="admin-edit-variations__footer">
             @if(!$variationsEditMode)
                 <div class="variants-btn-group" role="group" aria-label="actions">
@@ -329,7 +342,10 @@
                 </div>
             </div>
         </div>
-    </div>
+    @endif
+</div>
+
+@if(!$this->isCreatingFromCopy)
     <script>
         $('#current-variation').on('hide.bs.modal', () => {
             @this.cancelCurrentVariation();
