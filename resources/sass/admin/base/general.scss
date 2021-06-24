@@ -150,11 +150,37 @@ body {
 
     .form-check {
         padding-top: 16px;
+        &.no-margin {
+            margin: 0;
+        }
+        &.no-padding-top {
+            padding-top: 0;
+        }
     }
 
     a {
         color: #1c53a2;
         text-decoration: none;
+    }
+
+    .dropdown {
+        margin: 10px 0;
+    }
+
+    .adm-list-table-icon {
+        background: url(../images/icons-sprite-14.png) no-repeat center -1512px;
+        display: inline-block;
+        height: 16px;
+        width: 21px;
+        margin-right: 5px;
+        &.iblock-section-icon {
+            background-position: center -118px;
+        }
+    }
+
+    &__column-name {
+        display: flex;
+        align-items: center;
     }
 }
 
@@ -340,6 +366,30 @@ body {
                 vertical-align: top;
                 width: 13px;
             }
+        }
+    }
+
+    &__grid-row-action-button {
+        border: 0;
+        position: relative;
+        top: 3px;
+        display: inline-block;
+        width: 14px;
+        height: 12px;
+        border-radius: 0;
+        background: url(../images/sprite-interface.min.svg) 0 -201px no-repeat;
+        opacity: .3;
+        cursor: pointer;
+        -webkit-transition: opacity 200ms ease;
+        -o-transition: opacity 200ms ease;
+        transition: opacity 200ms ease;
+        &:active,
+        &:focus,
+        &:hover {
+            opacity: .7;
+            background-color: transparent;
+            border-color: transparent;
+            box-shadow: 0 0 0 0;
         }
     }
 }
