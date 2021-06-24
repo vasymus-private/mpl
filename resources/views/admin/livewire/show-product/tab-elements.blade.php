@@ -8,6 +8,15 @@
 ?>
 
 <div class="item-edit product-edit">
+    @if(!$isCreating)
+        <div class="form-group row">
+            <label for="item.name" class="col-sm-5 col-form-label">ID:</label>
+            <div class="col-sm-7 d-flex align-items-center">
+                {{$item['id']}}
+            </div>
+        </div>
+    @endif
+
     @include('admin.livewire.includes.form-group-checkbox', ['field' => 'item.is_active', 'label' => 'Активность'])
 
     <div class="form-group row">
