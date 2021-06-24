@@ -47,7 +47,7 @@
             </thead>
             <tbody>
             @foreach($variations as $variation)
-                <tr wire:key="{{$variation['uuid']}}" ondblclick="@this.setCurrentVariation({{$variation['uuid']}}).then(() => {$('#current-variation').modal('show')})">
+                <tr wire:key="{{$variation['uuid']}}" ondblclick="@this.setCurrentVariation('{{$variation['uuid']}}').then(() => {$('#current-variation').modal('show')})">
                     <td>
                         <div class="form-check form-check-inline">
                             <input
@@ -65,22 +65,22 @@
                             <div class="dropdown">
                                 <button class="btn btn-secondary" type="button" id="actions-dropdown-{{$variation['uuid']}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
                                 <div class="dropdown-menu" aria-labelledby="actions-dropdown-{{$variation['uuid']}}">
-                                    <button onclick="@this.setCurrentVariation({{$variation['uuid']}}).then(() => {$('#current-variation').modal('show')})" type="button" data-target="#current-variation" class="dropdown-item btn btn-link">Изменить</button>
-                                    <button type="button" class="dropdown-item btn btn-link" wire:click="toggleVariationActive({{$variation['uuid']}})">
+                                    <button onclick="@this.setCurrentVariation('{{$variation['uuid']}}').then(() => {$('#current-variation').modal('show')})" type="button" data-target="#current-variation" class="dropdown-item btn btn-link">Изменить</button>
+                                    <button type="button" class="dropdown-item btn btn-link" wire:click="toggleVariationActive('{{$variation['uuid']}}')">
                                         @if($variation['is_active'])
                                             Деактивировать
                                         @else
                                             Активировать
                                         @endif
                                     </button>
-                                    <button wire:click="copyVariation({{$variation['uuid']}})" type="button" class="btn btn-link">Копировать</button>
-                                    <button type="button" class="dropdown-item btn btn-link" onclick="if (confirm('Вы уверены, что хотите удалить вариант товара `{{$variation['uuid']}}` `{{$variation['name']}}` ?')) {@this.deleteVariation({{$variation['uuid']}});}">Удалить</button>
+                                    <button wire:click="copyVariation('{{$variation['uuid']}}')" type="button" class="btn btn-link">Копировать</button>
+                                    <button type="button" class="dropdown-item btn btn-link" onclick="if (confirm('Вы уверены, что хотите удалить вариант товара `{{$variation['id']}}` `{{$variation['name']}}` ?')) {@this.deleteVariation('{{$variation['uuid']}}');}">Удалить</button>
                                 </div>
                             </div>
                         @endif
                     </td>
                     <td>
-                        <a href="javascript:;" onclick="@this.setCurrentVariation({{$variation['uuid']}}).then(() => {$('#current-variation').modal('show')})" type="button">{{$variation['id']}}</a>
+                        <a href="javascript:;" onclick="@this.setCurrentVariation('{{$variation['uuid']}}').then(() => {$('#current-variation').modal('show')})" type="button">{{$variation['id']}}</a>
                     </td>
                     <td>
                         @if($variationsEditMode && $variation['is_checked'])
