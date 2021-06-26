@@ -10,12 +10,12 @@
                 </svg>
             </a>
         </div>
-        <div class="row-line">
-            @foreach($imagesUrls as $index => $image)
-                <a href="{{$image}}" data-fancybox="images" class="wrapper-photos-block__link"><img src="{{$imagesThumbs[$index] ?? $image}}" alt="" title=""></a>
-            @endforeach
+        <div class="images-container">
+            <div class="row-line">
+                @foreach($imagesUrls as $index => $image)
+                    <a href="{{$image}}" data-fancybox="images" class="wrapper-photos-block__link"><img src="{{$imagesThumbs[$index] ?? $image}}" alt="" title=""></a>
+                @endforeach
+            </div>
         </div>
     </div>
 @endif
-
-{{--@dump($imagesUrls, $imagesThumbs)--}}

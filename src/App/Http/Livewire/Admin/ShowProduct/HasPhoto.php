@@ -7,6 +7,10 @@ use Domain\Common\Models\CustomMedia;
 use Domain\Products\Models\Product\Product;
 use Livewire\TemporaryUploadedFile;
 
+/**
+ * @mixin \App\Http\Livewire\Admin\ShowProduct\ShowProduct
+ * @mixin \App\Http\Livewire\Admin\ShowProduct\BaseShowProduct
+ */
 trait HasPhoto
 {
     /**

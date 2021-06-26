@@ -49,11 +49,6 @@ abstract class BaseShowProduct extends BaseShowComponent
         data_set($this, $name, H::trimAndNullEmptyString($value)); // trim only left side
     }
 
-    protected function getRefreshedItemOrNew(): Product
-    {
-        return Product::query()->firstOrNew(['uuid' => $this->item->uuid]);
-    }
-
     /**
      * @return array
      */
@@ -114,6 +109,7 @@ abstract class BaseShowProduct extends BaseShowComponent
             'coefficient',
             'coefficient_description',
             'coefficient_description_show',
+            'coefficient_variation_description',
             'price_name',
             'admin_comment',
             'price_purchase',
@@ -198,25 +194,5 @@ abstract class BaseShowProduct extends BaseShowComponent
         }
 
         return $medias;
-    }
-
-    protected function emitValidationStatus(bool $isValid, array $errors = [])
-    {
-        $this->emitTo(ShowProductConstants::COMPONENT_NAME_SHOW_PRODUCT, ShowProductConstants::EVENT_VALIDATION_NOTIFICATION, [
-            'name' => $this->getComponentName(),
-            'isValid' => $isValid,
-            'errors' => $errors,
-        ]);
-    }
-
-    protected function validateBeforeHandleSave()
-    {
-        try {
-            $this->validate();
-            $this->emitValidationStatus(true);
-        } catch (\Illuminate\Validation\ValidationException $exception) {
-            $this->emitValidationStatus(false, $exception->errors());
-            throw $exception;
-        }
     }
 }

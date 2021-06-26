@@ -78,6 +78,7 @@ trait HasVariationsTab
             'variations.*.is_active' => 'nullable|boolean',
             'variations.*.ordering' => 'integer|nullable',
             'variations.*.coefficient' => 'nullable|numeric',
+            'variations.*.coefficient_description' => 'nullable|string|max:199',
             'variations.*.price_purchase' => 'nullable|numeric',
             'variations.*.price_purchase_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
             'variations.*.price_retail' => 'nullable|numeric',
@@ -97,6 +98,7 @@ trait HasVariationsTab
             'currentVariation.ordering' => 'integer|nullable',
             'currentVariation.is_active' => 'nullable|boolean',
             'currentVariation.coefficient' => 'nullable|numeric',
+            'currentVariation.coefficient_description' => 'nullable|string|max:199',
             'currentVariation.price_purchase' => 'nullable|numeric',
             'currentVariation.price_purchase_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
             'currentVariation.unit' => 'nullable|max:199',
@@ -142,6 +144,7 @@ trait HasVariationsTab
                 'ordering',
                 'is_active',
                 'coefficient',
+                'coefficient_description',
                 'price_purchase',
                 'price_purchase_currency_id',
                 'unit',
@@ -188,6 +191,7 @@ trait HasVariationsTab
                 'price_purchase_currency_id',
                 'unit',
                 'coefficient',
+                'coefficient_description',
                 'price_retail',
                 'price_retail_currency_id',
                 'availability_status_id',
@@ -214,6 +218,7 @@ trait HasVariationsTab
             'ordering',
             'is_active',
             'coefficient',
+            'coefficient_description',
             'price_purchase',
             'price_purchase_currency_id',
             'unit',
@@ -456,6 +461,14 @@ trait HasVariationsTab
         $this->currentVariation = (new VariationDTO())->toArray();
     }
 
+    protected function isAnyVariationHasCoefficient(): bool
+    {
+        return collect($this->variations)
+            ->contains(
+                fn(array $variation) => !empty($variation['coefficient']) && (int)$variation['coefficient'] !== 0
+            );
+    }
+
     protected function initIsWithVariations(Product $product)
     {
         $this->is_with_variations = (bool)$product->is_with_variations;
@@ -472,6 +485,7 @@ trait HasVariationsTab
             'ordering',
             'is_active',
             'coefficient',
+            'coefficient_description',
             'unit',
             'availability_status_id',
             'price_purchase',

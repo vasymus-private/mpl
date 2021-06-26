@@ -41,6 +41,7 @@
                 <th>Закупочная цена</th>
                 <th>Упаковка / единица измерения</th>
                 <th>Коэффициент</th>
+                <th>Описание коэффициента</th>
                 <th>Розничная цена за упаковку</th>
                 <th>Наличие</th>
             </tr>
@@ -148,6 +149,13 @@
                     </td>
                     <td>
                         @if($variationsEditMode && $variation['is_checked'])
+                            @include('admin.livewire.includes.form-control-input', ['field' => "variations.$variation[uuid].coefficient_description"])
+                        @else
+                            {{$variation['coefficient_description']}}
+                        @endif
+                    </td>
+                    <td>
+                        @if($variationsEditMode && $variation['is_checked'])
                             <div class="form-row">
                                 <div class="col">
                                     @include('admin.livewire.includes.form-control-input', ['field' => "variations.$variation[uuid].price_retail"])
@@ -224,6 +232,8 @@
                                 @include('admin.livewire.includes.form-group-input', ['field' => 'currentVariation.ordering', 'label' => 'Сортировка'])
 
                                 @include('admin.livewire.includes.form-group-input', ['field' => 'currentVariation.coefficient', 'label' => 'Коэффициент на единицу расхода и единица расхода'])
+
+                                @include('admin.livewire.includes.form-group-input', ['field' => 'currentVariation.coefficient_description', 'className' => 'width-27', 'label' => 'Описание коэффициента'])
 
                                 @include('admin.livewire.includes.form-group-input', ['field' => 'currentVariation.unit', 'label' => 'Упаковка / Единица'])
 

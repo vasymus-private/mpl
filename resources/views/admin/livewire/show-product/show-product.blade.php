@@ -33,7 +33,7 @@
 
                 @if($item->id && $item->is_active && $item->slug) <a class="mx-2" href="{{$item->web_route}}" target="_blank">В магазин</a> @endif
             </div>
-            @if($item->id)
+            @if(!$isCreating)
                 <div class="col-sm-5 d-flex align-items-center">
                     <a href="{{route(\App\Constants::ROUTE_ADMIN_PRODUCTS_CREATE, ['copy_id' => $item->id])}}" class="btn__copy">Копировать</a>
                     <div class="dropdown">
@@ -50,11 +50,11 @@
                             <span class="add">Действия</span>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" wire:click="setWithVariations(false)" href="#">
+                            <a class="dropdown-item" href="{{route(\App\Constants::ROUTE_ADMIN_PRODUCTS_CREATE)}}">
                                 <span class="bx-core-popup-menu-item-icon edit"></span>
                                 Добавить элемент
                             </a>
-                            <a class="dropdown-item" wire:click="setWithVariations(true)" href="#">
+                            <a class="dropdown-item" wire:click.prevent="deleteItem" href="#">
                                 <span class="bx-core-popup-menu-item-icon delete"></span>
                                 Удалить элемент
                             </a>

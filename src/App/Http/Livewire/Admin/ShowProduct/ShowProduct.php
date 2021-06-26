@@ -2,11 +2,14 @@
 
 namespace App\Http\Livewire\Admin\ShowProduct;
 
+use App\Constants;
 use App\Http\Livewire\Admin\HasAvailabilityStatuses;
 use App\Http\Livewire\Admin\HasBrands;
 use App\Http\Livewire\Admin\HasCategories;
 use App\Http\Livewire\Admin\HasCurrencies;
 use App\Http\Livewire\Admin\HasTabs;
+use Domain\Products\Actions\DeleteProductAction;
+use Domain\Products\Models\Product\Product;
 use Livewire\WithFileUploads;
 
 class ShowProduct extends BaseShowProduct
@@ -135,8 +138,18 @@ class ShowProduct extends BaseShowProduct
         $this->handleSaveOthersTab();
 
         if ($this->isCreating) {
-            return redirect()->route('admin.products.edit', $this->item->id);
+            return redirect()->route(Constants::ROUTE_ADMIN_PRODUCTS_EDIT, $this->item->id);
         }
+    }
+
+    public function deleteItem()
+    {
+        if ($this->isCreating) {
+            return;
+        }
+        $category_id = $this->item->category_id;
+        DeleteProductAction::cached()->execute($this->item);
+        return redirect()->route(Constants::ROUTE_ADMIN_PRODUCTS_INDEX, compact('category_id'));
     }
 
     protected function saveProduct()

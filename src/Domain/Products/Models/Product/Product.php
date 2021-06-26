@@ -35,6 +35,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property string|null $coefficient
  * @property string|null $coefficient_description
  * @property bool $coefficient_description_show
+ * @property string|null $coefficient_variation_description
  * @property string|null $price_name
  * @property string|null $admin_comment
  * @property string|null $price_purchase

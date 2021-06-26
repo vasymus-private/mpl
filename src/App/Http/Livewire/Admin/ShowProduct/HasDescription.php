@@ -2,6 +2,10 @@
 
 namespace App\Http\Livewire\Admin\ShowProduct;
 
+/**
+ * @mixin \App\Http\Livewire\Admin\ShowProduct\ShowProduct
+ * @mixin \App\Http\Livewire\Admin\ShowProduct\BaseShowProduct
+ */
 trait HasDescription
 {
     /**

@@ -33,3 +33,23 @@
         }
     }
 }
+
+.images-container {
+    height: 62px;
+    overflow: hidden;
+    border-radius: 6px;
+    border: 1px solid #e6e6e6;
+
+    .row-line {
+        border: 0;
+        line-height: 40px;
+    }
+
+    .wrapper-photos-block__link {
+        display: inline-block;
+        height: 40px;
+        width: 40px;
+        margin: 0 5px 10px;
+        padding: 0;
+    }
+}

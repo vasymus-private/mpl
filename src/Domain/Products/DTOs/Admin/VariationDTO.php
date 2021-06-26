@@ -33,6 +33,11 @@ class VariationDTO extends DataTransferObject
     public $coefficient;
 
     /**
+     * @var string|null
+     */
+    public ?string $coefficient_description;
+
+    /**
      * @var string|float|int|null
      */
     public $price_purchase;
@@ -102,6 +107,7 @@ class VariationDTO extends DataTransferObject
             'ordering' => $product->ordering ?: 500,
             'is_active' => (bool)$product->is_active,
             'coefficient' => $product->coefficient,
+            'coefficient_description' => $product->coefficient_description,
             'price_purchase' => $product->price_purchase,
             'price_purchase_currency_id' => $product->price_purchase_currency_id,
             'price_purchase_rub_formatted' => $product->price_purchase_rub_formatted,

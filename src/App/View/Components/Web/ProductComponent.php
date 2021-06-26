@@ -70,7 +70,7 @@ class ProductComponent extends Component
 
     public function isWithVariations(): bool
     {
-        return $this->product->variations->isNotEmpty();
+        return $this->product->variations->isNotEmpty() && $this->product->is_with_variations;
     }
 
     /**

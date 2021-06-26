@@ -105,7 +105,7 @@
                 <thead>
                     <tr>
                         <th colspan="2">Варианты:</th>
-                        {{--<th>{{$product->unit}}</th>--}}
+                        <th>{{$product->coefficient_variation_description}}</th>
                         <th>Цена</th>
                         <th>Уп-ка</th>
                         <th>Кол-во</th>
@@ -156,9 +156,18 @@
                             >{{$variation->name}}</a>
                         </h3>
                     </td>
-                    {{--<td>
-                        <strong class="product-variants__price-blue">{{$variation->price_retail_rub_formatted}}</strong>
-                    </td>--}}
+                    <td>
+                        @if(!empty($variation->coefficient) && (int)$variation->coefficient !== 0)
+                            @if(!empty($variation->coefficient_description))
+                                <div>{{$variation->coefficient_description}}</div>
+                            @endif
+                            <div>
+                                <strong class="product-variants__price-blue" style="white-space: nowrap;">{{$variation->coefficient_price_rub_formatted}}</strong>
+                            </div>
+                        @else
+                            &nbsp;
+                        @endif
+                    </td>
                     <td width="10%">
                         <strong class="product-variants__price-orange">{{$variation->price_retail_rub_formatted}}</strong>
                     </td>

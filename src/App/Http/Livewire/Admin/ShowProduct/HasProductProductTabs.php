@@ -8,6 +8,10 @@ use Domain\Products\Models\Category;
 use Domain\Products\Models\Pivots\ProductProduct;
 use Domain\Products\Models\Product\Product;
 
+/**
+ * @mixin \App\Http\Livewire\Admin\ShowProduct\ShowProduct
+ * @mixin \App\Http\Livewire\Admin\ShowProduct\BaseShowProduct
+ */
 trait HasProductProductTabs
 {
     protected static array $initLoadedProductProduct = [

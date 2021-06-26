@@ -5,6 +5,10 @@ namespace App\Http\Livewire\Admin\ShowProduct;
 use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
 
+/**
+ * @mixin \App\Http\Livewire\Admin\ShowProduct\ShowProduct
+ * @mixin \App\Http\Livewire\Admin\ShowProduct\BaseShowProduct
+ */
 trait HasOthersTab
 {
     /**

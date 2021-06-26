@@ -12,6 +12,10 @@ use Domain\Products\Models\CharType;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Validation\Rules\Exists;
 
+/**
+ * @mixin \App\Http\Livewire\Admin\ShowProduct\ShowProduct
+ * @mixin \App\Http\Livewire\Admin\ShowProduct\BaseShowProduct
+ */
 trait HasCharacteristicsTab
 {
     /**

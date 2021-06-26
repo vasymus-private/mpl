@@ -5,6 +5,10 @@ namespace App\Http\Livewire\Admin\ShowProduct;
 use App\Http\Livewire\Admin\HasSeo;
 use Domain\Seo\Models\Seo;
 
+/**
+ * @mixin \App\Http\Livewire\Admin\ShowProduct\ShowProduct
+ * @mixin \App\Http\Livewire\Admin\ShowProduct\BaseShowProduct
+ */
 trait HasSeoTab
 {
     use HasSeo;

@@ -14,6 +14,10 @@ use Domain\Products\Models\Product\Product;
 use Illuminate\Validation\Rules\Unique;
 use Livewire\TemporaryUploadedFile;
 
+/**
+ * @mixin \App\Http\Livewire\Admin\ShowProduct\ShowProduct
+ * @mixin \App\Http\Livewire\Admin\ShowProduct\BaseShowProduct
+ */
 trait HasElementsTab
 {
     use HasGenerateSlug;
@@ -53,6 +57,11 @@ trait HasElementsTab
             'item.brand_id' => 'integer|nullable|exists:' . Brand::class . ",id",
             'item.coefficient' => 'nullable|numeric',
             'item.coefficient_description' => 'nullable|string|max:199',
+            'item.coefficient_variation_description' => [
+                $this->isAnyVariationHasCoefficient() ? 'required' : 'nullable',
+                'string',
+                'max:199',
+            ],
             'item.coefficient_description_show' => 'nullable|boolean',
             'item.price_name' => 'nullable|string|max:199',
             'item.admin_comment' => 'nullable|string|max:199',
@@ -80,6 +89,7 @@ trait HasElementsTab
         return [
             'item.name.required' => 'Не заполнено поле `наименование`.',
             'item.slug.unique' => '`Символьный код` не уникален.',
+            'item.coefficient_variation_description.required' => 'Если есть варианты с коэффициентом, то `Описание столбца коэффициента вариантов` обязательно.',
         ];
     }
 
@@ -175,6 +185,7 @@ trait HasElementsTab
             'brand_id' => $this->item->brand_id,
             'coefficient' => $this->item->coefficient,
             'coefficient_description' => $this->item->coefficient_description,
+            'coefficient_variation_description' => $this->item->coefficient_variation_description,
             'coefficient_description_show' => $this->item->coefficient_description_show,
             'price_name' => $this->item->price_name,
             'admin_comment' => $this->item->admin_comment,
