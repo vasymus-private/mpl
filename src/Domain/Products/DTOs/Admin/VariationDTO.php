@@ -7,11 +7,14 @@ use Domain\Common\Models\CustomMedia;
 use Domain\Products\DTOs\ProductMediaUrlsDTO;
 use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Product\Product;
+use Illuminate\Support\Str;
 use Spatie\DataTransferObject\DataTransferObject;
 
 class VariationDTO extends DataTransferObject
 {
     public ?int $id;
+
+    public ?string $uuid;
 
     public ?int $parent_id;
 
@@ -28,6 +31,11 @@ class VariationDTO extends DataTransferObject
      * @var string|float|int|null
      */
     public $coefficient;
+
+    /**
+     * @var string|null
+     */
+    public ?string $coefficient_description;
 
     /**
      * @var string|float|int|null
@@ -93,11 +101,13 @@ class VariationDTO extends DataTransferObject
 
         return new self([
             'id' => $product->id,
+            'uuid' => $product->uuid,
             'parent_id' => $product->parent_id,
             'name' => $product->name,
             'ordering' => $product->ordering ?: 500,
             'is_active' => (bool)$product->is_active,
             'coefficient' => $product->coefficient,
+            'coefficient_description' => $product->coefficient_description,
             'price_purchase' => $product->price_purchase,
             'price_purchase_currency_id' => $product->price_purchase_currency_id,
             'price_purchase_rub_formatted' => $product->price_purchase_rub_formatted,
@@ -122,6 +132,7 @@ class VariationDTO extends DataTransferObject
         $dto = static::fromModel($product);
         $dto->id = null;
         $dto->parent_id = null;
+        $dto->uuid = Str::uuid()->toString();
         return $dto;
     }
 }

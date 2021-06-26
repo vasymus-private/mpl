@@ -14,7 +14,7 @@
                 @foreach($prepends as $prepend)
                     <div class="input-group-prepend">
                         <span style="max-width: 200px;" class="input-group-text d-inline-block text-truncate">{{$prepend['label']}}</span>
-                        <button wire:click.prevent="{{$prepend['onClear']}}" class="btn btn-light" type="button"><i class="fa fa-times" aria-hidden="true"></i></button>
+                        <button wire:click.prevent="{{$prepend['onClear']}}" class="btn input-group-prepend__remove" type="button"></button>
                     </div>
                 @endforeach
                 <input wire:model.defer="search" type="text" class="form-control" placeholder="Фильтр + поиск" aria-label="Фильтр + поиск" aria-describedby="search-button">

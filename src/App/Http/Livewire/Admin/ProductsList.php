@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin;
 
 use Domain\Common\DTOs\SearchPrependAdminDTO;
 use Domain\Common\Models\Currency;
+use Domain\Products\Actions\DeleteProductAction;
 use Domain\Products\DTOs\Admin\ProductItemDTO;
 use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Brand;
@@ -219,10 +220,7 @@ class ProductsList extends BaseItemsListComponent
         if (!$product) {
             return;
         }
-        $product->clearMediaCollection(Product::MC_MAIN_IMAGE);
-        $product->clearMediaCollection(Product::MC_ADDITIONAL_IMAGES);
-        $product->clearMediaCollection(Product::MC_FILES);
-        $product->delete();
+        DeleteProductAction::cached()->execute($product);
         $this->fetchItems();
     }
 

@@ -32,9 +32,9 @@
             <a href="{{$product->web_route}}" class="catalog__addToCard">Купить</a>
             @endif
 
-            @if(!empty($product->coefficient) && !empty($product->coefficient_description))
+            @if(!empty($product->coefficient) && (int)$product->coefficient !== 0)
                 <div class="price-bottom">
-                    <div class="price-bottom__text">{{$product->coefficient_description}}</div>
+                    @if(!empty($product->coefficient_description))<div class="price-bottom__text">{{$product->coefficient_description}}</div>@endif
                     <div class="price-bottom__currency">{{$product->coefficient_price_rub_formatted}}</div>
                 </div>
             @endif

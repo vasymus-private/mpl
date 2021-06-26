@@ -28,7 +28,7 @@
             <thead class="thead-light">
             <tr>
                 <th scope="col">
-                    <div class="form-check">
+                    <div class="form-check no-padding-top">
                         <input wire:model="selectAll" @if($editMode) disabled @endif class="form-check-input position-static" type="checkbox">
                     </div>
                 </th>
@@ -49,18 +49,31 @@
                     </td>
                     <td>
                         <div class="dropdown">
-                            <button class="btn btn-secondary" type="button" id="actions-dropdown-{{$category['id']}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
-                            <div class="dropdown-menu" aria-labelledby="actions-dropdown-{{$category['id']}}">
-                                <a class="dropdown-item" href="{{route("admin.products.index", ['category_id' => $category['id']])}}">Товары</a>
-                                <a class="dropdown-item" href="{{route("admin.categories.edit", $category['id'])}}">Изменить</a>
-                                <button type="button" class="dropdown-item btn btn-link" wire:click="toggleActive({{$category['id']}})">
-                                    @if($category['is_active'])
-                                        Деактивировать
-                                    @else
-                                        Активировать
-                                    @endif
+                            <button class="btn btn__grid-row-action-button" type="button" id="actions-dropdown-{{$category['id']}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                            <div class="dropdown-menu bx-core-popup-menu" aria-labelledby="actions-dropdown-{{$category['id']}}">
+                                <div class="bx-core-popup-menu__arrow"></div>
+                                <a class="bx-core-popup-menu-item bx-core-popup-menu-item-default" href="{{route("admin.products.index", ['category_id' => $category['id']])}}">
+                                    <span class="bx-core-popup-menu-item-icon"></span>
+                                    <span class="bx-core-popup-menu-item-text">Товары</span>
+                                </a>
+                                <a class="bx-core-popup-menu-item bx-core-popup-menu-item-default" href="{{route("admin.categories.edit", $category['id'])}}">
+                                    <span class="bx-core-popup-menu-item-icon adm-menu-edit"></span>
+                                    <span class="bx-core-popup-menu-item-text">Изменить</span>
+                                </a>
+                                <button type="button" class="bx-core-popup-menu-item" wire:click="toggleActive({{$category['id']}})">
+                                    <span class="bx-core-popup-menu-item-icon"></span>
+                                    <span class="bx-core-popup-menu-item-text">
+                                        @if($category['is_active'])
+                                            Деактивировать
+                                        @else
+                                            Активировать
+                                        @endif
+                                    </span>
                                 </button>
-                                <button type="button" class="dropdown-item btn btn-link" onclick="@this.handleDelete({{$category['id']}}).then(res => console.log(res))">Удалить</button>
+                                <button type="button" class="bx-core-popup-menu-item" onclick="@this.handleDelete({{$category['id']}}).then(res => console.log(res))">
+                                    <span class="bx-core-popup-menu-item-icon adm-menu-delete"></span>
+                                    <span class="bx-core-popup-menu-item-text">Удалить</span>
+                                </button>
                             </div>
                         </div>
                     </td>
@@ -69,7 +82,12 @@
                         @if($editMode && $category['is_checked'])
                             @include('admin.livewire.includes.form-control-input', ['field' => "categories.{$category['id']}.name"])
                         @else
-                            <span class="main-grid-cell-content"><a href="#" wire:click.prevent="navigate({{$category['id']}})"><i class="fa fa-folder" aria-hidden="true"></i> {!! $category['name'] !!}</a></span>
+                            <span class="main-grid-cell-content">
+                                <a href="#" wire:click.prevent="navigate({{$category['id']}})" class="table__column-name">
+                                    <span class="adm-submenu-item-link-icon adm-list-table-icon iblock-section-icon"></span>
+                                    {!! $category['name'] !!}
+                                </a>
+                            </span>
                         @endif
                     </td>
                     <td @if($editMode && $category['is_checked']) style="width: 200px;" @endif>

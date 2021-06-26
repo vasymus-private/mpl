@@ -4,26 +4,80 @@ namespace App\Http\Controllers;
 
 use App\Mail\TestMarkupOrderShippedMail;
 use App\Mail\TestMarkupResetPasswordMail;
-use App\Rules\CategoryDeactivatable;
-use Domain\Common\DTOs\FileDTO;
-use Domain\Common\Models\CustomMedia;
 use Domain\Products\Actions\GetCategoriesTreeAction;
 use Domain\Products\Actions\GetCategoryAndSubtreeAction;
 use Domain\Products\Actions\GetCategoryAndSubtreeIdsAction;
 use Domain\Products\Actions\HasActiveProductsAction;
-use Domain\Products\Models\Category;
-use Domain\Products\Models\Product\Product;
+use Domain\Temp\Product;
+use Domain\Temp\Section;
+use Domain\Temp\User;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator;
-use Spatie\MediaLibrary\Support\UrlGenerator\UrlGeneratorFactory;
 
 class TestController extends Controller
 {
     public function test(Request $request, GetCategoriesTreeAction $getCategoriesTreeAction, GetCategoryAndSubtreeAction $getCategoryAndSubtreeAction, GetCategoryAndSubtreeIdsAction $getCategoryAndSubtreeIdsAction, HasActiveProductsAction $hasActiveProductsAction, DefaultUrlGenerator $defaultUrlGenerator)
     {
-        dump(UrlGeneratorFactory::createForMedia());
+
+
         return view('test');
+    }
+
+    protected function testForOleh()
+    {
+        /** @var \Domain\Temp\User $user */
+        $user = User::query()->first();
+
+        $productsIds = $user->sections()->select('sections.product_id')->groupBy('sections.product_id')->pluck('sections.product_id');
+
+        $sections = $user->sections()->select([
+            'sections.id as section_id',
+            't1.id as parent_1_section_id',
+            't2.id as parent_2_section_id',
+        ])
+            ->leftJoin('sections as t1', 'sections.parent_id', '=', 't1.id')
+            ->leftJoin('sections as t2', 't1.parent_id', '=', 't2.id')
+            ->groupBy(['sections.id', 't1.id', 't2.id'])
+            ->get();
+
+        $sectionsIds = $sections->reduce(function(array $acc, Model $model) {
+            if ($model->section_id) $acc[] = $model->section_id;
+            if ($model->parent_1_section_id) $acc[] = $model->parent_1_section_id;
+            if ($model->parent_2_section_id) $acc[] = $model->parent_2_section_id;
+
+            return $acc;
+        }, []);
+
+        $sectionsIds = array_values(array_unique($sectionsIds));
+
+        $products = Product::query()->with([
+            'sections' => function(HasMany $query) use($sectionsIds) {
+                $query->whereIn('id', $sectionsIds);
+            },
+            'sections.subsections' => function(HasMany $query) use($sectionsIds) {
+                $query->whereIn('id', $sectionsIds);
+            },
+            'sections.subsections.subsections' => function(HasMany $query) use($sectionsIds) {
+                $query->whereIn('id', $sectionsIds);
+            },
+        ])->whereIn('id', $productsIds)->get();
+
+        dump($products);
+
+
+//        $products = $user->sections->reduce(function(array $acc, Section $section) {
+//            $acc[] = $section->product;
+//            return $acc;
+//        }, []);
+//        $products = collect($products)->unique(function(Product $product) {
+//            return $product->id;
+//        })->values()->all();
+//
+//        dump($products);
     }
 
     protected function testRule()

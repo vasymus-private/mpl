@@ -89,7 +89,7 @@ class OrdersList extends BaseItemsListComponent
      */
     protected function getItemsQuery(): Builder
     {
-        $query = Order::query()->select(['*']);
+        $query = Order::query()->select(['*'])->with(['user', 'admin', 'status', 'products', 'payment', 'importance']);
         $table = Order::TABLE;
         $usersT = BaseUser::TABLE;
 

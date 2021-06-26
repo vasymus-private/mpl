@@ -1,12 +1,25 @@
 <?php
-/** @var array[] $brands @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\Brand} */
-/** @var array[]|\Domain\Products\DTOs\InformationalPriceDTO[] $infoPrices */
-/** @var array[] $instructions {@see \Domain\Common\DTOs\FileDTO} */
-/** @var array[] $currencies @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Common\Models\Currency} */
-/** @var array[] $availabilityStatuses @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Common\Models\Currency} */
-/** @var bool $generateSlugSyncMode */
+/**
+ * @var array[] $brands @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\Brand}
+ * @var array[]|\Domain\Products\DTOs\InformationalPriceDTO[] $infoPrices
+ * @var array[] $instructions {@see \Domain\Common\DTOs\FileDTO}
+ * @var array[] $currencies @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Common\Models\Currency}
+ * @var array[] $availabilityStatuses @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Common\Models\Currency}
+ * @var bool $generateSlugSyncMode
+ * @var bool $is_with_variations
+ */
 ?>
+
 <div class="item-edit product-edit">
+    @if(!$isCreating)
+        <div class="form-group row">
+            <label for="item.name" class="col-sm-5 col-form-label">ID:</label>
+            <div class="col-sm-7 d-flex align-items-center">
+                {{$item['id']}}
+            </div>
+        </div>
+    @endif
+
     @include('admin.livewire.includes.form-group-checkbox', ['field' => 'item.is_active', 'label' => 'Активность'])
 
     <div class="form-group row">
@@ -23,7 +36,7 @@
     </div>
 
     <div class="form-group row">
-        <label for="item.slug" class="col-sm-5 col-form-label">Символьный код:</label>
+        <label for="item.slug" class="col-sm-5 col-form-label font-weight-bold">Символьный код:</label>
         <div class="col-sm-7">
             <div class="input-group @error('item.slug') is-invalid @enderror">
                 <input wire:model.defer="item.slug" type="text" class="form-control @error('item.slug') is-invalid @enderror" id="item.slug">
@@ -39,11 +52,28 @@
 
     @include('admin.livewire.includes.form-group-select', ['field' => 'item.brand_id', 'className' => 'width-45', 'label' => 'Производитель', 'options' => $brands])
 
-    @include('admin.livewire.includes.form-group-input', ['field' => 'item.coefficient', 'className' => 'width-27', 'label' => 'Коэффициент на единицу расхода и единица расхода'])
-
-    @include('admin.livewire.includes.form-group-input', ['field' => 'item.coefficient_description', 'className' => 'width-27', 'label' => 'Описание коэффициента'])
+    <div class="form-group row">
+        <label for="item.coefficient" class="col-sm-5 col-form-label">Коэффициент на единицу расхода:</label>
+        <div class="col-sm-2">
+            <input wire:model.defer="item.coefficient" type="text" class="form-control @error('item.coefficient') is-invalid @enderror" id="item.coefficient">
+            @error('item.coefficient') <div class="invalid-feedback">{{ $message }}</div> @enderror
+        </div>
+        <div class="col-sm-5">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label for="item.coefficient_description" class="text-left mr-2">Описание коэффициента:</label>
+                    <input wire:model.defer="item.coefficient_description" type="text" class="form-control @error('item.coefficient_description') is-invalid @enderror" id="item.coefficient_description">
+                    @error('item.coefficient_description') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                </div>
+            </div>
+        </div>
+    </div>
 
     @include('admin.livewire.includes.form-group-checkbox', ['field' => 'item.coefficient_description_show', 'label' => 'Показывать описание коэффициента'])
+
+    @if($is_with_variations)
+        @include('admin.livewire.includes.form-group-input', ['field' => 'item.coefficient_variation_description', 'className' => 'width-27', 'label' => 'Описание столбца коэффициента вариантов'])
+    @endif
 
     @include('admin.livewire.includes.form-group-input', ['field' => 'item.price_name', 'className' => 'width-50', 'label' => 'Наименование цены'])
 
@@ -102,7 +132,7 @@
     </div>
 
     <div class="form-group row">
-        <label for="price_purchase" class="col-sm-5 col-form-label">Закупочная цена:</label>
+        <label for="price_purchase" class="col-sm-5 col-form-label font-weight-bold">Закупочная цена:</label>
         <div class="col-sm-7">
             <div class="row">
                 <div class="col-3">
@@ -117,7 +147,7 @@
     </div>
 
     <div class="form-group row">
-        <label for="price_retail" class="col-sm-5 col-form-label">Розничная цена:</label>
+        <label for="price_retail" class="col-sm-5 col-form-label font-weight-bold">Розничная цена:</label>
         <div class="col-sm-7">
             <div class="row">
                 <div class="col-3">
@@ -134,4 +164,3 @@
 
     @include('admin.livewire.includes.form-group-select', ['field' => 'item.availability_status_id', 'className' => 'width-35', 'label' => 'Наличие', 'options' => $availabilityStatuses])
 </div>
-

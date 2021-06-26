@@ -3,7 +3,6 @@
 namespace Support\CBRcurrencyConverter;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Cache;
 use Ixudra\Curl\Facades\Curl;
 use Ixudra\Curl\Builder;
 use SimpleXMLElement;

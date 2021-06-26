@@ -17,7 +17,7 @@ class ProductsController extends BaseWebController
 {
     public function index(Request $request, FiltrateByCategoriesAction $filtrateByCategoriesAction)
     {
-        $query = Product::query()->notVariations()->with("infoPrices");
+        $query = Product::query()->notVariations()->active()->with("infoPrices");
 
         /** @var \Domain\Products\Models\Category|null $category */
         $category = $request->category_slug;

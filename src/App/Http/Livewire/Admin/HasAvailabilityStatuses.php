@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin;
 
 use Domain\Common\DTOs\OptionDTO;
 use Domain\Products\Models\AvailabilityStatus;
+use Illuminate\Support\Facades\Cache;
 
 trait HasAvailabilityStatuses
 {
@@ -14,6 +15,8 @@ trait HasAvailabilityStatuses
 
     protected function initAvailabilityStatusesOptions()
     {
-        $this->availabilityStatuses = AvailabilityStatus::query()->get()->map(fn(AvailabilityStatus $availabilityStatus) => OptionDTO::fromAvailabilityStatus($availabilityStatus)->toArray())->all();
+        $this->availabilityStatuses = Cache::store('array')->rememberForever('options-availability-statuses', function() {
+            return AvailabilityStatus::query()->get()->map(fn(AvailabilityStatus $availabilityStatus) => OptionDTO::fromAvailabilityStatus($availabilityStatus)->toArray())->all();
+        });
     }
 }

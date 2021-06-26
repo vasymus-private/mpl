@@ -9,6 +9,7 @@ use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\CharCategory;
 use Domain\Products\QueryBuilders\ProductQueryBuilder;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Domain\Common\Models\BaseModel;
@@ -22,8 +23,9 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property int $id
+ * @property string $uuid
  * @property string $name
- * @property string $slug
+ * @property string|null $slug
  * @property int|null $parent_id
  * @property bool $is_with_variations
  * @property int $category_id
@@ -33,6 +35,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property string|null $coefficient
  * @property string|null $coefficient_description
  * @property bool $coefficient_description_show
+ * @property string|null $coefficient_variation_description
  * @property string|null $price_name
  * @property string|null $admin_comment
  * @property string|null $price_purchase
@@ -126,6 +129,7 @@ class Product extends BaseModel implements HasMedia
      * @var array
      */
     protected $attributes = [
+        'name' => '',
         'is_active' => self::DEFAULT_IS_ACTIVE,
         'is_with_variations' => self::DEFAULT_IS_WITH_VARIATIONS,
         'coefficient_description_show' => self::DEFAULT_COEFFICIENT_DESCRIPTION_SHOW,
@@ -150,6 +154,43 @@ class Product extends BaseModel implements HasMedia
         "coefficient_description_show" => "boolean",
         'meta' => 'array',
     ];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['uuid'];
+
+    /**
+     * @inheritDoc
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::booting();
+
+        $cb = function(self $product) {
+            if (!$product->uuid) {
+                $product->uuid = (string) Str::uuid();
+            }
+        };
+
+        static::saving($cb);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        if (!$this->uuid) {
+            $this->uuid = (string) Str::uuid();
+        }
+    }
+
 
     public static function rbProductSlug($value, Route $route)
     {

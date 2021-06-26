@@ -2,14 +2,14 @@
 /**
  * @var \App\Http\Livewire\Admin\ShowCategory $this
  * @var bool $generateSlugSyncMode @see {@link \App\Http\Livewire\Admin\ShowCategory::$generateSlugSyncMode}
- * @var array[] $categories @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\Category}
+ * @var array[] $categoriesSelectOptions @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\Category} {@link \App\Http\Livewire\Admin\ShowCategory::$categoriesSelectOptions}
  * @see {@link \App\Http\Livewire\Admin\ShowCategory::$item}
  */
 ?>
 <div class="item-edit">
     @include('admin.livewire.includes.form-group-checkbox', ['field' => 'item.is_active', 'label' => 'Активность'])
 
-    @include('admin.livewire.includes.form-group-select', ['field' => 'item.parent_id', 'className' => 'width-45', 'label' => 'Родительский раздел', 'options' => $categories])
+    @include('admin.livewire.includes.form-group-select', ['field' => 'item.parent_id', 'className' => 'width-45', 'label' => 'Родительский раздел', 'options' => $categoriesSelectOptions])
 
     <div class="form-group row">
         <label for="item.name" class="col-sm-5 col-form-label font-weight-bold">Название:</label>

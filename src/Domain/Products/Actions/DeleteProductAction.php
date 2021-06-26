@@ -9,8 +9,12 @@ class DeleteProductAction extends BaseAction
 {
     public function execute(Product $product)
     {
+        $product->clearMediaCollection(Product::MC_MAIN_IMAGE);
+        $product->clearMediaCollection(Product::MC_ADDITIONAL_IMAGES);
+        $product->clearMediaCollection(Product::MC_FILES);
+
         $product->variations->each(function (Product $variation) {
-            static::cached()->execute($variation);
+            DeleteVariationAction::cached()->execute($variation);
         });
 
         $product->deleted_item_slug = $product->slug;

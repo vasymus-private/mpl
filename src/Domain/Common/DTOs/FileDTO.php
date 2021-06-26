@@ -30,6 +30,10 @@ class FileDTO extends DataTransferObject
 
     public static function fromCustomMedia(CustomMedia $media): self
     {
+        if (!$media->id) { // otherwise $media->getPath() will throw type error
+            return new self([]);
+        }
+
         return new self([
             "id" => $media->id,
             "mime_type" => $media->mime_type,
@@ -44,6 +48,10 @@ class FileDTO extends DataTransferObject
 
     public static function copyFromCustomMedia(CustomMedia $media): self
     {
+        if (!$media->id) { // otherwise $media->getPath() will throw type error
+            return new self([]);
+        }
+
         return new self([
             "id" => null,
             "mime_type" => $media->mime_type,

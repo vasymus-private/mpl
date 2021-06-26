@@ -229,7 +229,7 @@ trait ProductAcM
 
     public function getCoefficientPriceRubAttribute(): ?float
     {
-        if (!$this->coefficient) return null;
+        if (!$this->coefficient || (int)$this->coefficient === 0) return null;
 
         $priceRetailRub = $this->price_retail_rub;
         if (!$priceRetailRub) return null;
@@ -416,15 +416,17 @@ trait ProductAcM
 
         if ($category === null) return "";
 
+        $slug = $this->slug ?: '---';
+
         $parent1 = $category->parentCategory;
-        if ($parent1 === null) return route("product.show.1", [$category->slug, $this->slug]);
+        if ($parent1 === null) return route("product.show.1", [$category->slug, $slug]);
 
         $parent2 = $parent1->parentCategory;
-        if ($parent2 === null) return route("product.show.2", [$parent1->slug, $category->slug, $this->slug]);
+        if ($parent2 === null) return route("product.show.2", [$parent1->slug, $category->slug, $slug]);
 
         $parent3 = $parent2->parentCategory;
-        if ($parent3 === null) return route("product.show.3", [$parent2->slug, $parent1->slug, $category->slug, $this->slug]);
+        if ($parent3 === null) return route("product.show.3", [$parent2->slug, $parent1->slug, $category->slug, $slug]);
 
-        return route("product.show.4", [$parent3->slug, $parent2->slug, $parent1->slug, $category->slug, $this->slug]);
+        return route("product.show.4", [$parent3->slug, $parent2->slug, $parent1->slug, $category->slug, $slug]);
     }
 }

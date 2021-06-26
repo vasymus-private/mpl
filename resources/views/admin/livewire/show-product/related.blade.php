@@ -4,7 +4,7 @@
  * @var int $type
  * @var string $wire_field
  * @var array[][] $productProducts @see {@link \Domain\Products\DTOs\Admin\ProductProductDTO}
- * @var array[] $categories @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\Category}
+ * @var array[] $categoriesSelectOptions @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\Category} {@link \App\Http\Livewire\Admin\ShowProduct\ShowProduct::$categoriesSelectOptions}
  * @var array[][] $loadedForProductProduct @see {@link \Domain\Products\DTOs\Admin\ProductProductDTO}
  */
 ?>
@@ -25,7 +25,7 @@
                                 <p class="h6 card-title"><a target="_blank" href="{{$productProductItem['url']}}">{{$productProductItem['name']}}</a></p>
                                 <p class="card-text"><small class="text-muted">{{$productProductItem['price_rub_formatted']}}</small></p>
                                 <div class="form-check">
-                                    <input wire:model="{{$productProductItem['wireModelPrefix']}}toDelete" class="form-check-input" type="checkbox" id="{{$productProductItem['wireModelPrefix']}}toDelete">
+                                    <input wire:model.defer="{{$productProductItem['wireModelPrefix']}}toDelete" class="form-check-input" type="checkbox" id="{{$productProductItem['wireModelPrefix']}}toDelete">
                                     <label class="form-check-label" for="{{$productProductItem['wireModelPrefix']}}toDelete">
                                         Удалить
                                     </label>
@@ -46,7 +46,7 @@
             [
                 'field' => "searchForProductProduct.$type.category_id",
                 'label' => 'Категория',
-                'options' => $categories,
+                'options' => $categoriesSelectOptions,
                 'isRow' => false,
                 'wire' => ['change' => "loadProductProduct($type)"]
             ]
