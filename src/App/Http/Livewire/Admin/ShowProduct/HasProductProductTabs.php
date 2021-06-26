@@ -96,6 +96,16 @@ trait HasProductProductTabs
         ];
     }
 
+    /**
+     * @return string[]
+     */
+    protected function getProductProductTabsMessages(): array
+    {
+        return [
+
+        ];
+    }
+
     protected function initProductProductTabs()
     {
         $this->initLoadedForProductProduct();

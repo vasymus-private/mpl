@@ -19,6 +19,16 @@ trait HasOthersTab
         ];
     }
 
+    /**
+     * @return string[]
+     */
+    protected function getOthersTabMessages(): array
+    {
+        return [
+
+        ];
+    }
+
     protected function initOthersTab()
     {
         $product = $this->item;

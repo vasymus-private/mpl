@@ -42,7 +42,7 @@ trait HasElementsTab
             'item.name' => 'required|string|max:199',
             'item.is_active' => 'nullable|boolean',
             'item.slug' => [
-                'nullable',
+                'required',
                 'string',
                 'max:199',
                 (new Unique(Product::TABLE, 'slug'))->when($this->item->id, function (Unique $unique) {
@@ -56,10 +56,10 @@ trait HasElementsTab
             'item.coefficient_description_show' => 'nullable|boolean',
             'item.price_name' => 'nullable|string|max:199',
             'item.admin_comment' => 'nullable|string|max:199',
-            'item.price_purchase' => 'nullable|numeric',
-            'item.price_purchase_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
-            'item.price_retail' => 'nullable|numeric',
-            'item.price_retail_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
+            'item.price_purchase' => 'required|numeric',
+            'item.price_purchase_currency_id' => 'required|int|exists:' . Currency::class . ',id',
+            'item.price_retail' => 'required|numeric',
+            'item.price_retail_currency_id' => 'required|int|exists:' . Currency::class . ',id',
             'item.unit' => 'nullable|string|max:199',
             'item.availability_status_id' => 'required|integer|exists:' . AvailabilityStatus::class . ",id",
 
@@ -69,6 +69,17 @@ trait HasElementsTab
             'instructions.*.name' => 'nullable|max:199',
 
             'tempInstruction' => 'nullable|max:' . (1024 * self::MAX_FILE_SIZE_MB), // 1024 -> 1024 kb = 1 mb
+        ];
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function getElementsTabMessages(): array
+    {
+        return [
+            'item.name.required' => 'Не заполнено поле `наименование`.',
+            'item.slug.unique' => '`Символьный код` не уникален.',
         ];
     }
 

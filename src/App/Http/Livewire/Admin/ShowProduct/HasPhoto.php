@@ -43,6 +43,16 @@ trait HasPhoto
         ];
     }
 
+    /**
+     * @return string[]
+     */
+    protected function getPhotoTabMessages(): array
+    {
+        return [
+
+        ];
+    }
+
     protected function initPhotoTab()
     {
         $product = $this->item;

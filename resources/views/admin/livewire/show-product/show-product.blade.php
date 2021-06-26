@@ -98,7 +98,7 @@
             @endforeach
         </div>
 
-        <div>
+        <div class="edit-item-">
             <button type="submit" class="btn btn-primary mb-2 btn__save mr-2">Сохранить</button>
 
             <a href="{{route('admin.products.index', ['category_id' => $item->category_id])}}" type="button" class="btn btn-info mb-2 btn__default">Отменить</a>

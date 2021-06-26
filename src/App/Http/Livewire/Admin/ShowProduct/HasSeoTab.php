@@ -17,6 +17,16 @@ trait HasSeoTab
         return array_merge([], $this->getSeoRules());
     }
 
+    /**
+     * @return string[]
+     */
+    protected function getSeoTabMessages(): array
+    {
+        return [
+
+        ];
+    }
+
     protected function initSeoTab()
     {
         if ($this->isCreatingFromCopy) {

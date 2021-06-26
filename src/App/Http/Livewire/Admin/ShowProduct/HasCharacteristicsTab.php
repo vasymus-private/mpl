@@ -58,6 +58,16 @@ trait HasCharacteristicsTab
         ];
     }
 
+    /**
+     * @return string[]
+     */
+    protected function getCharacteristicsTabMessages(): array
+    {
+        return [
+
+        ];
+    }
+
     protected function getNewCharCategoryRules(): array
     {
         return [

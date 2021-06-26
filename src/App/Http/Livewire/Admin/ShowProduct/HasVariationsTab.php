@@ -63,6 +63,14 @@ trait HasVariationsTab
     /**
      * @return string[]
      */
+    protected function getVariationsTabMessages(): array
+    {
+        return [];
+    }
+
+    /**
+     * @return string[]
+     */
     protected function variationsRules(): array
     {
         return [

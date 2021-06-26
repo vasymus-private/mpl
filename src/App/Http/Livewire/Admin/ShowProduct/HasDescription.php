@@ -15,6 +15,16 @@ trait HasDescription
         ];
     }
 
+    /**
+     * @return string[]
+     */
+    protected function getDescriptionTabMessages(): array
+    {
+        return [
+
+        ];
+    }
+
     protected function initDescriptionTab() {}
 
     protected function handleSaveDescriptionTab() {}

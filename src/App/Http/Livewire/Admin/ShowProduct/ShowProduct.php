@@ -79,6 +79,20 @@ class ShowProduct extends BaseShowProduct
         );
     }
 
+    protected function messages(): array
+    {
+        return array_merge(
+            $this->getElementsTabMessages(),
+            $this->getDescriptionTabMessages(),
+            $this->getPhotoTabMessages(),
+            $this->getCharacteristicsTabMessages(),
+            $this->getSeoTabMessages(),
+            $this->getProductProductTabsMessages(),
+            $this->getVariationsTabMessages(),
+            $this->getOthersTabMessages()
+        );
+    }
+
     public function mount()
     {
         $this->initCommonShowProduct();
