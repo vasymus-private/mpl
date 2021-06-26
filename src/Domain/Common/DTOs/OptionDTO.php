@@ -52,15 +52,16 @@ class OptionDTO extends DataTransferObject
         ]);
     }
 
-    public static function fromCategory(Category $category, int $level = 1, bool $disabled = false): self
+    public static function fromCategory(Category $category, int $level = 1, bool $disabled = false, bool $isHtmlString = true): self
     {
-        $dot = '<span>.</span>';
+        $dot = $isHtmlString ? '<span>.</span>' : '.';
         $label = implode('', array_fill(0, $level - 1, $dot)) . $category->name;
+
         return new self([
             'value' => $category->id,
             'label' => $label,
             'disabled' => $disabled,
-            'isHtmlString' => true,
+            'isHtmlString' => $isHtmlString,
         ]);
     }
 

@@ -12,6 +12,8 @@ trait HasCategories
      * */
     public array $categories;
 
+    public array $categoriesSelectOptions;
+
     /**
      * @param int[]|string[] $exclude
      *
@@ -22,6 +24,10 @@ trait HasCategories
         $this->categories = Category::getTreeRuntimeCached()->reduce(function (array $acc, Category $category) use($exclude) {
             return $this->categoryToOption($acc, $category, 1, $exclude);
         }, []);
+
+        $this->categoriesSelectOptions = Category::getTreeRuntimeCached()->reduce(function(array $acc, Category $category) use($exclude) {
+            return $this->categoryToOption($acc, $category, 1, $exclude, false);
+        }, []);
     }
 
     /**
@@ -29,19 +35,21 @@ trait HasCategories
      * @param \Domain\Products\Models\Category $category
      * @param int $level
      * @param int[]|string[] $exclude
+     * @param bool $isHtmlString
      *
      * @return array[] @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\Category}
      */
-    protected function categoryToOption(array $acc, Category $category, int $level = 1, array $exclude = []): array
+    protected function categoryToOption(array $acc, Category $category, int $level = 1, array $exclude = [], bool $isHtmlString = true): array
     {
         $acc[] = OptionDTO::fromCategory(
             $category,
             $level,
-            in_array($category->id, $exclude)
+            in_array($category->id, $exclude),
+            $isHtmlString
         )->toArray();
         if ($category->relationLoaded('subcategories')) {
             foreach ($category->subcategories as $subcategory) {
-                $acc = $this->categoryToOption($acc, $subcategory, $level + 1, $exclude);
+                $acc = $this->categoryToOption($acc, $subcategory, $level + 1, $exclude, $isHtmlString);
             }
         }
         return $acc;

@@ -4,7 +4,7 @@
  * @var int $type
  * @var string $wire_field
  * @var array[][] $productProducts @see {@link \Domain\Products\DTOs\Admin\ProductProductDTO}
- * @var array[] $categories @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\Category} {@link \App\Http\Livewire\Admin\ShowProduct\ShowProduct::$categories}
+ * @var array[] $categoriesSelectOptions @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\Category} {@link \App\Http\Livewire\Admin\ShowProduct\ShowProduct::$categoriesSelectOptions}
  * @var array[][] $loadedForProductProduct @see {@link \Domain\Products\DTOs\Admin\ProductProductDTO}
  */
 ?>
@@ -46,7 +46,7 @@
             [
                 'field' => "searchForProductProduct.$type.category_id",
                 'label' => 'Категория',
-                'options' => $categories,
+                'options' => $categoriesSelectOptions,
                 'isRow' => false,
                 'wire' => ['change' => "loadProductProduct($type)"]
             ]
