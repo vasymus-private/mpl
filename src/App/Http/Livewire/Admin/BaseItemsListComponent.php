@@ -36,21 +36,21 @@ abstract class BaseItemsListComponent extends Component
         $query = $this->getItemsQuery();
 
         $copyQuery = clone $query;
-        $items = $query->paginate((int)$this->per_page);
+        $paginator = $query->paginate((int)$this->per_page);
 
-        if ($items->lastPage() < $this->page) {
+        if ($paginator->lastPage() < $this->page) {
             $this->page = 1;
-            $items = $copyQuery->paginate($this->per_page);
+            $paginator = $copyQuery->paginate($this->per_page);
         }
 
         if ($this->request_query) {
-            $items->appends($this->request_query);
+            $paginator->appends($this->request_query);
         }
 
-        $this->total = $items->total();
-        $this->last_page = $items->lastPage();
+        $this->total = $paginator->total();
+        $this->last_page = $paginator->lastPage();
 
-        $this->setItems($items->items());
+        $this->setItems($paginator->items());
     }
 
     /**

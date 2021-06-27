@@ -10,6 +10,8 @@ class ProductItemDTO extends DataTransferObject
 {
     public int $id;
 
+    public string $uuid;
+
     public ?string $name;
 
     /**
@@ -62,6 +64,7 @@ class ProductItemDTO extends DataTransferObject
     {
         return new self([
             'id' => $product->id,
+            'uuid' => $product->uuid,
             'name' => $product->name,
             'ordering' => $product->ordering ?: 500,
             'is_active' => (bool)$product->is_active,
