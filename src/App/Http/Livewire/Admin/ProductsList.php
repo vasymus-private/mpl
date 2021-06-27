@@ -94,7 +94,7 @@ class ProductsList extends BaseItemsListComponent
         $checkedIds = collect($checked)->pluck('id')->toArray();
         $checkedModels = Product::query()->whereIn('id', $checkedIds)->get();
         $checkedModels->each(function(Product $product) use($checked) {
-            $payload = $checked[$product->id] ?? [];
+            $payload = $checked[$product->uuid] ?? [];
             if (!$payload) {
                 return true;
             }
@@ -192,7 +192,7 @@ class ProductsList extends BaseItemsListComponent
      */
     protected function setItems(array $items)
     {
-        $this->items = collect($items)->map(fn(Product $product) => ProductItemDTO::fromModel($product)->toArray())->all();
+        $this->items = collect($items)->map(fn(Product $product) => ProductItemDTO::fromModel($product)->toArray())->keyBy('uuid')->all();
     }
 
     public function cancelEdit()
@@ -211,7 +211,7 @@ class ProductsList extends BaseItemsListComponent
 
         $product->is_active = !$product->is_active;
         $product->save();
-        $this->items[$product->id] = ProductItemDTO::fromModel($product)->toArray();
+        $this->items[$product->uuid] = ProductItemDTO::fromModel($product)->toArray();
     }
 
     public function handleDelete($id)

@@ -55,16 +55,16 @@
             </thead>
             <tbody>
             @foreach($items as $product)
-                <tr class="js-product-item" wire:key="product-{{$product['id']}}">
+                <tr class="js-product-item" wire:key="product-{{$product['uuid']}}">
                     <td>
                         <div class="form-check">
-                            <input wire:model.defer="items.{{$product['id']}}.is_checked" @if($editMode) disabled @endif class="form-check-input position-static" type="checkbox">
+                            <input wire:model.defer="items.{{$product['uuid']}}.is_checked" @if($editMode) disabled @endif class="form-check-input position-static" type="checkbox">
                         </div>
                     </td>
                     <td>
                         <div class="dropdown">
-                            <button class="btn btn__grid-row-action-button" type="button" id="actions-dropdown-{{$product['id']}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                            <div class="dropdown-menu bx-core-popup-menu" aria-labelledby="actions-dropdown-{{$product['id']}}">
+                            <button class="btn btn__grid-row-action-button" type="button" id="actions-dropdown-{{$product['uuid']}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                            <div class="dropdown-menu bx-core-popup-menu" aria-labelledby="actions-dropdown-{{$product['uuid']}}">
                                 <div class="bx-core-popup-menu__arrow"></div>
                                 <a class="dropdown-item bx-core-popup-menu-item bx-core-popup-menu-item-default" href="{{route("admin.products.edit", $product['id'])}}">
                                     <span class="bx-core-popup-menu-item-icon adm-menu-edit"></span>
@@ -96,28 +96,28 @@
                     <td><span class="main-grid-cell-content">{{$product['id']}}</span></td>
                     <td @if($editMode && $product['is_checked']) style="width: 200px;" @endif>
                         @if($editMode && $product['is_checked'])
-                            @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['id']}.ordering"])
+                            @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.ordering"])
                         @else
                             <span class="main-grid-cell-content">{{$product['ordering']}}</span>
                         @endif
                     </td>
                     <td>
                         @if($editMode && $product['is_checked'])
-                            @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['id']}.name"])
+                            @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.name"])
                         @else
-                            <span class="main-grid-cell-content"><a href="{{route("admin.products.edit", $product['id'])}}">{!! $product['name'] !!}</a></span>
+                            <span class="main-grid-cell-content"><a href="{{route("admin.products.edit", $product['id'])}}">{{$product['name']}}</a></span>
                         @endif
                     </td>
                     <td>
                         @if($editMode && $product['is_checked'])
-                            @include('admin.livewire.includes.form-check', ['field' => "items.{$product['id']}.is_active"])
+                            @include('admin.livewire.includes.form-check', ['field' => "items.{$product['uuid']}.is_active"])
                         @else
                             <span class="main-grid-cell-content">{{$product['is_active_name']}}</span>
                         @endif
                     </td>
                     <td>
                         @if($editMode && $product['is_checked'])
-                            @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['id']}.unit"])
+                            @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.unit"])
                         @else
                             <span class="main-grid-cell-content">{{$product['unit']}}</span>
                         @endif
@@ -126,10 +126,10 @@
                         @if($editMode && $product['is_checked'])
                             <div class="form-row">
                                 <div class="col">
-                                    @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['id']}.price_purchase"])
+                                    @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.price_purchase"])
                                 </div>
                                 <div class="col">
-                                    @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['id']}.price_purchase_currency_id", 'options' => $currencies])
+                                    @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['uuid']}.price_purchase_currency_id", 'options' => $currencies])
                                 </div>
                             </div>
                         @else
@@ -140,10 +140,10 @@
                         @if($editMode && $product['is_checked'])
                             <div class="form-row">
                                 <div class="col">
-                                    @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['id']}.price_retail"])
+                                    @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.price_retail"])
                                 </div>
                                 <div class="col">
-                                    @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['id']}.price_retail_currency_id", 'options' => $currencies])
+                                    @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['uuid']}.price_retail_currency_id", 'options' => $currencies])
                                 </div>
                             </div>
                         @else
@@ -152,14 +152,14 @@
                     </td>
                     <td>
                         @if($editMode && $product['is_checked'])
-                            @include('admin.livewire.includes.form-control-textarea', ['field' => "items.{$product['id']}.admin_comment"])
+                            @include('admin.livewire.includes.form-control-textarea', ['field' => "items.{$product['uuid']}.admin_comment"])
                         @else
                             <span class="main-grid-cell-content">{{$product['admin_comment']}}</span>
                         @endif
                     </td>
                     <td>
                         @if($editMode && $product['is_checked'])
-                            @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['id']}.availability_status_id", 'options' => $availabilityStatuses])
+                            @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['uuid']}.availability_status_id", 'options' => $availabilityStatuses])
                         @else
                             <span class="main-grid-cell-content">{{$product['availability_status_name']}}</span>
                         @endif
