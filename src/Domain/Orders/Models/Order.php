@@ -3,7 +3,6 @@
 namespace Domain\Orders\Models;
 
 use Domain\Common\Models\BaseModel;
-use Domain\Common\Models\Currency;
 use Domain\Users\Models\Admin;
 use Domain\Users\Models\BaseUser\BaseUser;
 use Illuminate\Support\Carbon;
@@ -39,6 +38,9 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property \Carbon\Carbon|null $deleted_at
+ * @property bool $cancelled
+ * @property string|null $cancelled_description
+ * @property \Illuminate\Support\Carbon|null $cancelled_date
  *
  * @see \Domain\Orders\Models\Order::products()
  * @property ProductCollection|Product[] $products
@@ -99,10 +101,13 @@ class Order extends BaseModel implements HasMedia
     use SoftDeletes;
     use InteractsWithMedia;
 
-    const TABLE = "orders";
+    public const TABLE = "orders";
 
-    const MC_INITIAL_ATTACHMENT = "initial-attachment";
-    const MC_PAYMENT_METHOD_ATTACHMENT = "payment-method-attachment";
+    public const MC_INITIAL_ATTACHMENT = "initial-attachment";
+    public const MC_PAYMENT_METHOD_ATTACHMENT = "payment-method-attachment";
+
+    public const DEFAULT_CANCELLED = false;
+    public const DEFAULT_ORDER_STATUS_ID = OrderStatus::DEFAULT_ID;
 
     /**
      * The table associated with the model.
@@ -110,7 +115,6 @@ class Order extends BaseModel implements HasMedia
      * @var string
      */
     protected $table = self::TABLE;
-
 
     /**
      * The attributes that should be mutated to dates.
@@ -125,7 +129,21 @@ class Order extends BaseModel implements HasMedia
      * @var array
      */
     protected $casts = [
-        'request' => 'array'
+        'request' => 'array',
+        'created_at' => 'datetime:Y-m-d H:i:s',
+        'updated_at' => 'datetime:Y-m-d H:i:s',
+        'cancelled' => 'boolean',
+        'cancelled_date' => 'datetime:Y-m-d H:i:s',
+    ];
+
+    /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'order_status_id' => self::DEFAULT_ORDER_STATUS_ID,
+        'cancelled' => self::DEFAULT_CANCELLED,
     ];
 
     public static function rbAdminOrder($value)

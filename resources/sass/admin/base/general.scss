@@ -18,19 +18,19 @@ html, body {
     --ui-btn-min-width: 80px;
     --ui-btn-height: var(--ui-btn-size-md);
     --ui-btn-font-size: 12px;
-    --ui-btn-background: #868d95;
-    --ui-btn-background-hover: #5b6573;
-    --ui-btn-background-active: #3b506e;
-    --ui-btn-border-color: #868d95;
-    --ui-btn-border-color-hover: #5b6573;
-    --ui-btn-border-color-active: #3b506e;
-    --ui-btn-border: 1px solid var(--ui-btn-border-color);
-    --ui-btn-opacity-after: .3;
-    --ui-btn-colors-after-bg: #fff;
-    --ui-btn-colors-before-bg: #fff;
-    --ui-btn-color: #fff;
-    --ui-btn-color-hover: #fff;
-    --ui-btn-color-active: #fff;
+    //--ui-btn-background: #868d95;
+    //--ui-btn-background-hover: #5b6573;
+    //--ui-btn-background-active: #3b506e;
+    //--ui-btn-border-color: #868d95;
+    //--ui-btn-border-color-hover: #5b6573;
+    //--ui-btn-border-color-active: #3b506e;
+    //--ui-btn-border: 1px solid var(--ui-btn-border-color);
+    //--ui-btn-opacity-after: .3;
+    //--ui-btn-colors-after-bg: #fff;
+    //--ui-btn-colors-before-bg: #fff;
+    //--ui-btn-color: #fff;
+    //--ui-btn-color-hover: #fff;
+    //--ui-btn-color-active: #fff;
     --ui-btn-box-shadow: none;
     --ui-btn-box-shadow-hover: none;
     --ui-btn-box-shadow-active: none;
@@ -40,15 +40,15 @@ html, body {
 }
 
 .btn {
-    --ui-btn-background: #3bc8f5;
-    --ui-btn-background-hover: #3eddff;
-    --ui-btn-background-active: #12b1e3;
-    --ui-btn-border-color: #3bc8f5;
-    --ui-btn-border-color-hover: #3eddff;
-    --ui-btn-border-color-active: #12b1e3;
-    --ui-btn-color: #fff;
-    --ui-btn-color-hover: #fff;
-    --ui-btn-color-active: #fff;
+    //--ui-btn-background: #3bc8f5;
+    //--ui-btn-background-hover: #3eddff;
+    //--ui-btn-background-active: #12b1e3;
+    //--ui-btn-border-color: #3bc8f5;
+    //--ui-btn-border-color-hover: #3eddff;
+    //--ui-btn-border-color-active: #12b1e3;
+    //--ui-btn-color: #fff;
+    //--ui-btn-color-hover: #fff;
+    //--ui-btn-color-active: #fff;
 }
 
 main {
@@ -91,15 +91,15 @@ body {
 }
 
 .btn {
-    border: 1px solid var(--ui-btn-border-color);
-    border-color: var(--ui-btn-border-color);
-    background-color: var(--ui-btn-background);
+    //border: 1px solid var(--ui-btn-border-color);
+    //border-color: var(--ui-btn-border-color);
+    //background-color: var(--ui-btn-background);
     transition: 160ms background-color linear, 160ms color linear, 160ms opacity linear, 160ms border-color linear;
     &:hover {
-        border-color: var(--ui-btn-border-color-hover);
-        background-color: var(--ui-btn-background-hover);
-        box-shadow: var(--ui-btn-box-shadow-hover);
-        color: var(--ui-btn-color-hover);
+        //border-color: var(--ui-btn-border-color-hover);
+        //background-color: var(--ui-btn-background-hover);
+        //box-shadow: var(--ui-btn-box-shadow-hover);
+        //color: var(--ui-btn-color-hover);
         text-decoration: none;
         text-shadow: var(--ui-btn-text-shadow-hover);
     }

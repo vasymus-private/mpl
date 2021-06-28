@@ -74,7 +74,7 @@
     </ul>
 
     <form wire:submit.prevent="handleSave" class="position-relative">
-        <div wire:loading.flex wire:target="save">
+        <div wire:loading.flex wire:target="handleSave">
             <div class="d-flex justify-content-center align-items-center bg-light" style="opacity: 0.5; position:absolute; top:0; bottom:0; right:0; left:0; z-index: 20; ">
                 <div class="spinner-border" role="status">
                     <span class="sr-only">Loading...</span>
@@ -98,10 +98,10 @@
             @endforeach
         </div>
 
-        <div class="edit-item-">
+        <div class="edit-item-footer">
             <button type="submit" class="btn btn-primary mb-2 btn__save mr-2">Сохранить</button>
 
-            <a href="{{route('admin.products.index', ['category_id' => $item->category_id])}}" type="button" class="btn btn-info mb-2 btn__default">Отменить</a>
+            <a href="{{route(\App\Constants::ROUTE_ADMIN_PRODUCTS_INDEX, ['category_id' => $item->category_id])}}" type="button" class="btn btn-info mb-2 btn__default">Отменить</a>
         </div>
     </form>
 
