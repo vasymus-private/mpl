@@ -10,8 +10,8 @@
  * @var \Illuminate\Support\ViewErrorBag $errors
  */
 ?>
-<div class="py-4">
-    <h1 class="h2">
+<div>
+    <h1 class="h2 adm-title">
         Товары: элемент:
         @if($isCreatingFromCopy)
             добавление копированием
@@ -24,7 +24,7 @@
 
     <div class="detail-toolbar">
         <div class="row d-flex align-items-center">
-            <div class="col-sm-7">
+            <div class="d-flex align-items-center col-sm-5">
                 <a href="{{route('admin.products.index', ['category_id' => $item->category_id])}}" class="detail-toolbar__btn">
                     <span class="detail-toolbar__btn-l"></span>
                     <span class="detail-toolbar__btn-text">Товары</span>
@@ -34,7 +34,7 @@
                 @if($item->id && $item->is_active && $item->slug) <a class="mx-2" href="{{$item->web_route}}" target="_blank">В магазин</a> @endif
             </div>
             @if(!$isCreating)
-                <div class="col-sm-5 d-flex align-items-center">
+                <div class="col-sm-7 d-flex align-items-center justify-content-end">
                     <a href="{{route(\App\Constants::ROUTE_ADMIN_PRODUCTS_CREATE, ['copy_id' => $item->id])}}" class="btn__copy">Копировать</a>
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle btn__dropdown" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

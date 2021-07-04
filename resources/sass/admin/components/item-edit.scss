@@ -4,7 +4,11 @@
     border-color: #c4ced2 #dce7ed #dce7ed;
     padding: 19px;
     .col-form-label {
-        text-align: right;
+        padding-top: 0;
+        padding-bottom: 0;
+        align-items: center;
+        display: flex;
+        justify-content: flex-end;
     }
 
     .width-27 {
@@ -40,5 +44,28 @@
             min-width: 12px;
             text-align: left;
         }
+    }
+
+    .form-control {
+        height: 30px;
+    }
+
+    .input-group {
+        .form-control {
+            height: calc(1.5em + 0.75rem + 2px);
+        }
+    }
+
+    select.form-control {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    textarea.form-control {
+        height: auto;
+    }
+
+    .form-group {
+        margin-bottom: 10px;
     }
 }
