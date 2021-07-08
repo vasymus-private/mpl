@@ -2,8 +2,8 @@
 /** @var array $mainImage @see {@link \Domain\Common\DTOs\FileDTO} */
 ?>
 <div class="form-group row">
-    <label class="col-sm-3 col-form-label">Основное фото:</label>
-    <div class="col-sm-9">
+    <label class="col-sm-6 col-form-label">Основное фото:</label>
+    <div class="col-sm-6">
         <div class="row">
             <div class="card text-center col-3">
                 @if(!empty($mainImage))

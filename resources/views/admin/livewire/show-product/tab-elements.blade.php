@@ -60,11 +60,9 @@
         </div>
         <div class="col-sm-5">
             <div class="form-inline">
-                <div class="form-group">
-                    <label for="item.coefficient_description" class="text-left mr-2">Описание коэффициента:</label>
-                    <input wire:model.defer="item.coefficient_description" type="text" class="form-control @error('item.coefficient_description') is-invalid @enderror" id="item.coefficient_description">
-                    @error('item.coefficient_description') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                </div>
+                <label for="item.coefficient_description" class="text-left mr-2">Описание коэффициента:</label>
+                <input wire:model.defer="item.coefficient_description" type="text" class="form-control @error('item.coefficient_description') is-invalid @enderror" id="item.coefficient_description">
+                @error('item.coefficient_description') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
         </div>
     </div>
@@ -91,11 +89,11 @@
                         @error("infoPrices.$infoPrice[temp_uuid].name") <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-sm-2">
-                        <button wire:click="deleteInfoPrice('{{$infoPrice['temp_uuid']}}')" type="button" class="btn btn-outline-danger">x</button>
+                        <button wire:click="deleteInfoPrice('{{$infoPrice['temp_uuid']}}')" type="button" class="btn btn-outline-danger btn__remove">x</button>
                     </div>
                 </div>
             @endforeach
-            <button wire:click="addInfoPrice" type="button" class="btn btn-primary">Добавить</button>
+            <button wire:click="addInfoPrice" type="button" class="btn btn__default">Добавить</button>
         </div>
     </div>
 
@@ -104,29 +102,32 @@
     <div class="form-group row">
         <label class="col-sm-5 col-form-label">Дополнительные файлы (инструкции):</label>
         <div class="col-sm-7">
-            <div class="row">
-                @foreach($instructions as $index => $instruction)
-                    <div wire:key="instructions-{{$index}}-{{$instruction['url']}}" class="card text-center">
-                        <div class="card-body">
-                            <p class="card-text">{{$instruction['mime_type_name']}}</p>
-                            <h5 class="card-title"><a href="{{$instruction['url']}}" target="_blank">{{$instruction['file_name']}}</a></h5>
+            <div class="add-file">
+                <div class="row">
+                    @foreach($instructions as $index => $instruction)
+                        <div wire:key="instructions-{{$index}}-{{$instruction['url']}}" class="card text-center">
+                            <div class="adm-fileinput-item-preview">
+                                <h5 class="card-title"><a href="{{$instruction['url']}}" target="_blank">{{$instruction['file_name']}}</a></h5>
+                            </div>
                             <div class="form-group">
                                 @include('admin.livewire.includes.form-control-input', ['field' => "instructions.$index.name"])
                             </div>
-                            <button wire:click="deleteInstruction({{$index}})" type="button" class="btn btn-outline-danger">x</button>
+                            <button wire:click="deleteInstruction({{$index}})" type="button" class="adm-fileinput-item-preview__remove">&nbsp;</button>
+                        </div>
+                    @endforeach
+                </div>
+                <div class="form-group">
+                    <div>
+                        <span class="add-file__text" wire:model="tempInstruction">Перетащите файлы  в эту область (Drag&Drop)</span>
+                        <input type="file" wire:model="tempInstruction" class="form-control-file @error("tempInstruction") is-invalid @enderror" id="tempInstruction" />
+                        <div wire:loading wire:target="tempInstruction">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
                         </div>
                     </div>
-                @endforeach
-            </div>
-            <div class="form-group">
-                <label for="tempInstruction">Добавить инструкцию</label>
-                <input type="file" wire:model="tempInstruction" class="form-control-file @error("tempInstruction") is-invalid @enderror" id="tempInstruction" />
-                <div wire:loading wire:target="tempInstruction">
-                    <div class="spinner-border" role="status">
-                        <span class="sr-only">Loading...</span>
-                    </div>
+                    @error("tempInstruction") <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
-                @error("tempInstruction") <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
         </div>
     </div>

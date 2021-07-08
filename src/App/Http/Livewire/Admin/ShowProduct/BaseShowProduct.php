@@ -39,17 +39,6 @@ abstract class BaseShowProduct extends BaseShowComponent
     public bool $isCreatingFromCopy;
 
     /**
-     * @param mixed $name
-     * @param mixed $value
-     *
-     * @see {@link https://github.com/livewire/livewire/issues/823#issuecomment-751321838}
-     */
-    public function updated($name, $value)
-    {
-        data_set($this, $name, H::trimAndNullEmptyString($value)); // trim only left side
-    }
-
-    /**
      * @return array
      */
     protected function getHasShowProductQueryString(): array

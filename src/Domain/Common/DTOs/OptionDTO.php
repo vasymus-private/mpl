@@ -3,13 +3,13 @@
 namespace Domain\Common\DTOs;
 
 use Domain\Common\Models\Currency;
+use Domain\Orders\Models\OrderStatus;
 use Domain\Products\Actions\GetCharDotsHtmlStringAction;
 use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\Category;
 use Domain\Products\Models\CharType;
 use Domain\Users\Models\Admin;
-use Illuminate\Support\HtmlString;
 use Spatie\DataTransferObject\DataTransferObject;
 
 class OptionDTO extends DataTransferObject
@@ -120,6 +120,14 @@ class OptionDTO extends DataTransferObject
         return new self([
             'value' => $admin->id,
             'label' => $admin->name,
+        ]);
+    }
+
+    public static function fromOrderStatus(OrderStatus $orderStatus): self
+    {
+        return new self([
+            'value' => $orderStatus->id,
+            'label' => $orderStatus->name,
         ]);
     }
 }

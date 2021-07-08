@@ -1,46 +1,71 @@
 .item-edit {
-    &.product-edit {
-        background-color: #f5f9f9;
-        border: 1px solid;
-        border-color: #c4ced2 #dce7ed #dce7ed;
-        padding: 19px;
-        .col-form-label {
-            text-align: right;
-        }
+    background-color: #f5f9f9;
+    border: 1px solid;
+    border-color: #c4ced2 #dce7ed #dce7ed;
+    padding: 19px;
+    .col-form-label {
+        padding-top: 0;
+        padding-bottom: 0;
+        align-items: center;
+        display: flex;
+        justify-content: flex-end;
+    }
 
-        .width-27 {
-            .form-control {
-                width: 27%;
-            }
+    .width-27 {
+        .form-control {
+            width: 27%;
         }
+    }
 
-        .width-35 {
-            .form-control {
-                width: 35%;
-            }
+    .width-35 {
+        .form-control {
+            width: 35%;
         }
+    }
 
-        .width-45 {
-            .form-control {
-                width: 45%;
-            }
+    .width-45 {
+        .form-control {
+            width: 45%;
         }
+    }
 
-        .width-50 {
-            .form-control {
-                width: 50%;
-            }
+    .width-50 {
+        .form-control {
+            width: 50%;
         }
+    }
 
-        .form-check-label {
-            display: block;
-            text-align: right;
-            span {
-                display: inline-block;
-                min-height: 12px;
-                min-width: 12px;
-                text-align: left;
-            }
+    .form-check-label {
+        display: block;
+        text-align: right;
+        span {
+            display: inline-block;
+            min-height: 12px;
+            min-width: 12px;
+            text-align: left;
         }
+    }
+
+    .form-control {
+        height: 30px;
+    }
+
+    .input-group {
+        .form-control {
+            height: calc(1.5em + 0.75rem + 2px);
+        }
+    }
+
+    select.form-control {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    textarea.form-control {
+        height: auto;
+    }
+
+    .form-group {
+        margin-bottom: 10px;
     }
 }

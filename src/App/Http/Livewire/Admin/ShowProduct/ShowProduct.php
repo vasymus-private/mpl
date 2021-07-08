@@ -9,7 +9,6 @@ use App\Http\Livewire\Admin\HasCategories;
 use App\Http\Livewire\Admin\HasCurrencies;
 use App\Http\Livewire\Admin\HasTabs;
 use Domain\Products\Actions\DeleteProductAction;
-use Domain\Products\Models\Product\Product;
 use Livewire\WithFileUploads;
 
 class ShowProduct extends BaseShowProduct
