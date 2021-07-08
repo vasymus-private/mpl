@@ -60,6 +60,10 @@ class OrdersTableSeeder extends Seeder
         foreach (range(1, 50) as $id) {
             $orderProductsSeeds = [];
 
+            $createdAt = $faker->dateTimeBetween('-1 weeks', 'now');
+            $updatedAt = clone $createdAt;
+            $updatedAt->add(new \DateInterval('PT20M'));
+
             $seedItem = [
                 'id' => $id,
                 'order_status_id' => Arr::random($orderStatusesIds),
@@ -70,7 +74,8 @@ class OrdersTableSeeder extends Seeder
                 'comment_user' => $faker->address,
                 'comment_admin' => $faker->title,
                 'payment_method_id' => Arr::random($paymentMethodsIds),
-                'created_at' => $faker->dateTimeBetween('-1 weeks', 'now'),
+                'created_at' => $createdAt,
+                'updated_at' => $updatedAt,
             ];
 
             foreach (range(1, rand(2, 3)) as $item) {
