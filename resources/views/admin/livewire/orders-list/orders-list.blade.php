@@ -39,6 +39,10 @@
         <button wire:click="clearFilters" type="button" class="btn btn-primary mb-2 btn__save mr-2">Отменить</button>
     </form>
 
+    <div>
+        <a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_CREATE)}}" class="btn btn-primary mb-2 btn__save mr-2">Добавить заказ</a>
+    </div>
+
     <div class="table-responsive position-relative">
         <div wire:loading.flex>
             <div class="d-flex justify-content-center align-items-center bg-light" style="opacity: 0.5; position:absolute; top:0; bottom:0; right:0; left:0; z-index: 20; ">
@@ -91,7 +95,7 @@
                             </div>
                         </td>
                         <td><span class="main-grid-cell-content">{{$order['date']}}</span></td>
-                        <td><span class="main-grid-cell-content">{{$order['id']}}</span></td>
+                        <td><span class="main-grid-cell-content"><a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, $order['id'])}}">{{$order['id']}}</a></span></td>
                         <td @if($order['order_status_color']) style="background-color: {{$order['order_status_color']}};" @endif><span class="main-grid-cell-content">{{$order['order_status_name']}}</span></td>
                         <td><span class="main-grid-cell-content">{{$order['comment_admin']}}</span></td>
                         <td><span class="main-grid-cell-content">{{$order['comment_user']}}</span></td>

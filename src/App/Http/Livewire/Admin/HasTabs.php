@@ -59,7 +59,13 @@ trait HasTabs
      */
     protected function getTabs(): array
     {
-        return property_exists($this, 'tabs') ? $this->tabs : [];
+        if (property_exists($this, 'tabs')) {
+            return $this->tabs;
+        }
+        if (method_exists($this, 'tabs')) {
+            return $this->tabs();
+        }
+        return [];
     }
 
     /**

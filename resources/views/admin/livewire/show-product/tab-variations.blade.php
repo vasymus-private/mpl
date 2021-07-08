@@ -287,58 +287,58 @@
 
                             <div wire:ignore.self class="tab-pane p-3 fade" id="variation-photos" role="tabpanel" aria-labelledby="variation-photos-tab">
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">Основное фото:</label>
-                                    <div class="col-sm-9">
-                                        <div class="row">
-                                            <div class="card text-center col-3">
-                                                @if(!empty($currentVariation['main_image']))
-                                                    <div class="card-body">
+                                    <label class="col-sm-6 col-form-label">Основное фото:</label>
+                                    <div class="col-sm-6">
+                                        <div class="add-file">
+                                            <div class="row">
+                                                <div class="card text-center col-3">
+                                                    @if(!empty($currentVariation['main_image']))
                                                         <a href="{{$currentVariation['main_image']['url']}}" target="_blank"><img class="img-thumbnail" src="{{$currentVariation['main_image']['url']}}" alt=""></a>
                                                         <div class="form-group">
                                                             @include('admin.livewire.includes.form-control-input', ['field' => "currentVariation.main_image.name"])
                                                         </div>
-                                                        <button wire:click="deleteVariationMainImage" type="button" class="btn btn-outline-danger">x</button>
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="tempVariationMainImage">Загрузить основное фото</label>
-                                            <input type="file" wire:model="tempVariationMainImage" class="form-control-file @error("tempVariationMainImage") is-invalid @enderror" id="tempVariationMainImage" />
-                                            <div wire:loading wire:target="tempVariationMainImage">
-                                                <div class="spinner-border" role="status">
-                                                    <span class="sr-only">Loading...</span>
+                                                        <button wire:click="deleteVariationMainImage" type="button" class="adm-fileinput-item-preview__remove">x</button>
+                                                    @endif
                                                 </div>
                                             </div>
-                                            @error("tempVariationMainImage") <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                            <div class="form-group">
+                                                <label for="tempVariationMainImage">Загрузить основное фото</label>
+                                                <input type="file" wire:model="tempVariationMainImage" class="form-control-file @error("tempVariationMainImage") is-invalid @enderror" id="tempVariationMainImage" />
+                                                <div wire:loading wire:target="tempVariationMainImage">
+                                                    <div class="spinner-border" role="status">
+                                                        <span class="sr-only">Loading...</span>
+                                                    </div>
+                                                </div>
+                                                @error("tempVariationMainImage") <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">Дополнительные фото:</label>
-                                    <div class="col-sm-9">
-                                        <div class="row">
-                                            @foreach($currentVariation['additional_images'] as $index => $currentVariationAdditionalImage)
-                                                <div wire:key="instructions-{{$index}}-{{$currentVariationAdditionalImage['url']}}" class="card text-center col-3">
-                                                    <div class="card-body">
+                                    <label class="col-sm-6 col-form-label">Дополнительные фото:</label>
+                                    <div class="col-sm-6">
+                                        <div class="add-file">
+                                            <div class="row">
+                                                @foreach($currentVariation['additional_images'] as $index => $currentVariationAdditionalImage)
+                                                    <div wire:key="instructions-{{$index}}-{{$currentVariationAdditionalImage['url']}}" class="card text-center col-3">
                                                         <a href="{{$currentVariationAdditionalImage['url']}}" target="_blank"><img class="img-thumbnail" src="{{$currentVariationAdditionalImage['url']}}" alt=""></a>
                                                         <div class="form-group">
                                                             @include('admin.livewire.includes.form-control-input', ['field' => "currentVariation.additional_images.$index.name"])
                                                         </div>
                                                         <button wire:click="deleteVariationAdditionalImage({{$index}})" type="button" class="btn btn-outline-danger">x</button>
                                                     </div>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="tempVariationAdditionalImage">Добавить дополнительное фото</label>
-                                            <input type="file" wire:model="tempVariationAdditionalImage" class="form-control-file @error("tempVariationAdditionalImage") is-invalid @enderror" id="tempVariationAdditionalImage" />
-                                            <div wire:loading wire:target="tempVariationAdditionalImage">
-                                                <div class="spinner-border" role="status">
-                                                    <span class="sr-only">Loading...</span>
-                                                </div>
+                                                @endforeach
                                             </div>
-                                            @error("tempVariationAdditionalImage") <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                            <div class="form-group">
+                                                <label for="tempVariationAdditionalImage">Добавить дополнительное фото</label>
+                                                <input type="file" wire:model="tempVariationAdditionalImage" class="form-control-file @error("tempVariationAdditionalImage") is-invalid @enderror" id="tempVariationAdditionalImage" />
+                                                <div wire:loading wire:target="tempVariationAdditionalImage">
+                                                    <div class="spinner-border" role="status">
+                                                        <span class="sr-only">Loading...</span>
+                                                    </div>
+                                                </div>
+                                                @error("tempVariationAdditionalImage") <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
