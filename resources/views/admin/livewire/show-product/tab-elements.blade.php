@@ -54,11 +54,11 @@
 
     <div class="form-group row">
         <label for="item.coefficient" class="col-sm-5 col-form-label">Коэффициент на единицу расхода:</label>
-        <div class="col-sm-2">
+        <div class="col-sm-1">
             <input wire:model.defer="item.coefficient" type="text" class="form-control @error('item.coefficient') is-invalid @enderror" id="item.coefficient">
             @error('item.coefficient') <div class="invalid-feedback">{{ $message }}</div> @enderror
         </div>
-        <div class="col-sm-5">
+        <div class="col-sm-6">
             <div class="form-inline">
                 <label for="item.coefficient_description" class="text-left mr-2">Описание коэффициента:</label>
                 <input wire:model.defer="item.coefficient_description" type="text" class="form-control @error('item.coefficient_description') is-invalid @enderror" id="item.coefficient_description">

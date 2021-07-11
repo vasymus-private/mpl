@@ -8,50 +8,52 @@
 
 <div class="item-edit product-edit">
     @foreach($charCategories as $index => $charCategory)
-        <div wire:key="{{sprintf('char-categories-%s-%s', $index, $charCategory['id'])}}" class="mb-5">
-            <h3 class="h5">
-                <button @if($loop->first) disabled @endif type="button" wire:click="charCategoryOrdering({{$index}}, true)" class="btn btn-info mx-1">&uarr;</button>
-                <button @if($loop->last) disabled @endif type="button" wire:click="charCategoryOrdering({{$index}}, false)" class="btn btn-info mx-1">&darr;</button>
-                {{$charCategory['name']}}
-                <button onclick="if(confirm('Удалить заголовок и все его характеристики?')) @this.deleteCharCategory({{$index}})" type="button" class="btn btn-danger mx-1">x</button>
-            </h3>
-
-            <div style="padding-left: 50px;">
-                @foreach($charCategory['chars'] as $charIndex => $char)
-                    <?php /** @var array $char @see {@link \Domain\Products\DTOs\Admin\CharDTO} */ ?>
-                    <div wire:key="{{sprintf('char-%s-%s', $charIndex, $char['id'])}}" class="form-group row">
-                        <div class="col-sm-7 d-flex">
-                            <div>
-                                <button @if($loop->first) disabled @endif type="button" wire:click="charOrdering({{$index}}, {{$charIndex}}, true)" class="btn btn-info mx-1">&uarr;</button>
-                                <button @if($loop->last) disabled @endif type="button" wire:click="charOrdering({{$index}}, {{$charIndex}}, false)" class="btn btn-info mx-1">&darr;</button>
-                                <label for="{{sprintf('charCategories.%s.chars.%s.value', $index, $charIndex)}}">{{$char['name']}}:</label>
-                                <button wire:click="deleteChar({{$index}}, {{$charIndex}})" type="button" class="btn btn-danger mx-1">x</button>
-                            </div>
-                        </div>
-                        <div class="col-sm-5">
-                            @if($char['is_rate'])
-                                @include('admin.livewire.includes.form-control-select', [
-                                    'field' => sprintf('charCategories.%s.chars.%s.value', $index, $charIndex),
-                                     'options' => $charRateOptions,
-                                 ])
-                            @else
-                                @include('admin.livewire.includes.form-control-input', [
-                                    'field' => sprintf('charCategories.%s.chars.%s.value', $index, $charIndex),
-                                ])
-                            @endif
-                        </div>
-                    </div>
-                @endforeach
+        <div wire:key="{{sprintf('char-categories-%s-%s', $index, $charCategory['id'])}}" class="mb-5 characteristics">
+            <div class="row-line title-row-bg">
+                <div class="buttons-block">
+                    <button @if($loop->first) disabled @endif type="button" wire:click="charCategoryOrdering({{$index}}, true)" class="btn btn__default">&uarr;</button>
+                    <button @if($loop->last) disabled @endif type="button" wire:click="charCategoryOrdering({{$index}}, false)" class="btn btn__default">&darr;</button>
+                </div>
+                <h4 class="title">{{$charCategory['name']}}</h4>
+                <button onclick="if(confirm('Удалить заголовок и все его характеристики?')) @this.deleteCharCategory({{$index}})" type="button" class="btn btn__remove">x</button>
             </div>
+            @foreach($charCategory['chars'] as $charIndex => $char)
+                <?php /** @var array $char @see {@link \Domain\Products\DTOs\Admin\CharDTO} */ ?>
+                <div wire:key="{{sprintf('char-%s-%s', $charIndex, $char['id'])}}" class="row-line">
+                    <div class="column">
+                        <div class="buttons-block">
+                            <button @if($loop->first) disabled @endif type="button" wire:click="charOrdering({{$index}}, {{$charIndex}}, true)" class="btn btn__default">&uarr;</button>
+                            <button @if($loop->last) disabled @endif type="button" wire:click="charOrdering({{$index}}, {{$charIndex}}, false)" class="btn btn__default">&darr;</button>
+                        </div>
+                        <label for="{{sprintf('charCategories.%s.chars.%s.value', $index, $charIndex)}}">{{$char['name']}}:</label>
+                    </div>
+                    <div class="column between">
+                        @if($char['is_rate'])
+                            @include('admin.livewire.includes.form-control-select', [
+                                'field' => sprintf('charCategories.%s.chars.%s.value', $index, $charIndex),
+                                 'options' => $charRateOptions,
+                             ])
+                        @else
+                            @include('admin.livewire.includes.form-control-input', [
+                                'field' => sprintf('charCategories.%s.chars.%s.value', $index, $charIndex),
+                            ])
+                        @endif
+                        <button wire:click="deleteChar({{$index}}, {{$charIndex}})" type="button" class="btn btn__remove">x</button>
+                    </div>
+                </div>
+            @endforeach
         </div>
     @endforeach
 
     @if($this->isCreatingFromCopy)
         <p class="text-danger">Чтобы добавлять новые характеристики, необходимо сохранить скопированный товар.</p>
     @else
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-char">+ Добавить характеристику</button>
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-char-category">+ Добавить заголовок для характеристик</button>
-
+        <div class="row-buttons">
+            <button type="button" class="btn btn__add" data-toggle="modal" data-target="#add-char-category">Добавить заголовок</button>
+        </div>
+        <div class="row-buttons">
+            <button type="button" class="btn btn__add" data-toggle="modal" data-target="#add-char">Добавить характеристику</button>
+        </div>
         <!-- Modals -->
         <div wire:ignore.self class="modal fade" id="add-char" tabindex="-1" aria-labelledby="add-char-title" aria-hidden="true">
             <div class="modal-dialog">
@@ -85,7 +87,7 @@
                         ])
                     </div>
                     <div class="modal-footer">
-                        <button onclick="@this.addNewChar().then((res) => { if(res) $('#add-char').modal('hide') })" type="button" class="btn btn-primary">Добавить</button>
+                        <button onclick="@this.addNewChar().then((res) => { if(res) $('#add-char').modal('hide') })" type="button" class="btn btn__default">Добавить</button>
                     </div>
                 </div>
             </div>
@@ -111,7 +113,7 @@
                         @include('admin.livewire.includes.form-group-input', ['field' => 'newCharCategory.name', 'label' => 'Название'])
                     </div>
                     <div class="modal-footer">
-                        <button onclick="@this.addNewCharCategory().then((res) => {if(res) $('#add-char-category').modal('hide') })" type="button" class="btn btn-primary">Добавить</button>
+                        <button onclick="@this.addNewCharCategory().then((res) => {if(res) $('#add-char-category').modal('hide') })" type="button" class="btn btn__default">Добавить</button>
                     </div>
                 </div>
             </div>
