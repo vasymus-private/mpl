@@ -8,7 +8,6 @@ services:
             args:
                 - DOCKER_LOCALHOST_SERVERNAME=${DOCKER_LOCALHOST_SERVERNAME}
         image: vasymus/mpl-nginx:0.1.0
-        container_name: mpl-nginx
         deploy:
             replicas: 1
             restart_policy:
