@@ -11,6 +11,12 @@
         justify-content: flex-end;
     }
 
+    .width-15 {
+        .form-control {
+            width: 15%;
+        }
+    }
+
     .width-27 {
         .form-control {
             width: 27%;
