@@ -57,6 +57,25 @@ main {
 .header {
     flex-shrink: 0;
 }
+
+.modal-footer {
+    position: sticky;
+    bottom: 0;
+    z-index: 22;
+    background: #fff;
+}
+
+.edit-item-footer {
+    background-color: #fff;
+    border-radius:  4px 4px 0 0; 
+    border: 1px solid #ced7d8;
+    border-bottom: 0;
+    position: sticky;
+    bottom: 0;
+    z-index: 22;
+    padding: 10px 0 0;
+}
+
 body {
 	background: url(../images/submenu-bg.png) repeat;
 }
