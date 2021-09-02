@@ -7,43 +7,45 @@
  */
 ?>
 <div>
-    <form wire:submit.prevent="handleSearch">
-        <div class="form-group row">
-            <label for="item.slug" class="col-sm-5 col-form-label">Дата с:</label>
-            <div class="col-sm-7">
-                <div class="input-group @error('date_from') is-invalid @enderror">
-                    <input wire:model.defer="date_from" type="date" class="form-control @error('date_from') is-invalid @enderror" id="date_from">
+    <form wire:submit.prevent="handleSearch" class="filter-form">
+        <div class="filter-form__body">
+            <div class="form-group row">
+                <label for="item.slug" class="col-sm-2 col-form-label">Дата с:</label>
+                <div class="col-sm-4">
+                    <div class="input-group @error('date_from') is-invalid @enderror">
+                        <input wire:model.defer="date_from" type="date" class="form-control @error('date_from') is-invalid @enderror" id="date_from">
+                    </div>
+                    @error('date_from') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
-                @error('date_from') <div class="invalid-feedback">{{ $message }}</div> @enderror
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="item.slug" class="col-sm-5 col-form-label">Дата по:</label>
-            <div class="col-sm-7">
-                <div class="input-group @error('date_to') is-invalid @enderror">
-                    <input wire:model.defer="date_to" type="date" class="form-control @error('date_to') is-invalid @enderror" id="date_to">
+                <label for="item.slug" class="col-sm-2 col-form-label">Дата по:</label>
+                <div class="col-sm-4">
+                    <div class="input-group @error('date_to') is-invalid @enderror">
+                        <input wire:model.defer="date_to" type="date" class="form-control @error('date_to') is-invalid @enderror" id="date_to">
+                    </div>
+                    @error('date_to') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
-                @error('date_to') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
+
+            @include('admin.livewire.includes.form-group-input', ['field' => 'order_id', 'label' => 'Номер заказа'])
+
+            @include('admin.livewire.includes.form-group-input', ['field' => 'email', 'label' => 'Емейл'])
+
+            @include('admin.livewire.includes.form-group-input', ['field' => 'name', 'label' => 'Имя'])
+
+            @include('admin.livewire.includes.form-group-select', ['field' => 'admin_id', 'label' => 'Менеджер', 'options' => $managers])
+
         </div>
-
-        @include('admin.livewire.includes.form-group-input', ['field' => 'order_id', 'label' => 'Номер заказа'])
-
-        @include('admin.livewire.includes.form-group-input', ['field' => 'email', 'label' => 'Емейл'])
-
-        @include('admin.livewire.includes.form-group-input', ['field' => 'name', 'label' => 'Имя'])
-
-        @include('admin.livewire.includes.form-group-select', ['field' => 'admin_id', 'label' => 'Менеджер', 'options' => $managers])
-
-        <button type="submit" class="btn btn-primary mb-2 btn__save mr-2">Найти</button>
-        <button wire:click="clearFilters" type="button" class="btn btn-primary mb-2 btn__save mr-2">Отменить</button>
+        <div class="filter-form__footer">
+            <button type="submit" class="btn btn-primary mb-2 btn__default mr-2">Найти</button>
+            <button wire:click="clearFilters" type="button" class="btn btn-primary mb-2 btn__default mr-2">Отменить</button>
+        </div>
     </form>
 
     <div>
         <a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_CREATE)}}" class="btn btn-primary mb-2 btn__save mr-2">Добавить заказ</a>
     </div>
 
-    <div class="table-responsive position-relative">
+    <div class="admin-edit-variations">
         <div wire:loading.flex>
             <div class="d-flex justify-content-center align-items-center bg-light" style="opacity: 0.5; position:absolute; top:0; bottom:0; right:0; left:0; z-index: 20; ">
                 <div class="spinner-border" role="status">
@@ -52,28 +54,28 @@
             </div>
         </div>
 
-        <table class="table">
-            <thead class="thead-light">
+        <table class="table table-bordered table-hover">
+            <thead>
             <tr>
                 <th scope="col">
-                    <div class="form-check">
+                    <div class="form-check form-check-inline">
                         <input wire:model="selectAll" class="form-check-input position-static" type="checkbox">
                     </div>
                 </th>
                 <th scope="col"><span class="main-grid-head-title">&nbsp;</span></th>
-                <th scope="col"><span class="main-grid-head-title">Дата создания</span></th>
-                <th scope="col"><span class="main-grid-head-title">ID</span></th>
-                <th scope="col"><span class="main-grid-head-title">Статус</span></th>
-                <th scope="col"><span class="main-grid-head-title">Комментарии</span></th>
-                <th scope="col"><span class="main-grid-head-title">Комментарий покупателя</span></th>
-                <th scope="col"><span class="main-grid-head-title">Важность</span></th>
-                <th scope="col"><span class="main-grid-head-title">Менеджер</span></th>
-                <th scope="col"><span class="main-grid-head-title">Сумма</span></th>
-                <th scope="col"><span class="main-grid-head-title">Имя</span></th>
-                <th scope="col"><span class="main-grid-head-title">Телефон</span></th>
-                <th scope="col"><span class="main-grid-head-title">Email</span></th>
-                <th scope="col"><span class="main-grid-head-title" style="width: 300px;">Позиции</span></th>
-                <th scope="col"><span class="main-grid-head-title">Платежная система</span></th>
+                <th scope="col">Дата создания</th>
+                <th scope="col">ID</th>
+                <th scope="col">Статус</th>
+                <th scope="col">Комментарии</th>
+                <th scope="col">Комментарий покупателя</th>
+                <th scope="col">Важность</th>
+                <th scope="col">Менеджер</th>
+                <th scope="col">Сумма</th>
+                <th scope="col">Имя</th>
+                <th scope="col">Телефон</th>
+                <th scope="col">Email</th>
+                <th scope="col"><span style="width: 300px;">Позиции</span></th>
+                <th scope="col">Платежная система</th>
             </tr>
             </thead>
             <tbody>
