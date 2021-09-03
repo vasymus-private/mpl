@@ -5,15 +5,16 @@
  * @var array[][] $loadedForProductProduct @see {@link \Domain\Products\DTOs\Admin\ProductProductDTO}
  */
 ?>
-
-@include(
-    'admin.livewire.show-product.related',
-    [
-        'type' => \Domain\Products\Models\Pivots\ProductProduct::TYPE_SIMILAR,
-        'wire_field' => 'similar_name',
-        'title' => 'Похожие',
-        'productProducts' => $productProducts,
-        'categories' => $categories,
-        'loadedForProductProduct' => $loadedForProductProduct,
-    ]
-)
+<div class="item-edit product-edit">
+    @include(
+        'admin.livewire.show-product.related',
+        [
+            'type' => \Domain\Products\Models\Pivots\ProductProduct::TYPE_SIMILAR,
+            'wire_field' => 'similar_name',
+            'title' => 'Похожие',
+            'productProducts' => $productProducts,
+            'categories' => $categories,
+            'loadedForProductProduct' => $loadedForProductProduct,
+        ]
+    )
+</div>

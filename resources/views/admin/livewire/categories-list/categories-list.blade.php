@@ -15,7 +15,7 @@
         'prepends' => $this->getPrepends(),
     ])
 
-    <div class="table-responsive position-relative">
+    <div class="admin-edit-variations">
         <div wire:loading.flex>
             <div class="d-flex justify-content-center align-items-center bg-light" style="opacity: 0.5; position:absolute; top:0; bottom:0; right:0; left:0; z-index: 20; ">
                 <div class="spinner-border" role="status">
@@ -24,19 +24,19 @@
             </div>
         </div>
 
-        <table class="table">
-            <thead class="thead-light">
+        <table class="table table-bordered table-hover">
+            <thead>
             <tr>
                 <th scope="col">
-                    <div class="form-check no-padding-top">
+                    <div class="form-check form-check-inline no-padding-top">
                         <input wire:model="selectAll" @if($editMode) disabled @endif class="form-check-input position-static" type="checkbox">
                     </div>
                 </th>
                 <th scope="col"><span class="main-grid-head-title">&nbsp;</span></th>
-                <th scope="col"><span class="main-grid-head-title">ID</span></th>
-                <th scope="col"><span class="main-grid-head-title">Название</span></th>
-                <th scope="col"><span class="main-grid-head-title">Сортировка</span></th>
-                <th scope="col"><span class="main-grid-head-title">Активность</span></th>
+                <th scope="col">ID</th>
+                <th scope="col">Название</th>
+                <th scope="col">Сортировка</th>
+                <th scope="col">Активность</th>
             </tr>
             </thead>
             <tbody>

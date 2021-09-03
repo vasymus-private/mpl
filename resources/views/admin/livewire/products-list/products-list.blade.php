@@ -24,7 +24,7 @@
         'brandFilter' => true,
     ])
 
-    <div class="table-responsive position-relative">
+    <div class="admin-edit-variations">
         <div wire:loading.flex>
             <div class="d-flex justify-content-center align-items-center bg-light" style="opacity: 0.5; position:absolute; top:0; bottom:0; right:0; left:0; z-index: 20; ">
                 <div class="spinner-border" role="status">
@@ -33,24 +33,24 @@
             </div>
         </div>
 
-        <table class="table">
-            <thead class="thead-light">
+        <table class="table table-bordered table-hover">
+            <thead>
             <tr>
                 <th scope="col">
-                    <div class="form-check">
+                    <div class="form-check form-check-inline">
                         <input wire:model="selectAll" @if($editMode) disabled @endif class="form-check-input position-static" type="checkbox">
                     </div>
                 </th>
                 <th scope="col"><span class="main-grid-head-title">&nbsp;</span></th>
-                <th scope="col"><span class="main-grid-head-title">ID</span></th>
-                <th scope="col"><span class="main-grid-head-title">Сортировка</span></th>
-                <th scope="col"><span class="main-grid-head-title">Название</span></th>
-                <th scope="col"><span class="main-grid-head-title">Активность</span></th>
-                <th scope="col"><span class="main-grid-head-title">Упаковка</span></th>
-                <th scope="col"><span class="main-grid-head-title">Закупочная</span></th>
-                <th scope="col"><span class="main-grid-head-title">Розничная</span></th>
-                <th scope="col"><span class="main-grid-head-title">Служебная Информация</span></th>
-                <th scope="col"><span class="main-grid-head-title">Наличие</span></th>
+                <th scope="col">ID</th>
+                <th scope="col">Сортировка</th>
+                <th scope="col">Название</th>
+                <th scope="col">Активность</th>
+                <th scope="col">Упаковка</th>
+                <th scope="col">Закупочная</th>
+                <th scope="col">Розничная</th>
+                <th scope="col">Служебная Информация</th>
+                <th scope="col">Наличие</th>
             </tr>
             </thead>
             <tbody>

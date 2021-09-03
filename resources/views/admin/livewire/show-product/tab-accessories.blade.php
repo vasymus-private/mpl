@@ -5,7 +5,7 @@
  * @var array[][] $loadedForProductProduct @see {@link \Domain\Products\DTOs\Admin\ProductProductDTO}
  */
 ?>
-
+<div class="item-edit product-edit">
 @include(
     'admin.livewire.show-product.related',
     [
@@ -17,3 +17,4 @@
         'loadedForProductProduct' => $loadedForProductProduct,
     ]
 )
+</div>
