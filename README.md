@@ -5,6 +5,7 @@ Laravel has the most extensive and thorough [documentation](https://laravel.com/
 # Local deployment
 
 ## First time
+
 ```shell
 # clone repo
 git clone --depth 1 -b mpl https://github.com/vasymus/docker.git docker
@@ -46,7 +47,8 @@ exit
 docker-compose down
 ```
 
-## All following application running
+## All following application run
+
 ```shell
 # do not rebuild
 docker-compose up -d
