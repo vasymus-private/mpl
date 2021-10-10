@@ -1,3 +1,3 @@
-<aside id="aside" class="bg-light sidebar {{$class ?? ''}}">
+<aside id="aside" class="sidebar-left {{$class ?? ''}}">
     <x-sidebar-menu />
 </aside>

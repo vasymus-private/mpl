@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Domain\Articles\Models\Article;
+use Domain\Orders\Models\Order;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\Category;
 use Domain\FAQs\Models\FAQ;
@@ -66,8 +67,6 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapAjaxRoutes();
 
-
-
         $this->routeBinding();
 
         //$this->ddRoutes();
@@ -102,6 +101,9 @@ class RouteServiceProvider extends ServiceProvider
 
         Route::bind("product_slug", [Product::class, "rbProductSlug"]);
         Route::bind("admin_product", [Product::class, "rbAdminProduct"]);
+        Route::bind("admin_category", [Category::class, "rbAdminCategory"]);
+        Route::bind("admin_brand", [Brand::class, "rbAdminBrand"]);
+        Route::bind('admin_order', [Order::class, "rbAdminOrder"]);
 
         Route::bind("parentGalleryItemSlug", [GalleryItem::class, "rbParentGalleryItemSlug"]);
 
@@ -156,7 +158,6 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapAdminRoutes()
     {
         Route::prefix("admin")
-            ->name("admin.")
             ->middleware(['web', "auth:admin"])
             //->namespace($this->namespace)
             ->group(base_path('routes/admin.php'));

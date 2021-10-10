@@ -2,18 +2,19 @@
 
 namespace Domain\Products\Models\Product;
 
+use Domain\Common\Models\HasDeletedItemSlug;
 use Domain\Products\Collections\ProductCollection;
+use Domain\Products\DTOs\Web\CharCategoryDTO;
+use Domain\Products\Models\AvailabilityStatus;
+use Domain\Products\Models\CharCategory;
 use Domain\Products\QueryBuilders\ProductQueryBuilder;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Domain\Common\Models\BaseModel;
 use Domain\Products\Models\Category;
 use Domain\Common\Models\Currency;
-use Domain\Orders\Models\Order;
-use Domain\Orders\Models\Pivots\OrderProduct;
-use Domain\Users\Models\Pivots\ProductUserCart;
-use Domain\Users\Models\User\User;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Routing\Route;
@@ -22,8 +23,9 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property int $id
+ * @property string $uuid
  * @property string $name
- * @property string $slug
+ * @property string|null $slug
  * @property int|null $parent_id
  * @property bool $is_with_variations
  * @property int $category_id
@@ -33,6 +35,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property string|null $coefficient
  * @property string|null $coefficient_description
  * @property bool $coefficient_description_show
+ * @property string|null $coefficient_variation_description
  * @property string|null $price_name
  * @property string|null $admin_comment
  * @property string|null $price_purchase
@@ -43,64 +46,34 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property int $availability_status_id
  * @property string|null $preview
  * @property string|null $description
- * @property string|null $ch_desc_trade_mark
- * @property string|null $ch_desc_country_name
- * @property string|null $ch_desc_unit
- * @property string|null $ch_desc_packing
- * @property string|null $ch_desc_light_reflection
- * @property string|null $ch_desc_material_consumption
- * @property string|null $ch_desc_apply_instrument
- * @property string|null $ch_desc_placement_temperature_moisture
- * @property string|null $ch_desc_drying_time
- * @property string|null $ch_desc_special_characteristics
- * @property int|null $ch_compatibility_wood_usual_rate
- * @property int|null $ch_compatibility_wood_exotic_rate
- * @property int|null $ch_compatibility_wood_cork_rate
- * @property int|null $ch_suitability_parquet_piece_rate
- * @property int|null $ch_suitability_parquet_massive_board_rate
- * @property int|null $ch_suitability_parquet_board_rate
- * @property int|null $ch_suitability_parquet_art_rate
- * @property int|null $ch_suitability_parquet_laminate_rate
- * @property int|null $ch_suitability_placement_living_rate
- * @property int|null $ch_suitability_placement_office_rate
- * @property int|null $ch_suitability_placement_restaurant_rate
- * @property int|null $ch_suitability_placement_child_and_medical_rate
- * @property int|null $ch_suitability_placement_gym_rate
- * @property int|null $ch_suitability_placement_industrial_zone_rate
- * @property int|null $ch_exploitation_abrasion_resistance_rate
- * @property int|null $ch_exploitation_surface_firmness_rate
- * @property int|null $ch_exploitation_elasticity_rate
- * @property int|null $ch_exploitation_sustain_uv_rays_rate
- * @property int|null $ch_exploitation_sustain_chemicals_rate
- * @property string|null $ch_exploitation_after_apply_wood_color
- * @property string|null $ch_exploitation_env_friendliness
- * @property string|null $ch_storage_term
- * @property string|null $ch_storage_conditions
  *
  * @property string $accessory_name
  * @property string $similar_name
  * @property string $related_name
  * @property string $work_name
+ * @property string $instruments_name
  *
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @property Carbon|null $deleted_at
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
  *
+ * @property array $meta
  *
  * @see \Domain\Orders\Models\Order::products()
- * @property OrderProduct|null $order_product
+ * @property \Domain\Orders\Models\Pivots\OrderProduct|null $order_product
  *
- * @see \Domain\Users\Models\User\User::cart()
- * @property ProductUserCart|null $cart_product
+ * @see \Domain\Users\Models\BaseUser\BaseUser::cart()
+ * @property \Domain\Users\Models\Pivots\ProductUserCart|null $cart_product
  *
- * @see \Domain\Users\Models\User\User::viewed()
+ * @see \Domain\Users\Models\BaseUser\BaseUser::viewed()
  * @property \Domain\Users\Models\Pivots\ProductUserViewed|null $viewed_product
  *
- * @see \Domain\Users\Models\User\User::aside()
+ * @see \Domain\Users\Models\BaseUser\BaseUser::aside()
  * @property \Domain\Users\Models\Pivots\ProductUserAside|null $aside_product
  *
  * @mixin \Domain\Products\Models\Product\ProductRelations
  * @mixin \Domain\Products\Models\Product\ProductAcM
+ * @mixin \Domain\Common\Models\HasDeletedItemSlug
  *
  * @method static static|\Domain\Products\QueryBuilders\ProductQueryBuilder query()
  **/
@@ -110,10 +83,23 @@ class Product extends BaseModel implements HasMedia
     use SoftDeletes;
     use InteractsWithMedia;
     use ProductAcM;
+    use HasDeletedItemSlug;
 
+    const DEFAULT_IS_ACTIVE = false;
+    const DEFAULT_IS_WITH_VARIATIONS = false;
+    const DEFAULT_COEFFICIENT_DESCRIPTION_SHOW = false;
+    const DEFAULT_PRICE_NAME = 'Цена';
+    const DEFAULT_AVAILABILITY_STATUS_ID = AvailabilityStatus::ID_NOT_AVAILABLE;
+    const DEFAULT_ACCESSORY_NAME = 'Аксессуары';
+    const DEFAULT_SIMILAR_NAME = 'Похожие';
+    const DEFAULT_RELATED_NAME = 'Сопряженные';
+    const DEFAULT_WORK_NAME = 'Работы';
+    const DEFAULT_INSTRUMENTS_NAME = 'Инструменты';
     const DEFAULT_CURRENCY_ID = Currency::ID_RUB;
+    const DEFAULT_ORDERING = 500;
 
     const TABLE = "products";
+
     const MAX_CHARACTERISTIC_RATE = 5;
 
     const MC_MAIN_IMAGE = "main";
@@ -130,124 +116,32 @@ class Product extends BaseModel implements HasMedia
     const MCONV_LG_THUMB_SIZE = 220;
     const MCONV_FILL_BG = "ffffff";
 
-
-    const CH_NAME_DESC_TRADE_MARK = "Торговая марка";
-    const CH_NAME_DESC_COUNTRY_NAME = "Страна производитель";
-    const CH_NAME_DESC_UNIT = "Единица измерения";
-    const CH_NAME_DESC_PACKING = "Фасовка";
-    const CH_NAME_DESC_LIGHT_REFLECTION = "Светоотражение";
-    const CH_NAME_DESC_MATERIAL_CONSUMPTION = "Расход материала";
-    const CH_NAME_DESC_APPLY_INSTRUMENT = "Инструмент нанесения";
-    const CH_NAME_DESC_PLACEMENT_TEMPERATURE_MOISTURE = "Температура и влажность в помещении";
-    const CH_NAME_DESC_DRYING_TIME = "Время высыхания";
-    const CH_NAME_DESC_SPECIAL_CHARACTERISTICS = "Особые свойства";
-    const CH_NAME_COMPATIBILITY_WOOD_USUAL_RATE = "Обычные породы дерева";
-    const CH_NAME_COMPATIBILITY_WOOD_EXOTIC_RATE = "Экзотические породы дерева";
-    const CH_NAME_COMPATIBILITY_WOOD_CORK_RATE = "Пробковые покрытия";
-    const CH_NAME_SUITABILITY_PARQUET_PIECE_RATE = "Штучный паркет";
-    const CH_NAME_SUITABILITY_PARQUET_MASSIVE_BOARD_RATE = "Массивная доска";
-    const CH_NAME_SUITABILITY_PARQUET_BOARD_RATE = "Паркетная доска";
-    const CH_NAME_SUITABILITY_PARQUET_ART_RATE = "Художественный паркет";
-    const CH_NAME_SUITABILITY_PARQUET_LAMINATE_RATE = "Ламинат";
-    const CH_NAME_SUITABILITY_PLACEMENT_LIVING_RATE = "Жилые помещения";
-    const CH_NAME_SUITABILITY_PLACEMENT_OFFICE_RATE = "Офисы";
-    const CH_NAME_SUITABILITY_PLACEMENT_RESTAURANT_RATE = "Рестораны";
-    const CH_NAME_SUITABILITY_PLACEMENT_CHILD_AND_MEDICAL_RATE = "Детские и лечебные учреждения";
-    const CH_NAME_SUITABILITY_PLACEMENT_GYM_RATE = "Спортзалы";
-    const CH_NAME_SUITABILITY_PLACEMENT_INDUSTRIAL_ZONE_RATE = "Промышленные зоны";
-    const CH_NAME_EXPLOITATION_ABRASION_RESISTANCE_RATE = "Стойкость к истиранию";
-    const CH_NAME_EXPLOITATION_SURFACE_FIRMNESS_RATE = "Поверхностная твердость";
-    const CH_NAME_EXPLOITATION_ELASTICITY_RATE = "Эластичность";
-    const CH_NAME_EXPLOITATION_SUSTAIN_UV_RAYS_RATE = "Устойчивость к УФ лучам";
-    const CH_NAME_EXPLOITATION_SUSTAIN_CHEMICALS_RATE = "Устойчивость к химикатам";
-    const CH_NAME_EXPLOITATION_AFTER_APPLY_WOOD_COLOR = "Цвет древесины после нанесения";
-    const CH_NAME_EXPLOITATION_ENV_FRIENDLINESS = "Экологичность";
-    const CH_NAME_STORAGE_TERM = "Срок хранения";
-    const CH_NAME_STORAGE_CONDITIONS = "Условия хранения";
-
-    const CH_GROUP_DESCRIPTION = "Описание товара";
-    const CH_GROUP_COMPATIBILITY_WOOD = "Совместимость с породой дерева (максимальная оценка - 5 баллов)";
-    const CH_GROUP_SUITABILITY_PARQUET = "Пригодность для типов паркета (максимальная оценка - 5 баллов)";
-    const CH_GROUP_SUITABILITY_PLACEMENT = "Пригодность для типов помещений (максимальная оценка - 5 баллов)";
-    const CH_GROUP_EXPLOITATION = "Эксплуатационные характеристики (максимальная оценка - 5 баллов)";
-    const CH_GROUP_STORAGE = "Хранение";
-
-    const CH_RATE = [
-        self::CH_NAME_COMPATIBILITY_WOOD_USUAL_RATE,
-        self::CH_NAME_COMPATIBILITY_WOOD_EXOTIC_RATE,
-        self::CH_NAME_COMPATIBILITY_WOOD_CORK_RATE,
-        self::CH_NAME_SUITABILITY_PARQUET_PIECE_RATE,
-        self::CH_NAME_SUITABILITY_PARQUET_MASSIVE_BOARD_RATE,
-        self::CH_NAME_SUITABILITY_PARQUET_BOARD_RATE,
-        self::CH_NAME_SUITABILITY_PARQUET_ART_RATE,
-        self::CH_NAME_SUITABILITY_PARQUET_LAMINATE_RATE,
-        self::CH_NAME_SUITABILITY_PLACEMENT_LIVING_RATE,
-        self::CH_NAME_SUITABILITY_PLACEMENT_OFFICE_RATE,
-        self::CH_NAME_SUITABILITY_PLACEMENT_RESTAURANT_RATE,
-        self::CH_NAME_SUITABILITY_PLACEMENT_CHILD_AND_MEDICAL_RATE,
-        self::CH_NAME_SUITABILITY_PLACEMENT_GYM_RATE,
-        self::CH_NAME_SUITABILITY_PLACEMENT_INDUSTRIAL_ZONE_RATE,
-        self::CH_NAME_EXPLOITATION_ABRASION_RESISTANCE_RATE,
-        self::CH_NAME_EXPLOITATION_SURFACE_FIRMNESS_RATE,
-        self::CH_NAME_EXPLOITATION_ELASTICITY_RATE,
-        self::CH_NAME_EXPLOITATION_SUSTAIN_UV_RAYS_RATE,
-        self::CH_NAME_EXPLOITATION_SUSTAIN_CHEMICALS_RATE,
-    ];
-
-    const CHARACTERISTICS = [
-        self::CH_GROUP_DESCRIPTION => [
-            self::CH_NAME_DESC_TRADE_MARK => "ch_desc_trade_mark",
-            self::CH_NAME_DESC_COUNTRY_NAME => "ch_desc_country_name",
-            self::CH_NAME_DESC_UNIT => "ch_desc_unit",
-            self::CH_NAME_DESC_PACKING => "ch_desc_packing",
-            self::CH_NAME_DESC_LIGHT_REFLECTION => "ch_desc_light_reflection",
-            self::CH_NAME_DESC_MATERIAL_CONSUMPTION => "ch_desc_material_consumption",
-            self::CH_NAME_DESC_APPLY_INSTRUMENT => "ch_desc_apply_instrument",
-            self::CH_NAME_DESC_PLACEMENT_TEMPERATURE_MOISTURE => "ch_desc_placement_temperature_moisture",
-            self::CH_NAME_DESC_DRYING_TIME => "ch_desc_drying_time",
-            self::CH_NAME_DESC_SPECIAL_CHARACTERISTICS => "ch_desc_special_characteristics",
-        ],
-        self::CH_GROUP_COMPATIBILITY_WOOD => [
-            self::CH_NAME_COMPATIBILITY_WOOD_USUAL_RATE => "ch_compatibility_wood_usual_rate",
-            self::CH_NAME_COMPATIBILITY_WOOD_EXOTIC_RATE => "ch_compatibility_wood_exotic_rate",
-            self::CH_NAME_COMPATIBILITY_WOOD_CORK_RATE => "ch_compatibility_wood_cork_rate",
-        ],
-        self::CH_GROUP_SUITABILITY_PARQUET => [
-            self::CH_NAME_SUITABILITY_PARQUET_PIECE_RATE => "ch_suitability_parquet_piece_rate",
-            self::CH_NAME_SUITABILITY_PARQUET_MASSIVE_BOARD_RATE => "ch_suitability_parquet_massive_board_rate",
-            self::CH_NAME_SUITABILITY_PARQUET_BOARD_RATE => "ch_suitability_parquet_board_rate",
-            self::CH_NAME_SUITABILITY_PARQUET_ART_RATE => "ch_suitability_parquet_art_rate",
-            self::CH_NAME_SUITABILITY_PARQUET_LAMINATE_RATE => "ch_suitability_parquet_laminate_rate",
-        ],
-        self::CH_GROUP_SUITABILITY_PLACEMENT => [
-            self::CH_NAME_SUITABILITY_PLACEMENT_LIVING_RATE => "ch_suitability_placement_living_rate",
-            self::CH_NAME_SUITABILITY_PLACEMENT_OFFICE_RATE => "ch_suitability_placement_office_rate",
-            self::CH_NAME_SUITABILITY_PLACEMENT_RESTAURANT_RATE => "ch_suitability_placement_restaurant_rate",
-            self::CH_NAME_SUITABILITY_PLACEMENT_CHILD_AND_MEDICAL_RATE => "ch_suitability_placement_child_and_medical_rate",
-            self::CH_NAME_SUITABILITY_PLACEMENT_GYM_RATE => "ch_suitability_placement_gym_rate",
-            self::CH_NAME_SUITABILITY_PLACEMENT_INDUSTRIAL_ZONE_RATE => "ch_suitability_placement_industrial_zone_rate",
-        ],
-        self::CH_GROUP_EXPLOITATION => [
-            self::CH_NAME_EXPLOITATION_ABRASION_RESISTANCE_RATE => "ch_exploitation_abrasion_resistance_rate",
-            self::CH_NAME_EXPLOITATION_SURFACE_FIRMNESS_RATE => "ch_exploitation_surface_firmness_rate",
-            self::CH_NAME_EXPLOITATION_ELASTICITY_RATE => "ch_exploitation_elasticity_rate",
-            self::CH_NAME_EXPLOITATION_SUSTAIN_UV_RAYS_RATE => "ch_exploitation_sustain_uv_rays_rate",
-            self::CH_NAME_EXPLOITATION_SUSTAIN_CHEMICALS_RATE => "ch_exploitation_sustain_chemicals_rate",
-            self::CH_NAME_EXPLOITATION_AFTER_APPLY_WOOD_COLOR => "ch_exploitation_after_apply_wood_color",
-            self::CH_NAME_EXPLOITATION_ENV_FRIENDLINESS => "ch_exploitation_env_friendliness",
-        ],
-        self::CH_GROUP_STORAGE => [
-            self::CH_NAME_STORAGE_TERM => "ch_storage_term",
-            self::CH_NAME_STORAGE_CONDITIONS => "ch_storage_conditions",
-        ],
-    ];
-
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = self::TABLE;
+
+    /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'name' => '',
+        'is_active' => self::DEFAULT_IS_ACTIVE,
+        'is_with_variations' => self::DEFAULT_IS_WITH_VARIATIONS,
+        'coefficient_description_show' => self::DEFAULT_COEFFICIENT_DESCRIPTION_SHOW,
+        'price_name' => self::DEFAULT_PRICE_NAME,
+        'availability_status_id' => self::DEFAULT_AVAILABILITY_STATUS_ID,
+        'accessory_name' => self::DEFAULT_ACCESSORY_NAME,
+        'similar_name' => self::DEFAULT_SIMILAR_NAME,
+        'related_name' => self::DEFAULT_RELATED_NAME,
+        'work_name' => self::DEFAULT_WORK_NAME,
+        'instruments_name' => self::DEFAULT_INSTRUMENTS_NAME,
+        'ordering' => self::DEFAULT_ORDERING,
+    ];
 
     /**
      * The attributes that should be cast.
@@ -258,7 +152,45 @@ class Product extends BaseModel implements HasMedia
         "is_active" => "boolean",
         "is_with_variations" => "boolean",
         "coefficient_description_show" => "boolean",
+        'meta' => 'array',
     ];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['uuid'];
+
+    /**
+     * @inheritDoc
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::booting();
+
+        $cb = function(self $product) {
+            if (!$product->uuid) {
+                $product->uuid = (string) Str::uuid();
+            }
+        };
+
+        static::saving($cb);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        if (!$this->uuid) {
+            $this->uuid = (string) Str::uuid();
+        }
+    }
+
 
     public static function rbProductSlug($value, Route $route)
     {
@@ -292,7 +224,7 @@ class Product extends BaseModel implements HasMedia
 
     public static function rbAdminProduct($value)
     {
-        return static::query()->findOrFail($value);
+        return static::query()->select(["*"])->notVariations()->findOrFail($value);
     }
 
     public function registerMediaCollections(): void
@@ -317,7 +249,6 @@ class Product extends BaseModel implements HasMedia
             )
             ->background(static::MCONV_FILL_BG)
             ->performOnCollections(static::MC_MAIN_IMAGE, static::MC_ADDITIONAL_IMAGES)
-            ->nonQueued()
             ->nonOptimized()
         ;
 
@@ -329,7 +260,6 @@ class Product extends BaseModel implements HasMedia
             )
             ->background(static::MCONV_FILL_BG)
             ->performOnCollections(static::MC_MAIN_IMAGE, static::MC_ADDITIONAL_IMAGES)
-            ->nonQueued()
             ->nonOptimized()
         ;
 
@@ -341,7 +271,6 @@ class Product extends BaseModel implements HasMedia
             )
             ->background(static::MCONV_FILL_BG)
             ->performOnCollections(static::MC_MAIN_IMAGE, static::MC_ADDITIONAL_IMAGES)
-            ->nonQueued()
             ->nonOptimized()
         ;
 
@@ -353,7 +282,6 @@ class Product extends BaseModel implements HasMedia
             )
             ->background(static::MCONV_FILL_BG)
             ->performOnCollections(static::MC_MAIN_IMAGE, static::MC_ADDITIONAL_IMAGES)
-            ->nonQueued()
             ->nonOptimized()
         ;
     }
@@ -380,29 +308,29 @@ class Product extends BaseModel implements HasMedia
         return new ProductQueryBuilder($query);
     }
 
+    /**
+     * @return \Domain\Products\DTOs\Web\CharCategoryDTO[]
+     */
     public function characteristics(): array
     {
-        $result = [];
-
-        foreach (static::CHARACTERISTICS as $groupName => $labelsColumns) {
-            $labelsValues = [];
-            foreach ($labelsColumns as $label => $column) {
-                $labelsValues[$label] = $this->{$column};
-            }
-            $result[$groupName] = $labelsValues;
-        }
-
-        return $result;
+        return Cache
+            ::store('array')
+            ->rememberForever(
+                sprintf('%s-characteristics-%s', static::class, $this->id),
+                fn() => $this->charCategories->map(fn(CharCategory $charCategory) => CharCategoryDTO::fromModel($charCategory))->all()
+            );
     }
 
-    public function characteristicsNotEmpty(): bool
+    public function characteristicsIsEmpty(): bool
     {
         $characteristics = $this->characteristics();
-        foreach ($characteristics as $groupName => $labelsValues) {
-            foreach ($labelsValues as $label => $value) {
-                if (!empty($value)) return true;
+
+        foreach ($characteristics as $charCategory) {
+            foreach ($charCategory->chars as $char) {
+                if (!$char->is_empty) return false;
             }
         }
-        return false;
+
+        return true;
     }
 }

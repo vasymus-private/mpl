@@ -3,6 +3,9 @@
 namespace Domain\Products\Models;
 
 use Domain\Common\Models\BaseModel;
+use Domain\Common\Models\HasDeletedItemSlug;
+use Domain\Products\Actions\HasActiveProductsAction;
+use Domain\Products\Models\Product\Product;
 use Domain\Seo\Models\Seo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -11,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * @property int $id
@@ -22,14 +26,19 @@ use Illuminate\Routing\Route;
  * @property string|null $description
  * @property \Carbon\Carbon|null $deleted_at
  *
+ * @property array $meta
+ *
  * @see \Domain\Products\Models\Category::parentCategory()
  * @property \Domain\Products\Models\Category|null $parentCategory
  *
  * @see \Domain\Products\Models\Category::subcategories()
- * @property Collection|\Domain\Products\Models\Category[] $subcategories
+ * @property \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\Category[] $subcategories
  *
  * @see \Domain\Products\Models\Category::seo()
  * @property \Domain\Seo\Models\Seo|null $seo
+ *
+ * @see \Domain\Products\Models\Category::products()
+ * @property \Domain\Products\Collections\ProductCollection|\Domain\Products\Models\Product\Product[] $products
  *
  * @see \Domain\Products\Models\Category::scopeParents()
  * @method static static|\Illuminate\Database\Eloquent\Builder parents()
@@ -42,10 +51,16 @@ use Illuminate\Routing\Route;
  *
  * @see \Domain\Products\Models\Category::getAllLoadedSubcategoriesIdsAttribute()
  * @property-read int[] $all_loaded_subcategories_ids
+ *
+ * @see \Domain\Products\Models\Category::getHasActiveProductsAttribute()
+ * @property-read bool $has_active_products
+ *
+ * @mixin \Domain\Common\Models\HasDeletedItemSlug
  * */
 class Category extends BaseModel
 {
     use SoftDeletes;
+    use HasDeletedItemSlug;
 
     const TABLE = "categories";
 
@@ -60,12 +75,25 @@ class Category extends BaseModel
     const _TEMP_ID_EQUIPMENT = 54;
     const _TEMP_ID_RELATED_TOOLS = 60;
 
+    public const DEFAULT_IS_ACTIVE = false;
+    public const DEFAULT_ORDERING = 500;
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = self::TABLE;
+
+    /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'is_active' => self::DEFAULT_IS_ACTIVE,
+        'ordering' => self::DEFAULT_ORDERING,
+    ];
 
     /**
      * Indicates if the model should be timestamped.
@@ -81,7 +109,13 @@ class Category extends BaseModel
      */
     protected $casts = [
         "is_active" => "boolean",
+        'meta' => 'array',
     ];
+
+    public static function rbAdminCategory($value)
+    {
+        return static::query()->select(["*"])->findOrFail($value);
+    }
 
     public function parentCategory(): BelongsTo
     {
@@ -98,9 +132,26 @@ class Category extends BaseModel
         return $this->morphOne(Seo::class, "seoable", "seoable_type", "seoable_id");
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany|\Domain\Products\QueryBuilders\ProductQueryBuilder
+     */
+    public function products(): HasMany
+    {
+        /** @var \Illuminate\Database\Eloquent\Relations\HasMany|\Domain\Products\QueryBuilders\ProductQueryBuilder $productsQuery */
+        $productsQuery = $this->hasMany(Product::class, 'category_id', 'id');
+        return $productsQuery->notVariations();
+    }
+
     public function scopeParents(Builder $builder): Builder
     {
         return $builder->whereNull(static::TABLE . ".parent_id");
+    }
+
+    public static function getTreeRuntimeCached(): Collection
+    {
+        return Cache::store('array')->rememberForever('categories', function() {
+            return Category::parents()->with("subcategories.subcategories.subcategories")->orderBy(Category::TABLE . ".ordering")->get();
+        });
     }
 
     public static function rbCategorySlug($value)
@@ -176,7 +227,7 @@ class Category extends BaseModel
      *
      * @return int[]
      */
-    public function allLoadedSubcategoriesIds(Category $category): array
+    protected function allLoadedSubcategoriesIds(Category $category): array
     {
         $subcategoriesIds = $category->subcategories->pluck("id")->toArray();
         foreach ($category->subcategories as $subcategory) {
@@ -185,5 +236,12 @@ class Category extends BaseModel
             }
         }
         return $subcategoriesIds;
+    }
+
+    public function getHasActiveProductsAttribute(): bool
+    {
+        /** @var \Domain\Products\Actions\HasActiveProductsAction $hasActiveProductsAction */
+        $hasActiveProductsAction = Cache::store('array')->rememberForever(HasActiveProductsAction::class, fn() => resolve(HasActiveProductsAction::class));
+        return $hasActiveProductsAction->execute($this->id);
     }
 }

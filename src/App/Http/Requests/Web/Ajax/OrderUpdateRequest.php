@@ -4,11 +4,11 @@ namespace App\Http\Requests\Web\Ajax;
 
 use Domain\Orders\Models\Order;
 use Domain\Orders\Models\PaymentMethod;
-use Domain\Users\Models\User\User;
+use Domain\Users\Models\BaseUser\BaseUser;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Support\H;
 
 /**
  * @property-read int $order_id
@@ -47,8 +47,8 @@ class OrderUpdateRequest extends FormRequest
         ];
     }
 
-    protected function getAuthUser(): User
+    protected function getAuthUser(): BaseUser
     {
-        return Auth::user();
+        return H::userOrAdmin();
     }
 }

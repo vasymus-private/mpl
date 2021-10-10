@@ -23,4 +23,7 @@
     aria-expanded="{{$ariaExpanded}}"
     aria-controls="{{$ariaControls}}"
     {{ $attributes->class(["active" => $isActive(), "collapsed" => !($isActive())]) }}
->{{$text}}</a>
+>
+	{{ $slot }}
+	{{$text}}
+</a>

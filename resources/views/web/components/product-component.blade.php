@@ -105,7 +105,7 @@
                 <thead>
                     <tr>
                         <th colspan="2">Варианты:</th>
-                        {{--<th>{{$product->unit}}</th>--}}
+                        <th>{{$product->coefficient_variation_description}}</th>
                         <th>Цена</th>
                         <th>Уп-ка</th>
                         <th>Кол-во</th>
@@ -156,9 +156,18 @@
                             >{{$variation->name}}</a>
                         </h3>
                     </td>
-                    {{--<td>
-                        <strong class="product-variants__price-blue">{{$variation->price_retail_rub_formatted}}</strong>
-                    </td>--}}
+                    <td>
+                        @if(!empty($variation->coefficient) && (int)$variation->coefficient !== 0)
+                            @if(!empty($variation->coefficient_description))
+                                <div>{{$variation->coefficient_description}}</div>
+                            @endif
+                            <div>
+                                <strong class="product-variants__price-blue" style="white-space: nowrap;">{{$variation->coefficient_price_rub_formatted}}</strong>
+                            </div>
+                        @else
+                            &nbsp;
+                        @endif
+                    </td>
                     <td width="10%">
                         <strong class="product-variants__price-orange">{{$variation->price_retail_rub_formatted}}</strong>
                     </td>
@@ -475,6 +484,47 @@
                 <div class="swiper-container js-slider-3 swiper-container-initialized swiper-container-horizontal">
                     <div class="swiper-wrapper">
                         @foreach($product->works as $item)
+                            <?php /** @var \Domain\Products\Models\Product\Product $item */ ?>
+                            <div class="swiper-slide">
+                                <div class="slider-blocker__item">
+                                    <h3 class="slider-blocker__title"><a class="slider-blocker__link" href="#">{!! $item->name !!}</a></h3>
+                                    <div class="slider-blocker__photo">
+                                        <a href="#"><img src="{{$item->main_image_url}}" alt=""></a>
+                                    </div>
+                                    <div class="slider-blocker__text-center">
+                                        <span class="slider-blocker__cost">{{$item->price_retail_rub_formatted}}</span>
+                                        <a href="{{$item->web_route}}" class="slider-blocker__buy">купить</a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    @if($product->instruments->isNotEmpty())
+        <div class="slider-blocker">
+            <div class="slider-blocker__header row-line row-line__between swiper-container">
+                <h2 class="slider-blocker__header-title">
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                    {{$product->instruments_name}}
+                </h2>
+                <div class="block-arrow">
+                    <div class="swiper-button-prev btn-slider js-slider-btn-3">
+                        <i class="fa fa-arrow-left"></i>
+                    </div>
+                    <div class="swiper-button-next btn-slider js-slider-btn-3">
+                        <i class="fa fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="swiper-block">
+                <div class="swiper-container js-slider-3 swiper-container-initialized swiper-container-horizontal">
+                    <div class="swiper-wrapper">
+                        @foreach($product->instruments as $item)
                             <?php /** @var \Domain\Products\Models\Product\Product $item */ ?>
                             <div class="swiper-slide">
                                 <div class="slider-blocker__item">

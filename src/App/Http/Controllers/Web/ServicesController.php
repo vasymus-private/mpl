@@ -6,7 +6,7 @@ use Domain\Services\Events\ServiceViewedEvent;
 use Domain\Services\Models\Service;
 use Support\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Support\H;
 
 class ServicesController extends BaseWebController
 {
@@ -15,7 +15,9 @@ class ServicesController extends BaseWebController
         /** @var Service|null $service */
         $service = $request->service_slug;
 
-        event(new ServiceViewedEvent(Auth::user(), $service));
+        $user = H::userOrAdmin();
+
+        event(new ServiceViewedEvent($user, $service));
 
         $breadcrumbs = Breadcrumbs::serviceRoute($service);
 

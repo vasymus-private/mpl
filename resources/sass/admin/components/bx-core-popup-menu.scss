@@ -1,0 +1,84 @@
+.bx-core-popup-menu {
+    border: solid 1px #d5e1e4;
+    border-radius: 4px;
+    background-color: #fff;
+    -webkit-box-shadow: 0 18px 20px rgb(72 93 99 / 30%);
+    box-shadow: 0 18px 20px rgb(72 93 99 / 30%);
+    padding: 8px 0;
+    margin: 13px 0 0 -13px;
+    letter-spacing: normal;
+    list-style: none;
+    text-align: left;
+    text-indent: 0;
+    text-transform: none;
+    visibility: visible;
+    white-space: normal;
+    word-spacing: normal;
+    vertical-align: baseline;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif!important;
+    line-height: normal;
+    font-weight: normal;
+    font-variant: normal;
+    font-style: normal;
+    &__arrow {
+        top: -9px;
+        left: 11px;
+        background: url(../images/popup_menu_sprite_2.png) no-repeat left -1480px;
+        display: block;
+        position: absolute;
+        height: 10px;
+        width: 17px;
+        content: "";
+        line-height: 1px;
+        font-size: 1px;
+        padding: 0;
+        margin: 0;
+    }
+
+    .bx-core-popup-menu-item {
+        background: none;
+        border: none;
+        border-top: solid 1px transparent;
+        padding: 0;
+        color: #2a2a2a !important;
+        display: block;
+        min-width: 120px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .bx-core-popup-menu-item-icon {
+        width: 46px;
+        background: url(../images/popup_menu_sprite_2.png) no-repeat 4px -1081px;
+        display: block;
+        position: absolute;
+        height: 28px;
+        &.adm-menu-edit {
+            background-position: 6px -630px;
+        }
+        &.adm-menu-copy {
+            background-position: 6px -690px;
+        }
+        &.adm-menu-delete {
+            background-position: 6px -780px;
+        }
+    }
+    .bx-core-popup-menu-item-text {
+        font-size: 13px;
+        font-weight: normal;
+        text-shadow: 0 1px white;
+        padding: 0 20px 0 46px;
+        height: 30px;
+        line-height: 27px;
+    }
+    .bx-core-popup-menu-separator {
+        background: #ebebeb;
+        display: block;
+        font-size: 1px;
+        height: 1px;
+        line-height: 1px;
+        margin: 7px 10px;
+        overflow: hidden;
+        padding: 0;
+    }
+}

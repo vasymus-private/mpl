@@ -1,3 +1,6 @@
 .content {
-    padding-top: 70px; /* Height of navbar */
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative;
+    max-height: 100vh;
 }

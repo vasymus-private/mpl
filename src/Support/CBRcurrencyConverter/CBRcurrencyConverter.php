@@ -49,11 +49,17 @@ class CBRcurrencyConverter
 
     public static function getRate(string $currency, Carbon $date = null): float
     {
-        if ($date === null) $date = Carbon::now();
+        if ($date === null) {
+            $date = Carbon::now();
+        }
 
         $key = $date->format(static::$format);
 
-        if (isset(static::$cacheRates[$key][$currency])) return static::$cacheRates[$key][$currency];
+        //return Cache::remember() TODO think of caching
+
+        if (isset(static::$cacheRates[$key][$currency])) {
+            return static::$cacheRates[$key][$currency];
+        }
 
         $xml = static::fetchXml($date);
 
@@ -92,7 +98,7 @@ class CBRcurrencyConverter
     {
         if (!in_array($currency, static::$currencies)) throw new \LogicException("Only " . implode(", ", static::$currencies) . " are allowed.");
 
-        if ($value < 0) throw new \LogicException("Value should positive or '0'");
+        //if ($value < 0) throw new \LogicException("Value should positive or '0'");
 
         if (
             $date !== null &&

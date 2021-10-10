@@ -1,5 +1,14 @@
 <?php
 
+$app_url = env('APP_URL', 'http://localhost');
+$env = env('APP_ENV', 'production');
+if ($env !== 'production') {
+    $dockerNginxPort = env('DOCKER_NGINX_HOST_HTTP_PORT', '80');
+    if ((string)$dockerNginxPort !== '80') {
+        $app_url = sprintf("%s:%s", $app_url, $dockerNginxPort);
+    }
+}
+
 return [
 
     /*
@@ -26,7 +35,7 @@ return [
     |
     */
 
-    'env' => env('APP_ENV', 'production'),
+    'env' => $env,
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +61,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => $app_url,
 
     'asset_url' => env('ASSET_URL', null),
 

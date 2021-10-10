@@ -14,7 +14,8 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-    <script src="{{ mix('_admin/js/app.js') }}" defer></script>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
+    <script src="https://cdn.tiny.cloud/1/dnmlt44eonw7v2yhx9o5q74y1s8y9inyqnjnw7uvjpavc6si/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script src="https://use.fontawesome.com/3c2996233b.js" defer></script>
 
     <!-- Styles -->
@@ -26,17 +27,18 @@
 <body>
     <div id="wrapper" class="wrapper">
         @include("admin.layouts.header")
-        <main>
-            <div class="container-fluid">
-                <div class="row">
+        <main class="d-flex">
+            <div class="container-fluid d-flex">
+                <div class="row d-flex flex-grow-1 row-overflow-hidden">
                     <div class="content col-9 order-2" id="content">
                         @yield('content')
                     </div>
-                    @include("admin.layouts.aside", ["class" => "col-3 order-1"])
+                    @include("admin.layouts.aside", ["class" => "p-0 col-3 order-1"])
                 </div>
             </div>
         </main>
     </div>
     @livewireScripts
+    <script src="{{ mix('_admin/js/app.js') }}"></script>
 </body>
 </html>

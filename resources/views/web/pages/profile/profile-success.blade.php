@@ -7,7 +7,7 @@
     <x-h1 :entity="'Моя корзина'"></x-h1>
     <div class="content__white-block">
         <div class="order-text-block">
-            <h5 class="order-text-block__title">Ваш заказ обрабатывается, ему присвоен номер № {{$order->id}}. Сумма заказа {{$order->price_retail_rub_formatted}}</h5>
+            <h5 class="order-text-block__title">Ваш заказ обрабатывается, ему присвоен номер № {{$order->id}}. Сумма заказа {{$order->order_price_retail_rub_formatted}}</h5>
             <p class="order-text-block__text">На указанный Email будет выслана информация по заказу.</p>
             <p class="order-text-block__text">Менеджер свяжется с Вами для уточнения способа оплаты и получения заказа</p>
         </div>

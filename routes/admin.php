@@ -11,56 +11,100 @@
 |
 */
 
-/**
- * !!!
- * Prefix "admin"
- * Name "admin."
- * !!!
- * */
-
+use App\Constants;
+use App\Http\Controllers\Admin\BrandsController;
+use App\Http\Controllers\Admin\CategoriesController;
+use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\OrdersController;
+use App\Http\Controllers\Admin\ProductsController;
 use Illuminate\Support\Facades\Route;
 
-Route::get("home", [\App\Http\Controllers\Admin\HomeController::class, "index"])->name("home");
+Route::get("home", [HomeController::class, "index"])->name(Constants::ROUTE_ADMIN_HOME);
 
 Route
     ::get(
         "products",
-        [\App\Http\Controllers\Admin\ProductsController::class, "index"]
+        [ProductsController::class, "index"]
     )
-    ->name("products.index")
+    ->name(Constants::ROUTE_ADMIN_PRODUCTS_INDEX)
 ;
 Route
     ::get(
         "products/create",
-        [\App\Http\Controllers\Admin\ProductsController::class, "create"]
+        [ProductsController::class, "create"]
     )
-    ->name("products.create")
-;
-Route
-    ::post(
-        "products",
-        [\App\Http\Controllers\Admin\ProductsController::class, "store"]
-    )
-    ->name("products.store")
+    ->name(Constants::ROUTE_ADMIN_PRODUCTS_CREATE)
 ;
 Route
     ::get(
         "products/{admin_product}/edit",
-        [\App\Http\Controllers\Admin\ProductsController::class, "edit"]
+        [ProductsController::class, "edit"]
     )
-    ->name("products.edit")
+    ->name(Constants::ROUTE_ADMIN_PRODUCTS_EDIT)
+;
+
+Route
+    ::get(
+        "categories",
+        [CategoriesController::class, 'index']
+    )
+    ->name(Constants::ROUTE_ADMIN_CATEGORIES_INDEX)
 ;
 Route
-    ::put(
-        "products/{admin_product}",
-        [\App\Http\Controllers\Admin\ProductsController::class, "update"]
+    ::get(
+        "categories/create",
+        [CategoriesController::class, 'create']
     )
-    ->name("products.update")
+    ->name(Constants::ROUTE_ADMIN_CATEGORIES_CREATE)
 ;
 Route
-    ::delete(
-        "products/{admin_product}",
-        [\App\Http\Controllers\Admin\ProductsController::class, "destroy"]
+    ::get(
+        "categories/{admin_category}/edit",
+        [CategoriesController::class, "edit"]
     )
-    ->name("products.destroy")
+    ->name(Constants::ROUTE_ADMIN_CATEGORIES_EDIT)
+;
+
+Route
+    ::get(
+        "brands",
+        [BrandsController::class, "index"]
+    )
+    ->name(Constants::ROUTE_ADMIN_BRANDS_INDEX)
+;
+Route
+    ::get(
+        "brands/create",
+        [BrandsController::class, "create"]
+    )
+    ->name(Constants::ROUTE_ADMIN_BRANDS_CREATE)
+;
+Route
+    ::get(
+        "brands/{admin_brand}/edit",
+        [BrandsController::class, "edit"]
+    )
+    ->name(Constants::ROUTE_ADMIN_BRANDS_EDIT)
+;
+
+Route
+    ::get(
+        "orders",
+        [OrdersController::class, "index"]
+    )
+    ->name(Constants::ROUTE_ADMIN_ORDERS_INDEX)
+;
+Route
+    ::get(
+        "orders/create",
+        [OrdersController::class, "create"]
+    )
+    ->name(Constants::ROUTE_ADMIN_ORDERS_CREATE)
+;
+Route
+    ::get(
+        "orders/{admin_order}/edit",
+        [OrdersController::class, "edit"]
+    )
+    ->name(Constants::ROUTE_ADMIN_ORDERS_EDIT)
 ;

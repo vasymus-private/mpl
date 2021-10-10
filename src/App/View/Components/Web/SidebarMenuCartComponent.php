@@ -5,9 +5,7 @@ namespace App\View\Components\Web;
 use Support\H;
 use Domain\Common\Models\Currency;
 use Domain\Products\Models\Product\Product;
-use Domain\Users\Models\User\User;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Component;
 
 class SidebarMenuCartComponent extends Component
@@ -34,8 +32,7 @@ class SidebarMenuCartComponent extends Component
      */
     public function __construct()
     {
-        /** @var User $user */
-        $user = Auth::user();
+        $user = H::userOrAdmin();
 
         $cartProducts = $user->cart_not_trashed->filter(function(Product $product) {
             return ($product->cart_product->deleted_at ?? null) === null;

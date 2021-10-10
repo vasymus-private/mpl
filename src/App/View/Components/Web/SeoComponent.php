@@ -25,18 +25,18 @@ class SeoComponent extends Component
     /**
      * Create a new component instance.
      *
-     * @param array|null $seoArr
+     * @param array|null $seo
      *
      * @return void
      */
-    public function __construct(array $seoArr = null)
+    public function __construct(array $seo = null)
     {
         $appSeo = Seo::appSeo();
 
-        if (is_array($seoArr)) {
-            $this->title = $seoArr["title"] ?? $appSeo->title;
-            $this->keywords = $seoArr["keywords"] ?? $appSeo->keywords;
-            $this->description = $seoArr["description"] ?? $appSeo->description;
+        if (is_array($seo)) {
+            $this->title = $seo["title"] ?? $appSeo->title;
+            $this->keywords = $seo["keywords"] ?? $appSeo->keywords;
+            $this->description = $seo["description"] ?? $appSeo->description;
         } else {
             $this->title = $appSeo->title;
             $this->keywords = $appSeo->keywords;

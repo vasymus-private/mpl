@@ -8,16 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @see Builder::create()
- * @method static static create()
+ * @method static static create(array $attributes = [])
  *
  * @see Builder::forceCreate()
- * @method static static forceCreate()
+ * @method static static forceCreate(array $attributes)
  *
  * @see Builder::firstOrCreate()
- * @method static static firstOrCreate()
+ * @method static static firstOrCreate(array $attributes = [], array $values = [])
  *
  * @see Builder::firstOrNew()
- * @method static static firstOrNew()
+ * @method static static firstOrNew(array $attributes = [], array $values = [])
  *
  * @method static static|Builder query()
  * */

@@ -23,7 +23,7 @@
                 </a>
             </div>
         </div>
-        <div class="column-price-block js-product-item-popover" data-content="<p>Закупочная: {{$product->price_purchase_rub_formatted}}</p><p>Маржа: {{$product->margin_rub_formatted}}</p><p>Наценка: {{$product->price_markup}} %</p><p>Заработок: {{$product->price_income}} %</p><p>{{$product->admin_comment}}</p>">
+        <div class="column-price-block js-product-item-popover" data-content="<p>Закупочная: {{$product->price_purchase_rub_formatted}}</p><p>Маржа: {{$product->margin_rub_formatted}}</p><p>Наценка: {{$product->price_markup}} %</p><p>Заработок: {{$product->price_income}} %</p><p>{{$product->admin_comment}}</p> <p><a href='{{route(\App\Constants::ROUTE_ADMIN_PRODUCTS_EDIT, $product->id)}}' target='_blank'>Редактировать</a></p>">
             <span class="catalog__price-title">{{$product->price_name}}:</span>
             <span class="catalog__price">{{$product->price_retail_rub_formatted}} <span class="gray-color"> / {{$product->unit}}</span></span>
             <span class="catalog__status {{$product->is_available ? 'catalog__status--available' : 'catalog__status--not-available'}}">{{$product->availability_status_name}}</span>
@@ -32,9 +32,9 @@
             <a href="{{$product->web_route}}" class="catalog__addToCard">Купить</a>
             @endif
 
-            @if(!empty($product->coefficient) && !empty($product->coefficient_description))
+            @if(!empty($product->coefficient) && (int)$product->coefficient !== 0)
                 <div class="price-bottom">
-                    <div class="price-bottom__text">{{$product->coefficient_description}}</div>
+                    @if(!empty($product->coefficient_description))<div class="price-bottom__text">{{$product->coefficient_description}}</div>@endif
                     <div class="price-bottom__currency">{{$product->coefficient_price_rub_formatted}}</div>
                 </div>
             @endif

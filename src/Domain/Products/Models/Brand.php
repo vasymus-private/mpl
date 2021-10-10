@@ -16,9 +16,13 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property int $id
  * @property string $name
  * @property string $slug
+ * @property int|null $ordering
  * @property string|null $preview
  * @property string|null $description
  * @property Carbon|null $deleted_at
+ *
+ * @see \Domain\Products\Models\Brand::seo()
+ * @property \Domain\Seo\Models\Seo|null $seo
  * */
 class Brand extends BaseModel implements HasMedia
 {
@@ -26,6 +30,8 @@ class Brand extends BaseModel implements HasMedia
     use InteractsWithMedia;
 
     const TABLE = "brands";
+
+    const DEFAULT_ORDERING = 500;
 
     const MC_MAIN_IMAGE = "main";
 
@@ -37,6 +43,15 @@ class Brand extends BaseModel implements HasMedia
     protected $table = self::TABLE;
 
     /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'ordering' => self::DEFAULT_ORDERING,
+    ];
+
+    /**
      * Indicates if the model should be timestamped.
      *
      * @var bool
@@ -45,7 +60,12 @@ class Brand extends BaseModel implements HasMedia
 
     public static function rbBrandSlug($value)
     {
-        return Brand::query()->where(Brand::TABLE . ".slug", $value)->firstOrFail();
+        return static::query()->where(Brand::TABLE . ".slug", $value)->firstOrFail();
+    }
+
+    public static function rbAdminBrand($value)
+    {
+        return static::query()->findOrFail($value);
     }
 
     public function seo(): MorphOne

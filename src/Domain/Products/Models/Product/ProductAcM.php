@@ -4,7 +4,6 @@ namespace Domain\Products\Models\Product;
 
 use Domain\Common\Models\Currency;
 use Domain\Products\Models\AvailabilityStatus;
-use Illuminate\Support\Facades\Auth;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Support\H;
 
@@ -184,12 +183,12 @@ trait ProductAcM
 
     public function getPriceRetailRubAttribute(): ?float
     {
-        return H::priceRub($this->price_retail, $this->price_retail_currency_id ?? $this->parent->price_retail_currency_id ?? static::DEFAULT_CURRENCY_ID);
+        return H::priceRub($this->price_retail, $this->price_retail_currency_id ?? static::DEFAULT_CURRENCY_ID);
     }
 
     public function getPriceRetailRubFormattedAttribute(): string
     {
-        return H::priceRubFormatted($this->price_retail, $this->price_retail_currency_id ?? $this->parent->price_retail_currency_id ?? static::DEFAULT_CURRENCY_ID);
+        return H::priceRubFormatted($this->price_retail, $this->price_retail_currency_id ?? static::DEFAULT_CURRENCY_ID);
     }
 
     public function getPriceRetailFormattedAttribute(): string
@@ -212,7 +211,7 @@ trait ProductAcM
 
     public function getPricePurchaseRubFormattedAttribute(): string
     {
-        return H::priceRubFormatted($this->price_purchase, $this->price_purchase_currency_id ?? $this->parent->price_purchase_currency_id ?? static::DEFAULT_CURRENCY_ID);
+        return H::priceRubFormatted($this->price_purchase, $this->price_purchase_currency_id ?? static::DEFAULT_CURRENCY_ID);
     }
 
     public function getPricePurchaseFormattedAttribute(): string
@@ -230,7 +229,7 @@ trait ProductAcM
 
     public function getCoefficientPriceRubAttribute(): ?float
     {
-        if (!$this->coefficient) return null;
+        if (!$this->coefficient || (int)$this->coefficient === 0) return null;
 
         $priceRetailRub = $this->price_retail_rub;
         if (!$priceRetailRub) return null;
@@ -280,8 +279,7 @@ trait ProductAcM
 
     public function getIsInCartAttribute(): ?bool
     {
-        /** @var \Domain\Users\Models\User\User|null $user */
-        $user = Auth::user();
+        $user = H::userOrAdmin();
         if (!$user) return null;
 
         return in_array($this->id, $user->cart_not_trashed->pluck("id")->toArray());
@@ -289,8 +287,7 @@ trait ProductAcM
 
     public function getCartCountAttribute(): ?int
     {
-        /** @var \Domain\Users\Models\User\User|null $user */
-        $user = Auth::user();
+        $user = H::userOrAdmin();
         if (!$user) return null;
 
         /** @var \Domain\Products\Models\Product\Product $search|null */
@@ -419,15 +416,17 @@ trait ProductAcM
 
         if ($category === null) return "";
 
+        $slug = $this->slug ?: '---';
+
         $parent1 = $category->parentCategory;
-        if ($parent1 === null) return route("product.show.1", [$category->slug, $this->slug]);
+        if ($parent1 === null) return route("product.show.1", [$category->slug, $slug]);
 
         $parent2 = $parent1->parentCategory;
-        if ($parent2 === null) return route("product.show.2", [$parent1->slug, $category->slug, $this->slug]);
+        if ($parent2 === null) return route("product.show.2", [$parent1->slug, $category->slug, $slug]);
 
         $parent3 = $parent2->parentCategory;
-        if ($parent3 === null) return route("product.show.3", [$parent2->slug, $parent1->slug, $category->slug, $this->slug]);
+        if ($parent3 === null) return route("product.show.3", [$parent2->slug, $parent1->slug, $category->slug, $slug]);
 
-        return route("product.show.4", [$parent3->slug, $parent2->slug, $parent1->slug, $category->slug, $this->slug]);
+        return route("product.show.4", [$parent3->slug, $parent2->slug, $parent1->slug, $category->slug, $slug]);
     }
 }

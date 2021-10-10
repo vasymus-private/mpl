@@ -18,9 +18,10 @@
  * !!!
  * */
 
+use App\Constants;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(["auth"])->group(function() {
+Route::middleware(["auth:" . implode(',', [Constants::AUTH_GUARD_WEB, Constants::AUTH_GUARD_ADMIN])])->group(function() {
     Route::post("products/aside", [\App\Http\Controllers\Web\Ajax\AsideProductsController::class, "store"])->name("products.aside.store");
     Route::delete("products/aside", [\App\Http\Controllers\Web\Ajax\AsideProductsController::class, "delete"])->name("products.aside.delete");
 
