@@ -4,25 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Mail\TestMarkupOrderShippedMail;
 use App\Mail\TestMarkupResetPasswordMail;
-use Domain\Products\Actions\GetCategoriesTreeAction;
-use Domain\Products\Actions\GetCategoryAndSubtreeAction;
-use Domain\Products\Actions\GetCategoryAndSubtreeIdsAction;
-use Domain\Products\Actions\HasActiveProductsAction;
-use Domain\Temp\Product;
-use Domain\Temp\Section;
+use Domain\Products\Actions\ExportImport\ExportProductsAction;
+use Domain\Products\Models\Product\Product;
 use Domain\Temp\User;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator;
 
 class TestController extends Controller
 {
-    public function test(Request $request, GetCategoriesTreeAction $getCategoriesTreeAction, GetCategoryAndSubtreeAction $getCategoryAndSubtreeAction, GetCategoryAndSubtreeIdsAction $getCategoryAndSubtreeIdsAction, HasActiveProductsAction $hasActiveProductsAction, DefaultUrlGenerator $defaultUrlGenerator)
+    public function test(Request $request, ExportProductsAction $exportProductsAction)
     {
+        /** @var \Domain\Products\Models\Product\Product $product */
+        $product = Product::query()->find(1);
 
+        $exportProductsAction->execute([
+            $product,
+            Product::query()->find(24),
+            Product::query()->find(60)
+        ]);
+
+        //dump(get_current_user(), getmyuid(), getmygid(), getmypid());
 
         return view('test');
     }
