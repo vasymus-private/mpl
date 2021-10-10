@@ -7,27 +7,49 @@ use Domain\Products\Collections\ProductCollection;
 use Domain\Products\DTOs\ExportProductDTO;
 use Domain\Products\DTOs\ExportVariationDTO;
 use Domain\Products\Exceptions\ExportProductException;
+use Domain\Products\Models\Pivots\ProductProduct;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Support\Carbon;
 use ZipArchive;
 
 class ExportProductsAction
 {
+    private const ARCHIVE_FILE_NAME_PREFIX = 'product-export';
+
     private const PRODUCT_DATA_FILE_NAME = 'product.json';
 
     private const VARIATION_DATA_FILE_NAME = 'variation.json';
 
+    private const INFO_PRICES_FILE_NAME = 'info-prices.json';
+
+    private const PRODUCT_PRODUCT_RELATIONS_FILE_NAME = 'product-product.json';
+
+    private const CATEGORY_PRODUCT_RELATIONS_FILE_NAME = 'category-product.json';
+
+    private const CHARACTERISTICS_FILE_NAME = 'characteristics.json';
+
+    private const SEO_FILE_NAME = 'seo.json';
+
+    /**
+     * @var \ZipArchive
+     */
     private ZipArchive $zip;
 
+    /**
+     * @var string
+     */
     private string $basePath;
 
+    /**
+     * @var string
+     */
     private string $name;
 
     public function __construct()
     {
         $this->zip = new ZipArchive();
         $this->basePath = storage_path('app/export/products');
-        $this->name = sprintf('%s.zip', Carbon::now()->format('Y-m-d--H:i:s'));
+        $this->name = sprintf('%s-%s.zip', static::ARCHIVE_FILE_NAME_PREFIX, Carbon::now()->format('Y-m-d--H:i:s'));
     }
 
     /**
@@ -65,6 +87,161 @@ class ExportProductsAction
         $this->addProductData($product);
         $this->addProductMedia($product);
         $this->addProductVariations($product);
+        $this->addInfoPrices($product);
+        $this->addProductProductRelations($product);
+        $this->addCategoryRelations($product);
+        $this->addCharacteristics($product);
+        $this->addSeo($product);
+    }
+
+    /**
+     * @param \Domain\Products\Models\Product\Product $product
+     *
+     * @return void
+     */
+    private function addInfoPrices(Product $product): void
+    {
+        $result = [];
+
+        foreach ($product->infoPrices as $infoPrice) {
+            $result[] = [
+                'price' => $infoPrice->price,
+                'name' => $infoPrice->name,
+            ];
+        }
+
+        $isAdded = $this->zip->addFromString(
+            $this->getZipInfoPricesFile($product),
+            json_encode($result, JSON_UNESCAPED_UNICODE)
+        );
+
+        if (!$isAdded) {
+            $this->throwException(null, $product);
+        }
+    }
+
+    /**
+     * @param \Domain\Products\Models\Product\Product $product
+     *
+     * @return void
+     */
+    private function addProductProductRelations(Product $product): void
+    {
+        $result = [
+            ProductProduct::TYPE_ACCESSORY => [],
+            ProductProduct::TYPE_SIMILAR => [],
+            ProductProduct::TYPE_RELATED => [],
+            ProductProduct::TYPE_WORK => [],
+            ProductProduct::TYPE_INSTRUMENT => [],
+        ];
+
+        foreach ($product->accessory as $productOfRelation) {
+            $result[ProductProduct::TYPE_ACCESSORY][] = $productOfRelation->uuid;
+        }
+        foreach ($product->similar as $productOfRelation) {
+            $result[ProductProduct::TYPE_SIMILAR][] = $productOfRelation->uuid;
+        }
+        foreach ($product->related as $productOfRelation) {
+            $result[ProductProduct::TYPE_RELATED][] = $productOfRelation->uuid;
+        }
+        foreach ($product->works as $productOfRelation) {
+            $result[ProductProduct::TYPE_WORK][] = $productOfRelation->uuid;
+        }
+        foreach ($product->instruments as $productOfRelation) {
+            $result[ProductProduct::TYPE_INSTRUMENT][] = $productOfRelation->uuid;
+        }
+
+        $isAdded = $this->zip->addFromString(
+            $this->getZipProductProductRelationsFile($product),
+            json_encode($result, JSON_UNESCAPED_UNICODE)
+        );
+
+        if (!$isAdded) {
+            $this->throwException(null, $product);
+        }
+    }
+
+    /**
+     * @param \Domain\Products\Models\Product\Product $product
+     *
+     * @return void
+     */
+    private function addCategoryRelations(Product $product): void
+    {
+        $result = [];
+
+        foreach ($product->relatedCategories as $category) {
+            $result[] = $category->id;
+        }
+
+        $isAdded = $this->zip->addFromString(
+            $this->getZipCategoryProductRelationsFile($product),
+            json_encode($result, JSON_UNESCAPED_UNICODE)
+        );
+
+        if (!$isAdded) {
+            $this->throwException(null, $product);
+        }
+    }
+
+    /**
+     * @param \Domain\Products\Models\Product\Product $product
+     *
+     * @return void
+     */
+    private function addCharacteristics(Product $product): void
+    {
+        $result = [];
+
+        foreach ($product->charCategories as $charCategory) {
+            $resultCharCategory = [
+                'name' => $charCategory->name,
+                'ordering' => $charCategory->ordering,
+                'chars' => [],
+            ];
+            foreach ($charCategory->chars as $char) {
+                $resultCharCategory['chars'][] = [
+                    'name' => $char->name,
+                    'value' => $char->value,
+                    'type_id' => $char->type_id,
+                    'ordering' => $char->ordering,
+                ];
+            }
+            $result[] = $resultCharCategory;
+        }
+
+        $isAdded = $this->zip->addFromString(
+            $this->getZipCharacteristicsFile($product),
+            json_encode($result, JSON_UNESCAPED_UNICODE)
+        );
+
+        if (!$isAdded) {
+            $this->throwException(null, $product);
+        }
+    }
+
+    /**
+     * @param \Domain\Products\Models\Product\Product $product
+     *
+     * @return void
+     */
+    private function addSeo(Product $product): void
+    {
+        $result = [
+            'title' => $product->seo->title ?? null,
+            'h1' => $product->seo->h1 ?? null,
+            'keywords' => $product->seo->keywords ?? null,
+            'description' => $product->seo->description ?? null,
+        ];
+
+        $isAdded = $this->zip->addFromString(
+            $this->getZipSeoFile($product),
+            json_encode($result, JSON_UNESCAPED_UNICODE)
+        );
+
+        if (!$isAdded) {
+            $this->throwException(null, $product);
+        }
     }
 
     /**
@@ -300,6 +477,56 @@ class ExportProductsAction
     private function getZipProductDataFile(Product $product): string
     {
         return sprintf('%s/%s', $this->getZipProductFolder($product), static::PRODUCT_DATA_FILE_NAME);
+    }
+
+    /**
+     * @param \Domain\Products\Models\Product\Product $product
+     *
+     * @return string
+     */
+    private function getZipInfoPricesFile(Product $product): string
+    {
+        return sprintf('%s/%s', $this->getZipProductFolder($product), static::INFO_PRICES_FILE_NAME);
+    }
+
+    /**
+     * @param \Domain\Products\Models\Product\Product $product
+     *
+     * @return string
+     */
+    private function getZipProductProductRelationsFile(Product $product): string
+    {
+        return sprintf('%s/%s', $this->getZipProductFolder($product), static::PRODUCT_PRODUCT_RELATIONS_FILE_NAME);
+    }
+
+    /**
+     * @param \Domain\Products\Models\Product\Product $product
+     *
+     * @return string
+     */
+    private function getZipCategoryProductRelationsFile(Product $product): string
+    {
+        return sprintf('%s/%s', $this->getZipProductFolder($product), static::CATEGORY_PRODUCT_RELATIONS_FILE_NAME);
+    }
+
+    /**
+     * @param \Domain\Products\Models\Product\Product $product
+     *
+     * @return string
+     */
+    private function getZipCharacteristicsFile(Product $product): string
+    {
+        return sprintf('%s/%s', $this->getZipProductFolder($product), static::CHARACTERISTICS_FILE_NAME);
+    }
+
+    /**
+     * @param \Domain\Products\Models\Product\Product $product
+     *
+     * @return string
+     */
+    private function getZipSeoFile(Product $product): string
+    {
+        return sprintf('%s/%s', $this->getZipProductFolder($product), static::SEO_FILE_NAME);
     }
 
     /**

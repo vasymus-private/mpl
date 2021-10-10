@@ -47,13 +47,19 @@ class ExportProductDTO extends DataTransferObject
 
     public ?string $admin_comment;
 
-    public ?float $price_purchase;
+    /**
+     * @var float|int|null
+     */
+    public $price_purchase;
 
     public ?int $price_purchase_currency_id;
 
     public ?string $unit;
 
-    public ?float $price_retail;
+    /**
+     * @var float|int|null
+     */
+    public $price_retail;
 
     public ?int $price_retail_currency_id;
 
@@ -79,7 +85,30 @@ class ExportProductDTO extends DataTransferObject
             'uuid' => $product->uuid,
             'name' => $product->name,
             'slug' => $product->slug,
-
+            'category_id' => $product->category_id,
+            'ordering' => $product->ordering,
+            'is_active' => $product->is_active,
+            'is_with_variations' => $product->is_with_variations,
+            'brand_id' => $product->brand_id,
+            'coefficient' => $product->coefficient,
+            'coefficient_description' => $product->coefficient_description,
+            'coefficient_description_show' => $product->coefficient_description_show,
+            'coefficient_variation_description' => $product->coefficient_variation_description,
+            'price_name' => $product->price_name,
+            'admin_comment' => $product->admin_comment,
+            'price_purchase' => $product->price_purchase,
+            'price_purchase_currency_id' => $product->price_purchase_currency_id,
+            'unit' => $product->unit,
+            'price_retail' => $product->price_retail,
+            'price_retail_currency_id' => $product->price_retail_currency_id,
+            'availability_status_id' => $product->availability_status_id,
+            'preview' => $product->preview,
+            'description' => $product->description,
+            'accessory_name' => $product->accessory_name,
+            'similar_name' => $product->similar_name,
+            'related_name' => $product->related_name,
+            'work_name' => $product->work_name,
+            'instruments_name' => $product->instruments_name,
         ]);
     }
 }
