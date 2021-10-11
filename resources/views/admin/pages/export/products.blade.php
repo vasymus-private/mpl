@@ -19,12 +19,11 @@
         <div class="h1 text-success">{{session()->get('message')}}</div>
     @endif
 
-    <form wire:submit.prevent="{{$submit ?? 'handleSearch'}}" method="GET">
-        <div class="search form-group row">
-            <div class="col-xs-12 col-sm-2">
-                <div class="dropdown">
-                    <a href="{{route(\App\Constants::ROUTE_ADMIN_EXPORT_PRODUCTS_STORE)}}" class="btn btn-add btn-secondary">Экспортировать товары</a>
-                </div>
+    <form action="{{route(\App\Constants::ROUTE_ADMIN_EXPORT_PRODUCTS_STORE)}}" method="POST">
+        @csrf
+        <div class="row mb-4">
+            <div class="col-12">
+                <button type="submit" class="btn btn-info">Экспортировать товары</button>
             </div>
         </div>
     </form>

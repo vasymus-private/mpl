@@ -9,14 +9,10 @@ use Domain\Products\DTOs\ExportVariationDTO;
 use Domain\Products\Exceptions\ExportProductException;
 use Domain\Products\Models\Pivots\ProductProduct;
 use Domain\Products\Models\Product\Product;
-use Domain\Users\Models\Admin;
-use Illuminate\Support\Carbon;
 use ZipArchive;
 
 class ExportProductsAction
 {
-    private const ARCHIVE_FILE_NAME_PREFIX = 'product-export';
-
     private const PRODUCT_DATA_FILE_NAME = 'product.json';
 
     private const VARIATION_DATA_FILE_NAME = 'variation.json';
@@ -41,15 +37,9 @@ class ExportProductsAction
      */
     private string $tempFilePath;
 
-    /**
-     * @var string
-     */
-    private string $name;
-
     public function __construct()
     {
         $this->zip = new ZipArchive();
-        $this->name = sprintf('%s-%s.zip', static::ARCHIVE_FILE_NAME_PREFIX, Carbon::now()->format('Y-m-d--H:i:s'));
         $tempFilePath = tempnam('/tmp', 'zip');
         if (!$tempFilePath) {
             $this->throwException();
@@ -58,34 +48,44 @@ class ExportProductsAction
     }
 
     /**
-     * @param \Domain\Products\Models\Product\Product[] $products
+     * @param int[] $productsIds
      *
-     * @return \Domain\Common\Models\CustomMedia
+     * @return string Return file path to created file
      *
      * @throws \Domain\Products\Exceptions\ExportProductException
      */
-    public function execute(array $products): CustomMedia
+    public function execute(array $productsIds): string
     {
         $openResult = $this->zip->open($this->tempFilePath, ZipArchive::OVERWRITE);
+
         if ($openResult !== true) {
             $this->throwException($openResult);
         }
 
-        $productCollection = new ProductCollection($products);
-        foreach ($productCollection->notVariations() as $product) {
-            $this->addProduct($product);
-        }
+        Product::query()->whereIn('id', $productsIds)
+            ->with([
+                'media',
+                'variations.media',
+                'accessory',
+                'similar',
+                'related',
+                'works',
+                'instruments',
+                'category',
+                'relatedCategories',
+                'infoPrices',
+                'seo',
+                'charCategories.chars',
+            ])
+            ->chunk(50, function(ProductCollection $productCollection) {
+                foreach ($productCollection->notVariations() as $product) {
+                    $this->addProduct($product);
+                }
+            });
 
         $this->zip->close();
 
-        $centralAdmin = Admin::getCentralAdmin();
-        /** @var \Domain\Common\Models\CustomMedia $media */
-        $media = $centralAdmin
-            ->addMedia($this->tempFilePath)
-            ->setFileName($this->name)
-            ->toMediaCollection(Admin::MC_EXPORT_PRODUCTS);
-
-        return $media;
+        return $this->tempFilePath;
     }
 
     /**

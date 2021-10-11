@@ -24,12 +24,17 @@ class ExportProductController extends BaseAdminController
     {
         $centralAdmin = Admin::getCentralAdmin();
         /** @var \Domain\Common\Models\CustomMedia $media */
-        $media = $centralAdmin->getFirstMedia(Admin::MC_EXPORT_PRODUCTS, ['id' => $request->media_id]);
+        $media = $centralAdmin->getFirstMedia(Admin::MC_EXPORT_PRODUCTS, function(CustomMedia $customMedia) use($request) {
+            return (string) $customMedia->id === (string) $request->id;
+        });
+
         if (!$media) {
             throw (new ModelNotFoundException)->setModel(
-                get_class(CustomMedia::class), $request->media_id
+                CustomMedia::class, $request->id
             );
         }
+
+        ini_set('memory_limit', '-1');
 
         return response()->download($media->getPath(), $media->file_name, [
             'Content-Type: application/octet-stream',
@@ -39,28 +44,15 @@ class ExportProductController extends BaseAdminController
 
     public function store(Request $request)
     {
-        $products = Product::query()
+        $productIds = Product::query()
             ->notVariations()
-            ->with([
-                'media',
-                'variations.media',
-                'accessory',
-                'similar',
-                'related',
-                'works',
-                'instruments',
-                'category',
-                'relatedCategories',
-                'infoPrices',
-                'seo',
-                'charCategories.chars',
-            ])
-            ->get();
+            ->pluck('id')
+            ->toArray();
 
-        ExportProductsJob::dispatch($products);
+        ExportProductsJob::dispatch($productIds);
 
         return redirect()
-            ->route(Constants::ROUTE_ADMIN_EXPORT_PRODUCTS_SHOW)
+            ->route(Constants::ROUTE_ADMIN_EXPORT_PRODUCTS_INDEX)
             ->with('message', 'Осуществляется процесс по формированию .zip архива с импортируемыми товарами. Через несколько минут он появится в таблице.');
     }
 }

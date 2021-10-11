@@ -5,46 +5,38 @@ namespace App\Http\Controllers;
 use App\Mail\TestMarkupOrderShippedMail;
 use App\Mail\TestMarkupResetPasswordMail;
 use Domain\Products\Actions\ExportImport\ExportProductsAction;
+use Domain\Products\Jobs\ExportProductsJob;
 use Domain\Products\Models\Product\Product;
 use Domain\Temp\User;
+use Domain\Users\Models\Admin;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class TestController extends Controller
 {
     public function test(Request $request, ExportProductsAction $exportProductsAction)
     {
-        /** @var \Domain\Products\Models\Product\Product $product */
-//        $product = Product::query()->find(1);
+//        $fileName = '/tmp/ziprxk684';
+//        $configFileSize = config('media-library.max_file_size');
+//        $tempFileFileSize = filesize($fileName) + 1024 * 10; // + buffer just for case
+//        config()->set('media-library.max_file_size', $tempFileFileSize);
+//        $centralAdmin = Admin::getCentralAdmin();
+//        /** @var \Domain\Common\Models\CustomMedia $media */
+//        $media = $centralAdmin
+//            ->addMedia($fileName)
+//            ->setFileName('dddd.zip')
+//            ->toMediaCollection(Admin::MC_EXPORT_PRODUCTS);
+//        config()->set('media-library.max_file_size', $configFileSize);
 //
-//        $exportProductsAction->execute([
-//            $product,
-//            Product::query()->find(24),
-//            Product::query()->find(60)
-//        ]);
+//        dump($media);
 
         //dump(get_current_user(), getmyuid(), getmygid(), getmypid());
 
-        $products = Product::query()
-            ->notVariations()
-            ->with([
-                'media',
-                'variations.media',
-                'accessory',
-                'similar',
-                'related',
-                'works',
-                'instruments',
-                'category',
-                'relatedCategories',
-                'infoPrices',
-                'seo',
-                'charCategories.chars',
-            ])
-            ->get();
+        $this->dispatch(function () {
 
-        $zipFilePath = $exportProductsAction->execute($products->all());
+        });
 
         return view('test');
     }
