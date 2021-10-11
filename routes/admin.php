@@ -14,6 +14,7 @@
 use App\Constants;
 use App\Http\Controllers\Admin\BrandsController;
 use App\Http\Controllers\Admin\CategoriesController;
+use App\Http\Controllers\Admin\ExportProductController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\ProductsController;
@@ -107,4 +108,26 @@ Route
         [OrdersController::class, "edit"]
     )
     ->name(Constants::ROUTE_ADMIN_ORDERS_EDIT)
+;
+
+Route::
+    get(
+        'export-products',
+        [ExportProductController::class, 'index']
+    )
+    ->name(Constants::ROUTE_ADMIN_EXPORT_PRODUCTS_INDEX)
+;
+Route::
+    get(
+        'export-products/{id}',
+        [ExportProductController::class, 'show']
+    )
+    ->name(Constants::ROUTE_ADMIN_EXPORT_PRODUCTS_SHOW)
+;
+Route::
+    post(
+        'export-products',
+        [ExportProductController::class, 'store']
+    )
+    ->name(Constants::ROUTE_ADMIN_EXPORT_PRODUCTS_STORE)
 ;

@@ -9,6 +9,7 @@ use Domain\Products\DTOs\ExportVariationDTO;
 use Domain\Products\Exceptions\ExportProductException;
 use Domain\Products\Models\Pivots\ProductProduct;
 use Domain\Products\Models\Product\Product;
+use Domain\Users\Models\Admin;
 use Illuminate\Support\Carbon;
 use ZipArchive;
 
@@ -38,7 +39,7 @@ class ExportProductsAction
     /**
      * @var string
      */
-    private string $basePath;
+    private string $tempFilePath;
 
     /**
      * @var string
@@ -48,20 +49,24 @@ class ExportProductsAction
     public function __construct()
     {
         $this->zip = new ZipArchive();
-        $this->basePath = storage_path('app/export/products');
         $this->name = sprintf('%s-%s.zip', static::ARCHIVE_FILE_NAME_PREFIX, Carbon::now()->format('Y-m-d--H:i:s'));
+        $tempFilePath = tempnam('/tmp', 'zip');
+        if (!$tempFilePath) {
+            $this->throwException();
+        }
+        $this->tempFilePath = $tempFilePath;
     }
 
     /**
      * @param \Domain\Products\Models\Product\Product[] $products
      *
-     * @return string Full file path to .zip archive
+     * @return \Domain\Common\Models\CustomMedia
      *
      * @throws \Domain\Products\Exceptions\ExportProductException
      */
-    public function execute(array $products): string
+    public function execute(array $products): CustomMedia
     {
-        $openResult = $this->zip->open($this->getFilePath(), ZipArchive::CREATE);
+        $openResult = $this->zip->open($this->tempFilePath, ZipArchive::OVERWRITE);
         if ($openResult !== true) {
             $this->throwException($openResult);
         }
@@ -73,7 +78,14 @@ class ExportProductsAction
 
         $this->zip->close();
 
-        return $this->getFilePath();
+        $centralAdmin = Admin::getCentralAdmin();
+        /** @var \Domain\Common\Models\CustomMedia $media */
+        $media = $centralAdmin
+            ->addMedia($this->tempFilePath)
+            ->setFileName($this->name)
+            ->toMediaCollection(Admin::MC_EXPORT_PRODUCTS);
+
+        return $media;
     }
 
     /**
@@ -436,16 +448,6 @@ class ExportProductsAction
     private function getVariationData(Product $variation): ExportVariationDTO
     {
         return ExportVariationDTO::fromModel($variation);
-    }
-
-    /**
-     * Full path to generating / generated .zip archive
-     *
-     * @return string
-     */
-    private function getFilePath(): string
-    {
-        return sprintf('%s/%s', $this->basePath, $this->name);
     }
 
     /**

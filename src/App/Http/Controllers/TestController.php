@@ -16,15 +16,35 @@ class TestController extends Controller
     public function test(Request $request, ExportProductsAction $exportProductsAction)
     {
         /** @var \Domain\Products\Models\Product\Product $product */
-        $product = Product::query()->find(1);
-
-        $exportProductsAction->execute([
-            $product,
-            Product::query()->find(24),
-            Product::query()->find(60)
-        ]);
+//        $product = Product::query()->find(1);
+//
+//        $exportProductsAction->execute([
+//            $product,
+//            Product::query()->find(24),
+//            Product::query()->find(60)
+//        ]);
 
         //dump(get_current_user(), getmyuid(), getmygid(), getmypid());
+
+        $products = Product::query()
+            ->notVariations()
+            ->with([
+                'media',
+                'variations.media',
+                'accessory',
+                'similar',
+                'related',
+                'works',
+                'instruments',
+                'category',
+                'relatedCategories',
+                'infoPrices',
+                'seo',
+                'charCategories.chars',
+            ])
+            ->get();
+
+        $zipFilePath = $exportProductsAction->execute($products->all());
 
         return view('test');
     }
