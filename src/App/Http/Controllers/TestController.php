@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Spatie\MediaLibrary\MediaCollections\File;
+use Support\H;
 
 class TestController extends Controller
 {
@@ -34,9 +36,10 @@ class TestController extends Controller
 
         //dump(get_current_user(), getmyuid(), getmygid(), getmypid());
 
-        $this->dispatch(function () {
+//        H::logInfo();
+        // Log::info('hello');
 
-        });
+        //dump(\Spatie\MediaLibrary\Support\File::getMimeType('/var/www/html/storage/app/media/6389/product-export--2021-10-12--17-36-22.zip'));
 
         return view('test');
     }

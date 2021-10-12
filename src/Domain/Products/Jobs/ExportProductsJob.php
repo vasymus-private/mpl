@@ -3,7 +3,6 @@
 namespace Domain\Products\Jobs;
 
 use Domain\Products\Actions\ExportImport\ExportProductsAction;
-use Domain\Products\Models\Product\Product;
 use Domain\Users\Models\Admin;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -14,6 +13,8 @@ use Illuminate\Queue\SerializesModels;
 use DateInterval;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
+use Spatie\MediaLibrary\Support\File;
+use Support\H;
 use Throwable;
 
 class ExportProductsJob implements ShouldQueue
@@ -55,34 +56,33 @@ class ExportProductsJob implements ShouldQueue
      */
     public function handle(ExportProductsAction $exportProductsAction)
     {
-        Log::info(sprintf('max execution time: %s', ini_get('max_execution_time')));
+        // because of some bug, can't create temporary file
+        // and then add it to media collection
 
-        Log::info(sprintf('%s---%s', static::class, exec('whoami')));
+        // first, create empty file
+        $filePath = tempnam('/tmp', 'zip');
 
-        $tempFilePath = $exportProductsAction->execute($this->productsIds);
-
-        Log::info(sprintf('%s---%s', static::class, exec('whoami')));
-
-        $tempFileFileSize = filesize($tempFilePath) * 2; // + buffer just for case
-        config()->set('media-library.max_file_size', $tempFileFileSize);
-
-        $name = sprintf('%s--%s.zip', static::ARCHIVE_FILE_NAME_PREFIX, Carbon::now()->format('Y-m-d--H-i-s')); // todo write to spatie about error with pathinfo if there is : in the name
-        // todo @see \Spatie\MediaLibrary\MediaCollections\FileAdder::toMediaCollection()
-        // todo @see \Spatie\MediaLibrary\Support\FileNamer\FileNamer::originalFileName()
-
+        // second, add to to media library
+        $name = sprintf(
+            '%s--%s.zip',
+            static::ARCHIVE_FILE_NAME_PREFIX,
+            Carbon::now()->format('Y-m-d--H-i-s')
+        );
         $centralAdmin = Admin::getCentralAdmin();
-        /** @var \Domain\Common\Models\CustomMedia $media */
         $media = $centralAdmin
-            ->addMedia($tempFilePath)
+            ->addMedia($filePath)
             ->setFileName($name)
             ->toMediaCollection(Admin::MC_EXPORT_PRODUCTS);
 
-        Log::info(sprintf('%s---%s', static::class, exec('whoami')));
-
+        // third, dispatch a update media and dispatch clear jobs which run after overwriting (see below)
+        // has to do this workaround because of bug
         $interval = new DateInterval('P1D');
         $deleteTime = Carbon::now()->add($interval);
-        $media->setCustomProperty('deleteTime', $deleteTime);
-        $media->save();
-        ExportClearJob::dispatch($media)->delay($interval);
+        ExportUpdateMediaDataJob::dispatch($media->id, $deleteTime)->delay(new DateInterval('PT3M'));
+        // cleaning
+        ExportClearJob::dispatch($media->id)->delay($interval);
+
+        // fourth, overwrite content of added file with zip archive
+        $exportProductsAction->execute($this->productsIds, $media->getPath());
     }
 }

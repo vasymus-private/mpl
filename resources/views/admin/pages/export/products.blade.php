@@ -36,6 +36,7 @@
                     <th scope="col">ID</th>
                     <th scope="col">Название</th>
                     <th scope="col">Будет удалён</th>
+                    <th scope="col">&nbsp;</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -51,6 +52,13 @@
                                 <span class="main-grid-cell-content">
                                     {{$media->getCustomProperty('deleteTime')}}
                                 </span>
+                            </td>
+                            <td>
+                                <button form="delete-export-products-{{$media->id}}" class="btn btn-danger">Удалить</button>
+                                <form id="delete-export-products-{{$media->id}}" action="{{route(\App\Constants::ROUTE_ADMIN_EXPORT_PRODUCTS_DELETE, $media->id)}}" class="d-none" method="POST">
+                                    @csrf
+                                    @method('delete')
+                                </form>
                             </td>
                         </tr>
                     @endforeach

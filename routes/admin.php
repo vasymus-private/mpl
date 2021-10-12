@@ -131,3 +131,10 @@ Route::
     )
     ->name(Constants::ROUTE_ADMIN_EXPORT_PRODUCTS_STORE)
 ;
+Route::
+    delete(
+        'export-products/{id}',
+        [ExportProductController::class, 'delete']
+    )
+    ->name(Constants::ROUTE_ADMIN_EXPORT_PRODUCTS_DELETE)
+;

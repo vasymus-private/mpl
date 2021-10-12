@@ -14,18 +14,18 @@ class ExportClearJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected CustomMedia $media;
+    public int $id;
 
     /**
      * Create a new job instance.
      *
-     * @param \Domain\Common\Models\CustomMedia $media
+     * @param int $id
      *
      * @return void
      */
-    public function __construct(CustomMedia $media)
+    public function __construct(int $id)
     {
-        $this->media = $media;
+        $this->id = $id;
     }
 
     /**
@@ -35,6 +35,6 @@ class ExportClearJob implements ShouldQueue
      */
     public function handle()
     {
-        $this->media->refresh()->forceDelete();
+        CustomMedia::query()->findOrFail($this->id)->forceDelete();
     }
 }

@@ -9,6 +9,7 @@ use Domain\Products\DTOs\ExportVariationDTO;
 use Domain\Products\Exceptions\ExportProductException;
 use Domain\Products\Models\Pivots\ProductProduct;
 use Domain\Products\Models\Product\Product;
+use Support\H;
 use ZipArchive;
 
 class ExportProductsAction
@@ -32,31 +33,31 @@ class ExportProductsAction
      */
     private ZipArchive $zip;
 
-    /**
-     * @var string
-     */
-    private string $tempFilePath;
-
     public function __construct()
     {
         $this->zip = new ZipArchive();
-        $tempFilePath = tempnam('/tmp', 'zip');
-        if (!$tempFilePath) {
-            $this->throwException();
-        }
-        $this->tempFilePath = $tempFilePath;
     }
 
     /**
      * @param int[] $productsIds
+     * @param string|null $filePath
      *
      * @return string Return file path to created file
      *
      * @throws \Domain\Products\Exceptions\ExportProductException
      */
-    public function execute(array $productsIds): string
+    public function execute(array $productsIds, string $filePath = null): string
     {
-        $openResult = $this->zip->open($this->tempFilePath, ZipArchive::OVERWRITE);
+        if (!$filePath) {
+            $filePath = tempnam('/tmp', 'zip');
+            if (!$filePath) {
+                $this->throwException();
+            }
+        }
+
+        H::logInfo();
+
+        $openResult = $this->zip->open($filePath, ZipArchive::OVERWRITE);
 
         if ($openResult !== true) {
             $this->throwException($openResult);
@@ -78,6 +79,7 @@ class ExportProductsAction
                 'charCategories.chars',
             ])
             ->chunk(50, function(ProductCollection $productCollection) {
+                H::logInfo();
                 foreach ($productCollection->notVariations() as $product) {
                     $this->addProduct($product);
                 }
@@ -85,7 +87,9 @@ class ExportProductsAction
 
         $this->zip->close();
 
-        return $this->tempFilePath;
+        H::logInfo();
+
+        return $filePath;
     }
 
     /**
