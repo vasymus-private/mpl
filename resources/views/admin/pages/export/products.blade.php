@@ -50,7 +50,7 @@
                             </td>
                             <td>
                                 <span class="main-grid-cell-content">
-                                    {{$media->getCustomProperty('deleteTime')}}
+                                    {{$media->delete_time ? $media->delete_time->format('Y-m-d H:i') : null}}
                                 </span>
                             </td>
                             <td>

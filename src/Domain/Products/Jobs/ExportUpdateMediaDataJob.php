@@ -52,7 +52,7 @@ class ExportUpdateMediaDataJob implements ShouldQueue
         $media->size = filesize($media->getPath());
         $media->mime_type = File::getMimeType($media->getPath());
         if ($this->deleteTime) {
-            $media->setCustomProperty('deleteTime', $this->deleteTime);
+            $media->delete_time = $this->deleteTime;
         }
         $media->save();
     }

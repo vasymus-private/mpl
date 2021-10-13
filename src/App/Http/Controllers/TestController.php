@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\TestMarkupOrderShippedMail;
 use App\Mail\TestMarkupResetPasswordMail;
+use Domain\Common\Models\CustomMedia;
 use Domain\Products\Actions\ExportImport\ExportProductsAction;
 use Domain\Products\Jobs\ExportProductsJob;
 use Domain\Products\Models\Product\Product;
@@ -40,6 +41,11 @@ class TestController extends Controller
         // Log::info('hello');
 
         //dump(\Spatie\MediaLibrary\Support\File::getMimeType('/var/www/html/storage/app/media/6389/product-export--2021-10-12--17-36-22.zip'));
+
+        /** @var \Domain\Common\Models\CustomMedia $customMedia */
+        $customMedia = CustomMedia::query()->findOrFail(6385);
+
+        dump($customMedia->delete_time);
 
         return view('test');
     }
