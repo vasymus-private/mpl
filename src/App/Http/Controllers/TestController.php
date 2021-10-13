@@ -4,25 +4,48 @@ namespace App\Http\Controllers;
 
 use App\Mail\TestMarkupOrderShippedMail;
 use App\Mail\TestMarkupResetPasswordMail;
-use Domain\Products\Actions\GetCategoriesTreeAction;
-use Domain\Products\Actions\GetCategoryAndSubtreeAction;
-use Domain\Products\Actions\GetCategoryAndSubtreeIdsAction;
-use Domain\Products\Actions\HasActiveProductsAction;
-use Domain\Temp\Product;
-use Domain\Temp\Section;
+use Domain\Common\Models\CustomMedia;
+use Domain\Products\Actions\ExportImport\ExportProductsAction;
+use Domain\Products\Jobs\ExportProductsJob;
+use Domain\Products\Models\Product\Product;
 use Domain\Temp\User;
-use Illuminate\Database\Eloquent\Builder;
+use Domain\Users\Models\Admin;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator;
+use Illuminate\Support\Facades\Log;
+use Spatie\MediaLibrary\MediaCollections\File;
+use Support\H;
 
 class TestController extends Controller
 {
-    public function test(Request $request, GetCategoriesTreeAction $getCategoriesTreeAction, GetCategoryAndSubtreeAction $getCategoryAndSubtreeAction, GetCategoryAndSubtreeIdsAction $getCategoryAndSubtreeIdsAction, HasActiveProductsAction $hasActiveProductsAction, DefaultUrlGenerator $defaultUrlGenerator)
+    public function test(Request $request, ExportProductsAction $exportProductsAction)
     {
+//        $fileName = '/tmp/ziprxk684';
+//        $configFileSize = config('media-library.max_file_size');
+//        $tempFileFileSize = filesize($fileName) + 1024 * 10; // + buffer just for case
+//        config()->set('media-library.max_file_size', $tempFileFileSize);
+//        $centralAdmin = Admin::getCentralAdmin();
+//        /** @var \Domain\Common\Models\CustomMedia $media */
+//        $media = $centralAdmin
+//            ->addMedia($fileName)
+//            ->setFileName('dddd.zip')
+//            ->toMediaCollection(Admin::MC_EXPORT_PRODUCTS);
+//        config()->set('media-library.max_file_size', $configFileSize);
+//
+//        dump($media);
 
+        //dump(get_current_user(), getmyuid(), getmygid(), getmypid());
+
+//        H::logInfo();
+        // Log::info('hello');
+
+        //dump(\Spatie\MediaLibrary\Support\File::getMimeType('/var/www/html/storage/app/media/6389/product-export--2021-10-12--17-36-22.zip'));
+
+        /** @var \Domain\Common\Models\CustomMedia $customMedia */
+        $customMedia = CustomMedia::query()->findOrFail(6385);
+
+        dump($customMedia->delete_time);
 
         return view('test');
     }

@@ -2,6 +2,7 @@
 
 namespace Domain\Orders\Models;
 
+use App\Constants;
 use Domain\Common\Models\BaseModel;
 use Domain\Users\Models\Admin;
 use Domain\Users\Models\BaseUser\BaseUser;
@@ -198,9 +199,9 @@ class Order extends BaseModel implements HasMedia
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection(static::MC_INITIAL_ATTACHMENT)->useDisk('private-media');
+        $this->addMediaCollection(static::MC_INITIAL_ATTACHMENT)->useDisk(Constants::MEDIA_DISK_PRIVATE);
 
-        $this->addMediaCollection(static::MC_PAYMENT_METHOD_ATTACHMENT)->useDisk('private-media');
+        $this->addMediaCollection(static::MC_PAYMENT_METHOD_ATTACHMENT)->useDisk(Constants::MEDIA_DISK_PRIVATE);
     }
 
     public function getOrderPriceRetailRubAttribute(): float

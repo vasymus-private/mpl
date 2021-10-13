@@ -2,6 +2,7 @@
 
 namespace Domain\Users\Models;
 
+use App\Constants;
 use Domain\Users\Models\BaseUser\BaseUser;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\MediaLibrary\HasMedia;
@@ -19,6 +20,8 @@ class Admin extends BaseUser implements HasMedia
 
     public const MC_COMMON_MEDIA = "common-media"; // use as walkaround to many-to-one of spatie/medialibrary @see https://github.com/spatie/laravel-medialibrary/issues/1215#issuecomment-415555175
 
+    public const MC_EXPORT_PRODUCTS = 'export-products';
+
     /**
      * Bootstrap the model and its traits.
      *
@@ -33,8 +36,15 @@ class Admin extends BaseUser implements HasMedia
         });
     }
 
+    public static function getCentralAdmin(): self
+    {
+        return Admin::query()->findOrFail(Admin::ID_CENTRAL_ADMIN);
+    }
+
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection(static::MC_COMMON_MEDIA);
+
+        $this->addMediaCollection(static::MC_EXPORT_PRODUCTS)->useDisk(Constants::MEDIA_DISK_PRIVATE);
     }
 }

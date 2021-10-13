@@ -1,5 +1,7 @@
 <?php
 
+use App\Constants;
+
 return [
 
     /*
@@ -55,14 +57,14 @@ return [
             'visibility' => 'public',
         ],
 
-        'public-media' => [
+        Constants::MEDIA_DISK_PUBLIC => [
             'driver' => 'local',
             'root' => storage_path('app/public/media'),
             'url' => env('APP_URL').'/storage/media',
             'visibility' => 'public',
         ],
 
-        'private-media' => [
+        Constants::MEDIA_DISK_PRIVATE => [
             'driver' => 'local',
             'root' => storage_path('app/media'),
             'url' => env('APP_URL').'/media',
