@@ -56,8 +56,7 @@ class FAQTableSeeder extends Seeder
         $crawler->filter("img")->each(function(Crawler $imgNode) {
             $attr = $imgNode->attr("src");
 
-            /** @var Admin $admin */
-            $admin = Admin::query()->findOrFail(Admin::ID_CENTRAL_ADMIN);
+            $admin = Admin::getCentralAdmin();
             $media = $admin
                 ->addMedia(storage_path("app/$attr"))
                 ->preservingOriginal()

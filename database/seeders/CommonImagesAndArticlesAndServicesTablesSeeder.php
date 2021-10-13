@@ -39,8 +39,7 @@ class CommonImagesAndArticlesAndServicesTablesSeeder extends Seeder
 
     protected function seedCommonImages()
     {
-        /** @var \Domain\Users\Models\Admin $admin */
-        $admin = Admin::query()->findOrFail(Admin::ID_CENTRAL_ADMIN);
+        $admin = Admin::getCentralAdmin();
 
         foreach ($this->seeds as $seed) {
             $images = $seed["images"];

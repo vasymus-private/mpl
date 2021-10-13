@@ -7,11 +7,31 @@ use Domain\Common\Models\Currency;
 use Domain\Users\Models\Admin;
 use Domain\Users\Models\BaseUser\BaseUser;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Support\CBRcurrencyConverter\CBRcurrencyConverter;
 use Illuminate\Support\HtmlString;
 
 class H
 {
+    /**
+     * Log info about script user and its group
+     *
+     * @return void
+     */
+    public static function logInfo(): void
+    {
+        $debug = debug_backtrace();
+        Log::info(
+            sprintf(
+                'User:%s---Group:%s---%s:%s()',
+                exec('id -un'),
+                exec('id -gn'),
+                $debug[1]['class'] ?? null,
+                $debug[1]['function'] ?? null
+            )
+        );
+    }
+
     public static function userOrAdmin(): BaseUser
     {
         /** @var \Domain\Users\Models\User\User|null $user */
