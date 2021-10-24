@@ -23,4 +23,19 @@
       border-color: transparent;
     }
   }
+
+  .dropdown-menu {
+    box-shadow: 2px 2px 2px rgb(0 0 0 / 10%);
+    background: #f5f5f5;
+  }
+
+  .dropdown-item {
+    color: #444444;
+    font-size: 14px;
+    text-decoration: underline;
+    font-family: Open Sans, sans-serif;
+    &:hover {
+      text-decoration: none;
+    }
+  }
 }

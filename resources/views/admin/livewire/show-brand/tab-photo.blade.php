@@ -5,7 +5,7 @@
     <label class="col-sm-6 col-form-label">Основное фото:</label>
     <div class="col-sm-6">
         <div class="row">
-            <div class="card text-center col-3">
+            <div class="card text-center">
                 @if(!empty($mainImage))
                     <div class="card-body">
                         <a href="{{$mainImage['url']}}" target="_blank"><img class="img-thumbnail" src="{{$mainImage['url']}}" alt=""></a>
