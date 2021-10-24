@@ -37,12 +37,13 @@
             <div class="column">
                 <div class="product-price">
                     <div class="product-price__top row-line row-line__center row-line__jc-center">
-                        <div class="column-price">
-                            <span class="product-price__subtitle">{{ $product->price_name }}</span>
+                        <span class="product-price__subtitle">{{ $product->price_name }}</span>
+                    </div>  
+                    <div class="product-price__top row-line row-line__center row-line__jc-center">
+                        <div class="column-price">                            
                             <span class="product-price__count-block">{{ $product->price_retail_rub_formatted }}</span>
                         </div>
                         <div class="column-price">
-                            <span class="product-price__subtitle">Упаковка</span>
                             <span class="product-price__count-block-gray">/ {{$product->unit}}</span>
                         </div>
                     </div>

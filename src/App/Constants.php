@@ -21,6 +21,7 @@ final class Constants
     public const MIME_PPT = "application/vnd.ms-powerpoint";
     public const MIME_XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
     public const MIME_XLS = "application/vnd.ms-excel";
+    public const MIME_ZIP = 'application/zip';
 
     public const ROUTE_ADMIN_HOME = 'admin.home';
 
@@ -40,6 +41,13 @@ final class Constants
     public const ROUTE_ADMIN_ORDERS_CREATE = 'admin.orders.create';
     public const ROUTE_ADMIN_ORDERS_EDIT = 'admin.orders.edit';
 
+    public const ROUTE_ADMIN_EXPORT_PRODUCTS_INDEX = 'admin.export-products.index';
+    public const ROUTE_ADMIN_EXPORT_PRODUCTS_SHOW = 'admin.export-products.show';
+    public const ROUTE_ADMIN_EXPORT_PRODUCTS_STORE = 'admin.export-products.store';
+    public const ROUTE_ADMIN_EXPORT_PRODUCTS_DELETE = 'admin.export-products.delete';
+
+    public const MEDIA_DISK_PUBLIC = 'public-media';
+    public const MEDIA_DISK_PRIVATE = 'private-media';
 
     private function __construct() {}
 }

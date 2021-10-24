@@ -2,6 +2,9 @@
 
 namespace Domain\Common\Models;
 
+use Carbon\Exceptions\InvalidFormatException;
+use DateTimeInterface;
+use Illuminate\Support\Carbon;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Support\H;
 
@@ -27,6 +30,9 @@ use Support\H;
  *
  * @see \Domain\Common\Models\CustomMedia::getMimeTypeNameAttribute()
  * @property-read string $mime_type_name
+ *
+ * @see {@link \Domain\Common\Models\CustomMedia::getDeleteTimeAttribute()} {@link \Domain\Common\Models\CustomMedia::setDeleteTimeAttribute()}
+ * @property \DateTimeInterface|null $delete_time
  */
 class CustomMedia extends Media
 {
@@ -49,5 +55,29 @@ class CustomMedia extends Media
     public function getMimeTypeNameAttribute(): string
     {
         return H::getMimeTypeName($this->mime_type);
+    }
+
+    /**
+     * @return \DateTimeInterface|null
+     */
+    public function getDeleteTimeAttribute(): ?DateTimeInterface
+    {
+        if (!$this->getCustomProperty('deleteTime')) {
+            return null;
+        }
+
+        try {
+            return Carbon::parse($this->getCustomProperty('deleteTime'));
+        } catch (InvalidFormatException $ignored) {
+            return null;
+        }
+    }
+
+    /**
+     * @param \DateTimeInterface $dateTime
+     */
+    public function setDeleteTimeAttribute(DateTimeInterface $dateTime)
+    {
+        $this->setCustomProperty('deleteTime', $dateTime);
     }
 }
