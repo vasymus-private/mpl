@@ -305,7 +305,7 @@
                                     <div class="col-sm-6">
                                         <div class="add-file">
                                             <div class="row">
-                                                <div class="card text-center col-3">
+                                                <div class="card text-center col-6">
                                                     @if(!empty($currentVariation['main_image']))
                                                         <a href="{{$currentVariation['main_image']['url']}}" target="_blank"><img class="img-thumbnail" src="{{$currentVariation['main_image']['url']}}" alt=""></a>
                                                         <div class="form-group">
@@ -334,7 +334,7 @@
                                         <div class="add-file">
                                             <div class="row">
                                                 @foreach($currentVariation['additional_images'] as $index => $currentVariationAdditionalImage)
-                                                    <div wire:key="instructions-{{$index}}-{{$currentVariationAdditionalImage['url']}}" class="card text-center col-3">
+                                                    <div wire:key="instructions-{{$index}}-{{$currentVariationAdditionalImage['url']}}" class="card text-center">
                                                         <a href="{{$currentVariationAdditionalImage['url']}}" target="_blank"><img class="img-thumbnail" src="{{$currentVariationAdditionalImage['url']}}" alt=""></a>
                                                         <div class="form-group">
                                                             @include('admin.livewire.includes.form-control-input', ['field' => "currentVariation.additional_images.$index.name"])
