@@ -90,8 +90,7 @@ class TestController extends Controller
         ])->whereIn('id', $productsIds)->get();
 
         dump($products);
-
-
+        sleep(10);
 //        $products = $user->sections->reduce(function(array $acc, Section $section) {
 //            $acc[] = $section->product;
 //            return $acc;
