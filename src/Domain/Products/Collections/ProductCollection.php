@@ -27,6 +27,13 @@ class ProductCollection extends Collection
         });
     }
 
+    public function notVariations(): self
+    {
+        return $this->filter(function(Product $product) {
+            return $product->parent_id === null;
+        });
+    }
+
     public function orderProductsSumRetailPriceRub(): float
     {
         return $this->reduce(function(float $acc, Product $product) {
@@ -51,4 +58,6 @@ class ProductCollection extends Collection
     {
         return $this->contains(fn(Product $product) => $product->is_active);
     }
+
+
 }

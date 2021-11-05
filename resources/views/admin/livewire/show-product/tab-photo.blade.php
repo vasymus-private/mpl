@@ -9,7 +9,7 @@
         <div class="col-sm-6">
             <div class="add-file">
                 <div class="row">
-                    <div class="card text-center col-3">
+                    <div class="card text-center">
                         @if(!empty($mainImage))
                             <a href="{{$mainImage['url']}}" target="_blank"><img class="img-thumbnail" src="{{$mainImage['url']}}" alt=""></a>
                             <div class="form-group">
@@ -38,7 +38,7 @@
             <div class="add-file">
                 <div class="row">
                     @foreach($additionalImages as $index => $additionalImage)
-                        <div wire:key="instructions-{{$index}}-{{$additionalImage['url']}}" class="card text-center col-3">
+                        <div wire:key="instructions-{{$index}}-{{$additionalImage['url']}}" class="card text-center">
                             <a href="{{$additionalImage['url']}}" target="_blank"><img class="img-thumbnail" src="{{$additionalImage['url']}}" alt=""></a>
                             <div class="form-group">
                                 @include('admin.livewire.includes.form-control-input', ['field' => "additionalImages.$index.name"])

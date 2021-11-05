@@ -64,18 +64,31 @@
                             &nbsp;
                         @else
                             <div class="dropdown">
-                                <button class="btn btn-secondary" type="button" id="actions-dropdown-{{$variation['uuid']}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
-                                <div class="dropdown-menu" aria-labelledby="actions-dropdown-{{$variation['uuid']}}">
-                                    <button onclick="@this.setCurrentVariation('{{$variation['uuid']}}').then(() => {$('#current-variation').modal('show')})" type="button" data-target="#current-variation" class="dropdown-item btn btn-link">Изменить</button>
-                                    <button type="button" class="dropdown-item btn btn-link" wire:click="toggleVariationActive('{{$variation['uuid']}}')">
-                                        @if($variation['is_active'])
-                                            Деактивировать
-                                        @else
-                                            Активировать
-                                        @endif
+                                <button class="btn btn__grid-row-action-button" type="button" id="actions-dropdown-{{$variation['uuid']}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                <div class="dropdown-menu bx-core-popup-menu" aria-labelledby="actions-dropdown-{{$variation['uuid']}}">
+                                    <div class="bx-core-popup-menu__arrow"></div>
+                                    <button onclick="@this.setCurrentVariation('{{$variation['uuid']}}').then(() => {$('#current-variation').modal('show')})" type="button" data-target="#current-variation" class="bx-core-popup-menu-item bx-core-popup-menu-item-default">
+                                        <span class="bx-core-popup-menu-item-icon adm-menu-edit"></span>
+                                        <span class="bx-core-popup-menu-item-text">Изменить</span>
                                     </button>
-                                    <button wire:click="copyVariation('{{$variation['uuid']}}')" type="button" class="btn btn-link">Копировать</button>
-                                    <button type="button" class="dropdown-item btn btn-link" onclick="if (confirm('Вы уверены, что хотите удалить вариант товара `{{$variation['id']}}` `{{$variation['name']}}` ?')) {@this.deleteVariation('{{$variation['uuid']}}');}">Удалить</button>
+                                    <button type="button" class="bx-core-popup-menu-item" wire:click="toggleVariationActive('{{$variation['uuid']}}')">
+                                        <span class="bx-core-popup-menu-item-icon"></span>
+                                        <span class="bx-core-popup-menu-item-text">
+                                            @if($variation['is_active'])
+                                                Деактивировать
+                                            @else
+                                                Активировать
+                                            @endif
+                                        </span>
+                                    </button>
+                                    <button wire:click="copyVariation('{{$variation['uuid']}}')" type="button" class="bx-core-popup-menu-item">
+                                        <span class="bx-core-popup-menu-item-icon"></span>  
+                                        <span class="bx-core-popup-menu-item-text">Копировать</span>
+                                    </button>
+                                    <button type="button" class="bx-core-popup-menu-item" onclick="if (confirm('Вы уверены, что хотите удалить вариант товара `{{$variation['id']}}` `{{$variation['name']}}` ?')) {@this.deleteVariation('{{$variation['uuid']}}');}">
+                                        <span class="bx-core-popup-menu-item-icon adm-menu-delete"></span>
+                                        <span class="bx-core-popup-menu-item-text">Удалить</span>
+                                    </button>
                                 </div>
                             </div>
                         @endif
@@ -225,73 +238,74 @@
                         <div class="tab-content" id="variation-modal-tab-content">
 
                             <div wire:ignore.self class="tab-pane p-3 fade show active" id="variation-elements" role="tabpanel" aria-labelledby="variation-elements-tab">
-                                @include('admin.livewire.includes.form-group-checkbox', ['field' => 'currentVariation.is_active', 'label' => 'Активность'])
+                                <div class="item-edit product-edit">
+                                    @include('admin.livewire.includes.form-group-checkbox', ['field' => 'currentVariation.is_active', 'label' => 'Активность'])
 
-                                @include('admin.livewire.includes.form-group-input', ['field' => 'currentVariation.name', 'label' => 'Название'])
+                                    @include('admin.livewire.includes.form-group-input', ['field' => 'currentVariation.name', 'label' => 'Название', 'labelClass' => 'font-weight-bold'])
 
-                                @include('admin.livewire.includes.form-group-input', ['field' => 'currentVariation.ordering', 'label' => 'Сортировка'])
+                                    @include('admin.livewire.includes.form-group-input', ['field' => 'currentVariation.ordering', 'label' => 'Сортировка', 'className' => 'width-15'])
 
-                                @include('admin.livewire.includes.form-group-input', ['field' => 'currentVariation.coefficient', 'label' => 'Коэффициент на единицу расхода и единица расхода'])
+                                    @include('admin.livewire.includes.form-group-input', ['field' => 'currentVariation.coefficient', 'label' => 'Коэффициент на единицу расхода и единица расхода', 'className' => 'width-27'])
 
-                                @include('admin.livewire.includes.form-group-input', ['field' => 'currentVariation.coefficient_description', 'className' => 'width-27', 'label' => 'Описание коэффициента'])
+                                    @include('admin.livewire.includes.form-group-input', ['field' => 'currentVariation.coefficient_description', 'className' => 'width-27', 'label' => 'Описание коэффициента'])
 
-                                @include('admin.livewire.includes.form-group-input', ['field' => 'currentVariation.unit', 'label' => 'Упаковка / Единица'])
+                                    @include('admin.livewire.includes.form-group-input', ['field' => 'currentVariation.unit', 'label' => 'Упаковка / Единица', 'className' => 'width-15'])
 
-                                @include('admin.livewire.includes.form-group-select', ['field' => 'currentVariation.availability_status_id', 'label' => 'Наличие', 'options' => $availabilityStatuses])
+                                    @include('admin.livewire.includes.form-group-select', ['field' => 'currentVariation.availability_status_id', 'label' => 'Наличие', 'options' => $availabilityStatuses, 'className' => 'width-27'])
 
-                                <div class="form-group row">
-                                    <label for="price_purchase" class="col-sm-3 col-form-label">Закупочная цена:</label>
-                                    <div class="col-sm-9">
-                                        <div class="row">
-                                            <div class="col">
-                                                @include('admin.livewire.includes.form-control-input', ['field' => "currentVariation.price_purchase"])
-                                            </div>
-                                            <div class="col">
-                                                @include('admin.livewire.includes.form-group-select', ['field' => 'currentVariation.price_purchase_currency_id', 'label' => 'Валюта', 'options' => $currencies])
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="price_retail" class="col-sm-3 col-form-label">Розничная цена:</label>
-                                    <div class="col-sm-9">
-                                        <div class="row">
-                                            <div class="col">
-                                                @include('admin.livewire.includes.form-control-input', ['field' => "currentVariation.price_retail"])
-                                            </div>
-                                            <div class="col">
-                                                @include('admin.livewire.includes.form-group-select', ['field' => 'currentVariation.price_retail_currency_id', 'label' => 'Валюта', 'options' => $currencies])
+                                    <div class="form-group row">
+                                        <label for="price_purchase" class="col-sm-5 col-form-label font-weight-bold">Закупочная цена:</label>
+                                        <div class="col-sm-7 d-flex align-items-center">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    @include('admin.livewire.includes.form-control-input', ['field' => "currentVariation.price_purchase", 'className' => 'width-27'])
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    @include('admin.livewire.includes.form-group-select', ['field' => 'currentVariation.price_purchase_currency_id', 'label' => 'Валюта', 'options' => $currencies])
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="form-group">
-                                    <label for="currentVariation.preview">Описание для анонса</label>
-                                    <div class="nav nav-tabs" role="tablist">
-                                        <a class="nav-link" id="current-variation-preview-html-tab" data-toggle="tab" href="#current-variation-preview-html" role="tab" aria-controls="current-variation-preview-html" aria-selected="false">HTML</a>
-                                        <a class="nav-link active" id="current-variation-preview-editor-tab" data-toggle="tab" href="#current-variation-preview-editor" role="tab" aria-controls="current-variation-preview-editor" aria-selected="true">Визуальный редактор</a>
-                                    </div>
-                                    <div class="tab-content" id="nav-tabContent">
-                                        <div class="tab-pane fade" id="current-variation-preview-html" role="tabpanel" aria-labelledby="current-variation-preview-html-tab" style="height: 600px">
-                                            @include('admin.livewire.includes.form-control-textarea', ['field' => 'currentVariation.preview', 'class' => 'h-100'])
+                                    <div class="form-group row">
+                                        <label for="price_retail" class="col-sm-5 col-form-label font-weight-bold">Розничная цена:</label>
+                                        <div class="col-sm-7 d-flex align-items-center">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    @include('admin.livewire.includes.form-control-input', ['field' => "currentVariation.price_retail"])
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    @include('admin.livewire.includes.form-group-select', ['field' => 'currentVariation.price_retail_currency_id', 'label' => 'Валюта', 'options' => $currencies])
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="tab-pane fade show active" id="current-variation-preview-editor" role="tabpanel" aria-labelledby="current-variation-preview-editor-tab">
-                                            <textarea id="currentVariation-preview-tinymce"></textarea>
-                                            @error('currentVariation.preview') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="mb-4" for="currentVariation.preview">Описание для анонса</label>
+                                        <div class="nav nav-tabs" role="tablist">
+                                            <a class="nav-link" id="current-variation-preview-html-tab" data-toggle="tab" href="#current-variation-preview-html" role="tab" aria-controls="current-variation-preview-html" aria-selected="false">HTML</a>
+                                            <a class="nav-link active" id="current-variation-preview-editor-tab" data-toggle="tab" href="#current-variation-preview-editor" role="tab" aria-controls="current-variation-preview-editor" aria-selected="true">Визуальный редактор</a>
+                                        </div>
+                                        <div class="tab-content" id="nav-tabContent">
+                                            <div class="tab-pane fade" id="current-variation-preview-html" role="tabpanel" aria-labelledby="current-variation-preview-html-tab" style="height: 600px">
+                                                @include('admin.livewire.includes.form-control-textarea', ['field' => 'currentVariation.preview', 'class' => 'h-100'])
+                                            </div>
+                                            <div class="tab-pane fade show active" id="current-variation-preview-editor" role="tabpanel" aria-labelledby="current-variation-preview-editor-tab">
+                                                <textarea id="currentVariation-preview-tinymce"></textarea>
+                                                @error('currentVariation.preview') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                             <div wire:ignore.self class="tab-pane p-3 fade" id="variation-photos" role="tabpanel" aria-labelledby="variation-photos-tab">
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label">Основное фото:</label>
                                     <div class="col-sm-6">
                                         <div class="add-file">
                                             <div class="row">
-                                                <div class="card text-center col-3">
+                                                <div class="card text-center col-6">
                                                     @if(!empty($currentVariation['main_image']))
                                                         <a href="{{$currentVariation['main_image']['url']}}" target="_blank"><img class="img-thumbnail" src="{{$currentVariation['main_image']['url']}}" alt=""></a>
                                                         <div class="form-group">
@@ -320,7 +334,7 @@
                                         <div class="add-file">
                                             <div class="row">
                                                 @foreach($currentVariation['additional_images'] as $index => $currentVariationAdditionalImage)
-                                                    <div wire:key="instructions-{{$index}}-{{$currentVariationAdditionalImage['url']}}" class="card text-center col-3">
+                                                    <div wire:key="instructions-{{$index}}-{{$currentVariationAdditionalImage['url']}}" class="card text-center">
                                                         <a href="{{$currentVariationAdditionalImage['url']}}" target="_blank"><img class="img-thumbnail" src="{{$currentVariationAdditionalImage['url']}}" alt=""></a>
                                                         <div class="form-group">
                                                             @include('admin.livewire.includes.form-control-input', ['field' => "currentVariation.additional_images.$index.name"])
@@ -346,8 +360,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button onclick="@this.saveCurrentVariation().then(res => {console.log(res); if (res) {$('#current-variation').modal('hide')}})" type="button" class="btn btn-primary">Сохранить</button>
-                        <button wire:click="cancelCurrentVariation" type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
+                        <button onclick="@this.saveCurrentVariation().then(res => {console.log(res); if (res) {$('#current-variation').modal('hide')}})" type="button" class="btn btn-primary mb-2 btn__save mr-2">Сохранить</button>
+                        <button wire:click="cancelCurrentVariation" type="button" class="btn btn-info mb-2 btn__default" data-dismiss="modal">Отменить</button>
                     </div>
                 </div>
             </div>
