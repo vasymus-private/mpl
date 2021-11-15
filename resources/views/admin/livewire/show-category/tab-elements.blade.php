@@ -51,7 +51,7 @@
                 @include('admin.livewire.includes.form-control-textarea', ['field' => 'item.description', 'class' => 'h-100'])
             </div>
             <div class="tab-pane fade show active" id="description-editor" role="tabpanel" aria-labelledby="description-editor-tab">
-                <textarea id="item-description-tinymce"></textarea>
+                <textarea id="item-description-tinymce" rows="10" cols="80"></textarea>
                 @error('item.description') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
         </div>
@@ -61,10 +61,10 @@
 <script>
     document.addEventListener('livewire:load', () => {
         jQuery(() => {
-            if (typeof livewireTinymce === 'function') livewireTinymce()
+            if (typeof livewireCkeditor4 === 'function') livewireCkeditor4()
         })
     })
     document.addEventListener('livewire:update', () => {
-        if (typeof livewireTinymce === 'function') livewireTinymce()
+        if (typeof livewireCkeditor4 === 'function') livewireCkeditor4()
     })
 </script>
