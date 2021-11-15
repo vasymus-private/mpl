@@ -82,7 +82,7 @@
                                         </span>
                                     </button>
                                     <button wire:click="copyVariation('{{$variation['uuid']}}')" type="button" class="bx-core-popup-menu-item">
-                                        <span class="bx-core-popup-menu-item-icon"></span>  
+                                        <span class="bx-core-popup-menu-item-icon"></span>
                                         <span class="bx-core-popup-menu-item-text">Копировать</span>
                                     </button>
                                     <button type="button" class="bx-core-popup-menu-item" onclick="if (confirm('Вы уверены, что хотите удалить вариант товара `{{$variation['id']}}` `{{$variation['name']}}` ?')) {@this.deleteVariation('{{$variation['uuid']}}');}">
@@ -292,7 +292,7 @@
                                                 @include('admin.livewire.includes.form-control-textarea', ['field' => 'currentVariation.preview', 'class' => 'h-100'])
                                             </div>
                                             <div class="tab-pane fade show active" id="current-variation-preview-editor" role="tabpanel" aria-labelledby="current-variation-preview-editor-tab">
-                                                <textarea id="currentVariation-preview-tinymce"></textarea>
+                                                <textarea id="currentVariation-preview-tinymce" rows="10" cols="80"></textarea>
                                                 @error('currentVariation.preview') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                             </div>
                                         </div>
@@ -379,11 +379,11 @@
     <script>
         document.addEventListener('livewire:load', () => {
             jQuery(() => {
-                if (typeof livewireTinymce === 'function') livewireTinymce()
+                if (typeof livewireCkeditor4 === 'function') livewireCkeditor4()
             })
         })
         document.addEventListener('livewire:update', () => {
-            if (typeof livewireTinymce === 'function') livewireTinymce()
+            if (typeof livewireCkeditor4 === 'function') livewireCkeditor4()
         })
     </script>
 @endif
