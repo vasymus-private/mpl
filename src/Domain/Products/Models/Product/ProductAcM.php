@@ -4,6 +4,7 @@ namespace Domain\Products\Models\Product;
 
 use Domain\Common\Models\Currency;
 use Domain\Products\Models\AvailabilityStatus;
+use Illuminate\Support\Facades\Cache;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Support\H;
 
@@ -300,7 +301,7 @@ trait ProductAcM
 
     public function getMainImageUrlAttribute(): string
     {
-        return $this->getFirstMediaUrl(static::MC_MAIN_IMAGE);
+        return Cache::store('array')->rememberForever(sprintf('product_main_image_url-%s', $this->id), fn() => $this->getFirstMediaUrl(static::MC_MAIN_IMAGE));
     }
 
     public function getMainImageXsThumbUrlAttribute(): string

@@ -38,9 +38,9 @@
                 <div class="product-price">
                     <div class="product-price__top row-line row-line__center row-line__jc-center">
                         <span class="product-price__subtitle">{{ $product->price_name }}</span>
-                    </div>  
+                    </div>
                     <div class="product-price__top row-line row-line__center row-line__jc-center">
-                        <div class="column-price">                            
+                        <div class="column-price">
                             <span class="product-price__count-block">{{ $product->price_retail_rub_formatted }}</span>
                         </div>
                         <div class="column-price">
@@ -119,21 +119,25 @@
                 <tr>
                     <td>
                         <div class="product-variants__photo">
-                            <a
-                                href="{{$variation->main_image_url}}"
-                                data-fancybox="variation-image-link-loop-{{$index + 1}}"
-                            >
-                                <img
-                                    src="{{$variation->main_image_sm_thumb_url}}"
-                                    alt="{{$variation->name}}"
-                                    title="{{$variation->name}}">
-                            </a>
+                            @if($variation->main_image_url)
+                                <a
+                                    href="{{$variation->main_image_url}}"
+                                    data-fancybox="variation-image-link-loop-{{$index + 1}}"
+                                >
+                                    <img
+                                        src="{{$variation->main_image_sm_thumb_url}}"
+                                        alt="{{$variation->name}}"
+                                        title="{{$variation->name}}">
+                                </a>
+                            @endif
                             <span class="product-variants__counter">{{$index + 1}}</span>
-                            <a
-                                class="product-variants__zoom"
-                                href="javascript:;"
-                                data-fancybox-trigger="variation-image-link-loop-{{$index + 1}}"
-                            ></a>
+                            @if($variation->main_image_url)
+                                <a
+                                    class="product-variants__zoom"
+                                    href="javascript:;"
+                                    data-fancybox-trigger="variation-image-link-loop-{{$index + 1}}"
+                                ></a>
+                            @endif
                             @foreach($variation->images_urls as $url)
                                 <a
                                     href="{{$url}}"
@@ -236,14 +240,18 @@
                 <div class="over-line">
                     <div class="column">
                         <div class="product-variants__photo">
-                            <a href="{{$variation->main_image_url}}" data-fancybox="variation-image-loop-mobile-{{$loop->index + 1}}">
-                                <img
-                                    src="{{$variation->main_image_sm_thumb_url}}"
-                                    alt="{{$variation->name}}"
-                                    title="{{$variation->name}}" />
-                            </a>
+                            @if($variation->main_image_url)
+                                <a href="{{$variation->main_image_url}}" data-fancybox="variation-image-loop-mobile-{{$loop->index + 1}}">
+                                    <img
+                                        src="{{$variation->main_image_sm_thumb_url}}"
+                                        alt="{{$variation->name}}"
+                                        title="{{$variation->name}}" />
+                                </a>
+                            @endif
                             <span class="product-variants__counter">{{$loop->index + 1}}</span>
-                            <a href="javascript:;" data-fancybox-trigger="variation-image-loop-mobile-{{$loop->index + 1}}" class="product-variants__zoom"></a>
+                            @if($variation->main_image_url)
+                                <a href="javascript:;" data-fancybox-trigger="variation-image-loop-mobile-{{$loop->index + 1}}" class="product-variants__zoom"></a>
+                            @endif
                         </div>
                     </div>
                     <div class="column">
@@ -344,7 +352,11 @@
             <div class="tab-panes" id="product-descr-chars-tab-panes-mobile">
                 <div class="tab-pane active" id="product-descr-tab-pane-mobile" role="tabpanel" aria-labelledby="product-descr-tab">
                     <h3>{!! $product->name !!}</h3>
-                    {!! $product->description !!}
+                    @if($product->description)
+                        {!! $product->description !!}
+                    @else
+                        {!! $product->preview !!}
+                    @endif
                 </div>
                 <div class="tab-pane" id="product-chars-tab-pane-mobile" role="tabpanel" aria-labelledby="product-chars-tab">
                     <h3>характеристики: {!! $product->name !!}</h3>
@@ -353,7 +365,6 @@
             </div>
         </div>
 
-
         <div class="desktop-characteristics">
             <ul class="nav nav-tabs tab-list">
                 <li class="active"><a href="#tab1">Описание</a></li>
@@ -361,7 +372,11 @@
             </ul>
             <div class="characteristics__content" id="tab1">
                 <h3>{!! $product->name !!}</h3>
-                {!! $product->description !!}
+                @if($product->description)
+                    {!! $product->description !!}
+                @else
+                    {!! $product->preview !!}
+                @endif
             </div>
 
             <x-product-accessories :product="$product"></x-product-accessories>
@@ -371,7 +386,6 @@
                 <x-product-chars-props :product="$product"></x-product-chars-props>
             </div>
         </div>
-
 
         <div class="block-green">
             <p>{!! $product->name !!} в магазине, Вы можете купить {!! $product->name !!}, узнайте подробные технические характеристики и цену на {!! $product->name !!}, фотографии и отзывы посетителей помог1ут Вам определиться с покупкой, {!! $product->name !!} - закажите с доставкой на дом.</p>
