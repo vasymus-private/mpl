@@ -428,9 +428,9 @@
                             <?php /** @var \Domain\Products\Models\Product\Product $item */ ?>
                             <div class="swiper-slide">
                                 <div class="slider-blocker__item">
-                                    <h3 class="slider-blocker__title"><a class="slider-blocker__link" href="#">{!! $item->name !!}</a></h3>
+                                    <h3 class="slider-blocker__title"><a class="slider-blocker__link" href="{{$item->web_route}}">{!! $item->name !!}</a></h3>
                                     <div class="slider-blocker__photo">
-                                        <a href="#"><img src="{{$item->main_image_url}}" alt=""></a>
+                                        <a href="{{$item->web_route}}"><img src="{{$item->main_image_url}}" alt=""></a>
                                     </div>
                                     <div class="slider-blocker__text-center">
                                         <span class="slider-blocker__cost">{{$item->price_retail_rub_formatted}}</span>
