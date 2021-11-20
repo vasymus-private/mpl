@@ -1,6 +1,7 @@
 <?php
 /** @var \Domain\Products\Models\Product\Product $product */
 ?>
+@if(count($product->accessory))
 <div {{ $attributes->merge(["class" => "accessories-block"]) }}>
     <h4 class="accessories-block__title-orange">{{$product->accessory_name}} <img src="{{asset('images/arr-orange-down.gif')}}" alt=""></h4>
     <div class="row-line">
@@ -22,3 +23,4 @@
         @endforeach
     </div>
 </div>
+@endif
