@@ -337,17 +337,19 @@
                         aria-selected="true"
                     >Описание</a>
                 </li>
-                <li role="presentation">
-                    <a
-                        href="#product-chars-tab-pane-mobile"
-                        id="product-chars-tab"
-                        class=""
-                        data-toggle="tab"
-                        role="tab"
-                        aria-controls="product-chars-tab-pane-mobile"
-                        aria-selected="false"
-                    >Характеристики</a>
-                </li>
+                @if(!$product->characteristicsIsEmpty())
+                    <li role="presentation">
+                        <a
+                            href="#product-chars-tab-pane-mobile"
+                            id="product-chars-tab"
+                            class=""
+                            data-toggle="tab"
+                            role="tab"
+                            aria-controls="product-chars-tab-pane-mobile"
+                            aria-selected="false"
+                        >Характеристики</a>
+                    </li>
+                @endif
             </ul>
             <div class="tab-panes" id="product-descr-chars-tab-panes-mobile">
                 <div class="tab-pane active" id="product-descr-tab-pane-mobile" role="tabpanel" aria-labelledby="product-descr-tab">
@@ -358,17 +360,21 @@
                         {!! $product->preview !!}
                     @endif
                 </div>
-                <div class="tab-pane" id="product-chars-tab-pane-mobile" role="tabpanel" aria-labelledby="product-chars-tab">
-                    <h3>характеристики: {!! $product->name !!}</h3>
-                    <x-product-chars-props :product="$product"></x-product-chars-props>
-                </div>
+                @if(!$product->characteristicsIsEmpty())
+                    <div class="tab-pane" id="product-chars-tab-pane-mobile" role="tabpanel" aria-labelledby="product-chars-tab">
+                        <h3>характеристики: {!! $product->name !!}</h3>
+                        <x-product-chars-props :product="$product"></x-product-chars-props>
+                    </div>
+                @endif
             </div>
         </div>
 
         <div class="desktop-characteristics">
             <ul class="nav nav-tabs tab-list">
                 <li class="active"><a href="#tab1">Описание</a></li>
-                <li><a href="#tab2">Характеристики</a></li>
+                @if(!$product->characteristicsIsEmpty())
+                    <li><a href="#tab2">Характеристики</a></li>
+                @endif
             </ul>
             <div class="characteristics__content" id="tab1">
                 <h3>{!! $product->name !!}</h3>
@@ -381,10 +387,12 @@
 
             <x-product-accessories :product="$product"></x-product-accessories>
 
-            <div class="characteristics__content" id="tab2">
-                <h3>характеристики: {!! $product->name !!}</h3>
-                <x-product-chars-props :product="$product"></x-product-chars-props>
-            </div>
+            @if(!$product->characteristicsIsEmpty())
+                <div class="characteristics__content" id="tab2">
+                    <h3>характеристики: {!! $product->name !!}</h3>
+                    <x-product-chars-props :product="$product"></x-product-chars-props>
+                </div>
+            @endif
         </div>
 
         <div class="block-green">
