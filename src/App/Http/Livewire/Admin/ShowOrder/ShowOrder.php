@@ -6,6 +6,10 @@ use App\Constants;
 use App\Http\Livewire\Admin\BaseShowComponent;
 use App\Http\Livewire\Admin\HasOrderStatuses;
 use App\Http\Livewire\Admin\HasTabs;
+use Domain\Orders\Actions\DeleteOrderAction;
+use Domain\Orders\Actions\HandleCancelOrderAction;
+use Domain\Orders\Actions\HandleNotCancelOrderAction;
+use Domain\Orders\Actions\OMS\HandleChangeOrderStatusAction;
 use Domain\Orders\Models\Order;
 use Domain\Orders\Models\OrderStatus;
 use Illuminate\Support\Facades\Route;
@@ -92,36 +96,39 @@ class ShowOrder extends BaseShowComponent
 
     public function handleSave()
     {
+        $this->validate();
 
+        $this->item->forceFill([
+
+        ]);
+        /** @var \Domain\Orders\Actions\OMS\HandleChangeOrderStatusAction $handleChangeOrderStatusAction */
+        $handleChangeOrderStatusAction = resolve(HandleChangeOrderStatusAction::class);
+        $handleChangeOrderStatusAction->execute($this->item, $this->item->order_status_id);
     }
 
     public function handleDeleteOrder()
     {
-
+        /** @var \Domain\Orders\Actions\DeleteOrderAction $deleteOrder */
+        $deleteOrder = resolve(DeleteOrderAction::class);
+        $deleteOrder->execute($this->item);
+        return redirect()->route(Constants::ROUTE_ADMIN_ORDERS_INDEX);
     }
 
     public function handleCancelOrder()
     {
         if ($this->isCreating) {
             $this->skipRender();
-            return;
+            return false;
         }
-        /** @var \Domain\Orders\Models\Order $order */
-        $order = Order::query()->findOrFail($this->item->id);
 
-        $cancelledDate = now();
+        /** @var \Domain\Orders\Actions\HandleCancelOrderAction $handleCancelOrderAction */
+        $handleCancelOrderAction = resolve(HandleCancelOrderAction::class);
+        $order = $handleCancelOrderAction->execute($this->item->id, $this->cancelMessage);
 
-        $this->item->cancelled = true;
-        $this->item->cancelled_description = $this->cancelMessage;
-        $this->item->cancelled_date = $cancelledDate;
-        $this->item->updated_at = $cancelledDate;
-
-        $order->cancelled = true;
-        $order->cancelled_description = $this->cancelMessage;
-        $order->cancelled_date = $cancelledDate;
-        $order->updated_at = $cancelledDate;
-
-        $order->save();
+        $this->item->cancelled = $order->cancelled;
+        $this->item->cancelled_description = $order->cancelled_description;
+        $this->item->cancelled_date = $order->cancelled_date;
+        $this->item->updated_at = $order->updated_at;
 
         return true;
     }
@@ -130,24 +137,19 @@ class ShowOrder extends BaseShowComponent
     {
         if ($this->isCreating) {
             $this->skipRender();
-            return;
+            return false;
         }
-        /** @var \Domain\Orders\Models\Order $order */
-        $order = Order::query()->findOrFail($this->item->id);
 
-        $now = now();
+        /** @var \Domain\Orders\Actions\HandleNotCancelOrderAction $handleNotCancelOrderAction */
+        $handleNotCancelOrderAction = resolve(HandleNotCancelOrderAction::class);
+        $order = $handleNotCancelOrderAction->execute($this->item->id);
 
-        $this->item->cancelled = false;
-        $this->item->cancelled_description = '';
-        $this->item->cancelled_date = null;
-        $this->item->updated_at = $now;
+        $this->item->cancelled = $order->cancelled;
+        $this->item->cancelled_description = $order->cancelled_description;
+        $this->item->cancelled_date = $order->cancelled_date;
+        $this->item->updated_at = $order->updated_at;
 
-        $order->cancelled = false;
-        $order->cancelled_description = '';
-        $order->cancelled_date = null;
-        $order->updated_at = $now;
-
-        $order->save();
+        return true;
     }
 
     public function isEditMode(): bool
