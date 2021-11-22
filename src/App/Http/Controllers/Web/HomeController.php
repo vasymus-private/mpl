@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\AuthServiceProvider;
 use Domain\Orders\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Support\H;
 

@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin\ShowOrder;
 use App\Constants;
 use App\Http\Livewire\Admin\BaseShowComponent;
 use App\Http\Livewire\Admin\HasOrderStatuses;
+use App\Http\Livewire\Admin\HasPaymentMethods;
 use App\Http\Livewire\Admin\HasTabs;
 use Domain\Orders\Actions\DeleteOrderAction;
 use Domain\Orders\Actions\HandleCancelOrderAction;
@@ -12,12 +13,14 @@ use Domain\Orders\Actions\HandleNotCancelOrderAction;
 use Domain\Orders\Actions\OMS\HandleChangeOrderStatusAction;
 use Domain\Orders\Models\Order;
 use Domain\Orders\Models\OrderStatus;
+use Domain\Orders\Models\PaymentMethod;
 use Illuminate\Support\Facades\Route;
 
 class ShowOrder extends BaseShowComponent
 {
     use HasTabs;
     use HasOrderStatuses;
+    use HasPaymentMethods;
 
     protected const DEFAULT_TAB = 'order';
 
@@ -73,6 +76,8 @@ class ShowOrder extends BaseShowComponent
     {
         return [
             'item.order_status_id' => 'required|exists:' . OrderStatus::class . ',id',
+            'item.payment_method_id' => 'required|exists:' . PaymentMethod::class . ',id',
+            'item.comment_user' => 'nullable|max:65000',
         ];
     }
 
@@ -81,6 +86,7 @@ class ShowOrder extends BaseShowComponent
         $this->isCreating = Route::currentRouteName() === Constants::ROUTE_ADMIN_ORDERS_CREATE;
 
         $this->initOrderStatusesOptions();
+        $this->initPaymentMethodsOptions();
 
         $this->initHasTabs();
 
@@ -99,8 +105,11 @@ class ShowOrder extends BaseShowComponent
         $this->validate();
 
         $this->item->forceFill([
-            // todo
+
         ]);
+        $this->item->request['email'] = $this->email;
+        $this->item->request['name'] = $this->name;
+        $this->item->request['phone'] = $this->phone;
         /** @var \Domain\Orders\Actions\OMS\HandleChangeOrderStatusAction $handleChangeOrderStatusAction */
         $handleChangeOrderStatusAction = resolve(HandleChangeOrderStatusAction::class);
         $handleChangeOrderStatusAction->execute($this->item, $this->item->order_status_id);

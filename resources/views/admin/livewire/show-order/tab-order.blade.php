@@ -7,6 +7,7 @@
  * @var string $email @see {@link \App\Http\Livewire\Admin\ShowOrder\ShowOrder::$email}
  * @var string $name @see {@link \App\Http\Livewire\Admin\ShowOrder\ShowOrder::$name}
  * @var string $phone @see {@link \App\Http\Livewire\Admin\ShowOrder\ShowOrder::$phone}
+ * @var array[] $paymentMethods @see {@link \App\Http\Livewire\Admin\ShowOrder\ShowOrder::$paymentMethods}
  */
 ?>
 <div class="item-edit order-edit">
@@ -104,6 +105,37 @@
             <label class="col-sm-5 col-form-label">Телефон:</label>
             <div class="col-sm-7 d-flex align-items-center">
                 {{$phone}}
+            </div>
+        </div>
+    @endif
+
+    @if($isCreating || $this->isEditMode())
+        @include('admin.livewire.includes.form-group-select', [
+            'field' => 'item.payment_method_id',
+            'className' => 'width-45',
+            'label' => 'Способ оплаты',
+            'options' => $paymentMethods,
+        ])
+    @else
+        <div class="form-group row">
+            <label class="col-sm-5 col-form-label">Способ оплаты:</label>
+            <div class="col-sm-7 d-flex align-items-center">
+                {{$item->payment->name ?? ''}}
+            </div>
+        </div>
+    @endif
+
+    @if($isCreating || $this->isEditMode())
+        @include('admin.livewire.includes.form-group-textarea', [
+            'field' => 'item.comment_user',
+            'label' => 'Комментарий пользователя',
+
+        ])
+    @else
+        <div class="form-group row">
+            <label class="col-sm-5 col-form-label">Комментарий пользователя:</label>
+            <div class="col-sm-7 d-flex align-items-center">
+                {{$item->comment_user}}
             </div>
         </div>
     @endif
