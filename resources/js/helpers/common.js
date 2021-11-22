@@ -36,3 +36,29 @@ export const guidGenerator = () => {
     };
     return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 }
+
+export const formatErrorMessage = (message, defaultMsg = 'Something went wrong') => {
+    let formatted = _formatErrorMessage(message);
+    if (!formatted) formatted = defaultMsg;
+    return formatted;
+};
+const _formatErrorMessage = message => {
+    switch (true) {
+        case typeof message === 'string' : {
+            return message;
+        }
+        case Array.isArray(message) : {
+            return message.join('\n ');
+        }
+        case ((typeof message === 'object') && !!Object.values(message).length) : {
+            let formatted = '';
+            for (let key in message) {
+                formatted += `${_formatErrorMessage(message[key])} `;
+            }
+            return formatted;
+        }
+        default : {
+            return '';
+        }
+    }
+};

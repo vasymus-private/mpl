@@ -1,7 +1,6 @@
 const acceptH = "Accept"
 const contentTypeH = "Content-Type"
 const xRequestedWithH = "X-Requested-With"
-//const authorizationH = "Authorization"
 const xcsrfTokenH = "X-CSRF-TOKEN"
 
 class Rest {
@@ -57,25 +56,27 @@ class Rest {
                 'Cache' : false,
                 'Accept': '*/*',
                 [xRequestedWithH] : this._xRequestedWith,
-                //[authorizationH] : this.getAuthorizationH()
+                [xcsrfTokenH] : this._xcsrfToken,
             },
             body : data
         })
         return f
     }
 
+    getFilesHeaders = () => ({
+        'Process-Data' : false,
+        'Cache' : false,
+        'Accept': '*/*',
+        [xRequestedWithH] : this._xRequestedWith,
+        [xcsrfTokenH] : this._xcsrfToken,
+    })
+
     getHeaders = () => ({
         [acceptH] : this._accept,
         [contentTypeH] : this._contentType,
         [xRequestedWithH] : this._xRequestedWith,
         [xcsrfTokenH] : this._xcsrfToken,
-        //[authorizationH] : this.getAuthorizationH()
     })
-
-    //getAuthorizationH = () => `Bearer ${this.getToken()}`
-
-    //setToken = (token) => this._token = token
-    //getToken = () => this._token
 
     middleThen = response => {
         if (response.status >= 400) throw new Error(response.statusText)

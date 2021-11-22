@@ -20,6 +20,7 @@
                         type="button"
                         data-id="{{$paymentMethod->id}}"
                         data-order-id="{{$order->id}}"
+                        data-describable="{{$paymentMethod->describable ? 1 : 0}}"
                         data-toggle="collapse"
                         data-target="#js-method-{{$paymentMethod->id}}"
                         aria-expanded="false"
@@ -39,26 +40,27 @@
                             </div>
                             @if($paymentMethod->describable)
                                 <div class="form-group__item">
-                                    <label>Вы можете указать реквизиты юридического лица:</label>
-                                    <textarea class="form-control js-payment-method-description" name="payment_method_description" id="" cols="30" rows="10" placeholder="Реквизиты"></textarea>
+                                    <label for="payment_method_description">Вы можете указать реквизиты юридического лица:</label>
+                                    <textarea class="form-control js-payment-method-description" name="payment_method_description" id="payment_method_description" cols="30" rows="10" placeholder="Реквизиты"></textarea>
                                 </div>
                                 <div class="form-group__item">
                                     <label>Приложить файл</label>
                                     <div class="block-file">
                                         <div class="bg_img">
-                                            <input class="form-control-file js-payment-method-attachment" type="file" name="attachment" multiple />
+                                            <input class="form-control-file js-payment-method-attachment" name="payment-method-attachment[]" type="file" multiple />
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group__item">
-                                    <input type="submit" class="btn-submit" value="Отправить">
+                                    <button type="button" class="js-describable-submit btn-submit" data-id="{{$paymentMethod->id}}" data-order-id="{{$order->id}}">Отправить</button>
                                 </div>
                             @endif
                         </div>
                     </div>
                 </div>
             @endforeach
-        </ul>
+        </div>
+        <div class="js-choose-payment-method-error"></div>
         <p>Вы можете ознакомиться со своими заказами в <a href="{{route("profile")}}">личном кабинете</a>.</p>
     </div>
 @endsection
