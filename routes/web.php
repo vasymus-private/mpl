@@ -1,5 +1,6 @@
 <?php
 
+use App\Constants;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +21,7 @@ Route::get('---test-email-order-markup', [\App\Http\Controllers\TestController::
 Route::get("---test-email-password-reset", [\App\Http\Controllers\TestController::class, "testResetPasswordMarkup"])->middleware('auth');
 
 
-Route::middleware([\App\Constants::MIDDLEWARE_AUTHENTICATE_ALL])->group(function() {
+Route::middleware([Constants::MIDDLEWARE_AUTHENTICATE_ALL])->group(function() {
 
     /** @see \Laravel\Ui\AuthRouteMethods::auth() */
     Route
