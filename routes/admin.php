@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\ProductsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get("home", [HomeController::class, "index"])->name(Constants::ROUTE_ADMIN_HOME);
+Route::get("media/{id}", [HomeController::class, "media"])->name(Constants::ROUTE_ADMIN_MEDIA);
 
 Route
     ::get(
