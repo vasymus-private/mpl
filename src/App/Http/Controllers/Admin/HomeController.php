@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class HomeController extends BaseAdminController
 {
@@ -12,5 +11,13 @@ class HomeController extends BaseAdminController
     {
 //        dump($request->user());
         return view("admin.pages.home.home");
+    }
+
+    public function media(Request $request)
+    {
+        /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
+        $media = Media::query()->findOrFail($request->id);
+
+        return $media->toResponse($request);
     }
 }

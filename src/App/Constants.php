@@ -24,6 +24,7 @@ final class Constants
     public const MIME_ZIP = 'application/zip';
 
     public const ROUTE_ADMIN_HOME = 'admin.home';
+    public const ROUTE_ADMIN_MEDIA = 'admin.media';
 
     public const ROUTE_ADMIN_PRODUCTS_INDEX = 'admin.products.index';
     public const ROUTE_ADMIN_PRODUCTS_CREATE = 'admin.products.create';
