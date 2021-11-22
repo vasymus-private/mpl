@@ -313,6 +313,42 @@
         </div>
     @endif
 
+    <div class="h5 text-center bg-info py-2">
+        Заказ
+    </div>
+
+    <div class="search form-group row justify-content-end">
+        <div class="col-xs-12 col-sm-2">
+            <div class="dropdown">
+                <a href="#" class="btn btn-add btn-secondary">Добавить товар</a>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Изображение</th>
+                <th scope="col">Название</th>
+                <th scope="col">Количество</th>
+                <th scope="col">Цена</th>
+                <th scope="col">Сумма</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php /** @var \Domain\Products\Models\Product\Product $product */ ?>
+        @foreach($item->products as $product)
+            <tr>
+                <td><div class="text-center"><img class="img-fluid" src="{{$product['main_image_md_thumb_url']}}" alt="" /></div></td>
+                <td><span class="main-grid-cell-content">{{$product['name']}}</span></td>
+                <td><span class="main-grid-cell-content">{{$product['order_product_count']}}</span></td>
+                <td><span class="main-grid-cell-content">{{$product['price_purchase_rub_formatted']}}</span></td>
+                <td><span class="main-grid-cell-content">{{$product['order_product_count'] * $product['price_purchase_rub']}} р</span></td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
+
 </div>
 
 <!-- Modals -->

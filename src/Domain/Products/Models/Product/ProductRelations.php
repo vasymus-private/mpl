@@ -10,7 +10,6 @@ use Domain\Products\Models\Brand;
 use Domain\Products\Models\Pivots\CategoryProduct;
 use Domain\Products\Models\Pivots\ProductProduct;
 use Domain\Seo\Models\Seo;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
