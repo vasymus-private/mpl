@@ -28,3 +28,9 @@ mix.copyDirectory('resources/fonts', 'public/fonts')
 mix.options({
     processCssUrls : false,
 });
+
+// mix.webpackConfig({
+//     stats: {
+//         children: true,
+//     }
+// });
