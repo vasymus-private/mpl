@@ -36,7 +36,11 @@ trait HasSeoTab
         if ($this->isCreatingFromCopy) {
             $originProduct = $this->getOriginProduct();
             if ($originProduct !== null) {
-                $seo = $originProduct->seo ?: new Seo();
+                $seo = new Seo();
+                $seo->title = $originProduct->seo->title ?? null;
+                $seo->h1 = $originProduct->seo->h1 ?? null;
+                $seo->keywords = $originProduct->seo->keywords ?? null;
+                $seo->description = $originProduct->seo->description ?? null;
                 $seo->seoable_id = null;
                 $seo->seoable_type = null;
                 $this->seo = $seo;
