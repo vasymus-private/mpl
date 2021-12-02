@@ -200,6 +200,14 @@ trait HasElementsTab
 
     protected function saveInfoPrices()
     {
+        $infoPricesIds = collect($this->infoPrices)->pluck('id')->filter(fn($id) => !!$id)->toArray();
+        if (!empty($infoPricesIds)) {
+            $this->item
+                ->infoPrices()
+                ->whereNotIn('id', $infoPricesIds)
+                ->delete();
+        }
+
         foreach ($this->infoPrices as $infoPrice) {
             /** @var \Domain\Products\Models\InformationalPrice $infoPriceModel */
             $infoPriceModel = InformationalPrice::query()->findOrNew($infoPrice['id']);

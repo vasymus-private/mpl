@@ -8942,6 +8942,11 @@ __webpack_require__.r(__webpack_exports__);
     var $productItems = (0,_helpers_products__WEBPACK_IMPORTED_MODULE_0__.getProductsHoverOnPopover)();
     $productItems.each(function (ind, el) {
       var $productItem = $(el);
+
+      if (!$productItem.is(':visible')) {
+        return;
+      }
+
       $productItem.popover({
         container: "body",
         html: true,
