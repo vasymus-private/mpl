@@ -67,7 +67,22 @@ class ProductsController extends BaseWebController
 
         $entity = $subcategory3 ?? $subcategory2 ?? $subcategory1 ?? $category ?? null;
 
-        return view("web.pages.products.products", compact("productIds", "products", "breadcrumbs", "entity"));
+        $seoArr = null;
+        foreach ([$subcategory3, $subcategory2, $subcategory1, $category] as $item) {
+            if (!empty($seoArr)) {
+                break;
+            }
+            if ($item->seo ?? null) {
+                $seoArr = [
+                    'title' => $item->seo->title ?? null,
+                    'keywords' => $item->seo->keywords ?? null,
+                    'description' => $item->seo->description ?? null,
+                ];
+            }
+        }
+
+
+        return view("web.pages.products.products", compact("productIds", "products", "breadcrumbs", "entity", "seoArr"));
     }
 
     public function show(Request $request)
