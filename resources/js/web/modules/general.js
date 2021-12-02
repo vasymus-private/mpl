@@ -65,6 +65,9 @@ import {guidGenerator, hideOnClickOutside} from "../../helpers/common";
 
         $productItems.each((ind, el) => {
             let $productItem = $(el)
+            if (!$productItem.is(':visible')) {
+                return;
+            }
             $productItem.popover({
                 container : "body",
                 html : true,

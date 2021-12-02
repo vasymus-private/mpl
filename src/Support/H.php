@@ -8,6 +8,7 @@ use Domain\Users\Models\Admin;
 use Domain\Users\Models\BaseUser\BaseUser;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use LogicException;
 use Support\CBRcurrencyConverter\CBRcurrencyConverter;
 use Illuminate\Support\HtmlString;
 
@@ -45,7 +46,7 @@ class H
             return $admin;
         }
 
-        throw new \LogicException("Has to be at least anonymous user.");
+        throw new LogicException("Has to be at least anonymous user.");
     }
 
     public static function admin(): ?Admin

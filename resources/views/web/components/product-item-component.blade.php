@@ -23,6 +23,8 @@
                 </a>
             </div>
         </div>
+
+        @if(\Support\H::userOrAdmin()->is_admin)
         <div class="column-price-block js-product-item-popover" data-content="<p>Закупочная: {{$product->price_purchase_rub_formatted}}</p><p>Маржа: {{$product->margin_rub_formatted}}</p><p>Наценка: {{$product->price_markup}} %</p><p>Заработок: {{$product->price_income}} %</p><p>{{$product->admin_comment}}</p> <p><a href='{{route(\App\Constants::ROUTE_ADMIN_PRODUCTS_EDIT, $product->id)}}' target='_blank'>Редактировать</a></p>">
             <span class="catalog__price-title">{{$product->price_name}}:</span>
             <span class="catalog__price">{{$product->price_retail_rub_formatted}} <span class="gray-color"> / {{$product->unit}}</span></span>
@@ -46,6 +48,7 @@
                 </div>
             @endforeach
         </div>
+        @endif
         <div class="column-price-mobile">
             <div class="column">
                 <span class="catalog__price">{{$product->price_retail}} {{\Domain\Common\Models\Currency::getFormattedName($product->price_retail_currency_id)}}<span class="gray-color"> / {{$product->unit}}</span></span>
