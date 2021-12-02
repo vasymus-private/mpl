@@ -219,7 +219,8 @@
                         @endif
                     </td>
                 </tr>
-                <tr>
+                    @if(\Support\H::userOrAdmin()->is_admin)
+                <tr class="alert fade show">
                     <td colspan="7">
                         <div class="manager-area-price">
                             <p>
@@ -228,9 +229,11 @@
                                 Наценка: {{$variation->price_markup}} %,
                                 Заработок: {{$variation->price_income}} %
                             </p>
+                            <button type="button" data-dismiss="alert" aria-label="Close">X</button>
                         </div>
                     </td>
                 </tr>
+                    @endif
                 @endforeach
                 </tbody>
             </table>
