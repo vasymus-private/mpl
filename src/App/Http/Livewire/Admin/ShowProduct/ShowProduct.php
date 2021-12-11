@@ -151,6 +151,11 @@ class ShowProduct extends BaseShowProduct
         return redirect()->route(Constants::ROUTE_ADMIN_PRODUCTS_INDEX, compact('category_id'));
     }
 
+    public function updatedItemCategoryId($value)
+    {
+        $this->pushToRelatedCategory((string)$value);
+    }
+
     protected function saveProduct()
     {
         $elementsTabAttributes = $this->getElementsTabAttributes();
