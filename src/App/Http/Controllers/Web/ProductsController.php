@@ -21,7 +21,6 @@ class ProductsController extends BaseWebController
             ::query()
             ->notVariations()
             ->active()
-            ->with("infoPrices")
             ->orderBy(sprintf('%s.ordering', Product::TABLE))
             ->orderBy(sprintf('%s.id', Product::TABLE));
 
@@ -54,6 +53,8 @@ class ProductsController extends BaseWebController
 
         $query->with([
             "category.parentCategory.parentCategory.parentCategory",
+            "infoPrices",
+            'media'
         ]);
 
         /** @var LengthAwarePaginator $products */
