@@ -35,7 +35,8 @@ class ProductsController extends BaseWebController
 
         $query = $filtrateByCategoriesAction->execute($query, new FiltrateByCategoriesParamsDTO(compact("category", "subcategory1", "subcategory2", "subcategory3")));
 
-        if (!empty($request->input("brands", []))) {
+        $brands = $request->input("brands", []);
+        if (!empty($brands) && !empty($brands[0])) {
             $query->whereIn(Product::TABLE . ".brand_id", $request->input("brands"));
         }
 
