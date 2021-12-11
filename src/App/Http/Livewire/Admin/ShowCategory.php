@@ -58,11 +58,11 @@ class ShowCategory extends BaseShowComponent
         return array_merge(
             $this->getSeoRules(),
             [
-                'item.name' => 'required|string|max:199',
+                'item.name' => 'required|string|max:250',
                 'item.slug' => [
                     'required',
                     'string',
-                    'max:199',
+                    'max:250',
                     (new Unique(Category::TABLE, 'slug'))
                         ->when(!!$this->item->id, function(Unique $unique) {
                             return $unique->ignore($this->item->id);
