@@ -161,8 +161,12 @@ class ProductsList extends BaseItemsListComponent
      */
     protected function getItemsQuery(): Builder
     {
-        $query = Product::query()->select(["*"])->notVariations();
         $table = Product::TABLE;
+        $query = Product::query()
+            ->select(["*"])
+            ->notVariations()
+            ->orderBy(sprintf('%s.ordering', $table))
+            ->orderBy(sprintf('%s.id', $table));
 
         if ($this->category_id) {
             $category = Category::query()->findOrFail($this->category_id);
