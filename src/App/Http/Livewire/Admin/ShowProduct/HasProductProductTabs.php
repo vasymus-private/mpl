@@ -86,11 +86,11 @@ trait HasProductProductTabs
     protected function getProductProductTabsRules(): array
     {
         return [
-            'item.accessory_name' => 'required|max:199',
-            'item.similar_name' => 'required|max:199',
-            'item.related_name' => 'required|max:199',
-            'item.work_name' => 'required|max:199',
-            'item.instruments_name' => 'required|max:199',
+            'item.accessory_name' => 'required|max:250',
+            'item.similar_name' => 'required|max:250',
+            'item.related_name' => 'required|max:250',
+            'item.work_name' => 'required|max:250',
+            'item.instruments_name' => 'required|max:250',
 
             'productProducts.*.*.toDelete' => 'nullable|boolean',
             'loadedForProductProduct.*.*.isSelected' => 'nullable|boolean',

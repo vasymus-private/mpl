@@ -6,15 +6,15 @@
             </span>
             Производители:
         </div>
-        <form action="#" id="filter-form" class="filter-form">
+        <form action="{{url()->current()}}" id="filter-form" class="filter-form">
 
             @foreach($brands as $brand)
                 <?php /** @var \Domain\Products\Models\Brand $brand*/ ?>
                 <div class="filter-form__item">
-                    <input id="acm" class="filter-form__checkbox" name="brands[]" value="{{$brand->id}}" type="checkbox"/>
-                    <label for="acm" class="filter-form__label">
+                    <input id="acm-brand-{{$brand->id}}" class="filter-form__checkbox" name="brands[]" value="{{$brand->id}}" type="checkbox"/>
+                    <label for="acm-brand-{{$brand->id}}" class="filter-form__label">
                         <div class="filter-form__article">
-                            <a href="#" class="filter-form__link">{{$brand->name}}</a>
+                            <a href="{{route("brands.show", $brand->slug)}}" target="_blank" class="filter-form__link">{{$brand->name}}</a>
                             <span class="filter-product-count">{{$brand->products_count}}</span>
                         </div>
                     </label>
@@ -22,8 +22,8 @@
             @endforeach
 
             <div class="filter-form__item">
-                <input type="submit" class="filter-form__submit" value="Выбрать">
-                <input type="button" class="filter-form__reset" value="Сбросить">
+                <button type="submit" class="filter-form__submit">Выбрать</button>
+                <button type="submit" class="filter-form__reset" name="brands[]">Сбросить</button>
             </div>
         </form>
     </div>

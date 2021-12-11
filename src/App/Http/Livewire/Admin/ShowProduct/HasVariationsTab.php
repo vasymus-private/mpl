@@ -74,16 +74,16 @@ trait HasVariationsTab
     protected function variationsRules(): array
     {
         return [
-            'variations.*.name' => 'required|string|max:199',
+            'variations.*.name' => 'required|string|max:250',
             'variations.*.is_active' => 'nullable|boolean',
             'variations.*.ordering' => 'integer|nullable',
             'variations.*.coefficient' => 'nullable|numeric',
-            'variations.*.coefficient_description' => 'nullable|string|max:199',
+            'variations.*.coefficient_description' => 'nullable|string|max:250',
             'variations.*.price_purchase' => 'nullable|numeric',
             'variations.*.price_purchase_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
             'variations.*.price_retail' => 'nullable|numeric',
             'variations.*.price_retail_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
-            'variations.*.unit' => 'nullable|string|max:199',
+            'variations.*.unit' => 'nullable|string|max:250',
             'variations.*.availability_status_id' => 'required|integer|exists:' . AvailabilityStatus::class . ",id",
         ];
     }
@@ -94,14 +94,14 @@ trait HasVariationsTab
     protected function currentVariationRules(): array
     {
         return [
-            'currentVariation.name' => 'required|string|max:199',
+            'currentVariation.name' => 'required|string|max:250',
             'currentVariation.ordering' => 'integer|nullable',
             'currentVariation.is_active' => 'nullable|boolean',
             'currentVariation.coefficient' => 'nullable|numeric',
-            'currentVariation.coefficient_description' => 'nullable|string|max:199',
+            'currentVariation.coefficient_description' => 'nullable|string|max:250',
             'currentVariation.price_purchase' => 'nullable|numeric',
             'currentVariation.price_purchase_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
-            'currentVariation.unit' => 'nullable|max:199',
+            'currentVariation.unit' => 'nullable|max:250',
             'currentVariation.price_retail' => 'nullable|numeric',
             'currentVariation.price_retail_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
             'currentVariation.availability_status_id' => 'required|integer|exists:' . AvailabilityStatus::class . ",id",

@@ -48,6 +48,8 @@ class ProductQueryBuilder extends Builder
      * @param \Domain\Products\Models\Category[] $categories
      *
      * @return self
+     *
+     * todo remove if not needed
      */
     public function forMainCategory(array $categories): self
     {

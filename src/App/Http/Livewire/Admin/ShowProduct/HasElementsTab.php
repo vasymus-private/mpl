@@ -43,12 +43,12 @@ trait HasElementsTab
     protected function getElementsTabRules(): array
     {
         return [
-            'item.name' => 'required|string|max:199',
+            'item.name' => 'required|string|max:250',
             'item.is_active' => 'nullable|boolean',
             'item.slug' => [
                 'required',
                 'string',
-                'max:199',
+                'max:250',
                 (new Unique(Product::TABLE, 'slug'))->when($this->item->id, function (Unique $unique) {
                     return $unique->whereNot('id', $this->item->id);
                 })
@@ -56,26 +56,26 @@ trait HasElementsTab
             'item.ordering' => 'integer|nullable',
             'item.brand_id' => 'integer|nullable|exists:' . Brand::class . ",id",
             'item.coefficient' => 'nullable|numeric',
-            'item.coefficient_description' => 'nullable|string|max:199',
+            'item.coefficient_description' => 'nullable|string|max:250',
             'item.coefficient_variation_description' => [
                 $this->isAnyVariationHasCoefficient() ? 'required' : 'nullable',
                 'string',
-                'max:199',
+                'max:250',
             ],
             'item.coefficient_description_show' => 'nullable|boolean',
-            'item.price_name' => 'nullable|string|max:199',
-            'item.admin_comment' => 'nullable|string|max:199',
+            'item.price_name' => 'nullable|string|max:250',
+            'item.admin_comment' => 'nullable|string|max:250',
             'item.price_purchase' => 'required|numeric',
             'item.price_purchase_currency_id' => 'required|int|exists:' . Currency::class . ',id',
             'item.price_retail' => 'required|numeric',
             'item.price_retail_currency_id' => 'required|int|exists:' . Currency::class . ',id',
-            'item.unit' => 'nullable|string|max:199',
+            'item.unit' => 'nullable|string|max:250',
             'item.availability_status_id' => 'required|integer|exists:' . AvailabilityStatus::class . ",id",
 
             'infoPrices.*.price' => 'required|numeric',
-            'infoPrices.*.name' => 'required|string|max:199',
+            'infoPrices.*.name' => 'required|string|max:250',
 
-            'instructions.*.name' => 'nullable|max:199',
+            'instructions.*.name' => 'nullable|max:250',
 
             'tempInstruction' => 'nullable|max:' . (1024 * self::MAX_FILE_SIZE_MB), // 1024 -> 1024 kb = 1 mb
         ];
@@ -201,12 +201,10 @@ trait HasElementsTab
     protected function saveInfoPrices()
     {
         $infoPricesIds = collect($this->infoPrices)->pluck('id')->filter(fn($id) => !!$id)->toArray();
-        if (!empty($infoPricesIds)) {
-            $this->item
-                ->infoPrices()
-                ->whereNotIn('id', $infoPricesIds)
-                ->delete();
-        }
+        $this->item
+            ->infoPrices()
+            ->whereNotIn('id', $infoPricesIds)
+            ->delete();
 
         foreach ($this->infoPrices as $infoPrice) {
             /** @var \Domain\Products\Models\InformationalPrice $infoPriceModel */
