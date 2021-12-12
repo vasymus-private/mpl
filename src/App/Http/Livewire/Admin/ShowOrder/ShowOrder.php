@@ -112,7 +112,7 @@ class ShowOrder extends BaseShowComponent
             'item.comment_admin' => 'nullable|max:65000',
 
             'attachments.*.name' => 'nullable|max:250',
-            'tempAttachment' => 'nullable|max:' . (1024 * self::MAX_FILE_SIZE_MB), // 1024 -> 1024 kb = 1 mb
+            'tempAttachment' => sprintf('nullable|max:%s', 1024 * self::MAX_FILE_SIZE_MB), // 1024 -> 1024 kb = 1 mb
         ];
     }
 
