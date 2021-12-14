@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
 class OrdersList extends BaseItemsListComponent
 {
     use HasSelectAll;
+    use HasManagers;
 
     protected const DATE_FORMAT_DISPLAY = 'd-m-Y H:i:s';
 
@@ -33,8 +34,6 @@ class OrdersList extends BaseItemsListComponent
     public $admin_id = '';
 
     public $request_query;
-
-    public array $managers;
 
     /**
      * @var array[] @see {@link \Domain\Products\DTOs\Admin\OrderItemDTO}
@@ -58,7 +57,7 @@ class OrdersList extends BaseItemsListComponent
         $this->mountRequest();
         $this->mountPerPage();
         $this->fetchItems();
-        $this->managers = Admin::query()->get()->map(fn(Admin $admin) => OptionDTO::fromAdmin($admin)->toArray())->all();
+        $this->initManagersOptions();
     }
 
     public function render()

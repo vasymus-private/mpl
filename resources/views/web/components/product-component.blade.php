@@ -38,9 +38,9 @@
                 <div class="product-price">
                     <div class="product-price__top row-line row-line__center row-line__jc-center">
                         <span class="product-price__subtitle">{{ $product->price_name }}</span>
-                    </div>  
+                    </div>
                     <div class="product-price__top row-line row-line__center row-line__jc-center">
-                        <div class="column-price">                            
+                        <div class="column-price">
                             <span class="product-price__count-block">{{ $product->price_retail_rub_formatted }}</span>
                         </div>
                         <div class="column-price">
@@ -119,21 +119,25 @@
                 <tr>
                     <td>
                         <div class="product-variants__photo">
-                            <a
-                                href="{{$variation->main_image_url}}"
-                                data-fancybox="variation-image-link-loop-{{$index + 1}}"
-                            >
-                                <img
-                                    src="{{$variation->main_image_sm_thumb_url}}"
-                                    alt="{{$variation->name}}"
-                                    title="{{$variation->name}}">
-                            </a>
+                            @if($variation->main_image_url)
+                                <a
+                                    href="{{$variation->main_image_url}}"
+                                    data-fancybox="variation-image-link-loop-{{$index + 1}}"
+                                >
+                                    <img
+                                        src="{{$variation->main_image_sm_thumb_url}}"
+                                        alt="{{$variation->name}}"
+                                        title="{{$variation->name}}">
+                                </a>
+                            @endif
                             <span class="product-variants__counter">{{$index + 1}}</span>
-                            <a
-                                class="product-variants__zoom"
-                                href="javascript:;"
-                                data-fancybox-trigger="variation-image-link-loop-{{$index + 1}}"
-                            ></a>
+                            @if($variation->main_image_url)
+                                <a
+                                    class="product-variants__zoom"
+                                    href="javascript:;"
+                                    data-fancybox-trigger="variation-image-link-loop-{{$index + 1}}"
+                                ></a>
+                            @endif
                             @foreach($variation->images_urls as $url)
                                 <a
                                     href="{{$url}}"
@@ -215,7 +219,8 @@
                         @endif
                     </td>
                 </tr>
-                <tr>
+                    @if(\Support\H::userOrAdmin()->is_admin)
+                <tr class="alert fade show">
                     <td colspan="7">
                         <div class="manager-area-price">
                             <p>
@@ -224,9 +229,11 @@
                                 Наценка: {{$variation->price_markup}} %,
                                 Заработок: {{$variation->price_income}} %
                             </p>
+                            <button type="button" data-dismiss="alert" aria-label="Close">X</button>
                         </div>
                     </td>
                 </tr>
+                    @endif
                 @endforeach
                 </tbody>
             </table>
@@ -236,14 +243,18 @@
                 <div class="over-line">
                     <div class="column">
                         <div class="product-variants__photo">
-                            <a href="{{$variation->main_image_url}}" data-fancybox="variation-image-loop-mobile-{{$loop->index + 1}}">
-                                <img
-                                    src="{{$variation->main_image_sm_thumb_url}}"
-                                    alt="{{$variation->name}}"
-                                    title="{{$variation->name}}" />
-                            </a>
+                            @if($variation->main_image_url)
+                                <a href="{{$variation->main_image_url}}" data-fancybox="variation-image-loop-mobile-{{$loop->index + 1}}">
+                                    <img
+                                        src="{{$variation->main_image_sm_thumb_url}}"
+                                        alt="{{$variation->name}}"
+                                        title="{{$variation->name}}" />
+                                </a>
+                            @endif
                             <span class="product-variants__counter">{{$loop->index + 1}}</span>
-                            <a href="javascript:;" data-fancybox-trigger="variation-image-loop-mobile-{{$loop->index + 1}}" class="product-variants__zoom"></a>
+                            @if($variation->main_image_url)
+                                <a href="javascript:;" data-fancybox-trigger="variation-image-loop-mobile-{{$loop->index + 1}}" class="product-variants__zoom"></a>
+                            @endif
                         </div>
                     </div>
                     <div class="column">
@@ -329,49 +340,63 @@
                         aria-selected="true"
                     >Описание</a>
                 </li>
-                <li role="presentation">
-                    <a
-                        href="#product-chars-tab-pane-mobile"
-                        id="product-chars-tab"
-                        class=""
-                        data-toggle="tab"
-                        role="tab"
-                        aria-controls="product-chars-tab-pane-mobile"
-                        aria-selected="false"
-                    >Характеристики</a>
-                </li>
+                @if(!$product->characteristicsIsEmpty())
+                    <li role="presentation">
+                        <a
+                            href="#product-chars-tab-pane-mobile"
+                            id="product-chars-tab"
+                            class=""
+                            data-toggle="tab"
+                            role="tab"
+                            aria-controls="product-chars-tab-pane-mobile"
+                            aria-selected="false"
+                        >Характеристики</a>
+                    </li>
+                @endif
             </ul>
             <div class="tab-panes" id="product-descr-chars-tab-panes-mobile">
                 <div class="tab-pane active" id="product-descr-tab-pane-mobile" role="tabpanel" aria-labelledby="product-descr-tab">
                     <h3>{!! $product->name !!}</h3>
-                    {!! $product->description !!}
+                    @if($product->description)
+                        {!! $product->description !!}
+                    @else
+                        {!! $product->preview !!}
+                    @endif
                 </div>
-                <div class="tab-pane" id="product-chars-tab-pane-mobile" role="tabpanel" aria-labelledby="product-chars-tab">
-                    <h3>характеристики: {!! $product->name !!}</h3>
-                    <x-product-chars-props :product="$product"></x-product-chars-props>
-                </div>
+                @if(!$product->characteristicsIsEmpty())
+                    <div class="tab-pane" id="product-chars-tab-pane-mobile" role="tabpanel" aria-labelledby="product-chars-tab">
+                        <h3>характеристики: {!! $product->name !!}</h3>
+                        <x-product-chars-props :product="$product"></x-product-chars-props>
+                    </div>
+                @endif
             </div>
         </div>
-
 
         <div class="desktop-characteristics">
             <ul class="nav nav-tabs tab-list">
                 <li class="active"><a href="#tab1">Описание</a></li>
-                <li><a href="#tab2">Характеристики</a></li>
+                @if(!$product->characteristicsIsEmpty())
+                    <li><a href="#tab2">Характеристики</a></li>
+                @endif
             </ul>
             <div class="characteristics__content" id="tab1">
                 <h3>{!! $product->name !!}</h3>
-                {!! $product->description !!}
+                @if($product->description)
+                    {!! $product->description !!}
+                @else
+                    {!! $product->preview !!}
+                @endif
             </div>
 
             <x-product-accessories :product="$product"></x-product-accessories>
 
-            <div class="characteristics__content" id="tab2">
-                <h3>характеристики: {!! $product->name !!}</h3>
-                <x-product-chars-props :product="$product"></x-product-chars-props>
-            </div>
+            @if(!$product->characteristicsIsEmpty())
+                <div class="characteristics__content" id="tab2">
+                    <h3>характеристики: {!! $product->name !!}</h3>
+                    <x-product-chars-props :product="$product"></x-product-chars-props>
+                </div>
+            @endif
         </div>
-
 
         <div class="block-green">
             <p>{!! $product->name !!} в магазине, Вы можете купить {!! $product->name !!}, узнайте подробные технические характеристики и цену на {!! $product->name !!}, фотографии и отзывы посетителей помог1ут Вам определиться с покупкой, {!! $product->name !!} - закажите с доставкой на дом.</p>
@@ -406,9 +431,9 @@
                             <?php /** @var \Domain\Products\Models\Product\Product $item */ ?>
                             <div class="swiper-slide">
                                 <div class="slider-blocker__item">
-                                    <h3 class="slider-blocker__title"><a class="slider-blocker__link" href="#">{!! $item->name !!}</a></h3>
+                                    <h3 class="slider-blocker__title"><a class="slider-blocker__link" href="{{$item->web_route}}">{!! $item->name !!}</a></h3>
                                     <div class="slider-blocker__photo">
-                                        <a href="#"><img src="{{$item->main_image_url}}" alt=""></a>
+                                        <a href="{{$item->web_route}}"><img src="{{$item->main_image_url}}" alt=""></a>
                                     </div>
                                     <div class="slider-blocker__text-center">
                                         <span class="slider-blocker__cost">{{$item->price_retail_rub_formatted}}</span>

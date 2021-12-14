@@ -8,7 +8,9 @@ use Livewire\WithPagination;
 
 abstract class BaseItemsListComponent extends Component
 {
-    use WithPagination;
+    use WithPagination {
+        setPage as protected _setPage;
+    }
     use HasPagination;
 
     protected const DEFAULT_PER_PAGE = 20;
@@ -19,7 +21,7 @@ abstract class BaseItemsListComponent extends Component
 
     public function setPage($page)
     {
-        $this->page = $page;
+        $this->_setPage($page);
         $this->fetchItems();
     }
 

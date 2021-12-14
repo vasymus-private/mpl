@@ -118,7 +118,7 @@
                 </div>
                 <div class="form-group">
                     <div>
-                        <span class="add-file__text" wire:model="tempInstruction">Перетащите файлы  в эту область (Drag&Drop)</span>
+                        <span class="add-file__text">Перетащите файлы в эту область (Drag&Drop)</span>
                         <input type="file" wire:model="tempInstruction" class="form-control-file @error("tempInstruction") is-invalid @enderror" id="tempInstruction" />
                         <div wire:loading wire:target="tempInstruction">
                             <div class="spinner-border" role="status">

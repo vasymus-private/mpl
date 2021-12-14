@@ -9,7 +9,7 @@
             @include('admin.livewire.includes.form-control-textarea', ['field' => 'brand.preview', 'class' => 'h-100'])
         </div>
         <div class="tab-pane fade show active" id="preview-editor" role="tabpanel" aria-labelledby="preview-editor-tab">
-            <textarea id="brand-preview-tinymce"></textarea>
+            <textarea id="brand-preview-tinymce" rows="10" cols="80"></textarea>
             @error('brand.preview') <div class="invalid-feedback">{{ $message }}</div> @enderror
         </div>
     </div>
@@ -26,7 +26,7 @@
             @include('admin.livewire.includes.form-control-textarea', ['field' => 'brand.description', 'class' => 'h-100'])
         </div>
         <div class="tab-pane fade show active" id="description-editor" role="tabpanel" aria-labelledby="description-editor-tab">
-            <textarea id="brand-description-tinymce"></textarea>
+            <textarea id="brand-description-tinymce" rows="10" cols="80"></textarea>
             @error('brand.description') <div class="invalid-feedback">{{ $message }}</div> @enderror
         </div>
     </div>
@@ -35,10 +35,10 @@
 <script>
     document.addEventListener('livewire:load', () => {
         jQuery(() => {
-            if (typeof livewireTinymce === 'function') livewireTinymce()
+            if (typeof livewireCkeditor4 === 'function') livewireCkeditor4()
         })
     })
     document.addEventListener('livewire:update', () => {
-        if (typeof livewireTinymce === 'function') livewireTinymce()
+        if (typeof livewireCkeditor4 === 'function') livewireCkeditor4()
     })
 </script>

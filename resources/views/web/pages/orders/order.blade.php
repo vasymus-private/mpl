@@ -58,7 +58,7 @@
                 <div class="order-info__item">
                     <span class="order-info__label">Приложенные файлы:</span>
                     @foreach($order->initial_attachments as $attachment)
-                        <p class="order-info__text"><a href="{{$attachment->getFullUrl()}}">{{$attachment->file_name}}</a></p>
+                        <p class="order-info__text"><a target="_blank" download href="{{$attachment->getFullUrl()}}">{{$attachment->file_name}}</a></p>
                     @endforeach
                 </div>
                 @endif

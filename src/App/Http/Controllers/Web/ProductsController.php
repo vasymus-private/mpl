@@ -17,7 +17,12 @@ class ProductsController extends BaseWebController
 {
     public function index(Request $request, FiltrateByCategoriesAction $filtrateByCategoriesAction)
     {
-        $query = Product::query()->notVariations()->active()->with("infoPrices");
+        $query = Product
+            ::query()
+            ->notVariations()
+            ->active()
+            ->orderBy(sprintf('%s.ordering', Product::TABLE))
+            ->orderBy(sprintf('%s.id', Product::TABLE));
 
         /** @var \Domain\Products\Models\Category|null $category */
         $category = $request->category_slug;
@@ -30,7 +35,8 @@ class ProductsController extends BaseWebController
 
         $query = $filtrateByCategoriesAction->execute($query, new FiltrateByCategoriesParamsDTO(compact("category", "subcategory1", "subcategory2", "subcategory3")));
 
-        if (!empty($request->input("brands", []))) {
+        $brands = $request->input("brands", []);
+        if (!empty($brands) && !empty($brands[0])) {
             $query->whereIn(Product::TABLE . ".brand_id", $request->input("brands"));
         }
 
@@ -48,6 +54,8 @@ class ProductsController extends BaseWebController
 
         $query->with([
             "category.parentCategory.parentCategory.parentCategory",
+            "infoPrices",
+            'media'
         ]);
 
         /** @var LengthAwarePaginator $products */
@@ -61,7 +69,22 @@ class ProductsController extends BaseWebController
 
         $entity = $subcategory3 ?? $subcategory2 ?? $subcategory1 ?? $category ?? null;
 
-        return view("web.pages.products.products", compact("productIds", "products", "breadcrumbs", "entity"));
+        $seoArr = null;
+        foreach ([$subcategory3, $subcategory2, $subcategory1, $category] as $item) {
+            if (!empty($seoArr)) {
+                break;
+            }
+            if ($item->seo ?? null) {
+                $seoArr = [
+                    'title' => $item->seo->title ?? null,
+                    'keywords' => $item->seo->keywords ?? null,
+                    'description' => $item->seo->description ?? null,
+                ];
+            }
+        }
+
+
+        return view("web.pages.products.products", compact("productIds", "products", "breadcrumbs", "entity", "seoArr"));
     }
 
     public function show(Request $request)

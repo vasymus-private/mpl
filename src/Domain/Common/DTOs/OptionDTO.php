@@ -2,8 +2,11 @@
 
 namespace Domain\Common\DTOs;
 
+use Domain\Common\Models\BaseModel;
 use Domain\Common\Models\Currency;
+use Domain\Orders\Models\OrderImportance;
 use Domain\Orders\Models\OrderStatus;
+use Domain\Orders\Models\PaymentMethod;
 use Domain\Products\Actions\GetCharDotsHtmlStringAction;
 use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Brand;
@@ -128,6 +131,30 @@ class OptionDTO extends DataTransferObject
         return new self([
             'value' => $orderStatus->id,
             'label' => $orderStatus->name,
+        ]);
+    }
+
+    public static function fromPaymentMethod(PaymentMethod $paymentMethod): self
+    {
+        return new self([
+            'value' => $paymentMethod->id,
+            'label' => $paymentMethod->name,
+        ]);
+    }
+
+    public static function fromOrderImportance(OrderImportance $orderImportance): self
+    {
+        return new self([
+            'value' => $orderImportance->id,
+            'label' => $orderImportance->name,
+        ]);
+    }
+
+    public static function stdFromModel(BaseModel $model): self
+    {
+        return new self([
+            'value' => $model->id,
+            'label' => $model->name ?? "",
         ]);
     }
 }

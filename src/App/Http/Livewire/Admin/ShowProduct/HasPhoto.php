@@ -42,8 +42,8 @@ trait HasPhoto
             'tempMainImage' => 'nullable|max:'  . (1024 * ShowProductConstants::MAX_FILE_SIZE_MB), // 1024 - 1mb,
             'tempAdditionalImage' => 'nullable|max:'  . (1024 * ShowProductConstants::MAX_FILE_SIZE_MB), // 1024 - 1mb,
 
-            'mainImage.name' => 'nullable|max:199',
-            'additionalImages.*.name' => 'nullable|max:199',
+            'mainImage.name' => 'nullable|max:250',
+            'additionalImages.*.name' => 'nullable|max:250',
         ];
     }
 

@@ -30,5 +30,5 @@ Route::middleware(["auth:" . implode(',', [Constants::AUTH_GUARD_WEB, Constants:
     Route::put("products/cart", [\App\Http\Controllers\Web\Ajax\CartProductsController::class, "update"])->name("products.cart.update");
     Route::delete("products/cart", [\App\Http\Controllers\Web\Ajax\CartProductsController::class, "delete"])->name("products.cart.delete");
 
-    Route::put("orders/{id}", [\App\Http\Controllers\Web\Ajax\OrderController::class, "update"])->name("orders.update");
+    Route::post("orders/{id}", [\App\Http\Controllers\Web\Ajax\OrderController::class, "update"])->name("orders.update");
 });

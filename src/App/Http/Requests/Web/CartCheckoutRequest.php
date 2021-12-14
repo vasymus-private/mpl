@@ -29,11 +29,12 @@ class CartCheckoutRequest extends FormRequest
      */
     public function authorize()
     {
-        return
-                $this->getEmailUser() === null ||
-                !$this->getEmailUser()->is_admin ||
-                ($this->getEmailUser()->is_admin && !$this->isAuthUserEqualsEmailUser())
-            ;
+        return true;
+//        return
+//                 $this->getEmailUser() === null
+//                 || !$this->getEmailUser()->is_admin
+//                 || ($this->getEmailUser()->is_admin && !$this->isAuthUserEqualsEmailUser())
+//            ;
     }
 
     /**

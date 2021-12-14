@@ -20,8 +20,8 @@ trait HasSeo
     protected function getSeoRules(): array
     {
         return [
-            'seo.title' => 'nullable|max:199',
-            'seo.h1' => 'nullable|max:199',
+            'seo.title' => 'nullable|max:250',
+            'seo.h1' => 'nullable|max:250',
             'seo.keywords' => 'nullable|max:65000',
             'seo.description' => 'nullable|max:65000',
         ];

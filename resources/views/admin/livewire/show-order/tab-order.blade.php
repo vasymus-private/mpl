@@ -7,6 +7,10 @@
  * @var string $email @see {@link \App\Http\Livewire\Admin\ShowOrder\ShowOrder::$email}
  * @var string $name @see {@link \App\Http\Livewire\Admin\ShowOrder\ShowOrder::$name}
  * @var string $phone @see {@link \App\Http\Livewire\Admin\ShowOrder\ShowOrder::$phone}
+ * @var array[] $paymentMethods @see {@link \App\Http\Livewire\Admin\ShowOrder\ShowOrder::$paymentMethods}
+ * @var array[] $managers @see {@link \App\Http\Livewire\Admin\ShowOrder\ShowOrder::$managers}
+ * @var array[] $orderImportance @see {@link \App\Http\Livewire\Admin\ShowOrder\ShowOrder::$orderImportance}
+ * @var array[] $billStatuses @see {@link \App\Http\Livewire\Admin\ShowOrder\ShowOrder::$billStatuses}
  */
 ?>
 <div class="item-edit order-edit">
@@ -107,6 +111,243 @@
             </div>
         </div>
     @endif
+
+    @if($isCreating || $this->isEditMode())
+        @include('admin.livewire.includes.form-group-select', [
+            'field' => 'item.payment_method_id',
+            'className' => 'width-45',
+            'label' => 'Способ оплаты',
+            'options' => $paymentMethods,
+        ])
+    @else
+        <div class="form-group row">
+            <label class="col-sm-5 col-form-label">Способ оплаты:</label>
+            <div class="col-sm-7 d-flex align-items-center">
+                {{$item->payment->name ?? ''}}
+            </div>
+        </div>
+    @endif
+
+    @if($isCreating || $this->isEditMode())
+        @include('admin.livewire.includes.form-group-textarea', [
+            'field' => 'item.comment_user',
+            'label' => 'Комментарий пользователя',
+
+        ])
+    @else
+        <div class="form-group row">
+            <label class="col-sm-5 col-form-label">Комментарий пользователя:</label>
+            <div class="col-sm-7 d-flex align-items-center">
+                {{$item->comment_user}}
+            </div>
+        </div>
+    @endif
+
+    @if(!$isCreating || !$this->isEditMode() && ($item->initial_attachments->isNotEmpty() || $item->payment_method_attachments->isNotEmpty()))
+        <div class="form-group row">
+            <label class="col-sm-5 col-form-label">Прикрепленные файлы к заказу:</label>
+            <div class="col-sm-7">
+                @foreach($item->initial_attachments as $media)
+                    <p class="mb-0"><a target="_blank" download href="{{route(\App\Constants::ROUTE_ADMIN_MEDIA, ['id' => $media->id, 'name' => $media->name])}}">{{$media->name}}</a></p>
+                @endforeach
+                @foreach($item->payment_method_attachments as $media)
+                    <p class="mb-0"><a target="_blank" download href="{{route(\App\Constants::ROUTE_ADMIN_MEDIA, ['id' => $media->id, 'name' => $media->name])}}">{{$media->name}}</a></p>
+                @endforeach
+            </div>
+        </div>
+    @endif
+
+    <div class="h5 text-center bg-info py-2">
+        Служебные поля
+    </div>
+
+    @if($isCreating || $this->isEditMode())
+        @include('admin.livewire.includes.form-group-select', [
+            'field' => 'item.admin_id',
+            'className' => 'width-45',
+            'label' => 'Менеджер',
+            'options' => $managers,
+        ])
+    @else
+        <div class="form-group row">
+            <label class="col-sm-5 col-form-label">Менеджер:</label>
+            <div class="col-sm-7 d-flex align-items-center">
+                {{$item->admin->name ?? ''}}
+            </div>
+        </div>
+    @endif
+
+    @if($isCreating || $this->isEditMode())
+        @include('admin.livewire.includes.form-group-select', [
+            'field' => 'item.importance_id',
+            'className' => 'width-45',
+            'label' => 'Важность',
+            'options' => $orderImportance,
+        ])
+    @else
+        <div class="form-group row" style="background-color: {{$item->importance->color ?? 'transparent'}}">
+            <label class="col-sm-5 col-form-label">Важность:</label>
+            <div class="col-sm-7 d-flex align-items-center">
+                {{$item->importance->name ?? ''}}
+            </div>
+        </div>
+    @endif
+
+    @if($isCreating || $this->isEditMode())
+        @include('admin.livewire.includes.form-group-textarea', [
+            'field' => 'item.customer_bill_description',
+            'label' => 'Счёт покупателю',
+
+        ])
+    @else
+        <div class="form-group row">
+            <label class="col-sm-5 col-form-label">Счёт покупателю:</label>
+            <div class="col-sm-7 d-flex align-items-center">
+                {{$item->customer_bill_description}}
+            </div>
+        </div>
+    @endif
+
+    @if($isCreating || $this->isEditMode())
+        @include('admin.livewire.includes.form-group-select', [
+            'field' => 'item.customer_bill_status_id',
+            'className' => 'width-45',
+            'label' => 'Статус счёта покупателю',
+            'options' => $billStatuses,
+        ])
+    @else
+        <div class="form-group row">
+            <label class="col-sm-5 col-form-label">Статус счёта покупателю:</label>
+            <div class="col-sm-7 d-flex align-items-center">
+                {{$item->customerBillStatus->name ?? ''}}
+            </div>
+        </div>
+    @endif
+
+    @if(!$isCreating)
+        <div class="form-group row">
+            <label class="col-sm-5 col-form-label">Приложенные файлы:</label>
+            <div class="col-sm-7">
+                @if($this->isEditMode())
+                <div class="add-file">
+                    <div class="row">
+                        @foreach($attachments as $index => $attachment)
+                            <div wire:key="instructions-{{$index}}-{{$attachment['url']}}" class="card text-center">
+                                <div class="adm-fileinput-item-preview">
+                                    <h5 class="card-title"><a href="{{$attachment['url']}}" target="_blank">{{$attachment['file_name']}}</a></h5>
+                                </div>
+                                <div class="form-group">
+                                    @include('admin.livewire.includes.form-control-input', ['field' => "attachments.$index.name"])
+                                </div>
+                                <button wire:click="deleteAttachment({{$index}})" type="button" class="adm-fileinput-item-preview__remove">&nbsp;</button>
+                            </div>
+                        @endforeach
+                    </div>
+                    @if($this->isEditMode())
+                        <div class="form-group">
+                            <div>
+                                <span class="add-file__text">Перетащите файлы в эту область (Drag&Drop)</span>
+                                <input type="file" wire:model="tempAttachment" class="form-control-file @error("tempAttachment") is-invalid @enderror" id="tempAttachment" />
+                                <div wire:loading wire:target="tempAttachment">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+                            </div>
+                            @error("tempAttachment") <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        </div>
+                    @endif
+                </div>
+                @else
+                    @foreach($attachments as $attachment)
+                        <p><a target="_blank" download href="{{route(\App\Constants::ROUTE_ADMIN_MEDIA, ['id' => $attachment['id'], 'name' => $attachment['name']])}}">{{$attachment['name']}}</a></p>
+                    @endforeach
+                @endif
+            </div>
+        </div>
+    @endif
+
+    @if($isCreating || $this->isEditMode())
+        @include('admin.livewire.includes.form-group-textarea', [
+            'field' => 'item.provider_bill_description',
+            'label' => 'Счёт от поставщика',
+
+        ])
+    @else
+        <div class="form-group row">
+            <label class="col-sm-5 col-form-label">Счёт от поставщика:</label>
+            <div class="col-sm-7 d-flex align-items-center">
+                {{$item->provider_bill_description}}
+            </div>
+        </div>
+    @endif
+
+    @if($isCreating || $this->isEditMode())
+        @include('admin.livewire.includes.form-group-select', [
+            'field' => 'item.provider_bill_status_id',
+            'className' => 'width-45',
+            'label' => 'Статус от поставщика',
+            'options' => $billStatuses,
+        ])
+    @else
+        <div class="form-group row">
+            <label class="col-sm-5 col-form-label">Статус от поставщика:</label>
+            <div class="col-sm-7 d-flex align-items-center">
+                {{$item->providerBillStatus->name ?? ''}}
+            </div>
+        </div>
+    @endif
+
+    @if($isCreating || $this->isEditMode())
+        @include('admin.livewire.includes.form-group-textarea', [
+            'field' => 'item.comment_admin',
+            'label' => 'Комментарий менеджера',
+
+        ])
+    @else
+        <div class="form-group row">
+            <label class="col-sm-5 col-form-label">Комментарий менеджера:</label>
+            <div class="col-sm-7 d-flex align-items-center">
+                {{$item->comment_admin}}
+            </div>
+        </div>
+    @endif
+
+    <div class="h5 text-center bg-info py-2">
+        Заказ
+    </div>
+
+    <div class="search form-group row justify-content-end">
+        <div class="col-xs-12 col-sm-2">
+            <div class="dropdown">
+                <a href="#" class="btn btn-add btn-secondary">Добавить товар</a>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Изображение</th>
+                <th scope="col">Название</th>
+                <th scope="col">Количество</th>
+                <th scope="col">Цена</th>
+                <th scope="col">Сумма</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php /** @var \Domain\Products\Models\Product\Product $product */ ?>
+        @foreach($item->products as $product)
+            <tr>
+                <td><div class="text-center"><img class="img-fluid" src="{{$product['main_image_md_thumb_url']}}" alt="" /></div></td>
+                <td><span class="main-grid-cell-content">{{$product['name']}}</span></td>
+                <td><span class="main-grid-cell-content">{{$product['order_product_count']}}</span></td>
+                <td><span class="main-grid-cell-content">{{$product['price_purchase_rub_formatted']}}</span></td>
+                <td><span class="main-grid-cell-content">{{$product['order_product_count'] * $product['price_purchase_rub']}} р</span></td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
 
 </div>
 
