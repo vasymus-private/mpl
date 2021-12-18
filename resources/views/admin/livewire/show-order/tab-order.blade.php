@@ -317,13 +317,15 @@
         Заказ
     </div>
 
-    <div class="search form-group row justify-content-end">
-        <div class="col-xs-12 col-sm-2">
-            <div class="dropdown">
-                <a href="#" class="btn btn-add btn-secondary">Добавить товар</a>
+    @if($isCreating || $this->isEditMode())
+        <div class="search form-group row justify-content-end">
+            <div class="col-xs-12 col-sm-2">
+                <div class="dropdown">
+                    <a href="#" class="btn btn-add btn-secondary">Добавить товар</a>
+                </div>
             </div>
         </div>
-    </div>
+    @endif
 
     <table class="table table-bordered table-hover">
         <thead>

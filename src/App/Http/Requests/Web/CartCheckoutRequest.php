@@ -5,7 +5,6 @@ namespace App\Http\Requests\Web;
 use Domain\Users\Models\BaseUser\BaseUser;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\UploadedFile;
 use Support\H;
 
 /**
@@ -13,7 +12,7 @@ use Support\H;
  * @property-read string|null $email
  * @property-read string|null $phone
  * @property-read string|null $comment
- * @property-read UploadedFile[]|null attachment
+ * @property-read \Illuminate\Http\UploadedFile[]|null attachment
  * */
 class CartCheckoutRequest extends FormRequest
 {

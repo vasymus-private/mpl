@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers\Web;
 
+use DateInterval;
+use Domain\Orders\Actions\CreateOrderAction;
+use Domain\Orders\DTOs\CreateOrderParamsDTO;
+use Domain\Orders\DTOs\OrderProductItemDTO;
 use Domain\Users\Models\BaseUser\BaseUser;
+use Exception;
 use Support\H;
 use App\Http\Requests\Web\CartCheckoutRequest;
 use App\Mail\OrderShippedMail;
@@ -10,9 +15,7 @@ use Domain\Orders\Models\Order;
 use Domain\Orders\Models\OrderImportance;
 use Domain\Orders\Models\OrderStatus;
 use Domain\Products\Models\Product\Product;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class CartCheckoutController extends BaseWebController
@@ -46,7 +49,7 @@ class CartCheckoutController extends BaseWebController
         }
 
         Mail::later(
-            new \DateInterval('PT10S'),
+            new DateInterval('PT10S'),
             new OrderShippedMail(
                 $order,
                 $authUser->id,
@@ -57,52 +60,33 @@ class CartCheckoutController extends BaseWebController
 
         try {
             $authUser->cart()->detach();
-        } catch (\Exception $ignored) {}
+        } catch (Exception $ignored) {}
 
         return redirect()->route("cart.success", $order->id);
     }
 
     protected function createOrder(CartCheckoutRequest $request, BaseUser $user): ?Order
     {
-        $productsPrepare = [];
+        $createOrderAction = resolve(CreateOrderAction::class);
 
-        $user->cart_not_trashed->each(function(Product $product) use(&$productsPrepare) {
-            $productsPrepare[$product->id] = [
-                "count" => $product->cart_product->count ?? 1,
-                "price_purchase" => $product->price_purchase,
-                "price_purchase_currency_id" => $product->price_purchase_currency_id,
-                "price_retail" => $product->price_retail,
-                "price_retail_currency_id" => $product->price_retail_currency_id,
-            ];
+        $productItems = [];
+        $user->cart_not_trashed->each(function(Product $product) use(&$productItems) {
+            $productItems[] = new OrderProductItemDTO([
+                'count' => $product->cart_product->count ?? 1,
+                'product' => $product,
+            ]);
         });
 
-        DB::beginTransaction();
-        $order = null;
-        try {
-            $order = Order::forceCreate([
-                "user_id" => $user->id,
-                "order_status_id" => OrderStatus::ID_OPEN,
-                "importance_id" => OrderImportance::ID_GREY,
-                "comment_user" => $request->comment,
-                "request" => [
-                    "name" => $request->name,
-                    "email" => $request->email,
-                    "phone" => $request->phone,
-                ]
-            ]);
-
-            $order->products()->attach($productsPrepare);
-
-            foreach (($request->attachment ?? []) as $file) {
-                $order->addMedia($file)->toMediaCollection(Order::MC_INITIAL_ATTACHMENT);
-            }
-        } catch (\Exception $exception) {
-            Log::error($exception);
-            $order = null;
-            DB::rollBack();
-        }
-        DB::commit();
-
-        return $order;
+        return $createOrderAction->execute(new CreateOrderParamsDTO([
+            'user' => $user,
+            'order_status_id' => OrderStatus::ID_OPEN,
+            'importance_id' => OrderImportance::ID_GREY,
+            'comment_user' => $request->comment,
+            'request_name' => $request->name,
+            'request_email' => $request->email,
+            'request_phone' => $request->phone,
+            'productItems' => $productItems,
+            'attachment' => $request->attachment ?? [],
+        ]));
     }
 }

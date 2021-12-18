@@ -38,10 +38,10 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property string|null $coefficient_variation_description
  * @property string|null $price_name
  * @property string|null $admin_comment
- * @property string|null $price_purchase
+ * @property float|null $price_purchase
  * @property int|null $price_purchase_currency_id
  * @property string|null $unit
- * @property string|null $price_retail
+ * @property float|null $price_retail
  * @property int|null $price_retail_currency_id
  * @property int $availability_status_id
  * @property string|null $preview
