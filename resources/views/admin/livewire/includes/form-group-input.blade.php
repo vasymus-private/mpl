@@ -4,6 +4,7 @@
  * @var string $field
  * @var string|null $labelColClass Default is 'col-sm-5'
  * @var string|null $inputColClass Default is 'col-sm-7'
+ * @var string $modifier
  */
 ?>
 @if($isRow ?? true)
@@ -16,6 +17,6 @@
 @else
     <div class="form-group">
         <label for="{{$field}}">{{$label}}:</label>
-        @include('admin.livewire.includes.form-control-input', ['field' => $field])
+        @include('admin.livewire.includes.form-control-input', ['field' => $field, 'modifier' => $modifier ?? ''])
     </div>
 @endif

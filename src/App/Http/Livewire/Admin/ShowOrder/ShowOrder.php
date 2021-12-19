@@ -125,6 +125,8 @@ class ShowOrder extends BaseShowComponent
 
             'attachments.*.name' => 'nullable|max:250',
             'tempAttachment' => sprintf('nullable|max:%s', 1024 * self::MAX_FILE_SIZE_MB), // 1024 -> 1024 kb = 1 mb
+
+            'productItems.*.order_product_count' => 'nullable',
         ];
     }
 
@@ -300,6 +302,12 @@ class ShowOrder extends BaseShowComponent
 
     protected function initProductItems()
     {
-        $this->productItems = $this->item->products->map(fn(Product $product) => OrderProductItemDTO::fromOrderProductItem($product)->toArray())->all();
+        $this->productItems = $this->item->products->map(fn(Product $product) => OrderProductItemDTO::fromOrderProductItem($product)->toArray())->keyBy('uuid')->all();
+    }
+
+    public function updatedProductItems($value, $uuid)
+    {
+        dd($value, $uuid);
+        // todo change
     }
 }

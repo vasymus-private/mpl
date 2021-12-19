@@ -366,7 +366,13 @@
                 @endif
                 <td><div class="text-center"><a target="_blank" href="{{route("admin.products.edit", $product['id'])}}"><img class="img-fluid" src="{{$product['image']}}" alt="" /></a></div></td>
                 <td><span class="main-grid-cell-content"><a target="_blank" href="{{route("admin.products.edit", $product['id'])}}">{{$product['name']}}</a></span></td>
-                <td><span class="main-grid-cell-content">{{$product['order_product_count']}}</span></td>
+                <td>
+                    @if($isCreating || $this->isEditMode())
+                        @include('admin.livewire.includes.form-group-input', ['field' => sprintf('productItems.%s.order_product_count', $product['uuid']), 'label' => 'Количество', 'modifier' => '.debounce.500ms'])
+                    @else
+                        <span class="main-grid-cell-content">{{$product['order_product_count']}}</span>
+                    @endif
+                </td>
                 <td>
                     <p>Закупочная: {{$product['price_purchase_rub_formatted']}}</p>
                     <p>Сумма закупки: {{$product['price_purchase_rub_sum_formatted']}}</p>
