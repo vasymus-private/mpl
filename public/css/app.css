@@ -5787,9 +5787,14 @@ select {
   display: block;
   margin-top: 3px;
   font-family: "Roboto Slab", Arial, sans-serif;
-  font-size: 22px;
+  font-size: 21px;
   font-weight: 600;
   color: #ff5100;
+}
+@media screen and (max-width: 667px) {
+  .catalog__price {
+    font-size: 20px;
+  }
 }
 .catalog__price .gray-color {
   color: #959595;
@@ -7299,7 +7304,7 @@ input[type=number] {
   bottom: 0;
   right: 0;
   z-index: 0;
-  width: 276px;
+  width: 300px;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   display: none;
@@ -8031,7 +8036,7 @@ textarea.form-control {
   text-decoration: none;
 }
 .put-off-block__link--active {
-  color: #05f;
+  color: #05f !important;
 }
 .put-off-block__link:hover {
   color: #dd522d;
@@ -8516,6 +8521,10 @@ textarea.form-control {
     width: 100%;
   }
 }
+.product .put-product {
+  padding: 0;
+  background: none;
+}
 
 .put-product {
   background: url(../images/header_top_fav2.png) no-repeat 0 50%;
@@ -8591,9 +8600,6 @@ textarea.form-control {
   font-size: 12px;
   text-align: center;
 }
-.product-variants td:first-child {
-  width: 59px;
-}
 .product-variants td:nth-child(2) {
   width: 54%;
   text-align: left;
@@ -8613,6 +8619,10 @@ textarea.form-control {
   position: relative;
   padding: 0 0 20px;
   width: 50px;
+}
+.product-variants__photo.img-none {
+  width: auto;
+  padding: 0 20px 20px 0;
 }
 .product-variants__title {
   line-height: 20px;
@@ -8665,12 +8675,23 @@ textarea.form-control {
   background: #f7f7f7;
   padding: 5px 7px;
   border: 1px solid #999;
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
 }
 .product-variants .manager-area-price p {
   margin: 0;
   padding: 0;
   color: #212529;
+}
+.product-variants .manager-area-price button {
+  border: 0;
+  text-transform: lowercase;
+  background: none;
+  padding: 0 10px;
+}
+.product-variants .manager-area-price strong,
+.product-variants .manager-area-price span {
+  color: #03c;
 }
 @media (min-width: 768px) {
   .product-variants .mob-products {
@@ -8863,6 +8884,10 @@ textarea.form-control {
 .characteristics p {
   font-size: 13px;
   margin: 0 0 10px;
+}
+.characteristics a {
+  color: #a33;
+  text-decoration: underline;
 }
 .characteristics .tab-container {
   display: none;

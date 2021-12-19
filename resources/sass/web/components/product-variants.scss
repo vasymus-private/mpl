@@ -33,10 +33,6 @@
         font-size: 12px;
         text-align: center;
 
-        &:first-child {
-            width: 59px;
-        }
-
         &:nth-child(2) {
             width: 54%;
             text-align: left;
@@ -59,8 +55,11 @@
     &__photo {
         position: relative;
         padding: 0 0 20px;
-
         width: 50px;
+        &.img-none {
+            width: auto;
+            padding: 0 20px 20px 0;
+        }
     }
 
     &__title {
@@ -121,12 +120,25 @@
         background: #f7f7f7;
         padding: 5px 7px;
         border: 1px solid #999;
-        text-align: center;
+        display: flex;
+        justify-content: space-between;
 
         p {
             margin: 0;
             padding: 0;
             color: #212529;
+        }
+
+        button {
+            border: 0;
+            text-transform: lowercase;
+            background: none;
+            padding: 0 10px;
+        }
+
+        strong,
+        span {
+            color: #03c;
         }
     }
 
@@ -219,4 +231,3 @@
         }
     }
 }
-

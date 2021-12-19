@@ -9529,8 +9529,8 @@ __webpack_require__.r(__webpack_exports__);
     /*let $inputKeyupValidate = $('.js-keyup-validate')
     $inputKeyupValidate.each((ind, el) => {
         let $input = $(el)
-         let min = $input.attr('min')
-         $input.on('keyup keydown', (event) => {
+          let min = $input.attr('min')
+          $input.on('keyup keydown', (event) => {
             debugger
             if (
                 $(event.currentTarget).val() < min &&
@@ -9571,7 +9571,7 @@ var navMenu = function ($) {
     var slideout = new (slideout__WEBPACK_IMPORTED_MODULE_0___default())({
       'panel': document.querySelector('.js-sidebar-slide-main-1'),
       'menu': document.querySelector('.js-sidebar-slide-menu-1'),
-      'padding': 276,
+      'padding': 300,
       'tolerance': 70,
       'touch': false
     });
@@ -9792,6 +9792,7 @@ __webpack_require__.r(__webpack_exports__);
         var count = _ref.data.count;
         $asideItemsCount.text(count);
         $toggler.removeClass(activeClass);
+        $toggler.html('<i class="fa fa-bookmark" aria-hidden="true"></i> Отложить');
         handleRemoveAsideProductNode(productId);
       })["catch"](_helpers_Rest__WEBPACK_IMPORTED_MODULE_1__["default"].simpleCatch)["finally"](function () {
         return $toggler.removeClass(pendingClass);
@@ -9806,6 +9807,7 @@ __webpack_require__.r(__webpack_exports__);
         var count = _ref2.data.count;
         $asideItemsCount.text(count);
         $toggler.addClass(activeClass);
+        $toggler.html('<i class="fa fa-bookmark" aria-hidden="true"></i> Отложено');
       })["catch"](_helpers_Rest__WEBPACK_IMPORTED_MODULE_1__["default"].simpleCatch)["finally"](function () {
         return $toggler.removeClass(pendingClass);
       });
