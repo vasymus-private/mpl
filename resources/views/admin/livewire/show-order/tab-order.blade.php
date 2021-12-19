@@ -364,15 +364,16 @@
                         </div>
                     </td>
                 @endif
-                <td><div class="text-center"><img class="img-fluid" src="{{$product['image']}}" alt="" /></div></td>
-                <td><span class="main-grid-cell-content">{{$product['name']}}</span></td>
+                <td><div class="text-center"><a target="_blank" href="{{route("admin.products.edit", $product['id'])}}"><img class="img-fluid" src="{{$product['image']}}" alt="" /></a></div></td>
+                <td><span class="main-grid-cell-content"><a target="_blank" href="{{route("admin.products.edit", $product['id'])}}">{{$product['name']}}</a></span></td>
                 <td><span class="main-grid-cell-content">{{$product['order_product_count']}}</span></td>
                 <td>
                     <p>Закупочная: {{$product['price_purchase_rub_formatted']}}</p>
-                    <p>Сумма закупки: </p>
+                    <p>Сумма закупки: {{$product['price_purchase_rub_sum_formatted']}}</p>
+                    <p>Заработок: {{$product['price_retail_purchase_sum_diff_rub_formatted']}}</p>
                 </td>
-                <td><span class="main-grid-cell-content">{{$product['price_purchase_rub_formatted']}}</span></td>
-                <td><span class="main-grid-cell-content">{{$product['order_product_count'] * $product['price_retail_rub']}} р</span></td>
+                <td><span class="main-grid-cell-content">{{$product['price_retail_rub_formatted']}}</span></td>
+                <td><span class="main-grid-cell-content">{{$product['price_retail_rub_sum_formatted']}}</span></td>
             </tr>
         @endforeach
         </tbody>

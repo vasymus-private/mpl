@@ -145,7 +145,7 @@ class ShowOrder extends BaseShowComponent
         $this->name = $this->item->request['name'] ?? $this->item->user->name ?? '';
         $this->phone = $this->item->request['phone'] ?? $this->item->user->phone ?? '';
 
-        $this->populateProductItems();
+        $this->initProductItems();
     }
 
     public function render()
@@ -239,18 +239,16 @@ class ShowOrder extends BaseShowComponent
 
     public function removeProductItem($id)
     {
-        $this->item->products()->detach($id);
-        $this->item->load('products');
-        $this->populateProductItems();
+        $this->productItems = collect($this->productItems)->filter(fn(array $productItem) => (string)$productItem['id'] !== (string)$id)->toArray();
     }
 
     public function selectCurrentProductItem($id)
     {
-        $product = $this->item->products->first(fn(Product $product) => (string)$product->id === (string)$id);
+        $product = collect($this->productItems)->first(fn(array $productItem) => (string)$productItem['id'] === (string)$id);
         if (!$product) {
             return false;
         }
-        $this->currentProductItem = OrderProductItemDTO::fromOrderProductItem($product)->toArray();
+        $this->currentProductItem = $product;
         return true;
     }
 
@@ -300,7 +298,7 @@ class ShowOrder extends BaseShowComponent
         $this->attachments = $attachments;
     }
 
-    protected function populateProductItems()
+    protected function initProductItems()
     {
         $this->productItems = $this->item->products->map(fn(Product $product) => OrderProductItemDTO::fromOrderProductItem($product)->toArray())->all();
     }
