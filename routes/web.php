@@ -20,7 +20,6 @@ Route::get('---test-email-order', [\App\Http\Controllers\TestController::class, 
 Route::get('---test-email-order-markup', [\App\Http\Controllers\TestController::class, 'testEmailOrderMarkup'])->middleware('auth');
 Route::get("---test-email-password-reset", [\App\Http\Controllers\TestController::class, "testResetPasswordMarkup"])->middleware('auth');
 
-
 Route::middleware([Constants::MIDDLEWARE_AUTHENTICATE_ALL])->group(function() {
 
     /** @see \Laravel\Ui\AuthRouteMethods::auth() */

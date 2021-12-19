@@ -13,7 +13,7 @@ var navMenu = (function ($) {
         let slideout = new Slideout({
             'panel': document.querySelector('.js-sidebar-slide-main-1'),
             'menu': document.querySelector('.js-sidebar-slide-menu-1'),
-            'padding': 276,
+            'padding': 300,
             'tolerance': 70,
             'touch': false
         });

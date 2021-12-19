@@ -9,7 +9,7 @@
             <div class="put-off-block">
                 <a href="#" data-id="{{$product->id}}" class="js-put-aside put-off-block__link {{in_array($product->id, $asideIds) ? "put-off-block__link--active" : ""}}">
                     <i class="fa fa-bookmark" aria-hidden="true"></i>
-                    Отложить
+                    {{in_array($product->id, $asideIds) ? "Отложено" : "Отложить" }} 
                 </a>
             </div>
         </div>
