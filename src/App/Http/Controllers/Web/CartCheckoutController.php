@@ -6,6 +6,7 @@ use DateInterval;
 use Domain\Orders\Actions\CreateOrderAction;
 use Domain\Orders\DTOs\CreateOrderParamsDTO;
 use Domain\Orders\DTOs\OrderProductItemDTO;
+use Domain\Orders\Enums\OrderEventType;
 use Domain\Users\Models\BaseUser\BaseUser;
 use Exception;
 use Support\H;
@@ -81,6 +82,7 @@ class CartCheckoutController extends BaseWebController
             'user' => $user,
             'order_status_id' => OrderStatus::ID_OPEN,
             'importance_id' => OrderImportance::ID_GREY,
+            'order_event_type' => OrderEventType::checkout(),
             'comment_user' => $request->comment,
             'request_name' => $request->name,
             'request_email' => $request->email,

@@ -3,7 +3,9 @@
 namespace Domain\Orders\Actions;
 
 use Domain\Orders\DTOs\CreateOrderParamsDTO;
+use Domain\Orders\Enums\OrderEventType;
 use Domain\Orders\Models\Order;
+use Domain\Orders\Models\OrderEvent;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -55,6 +57,13 @@ class CreateOrderAction
             foreach ($params->attachment as $file) {
                 $medias[] = $order->addMedia($file)->toMediaCollection(Order::MC_INITIAL_ATTACHMENT);
             }
+
+            $orderEvent = new OrderEvent();
+            $orderEvent->payload = [];
+            $orderEvent->type = $params->order_event_type;
+
+            $orderEvent->order()->associate($order);
+            $orderEvent->save();
         } catch (Exception $exception) {
             Log::error($exception);
             $order = null;

@@ -2,6 +2,7 @@
 
 namespace Domain\Orders\DTOs;
 
+use Domain\Orders\Enums\OrderEventType;
 use Domain\Orders\Models\OrderImportance;
 use Domain\Orders\Models\OrderStatus;
 use Domain\Users\Models\BaseUser\BaseUser;
@@ -23,6 +24,11 @@ class CreateOrderParamsDTO extends DataTransferObject
      * @var int
      */
     public int $importance_id = OrderImportance::ID_GREY;
+
+    /**
+     * @var \Domain\Orders\Enums\OrderEventType
+     */
+    public OrderEventType $order_event_type;
 
     /**
      * @var string|null

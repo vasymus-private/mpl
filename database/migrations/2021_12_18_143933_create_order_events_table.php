@@ -19,6 +19,7 @@ class CreateOrderEventsTable extends Migration
         Schema::create(static::$table, function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('order_id');
+            $table->unsignedTinyInteger('type');
             $table->json('payload')->default(json_encode([]));
             $table->timestamp('created_at')->nullable();
         });
