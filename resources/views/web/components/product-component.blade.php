@@ -242,7 +242,7 @@
                 @foreach($product->variations as $variation)
                 <div class="over-line">
                     <div class="column">
-                        <div class="product-variants__photo">
+                        <div class="{{ $variation->main_image_url ? 'product-variants__photo' : 'product-variants__photo img-none' }}">
                             @if($variation->main_image_url)
                                 <a href="{{$variation->main_image_url}}" data-fancybox="variation-image-loop-mobile-{{$loop->index + 1}}">
                                     <img
