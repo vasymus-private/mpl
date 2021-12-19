@@ -25,6 +25,7 @@ import {getProductItemComponentClass, isProductsAsidePage, getProductsAsidePageC
 
                 if (isActive) {
                     handleRemoveFromAside($target)
+                    
                 } else {
                     handleAddToAside($target)
                 }
@@ -39,7 +40,8 @@ import {getProductItemComponentClass, isProductsAsidePage, getProductsAsidePageC
                 .then(({data : {count}}) => {
                     $asideItemsCount.text(count)
                     $toggler.removeClass(activeClass)
-
+                    $toggler.html('<i class="fa fa-bookmark" aria-hidden="true"></i> Отложить')
+                    
                     handleRemoveAsideProductNode(productId)
                 })
                 .catch(Rest.simpleCatch)
@@ -54,6 +56,7 @@ import {getProductItemComponentClass, isProductsAsidePage, getProductsAsidePageC
                 .then(({data : {count}}) => {
                     $asideItemsCount.text(count)
                     $toggler.addClass(activeClass)
+                    $toggler.html('<i class="fa fa-bookmark" aria-hidden="true"></i> Отложено')
                 })
                 .catch(Rest.simpleCatch)
                 .finally(() => $toggler.removeClass(pendingClass))

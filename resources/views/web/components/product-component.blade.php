@@ -6,7 +6,7 @@
         <div class="put-off-block">
             <a href="#" data-id="{{$product->id}}" class="js-put-aside put-off-block__link {{in_array($product->id, $asideIds) ? "put-off-block__link--active" : ""}}">
                 <i class="fa fa-bookmark" aria-hidden="true"></i>
-                Отложить
+                {{in_array($product->id, $asideIds) ? "Отложено" : "Отложить" }} 
             </a>
         </div>
 
@@ -118,7 +118,7 @@
                     <?php /** @var \Domain\Products\Models\Product\Product $variation */ ?>
                 <tr>
                     <td>
-                        <div class="product-variants__photo">
+                        <div class="product-variants__photo {{ $variation->main_image_url ? '' : 'img-none' }}">
                             @if($variation->main_image_url)
                                 <a
                                     href="{{$variation->main_image_url}}"
@@ -224,7 +224,7 @@
                     <td colspan="7">
                         <div class="manager-area-price">
                             <p>
-                                Закупочная: <span>{{$variation->price_purchase_rub_formatted}}</span>,
+                                Закупочная: <strong>{{$variation->price_purchase_rub_formatted}}</strong>,
                                 Маржа: <span>{{$variation->margin_rub_formatted}}</span>,
                                 Наценка: {{$variation->price_markup}} %,
                                 Заработок: {{$variation->price_income}} %
