@@ -5787,9 +5787,14 @@ select {
   display: block;
   margin-top: 3px;
   font-family: "Roboto Slab", Arial, sans-serif;
-  font-size: 22px;
+  font-size: 21px;
   font-weight: 600;
   color: #ff5100;
+}
+@media screen and (max-width: 667px) {
+  .catalog__price {
+    font-size: 20px;
+  }
 }
 .catalog__price .gray-color {
   color: #959595;
