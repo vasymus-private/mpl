@@ -6,6 +6,7 @@ use App\Constants;
 use Domain\Common\Models\BaseModel;
 use Domain\Users\Models\Admin;
 use Domain\Users\Models\BaseUser\BaseUser;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 use Domain\Orders\Models\Pivots\OrderProduct;
@@ -63,6 +64,9 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  *
  * @see \Domain\Orders\Models\Order::providerBillStatus()
  * @property \Domain\Orders\Models\BillStatus $providerBillStatus
+ *
+ * @see \Domain\Orders\Models\Order::events()
+ * @property \Domain\Orders\Models\OrderEvent[]|\Illuminate\Database\Eloquent\Collection $events
  *
  * @see \Domain\Orders\Models\Order::getOrderPriceRetailRubAttribute()
  * @property-read float $order_price_retail_rub
@@ -183,6 +187,8 @@ class Order extends BaseModel implements HasMedia
                 "price_retail",
                 "price_retail_currency_id",
                 "name",
+                'unit',
+                'price_retail_rub',
             ])
         ;
     }
@@ -220,6 +226,11 @@ class Order extends BaseModel implements HasMedia
     public function providerBillStatus(): BelongsTo
     {
         return $this->belongsTo(BillStatus::class, 'provider_bill_status_id', 'id');
+    }
+
+    public function events(): HasMany
+    {
+        return $this->hasMany(OrderEvent::class, 'order_id', 'id');
     }
 
     public function registerMediaCollections(): void

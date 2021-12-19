@@ -179,4 +179,17 @@ class H
             }
         }
     }
+
+    /**
+     * @param string $tableName
+     * @param string $tableColumn
+     * @param string $foreignTableName
+     * @param string $foreignTableColumn
+     *
+     * @return string
+     */
+    public static function foreignIndexName(string $tableName, string $tableColumn, string $foreignTableName, string $foreignTableColumn): string
+    {
+        return sprintf('%s_%s_%s_%s', $tableName, $tableColumn, $foreignTableName, $foreignTableColumn);
+    }
 }

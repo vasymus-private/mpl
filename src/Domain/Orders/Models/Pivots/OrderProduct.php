@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @property float $price_retail
  * @property int $price_retail_currency_id
  * @property string|null $name
+ * @property string|null $unit
+ * @property float $price_retail_rub
  * */
 class OrderProduct extends Pivot
 {
