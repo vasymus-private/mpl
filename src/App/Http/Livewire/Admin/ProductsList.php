@@ -40,15 +40,15 @@ class ProductsList extends BaseItemsListComponent
     public array $items = [];
 
     protected array $rules = [
-        'items.*.name' => 'required|string|max:199',
+        'items.*.name' => 'required|string|max:250',
         'items.*.ordering' => 'integer|nullable',
         'items.*.is_active' => 'nullable|boolean',
-        'items.*.unit' => 'nullable|string|max:199',
+        'items.*.unit' => 'nullable|string|max:250',
         'items.*.price_purchase' => 'nullable|numeric',
         'items.*.price_purchase_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
         'items.*.price_retail' => 'nullable|numeric',
         'items.*.price_retail_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
-        'items.*.admin_comment' => 'nullable|string|max:199',
+        'items.*.admin_comment' => 'nullable|string|max:250',
         'items.*.availability_status_id' => 'required|integer|exists:' . AvailabilityStatus::class . ",id",
     ];
 
@@ -161,8 +161,12 @@ class ProductsList extends BaseItemsListComponent
      */
     protected function getItemsQuery(): Builder
     {
-        $query = Product::query()->select(["*"])->notVariations();
         $table = Product::TABLE;
+        $query = Product::query()
+            ->select(["*"])
+            ->notVariations()
+            ->orderBy(sprintf('%s.ordering', $table))
+            ->orderBy(sprintf('%s.id', $table));
 
         if ($this->category_id) {
             $category = Category::query()->findOrFail($this->category_id);

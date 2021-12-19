@@ -37,7 +37,7 @@ class CategoriesList extends Component
     protected function rules(): array
     {
         return [
-            'categories.*.name' => 'required|string|max:199',
+            'categories.*.name' => 'required|string|max:250',
             'categories.*.ordering' => 'integer|nullable',
             'categories.*.is_active' => [
                 'nullable',

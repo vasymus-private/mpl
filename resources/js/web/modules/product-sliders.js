@@ -1,4 +1,4 @@
-import Swiper from 'swiper'
+import Swiper, {Navigation} from 'swiper'
 
 (function ($) {
     $().ready(() => {
@@ -7,7 +7,8 @@ import Swiper from 'swiper'
             const selector = `.js-slider-${i + 1}`;
             if (!$(selector).length) continue;
 
-            sliders.push(window[`slider-${i + 1}`] = new Swiper(selector, {
+            sliders.push(new Swiper(selector, {
+                modules: [Navigation],
                 slidesPerView: 3,
                 freeMode: false,
                 breakpoints: {
@@ -27,9 +28,10 @@ import Swiper from 'swiper'
                         slidesPerView: 3,
                     },
                 },
+                uniqueNavElements: false,
                 navigation: {
-                    nextEl: `.swiper-button-next.js-slider-btn-${i + 1}`,
-                    prevEl: `.swiper-button-prev.js-slider-btn-${i + 1}`,
+                    nextEl: document.querySelector(`.swiper-button-next.js-slider-btn-${i + 1}`),
+                    prevEl: document.querySelector(`.swiper-button-prev.js-slider-btn-${i + 1}`),
                 },
             }))
         }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Constants;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -19,8 +20,7 @@ Route::get('---test-email-order', [\App\Http\Controllers\TestController::class, 
 Route::get('---test-email-order-markup', [\App\Http\Controllers\TestController::class, 'testEmailOrderMarkup'])->middleware('auth');
 Route::get("---test-email-password-reset", [\App\Http\Controllers\TestController::class, "testResetPasswordMarkup"])->middleware('auth');
 
-
-Route::middleware([\App\Constants::MIDDLEWARE_AUTHENTICATE_ALL])->group(function() {
+Route::middleware([Constants::MIDDLEWARE_AUTHENTICATE_ALL])->group(function() {
 
     /** @see \Laravel\Ui\AuthRouteMethods::auth() */
     Route
@@ -121,7 +121,8 @@ Route::middleware([\App\Constants::MIDDLEWARE_AUTHENTICATE_ALL])->group(function
 
     Route::get("profile-identify/{id}/{email}/{hash}", [\App\Http\Controllers\Web\ProfileController::class, "identify"])->name("profile.identify")->middleware(["signed"]);
 
-    Route::get('media/{id}/{name}', [\App\Http\Controllers\Web\HomeController::class, "media"])->name("media");
+    // TODO think of route if move to aws
+    Route::get('media/{id}/{name?}', [\App\Http\Controllers\Web\HomeController::class, "media"])->name("media");
 
     Route::get("/{service_slug}", [\App\Http\Controllers\Web\ServicesController::class, "show"])->name("services.show");
 

@@ -65,14 +65,14 @@ class ShowBrand extends Component
      * @var array
      */
     protected array $rules = [
-        'brand.name' => 'required|string|max:199',
-        'brand.slug' => 'nullable|string|max:199',
+        'brand.name' => 'required|string|max:250',
+        'brand.slug' => 'nullable|string|max:250',
         'brand.ordering' => 'integer|nullable',
         'brand.preview' => 'nullable|max:65000',
         'brand.description' => 'nullable|max:65000',
 
-        'seo.title' => 'nullable|max:199',
-        'seo.h1' => 'nullable|max:199',
+        'seo.title' => 'nullable|max:250',
+        'seo.h1' => 'nullable|max:250',
         'seo.keywords' => 'nullable|max:65000',
         'seo.description' => 'nullable|max:65000',
 

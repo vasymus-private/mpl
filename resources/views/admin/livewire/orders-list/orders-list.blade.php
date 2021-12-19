@@ -117,7 +117,7 @@
                         <td><span class="main-grid-cell-content">{{$order['user_email']}}</span></td>
                         <td>
                             <div class="main-grid-cell-content">
-                                <?php /** @var array $orderProductItem @see {@link \Domain\Products\DTOs\Admin\OrderProductItemDTO} */ ?>
+                                <?php /** @var array $orderProductItem @see {@link \Domain\Products\DTOs\Admin\OrderItemProductItemDTO} */ ?>
                                 @foreach($order['products'] as $orderProductItem)
                                     <p>
                                         {{$orderProductItem['name']}} <br>

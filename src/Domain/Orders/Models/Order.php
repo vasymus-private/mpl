@@ -58,6 +58,12 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @see \Domain\Orders\Models\Order::payment()
  * @property \Domain\Orders\Models\PaymentMethod $payment
  *
+ * @see \Domain\Orders\Models\Order::customerBillStatus()
+ * @property \Domain\Orders\Models\BillStatus $customerBillStatus
+ *
+ * @see \Domain\Orders\Models\Order::providerBillStatus()
+ * @property \Domain\Orders\Models\BillStatus $providerBillStatus
+ *
  * @see \Domain\Orders\Models\Order::getOrderPriceRetailRubAttribute()
  * @property-read float $order_price_retail_rub
  *
@@ -91,6 +97,12 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @see \Domain\Orders\Models\Order::getInitialAttachmentsAttribute()
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $initial_attachments
  *
+ * @see \Domain\Orders\Models\Order::getPaymentMethodAttachmentsAttribute()
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $payment_method_attachments
+ *
+ * @see \Domain\Orders\Models\Order::getAdminAttachmentsAttribute()
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $admin_attachments
+ *
  * @see \Domain\Orders\Models\Order::getDateFormattedAttribute()
  * @property-read string|null $date_formatted
  *
@@ -106,9 +118,11 @@ class Order extends BaseModel implements HasMedia
 
     public const MC_INITIAL_ATTACHMENT = "initial-attachment";
     public const MC_PAYMENT_METHOD_ATTACHMENT = "payment-method-attachment";
+    public const MC_ADMIN_ATTACHMENT = 'admin-attachment';
 
     public const DEFAULT_CANCELLED = false;
     public const DEFAULT_ORDER_STATUS_ID = OrderStatus::DEFAULT_ID;
+    public const DEFAULT_ORDER_IMPORTANCE = OrderImportance::DEFAULT_ID;
 
     /**
      * The table associated with the model.
@@ -145,6 +159,7 @@ class Order extends BaseModel implements HasMedia
     protected $attributes = [
         'order_status_id' => self::DEFAULT_ORDER_STATUS_ID,
         'cancelled' => self::DEFAULT_CANCELLED,
+        'importance_id' => self::DEFAULT_ORDER_IMPORTANCE,
     ];
 
     public static function rbAdminOrder($value)
@@ -197,11 +212,23 @@ class Order extends BaseModel implements HasMedia
         return $this->belongsTo(OrderImportance::class, 'importance_id', 'id');
     }
 
+    public function customerBillStatus(): BelongsTo
+    {
+        return $this->belongsTo(BillStatus::class, 'customer_bill_status_id', 'id');
+    }
+
+    public function providerBillStatus(): BelongsTo
+    {
+        return $this->belongsTo(BillStatus::class, 'provider_bill_status_id', 'id');
+    }
+
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection(static::MC_INITIAL_ATTACHMENT)->useDisk(Constants::MEDIA_DISK_PRIVATE);
 
         $this->addMediaCollection(static::MC_PAYMENT_METHOD_ATTACHMENT)->useDisk(Constants::MEDIA_DISK_PRIVATE);
+
+        $this->addMediaCollection(static::MC_ADMIN_ATTACHMENT)->useDisk(Constants::MEDIA_DISK_PRIVATE);
     }
 
     public function getOrderPriceRetailRubAttribute(): float
@@ -291,6 +318,22 @@ class Order extends BaseModel implements HasMedia
     public function getInitialAttachmentsAttribute(): MediaCollection
     {
         return $this->getMedia(static::MC_INITIAL_ATTACHMENT);
+    }
+
+    /**
+     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[]
+     * */
+    public function getPaymentMethodAttachmentsAttribute(): MediaCollection
+    {
+        return $this->getMedia(static::MC_PAYMENT_METHOD_ATTACHMENT);
+    }
+
+    /**
+     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[]
+     * */
+    public function getAdminAttachmentsAttribute(): MediaCollection
+    {
+        return $this->getMedia(static::MC_ADMIN_ATTACHMENT);
     }
 
     public function getDateFormattedAttribute(): ?string

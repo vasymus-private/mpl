@@ -12,9 +12,9 @@ use Domain\Products\Models\Product\Product;
 trait HasOthersTab
 {
     /**
-     * @var int[]
+     * @var string[]
      */
-    public array $relatedCategories;
+    public array $relatedCategories = [];
 
     protected function getOthersTabRules(): array
     {
@@ -28,9 +28,7 @@ trait HasOthersTab
      */
     protected function getOthersTabMessages(): array
     {
-        return [
-
-        ];
+        return [];
     }
 
     protected function initOthersTab()
@@ -57,8 +55,15 @@ trait HasOthersTab
         $this->item->relatedCategories()->sync($this->relatedCategories);
     }
 
+    protected function pushToRelatedCategory(string $id)
+    {
+        $relatedCategories = $this->relatedCategories;
+        $relatedCategories[] = $id;
+        $this->relatedCategories = array_unique($relatedCategories);
+    }
+
     protected function initRelatedCategories(Product $product)
     {
-        $this->relatedCategories = $product->relatedCategories->pluck('id')->toArray();
+        $this->relatedCategories = $product->relatedCategories->pluck('id')->map(fn($id) => (string)$id)->toArray();
     }
 }

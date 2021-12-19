@@ -4,6 +4,7 @@ namespace Domain\Products\Models\Product;
 
 use Domain\Common\Models\Currency;
 use Domain\Products\Models\AvailabilityStatus;
+use Illuminate\Support\Facades\Cache;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Support\H;
 
@@ -300,7 +301,7 @@ trait ProductAcM
 
     public function getMainImageUrlAttribute(): string
     {
-        return $this->getFirstMediaUrl(static::MC_MAIN_IMAGE);
+        return Cache::store('array')->rememberForever(sprintf('product_main_image_url-%s', $this->id), fn() => $this->getFirstMediaUrl(static::MC_MAIN_IMAGE));
     }
 
     public function getMainImageXsThumbUrlAttribute(): string
@@ -410,23 +411,35 @@ trait ProductAcM
 
     public function getWebRouteAttribute(): string
     {
-        if ($this->is_variation) return $this->parent->web_route;
+        return Cache::store('array')->rememberForever(sprintf('product_web_route_%s', $this->id), function() {
+            if ($this->is_variation) {
+                return $this->parent->web_route;
+            }
 
-        $category = $this->category;
+            $category = $this->category;
 
-        if ($category === null) return "";
+            if ($category === null) {
+                return "";
+            }
 
-        $slug = $this->slug ?: '---';
+            $slug = $this->slug ?: '---';
 
-        $parent1 = $category->parentCategory;
-        if ($parent1 === null) return route("product.show.1", [$category->slug, $slug]);
+            $parent1 = $category->parentCategory;
+            if ($parent1 === null) {
+                return route("product.show.1", [$category->slug, $slug]);
+            }
 
-        $parent2 = $parent1->parentCategory;
-        if ($parent2 === null) return route("product.show.2", [$parent1->slug, $category->slug, $slug]);
+            $parent2 = $parent1->parentCategory;
+            if ($parent2 === null) {
+                return route("product.show.2", [$parent1->slug, $category->slug, $slug]);
+            }
 
-        $parent3 = $parent2->parentCategory;
-        if ($parent3 === null) return route("product.show.3", [$parent2->slug, $parent1->slug, $category->slug, $slug]);
+            $parent3 = $parent2->parentCategory;
+            if ($parent3 === null) {
+                return route("product.show.3", [$parent2->slug, $parent1->slug, $category->slug, $slug]);
+            }
 
-        return route("product.show.4", [$parent3->slug, $parent2->slug, $parent1->slug, $category->slug, $slug]);
+            return route("product.show.4", [$parent3->slug, $parent2->slug, $parent1->slug, $category->slug, $slug]);
+        });
     }
 }

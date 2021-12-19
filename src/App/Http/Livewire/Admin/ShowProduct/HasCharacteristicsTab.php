@@ -58,7 +58,7 @@ trait HasCharacteristicsTab
     protected function getCharacteristicsTabRules(): array
     {
         return [
-            'charCategories.*.chars.*.value' => 'nullable|max:199',
+            'charCategories.*.chars.*.value' => 'nullable|max:250',
         ];
     }
 
@@ -75,14 +75,14 @@ trait HasCharacteristicsTab
     protected function getNewCharCategoryRules(): array
     {
         return [
-            'newCharCategory.name' => 'required|string|max:199',
+            'newCharCategory.name' => 'required|string|max:250',
         ];
     }
 
     protected function getNewCharRules(): array
     {
         return [
-            'newChar.name' => 'required|string|max:199',
+            'newChar.name' => 'required|string|max:250',
             'newChar.category_id' => [
                 'required',
                 (new Exists(CharCategory::TABLE, 'id'))->where('product_id', $this->item->id)
