@@ -5793,7 +5793,7 @@ select {
 }
 @media screen and (max-width: 667px) {
   .catalog__price {
-    font-size: 20px;
+    font-size: 19px;
   }
 }
 .catalog__price .gray-color {
@@ -5869,7 +5869,6 @@ select {
 @media screen and (max-width: 416px) {
   .catalog .column-price-mobile .column:first-child {
     width: 57%;
-    text-align: center;
   }
 }
 .catalog .column-price-mobile .column:last-child {
@@ -8713,7 +8712,7 @@ textarea.form-control {
   font-size: 12px;
 }
 .product-variants .mob-products .column:first-child {
-  flex: 70px 0;
+  flex: 16px 0;
 }
 .product-variants .mob-products .column:last-child {
   flex: 1 1;

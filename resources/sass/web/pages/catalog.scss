@@ -96,7 +96,7 @@
     font-weight: 600;
     color: #ff5100;
     @media screen and (max-width: 667px) {
-      font-size: 20px;
+      font-size: 19px;
     }
     .gray-color {
       color: #959595;
@@ -174,7 +174,6 @@
         width: 50%;
         @media screen and (max-width: 416px) {
           width: 57%;
-          text-align: center;
         }
       }
       &:last-child {
