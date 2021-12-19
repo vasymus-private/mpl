@@ -21,6 +21,8 @@ use Domain\Orders\Models\Order;
 use Domain\Orders\Models\OrderImportance;
 use Domain\Orders\Models\OrderStatus;
 use Domain\Orders\Models\PaymentMethod;
+use Domain\Products\DTOs\Admin\OrderProductItemDTO;
+use Domain\Products\Models\Product\Product;
 use Domain\Users\Models\Admin;
 use Illuminate\Support\Facades\Route;
 use Livewire\TemporaryUploadedFile;
@@ -58,6 +60,16 @@ class ShowOrder extends BaseShowComponent
      * @var array[] @see {@link \Domain\Common\DTOs\FileDTO}
      */
     public array $attachments;
+
+    /**
+     * @var array @see {@link \Domain\Products\DTOs\Admin\OrderProductItemDTO}
+     */
+    public array $currentProductItem;
+
+    /**
+     * @var array[] @see {@link \Domain\Products\DTOs\Admin\OrderProductItemDTO}
+     */
+    public array $productItems;
 
     /**
      * @var \Livewire\TemporaryUploadedFile
@@ -132,6 +144,8 @@ class ShowOrder extends BaseShowComponent
         $this->email = $this->item->request['email'] ?? $this->item->user->email ?? '';
         $this->name = $this->item->request['name'] ?? $this->item->user->name ?? '';
         $this->phone = $this->item->request['phone'] ?? $this->item->user->phone ?? '';
+
+        $this->populateProductItems();
     }
 
     public function render()
@@ -223,6 +237,23 @@ class ShowOrder extends BaseShowComponent
         $this->attachments[] = $fileDTO->toArray();
     }
 
+    public function removeProductItem($id)
+    {
+        $this->item->products()->detach($id);
+        $this->item->load('products');
+        $this->populateProductItems();
+    }
+
+    public function selectCurrentProductItem($id)
+    {
+        $product = $this->item->products->first(fn(Product $product) => (string)$product->id === (string)$id);
+        if (!$product) {
+            return false;
+        }
+        $this->currentProductItem = OrderProductItemDTO::fromOrderProductItem($product)->toArray();
+        return true;
+    }
+
     protected function initAttachments()
     {
         $this->attachments = $this->item
@@ -267,5 +298,10 @@ class ShowOrder extends BaseShowComponent
         });
 
         $this->attachments = $attachments;
+    }
+
+    protected function populateProductItems()
+    {
+        $this->productItems = $this->item->products->map(fn(Product $product) => OrderProductItemDTO::fromOrderProductItem($product)->toArray())->all();
     }
 }

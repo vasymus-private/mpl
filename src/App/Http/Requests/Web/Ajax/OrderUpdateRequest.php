@@ -7,6 +7,7 @@ use Domain\Orders\Models\PaymentMethod;
 use Domain\Users\Models\BaseUser\BaseUser;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\Rule;
 use Support\H;
 
@@ -47,8 +48,8 @@ class OrderUpdateRequest extends FormRequest
         ];
     }
 
-    protected function getAuthUser(): BaseUser
+    public function getAuthUser(): BaseUser
     {
-        return H::userOrAdmin();
+        return Cache::store('array')->rememberForever(sprintf('%s-user', static::class), fn() => H::userOrAdmin());
     }
 }

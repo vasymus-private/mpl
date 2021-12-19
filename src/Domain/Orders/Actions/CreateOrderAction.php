@@ -63,6 +63,7 @@ class CreateOrderAction
             $orderEvent->type = $params->order_event_type;
 
             $orderEvent->order()->associate($order);
+            $orderEvent->user()->associate($params->user);
             $orderEvent->save();
         } catch (Exception $exception) {
             Log::error($exception);

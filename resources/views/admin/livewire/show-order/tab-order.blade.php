@@ -330,22 +330,49 @@
     <table class="table table-bordered table-hover">
         <thead>
             <tr>
+                @if($isCreating || $this->isEditMode())
+                    <th scope="col"><span class="main-grid-head-title">&nbsp;</span></th>
+                @endif
                 <th scope="col">Изображение</th>
                 <th scope="col">Название</th>
                 <th scope="col">Количество</th>
+                <th scope="col">Свойства</th>
                 <th scope="col">Цена</th>
                 <th scope="col">Сумма</th>
             </tr>
         </thead>
         <tbody>
-        <?php /** @var \Domain\Products\Models\Product\Product $product */ ?>
-        @foreach($item->products as $product)
-            <tr>
-                <td><div class="text-center"><img class="img-fluid" src="{{$product['main_image_md_thumb_url']}}" alt="" /></div></td>
+        <?php /** @var \Domain\Products\DTOs\Admin\OrderProductItemDTO|array $product */ ?>
+        @foreach($productItems as $product)
+            <tr wire:key="product-{{$product['uuid']}}">
+                @if($isCreating || $this->isEditMode())
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn__grid-row-action-button" type="button" id="actions-dropdown-{{$product['uuid']}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                            <div class="dropdown-menu bx-core-popup-menu" aria-labelledby="actions-dropdown-{{$product['uuid']}}">
+                                <div class="bx-core-popup-menu__arrow"></div>
+                                <button type="button" class="bx-core-popup-menu-item" onclick="@this.selectCurrentProductItem({{$product['id']}}).then(res => {if (res) $('#edit-product-item').modal('show') })">
+                                    <span class="bx-core-popup-menu-item-icon adm-menu-edit"></span>
+                                    <span class="bx-core-popup-menu-item-text">Изменить</span>
+                                </button>
+                                <span class="bx-core-popup-menu-separator"></span>
+                                <button type="button" class="bx-core-popup-menu-item" wire:click="removeProductItem({{$product['id']}})">
+                                    <span class="bx-core-popup-menu-item-icon adm-menu-delete"></span>
+                                    <span class="bx-core-popup-menu-item-text">Удалить</span>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                @endif
+                <td><div class="text-center"><img class="img-fluid" src="{{$product['image']}}" alt="" /></div></td>
                 <td><span class="main-grid-cell-content">{{$product['name']}}</span></td>
                 <td><span class="main-grid-cell-content">{{$product['order_product_count']}}</span></td>
+                <td>
+                    <p>Закупочная: {{$product['price_purchase_rub_formatted']}}</p>
+                    <p>Сумма закупки: </p>
+                </td>
                 <td><span class="main-grid-cell-content">{{$product['price_purchase_rub_formatted']}}</span></td>
-                <td><span class="main-grid-cell-content">{{$product['order_product_count'] * $product['price_purchase_rub']}} р</span></td>
+                <td><span class="main-grid-cell-content">{{$product['order_product_count'] * $product['price_retail_rub']}} р</span></td>
             </tr>
         @endforeach
         </tbody>
@@ -375,6 +402,30 @@
             </div>
             <div class="modal-footer">
                 <button onclick="@this.handleCancelOrder().then((res) => { if(res) $('#cancel-order').modal('hide') })" type="button" class="btn btn-primary">Отправить</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div wire:ignore.self class="modal fade" id="edit-product-item" tabindex="-1" aria-labelledby="edit-product-item-title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="edit-product-item-title">Редактирование товара</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @include('admin.livewire.includes.form-group-input', ['field' => 'currentProductItem.name', 'label' => 'Наименование'])
+                @include('admin.livewire.includes.form-group-input', ['field' => 'currentProductItem.unit', 'label' => 'Упаковка / Единица'])
+                @include('admin.livewire.includes.form-group-input', ['field' => 'currentProductItem.price_purchase_rub_formatted', 'label' => 'Розничная цена (руб)'])
+                @include('admin.livewire.includes.form-group-input', ['field' => 'currentProductItem.order_product_count', 'label' => 'Количество'])
+            </div>
+            <div class="modal-footer">
+                <button onclick="@this.handleCancelOrder().then((res) => { if(res) $('#edit-product-item').modal('hide') })" type="button" class="btn btn-primary">Сохранить</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
             </div>
         </div>
