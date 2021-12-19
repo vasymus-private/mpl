@@ -9,7 +9,7 @@
             <div class="put-off-block">
                 <a href="#" data-id="{{$product->id}}" class="js-put-aside put-off-block__link {{in_array($product->id, $asideIds) ? "put-off-block__link--active" : ""}}">
                     <i class="fa fa-bookmark" aria-hidden="true"></i>
-                    Отложить
+                    {{in_array($product->id, $asideIds) ? "Отложено" : "Отложить" }} 
                 </a>
             </div>
         </div>
@@ -24,8 +24,8 @@
             </div>
         </div>
 
-        @if(\Support\H::userOrAdmin()->is_admin)
-        <div class="column-price-block js-product-item-popover" data-content="<p>Закупочная: {{$product->price_purchase_rub_formatted}}</p><p>Маржа: {{$product->margin_rub_formatted}}</p><p>Наценка: {{$product->price_markup}} %</p><p>Заработок: {{$product->price_income}} %</p><p>{{$product->admin_comment}}</p> <p><a href='{{route(\App\Constants::ROUTE_ADMIN_PRODUCTS_EDIT, $product->id)}}' target='_blank'>Редактировать</a></p>">
+
+        <div class="column-price-block {{\Support\H::userOrAdmin()->is_admin ? 'js-product-item-popover' : ''}}" @if(\Support\H::userOrAdmin()->is_admin) data-content="<p>Закупочная: {{$product->price_purchase_rub_formatted}}</p><p>Маржа: {{$product->margin_rub_formatted}}</p><p>Наценка: {{$product->price_markup}} %</p><p>Заработок: {{$product->price_income}} %</p><p>{{$product->admin_comment}}</p> <p><a href='{{route(\App\Constants::ROUTE_ADMIN_PRODUCTS_EDIT, $product->id)}}' target='_blank'>Редактировать</a></p>" @endif>
             <span class="catalog__price-title">{{$product->price_name}}:</span>
             <span class="catalog__price">{{$product->price_retail_rub_formatted}} <span class="gray-color"> / {{$product->unit}}</span></span>
             <span class="catalog__status {{$product->is_available ? 'catalog__status--available' : 'catalog__status--not-available'}}">{{$product->availability_status_name}}</span>
@@ -48,7 +48,7 @@
                 </div>
             @endforeach
         </div>
-        @endif
+
         <div class="column-price-mobile">
             <div class="column">
                 <span class="catalog__price">{{$product->price_retail}} {{\Domain\Common\Models\Currency::getFormattedName($product->price_retail_currency_id)}}<span class="gray-color"> / {{$product->unit}}</span></span>
