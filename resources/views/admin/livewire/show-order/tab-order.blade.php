@@ -321,7 +321,7 @@
         <div class="search form-group row justify-content-end">
             <div class="col-xs-12 col-sm-2">
                 <div class="dropdown">
-                    <a href="#" class="btn btn-add btn-secondary">Добавить товар</a>
+                    <button data-toggle="modal" data-target="#add-product-item" class="btn btn-add btn-secondary">Добавить товар</button>
                 </div>
             </div>
         </div>
@@ -443,6 +443,22 @@
             <div class="modal-footer">
                 <button onclick="@this.handleSaveCurrentProductItem().then((res) => { if(res) $('#edit-product-item').modal('hide') })" type="button" class="btn btn-primary">Сохранить</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div wire:ignore.self class="modal fade" id="add-product-item" tabindex="-1" aria-labelledby="add-product-item-title" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="add-product-item-title">Каталог товаров</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
             </div>
         </div>
     </div>
