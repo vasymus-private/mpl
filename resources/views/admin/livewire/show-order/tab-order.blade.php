@@ -351,7 +351,7 @@
                             <button class="btn btn__grid-row-action-button" type="button" id="actions-dropdown-{{$product['uuid']}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                             <div class="dropdown-menu bx-core-popup-menu" aria-labelledby="actions-dropdown-{{$product['uuid']}}">
                                 <div class="bx-core-popup-menu__arrow"></div>
-                                <button type="button" class="bx-core-popup-menu-item" onclick="@this.selectCurrentProductItem({{$product['id']}}).then(res => {if (res) $('#edit-product-item').modal('show') })">
+                                <button type="button" class="bx-core-popup-menu-item" onclick="@this.selectCurrentProductItem('{{$product['uuid']}}').then(res => {if (res) $('#edit-product-item').modal('show') })">
                                     <span class="bx-core-popup-menu-item-icon adm-menu-edit"></span>
                                     <span class="bx-core-popup-menu-item-text">Изменить</span>
                                 </button>
@@ -378,7 +378,16 @@
                     <p>Сумма закупки: {{$product['price_purchase_rub_sum_formatted']}}</p>
                     <p>Заработок: {{$product['price_retail_purchase_sum_diff_rub_formatted']}}</p>
                 </td>
-                <td><span class="main-grid-cell-content">{{$product['price_retail_rub_formatted']}}</span></td>
+                <td>
+                    @if($isCreating || $this->isEditMode())
+                        @include('admin.livewire.includes.form-group-input', ['field' => sprintf('productItems.%s.price_retail_rub', $product['uuid']), 'label' => 'Цена (р)', 'modifier' => '.debounce.500ms'])
+                    @else
+                        <p><span class="main-grid-cell-content">{{$product['price_retail_rub_formatted']}}</span></p>
+                    @endif
+                    @if($product['price_retail_rub_was_updated'])
+                        <p style="text-decoration: line-through;"><span class="main-grid-cell-content">{{$product['price_retail_rub_origin_formatted']}}</span></p>
+                    @endif
+                </td>
                 <td><span class="main-grid-cell-content">{{$product['price_retail_rub_sum_formatted']}}</span></td>
             </tr>
         @endforeach
@@ -426,13 +435,13 @@
                 </button>
             </div>
             <div class="modal-body">
-                @include('admin.livewire.includes.form-group-input', ['field' => 'currentProductItem.name', 'label' => 'Наименование'])
-                @include('admin.livewire.includes.form-group-input', ['field' => 'currentProductItem.unit', 'label' => 'Упаковка / Единица'])
-                @include('admin.livewire.includes.form-group-input', ['field' => 'currentProductItem.price_purchase_rub_formatted', 'label' => 'Розничная цена (руб)'])
-                @include('admin.livewire.includes.form-group-input', ['field' => 'currentProductItem.order_product_count', 'label' => 'Количество'])
+                @include('admin.livewire.includes.form-group-input', ['field' => 'currentProductItem.name', 'label' => 'Наименование', 'modifier' => '.defer'])
+                @include('admin.livewire.includes.form-group-input', ['field' => 'currentProductItem.unit', 'label' => 'Упаковка / Единица', 'modifier' => '.defer'])
+                @include('admin.livewire.includes.form-group-input', ['field' => 'currentProductItem.price_retail_rub', 'label' => 'Розничная цена (руб)', 'modifier' => '.defer'])
+                @include('admin.livewire.includes.form-group-input', ['field' => 'currentProductItem.order_product_count', 'label' => 'Количество', 'modifier' => '.defer'])
             </div>
             <div class="modal-footer">
-                <button onclick="@this.handleCancelOrder().then((res) => { if(res) $('#edit-product-item').modal('hide') })" type="button" class="btn btn-primary">Сохранить</button>
+                <button onclick="@this.handleSaveCurrentProductItem().then((res) => { if(res) $('#edit-product-item').modal('hide') })" type="button" class="btn btn-primary">Сохранить</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
             </div>
         </div>

@@ -111,6 +111,12 @@ use Support\H;
  * @see \Domain\Products\Models\Product\ProductAcM::getOrderProductPriceRetailRubAttribute()
  * @property-read float|null $order_product_price_retail_rub
  *
+ * @see \Domain\Products\Models\Product\ProductAcM::getOrderProductPriceRetailRubOriginAttribute()
+ * @property-read float|null $order_product_price_retail_rub_origin
+ *
+ * @see \Domain\Products\Models\Product\ProductAcM::getOrderProductPriceRetailRubWasUpdatedAttribute()
+ * @property-read bool|null $order_product_price_retail_rub_was_updated
+ *
  * @see \Domain\Products\Models\Product\ProductAcM::getOrderProductPriceRetailRubFormattedAttribute()
  * @property-read string|null $order_product_price_retail_rub_formatted
  *
@@ -383,6 +389,20 @@ trait ProductAcM
         return $this->order_product === null
             ? null
             : $this->order_product->price_retail_rub;
+    }
+
+    public function getOrderProductPriceRetailRubOriginAttribute(): ?float
+    {
+        return $this->order_product === null
+            ? null
+            : $this->order_product->price_retail_rub_origin;
+    }
+
+    public function getOrderProductPriceRetailRubWasUpdatedAttribute(): ?bool
+    {
+        return $this->order_product === null
+            ? null
+            : $this->order_product->price_retail_rub_was_updated;
     }
 
     public function getOrderProductPriceRetailRubFormattedAttribute(): ?string

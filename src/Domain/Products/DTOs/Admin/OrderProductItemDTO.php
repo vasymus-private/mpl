@@ -30,6 +30,11 @@ class OrderProductItemDTO extends DataTransferObject
     public int $order_product_count;
 
     /**
+     * @var float|int|null
+     */
+    public $price_purchase_rub;
+
+    /**
      * @var string|null
      */
     public ?string $price_purchase_rub_formatted;
@@ -72,6 +77,16 @@ class OrderProductItemDTO extends DataTransferObject
     /**
      * @var string|null
      */
+    public ?string $price_retail_rub_origin_formatted;
+
+    /**
+     * @var bool|null
+     */
+    public ?bool $price_retail_rub_was_updated;
+
+    /**
+     * @var string|null
+     */
     public ?string $unit;
 
     /**
@@ -101,6 +116,7 @@ class OrderProductItemDTO extends DataTransferObject
             'uuid' => $product->uuid,
             'name' => $product->name,
             'order_product_count' => $product->order_product_count,
+            'price_purchase_rub' => $product->price_purchase_rub,
             'price_purchase_rub_formatted' => $product->price_purchase_rub_formatted,
             'price_purchase_rub_sum' => $product->order_product_price_purchase_sum,
             'price_purchase_rub_sum_formatted' => $product->order_product_price_purchase_sum_formatted,
@@ -109,6 +125,8 @@ class OrderProductItemDTO extends DataTransferObject
             'price_retail_rub_sum' => $product->order_product_price_retail_rub_sum,
             'price_retail_rub_sum_formatted' => $product->order_product_price_retail_rub_sum_formatted,
             'price_retail_purchase_sum_diff_rub_formatted' => H::priceRubFormatted($product->order_product_price_retail_rub_sum - $product->order_product_price_purchase_sum, Currency::ID_RUB),
+            'price_retail_rub_origin_formatted' => H::priceRubFormatted($product->order_product_price_retail_rub_origin, Currency::ID_RUB),
+            'price_retail_rub_was_updated' => $product->order_product_price_retail_rub_was_updated,
             'unit' => $product->unit,
             'coefficient' => $product->coefficient,
             'availability_status_name' => $product->availability_status_name,

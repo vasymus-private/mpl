@@ -11,6 +11,7 @@ use App\Http\Livewire\Admin\HasOrderStatuses;
 use App\Http\Livewire\Admin\HasPaymentMethods;
 use App\Http\Livewire\Admin\HasTabs;
 use Domain\Common\DTOs\FileDTO;
+use Domain\Common\Models\Currency;
 use Domain\Common\Models\CustomMedia;
 use Domain\Orders\Actions\DeleteOrderAction;
 use Domain\Orders\Actions\HandleCancelOrderAction;
@@ -27,6 +28,7 @@ use Domain\Users\Models\Admin;
 use Illuminate\Support\Facades\Route;
 use Livewire\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
+use Support\H;
 
 class ShowOrder extends BaseShowComponent
 {
@@ -65,6 +67,11 @@ class ShowOrder extends BaseShowComponent
      * @var array @see {@link \Domain\Products\DTOs\Admin\OrderProductItemDTO}
      */
     public array $currentProductItem;
+
+    /**
+     * @var array @see {@link \Domain\Products\DTOs\Admin\OrderProductItemDTO}
+     */
+    public array $initialCurrentProductItem;
 
     /**
      * @var array[] @see {@link \Domain\Products\DTOs\Admin\OrderProductItemDTO}
@@ -244,13 +251,16 @@ class ShowOrder extends BaseShowComponent
         $this->productItems = collect($this->productItems)->filter(fn(array $productItem) => (string)$productItem['id'] !== (string)$id)->toArray();
     }
 
-    public function selectCurrentProductItem($id)
+    public function selectCurrentProductItem($uuid)
     {
-        $product = collect($this->productItems)->first(fn(array $productItem) => (string)$productItem['id'] === (string)$id);
-        if (!$product) {
+        $orderProductItem = $this->productItems[$uuid];
+
+        if (!$orderProductItem) {
             return false;
         }
-        $this->currentProductItem = $product;
+
+        $this->currentProductItem = $orderProductItem;
+        $this->initialCurrentProductItem = $orderProductItem;
         return true;
     }
 
@@ -305,9 +315,73 @@ class ShowOrder extends BaseShowComponent
         $this->productItems = $this->item->products->map(fn(Product $product) => OrderProductItemDTO::fromOrderProductItem($product)->toArray())->keyBy('uuid')->all();
     }
 
-    public function updatedProductItems($value, $uuid)
+    /**
+     * @param string $value
+     * @param string $field
+     */
+    public function updatedProductItems($value, $field)
     {
-        dd($value, $uuid);
-        // todo change
+        $uuidItemFieldArr = explode('.', $field);
+        $uuid = $uuidItemFieldArr[0];
+        $itemField = $uuidItemFieldArr[1];
+
+        $orderProductItem = $this->productItems[$uuid];
+        $orderProductItem = $this->handleUpdateProductItem($orderProductItem, $itemField, $value);
+
+        $this->productItems[$uuid] = $orderProductItem;
+    }
+
+    public function handleSaveCurrentProductItem()
+    {
+        if (!$this->currentProductItem) {
+            return false;
+        }
+        $productItemToUpdate = $this->productItems[$this->currentProductItem['uuid']];
+
+        $possibleFieldsToUpdate = ['name', 'unit', 'price_retail_rub', 'order_product_count'];
+        foreach ($possibleFieldsToUpdate as $itemField) {
+            if ($this->currentProductItem[$itemField] !== $this->initialCurrentProductItem[$itemField]) {
+                $productItemToUpdate = $this->handleUpdateProductItem($productItemToUpdate, $itemField, $this->currentProductItem[$itemField]);
+            }
+        }
+        $this->productItems[$this->currentProductItem['uuid']] = $productItemToUpdate;
+
+        return true;
+    }
+
+    /**
+     * @param array|\Domain\Products\DTOs\Admin\OrderProductItemDTO $orderProductItem
+     * @param string $itemField
+     * @param int|string $value
+     *
+     * @return array|\Domain\Products\DTOs\Admin\OrderProductItemDTO
+     */
+    protected function handleUpdateProductItem(array $orderProductItem, string $itemField, $value): array
+    {
+        switch ($itemField) {
+            case 'order_product_count': {
+                $orderProductItem['price_retail_rub_sum'] = (int)$value * $orderProductItem['price_retail_rub'];
+                $orderProductItem['price_retail_rub_sum_formatted'] = H::priceRubFormatted($orderProductItem['price_retail_rub_sum'], Currency::ID_RUB);
+                $orderProductItem['price_purchase_rub_sum'] = (int)$value * $orderProductItem['price_purchase_rub'];
+                $orderProductItem['price_purchase_rub_sum_formatted'] = H::priceRubFormatted($orderProductItem['price_purchase_rub_sum'], Currency::ID_RUB);
+                $orderProductItem['price_retail_purchase_sum_diff_rub_formatted'] = H::priceRubFormatted($orderProductItem['price_retail_rub_sum'] - $orderProductItem['price_purchase_rub_sum'], Currency::ID_RUB);
+                $orderProductItem[$itemField] = $value;
+                break;
+            }
+            case 'price_retail_rub': {
+                $orderProductItem['price_retail_rub_was_updated'] = true;
+                $orderProductItem['price_retail_rub_formatted'] = H::priceRubFormatted((int)$value, Currency::ID_RUB);
+                $orderProductItem['price_retail_rub_sum'] = (int)$value * $orderProductItem['order_product_count'];
+                $orderProductItem['price_retail_rub_sum_formatted'] = H::priceRubFormatted($orderProductItem['price_retail_rub_sum'], Currency::ID_RUB);
+                $orderProductItem['price_retail_purchase_sum_diff_rub_formatted'] = H::priceRubFormatted($orderProductItem['price_retail_rub_sum'] - $orderProductItem['price_purchase_rub_sum'], Currency::ID_RUB);
+                $orderProductItem[$itemField] = $value;
+                break;
+            }
+            default: {
+                $orderProductItem[$itemField] = $value;
+            }
+        }
+
+        return $orderProductItem;
     }
 }
