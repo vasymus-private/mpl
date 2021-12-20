@@ -69,6 +69,9 @@
         font-family: Open Sans, sans-serif;
         margin: 0;
         padding: 0;
+        a:hover {
+            color: #dd522d;
+        }
     }
 
     &__counter {
@@ -163,11 +166,7 @@
             font-size: 12px;
         }
 
-        .column {
-            &:first-child {
-                flex: 70px 0;
-            }
-
+        .column {           
             &:last-child {
                 flex: 1 1;
                 padding: 0 5px;

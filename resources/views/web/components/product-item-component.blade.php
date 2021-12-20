@@ -51,7 +51,7 @@
 
         <div class="column-price-mobile">
             <div class="column">
-                <span class="catalog__price">{{$product->price_retail_rub_formatted}} <span class="gray-color"> / {{$product->unit}}</span></span>
+                <span class="catalog__price">{{$product->price_retail_rub_formatted}}<span class="gray-color"> / {{$product->unit}}</span></span>
             </div>
             <div class="column">
                 <a href="{{$product->web_route}}" class="catalog__addToCard">Купить</a>
