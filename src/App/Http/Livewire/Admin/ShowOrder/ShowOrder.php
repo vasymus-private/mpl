@@ -22,7 +22,9 @@ use Domain\Orders\Models\Order;
 use Domain\Orders\Models\OrderImportance;
 use Domain\Orders\Models\OrderStatus;
 use Domain\Orders\Models\PaymentMethod;
+use Domain\Products\DTOs\Admin\CategoryItemSidebarDTO;
 use Domain\Products\DTOs\Admin\OrderProductItemDTO;
+use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
 use Domain\Users\Models\Admin;
 use Illuminate\Support\Facades\Route;
@@ -82,6 +84,11 @@ class ShowOrder extends BaseShowComponent
      * @var \Livewire\TemporaryUploadedFile
      */
     public $tempAttachment;
+
+    /**
+     * @var \Domain\Products\DTOs\Admin\CategoryItemSidebarDTO[]
+     * */
+    public array $categoriesSidebar;
 
     /**
      * @var \Domain\Orders\Models\Order
@@ -155,6 +162,7 @@ class ShowOrder extends BaseShowComponent
         $this->phone = $this->item->request['phone'] ?? $this->item->user->phone ?? '';
 
         $this->initProductItems();
+        $this->initCategoriesSidebar();
     }
 
     public function render()
@@ -315,6 +323,11 @@ class ShowOrder extends BaseShowComponent
         $this->productItems = $this->item->products->map(fn(Product $product) => OrderProductItemDTO::fromOrderProductItem($product)->toArray())->keyBy('uuid')->all();
     }
 
+    protected function initCategoriesSidebar()
+    {
+        $this->categoriesSidebar = Category::getTreeRuntimeCached()->map(fn(Category $category) => CategoryItemSidebarDTO::fromModel($category)->toArray())->all();
+    }
+
     /**
      * @param string $value
      * @param string $field
@@ -383,5 +396,20 @@ class ShowOrder extends BaseShowComponent
         }
 
         return $orderProductItem;
+    }
+
+    public function getPrepends(): array
+    {
+        return [];
+    }
+
+    public function clearAllFilters()
+    {
+
+    }
+
+    public function handleSearchAddProductItem()
+    {
+
     }
 }

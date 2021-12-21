@@ -34,10 +34,12 @@
                 ])
             </div>
         @endif
-        <div class="col-xs-12 col-sm-2">
-            <div class="dropdown">
-                <a href="{{$newRoute}}" class="btn btn-add btn-secondary">Создать</a>
+        @if($newRoute ?? null)
+            <div class="col-xs-12 col-sm-2">
+                <div class="dropdown">
+                    <a href="{{$newRoute}}" class="btn btn-add btn-secondary">Создать</a>
+                </div>
             </div>
-        </div>
+        @endif
     </div>
 </form>
