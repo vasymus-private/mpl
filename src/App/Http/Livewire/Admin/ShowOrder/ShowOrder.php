@@ -11,6 +11,7 @@ use App\Http\Livewire\Admin\HasOrderStatuses;
 use App\Http\Livewire\Admin\HasPaymentMethods;
 use App\Http\Livewire\Admin\HasTabs;
 use Domain\Common\DTOs\FileDTO;
+use Domain\Common\DTOs\SearchPrependAdminDTO;
 use Domain\Common\Models\Currency;
 use Domain\Common\Models\CustomMedia;
 use Domain\Orders\Actions\DeleteOrderAction;
@@ -50,15 +51,40 @@ class ShowOrder extends BaseShowComponent
      */
     public $editMode = '0';
 
+    /**
+     * @var bool
+     */
     public bool $isCreating;
 
+    /**
+     * @var string
+     */
     public string $cancelMessage = '';
 
+    /**
+     * @var string
+     */
     public string $email = '';
 
+    /**
+     * @var string
+     */
     public string $name = '';
 
+    /**
+     * @var string
+     */
     public string $phone = '';
+
+    /**
+     * @var array[] @see {@link \Domain\Common\DTOs\SearchPrependAdminDTO}
+     */
+    public array $productItemsFilters = [];
+
+    /**
+     * @var string|int
+     */
+    public $categoryId;
 
     /**
      * @var array[] @see {@link \Domain\Common\DTOs\FileDTO}
@@ -398,9 +424,29 @@ class ShowOrder extends BaseShowComponent
         return $orderProductItem;
     }
 
-    public function getPrepends(): array
+    /**
+     * @return array[] $prepends @see {@link \Domain\Common\DTOs\SearchPrependAdminDTO}
+     */
+    public function getProductItemsFilters(): array
     {
-        return [];
+        return $this->productItemsFilters;
+    }
+
+    public function setProductItemFilter($categoryId)
+    {
+        $category = Category::query()->findOrFail($categoryId);
+        $this->productItemsFilters = [];
+
+        $this->productItemsFilters[] = (new SearchPrependAdminDTO([
+            'label' => $category->name,
+            'onClear' => 'clearProductItemFilter',
+        ]))->toArray();
+        $this->categoryId = $category->id;
+    }
+
+    public function clearProductItemFilter()
+    {
+        $this->productItemsFilters = [];
     }
 
     public function clearAllFilters()

@@ -14,17 +14,16 @@
                 </button>
             </div>
             <div class="modal-body">
+                <div class="container-fluid">
                 <div class="row d-flex flex-grow-1 row-overflow-hidden">
-                    <div class="content col-9 order-2">
+                    <div class="content col-8 order-2">
                         @include('admin.livewire.includes.form-search', [
                             'submit' => 'handleSearchAddProductItem',
                             'clearAll' => 'clearAllFilters',
-                            'prepends' => $this->getPrepends(),
+                            'prepends' => $this->getProductItemsFilters(),
                         ])
-
-
                     </div>
-                    <aside class="sidebar-left p-0 col-3 order-1">
+                    <aside wire:ignore class="sidebar-left p-0 col-4 order-1">
                         <nav class="min-vh-100 js-admin-sidbar">
                             <ul class="nav pt-3">
                                 <li class="nav-item">
@@ -34,103 +33,74 @@
                                         <span class="nav-link-text">Каталог товаров</span>
                                     </a>
                                     <ul class="nav collapse show" id="modal-categories">
-                                        <li class="nav-item">
-                                            <a href="#modal-categories-sub" class="nav-link sub-level-1" data-toggle="collapse" role="button" aria-expanded="true">
-                                                <span class="adm-arrow-icon"></span>
-                                                <span class="d-flex align-items-center justify-content-center js-navigate-categories" data-route="{{route('admin.categories.index')}}">
-                                                <span class="adm-icon iblock_menu_icon_iblocks"></span>
-                                                <span class="nav-link-text">Каталог товаров</span>
-                                            </span>
-                                            </a>
-                                            <ul class="nav collapse show" id="modal-categories-sub">
-                                                <li class="nav-item">
-                                                    <a href="{{route("admin.products.index")}}" class="nav-link sub-level-2">
-                                                        <span class="adm-arrow-icon-dot"></span>
-                                                        <span class="nav-link-text">Товары</span>
-                                                    </a>
-                                                </li>
-
-                                                @foreach($categoriesSidebar as $category)
-                                                    <li class="nav-item">
-                                                        <a href="#modal-categories-{{$category['id']}}" class="nav-link collapsed sub-level-2" data-toggle="collapse" role="button" aria-expanded="true">
-                                                            <span class="adm-arrow-icon"></span>
-                                                            <span class="d-flex align-items-center justify-content-center js-navigate-categories" data-route="{{route('admin.categories.index', ['category_id' => $category['id']])}}">
-                                                            <span class="adm-icon iblock_menu_icon_sections"></span>
-                                                            <span class="nav-link-text">{{$category['name']}}</span>
-                                                        </span>
-                                                        </a>
-                                                        <ul class="nav collapse show" id="modal-categories-{{$category['id']}}">
-                                                            <li class="nav-item">
-                                                                <a href="{{route("admin.products.index", ["category_id" => $category['id']])}}" class="nav-link sub-level-3">
+                                        @foreach($categoriesSidebar as $category)
+                                            <li class="nav-item">
+                                                <a href="#modal-categories-{{$category['id']}}" class="nav-link collapsed sub-level-2" data-toggle="collapse" role="button" aria-expanded="false">
+                                                    <span class="adm-arrow-icon"></span>
+                                                    <span  wire:click="setProductItemFilter({{$category['id']}})" class="d-flex align-items-center justify-content-center js-navigate-categories">
+                                                        <span class="adm-icon iblock_menu_icon_sections"></span>
+                                                        <span class="nav-link-text">{{$category['name']}}</span>
+                                                    </span>
+                                                </a>
+                                                <ul class="nav collapse" id="modal-categories-{{$category['id']}}">
+                                                    @foreach($category['subcategories'] as $subcategory1)
+                                                        <li class="nav-item">
+                                                            <a href="#modal-categories-{{$subcategory1['id']}}" class="nav-link collapsed sub-level-3" data-toggle="collapse" role="button" aria-expanded="false">
+                                                                @if(!empty($subcategory1['subcategories']))
+                                                                    <span class="adm-arrow-icon"></span>
+                                                                @else
                                                                     <span class="adm-arrow-icon-dot"></span>
-                                                                    <span class="nav-link-text">Товары</span>
-                                                                </a>
-                                                            </li>
-                                                            @foreach($category['subcategories'] as $subcategory1)
-                                                                <li class="nav-item">
-                                                                    <a href="#modal-categories-{{$subcategory1['id']}}" class="nav-link sub-level-3" data-toggle="collapse" role="button" aria-expanded="true">
-                                                                        <span class="adm-arrow-icon"></span>
-                                                                        <span class="d-flex align-items-center justify-content-center js-navigate-categories" data-route="{{route('admin.categories.index', ['category_id' => $subcategory1['id']])}}">
-                                                                        <span class="adm-icon iblock_menu_icon_sections"></span>
-                                                                        <span class="nav-link-text">{{$subcategory1['name']}}</span>
-                                                                    </span>
-                                                                    </a>
-                                                                    <ul class="nav collapse show" id="modal-categories-{{$subcategory1['id']}}">
-                                                                        <li class="nav-item">
-                                                                            <a href="{{route("admin.products.index", ["category_id" => $subcategory1['id']])}}" class="nav-link sub-level-4">
+                                                                @endif
+                                                                <span wire:click="setProductItemFilter({{$subcategory1['id']}})"  class="d-flex align-items-center justify-content-center js-navigate-categories">
+                                                                    <span class="adm-icon iblock_menu_icon_sections"></span>
+                                                                    <span class="nav-link-text">{{$subcategory1['name']}}</span>
+                                                                </span>
+                                                            </a>
+                                                            @if(!empty($subcategory1['subcategories']))
+                                                            <ul class="nav collapse" id="modal-categories-{{$subcategory1['id']}}">
+                                                                @foreach($subcategory1['subcategories'] as $subcategory2)
+                                                                    <li class="nav-item">
+                                                                        <a href="#modal-categories-{{$subcategory2['id']}}" class="nav-link collapsed sub-level-4" data-toggle="collapse" role="button" aria-expanded="false">
+                                                                            @if(!empty($subcategory2['subcategories']))
+                                                                                <span class="adm-arrow-icon"></span>
+                                                                            @else
                                                                                 <span class="adm-arrow-icon-dot"></span>
-                                                                                <span class="nav-link-text">Товары</span>
-                                                                            </a>
-                                                                        </li>
-                                                                        @foreach($subcategory1['subcategories'] as $subcategory2)
-                                                                            <li class="nav-item">
-                                                                                <a href="#modal-categories-{{$subcategory2['id']}}" class="nav-link sub-level-4" data-toggle="collapse" role="button" aria-expanded="true">
-                                                                                    <span class="adm-arrow-icon"></span>
-                                                                                    <span class="d-flex align-items-center justify-content-center js-navigate-categories" data-route="{{route('admin.categories.index', ['category_id' => $subcategory2['id']])}}">
-                                                                                    <span class="adm-icon iblock_menu_icon_sections"></span>
-                                                                                    <span class="nav-link-text">{{$subcategory2['name']}}</span>
-                                                                                </span>
-                                                                                </a>
-                                                                                <ul class="nav collapse show" id="modal-categories-{{$subcategory2['id']}}">
-                                                                                    <li class="nav-item">
-                                                                                        <a href="{{route("admin.products.index", ["category_id" => $subcategory2['id']])}}" class="nav-link sub-level-5">
-                                                                                            <span class="adm-arrow-icon-dot"></span>
-                                                                                            <span class="nav-link-text">Товары</span>
-                                                                                        </a>
-                                                                                    </li>
-                                                                                    @foreach($subcategory2['subcategories'] as $subcategory3)
-                                                                                        <li class="nav-item">
-                                                                                            <a href="#modal-categories-{{$subcategory3['id']}}" class="nav-link sub-level-5" data-toggle="collapse" role="button" aria-expanded="true">
-                                                                                                <span class="adm-arrow-icon"></span>
-                                                                                                <span class="adm-icon iblock_menu_icon_sections"></span>
-                                                                                                <span class="nav-link-text">{{$subcategory3['name']}}</span>
-                                                                                            </a>
-                                                                                            <ul class="nav collapse show" id="modal-categories-{{$subcategory3['id']}}">
-                                                                                                <li class="nav-item">
-                                                                                                    <a href="{{route("admin.products.index", ["category_id" => $subcategory3['id']])}}" class="nav-link sub-level-6">
-                                                                                                        <span class="adm-arrow-icon-dot"></span>
-                                                                                                        <span class="nav-link-text">Товары</span>
-                                                                                                    </a>
-                                                                                                </li>
-                                                                                            </ul>
-                                                                                        </li>
-                                                                                    @endforeach
-                                                                                </ul>
-                                                                            </li>
-                                                                        @endforeach
-                                                                    </ul>
-                                                                </li>
-                                                            @endforeach
-                                                        </ul>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                        </li>
+                                                                            @endif
+                                                                            <span wire:click="setProductItemFilter({{$subcategory2['id']}})" class="d-flex align-items-center justify-content-center js-navigate-categories">
+                                                                                <span class="adm-icon iblock_menu_icon_sections"></span>
+                                                                                <span class="nav-link-text">{{$subcategory2['name']}}</span>
+                                                                            </span>
+                                                                        </a>
+                                                                        @if(!empty($subcategory2['subcategories']))
+                                                                        <ul class="nav collapse" id="modal-categories-{{$subcategory2['id']}}">
+                                                                            @foreach($subcategory2['subcategories'] as $subcategory3)
+                                                                                <li class="nav-item">
+                                                                                    <a href="#modal-categories-{{$subcategory3['id']}}" class="nav-link sub-level-5" data-toggle="collapse" role="button" aria-expanded="true">
+                                                                                        <span class="adm-arrow-icon-dot"></span>
+                                                                                        <span wire:click="setProductItemFilter({{$subcategory3['id']}})" class="d-flex align-items-center justify-content-center js-navigate-categories">
+                                                                                            <span class="adm-icon iblock_menu_icon_sections"></span>
+                                                                                            <span class="nav-link-text">{{$subcategory3['name']}}</span>
+                                                                                        </span>
+                                                                                    </a>
+                                                                                </li>
+                                                                            @endforeach
+                                                                        </ul>
+                                                                        @endif
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
+                                                            @endif
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            </li>
+                                        @endforeach
                                     </ul>
                                 </li>
                             </ul>
                         </nav>
                     </aside>
+                </div>
                 </div>
             </div>
         </div>
