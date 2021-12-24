@@ -8,6 +8,7 @@ use App\Http\Livewire\Admin\HasBillStatuses;
 use App\Http\Livewire\Admin\HasManagers;
 use App\Http\Livewire\Admin\HasOrderImportance;
 use App\Http\Livewire\Admin\HasOrderStatuses;
+use App\Http\Livewire\Admin\HasPagination;
 use App\Http\Livewire\Admin\HasPaymentMethods;
 use App\Http\Livewire\Admin\HasTabs;
 use Domain\Common\DTOs\FileDTO;
@@ -24,13 +25,16 @@ use Domain\Orders\Models\OrderImportance;
 use Domain\Orders\Models\OrderStatus;
 use Domain\Orders\Models\PaymentMethod;
 use Domain\Products\DTOs\Admin\CategoryItemSidebarDTO;
+use Domain\Products\DTOs\Admin\OrderAdditionalProductItemDTO;
 use Domain\Products\DTOs\Admin\OrderProductItemDTO;
 use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
 use Domain\Users\Models\Admin;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Route;
 use Livewire\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 use Support\H;
 
 class ShowOrder extends BaseShowComponent
@@ -43,8 +47,36 @@ class ShowOrder extends BaseShowComponent
     use HasBillStatuses;
     use WithFileUploads;
 
+    // pagination is needed for additional product items in modal
+    use WithPagination {
+        setPage as protected _setPage;
+    }
+    use HasPagination;
+
+    protected const DEFAULT_PER_PAGE = 20;
+
     protected const DEFAULT_TAB = 'order';
     public const MAX_FILE_SIZE_MB = 30;
+
+    /**
+     * @var int|string
+     */
+    public $total = 0;
+
+    /**
+     * @var int|string
+     */
+    public $last_page;
+
+    /**
+     * @var int|string
+     */
+    public $per_page;
+
+    /**
+     * @var string
+     */
+    public $search;
 
     /**
      * @var string|int|null
@@ -82,7 +114,7 @@ class ShowOrder extends BaseShowComponent
     public array $productItemsFilters = [];
 
     /**
-     * @var string|int
+     * @var string|int|null
      */
     public $categoryId;
 
@@ -105,6 +137,11 @@ class ShowOrder extends BaseShowComponent
      * @var array[] @see {@link \Domain\Products\DTOs\Admin\OrderProductItemDTO}
      */
     public array $productItems;
+
+    /**
+     * @var array[] @see {@link \Domain\Products\DTOs\Admin\OrderAdditionalProductItemDTO}
+     */
+    public array $additionalProductItems = [];
 
     /**
      * @var \Livewire\TemporaryUploadedFile
@@ -189,11 +226,22 @@ class ShowOrder extends BaseShowComponent
 
         $this->initProductItems();
         $this->initCategoriesSidebar();
+
+        $this->fetchAdditionalProductItems();
+        $this->mountPerPageOptions();
+        $this->mountAdditionalProductItemsPerPage();
     }
 
     public function render()
     {
-        return view('admin.livewire.show-order.show-order');
+        return view('admin.livewire.show-order.show-order', [
+            'additionalProductItemsPaginator' => new LengthAwarePaginator(
+                $this->additionalProductItems,
+                $this->total,
+                $this->per_page,
+                $this->page,
+            ),
+        ]);
     }
 
     public function handleSave()
@@ -444,6 +492,26 @@ class ShowOrder extends BaseShowComponent
         $this->categoryId = $category->id;
     }
 
+    public function setAdditionalProductItems(array $items)
+    {
+        $this->additionalProductItems = collect($items)->map(fn(Product $product) => OrderAdditionalProductItemDTO::create($product)->all())->toArray();
+    }
+
+    public function fetchAdditionalProductItems()
+    {
+        $query = Product::query()->notVariations()->with('variations');
+        if ($this->categoryId) {
+            $query->where(sprintf('%s.category_id', Product::TABLE), $this->categoryId);
+        }
+        if ($this->search) {
+            $query->where(sprintf('%s.name', Product::TABLE), 'like', sprintf('%%%s%%', $this->search));
+        }
+
+        $paginator = $this->getPaginator($query);
+
+        $this->setAdditionalProductItems($paginator->items());
+    }
+
     public function clearProductItemFilter()
     {
         $this->productItemsFilters = [];
@@ -451,10 +519,27 @@ class ShowOrder extends BaseShowComponent
 
     public function clearAllFilters()
     {
-
+        $this->search = '';
+        $this->categoryId = null;
     }
 
-    public function handleSearchAddProductItem()
+    public function setAdditionalProductItemsPage($page)
+    {
+        $this->_setPage($page);
+        $this->fetchAdditionalProductItems();
+    }
+
+    public function handleAdditionalProductItemsSearch()
+    {
+        $this->fetchAdditionalProductItems();
+    }
+
+    public function mountAdditionalProductItemsPerPage()
+    {
+        $this->per_page = $this->getDefaultPerPage();
+    }
+
+    public function addProductItemToOrder(string $uuid)
     {
 
     }

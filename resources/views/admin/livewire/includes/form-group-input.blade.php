@@ -5,6 +5,7 @@
  * @var string|null $labelColClass Default is 'col-sm-5'
  * @var string|null $inputColClass Default is 'col-sm-7'
  * @var string $modifier
+ * @var string $label
  */
 ?>
 @if($isRow ?? true)

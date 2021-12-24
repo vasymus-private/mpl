@@ -2,6 +2,8 @@
 /**
  * @var \App\Http\Livewire\Admin\ShowOrder\ShowOrder $this
  * @var array[] $categoriesSidebar @see {@link \App\View\Components\Admin\SidebarMenuComponent[]}
+ * @var string|int|null $categoryId @see {@link \App\Http\Livewire\Admin\ShowOrder\ShowOrder::$categoryId}
+ * @var int $total
  */
 ?>
 <div wire:ignore.self class="modal fade" id="add-product-item" tabindex="-1" aria-labelledby="add-product-item-title" aria-hidden="true">
@@ -18,12 +20,54 @@
                 <div class="row d-flex flex-grow-1 row-overflow-hidden">
                     <div class="content col-8 order-2">
                         @include('admin.livewire.includes.form-search', [
-                            'submit' => 'handleSearchAddProductItem',
+                            'submit' => 'handleAdditionalProductItemsSearch',
                             'clearAll' => 'clearAllFilters',
                             'prepends' => $this->getProductItemsFilters(),
                         ])
+
+                        <div class="admin-edit-variations">
+                            <div wire:loading.flex>
+                                <div class="d-flex justify-content-center align-items-center bg-light" style="opacity: 0.5; position:absolute; top:0; bottom:0; right:0; left:0; z-index: 20; ">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Акт.</th>
+                                    <th scope="col">Изображение</th>
+                                    <th scope="col">Название</th>
+                                    <th scope="col">Действие</th>
+                                    <th scope="col">Цена</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($additionalProductItems as $product)
+                                    @include('admin.livewire.show-order.additional-product-item', compact('product'))
+                                    @forelse($product['variations'] as $variation)
+                                        @include('admin.livewire.show-order.additional-product-item', ['product' => $variation])
+                                    @empty
+                                    @endforelse
+                                @endforeach
+                                </tbody>
+                            </table>
+
+                            @include(
+                                'admin.livewire.includes.pagination',
+                                 array_merge([
+                                     'options' => $per_page_options,
+                                     'wire' => ['change' => 'handleAdditionalProductItemsSearch'],
+                                     'paginator' => $additionalProductItemsPaginator,
+                                 ], compact('total'))
+                            )
+                        </div>
                     </div>
                     <aside wire:ignore class="sidebar-left p-0 col-4 order-1">
+                        @include('admin.livewire.includes.loading', ['target' => 'setProductItemFilter'])
                         <nav class="min-vh-100 js-admin-sidbar">
                             <ul class="nav pt-3">
                                 <li class="nav-item">

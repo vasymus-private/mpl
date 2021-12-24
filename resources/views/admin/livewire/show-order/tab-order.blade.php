@@ -368,7 +368,7 @@
                 <td><span class="main-grid-cell-content"><a target="_blank" href="{{route("admin.products.edit", $product['id'])}}">{{$product['name']}}</a></span></td>
                 <td>
                     @if($isCreating || $this->isEditMode())
-                        @include('admin.livewire.includes.form-group-input', ['field' => sprintf('productItems.%s.order_product_count', $product['uuid']), 'label' => 'Количество', 'modifier' => '.debounce.500ms'])
+                        @include('admin.livewire.includes.form-control-input', ['field' => sprintf('productItems.%s.order_product_count', $product['uuid']), 'modifier' => '.debounce.500ms'])
                     @else
                         <span class="main-grid-cell-content">{{$product['order_product_count']}}</span>
                     @endif
@@ -380,7 +380,7 @@
                 </td>
                 <td>
                     @if($isCreating || $this->isEditMode())
-                        @include('admin.livewire.includes.form-group-input', ['field' => sprintf('productItems.%s.price_retail_rub', $product['uuid']), 'label' => 'Цена (р)', 'modifier' => '.debounce.500ms'])
+                        @include('admin.livewire.includes.form-control-input', ['field' => sprintf('productItems.%s.price_retail_rub', $product['uuid']), 'modifier' => '.debounce.500ms'])
                     @else
                         <p><span class="main-grid-cell-content">{{$product['price_retail_rub_formatted']}}</span></p>
                     @endif
@@ -423,7 +423,6 @@
         </div>
     </div>
 </div>
-
 
 <div wire:ignore.self class="modal fade" id="edit-product-item" tabindex="-1" aria-labelledby="edit-product-item-title" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
