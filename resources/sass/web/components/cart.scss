@@ -67,9 +67,17 @@
         }
     }
 
-    .deleted-row td {
-        text-decoration: line-through;
-    }
+    .deleted-row {
+        td {
+            opacity: .5;
+            &.count-td {
+                opacity: 1;
+            }
+            .js-cart-column-count-part-deleted {
+                text-align: center;
+            }
+        }
+    } 
 
     th {
         border-bottom: 1px solid #f2f2f2;
