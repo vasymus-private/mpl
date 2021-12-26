@@ -30,11 +30,11 @@ trait HasPagination
     protected function getPaginator(Builder $query)
     {
         $copyQuery = clone $query;
-        $paginator = $query->paginate((int)$this->per_page);
+        $paginator = $query->paginate((int)$this->per_page, ['*'], 'page', $this->page);
 
         if ($paginator->lastPage() < $this->page) {
             $this->page = 1;
-            $paginator = $copyQuery->paginate($this->per_page);
+            $paginator = $copyQuery->paginate($this->per_page, ['*'], 'page', $this->page);
         }
 
         if (property_exists($this, 'request_query')) {

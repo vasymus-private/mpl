@@ -235,12 +235,12 @@ class ShowOrder extends BaseShowComponent
     public function render()
     {
         return view('admin.livewire.show-order.show-order', [
-            'additionalProductItemsPaginator' => new LengthAwarePaginator(
+            'additionalProductItemsPaginator' => (new LengthAwarePaginator(
                 $this->additionalProductItems,
                 $this->total,
                 $this->per_page,
                 $this->page,
-            ),
+            ))->onEachSide(1),
         ]);
     }
 
@@ -480,8 +480,14 @@ class ShowOrder extends BaseShowComponent
         return $this->productItemsFilters;
     }
 
-    public function setProductItemFilter($categoryId)
+    public function setProductItemFilter($categoryId = null)
     {
+        if (!$categoryId) {
+            $this->categoryId = null;
+            $this->productItemsFilters = [];
+            $this->fetchAdditionalProductItems();
+            return;
+        }
         $category = Category::query()->findOrFail($categoryId);
         $this->productItemsFilters = [];
 
@@ -490,14 +496,15 @@ class ShowOrder extends BaseShowComponent
             'onClear' => 'clearProductItemFilter',
         ]))->toArray();
         $this->categoryId = $category->id;
+        $this->fetchAdditionalProductItems();
     }
 
-    public function setAdditionalProductItems(array $items)
+    protected function setAdditionalProductItems(array $items)
     {
-        $this->additionalProductItems = collect($items)->map(fn(Product $product) => OrderAdditionalProductItemDTO::create($product)->all())->toArray();
+        $this->additionalProductItems = collect($items)->map(fn(Product $product) => OrderAdditionalProductItemDTO::create($product)->toArray())->keyBy('uuid')->toArray();
     }
 
-    public function fetchAdditionalProductItems()
+    protected function fetchAdditionalProductItems()
     {
         $query = Product::query()->notVariations()->with('variations');
         if ($this->categoryId) {
@@ -521,9 +528,11 @@ class ShowOrder extends BaseShowComponent
     {
         $this->search = '';
         $this->categoryId = null;
+        $this->productItemsFilters = [];
+        $this->fetchAdditionalProductItems();
     }
 
-    public function setAdditionalProductItemsPage($page)
+    public function setPage($page)
     {
         $this->_setPage($page);
         $this->fetchAdditionalProductItems();
@@ -541,6 +550,64 @@ class ShowOrder extends BaseShowComponent
 
     public function addProductItemToOrder(string $uuid)
     {
+        $product = Product::query()
+            ->where(
+                sprintf('%s.uuid', Product::TABLE),
+                $uuid
+            )
+            ->firstOrFail();
 
+        $this->productItems[$uuid] = $this->getOrderProductItem(
+            $product,
+            (isset($this->productItems[$uuid])
+                ? $this->productItems[$uuid]['order_product_count'] + 1
+                : 1),
+            (isset($this->productItems[$uuid])
+                ? $this->productItems[$uuid]['price_retail_rub_was_updated']
+                : false)
+        )->toArray();
+    }
+
+    public function toggleShowVariations(string $uuid)
+    {
+        $productItem = $this->additionalProductItems[$uuid];
+        $productItem['showVariations'] = !$productItem['showVariations'];
+        $this->additionalProductItems[$uuid] = $productItem;
+    }
+
+    /**
+     * @param \Domain\Products\Models\Product\Product $product
+     * @param int $count
+     * @param bool $priceRetailRubWasUpdated
+     *
+     * @return \Domain\Products\DTOs\Admin\OrderProductItemDTO
+     */
+    protected function getOrderProductItem(Product $product, int $count = 1, bool $priceRetailRubWasUpdated = false): OrderProductItemDTO
+    {
+        $price_purchase_rub_sum = $count * $product->price_purchase_rub;
+        $price_retail_rub = $product->price_retail_rub;
+        $price_retail_rub_sum = $price_retail_rub * $count;
+
+        return new OrderProductItemDTO([
+            'id' => $product->id,
+            'uuid' => $product->uuid,
+            'name' => $product->name,
+            'order_product_count' => $count,
+            'price_purchase_rub' => $product->price_purchase_rub,
+            'price_purchase_rub_formatted' => $product->price_purchase_rub_formatted,
+            'unit' => $product->unit,
+            'coefficient' => $product->coefficient,
+            'availability_status_name' => $product->availability_status_name,
+            'image' => $product->main_image_sm_thumb_url,
+            'price_purchase_rub_sum' => $price_purchase_rub_sum,
+            'price_purchase_rub_sum_formatted' => H::priceRubFormatted($price_purchase_rub_sum, Currency::ID_RUB),
+            'price_retail_rub' => $price_retail_rub,
+            'price_retail_rub_formatted' => H::priceRubFormatted($price_retail_rub, Currency::ID_RUB),
+            'price_retail_rub_sum' => $price_retail_rub_sum,
+            'price_retail_rub_sum_formatted' => H::priceRubFormatted($price_retail_rub_sum, Currency::ID_RUB),
+            'price_retail_purchase_sum_diff_rub_formatted' => H::priceRubFormatted($price_retail_rub_sum - $price_purchase_rub_sum, Currency::ID_RUB),
+            'price_retail_rub_origin_formatted' => H::priceRubFormatted($price_retail_rub, Currency::ID_RUB),
+            'price_retail_rub_was_updated' => $priceRetailRubWasUpdated,
+        ]);
     }
 }

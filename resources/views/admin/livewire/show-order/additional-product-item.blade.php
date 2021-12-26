@@ -18,10 +18,10 @@
     </td>
     <td>
         <span class="main-grid-cell-content">
-            @if($product['is_variation'])
-                <button class="btn btn-link" wire:click="addProductItemToOrder({{$product['uuid']}})" type="button">Выбрать</button>
+            @if($product['is_variation'] || empty($product['variations']))
+                <button class="btn btn-link" wire:click="addProductItemToOrder('{{$product['uuid']}}')" type="button">Выбрать</button>
             @else
-                <button class="btn btn-link" wire:click="toggleShowVariations({{$product['uuid']}})" type="button">{{$product['showVariations'] ? 'Свернуть' : 'Развернуть'}}</button>
+                <button class="btn btn-link" wire:click="toggleShowVariations('{{$product['uuid']}}')" type="button">{{$product['showVariations'] ? 'Свернуть' : 'Развернуть'}}</button>
             @endif
         </span>
     </td>

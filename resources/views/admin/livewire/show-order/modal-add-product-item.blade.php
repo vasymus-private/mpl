@@ -17,8 +17,8 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                <div class="row d-flex flex-grow-1 row-overflow-hidden">
-                    <div class="content col-8 order-2">
+                <div class="row">
+                    <div class="col-8 order-2">
                         @include('admin.livewire.includes.form-search', [
                             'submit' => 'handleAdditionalProductItemsSearch',
                             'clearAll' => 'clearAllFilters',
@@ -26,13 +26,7 @@
                         ])
 
                         <div class="admin-edit-variations">
-                            <div wire:loading.flex>
-                                <div class="d-flex justify-content-center align-items-center bg-light" style="opacity: 0.5; position:absolute; top:0; bottom:0; right:0; left:0; z-index: 20; ">
-                                    <div class="spinner-border" role="status">
-                                        <span class="sr-only">Loading...</span>
-                                    </div>
-                                </div>
-                            </div>
+                            @include('admin.livewire.includes.loading', ['target' => 'handleAdditionalProductItemsSearch, setProductItemFilter, gotoPage, clearAllFilters, toggleShowVariations, addProductItemToOrder'])
 
                             <table class="table table-bordered table-hover">
                                 <thead>
@@ -48,10 +42,12 @@
                                 <tbody>
                                 @foreach($additionalProductItems as $product)
                                     @include('admin.livewire.show-order.additional-product-item', compact('product'))
-                                    @forelse($product['variations'] as $variation)
-                                        @include('admin.livewire.show-order.additional-product-item', ['product' => $variation])
-                                    @empty
-                                    @endforelse
+
+                                    @if($product['showVariations'] && !empty($product['variations']))
+                                        @foreach($product['variations'] as $variation)
+                                            @include('admin.livewire.show-order.additional-product-item', ['product' => $variation])
+                                        @endforeach
+                                    @endif
                                 @endforeach
                                 </tbody>
                             </table>
@@ -62,19 +58,22 @@
                                      'options' => $per_page_options,
                                      'wire' => ['change' => 'handleAdditionalProductItemsSearch'],
                                      'paginator' => $additionalProductItemsPaginator,
+                                     'sizes' => [2, 8, 2],
+                                     'formGroup' => false,
                                  ], compact('total'))
                             )
                         </div>
                     </div>
                     <aside wire:ignore class="sidebar-left p-0 col-4 order-1">
-                        @include('admin.livewire.includes.loading', ['target' => 'setProductItemFilter'])
                         <nav class="min-vh-100 js-admin-sidbar">
                             <ul class="nav pt-3">
                                 <li class="nav-item">
                                     <a href="#modal-categories" class="nav-link" data-toggle="collapse" role="button" aria-expanded="true">
                                         <span class="adm-arrow-icon"></span>
-                                        <span class="adm-icon iblock_menu_icon_types"></span>
-                                        <span class="nav-link-text">Каталог товаров</span>
+                                        <span wire:click="setProductItemFilter({{null}})" class="d-flex align-items-center justify-content-center js-navigate-categories">
+                                            <span class="adm-icon iblock_menu_icon_types"></span>
+                                            <span class="nav-link-text">Каталог товаров</span>
+                                        </span>
                                     </a>
                                     <ul class="nav collapse show" id="modal-categories">
                                         @foreach($categoriesSidebar as $category)
@@ -95,7 +94,7 @@
                                                                 @else
                                                                     <span class="adm-arrow-icon-dot"></span>
                                                                 @endif
-                                                                <span wire:click="setProductItemFilter({{$subcategory1['id']}})"  class="d-flex align-items-center justify-content-center js-navigate-categories">
+                                                                <span wire:click="setProductItemFilter({{$subcategory1['id']}})" class="d-flex align-items-center justify-content-center js-navigate-categories">
                                                                     <span class="adm-icon iblock_menu_icon_sections"></span>
                                                                     <span class="nav-link-text">{{$subcategory1['name']}}</span>
                                                                 </span>
