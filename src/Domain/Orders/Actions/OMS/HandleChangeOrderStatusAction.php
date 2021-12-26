@@ -14,7 +14,7 @@ class HandleChangeOrderStatusAction
      */
     public function execute(Order $order, int $newStatus): void
     {
-        if ((string)$order->getOriginal('order_status_id') === (string)$order->order_status_id) {
+        if ((string)$order->getOriginal('order_status_id') === (string)$newStatus) {
             return;
         }
         // TODO add validation / email etc

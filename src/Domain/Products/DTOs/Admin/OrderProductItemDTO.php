@@ -116,8 +116,18 @@ class OrderProductItemDTO extends DataTransferObject
             'uuid' => $product->uuid,
             'name' => $product->name,
             'order_product_count' => $product->order_product_count,
+            'unit' => $product->unit,
+            'coefficient' => $product->coefficient,
+            'availability_status_name' => $product->availability_status_name,
+            'image' => $product->main_image_sm_thumb_url,
             'price_purchase_rub' => $product->price_purchase_rub,
             'price_purchase_rub_formatted' => $product->price_purchase_rub_formatted,
+            'price_purchase' => $product->price_purchase,
+            'price_purchase_currency_id' => $product->price_purchase_currency_id,
+
+            // todo change naming
+
+            // order product and calculated props
             'price_purchase_rub_sum' => $product->order_product_price_purchase_sum,
             'price_purchase_rub_sum_formatted' => $product->order_product_price_purchase_sum_formatted,
             'price_retail_rub' => $product->order_product_price_retail_rub,
@@ -127,10 +137,6 @@ class OrderProductItemDTO extends DataTransferObject
             'price_retail_purchase_sum_diff_rub_formatted' => H::priceRubFormatted($product->order_product_price_retail_rub_sum - $product->order_product_price_purchase_sum, Currency::ID_RUB),
             'price_retail_rub_origin_formatted' => H::priceRubFormatted($product->order_product_price_retail_rub_origin, Currency::ID_RUB),
             'price_retail_rub_was_updated' => $product->order_product_price_retail_rub_was_updated,
-            'unit' => $product->unit,
-            'coefficient' => $product->coefficient,
-            'availability_status_name' => $product->availability_status_name,
-            'image' => $product->main_image_sm_thumb_url,
         ]);
     }
 }

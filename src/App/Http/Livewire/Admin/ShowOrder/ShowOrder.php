@@ -246,6 +246,13 @@ class ShowOrder extends BaseShowComponent
 
     public function handleSave()
     {
+        $this->saveItem();
+        $this->saveAttachments();
+        $this->saveOrderItems();
+    }
+
+    protected function saveItem()
+    {
         $this->validate();
 
         $request = $this->item->request;
@@ -253,14 +260,50 @@ class ShowOrder extends BaseShowComponent
         $request['name'] = $this->name;
         $request['phone'] = $this->phone;
         $this->item->request = $request;
-
+        $orderStatusId = $this->item->order_status_id;
+        $this->item->order_status_id = $this->item->getOriginal('order_status_id');
         $this->item->save();
 
         /** @var \Domain\Orders\Actions\OMS\HandleChangeOrderStatusAction $handleChangeOrderStatusAction */
         $handleChangeOrderStatusAction = resolve(HandleChangeOrderStatusAction::class);
-        $handleChangeOrderStatusAction->execute($this->item, $this->item->order_status_id);
+        $handleChangeOrderStatusAction->execute($this->item, $orderStatusId);
+        $this->item->order_status_id = $orderStatusId;
+    }
 
-        $this->saveAttachments();
+    protected function saveOrderItems()
+    {
+        $productsPrepare = [];
+
+
+        // todo not finished
+
+
+
+
+
+        /** @var array @see {@link \Domain\Products\DTOs\Admin\OrderProductItemDTO} $productItem */
+        foreach ($this->productItems as $productItem) {
+            /** @var \Domain\Products\Models\Product\Product $current */
+            $current = $this->item->products->first(fn(Product $product) => (string)$product->id === (string)$productItem['id']);
+            if ($current) {
+                $productsPrepare[$productItem['id']] = [
+                    "count" => $productItem['order_product_count'],
+                    "price_purchase" => $current->price_purchase,
+                    "price_purchase_currency_id" => $current->price_purchase_currency_id,
+                    "price_retail" => $current->price_retail,
+                    "price_retail_currency_id" => $current->price_retail_currency_id,
+                    'unit' => $current->unit,
+                    'price_retail_rub' => $productItem['price_retail_rub'],
+                    'price_retail_rub_origin' => $productItem[''],
+                    'price_retail_rub_was_updated' => $productItem['price_retail_rub_was_updated'],
+                ];
+                continue;
+            }
+
+            $current = Product::query()->findOrFail($productItem['id']);
+
+
+        }
     }
 
     public function handleDeleteOrder()
@@ -517,11 +560,6 @@ class ShowOrder extends BaseShowComponent
         $paginator = $this->getPaginator($query);
 
         $this->setAdditionalProductItems($paginator->items());
-    }
-
-    public function clearProductItemFilter()
-    {
-        $this->productItemsFilters = [];
     }
 
     public function clearAllFilters()
