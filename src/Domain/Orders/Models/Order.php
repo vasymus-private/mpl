@@ -189,6 +189,8 @@ class Order extends BaseModel implements HasMedia
                 "name",
                 'unit',
                 'price_retail_rub',
+                'price_retail_rub_origin',
+                'price_retail_rub_was_updated',
             ])
         ;
     }

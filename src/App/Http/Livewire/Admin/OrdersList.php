@@ -3,10 +3,8 @@
 namespace App\Http\Livewire\Admin;
 
 use Carbon\Exceptions\InvalidFormatException;
-use Domain\Common\DTOs\OptionDTO;
 use Domain\Orders\Models\Order;
 use Domain\Products\DTOs\Admin\OrderItemDTO;
-use Domain\Users\Models\Admin;
 use Domain\Users\Models\BaseUser\BaseUser;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
@@ -56,6 +54,7 @@ class OrdersList extends BaseItemsListComponent
     {
         $this->mountRequest();
         $this->mountPerPage();
+        $this->mountPerPageOptions();
         $this->fetchItems();
         $this->initManagersOptions();
     }

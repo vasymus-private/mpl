@@ -8,6 +8,7 @@ use Spatie\Enum\Enum;
 /**
  * @method static self checkout()
  * @method static self admin_created()
+ * @method static self payment_method()
  */
 class OrderEventType extends Enum
 {
@@ -20,6 +21,7 @@ class OrderEventType extends Enum
         return [
             'checkout' => 1,
             'admin_created' => 2,
+            'payment_method' => 3,
         ];
     }
 }

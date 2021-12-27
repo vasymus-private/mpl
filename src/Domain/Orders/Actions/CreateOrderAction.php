@@ -30,6 +30,7 @@ class CreateOrderAction
                 "price_retail_currency_id" => $productItem->product->price_retail_currency_id,
                 'unit' => $productItem->product->unit,
                 'price_retail_rub' => $productItem->product->price_retail_rub,
+                'price_retail_rub_origin' => $productItem->product->price_retail_rub,
             ];
         }
 
@@ -63,6 +64,7 @@ class CreateOrderAction
             $orderEvent->type = $params->order_event_type;
 
             $orderEvent->order()->associate($order);
+            $orderEvent->user()->associate($params->user);
             $orderEvent->save();
         } catch (Exception $exception) {
             Log::error($exception);
