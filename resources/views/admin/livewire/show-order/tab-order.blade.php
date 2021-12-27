@@ -231,15 +231,15 @@
                 @if($this->isEditMode())
                 <div class="add-file">
                     <div class="row">
-                        @foreach($attachments as $index => $attachment)
-                            <div wire:key="instructions-{{$index}}-{{$attachment['url']}}" class="card text-center">
+                        @foreach($customerInvoices as $index => $customerInvoice)
+                            <div wire:key="instructions-{{$index}}-{{$customerInvoice['url']}}" class="card text-center">
                                 <div class="adm-fileinput-item-preview">
-                                    <h5 class="card-title"><a href="{{$attachment['url']}}" target="_blank">{{$attachment['file_name']}}</a></h5>
+                                    <h5 class="card-title"><a href="{{$customerInvoice['url']}}" target="_blank">{{$customerInvoice['file_name']}}</a></h5>
                                 </div>
                                 <div class="form-group">
-                                    @include('admin.livewire.includes.form-control-input', ['field' => "attachments.$index.name"])
+                                    @include('admin.livewire.includes.form-control-input', ['field' => "customerInvoices.$index.name"])
                                 </div>
-                                <button wire:click="deleteAttachment({{$index}})" type="button" class="adm-fileinput-item-preview__remove">&nbsp;</button>
+                                <button wire:click="deleteCustomerInvoice({{$index}})" type="button" class="adm-fileinput-item-preview__remove">&nbsp;</button>
                             </div>
                         @endforeach
                     </div>
@@ -247,20 +247,20 @@
                         <div class="form-group">
                             <div>
                                 <span class="add-file__text">Перетащите файлы в эту область (Drag&Drop)</span>
-                                <input type="file" wire:model="tempAttachment" class="form-control-file @error("tempAttachment") is-invalid @enderror" id="tempAttachment" />
-                                <div wire:loading wire:target="tempAttachment">
+                                <input type="file" wire:model="tempCustomerInvoice" class="form-control-file @error("tempCustomerInvoice") is-invalid @enderror" id="tempCustomerInvoice" />
+                                <div wire:loading wire:target="tempCustomerInvoice">
                                     <div class="spinner-border" role="status">
                                         <span class="sr-only">Loading...</span>
                                     </div>
                                 </div>
                             </div>
-                            @error("tempAttachment") <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            @error("tempCustomerInvoice") <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     @endif
                 </div>
                 @else
-                    @foreach($attachments as $attachment)
-                        <p><a target="_blank" download href="{{route(\App\Constants::ROUTE_ADMIN_MEDIA, ['id' => $attachment['id'], 'name' => $attachment['name']])}}">{{$attachment['name']}}</a></p>
+                    @foreach($customerInvoices as $customerInvoice)
+                        <p><a target="_blank" download href="{{route(\App\Constants::ROUTE_ADMIN_MEDIA, ['id' => $customerInvoice['id'], 'name' => $customerInvoice['name']])}}">{{$customerInvoice['name']}}</a></p>
                     @endforeach
                 @endif
             </div>
@@ -294,6 +294,49 @@
             <label class="col-sm-5 col-form-label">Статус от поставщика:</label>
             <div class="col-sm-7 d-flex align-items-center">
                 {{$item->providerBillStatus->name ?? ''}}
+            </div>
+        </div>
+    @endif
+
+    @if(!$isCreating)
+        <div class="form-group row">
+            <label class="col-sm-5 col-form-label">Приложенные файлы:</label>
+            <div class="col-sm-7">
+                @if($this->isEditMode())
+                    <div class="add-file">
+                        <div class="row">
+                            @foreach($supplierInvoices as $index => $supplierInvoice)
+                                <div wire:key="instructions-{{$index}}-{{$supplierInvoice['url']}}" class="card text-center">
+                                    <div class="adm-fileinput-item-preview">
+                                        <h5 class="card-title"><a href="{{$supplierInvoice['url']}}" target="_blank">{{$supplierInvoice['file_name']}}</a></h5>
+                                    </div>
+                                    <div class="form-group">
+                                        @include('admin.livewire.includes.form-control-input', ['field' => "supplierInvoices.$index.name"])
+                                    </div>
+                                    <button wire:click="deleteSupplierInvoice({{$index}})" type="button" class="adm-fileinput-item-preview__remove">&nbsp;</button>
+                                </div>
+                            @endforeach
+                        </div>
+                        @if($this->isEditMode())
+                            <div class="form-group">
+                                <div>
+                                    <span class="add-file__text">Перетащите файлы в эту область (Drag&Drop)</span>
+                                    <input type="file" wire:model="tempSupplierInvoice" class="form-control-file @error("tempSupplierInvoice") is-invalid @enderror" id="tempSupplierInvoice" />
+                                    <div wire:loading wire:target="tempSupplierInvoice">
+                                        <div class="spinner-border" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                @error("tempSupplierInvoice") <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            </div>
+                        @endif
+                    </div>
+                @else
+                    @foreach($supplierInvoices as $supplierInvoice)
+                        <p><a target="_blank" download href="{{route(\App\Constants::ROUTE_ADMIN_MEDIA, ['id' => $supplierInvoice['id'], 'name' => $supplierInvoice['name']])}}">{{$supplierInvoice['name']}}</a></p>
+                    @endforeach
+                @endif
             </div>
         </div>
     @endif

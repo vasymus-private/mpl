@@ -121,7 +121,12 @@ class ShowOrder extends BaseShowComponent
     /**
      * @var array[] @see {@link \Domain\Common\DTOs\FileDTO}
      */
-    public array $attachments;
+    public array $customerInvoices;
+
+    /**
+     * @var array[] @see {@link \Domain\Common\DTOs\FileDTO}
+     */
+    public array $supplierInvoices;
 
     /**
      * @var array @see {@link \Domain\Products\DTOs\Admin\OrderProductItemDTO}
@@ -146,7 +151,12 @@ class ShowOrder extends BaseShowComponent
     /**
      * @var \Livewire\TemporaryUploadedFile
      */
-    public $tempAttachment;
+    public $tempCustomerInvoice;
+
+    /**
+     * @var \Livewire\TemporaryUploadedFile
+     */
+    public $tempSupplierInvoice;
 
     /**
      * @var \Domain\Products\DTOs\Admin\CategoryItemSidebarDTO[]
@@ -200,8 +210,10 @@ class ShowOrder extends BaseShowComponent
             'item.provider_bill_description' => 'nullable|max:65000',
             'item.comment_admin' => 'nullable|max:65000',
 
-            'attachments.*.name' => 'nullable|max:250',
-            'tempAttachment' => sprintf('nullable|max:%s', 1024 * self::MAX_FILE_SIZE_MB), // 1024 -> 1024 kb = 1 mb
+            'customerInvoices.*.name' => 'nullable|max:250',
+            'supplierInvoices.*.name' => 'nullable|max:250',
+            'tempCustomerInvoice' => sprintf('nullable|max:%s', 1024 * self::MAX_FILE_SIZE_MB), // 1024 -> 1024 kb = 1 mb
+            'tempSupplierInvoice' => sprintf('nullable|max:%s', 1024 * self::MAX_FILE_SIZE_MB), // 1024 -> 1024 kb = 1 mb
 
             'productItems.*.order_product_count' => 'nullable',
             'productItems.*.order_product_price_retail_rub' => 'nullable',
@@ -217,7 +229,8 @@ class ShowOrder extends BaseShowComponent
         $this->initManagersOptions();
         $this->initOrderImportanceOptions();
         $this->initBillStatusesOptions();
-        $this->initAttachments();
+        $this->initCustomerInvoices();
+        $this->initSupplierInvoices();
 
         $this->initHasTabs();
 
@@ -250,7 +263,8 @@ class ShowOrder extends BaseShowComponent
         $this->validate();
 
         $this->saveItem();
-        $this->saveAttachments();
+        $this->saveCustomerInvoices();
+        $this->saveSupplierInvoices();
         $this->saveOrderItems();
     }
 
@@ -362,18 +376,32 @@ class ShowOrder extends BaseShowComponent
         return (int)$this->editMode !== 0;
     }
 
-    public function deleteAttachment($index)
+    public function deleteCustomerInvoice($index)
     {
-        $this->attachments = collect($this->attachments)->values()->filter(fn(array $attachment, int $key) => (string)$index !== (string)$key)->toArray();
+        $this->customerInvoices = collect($this->customerInvoices)->values()->filter(fn(array $attachment, int $key) => (string)$index !== (string)$key)->toArray();
+    }
+
+    public function deleteSupplierInvoice($index)
+    {
+        $this->supplierInvoices = collect($this->supplierInvoices)->values()->filter(fn(array $attachment, int $key) => (string)$index !== (string)$key)->toArray();
     }
 
     /**
      * @param \Livewire\TemporaryUploadedFile $value
      */
-    public function updatedTempAttachment(TemporaryUploadedFile $value)
+    public function updatedTempCustomerInvoice(TemporaryUploadedFile $value)
     {
         $fileDTO = FileDTO::fromTemporaryUploadedFile($value);
-        $this->attachments[] = $fileDTO->toArray();
+        $this->customerInvoices[] = $fileDTO->toArray();
+    }
+
+    /**
+     * @param \Livewire\TemporaryUploadedFile $value
+     */
+    public function updatedTempSupplierInvoice(TemporaryUploadedFile $value)
+    {
+        $fileDTO = FileDTO::fromTemporaryUploadedFile($value);
+        $this->supplierInvoices[] = $fileDTO->toArray();
     }
 
     public function removeProductItem($id)
@@ -394,22 +422,42 @@ class ShowOrder extends BaseShowComponent
         return true;
     }
 
-    protected function initAttachments()
+    protected function initCustomerInvoices()
     {
-        $this->attachments = $this->item
-            ->admin_attachments
+        $this->customerInvoices = $this->item
+            ->customer_invoices
             ->map(
                 fn(CustomMedia $media) => FileDTO::fromCustomMedia($media)->toArray()
             )
             ->toArray();
     }
 
-    protected function saveAttachments()
+    protected function initSupplierInvoices()
+    {
+        $this->supplierInvoices = $this->item
+            ->supplier_invoices
+            ->map(
+                fn(CustomMedia $media) => FileDTO::fromCustomMedia($media)->toArray()
+            )
+            ->toArray();
+    }
+
+    protected function saveCustomerInvoices()
+    {
+        $this->saveInvoices(Order::MC_CUSTOMER_INVOICES);
+    }
+
+    protected function saveSupplierInvoices()
+    {
+        $this->saveInvoices(Order::MC_SUPPLIER_INVOICES);
+    }
+
+    protected function saveInvoices(string $collectionName)
     {
         $attachments = [];
-        $collectionName = Order::MC_ADMIN_ATTACHMENT;
+        $files = $collectionName === Order::MC_CUSTOMER_INVOICES ? $this->customerInvoices : $this->supplierInvoices;
 
-        foreach ($this->attachments as $fileDTO) {
+        foreach ($files as $fileDTO) {
             if ($fileDTO['id'] !== null) {
                 /** @var \Domain\Common\Models\CustomMedia $attachment */
                 $attachment = $this->item->getMedia($collectionName)->first(fn(CustomMedia $customMedia) => $fileDTO['id'] === $customMedia->id);
@@ -437,7 +485,11 @@ class ShowOrder extends BaseShowComponent
             }
         });
 
-        $this->attachments = $attachments;
+        if ($collectionName === Order::MC_CUSTOMER_INVOICES) {
+            $this->customerInvoices = $attachments;
+        } else {
+            $this->supplierInvoices = $attachments;
+        }
     }
 
     protected function initProductItems()
