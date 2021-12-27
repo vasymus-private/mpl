@@ -23,7 +23,7 @@ class OrdersController extends BaseAdminController
     {
         /** @var \Domain\Orders\Models\Order $order */
         $order = $request->admin_order;
-        $order->load(['products', 'user', 'admin', 'status', 'payment']);
+        $order->load(['products.parent', 'products.media', 'user', 'admin', 'status', 'payment', 'media']);
 
         return view("admin.pages.orders.order", compact("order"));
     }
