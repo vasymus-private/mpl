@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @property string|null $name
  * @property string|null $unit
  * @property float $price_retail_rub
+ * @property float $price_retail_rub_origin
+ * @property bool $price_retail_rub_was_updated
  * */
 class OrderProduct extends Pivot
 {
@@ -26,4 +28,8 @@ class OrderProduct extends Pivot
      * @var string
      */
     protected $table = self::TABLE;
+
+    protected $casts = [
+        'price_retail_rub_was_updated' => 'bool',
+    ];
 }

@@ -4,18 +4,22 @@ namespace Domain\Orders\Models;
 
 use Domain\Common\Models\BaseModel;
 use Domain\Orders\Enums\OrderEventType;
+use Domain\Users\Models\User\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $id
  * @property int $order_id
- * @see {@link \Domain\Orders\Models\OrderEvent::getTypeAttribute()} {@link \Domain\Orders\Models\OrderEvent::setTypeAttribute()}
- * @property \Domain\Orders\Enums\OrderEventType $type DB column is {@link int}
+ * @property int|null $user_id
+ * @property \Domain\Orders\Enums\OrderEventType $type DB column is {@link int} @see {@link \Domain\Orders\Models\OrderEvent::getTypeAttribute()} {@link \Domain\Orders\Models\OrderEvent::setTypeAttribute()}
  * @property array $payload
  * @property \Illuminate\Support\Carbon|null $created_at
  *
  * @see \Domain\Orders\Models\OrderEvent::order()
  * @property \Domain\Orders\Models\Order $order
+ *
+ * @see \Domain\Orders\Models\OrderEvent::user()
+ * @property \Domain\Orders\Models\OrderEvent $user
  */
 class OrderEvent extends BaseModel
 {
@@ -48,6 +52,14 @@ class OrderEvent extends BaseModel
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    /**
      * @return \Domain\Orders\Enums\OrderEventType
      */
     public function getTypeAttribute(): OrderEventType
@@ -55,6 +67,11 @@ class OrderEvent extends BaseModel
         return OrderEventType::from($this->attributes['type']);
     }
 
+    /**
+     * @param \Domain\Orders\Enums\OrderEventType $orderEventType
+     *
+     * @return void
+     */
     public function setTypeAttribute(OrderEventType $orderEventType)
     {
         $this->attributes['type'] = $orderEventType->value;

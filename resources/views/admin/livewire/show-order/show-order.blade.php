@@ -58,14 +58,8 @@
         @endforeach
     </ul>
 
-    <form wire:submit.prevent="handleSave" class="position-relative">
-        <div wire:loading.flex wire:target="handleSave">
-            <div class="d-flex justify-content-center align-items-center bg-light" style="opacity: 0.5; position:absolute; top:0; bottom:0; right:0; left:0; z-index: 20; ">
-                <div class="spinner-border" role="status">
-                    <span class="sr-only">Loading...</span>
-                </div>
-            </div>
-        </div>
+    <form wire:submit.prevent="handleSave" id="show-order-form" class="position-relative">
+        @include('admin.livewire.includes.loading', ['target' => 'handleSave'])
         <div class="tab-content">
             @foreach($this->tabs() as $tab => $label)
                 <div
@@ -82,7 +76,7 @@
         </div>
 
         <div class="edit-item-footer">
-            <button type="submit" class="btn btn-primary mb-2 btn__save mr-2">Сохранить</button>
+            <button form="show-order-form" type="submit" class="btn btn-primary mb-2 btn__save mr-2">Сохранить</button>
 
             <a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_INDEX)}}" type="button" class="btn btn-info mb-2 btn__default">Отменить</a>
         </div>

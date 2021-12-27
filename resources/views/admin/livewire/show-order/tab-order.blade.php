@@ -321,7 +321,7 @@
         <div class="search form-group row justify-content-end">
             <div class="col-xs-12 col-sm-2">
                 <div class="dropdown">
-                    <a href="#" class="btn btn-add btn-secondary">Добавить товар</a>
+                    <button type="button" data-toggle="modal" data-target="#add-product-item" class="btn btn-add btn-secondary">Добавить товар</button>
                 </div>
             </div>
         </div>
@@ -330,22 +330,65 @@
     <table class="table table-bordered table-hover">
         <thead>
             <tr>
+                @if($isCreating || $this->isEditMode())
+                    <th scope="col"><span class="main-grid-head-title">&nbsp;</span></th>
+                @endif
                 <th scope="col">Изображение</th>
                 <th scope="col">Название</th>
                 <th scope="col">Количество</th>
+                <th scope="col">Свойства</th>
                 <th scope="col">Цена</th>
                 <th scope="col">Сумма</th>
             </tr>
         </thead>
         <tbody>
-        <?php /** @var \Domain\Products\Models\Product\Product $product */ ?>
-        @foreach($item->products as $product)
-            <tr>
-                <td><div class="text-center"><img class="img-fluid" src="{{$product['main_image_md_thumb_url']}}" alt="" /></div></td>
-                <td><span class="main-grid-cell-content">{{$product['name']}}</span></td>
-                <td><span class="main-grid-cell-content">{{$product['order_product_count']}}</span></td>
-                <td><span class="main-grid-cell-content">{{$product['price_purchase_rub_formatted']}}</span></td>
-                <td><span class="main-grid-cell-content">{{$product['order_product_count'] * $product['price_purchase_rub']}} р</span></td>
+        <?php /** @var \Domain\Products\DTOs\Admin\OrderProductItemDTO|array $product */ ?>
+        @foreach($productItems as $product)
+            <tr wire:key="product-{{$product['uuid']}}">
+                @if($isCreating || $this->isEditMode())
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn__grid-row-action-button" type="button" id="actions-dropdown-{{$product['uuid']}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                            <div class="dropdown-menu bx-core-popup-menu" aria-labelledby="actions-dropdown-{{$product['uuid']}}">
+                                <div class="bx-core-popup-menu__arrow"></div>
+                                <button type="button" class="bx-core-popup-menu-item" onclick="@this.selectCurrentProductItem('{{$product['uuid']}}').then(res => {if (res) $('#edit-product-item').modal('show') })">
+                                    <span class="bx-core-popup-menu-item-icon adm-menu-edit"></span>
+                                    <span class="bx-core-popup-menu-item-text">Изменить</span>
+                                </button>
+                                <span class="bx-core-popup-menu-separator"></span>
+                                <button type="button" class="bx-core-popup-menu-item" wire:click="removeProductItem({{$product['id']}})">
+                                    <span class="bx-core-popup-menu-item-icon adm-menu-delete"></span>
+                                    <span class="bx-core-popup-menu-item-text">Удалить</span>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                @endif
+                <td><div class="text-center"><a target="_blank" href="{{$product['admin_route']}}"><img class="img-fluid" src="{{$product['image']}}" alt="" /></a></div></td>
+                <td><span class="main-grid-cell-content"><a target="_blank" href="{{$product['admin_route']}}">{{$product['name']}}</a></span></td>
+                <td>
+                    @if($isCreating || $this->isEditMode())
+                        @include('admin.livewire.includes.form-control-input', ['field' => sprintf('productItems.%s.order_product_count', $product['uuid']), 'modifier' => '.debounce.500ms'])
+                    @else
+                        <span class="main-grid-cell-content">{{$product['order_product_count']}}</span>
+                    @endif
+                </td>
+                <td>
+                    <p>Закупочная: {{$product['price_purchase_rub_formatted']}}</p>
+                    <p>Сумма закупки: {{$product['order_product_price_purchase_rub_sum_formatted']}}</p>
+                    <p>Заработок: {{$product['order_product_diff_rub_price_retail_sum_price_purchase_sum_formatted']}}</p>
+                </td>
+                <td>
+                    @if($isCreating || $this->isEditMode())
+                        @include('admin.livewire.includes.form-control-input', ['field' => sprintf('productItems.%s.order_product_price_retail_rub', $product['uuid']), 'modifier' => '.debounce.500ms'])
+                    @else
+                        <p><span class="main-grid-cell-content">{{$product['order_product_price_retail_rub_formatted']}}</span></p>
+                    @endif
+                    @if($product['order_product_price_retail_rub_was_updated'])
+                        <p style="text-decoration: line-through;"><span class="main-grid-cell-content">{{$product['order_product_price_retail_rub_origin_formatted']}}</span></p>
+                    @endif
+                </td>
+                <td><span class="main-grid-cell-content">{{$product['order_product_price_retail_rub_sum_formatted']}}</span></td>
             </tr>
         @endforeach
         </tbody>
@@ -380,3 +423,28 @@
         </div>
     </div>
 </div>
+
+<div wire:ignore.self class="modal fade" id="edit-product-item" tabindex="-1" aria-labelledby="edit-product-item-title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="edit-product-item-title">Редактирование товара</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @include('admin.livewire.includes.form-group-input', ['field' => 'currentProductItem.name', 'label' => 'Наименование', 'modifier' => '.defer'])
+                @include('admin.livewire.includes.form-group-input', ['field' => 'currentProductItem.unit', 'label' => 'Упаковка / Единица', 'modifier' => '.defer'])
+                @include('admin.livewire.includes.form-group-input', ['field' => 'currentProductItem.order_product_price_retail_rub', 'label' => 'Розничная цена (руб)', 'modifier' => '.defer'])
+                @include('admin.livewire.includes.form-group-input', ['field' => 'currentProductItem.order_product_count', 'label' => 'Количество', 'modifier' => '.defer'])
+            </div>
+            <div class="modal-footer">
+                <button onclick="@this.handleSaveCurrentProductItem().then((res) => { if(res) $('#edit-product-item').modal('hide') })" type="button" class="btn btn-primary">Сохранить</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@include('admin.livewire.show-order.modal-add-product-item')
