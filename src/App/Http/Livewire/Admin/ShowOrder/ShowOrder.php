@@ -554,7 +554,7 @@ class ShowOrder extends BaseShowComponent
 
     protected function fetchAdditionalProductItems()
     {
-        $query = Product::query()->notVariations()->with('variations');
+        $query = Product::query()->notVariations()->with(['variations', 'variations.media', 'variations.parent', 'media']);
         if ($this->categoryId) {
             $query->where(sprintf('%s.category_id', Product::TABLE), $this->categoryId);
         }
