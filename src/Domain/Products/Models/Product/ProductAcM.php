@@ -69,6 +69,9 @@ use Support\H;
  * @see \Domain\Products\Models\Product\ProductAcM::getWebRouteAttribute()
  * @property-read string $web_route
  *
+ * @see \Domain\Products\Models\Product\ProductAcM::getAdminRouteAttribute()
+ * @property-read string $admin_route
+ *
  * @see \Domain\Products\Models\Product\ProductAcM::getIsInCartAttribute()
  * @property-read bool|null $is_in_cart
  *
@@ -126,11 +129,11 @@ use Support\H;
  * @see \Domain\Products\Models\Product\ProductAcM::getOrderProductPriceRetailRubSumFormattedAttribute()
  * @property-read string|null $order_product_price_retail_rub_sum_formatted
  *
- * @see \Domain\Products\Models\Product\ProductAcM::getOrderProductPricePurchaseSumAttribute()
- * @property-read float|null $order_product_price_purchase_sum
+ * @see \Domain\Products\Models\Product\ProductAcM::getOrderProductPricePurchaseRubSumAttribute()
+ * @property-read float|null $order_product_price_purchase_rub_sum
  *
- * @see \Domain\Products\Models\Product\ProductAcM::getOrderProductPricePurchaseSumFormattedAttribute()
- * @property-read string|null $order_product_price_purchase_sum_formatted
+ * @see \Domain\Products\Models\Product\ProductAcM::getOrderProductPricePurchaseRubSumFormattedAttribute()
+ * @property-read string|null $order_product_price_purchase_rub_sum_formatted
  *
  * @see \Domain\Products\Models\Product\ProductAcM::getIsActiveNameAttribute()
  * @property-read string $is_active_name
@@ -426,18 +429,18 @@ trait ProductAcM
             : H::priceRubFormatted($this->order_product_price_retail_rub_sum, Currency::ID_RUB);
     }
 
-    public function getOrderProductPricePurchaseSumAttribute(): ?float
+    public function getOrderProductPricePurchaseRubSumAttribute(): ?float
     {
         return $this->order_product === null
             ? null
             : $this->order_product_count * $this->price_purchase_rub;
     }
 
-    public function getOrderProductPricePurchaseSumFormattedAttribute(): ?string
+    public function getOrderProductPricePurchaseRubSumFormattedAttribute(): ?string
     {
         return $this->order_product === null
             ? null
-            : H::priceRubFormatted($this->order_product_price_purchase_sum, Currency::ID_RUB);
+            : H::priceRubFormatted($this->order_product_price_purchase_rub_sum, Currency::ID_RUB);
     }
 
     public function getOrderProductUnitAttribute(): ?string
@@ -484,5 +487,10 @@ trait ProductAcM
 
             return route("product.show.4", [$parent3->slug, $parent2->slug, $parent1->slug, $category->slug, $slug]);
         });
+    }
+
+    public function getAdminRouteAttribute(): string
+    {
+        return route("admin.products.edit", $this->parent_id ?: $this->id);
     }
 }

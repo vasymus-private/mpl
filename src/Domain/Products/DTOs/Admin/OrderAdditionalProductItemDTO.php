@@ -25,7 +25,7 @@ class OrderAdditionalProductItemDTO extends DataTransferObject
     /**
      * @var string
      */
-    public string $route_link;
+    public string $admin_route;
 
     /**
      * @var string
@@ -79,7 +79,7 @@ class OrderAdditionalProductItemDTO extends DataTransferObject
             'id' => $product->id,
             'uuid' => $product->uuid,
             'displayId' => $parent ? sprintf('%s-%s', $parent->id, $product->id) : $product->id,
-            'route_link' => route("admin.products.edit", $parent ? $product->parent_id : $product->id),
+            'admin_route' => $product->admin_route,
             'name' => $product->name,
             'is_variation' => (bool)$parent,
             'is_active' => $product->is_active,

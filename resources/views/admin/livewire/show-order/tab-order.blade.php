@@ -321,7 +321,7 @@
         <div class="search form-group row justify-content-end">
             <div class="col-xs-12 col-sm-2">
                 <div class="dropdown">
-                    <button data-toggle="modal" data-target="#add-product-item" class="btn btn-add btn-secondary">Добавить товар</button>
+                    <button type="button" data-toggle="modal" data-target="#add-product-item" class="btn btn-add btn-secondary">Добавить товар</button>
                 </div>
             </div>
         </div>
@@ -364,8 +364,8 @@
                         </div>
                     </td>
                 @endif
-                <td><div class="text-center"><a target="_blank" href="{{route("admin.products.edit", $product['id'])}}"><img class="img-fluid" src="{{$product['image']}}" alt="" /></a></div></td>
-                <td><span class="main-grid-cell-content"><a target="_blank" href="{{route("admin.products.edit", $product['id'])}}">{{$product['name']}}</a></span></td>
+                <td><div class="text-center"><a target="_blank" href="{{$product['admin_route']}}"><img class="img-fluid" src="{{$product['image']}}" alt="" /></a></div></td>
+                <td><span class="main-grid-cell-content"><a target="_blank" href="{{$product['admin_route']}}">{{$product['name']}}</a></span></td>
                 <td>
                     @if($isCreating || $this->isEditMode())
                         @include('admin.livewire.includes.form-control-input', ['field' => sprintf('productItems.%s.order_product_count', $product['uuid']), 'modifier' => '.debounce.500ms'])
@@ -375,20 +375,20 @@
                 </td>
                 <td>
                     <p>Закупочная: {{$product['price_purchase_rub_formatted']}}</p>
-                    <p>Сумма закупки: {{$product['price_purchase_rub_sum_formatted']}}</p>
-                    <p>Заработок: {{$product['price_retail_purchase_sum_diff_rub_formatted']}}</p>
+                    <p>Сумма закупки: {{$product['order_product_price_purchase_rub_sum_formatted']}}</p>
+                    <p>Заработок: {{$product['order_product_diff_rub_price_retail_sum_price_purchase_sum_formatted']}}</p>
                 </td>
                 <td>
                     @if($isCreating || $this->isEditMode())
-                        @include('admin.livewire.includes.form-control-input', ['field' => sprintf('productItems.%s.price_retail_rub', $product['uuid']), 'modifier' => '.debounce.500ms'])
+                        @include('admin.livewire.includes.form-control-input', ['field' => sprintf('productItems.%s.order_product_price_retail_rub', $product['uuid']), 'modifier' => '.debounce.500ms'])
                     @else
-                        <p><span class="main-grid-cell-content">{{$product['price_retail_rub_formatted']}}</span></p>
+                        <p><span class="main-grid-cell-content">{{$product['order_product_price_retail_rub_formatted']}}</span></p>
                     @endif
-                    @if($product['price_retail_rub_was_updated'])
-                        <p style="text-decoration: line-through;"><span class="main-grid-cell-content">{{$product['price_retail_rub_origin_formatted']}}</span></p>
+                    @if($product['order_product_price_retail_rub_was_updated'])
+                        <p style="text-decoration: line-through;"><span class="main-grid-cell-content">{{$product['order_product_price_retail_rub_origin_formatted']}}</span></p>
                     @endif
                 </td>
-                <td><span class="main-grid-cell-content">{{$product['price_retail_rub_sum_formatted']}}</span></td>
+                <td><span class="main-grid-cell-content">{{$product['order_product_price_retail_rub_sum_formatted']}}</span></td>
             </tr>
         @endforeach
         </tbody>
@@ -436,7 +436,7 @@
             <div class="modal-body">
                 @include('admin.livewire.includes.form-group-input', ['field' => 'currentProductItem.name', 'label' => 'Наименование', 'modifier' => '.defer'])
                 @include('admin.livewire.includes.form-group-input', ['field' => 'currentProductItem.unit', 'label' => 'Упаковка / Единица', 'modifier' => '.defer'])
-                @include('admin.livewire.includes.form-group-input', ['field' => 'currentProductItem.price_retail_rub', 'label' => 'Розничная цена (руб)', 'modifier' => '.defer'])
+                @include('admin.livewire.includes.form-group-input', ['field' => 'currentProductItem.order_product_price_retail_rub', 'label' => 'Розничная цена (руб)', 'modifier' => '.defer'])
                 @include('admin.livewire.includes.form-group-input', ['field' => 'currentProductItem.order_product_count', 'label' => 'Количество', 'modifier' => '.defer'])
             </div>
             <div class="modal-footer">

@@ -11,10 +11,10 @@
         <span class="main-grid-cell-content">{{$product['is_active'] ? 'Да' : 'Нет'}}</span>
     </td>
     <td>
-        <div class="text-center"><a target="_blank" href="{{$product['route_link']}}"><img class="img-fluid" src="{{$product['image']}}" alt="" /></a></div>
+        <div class="text-center"><a target="_blank" href="{{$product['admin_route']}}"><img class="img-fluid" src="{{$product['image']}}" alt="" /></a></div>
     </td>
     <td>
-        <span class="main-grid-cell-content"><a target="_blank" href="{{$product['route_link']}}">{{$product['name']}}</a></span>
+        <span class="main-grid-cell-content"><a target="_blank" href="{{$product['admin_route']}}">{{$product['name']}}</a></span>
     </td>
     <td>
         <span class="main-grid-cell-content">

@@ -204,6 +204,7 @@ class ShowOrder extends BaseShowComponent
             'tempAttachment' => sprintf('nullable|max:%s', 1024 * self::MAX_FILE_SIZE_MB), // 1024 -> 1024 kb = 1 mb
 
             'productItems.*.order_product_count' => 'nullable',
+            'productItems.*.order_product_price_retail_rub' => 'nullable',
         ];
     }
 
@@ -468,7 +469,7 @@ class ShowOrder extends BaseShowComponent
         }
         $productItemToUpdate = $this->productItems[$this->currentProductItem['uuid']];
 
-        $possibleFieldsToUpdate = ['name', 'unit', 'price_retail_rub', 'order_product_count'];
+        $possibleFieldsToUpdate = ['name', 'unit', 'order_product_price_retail_rub', 'order_product_count'];
         foreach ($possibleFieldsToUpdate as $itemField) {
             if ($this->currentProductItem[$itemField] !== $this->initialCurrentProductItem[$itemField]) {
                 $productItemToUpdate = $this->handleUpdateProductItem($productItemToUpdate, $itemField, $this->currentProductItem[$itemField]);
@@ -490,20 +491,20 @@ class ShowOrder extends BaseShowComponent
     {
         switch ($itemField) {
             case 'order_product_count': {
-                $orderProductItem['price_retail_rub_sum'] = (int)$value * $orderProductItem['price_retail_rub'];
-                $orderProductItem['price_retail_rub_sum_formatted'] = H::priceRubFormatted($orderProductItem['price_retail_rub_sum'], Currency::ID_RUB);
-                $orderProductItem['price_purchase_rub_sum'] = (int)$value * $orderProductItem['price_purchase_rub'];
-                $orderProductItem['price_purchase_rub_sum_formatted'] = H::priceRubFormatted($orderProductItem['price_purchase_rub_sum'], Currency::ID_RUB);
-                $orderProductItem['price_retail_purchase_sum_diff_rub_formatted'] = H::priceRubFormatted($orderProductItem['price_retail_rub_sum'] - $orderProductItem['price_purchase_rub_sum'], Currency::ID_RUB);
+                $orderProductItem['order_product_price_retail_rub_sum'] = (int)$value * $orderProductItem['order_product_price_retail_rub'];
+                $orderProductItem['order_product_price_retail_rub_sum_formatted'] = H::priceRubFormatted($orderProductItem['order_product_price_retail_rub_sum'], Currency::ID_RUB);
+                $orderProductItem['order_product_price_purchase_rub_sum'] = (int)$value * $orderProductItem['price_purchase_rub'];
+                $orderProductItem['order_product_price_purchase_rub_sum_formatted'] = H::priceRubFormatted($orderProductItem['order_product_price_purchase_rub_sum'], Currency::ID_RUB);
+                $orderProductItem['order_product_diff_rub_price_retail_sum_price_purchase_sum_formatted'] = H::priceRubFormatted($orderProductItem['order_product_price_retail_rub_sum'] - $orderProductItem['order_product_price_purchase_rub_sum'], Currency::ID_RUB);
                 $orderProductItem[$itemField] = $value;
                 break;
             }
-            case 'price_retail_rub': {
-                $orderProductItem['price_retail_rub_was_updated'] = true;
-                $orderProductItem['price_retail_rub_formatted'] = H::priceRubFormatted((int)$value, Currency::ID_RUB);
-                $orderProductItem['price_retail_rub_sum'] = (int)$value * $orderProductItem['order_product_count'];
-                $orderProductItem['price_retail_rub_sum_formatted'] = H::priceRubFormatted($orderProductItem['price_retail_rub_sum'], Currency::ID_RUB);
-                $orderProductItem['price_retail_purchase_sum_diff_rub_formatted'] = H::priceRubFormatted($orderProductItem['price_retail_rub_sum'] - $orderProductItem['price_purchase_rub_sum'], Currency::ID_RUB);
+            case 'order_product_price_retail_rub': {
+                $orderProductItem['order_product_price_retail_rub_was_updated'] = true;
+                $orderProductItem['order_product_price_retail_rub_formatted'] = H::priceRubFormatted((int)$value, Currency::ID_RUB);
+                $orderProductItem['order_product_price_retail_rub_sum'] = (int)$value * $orderProductItem['order_product_count'];
+                $orderProductItem['order_product_price_retail_rub_sum_formatted'] = H::priceRubFormatted($orderProductItem['order_product_price_retail_rub_sum'], Currency::ID_RUB);
+                $orderProductItem['order_product_diff_rub_price_retail_sum_price_purchase_sum_formatted'] = H::priceRubFormatted($orderProductItem['order_product_price_retail_rub_sum'] - $orderProductItem['order_product_price_purchase_rub_sum'], Currency::ID_RUB);
                 $orderProductItem[$itemField] = $value;
                 break;
             }
@@ -595,7 +596,7 @@ class ShowOrder extends BaseShowComponent
             )
             ->firstOrFail();
 
-        $this->productItems[$uuid] = $this->getOrderProductItem(
+        $this->productItems[$uuid] = $this->createOrderProductItemFromProduct(
             $product,
             (isset($this->productItems[$uuid])
                 ? $this->productItems[$uuid]['order_product_count'] + 1
@@ -620,32 +621,37 @@ class ShowOrder extends BaseShowComponent
      *
      * @return \Domain\Products\DTOs\Admin\OrderProductItemDTO
      */
-    protected function getOrderProductItem(Product $product, int $count = 1, bool $priceRetailRubWasUpdated = false): OrderProductItemDTO
+    protected function createOrderProductItemFromProduct(Product $product, int $count = 1, bool $priceRetailRubWasUpdated = false): OrderProductItemDTO
     {
-        $price_purchase_rub_sum = $count * $product->price_purchase_rub;
-        $price_retail_rub = $product->price_retail_rub;
-        $price_retail_rub_sum = $price_retail_rub * $count;
+        $order_product_price_purchase_rub_sum = $count * $product->price_purchase_rub;
+        $order_product_price_retail_rub = $product->price_retail_rub;
+        $order_product_price_retail_rub_sum = $order_product_price_retail_rub * $count;
 
         return new OrderProductItemDTO([
             'id' => $product->id,
             'uuid' => $product->uuid,
             'name' => $product->name,
             'order_product_count' => $count,
-            'price_purchase_rub' => $product->price_purchase_rub,
-            'price_purchase_rub_formatted' => $product->price_purchase_rub_formatted,
             'unit' => $product->unit,
             'coefficient' => $product->coefficient,
             'availability_status_name' => $product->availability_status_name,
             'image' => $product->main_image_sm_thumb_url,
-            'price_purchase_rub_sum' => $price_purchase_rub_sum,
-            'price_purchase_rub_sum_formatted' => H::priceRubFormatted($price_purchase_rub_sum, Currency::ID_RUB),
-            'price_retail_rub' => $price_retail_rub,
-            'price_retail_rub_formatted' => H::priceRubFormatted($price_retail_rub, Currency::ID_RUB),
-            'price_retail_rub_sum' => $price_retail_rub_sum,
-            'price_retail_rub_sum_formatted' => H::priceRubFormatted($price_retail_rub_sum, Currency::ID_RUB),
-            'price_retail_purchase_sum_diff_rub_formatted' => H::priceRubFormatted($price_retail_rub_sum - $price_purchase_rub_sum, Currency::ID_RUB),
-            'price_retail_rub_origin_formatted' => H::priceRubFormatted($price_retail_rub, Currency::ID_RUB),
-            'price_retail_rub_was_updated' => $priceRetailRubWasUpdated,
+            'price_purchase_rub' => $product->price_purchase_rub,
+            'price_purchase_rub_formatted' => $product->price_purchase_rub_formatted,
+            'price_purchase' => $product->price_purchase,
+            'price_purchase_currency_id' => $product->price_purchase_currency_id,
+            'admin_route' => $product->admin_route,
+
+            // order product and calculated props
+            'order_product_price_purchase_rub_sum' => $order_product_price_purchase_rub_sum,
+            'order_product_price_purchase_rub_sum_formatted' => H::priceRubFormatted($order_product_price_purchase_rub_sum, Currency::ID_RUB),
+            'order_product_price_retail_rub' => $order_product_price_retail_rub,
+            'order_product_price_retail_rub_formatted' => H::priceRubFormatted($order_product_price_retail_rub, Currency::ID_RUB),
+            'order_product_price_retail_rub_sum' => $order_product_price_retail_rub_sum,
+            'order_product_price_retail_rub_sum_formatted' => H::priceRubFormatted($order_product_price_retail_rub_sum, Currency::ID_RUB),
+            'order_product_diff_rub_price_retail_sum_price_purchase_sum_formatted' => H::priceRubFormatted($order_product_price_retail_rub_sum - $order_product_price_purchase_rub_sum, Currency::ID_RUB),
+            'order_product_price_retail_rub_origin_formatted' => H::priceRubFormatted($order_product_price_retail_rub, Currency::ID_RUB),
+            'order_product_price_retail_rub_was_updated' => $priceRetailRubWasUpdated,
         ]);
     }
 }
