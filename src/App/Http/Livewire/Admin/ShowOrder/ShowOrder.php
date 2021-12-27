@@ -247,6 +247,8 @@ class ShowOrder extends BaseShowComponent
 
     public function handleSave()
     {
+        $this->validate();
+
         $this->saveItem();
         $this->saveAttachments();
         $this->saveOrderItems();
@@ -254,8 +256,6 @@ class ShowOrder extends BaseShowComponent
 
     protected function saveItem()
     {
-        $this->validate();
-
         $request = $this->item->request;
         $request['email'] = $this->email;
         $request['name'] = $this->name;
@@ -275,36 +275,40 @@ class ShowOrder extends BaseShowComponent
     {
         $productsPrepare = [];
 
-
-        // todo not finished
-
-
-
-
-
         /** @var array @see {@link \Domain\Products\DTOs\Admin\OrderProductItemDTO} $productItem */
         foreach ($this->productItems as $productItem) {
-            /** @var \Domain\Products\Models\Product\Product $current */
-            $current = $this->item->products->first(fn(Product $product) => (string)$product->id === (string)$productItem['id']);
-            if ($current) {
-                $productsPrepare[$productItem['id']] = [
-                    "count" => $productItem['order_product_count'],
-                    "price_purchase" => $current->price_purchase,
-                    "price_purchase_currency_id" => $current->price_purchase_currency_id,
-                    "price_retail" => $current->price_retail,
-                    "price_retail_currency_id" => $current->price_retail_currency_id,
-                    'unit' => $current->unit,
-                    'price_retail_rub' => $productItem['price_retail_rub'],
-                    'price_retail_rub_origin' => $productItem[''],
-                    'price_retail_rub_was_updated' => $productItem['price_retail_rub_was_updated'],
-                ];
+            $prepared = [
+                'count' => $productItem['order_product_count'],
+                'name' => $productItem['name'],
+                'unit' => $productItem['unit'],
+                'price_retail_rub' => $productItem['order_product_price_retail_rub'],
+                'price_retail_rub_was_updated' => $productItem['order_product_price_retail_rub_was_updated'],
+            ];
+            /** @var \Domain\Products\Models\Product\Product $currentOrderProduct */
+            $currentOrderProduct = $this->item->products->first(fn(Product $product) => (string)$product->id === (string)$productItem['id']);
+            if ($currentOrderProduct) {
+                $productsPrepare[$productItem['id']] = array_merge($prepared, [
+                    'price_purchase' => $currentOrderProduct->order_product->price_purchase,
+                    'price_purchase_currency_id' => $currentOrderProduct->order_product->price_purchase_currency_id,
+                    'price_retail' => $currentOrderProduct->order_product->price_retail,
+                    'price_retail_currency_id' => $currentOrderProduct->order_product->price_retail_currency_id,
+                    'price_retail_rub_origin' => $currentOrderProduct->order_product->price_retail_rub_origin,
+
+                ]);
                 continue;
             }
 
-            $current = Product::query()->findOrFail($productItem['id']);
-
-
+            $currentProduct = Product::query()->findOrFail($productItem['id']);
+            $productsPrepare[$productItem['id']] = array_merge($prepared, [
+                'price_purchase' => $currentProduct->price_purchase,
+                'price_purchase_currency_id' => $currentProduct->price_purchase_currency_id,
+                'price_retail' => $currentProduct->price_retail,
+                'price_retail_currency_id' => $currentProduct->price_retail_currency_id,
+                'price_retail_rub_origin' => $currentProduct->price_retail_rub,
+            ]);
         }
+
+        $this->item->products()->sync($productsPrepare);
     }
 
     public function handleDeleteOrder()
@@ -438,7 +442,7 @@ class ShowOrder extends BaseShowComponent
 
     protected function initProductItems()
     {
-        $this->productItems = $this->item->products->map(fn(Product $product) => OrderProductItemDTO::fromOrderProductItem($product)->toArray())->keyBy('uuid')->all();
+        $this->productItems = $this->item->products->map(fn(Product $product) => OrderProductItemDTO::fromOrderProductItem($product)->toArray())->keyBy('uuid')->sortBy('id')->all();
     }
 
     protected function initCategoriesSidebar()
