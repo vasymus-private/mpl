@@ -186,6 +186,7 @@ class Order extends BaseModel implements HasMedia
             ->as('order_product')
             ->withPivot([
                 "count",
+                'ordering',
                 "price_purchase",
                 "price_purchase_currency_id",
                 "price_retail",

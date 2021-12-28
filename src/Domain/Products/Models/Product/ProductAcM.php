@@ -111,6 +111,9 @@ use Support\H;
  * @see \Domain\Products\Models\Product\ProductAcM::getOrderProductCountAttribute()
  * @property-read int|null $order_product_count
  *
+ * @see \Domain\Products\Models\Product\ProductAcM::getOrderProductOrderingAttribute()
+ * @property-read int|null $order_product_ordering
+ *
  * @see \Domain\Products\Models\Product\ProductAcM::getOrderProductPriceRetailRubAttribute()
  * @property-read float|null $order_product_price_retail_rub
  *
@@ -383,8 +386,14 @@ trait ProductAcM
     {
         return $this->order_product === null
             ? null
-            : $this->order_product->count
-            ;
+            : $this->order_product->count;
+    }
+
+    public function getOrderProductOrderingAttribute(): ?int
+    {
+        return $this->order_product === null
+            ? null
+            : $this->order_product->ordering;
     }
 
     public function getOrderProductPriceRetailRubAttribute(): ?float

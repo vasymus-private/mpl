@@ -20,7 +20,7 @@ class OrderController extends BaseWebController
 
         $orderEvent = new OrderEvent();
         $orderEvent->payload = [];
-        $orderEvent->type = OrderEventType::payment_method();
+        $orderEvent->type = OrderEventType::update_payment_method();
 
         $orderEvent->order()->associate($order);
         $orderEvent->user()->associate($request->getAuthUser());

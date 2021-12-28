@@ -24,6 +24,7 @@ class CreateOrderAction
         foreach ($params->productItems as $productItem) {
             $productsPrepare[$productItem->product->id] = [
                 "count" => $productItem->count,
+                'ordering' => $productItem->product->id,
                 "price_purchase" => $productItem->product->price_purchase,
                 "price_purchase_currency_id" => $productItem->product->price_purchase_currency_id,
                 "price_retail" => $productItem->product->price_retail,
@@ -41,7 +42,7 @@ class CreateOrderAction
         $medias = [];
 
         try {
-            $order = Order::forceCreate([
+            $orderParams = [
                 "user_id" => $params->user->id,
                 "order_status_id" => $params->order_status_id,
                 "importance_id" => $params->importance_id,
@@ -51,7 +52,8 @@ class CreateOrderAction
                     "email" => $params->request_email,
                     "phone" => $params->request_phone,
                 ]
-            ]);
+            ];
+            $order = Order::forceCreate($orderParams);
 
             $order->products()->attach($productsPrepare);
 
@@ -60,7 +62,10 @@ class CreateOrderAction
             }
 
             $orderEvent = new OrderEvent();
-            $orderEvent->payload = [];
+            $orderEvent->payload = [
+                'order' => $orderParams,
+                'products' => $productsPrepare,
+            ];
             $orderEvent->type = $params->order_event_type;
 
             $orderEvent->order()->associate($order);

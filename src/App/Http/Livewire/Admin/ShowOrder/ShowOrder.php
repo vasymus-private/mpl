@@ -281,7 +281,7 @@ class ShowOrder extends BaseShowComponent
 
         /** @var \Domain\Orders\Actions\OMS\HandleChangeOrderStatusAction $handleChangeOrderStatusAction */
         $handleChangeOrderStatusAction = resolve(HandleChangeOrderStatusAction::class);
-        $handleChangeOrderStatusAction->execute($this->item, $orderStatusId);
+        $handleChangeOrderStatusAction->execute($this->item, $orderStatusId, H::admin());
         $this->item->order_status_id = $orderStatusId;
     }
 
@@ -329,7 +329,7 @@ class ShowOrder extends BaseShowComponent
     {
         /** @var \Domain\Orders\Actions\DeleteOrderAction $deleteOrder */
         $deleteOrder = resolve(DeleteOrderAction::class);
-        $deleteOrder->execute($this->item);
+        $deleteOrder->execute($this->item, H::admin());
         return redirect()->route(Constants::ROUTE_ADMIN_ORDERS_INDEX);
     }
 
@@ -342,7 +342,7 @@ class ShowOrder extends BaseShowComponent
 
         /** @var \Domain\Orders\Actions\HandleCancelOrderAction $handleCancelOrderAction */
         $handleCancelOrderAction = resolve(HandleCancelOrderAction::class);
-        $order = $handleCancelOrderAction->execute($this->item->id, $this->cancelMessage);
+        $order = $handleCancelOrderAction->execute($this->item->id, $this->cancelMessage, H::admin());
 
         $this->item->cancelled = $order->cancelled;
         $this->item->cancelled_description = $order->cancelled_description;
@@ -361,7 +361,7 @@ class ShowOrder extends BaseShowComponent
 
         /** @var \Domain\Orders\Actions\HandleNotCancelOrderAction $handleNotCancelOrderAction */
         $handleNotCancelOrderAction = resolve(HandleNotCancelOrderAction::class);
-        $order = $handleNotCancelOrderAction->execute($this->item->id);
+        $order = $handleNotCancelOrderAction->execute($this->item->id, H::admin());
 
         $this->item->cancelled = $order->cancelled;
         $this->item->cancelled_description = $order->cancelled_description;
