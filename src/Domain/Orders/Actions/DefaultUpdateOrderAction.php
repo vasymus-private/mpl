@@ -2,30 +2,188 @@
 
 namespace Domain\Orders\Actions;
 
-use Domain\Orders\Models\Order;
-use Domain\Users\Models\BaseUser\BaseUser;
+use Domain\Orders\DTOs\DefaultUpdateOrderParams;
+use Domain\Orders\Enums\OrderEventType;
+use Domain\Orders\Models\OrderEvent;
+use Domain\Orders\Models\OrderImportance;
+use Domain\Orders\Models\PaymentMethod;
+use Domain\Users\Models\Admin;
 
 class DefaultUpdateOrderAction
 {
     /**
-     * @param \Domain\Orders\Models\Order $order
-     * @param \Domain\Users\Models\BaseUser\BaseUser|null $user
+     * @param \Domain\Orders\DTOs\DefaultUpdateOrderParams $params
      *
      * @return void
      */
-    public function execute(Order $order, BaseUser $user = null): void
+    public function execute(DefaultUpdateOrderParams $params): void
     {
-//        if ((string)$payload->getOriginal('order_status_id') === (string)$newStatus) {
-//            return;
-//        }
-/**
- * @method static self update_comment_admin()
- * @method static self update_payment_method()
- * @method static self update_comment_user()
- * @method static self update_admin()
- * @method static self update_importance()
- * @method static self update_customer_personal_data()
- */
+        $orderEvents = [];
 
+        if ((string)$params->order->getOriginal('comment_user') !== (string)$params->comment_user) {
+            $orderEvents[] = $this->makeCommentUserOrderEvent($params);
+        }
+
+        if ((string)$params->order->getOriginal('comment_admin') !== (string)$params->comment_admin) {
+            $orderEvents[] = $this->makeCommentAdminOrderEvent($params);
+        }
+
+        if ((string)$params->order->getOriginal('payment_method_id') !== (string)$params->payment_method_id) {
+            $orderEvents[] = $this->makePaymentMethodOrderEvent($params);
+        }
+
+        if ((string)$params->order->getOriginal('admin_id') !== (string)$params->admin_id) {
+            $orderEvents[] = $this->makeAdminOrderEvent($params);
+        }
+
+        if ((string)$params->order->getOriginal('importance_id') !== (string)$params->importance_id) {
+            $orderEvents[] = $this->makeImportanceOrderEvent($params);
+        }
+
+        $request = $params->order->getOriginal('request');
+        $name = $request['name'];
+        $email = $request['email'];
+        $phone = $request['phone'];
+
+        if (
+            !empty(
+                array_diff(
+                    [$name, $email, $phone],
+                    [$params->name, $params->email, $params->phone]
+                )
+            )
+        ) {
+            $orderEvents[] = $this->makeCustomerPersonalDataOrderEvent($params);
+        }
+
+        $params->order->save();
+        foreach ($orderEvents as $orderEvent) {
+            $this->createOrderEvent($orderEvent, $params);
+        }
+    }
+
+    /**
+     * @param \Domain\Orders\DTOs\DefaultUpdateOrderParams $params
+     *
+     * @return \Domain\Orders\Models\OrderEvent
+     */
+    private function makeCommentUserOrderEvent(DefaultUpdateOrderParams $params): OrderEvent
+    {
+        $orderEvent = new OrderEvent();
+        $orderEvent->payload = [
+            'description' => $params->comment_user,
+        ];
+        $orderEvent->type = OrderEventType::update_comment_user();
+        return $orderEvent;
+    }
+
+    /**
+     * @param \Domain\Orders\DTOs\DefaultUpdateOrderParams $params
+     *
+     * @return \Domain\Orders\Models\OrderEvent
+     */
+    private function makeCommentAdminOrderEvent(DefaultUpdateOrderParams $params): OrderEvent
+    {
+        $orderEvent = new OrderEvent();
+        $orderEvent->payload = [
+            'description' => $params->comment_admin,
+        ];
+        $orderEvent->type = OrderEventType::update_comment_admin();
+        return $orderEvent;
+    }
+
+    /**
+     * @param \Domain\Orders\DTOs\DefaultUpdateOrderParams $params
+     *
+     * @return \Domain\Orders\Models\OrderEvent
+     */
+    private function makePaymentMethodOrderEvent(DefaultUpdateOrderParams $params): OrderEvent
+    {
+        $orderEvent = new OrderEvent();
+        $paymentMethod = PaymentMethod::query()->findOrFail($params->payment_method_id);
+        $orderEvent->payload = [
+            'description' => sprintf('Способ оплаты изменён на "%s"', $paymentMethod->name),
+        ];
+        $orderEvent->type = OrderEventType::update_payment_method();
+        return $orderEvent;
+    }
+
+    /**
+     * @param \Domain\Orders\DTOs\DefaultUpdateOrderParams $params
+     *
+     * @return \Domain\Orders\Models\OrderEvent
+     */
+    private function makeAdminOrderEvent(DefaultUpdateOrderParams $params): OrderEvent
+    {
+        $orderEvent = new OrderEvent();
+        $admin = Admin::query()->findOrFail($params->admin_id);
+        $orderEvent->payload = [
+            'description' => $admin->name,
+        ];
+        $orderEvent->type = OrderEventType::update_admin();
+        return $orderEvent;
+    }
+
+    /**
+     * @param \Domain\Orders\DTOs\DefaultUpdateOrderParams $params
+     *
+     * @return \Domain\Orders\Models\OrderEvent
+     */
+    private function makeImportanceOrderEvent(DefaultUpdateOrderParams $params): OrderEvent
+    {
+        $orderEvent = new OrderEvent();
+        $orderImportance = OrderImportance::query()->findOrFail($params->importance_id);
+        $orderEvent->payload = [
+            'description' => $orderImportance->name,
+        ];
+        $orderEvent->type = OrderEventType::update_importance();
+        return $orderEvent;
+    }
+
+    /**
+     * @param \Domain\Orders\DTOs\DefaultUpdateOrderParams $params
+     *
+     * @return \Domain\Orders\Models\OrderEvent
+     */
+    private function makeCustomerPersonalDataOrderEvent(DefaultUpdateOrderParams $params): OrderEvent
+    {
+        $request = $params->order->getOriginal('request');
+        $name = $request['name'];
+        $email = $request['email'];
+        $phone = $request['phone'];
+
+        $orderEvent = new OrderEvent();
+        $orderEvent->type = OrderEventType::update_customer_personal_data();
+        $description = "";
+        if ($name !== $params->name) {
+            $description .= sprintf('Имя: "%s"', $params->name);
+        }
+        if ($email !== $params->email) {
+            $description .= sprintf('Е-мейл: "%s"', $params->email);
+        }
+        if ($phone !== $params->phone) {
+            $description .= sprintf('Телефон: "%s"', $params->phone);
+        }
+        $orderEvent->payload = [
+            'description' => $description,
+        ];
+        return $orderEvent;
+    }
+
+    /**
+     * @param \Domain\Orders\Models\OrderEvent $orderEvent
+     * @param \Domain\Orders\DTOs\DefaultUpdateOrderParams $params
+     *
+     * @return \Domain\Orders\Models\OrderEvent
+     */
+    private function createOrderEvent(OrderEvent $orderEvent, DefaultUpdateOrderParams $params): OrderEvent
+    {
+        $orderEvent->order()->associate($params->order);
+        if ($params->user) {
+            $orderEvent->user()->associate($params->user);
+        }
+        $orderEvent->save();
+
+        return $orderEvent;
     }
 }
