@@ -21,22 +21,27 @@ class DefaultUpdateOrderAction
         $orderEvents = [];
 
         if ((string)$params->order->getOriginal('comment_user') !== (string)$params->comment_user) {
+            $params->order->comment_user = $params->comment_user;
             $orderEvents[] = $this->makeCommentUserOrderEvent($params);
         }
 
         if ((string)$params->order->getOriginal('comment_admin') !== (string)$params->comment_admin) {
+            $params->order->comment_admin = $params->comment_admin;
             $orderEvents[] = $this->makeCommentAdminOrderEvent($params);
         }
 
         if ((string)$params->order->getOriginal('payment_method_id') !== (string)$params->payment_method_id) {
+            $params->order->payment_method_id = $params->payment_method_id;
             $orderEvents[] = $this->makePaymentMethodOrderEvent($params);
         }
 
         if ((string)$params->order->getOriginal('admin_id') !== (string)$params->admin_id) {
+            $params->order->admin_id = $params->admin_id;
             $orderEvents[] = $this->makeAdminOrderEvent($params);
         }
 
         if ((string)$params->order->getOriginal('importance_id') !== (string)$params->importance_id) {
+            $params->order->importance_id = $params->importance_id;
             $orderEvents[] = $this->makeImportanceOrderEvent($params);
         }
 
@@ -53,6 +58,11 @@ class DefaultUpdateOrderAction
                 )
             )
         ) {
+            $request = $params->order->request;
+            $request['name'] = $params->name;
+            $request['email'] = $params->email;
+            $request['phone'] = $params->phone;
+            $params->order->request = $request;
             $orderEvents[] = $this->makeCustomerPersonalDataOrderEvent($params);
         }
 

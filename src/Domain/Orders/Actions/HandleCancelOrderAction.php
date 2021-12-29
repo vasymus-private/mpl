@@ -10,17 +10,14 @@ use Domain\Users\Models\BaseUser\BaseUser;
 class HandleCancelOrderAction
 {
     /**
-     * @param int $id
+     * @param \Domain\Orders\Models\Order $order
      * @param string|null $cancelMessage
      * @param \Domain\Users\Models\BaseUser\BaseUser|null $user
      *
-     * @return \Domain\Orders\Models\Order
+     * @return void
      */
-    public function execute(int $id, ?string $cancelMessage, BaseUser $user = null): Order
+    public function execute(Order $order, ?string $cancelMessage, BaseUser $user = null): void
     {
-        /** @var \Domain\Orders\Models\Order $order */
-        $order = Order::query()->findOrFail($id);
-
         $cancelledDate = now();
 
         $order->cancelled = true;
@@ -43,7 +40,5 @@ class HandleCancelOrderAction
         }
         $orderEvent->order()->associate($order);
         $orderEvent->save();
-
-        return $order;
     }
 }

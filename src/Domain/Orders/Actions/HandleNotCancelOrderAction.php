@@ -10,16 +10,13 @@ use Domain\Users\Models\BaseUser\BaseUser;
 class HandleNotCancelOrderAction
 {
     /**
-     * @param int $id
+     * @param Order $order
      * @param \Domain\Users\Models\BaseUser\BaseUser|null $user
      *
-     * @return \Domain\Orders\Models\Order
+     * @return void
      */
-    public function execute(int $id, BaseUser $user = null): Order
+    public function execute(Order $order, BaseUser $user = null): void
     {
-        /** @var \Domain\Orders\Models\Order $order */
-        $order = Order::query()->findOrFail($id);
-
         $now = now();
 
         $order->cancelled = false;
@@ -42,7 +39,5 @@ class HandleNotCancelOrderAction
         }
         $orderEvent->order()->associate($order);
         $orderEvent->save();
-
-        return $order;
     }
 }

@@ -23,7 +23,7 @@ class HandleChangeOrderStatusAction
             return;
         }
         $orderStatus = OrderStatus::query()->findOrFail($newStatus);
-        // TODO add validation / email etc
+        // TODO email, sms etc
         $order->order_status_id = $newStatus;
         $order->save();
 

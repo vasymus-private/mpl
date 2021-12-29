@@ -15,10 +15,14 @@ use Domain\Common\DTOs\FileDTO;
 use Domain\Common\DTOs\SearchPrependAdminDTO;
 use Domain\Common\Models\Currency;
 use Domain\Common\Models\CustomMedia;
+use Domain\Orders\Actions\DefaultUpdateOrderAction;
 use Domain\Orders\Actions\DeleteOrderAction;
 use Domain\Orders\Actions\HandleCancelOrderAction;
 use Domain\Orders\Actions\HandleNotCancelOrderAction;
 use Domain\Orders\Actions\OMS\HandleChangeOrderStatusAction;
+use Domain\Orders\Actions\UpdateOrderCustomerInvoicesAction;
+use Domain\Orders\DTOs\DefaultUpdateOrderParams;
+use Domain\Orders\DTOs\UpdateOrderCustomerInvoicesParamsDTO;
 use Domain\Orders\Models\BillStatus;
 use Domain\Orders\Models\Order;
 use Domain\Orders\Models\OrderImportance;
@@ -266,23 +270,30 @@ class ShowOrder extends BaseShowComponent
         $this->saveCustomerInvoices();
         $this->saveSupplierInvoices();
         $this->saveOrderItems();
+
+        // todo (think of do refresh)
     }
 
     protected function saveItem()
     {
-        $request = $this->item->request;
-        $request['email'] = $this->email;
-        $request['name'] = $this->name;
-        $request['phone'] = $this->phone;
-        $this->item->request = $request;
-        $orderStatusId = $this->item->order_status_id;
-        $this->item->order_status_id = $this->item->getOriginal('order_status_id');
-        $this->item->save();
+        $defaultUpdateOrderAction = resolve(DefaultUpdateOrderAction::class);
+
+        $defaultUpdateOrderAction->execute(new DefaultUpdateOrderParams([
+            'order' => $this->item,
+            'user' => H::admin(),
+            'comment_user' => $this->item->comment_user,
+            'comment_admin' => $this->item->comment_admin,
+            'payment_method_id' => $this->item->payment_method_id,
+            'admin_id' => $this->item->admin_id,
+            'importance_id' => $this->item->importance_id,
+            'name' => $this->name,
+            'email' => $this->email,
+            'phone' => $this->phone,
+        ]));
 
         /** @var \Domain\Orders\Actions\OMS\HandleChangeOrderStatusAction $handleChangeOrderStatusAction */
         $handleChangeOrderStatusAction = resolve(HandleChangeOrderStatusAction::class);
-        $handleChangeOrderStatusAction->execute($this->item, $orderStatusId, H::admin());
-        $this->item->order_status_id = $orderStatusId;
+        $handleChangeOrderStatusAction->execute($this->item, $this->item->order_status_id, H::admin());
     }
 
     protected function saveOrderItems()
@@ -342,12 +353,7 @@ class ShowOrder extends BaseShowComponent
 
         /** @var \Domain\Orders\Actions\HandleCancelOrderAction $handleCancelOrderAction */
         $handleCancelOrderAction = resolve(HandleCancelOrderAction::class);
-        $order = $handleCancelOrderAction->execute($this->item->id, $this->cancelMessage, H::admin());
-
-        $this->item->cancelled = $order->cancelled;
-        $this->item->cancelled_description = $order->cancelled_description;
-        $this->item->cancelled_date = $order->cancelled_date;
-        $this->item->updated_at = $order->updated_at;
+        $handleCancelOrderAction->execute($this->item, $this->cancelMessage, H::admin());
 
         return true;
     }
@@ -361,12 +367,7 @@ class ShowOrder extends BaseShowComponent
 
         /** @var \Domain\Orders\Actions\HandleNotCancelOrderAction $handleNotCancelOrderAction */
         $handleNotCancelOrderAction = resolve(HandleNotCancelOrderAction::class);
-        $order = $handleNotCancelOrderAction->execute($this->item->id, H::admin());
-
-        $this->item->cancelled = $order->cancelled;
-        $this->item->cancelled_description = $order->cancelled_description;
-        $this->item->cancelled_date = $order->cancelled_date;
-        $this->item->updated_at = $order->updated_at;
+        $handleNotCancelOrderAction->execute($this->item, H::admin());
 
         return true;
     }
@@ -444,7 +445,16 @@ class ShowOrder extends BaseShowComponent
 
     protected function saveCustomerInvoices()
     {
-        $this->saveInvoices(Order::MC_CUSTOMER_INVOICES);
+        $updateOrderCustomerInvoicesAction = resolve(UpdateOrderCustomerInvoicesAction::class);
+        $updateOrderCustomerInvoicesAction->execute(new UpdateOrderCustomerInvoicesParamsDTO([
+            'order' => $this->item,
+            'customer_bill_status_id' => $this->item->customer_bill_status_id,
+            'customer_bill_description' => $this->item->customer_bill_description,
+            'invoices' => $this->customerInvoices,
+            'user' => H::admin(),
+        ]));
+
+        //$this->saveInvoices(Order::MC_CUSTOMER_INVOICES);
     }
 
     protected function saveSupplierInvoices()
