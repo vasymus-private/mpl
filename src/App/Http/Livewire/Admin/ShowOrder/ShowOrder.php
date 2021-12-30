@@ -283,6 +283,7 @@ class ShowOrder extends BaseShowComponent
         $this->saveOrderItems();
 
         // todo (think of do refresh)
+        $this->initHistory();
     }
 
     protected function saveItem()
@@ -290,7 +291,7 @@ class ShowOrder extends BaseShowComponent
         $defaultUpdateOrderAction = resolve(DefaultUpdateOrderAction::class);
 
         $defaultUpdateOrderAction->execute(new DefaultUpdateOrderParams([
-            'order' => $this->item,
+            'order' => $this->getDbOrder(),
             'user' => H::admin(),
             'comment_user' => $this->item->comment_user,
             'comment_admin' => $this->item->comment_admin,
@@ -304,7 +305,11 @@ class ShowOrder extends BaseShowComponent
 
         /** @var \Domain\Orders\Actions\OMS\HandleChangeOrderStatusAction $handleChangeOrderStatusAction */
         $handleChangeOrderStatusAction = resolve(HandleChangeOrderStatusAction::class);
-        $handleChangeOrderStatusAction->execute($this->item, $this->item->order_status_id, H::admin());
+        $handleChangeOrderStatusAction->execute(
+            $this->getDbOrder(),
+            $this->item->order_status_id,
+            H::admin()
+        );
     }
 
     protected function saveOrderItems()
@@ -770,5 +775,10 @@ class ShowOrder extends BaseShowComponent
                 return '';
             }
         }
+    }
+
+    protected function getDbOrder(): Order
+    {
+        return $this->isCreating ? $this->item : Order::query()->findOrFail($this->item->id);
     }
 }

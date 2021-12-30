@@ -29,19 +29,19 @@ class DefaultUpdateOrderParams extends DataTransferObject
     public $comment_admin;
 
     /**
-     * @var int|null
+     * @var int|string|null
      */
-    public ?int $payment_method_id;
+    public $payment_method_id;
 
     /**
-     * @var int|null
+     * @var int|string|null
      */
-    public ?int $admin_id;
+    public $admin_id;
 
     /**
-     * @var int|null
+     * @var int|string|null
      */
-    public ?int $importance_id;
+    public $importance_id;
 
     /**
      * @var string|null
