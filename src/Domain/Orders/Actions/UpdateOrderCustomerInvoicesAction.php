@@ -2,7 +2,6 @@
 
 namespace Domain\Orders\Actions;
 
-use Domain\Common\Models\CustomMedia;
 use Domain\Orders\DTOs\UpdateOrderCustomerInvoicesParamsDTO;
 use Domain\Orders\Enums\OrderEventType;
 use Domain\Orders\Models\BillStatus;
@@ -11,6 +10,19 @@ use Domain\Orders\Models\OrderEvent;
 
 class UpdateOrderCustomerInvoicesAction
 {
+    /**
+     * @var \Domain\Orders\Actions\SaveOrderMediasAction
+     */
+    private SaveOrderMediasAction $saveOrderMediasAction;
+
+    /**
+     * @param \Domain\Orders\Actions\SaveOrderMediasAction $saveOrderMediasAction
+     */
+    public function __construct(SaveOrderMediasAction $saveOrderMediasAction)
+    {
+        $this->saveOrderMediasAction = $saveOrderMediasAction;
+    }
+
     /**
      * @param \Domain\Orders\DTOs\UpdateOrderCustomerInvoicesParamsDTO $params
      *
@@ -30,44 +42,9 @@ class UpdateOrderCustomerInvoicesAction
             $params->order->customer_bill_description = $params->customer_bill_description;
         }
 
-        $this->saveInvoices($params);
+        $this->saveOrderMediasAction->execute($params->order, $params->invoices, Order::MC_CUSTOMER_INVOICES);
 
         $this->createOrderEvent($params);
-    }
-
-    /**
-     * @param \Domain\Orders\DTOs\UpdateOrderCustomerInvoicesParamsDTO $params
-     *
-     * @return void
-     */
-    private function saveInvoices(UpdateOrderCustomerInvoicesParamsDTO $params): void
-    {
-        $collectionName = Order::MC_CUSTOMER_INVOICES;
-        foreach ($params->invoices as $fileDTO) {
-            // updating
-            if ($fileDTO['id'] !== null) {
-                /** @var \Domain\Common\Models\CustomMedia $file */
-                $file = $params->order->getMedia($collectionName)->first(fn(CustomMedia $customMedia) => $fileDTO['id'] === $customMedia->id);
-                $file->name = $fileDTO['name'] ?: $fileDTO['file_name'];
-                $file->save();
-                continue;
-            }
-            // creating
-            $fileAdder = $params->order
-                ->addMedia($fileDTO['path'])
-                ->preservingOriginal()
-                ->usingFileName($fileDTO['file_name'])
-                ->usingName($fileDTO['name'] ?? $fileDTO['file_name'])
-            ;
-            $fileAdder->toMediaCollection($collectionName);
-        }
-
-        $mediasIds = collect($params->invoices)->pluck('id')->filter()->values()->toArray();
-        $params->order->getMedia($collectionName)->each(function(CustomMedia $customMedia) use($mediasIds) {
-            if (!in_array($customMedia->id, $mediasIds)) {
-                $customMedia->delete();
-            }
-        });
     }
 
     /**

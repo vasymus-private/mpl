@@ -4,7 +4,7 @@ namespace Domain\Orders\Models;
 
 use Domain\Common\Models\BaseModel;
 use Domain\Orders\Enums\OrderEventType;
-use Domain\Users\Models\User\User;
+use Domain\Users\Models\BaseUser\BaseUser;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Domain\Orders\Models\Order $order
  *
  * @see \Domain\Orders\Models\OrderEvent::user()
- * @property \Domain\Orders\Models\OrderEvent $user
+ * @property \Domain\Users\Models\BaseUser\BaseUser $user
  */
 class OrderEvent extends BaseModel
 {
@@ -65,7 +65,7 @@ class OrderEvent extends BaseModel
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(BaseUser::class, 'user_id', 'id');
     }
 
     /**

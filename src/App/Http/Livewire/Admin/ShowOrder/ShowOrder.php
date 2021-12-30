@@ -21,10 +21,15 @@ use Domain\Orders\Actions\HandleCancelOrderAction;
 use Domain\Orders\Actions\HandleNotCancelOrderAction;
 use Domain\Orders\Actions\OMS\HandleChangeOrderStatusAction;
 use Domain\Orders\Actions\UpdateOrderCustomerInvoicesAction;
+use Domain\Orders\Actions\UpdateOrderSupplierInvoicesAction;
 use Domain\Orders\DTOs\DefaultUpdateOrderParams;
+use Domain\Orders\DTOs\OrderHistoryItem;
 use Domain\Orders\DTOs\UpdateOrderCustomerInvoicesParamsDTO;
+use Domain\Orders\DTOs\UpdateOrderSupplierInvoicesParamsDTO;
+use Domain\Orders\Enums\OrderEventType;
 use Domain\Orders\Models\BillStatus;
 use Domain\Orders\Models\Order;
+use Domain\Orders\Models\OrderEvent;
 use Domain\Orders\Models\OrderImportance;
 use Domain\Orders\Models\OrderStatus;
 use Domain\Orders\Models\PaymentMethod;
@@ -172,6 +177,11 @@ class ShowOrder extends BaseShowComponent
      */
     public Order $item;
 
+    /**
+     * @var array[] @see {@link \Domain\Orders\DTOs\OrderHistoryItem}
+     */
+    public array $orderHistoryItems = [];
+
     public function tabs(): array
     {
         return $this->isCreating
@@ -248,6 +258,7 @@ class ShowOrder extends BaseShowComponent
         $this->fetchAdditionalProductItems();
         $this->mountPerPageOptions();
         $this->mountAdditionalProductItemsPerPage();
+        $this->initHistory();
     }
 
     public function render()
@@ -453,53 +464,18 @@ class ShowOrder extends BaseShowComponent
             'invoices' => $this->customerInvoices,
             'user' => H::admin(),
         ]));
-
-        //$this->saveInvoices(Order::MC_CUSTOMER_INVOICES);
     }
 
     protected function saveSupplierInvoices()
     {
-        $this->saveInvoices(Order::MC_SUPPLIER_INVOICES);
-    }
-
-    protected function saveInvoices(string $collectionName)
-    {
-        $attachments = [];
-        $files = $collectionName === Order::MC_CUSTOMER_INVOICES ? $this->customerInvoices : $this->supplierInvoices;
-
-        foreach ($files as $fileDTO) {
-            if ($fileDTO['id'] !== null) {
-                /** @var \Domain\Common\Models\CustomMedia $attachment */
-                $attachment = $this->item->getMedia($collectionName)->first(fn(CustomMedia $customMedia) => $fileDTO['id'] === $customMedia->id);
-                $attachment->name = $fileDTO['name'] ?: $fileDTO['file_name'];
-                $attachment->save();
-                $attachments[] = $fileDTO;
-            } else {
-                $fileAdder = $this->item
-                    ->addMedia($fileDTO['path'])
-                    ->preservingOriginal()
-                    ->usingFileName($fileDTO['file_name'])
-                    ->usingName($fileDTO['name'] ?? $fileDTO['file_name'])
-                ;
-                /** @var \Domain\Common\Models\CustomMedia $attachment */
-                $attachment = $fileAdder->toMediaCollection($collectionName);
-
-                $attachments[] = FileDTO::fromCustomMedia($attachment)->toArray();
-            }
-        }
-
-        $mediasIds = collect($attachments)->pluck('id')->toArray();
-        $this->item->getMedia($collectionName)->each(function(CustomMedia $customMedia) use($mediasIds) {
-            if (!in_array($customMedia->id, $mediasIds)) {
-                $customMedia->delete();
-            }
-        });
-
-        if ($collectionName === Order::MC_CUSTOMER_INVOICES) {
-            $this->customerInvoices = $attachments;
-        } else {
-            $this->supplierInvoices = $attachments;
-        }
+        $updateOrderSupplierInvoicesAction = resolve(UpdateOrderSupplierInvoicesAction::class);
+        $updateOrderSupplierInvoicesAction->execute(new UpdateOrderSupplierInvoicesParamsDTO([
+            'order' => $this->item,
+            'provider_bill_status_id' => $this->item->provider_bill_status_id,
+            'provider_bill_description' => $this->item->provider_bill_description,
+            'invoices' => $this->supplierInvoices,
+            'user' => H::admin(),
+        ]));
     }
 
     protected function initProductItems()
@@ -719,5 +695,80 @@ class ShowOrder extends BaseShowComponent
             'order_product_price_retail_rub_origin_formatted' => H::priceRubFormatted($order_product_price_retail_rub, Currency::ID_RUB),
             'order_product_price_retail_rub_was_updated' => $priceRetailRubWasUpdated,
         ]);
+    }
+
+    protected function initHistory()
+    {
+        $this->item->load(['events', 'events.user']);
+        $this->orderHistoryItems = $this->item->events
+            ->map(
+                fn(OrderEvent $orderEvent) => (new OrderHistoryItem([
+                    'orderEventId' => $orderEvent->id,
+                    'userName' => $orderEvent->user->name ?? null,
+                    'operation' => $this->getOperation($orderEvent->type),
+                    'description' => $orderEvent->payload['description'] ?? '',
+                    'date' => $orderEvent->created_at,
+                ]))->toArray()
+            )
+            ->toArray();
+    }
+
+    /**
+     * @param \Domain\Orders\Enums\OrderEventType $orderEventType
+     *
+     * @return string
+     */
+    protected function getOperation(OrderEventType $orderEventType): string
+    {
+        /**
+Изменение цены товара
+Изменение количества товара
+Изменение упаковки товара
+Изменение названия товара
+Добавление товара
+Удаление товара
+         */
+        switch (true) {
+            case $orderEventType->equals(OrderEventType::checkout()) :
+            case $orderEventType->equals(OrderEventType::admin_created()) : {
+                return 'Создание заказа';
+            }
+            case $orderEventType->equals(OrderEventType::update_comment_admin()) : {
+                return 'Комментарий к заказу';
+            }
+            case $orderEventType->equals(OrderEventType::update_status()) : {
+                return 'Изменение статуса заказа';
+            }
+            case $orderEventType->equals(OrderEventType::update_customer_personal_data()) : {
+                return 'Изменение параметров покупателя';
+            }
+            case $orderEventType->equals(OrderEventType::update_payment_method()) : {
+                return 'Изменение способа оплаты';
+            }
+            case $orderEventType->equals(OrderEventType::update_comment_user()) : {
+                return 'Изменение комментария пользователя';
+            }
+            case $orderEventType->equals(OrderEventType::update_admin()) : {
+                return 'Изменение менеджера';
+            }
+            case $orderEventType->equals(OrderEventType::update_importance()) : {
+                return 'Изменение важности';
+            }
+            case $orderEventType->equals(OrderEventType::update_customer_invoice()) : {
+                return 'Изменение счёта покупателя';
+            }
+            case $orderEventType->equals(OrderEventType::update_supplier_invoice()) : {
+                return 'Изменение счёта от поставщика';
+            }
+            case $orderEventType->equals(OrderEventType::cancellation()) : {
+                return 'Отмена заказа';
+            }
+            case $orderEventType->equals(OrderEventType::delete()) : {
+                return 'Удаление заказа';
+            }
+            default : {
+                return '';
+            }
+        }
     }
 }
