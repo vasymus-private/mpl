@@ -3,7 +3,6 @@
 namespace Domain\Orders\Actions;
 
 use Domain\Orders\DTOs\CreateOrderParamsDTO;
-use Domain\Orders\Enums\OrderEventType;
 use Domain\Orders\Models\Order;
 use Domain\Orders\Models\OrderEvent;
 use Exception;

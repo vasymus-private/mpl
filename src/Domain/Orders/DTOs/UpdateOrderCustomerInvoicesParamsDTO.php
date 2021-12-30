@@ -19,9 +19,9 @@ class UpdateOrderCustomerInvoicesParamsDTO extends DataTransferObject
     public ?BaseUser $user;
 
     /**
-     * @var int
+     * @var int|string
      */
-    public int $customer_bill_status_id;
+    public $customer_bill_status_id;
 
     /**
      * @var string|null

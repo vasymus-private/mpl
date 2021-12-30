@@ -19,9 +19,9 @@ class UpdateOrderSupplierInvoicesParamsDTO extends DataTransferObject
     public ?BaseUser $user;
 
     /**
-     * @var int
+     * @var int|string
      */
-    public int $provider_bill_status_id;
+    public $provider_bill_status_id;
 
     /**
      * @var string|null

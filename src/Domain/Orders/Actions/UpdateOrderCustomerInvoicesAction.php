@@ -7,6 +7,8 @@ use Domain\Orders\Enums\OrderEventType;
 use Domain\Orders\Models\BillStatus;
 use Domain\Orders\Models\Order;
 use Domain\Orders\Models\OrderEvent;
+use Illuminate\Support\Facades\Cache;
+use Support\H;
 
 class UpdateOrderCustomerInvoicesAction
 {
@@ -34,12 +36,21 @@ class UpdateOrderCustomerInvoicesAction
             return;
         }
 
-        if ((string)$params->order->getOriginal('customer_bill_status_id') !== (string)$params->customer_bill_status_id) {
+        $shouldSave = false;
+
+        // TODO do the same for other parts of the code and for UpdateOrderSupplierInvoicesAction
+        if ($this->propertyHasChanged($params, 'customer_bill_status_id')) {
             $params->order->customer_bill_status_id = $params->customer_bill_status_id;
+            $shouldSave = true;
         }
 
-        if ((string)$params->order->getOriginal('customer_bill_description') !== (string)$params->customer_bill_description) {
+        if ($this->propertyHasChanged($params, 'customer_bill_description')) {
             $params->order->customer_bill_description = $params->customer_bill_description;
+            $shouldSave = true;
+        }
+
+        if ($shouldSave) {
+            $params->order->save();
         }
 
         $this->saveOrderMediasAction->execute($params->order, $params->invoices, Order::MC_CUSTOMER_INVOICES);
@@ -71,11 +82,11 @@ class UpdateOrderCustomerInvoicesAction
 
         if ((string)$params->order->getOriginal('customer_bill_status_id') !== (string)$params->customer_bill_status_id) {
             $billStatus = BillStatus::query()->findOrFail($params->customer_bill_status_id);
-            $orderEventDescription .= sprintf('Статус: %s.', $billStatus->name);
+            $orderEventDescription .= sprintf('Статус: %s. ', $billStatus->name);
         }
 
         if ((string)$params->order->getOriginal('customer_bill_description') !== (string)$params->customer_bill_description) {
-            $orderEventDescription .= sprintf('Комментарий: %s.', $params->customer_bill_description);
+            $orderEventDescription .= sprintf('Комментарий: %s. ', $params->customer_bill_description);
         }
 
         $hasNewInvoices = $this->hasNewInvoices($params);
@@ -101,7 +112,7 @@ class UpdateOrderCustomerInvoicesAction
      */
     private function hasNewInvoices(UpdateOrderCustomerInvoicesParamsDTO $params): bool
     {
-        return collect($params->invoices)->contains(fn(array $file) => $file['id'] === null);
+        return collect($params->invoices)->isNotEmpty() && collect($params->invoices)->contains(fn(array $file) => $file['id'] === null);
     }
 
     /**
@@ -111,10 +122,12 @@ class UpdateOrderCustomerInvoicesAction
      */
     private function hasDeletedInvoices(UpdateOrderCustomerInvoicesParamsDTO $params): bool
     {
-        $payloadInvoicesIds = collect($params->invoices)->pluck('id')->filter()->values()->toArray();
-        $currentInvoicesIds = $params->order->customer_invoices->pluck('id')->filter()->values()->toArray();
+        return Cache::store('array')->rememberForever(sprintf('%s-%s', static::class, $params->order->id), function() use($params) {
+            $payloadInvoicesIds = collect($params->invoices)->pluck('id')->filter()->values()->toArray();
+            $currentInvoicesIds = $params->order->customer_invoices->pluck('id')->filter()->values()->toArray();
 
-        return count($currentInvoicesIds) !== count($payloadInvoicesIds);
+            return count($currentInvoicesIds) !== 0 && count($currentInvoicesIds) !== count($payloadInvoicesIds);
+        });
     }
 
     /**
@@ -144,5 +157,13 @@ class UpdateOrderCustomerInvoicesAction
             $orderEvent->user()->associate($params->user);
         }
         $orderEvent->save();
+    }
+
+    private function propertyHasChanged(UpdateOrderCustomerInvoicesParamsDTO $params, $propertyName): bool
+    {
+        return H::runtimeCache(
+            sprintf('%s-%s-%s', static::class, $params->order->id, $propertyName),
+            $params->order->getOriginal($propertyName) !== (string)$params->$propertyName
+        );
     }
 }

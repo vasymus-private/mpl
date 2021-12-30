@@ -2,7 +2,6 @@
 
 namespace Domain\Orders\DTOs;
 
-use Illuminate\Support\Carbon;
 use Spatie\DataTransferObject\DataTransferObject;
 
 class OrderHistoryItem extends DataTransferObject
@@ -15,5 +14,5 @@ class OrderHistoryItem extends DataTransferObject
 
     public string $description;
 
-    public ?Carbon $date;
+    public ?string $date;
 }

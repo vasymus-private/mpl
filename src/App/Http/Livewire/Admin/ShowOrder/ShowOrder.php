@@ -40,6 +40,7 @@ use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
 use Domain\Users\Models\Admin;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Livewire\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
@@ -291,7 +292,7 @@ class ShowOrder extends BaseShowComponent
         $defaultUpdateOrderAction = resolve(DefaultUpdateOrderAction::class);
 
         $defaultUpdateOrderAction->execute(new DefaultUpdateOrderParams([
-            'order' => $this->getDbOrder(),
+            'order' => $this->getFreshOrder(),
             'user' => H::admin(),
             'comment_user' => $this->item->comment_user,
             'comment_admin' => $this->item->comment_admin,
@@ -306,7 +307,7 @@ class ShowOrder extends BaseShowComponent
         /** @var \Domain\Orders\Actions\OMS\HandleChangeOrderStatusAction $handleChangeOrderStatusAction */
         $handleChangeOrderStatusAction = resolve(HandleChangeOrderStatusAction::class);
         $handleChangeOrderStatusAction->execute(
-            $this->getDbOrder(),
+            $this->getFreshOrder(),
             $this->item->order_status_id,
             H::admin()
         );
@@ -371,6 +372,8 @@ class ShowOrder extends BaseShowComponent
         $handleCancelOrderAction = resolve(HandleCancelOrderAction::class);
         $handleCancelOrderAction->execute($this->item, $this->cancelMessage, H::admin());
 
+        $this->initHistory();
+
         return true;
     }
 
@@ -384,6 +387,8 @@ class ShowOrder extends BaseShowComponent
         /** @var \Domain\Orders\Actions\HandleNotCancelOrderAction $handleNotCancelOrderAction */
         $handleNotCancelOrderAction = resolve(HandleNotCancelOrderAction::class);
         $handleNotCancelOrderAction->execute($this->item, H::admin());
+
+        $this->initHistory();
 
         return true;
     }
@@ -463,7 +468,7 @@ class ShowOrder extends BaseShowComponent
     {
         $updateOrderCustomerInvoicesAction = resolve(UpdateOrderCustomerInvoicesAction::class);
         $updateOrderCustomerInvoicesAction->execute(new UpdateOrderCustomerInvoicesParamsDTO([
-            'order' => $this->item,
+            'order' => $this->getFreshOrder(),
             'customer_bill_status_id' => $this->item->customer_bill_status_id,
             'customer_bill_description' => $this->item->customer_bill_description,
             'invoices' => $this->customerInvoices,
@@ -475,7 +480,7 @@ class ShowOrder extends BaseShowComponent
     {
         $updateOrderSupplierInvoicesAction = resolve(UpdateOrderSupplierInvoicesAction::class);
         $updateOrderSupplierInvoicesAction->execute(new UpdateOrderSupplierInvoicesParamsDTO([
-            'order' => $this->item,
+            'order' => $this->getFreshOrder(),
             'provider_bill_status_id' => $this->item->provider_bill_status_id,
             'provider_bill_description' => $this->item->provider_bill_description,
             'invoices' => $this->supplierInvoices,
@@ -712,7 +717,7 @@ class ShowOrder extends BaseShowComponent
                     'userName' => $orderEvent->user->name ?? null,
                     'operation' => $this->getOperation($orderEvent->type),
                     'description' => $orderEvent->payload['description'] ?? '',
-                    'date' => $orderEvent->created_at,
+                    'date' => $orderEvent->created_at ? $orderEvent->created_at->format('Y-m-d H:i:s') : null,
                 ]))->toArray()
             )
             ->toArray();
@@ -777,8 +782,14 @@ class ShowOrder extends BaseShowComponent
         }
     }
 
-    protected function getDbOrder(): Order
+    /**
+     * @return \Domain\Orders\Models\Order
+     */
+    protected function getFreshOrder(): Order
     {
-        return $this->isCreating ? $this->item : Order::query()->findOrFail($this->item->id);
+        return Cache::store('array')->rememberForever(
+            sprintf('fresh-db-order-%s', $this->item->id),
+            fn() => $this->isCreating ? $this->item : Order::query()->findOrFail($this->item->id)
+        );
     }
 }

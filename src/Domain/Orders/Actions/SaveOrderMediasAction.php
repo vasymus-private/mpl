@@ -16,6 +16,14 @@ class SaveOrderMediasAction
      */
     public function execute(Order $order, array $files, string $collectionName): void
     {
+        // delete
+        $mediasIds = collect($files)->pluck('id')->filter()->values()->toArray();
+        $order->getMedia($collectionName)->each(function(CustomMedia $customMedia) use($mediasIds) {
+            if (!in_array($customMedia->id, $mediasIds)) {
+                $customMedia->delete();
+            }
+        });
+
         foreach ($files as $fileDTO) {
             // updating
             if ($fileDTO['id'] !== null) {
@@ -34,12 +42,5 @@ class SaveOrderMediasAction
             ;
             $fileAdder->toMediaCollection($collectionName);
         }
-
-        $mediasIds = collect($files)->pluck('id')->filter()->values()->toArray();
-        $order->getMedia($collectionName)->each(function(CustomMedia $customMedia) use($mediasIds) {
-            if (!in_array($customMedia->id, $mediasIds)) {
-                $customMedia->delete();
-            }
-        });
     }
 }

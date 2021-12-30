@@ -7,6 +7,7 @@ use Domain\Orders\Enums\OrderEventType;
 use Domain\Orders\Models\BillStatus;
 use Domain\Orders\Models\Order;
 use Domain\Orders\Models\OrderEvent;
+use Illuminate\Support\Facades\Cache;
 
 class UpdateOrderSupplierInvoicesAction
 {
@@ -34,12 +35,20 @@ class UpdateOrderSupplierInvoicesAction
             return;
         }
 
+        $shouldSave = false;
+
         if ((string)$params->order->getOriginal('provider_bill_status_id') !== (string)$params->provider_bill_status_id) {
             $params->order->provider_bill_status_id = $params->provider_bill_status_id;
+            $shouldSave = true;
         }
 
         if ((string)$params->order->getOriginal('provider_bill_description') !== (string)$params->provider_bill_description) {
             $params->order->provider_bill_description = $params->provider_bill_description;
+            $shouldSave = true;
+        }
+
+        if ($shouldSave) {
+            $params->order->save();
         }
 
         $this->saveOrderMediasAction->execute($params->order, $params->invoices, Order::MC_SUPPLIER_INVOICES);
@@ -71,11 +80,11 @@ class UpdateOrderSupplierInvoicesAction
 
         if ((string)$params->order->getOriginal('provider_bill_status_id') !== (string)$params->provider_bill_status_id) {
             $billStatus = BillStatus::query()->findOrFail($params->provider_bill_status_id);
-            $orderEventDescription .= sprintf('Статус: %s.', $billStatus->name);
+            $orderEventDescription .= sprintf('Статус: %s. ', $billStatus->name);
         }
 
         if ((string)$params->order->getOriginal('provider_bill_description') !== (string)$params->provider_bill_description) {
-            $orderEventDescription .= sprintf('Комментарий: %s.', $params->provider_bill_description);
+            $orderEventDescription .= sprintf('Комментарий: %s. ', $params->provider_bill_description);
         }
 
         $hasNewInvoices = $this->hasNewInvoices($params);
@@ -101,7 +110,7 @@ class UpdateOrderSupplierInvoicesAction
      */
     private function hasNewInvoices(UpdateOrderSupplierInvoicesParamsDTO $params): bool
     {
-        return collect($params->invoices)->contains(fn(array $file) => $file['id'] === null);
+        return collect($params->invoices)->isNotEmpty() && collect($params->invoices)->contains(fn(array $file) => $file['id'] === null);
     }
 
     /**
@@ -111,10 +120,12 @@ class UpdateOrderSupplierInvoicesAction
      */
     private function hasDeletedInvoices(UpdateOrderSupplierInvoicesParamsDTO $params): bool
     {
-        $payloadInvoicesIds = collect($params->invoices)->pluck('id')->filter()->values()->toArray();
-        $currentInvoicesIds = $params->order->customer_invoices->pluck('id')->filter()->values()->toArray();
+        return Cache::store('array')->rememberForever(sprintf('%s-%s', static::class, $params->order->id), function() use($params) {
+            $payloadInvoicesIds = collect($params->invoices)->pluck('id')->filter()->values()->toArray();
+            $currentInvoicesIds = $params->order->supplier_invoices->pluck('id')->filter()->values()->toArray();
 
-        return count($currentInvoicesIds) !== count($payloadInvoicesIds);
+            return count($currentInvoicesIds) !== 0 && count($currentInvoicesIds) !== count($payloadInvoicesIds);
+        });
     }
 
     /**

@@ -7,6 +7,7 @@ use Domain\Common\Models\Currency;
 use Domain\Users\Models\Admin;
 use Domain\Users\Models\BaseUser\BaseUser;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use LogicException;
 use Support\CBRcurrencyConverter\CBRcurrencyConverter;
@@ -191,5 +192,16 @@ class H
     public static function foreignIndexName(string $tableName, string $tableColumn, string $foreignTableName, string $foreignTableColumn): string
     {
         return sprintf('%s_%s_%s_%s', $tableName, $tableColumn, $foreignTableName, $foreignTableColumn);
+    }
+
+    /**
+     * @param string $key
+     * @param mixed $value
+     *
+     * @return mixed
+     */
+    public static function runtimeCache(string $key, $value)
+    {
+        return Cache::store('array')->rememberForever($key, fn() => $value);
     }
 }
