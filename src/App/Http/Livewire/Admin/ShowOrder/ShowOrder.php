@@ -21,11 +21,9 @@ use Domain\Orders\Actions\HandleCancelOrderAction;
 use Domain\Orders\Actions\HandleNotCancelOrderAction;
 use Domain\Orders\Actions\OMS\HandleChangeOrderStatusAction;
 use Domain\Orders\Actions\UpdateOrderCustomerInvoicesAction;
-use Domain\Orders\Actions\UpdateOrderSupplierInvoicesAction;
 use Domain\Orders\DTOs\DefaultUpdateOrderParams;
 use Domain\Orders\DTOs\OrderHistoryItem;
-use Domain\Orders\DTOs\UpdateOrderCustomerInvoicesParamsDTO;
-use Domain\Orders\DTOs\UpdateOrderSupplierInvoicesParamsDTO;
+use Domain\Orders\DTOs\UpdateOrderInvoicesParamsDTO;
 use Domain\Orders\Enums\OrderEventType;
 use Domain\Orders\Models\BillStatus;
 use Domain\Orders\Models\Order;
@@ -279,8 +277,7 @@ class ShowOrder extends BaseShowComponent
         $this->validate();
 
         $this->saveItem();
-        $this->saveCustomerInvoices();
-        $this->saveSupplierInvoices();
+        $this->saveInvoices();
         $this->saveOrderItems();
 
         // todo (think of do refresh)
@@ -464,26 +461,17 @@ class ShowOrder extends BaseShowComponent
             ->toArray();
     }
 
-    protected function saveCustomerInvoices()
+    protected function saveInvoices()
     {
         $updateOrderCustomerInvoicesAction = resolve(UpdateOrderCustomerInvoicesAction::class);
-        $updateOrderCustomerInvoicesAction->execute(new UpdateOrderCustomerInvoicesParamsDTO([
+        $updateOrderCustomerInvoicesAction->execute(new UpdateOrderInvoicesParamsDTO([
             'order' => $this->getFreshOrder(),
             'customer_bill_status_id' => $this->item->customer_bill_status_id,
             'customer_bill_description' => $this->item->customer_bill_description,
-            'invoices' => $this->customerInvoices,
-            'user' => H::admin(),
-        ]));
-    }
-
-    protected function saveSupplierInvoices()
-    {
-        $updateOrderSupplierInvoicesAction = resolve(UpdateOrderSupplierInvoicesAction::class);
-        $updateOrderSupplierInvoicesAction->execute(new UpdateOrderSupplierInvoicesParamsDTO([
-            'order' => $this->getFreshOrder(),
+            'customerInvoices' => $this->customerInvoices,
             'provider_bill_status_id' => $this->item->provider_bill_status_id,
             'provider_bill_description' => $this->item->provider_bill_description,
-            'invoices' => $this->supplierInvoices,
+            'supplierInvoices' => $this->supplierInvoices,
             'user' => H::admin(),
         ]));
     }

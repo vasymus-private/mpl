@@ -3,6 +3,7 @@
 namespace Support;
 
 use App\Constants;
+use DateInterval;
 use Domain\Common\Models\Currency;
 use Domain\Users\Models\Admin;
 use Domain\Users\Models\BaseUser\BaseUser;
@@ -202,6 +203,9 @@ class H
      */
     public static function runtimeCache(string $key, $value)
     {
+        if (is_callable($value)) {
+            $value = call_user_func($value);
+        }
         return Cache::store('array')->rememberForever($key, fn() => $value);
     }
 }

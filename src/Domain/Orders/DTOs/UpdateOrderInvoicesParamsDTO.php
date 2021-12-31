@@ -6,7 +6,7 @@ use Domain\Orders\Models\Order;
 use Domain\Users\Models\BaseUser\BaseUser;
 use Spatie\DataTransferObject\DataTransferObject;
 
-class UpdateOrderCustomerInvoicesParamsDTO extends DataTransferObject
+class UpdateOrderInvoicesParamsDTO extends DataTransferObject
 {
     /**
      * @var \Domain\Orders\Models\Order
@@ -29,7 +29,22 @@ class UpdateOrderCustomerInvoicesParamsDTO extends DataTransferObject
     public ?string $customer_bill_description;
 
     /**
+     * @var int|string
+     */
+    public $provider_bill_status_id;
+
+    /**
+     * @var string|null
+     */
+    public ?string $provider_bill_description;
+
+    /**
      * @var array[] @see {@link \Domain\Common\DTOs\FileDTO}
      */
-    public array $invoices = [];
+    public array $customerInvoices = [];
+
+    /**
+     * @var array[] @see {@link \Domain\Common\DTOs\FileDTO}
+     */
+    public array $supplierInvoices = [];
 }
