@@ -4,10 +4,12 @@ namespace Domain\Orders\Actions;
 
 use Domain\Orders\DTOs\DefaultUpdateOrderParams;
 use Domain\Orders\Enums\OrderEventType;
+use Domain\Orders\Models\Order;
 use Domain\Orders\Models\OrderEvent;
 use Domain\Orders\Models\OrderImportance;
 use Domain\Orders\Models\PaymentMethod;
 use Domain\Users\Models\Admin;
+use Domain\Users\Models\BaseUser\BaseUser;
 
 class DefaultUpdateOrderAction
 {
@@ -68,7 +70,7 @@ class DefaultUpdateOrderAction
 
         $params->order->save();
         foreach ($orderEvents as $orderEvent) {
-            $this->createOrderEvent($orderEvent, $params);
+            $this->createOrderEvent($orderEvent, $params->order, $params->user);
         }
     }
 
@@ -182,15 +184,16 @@ class DefaultUpdateOrderAction
 
     /**
      * @param \Domain\Orders\Models\OrderEvent $orderEvent
-     * @param \Domain\Orders\DTOs\DefaultUpdateOrderParams $params
+     * @param \Domain\Orders\Models\Order $order
+     * @param \Domain\Users\Models\BaseUser\BaseUser|null $user
      *
      * @return \Domain\Orders\Models\OrderEvent
      */
-    private function createOrderEvent(OrderEvent $orderEvent, DefaultUpdateOrderParams $params): OrderEvent
+    private function createOrderEvent(OrderEvent $orderEvent, Order $order, BaseUser $user = null): OrderEvent
     {
-        $orderEvent->order()->associate($params->order);
-        if ($params->user) {
-            $orderEvent->user()->associate($params->user);
+        $orderEvent->order()->associate($order);
+        if ($user) {
+            $orderEvent->user()->associate($user);
         }
         $orderEvent->save();
 

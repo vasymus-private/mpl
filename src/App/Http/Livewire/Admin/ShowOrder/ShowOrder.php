@@ -15,6 +15,7 @@ use Domain\Common\DTOs\FileDTO;
 use Domain\Common\DTOs\SearchPrependAdminDTO;
 use Domain\Common\Models\Currency;
 use Domain\Common\Models\CustomMedia;
+use Domain\Orders\Actions\ChangeOrderProductsAction;
 use Domain\Orders\Actions\DefaultUpdateOrderAction;
 use Domain\Orders\Actions\DeleteOrderAction;
 use Domain\Orders\Actions\HandleCancelOrderAction;
@@ -250,8 +251,8 @@ class ShowOrder extends BaseShowComponent
         $this->email = $this->item->request['email'] ?? $this->item->user->email ?? '';
         $this->name = $this->item->request['name'] ?? $this->item->user->name ?? '';
         $this->phone = $this->item->request['phone'] ?? $this->item->user->phone ?? '';
-
         $this->initProductItems();
+
         $this->initCategoriesSidebar();
 
         $this->fetchAdditionalProductItems();
@@ -281,6 +282,9 @@ class ShowOrder extends BaseShowComponent
         $this->saveOrderItems();
 
         // todo (think of do refresh)
+        $this->item->refresh();
+        $this->item->load(['products.parent', 'products.media', 'media']);
+        $this->initProductItems();
         $this->initHistory();
     }
 
@@ -312,42 +316,8 @@ class ShowOrder extends BaseShowComponent
 
     protected function saveOrderItems()
     {
-        $productsPrepare = [];
-
-        /** @var array @see {@link \Domain\Products\DTOs\Admin\OrderProductItemDTO} $productItem */
-        foreach ($this->productItems as $productItem) {
-            $prepared = [
-                'count' => $productItem['order_product_count'],
-                'name' => $productItem['name'],
-                'unit' => $productItem['unit'],
-                'price_retail_rub' => $productItem['order_product_price_retail_rub'],
-                'price_retail_rub_was_updated' => $productItem['order_product_price_retail_rub_was_updated'],
-            ];
-            /** @var \Domain\Products\Models\Product\Product $currentOrderProduct */
-            $currentOrderProduct = $this->item->products->first(fn(Product $product) => (string)$product->id === (string)$productItem['id']);
-            if ($currentOrderProduct) {
-                $productsPrepare[$productItem['id']] = array_merge($prepared, [
-                    'price_purchase' => $currentOrderProduct->order_product->price_purchase,
-                    'price_purchase_currency_id' => $currentOrderProduct->order_product->price_purchase_currency_id,
-                    'price_retail' => $currentOrderProduct->order_product->price_retail,
-                    'price_retail_currency_id' => $currentOrderProduct->order_product->price_retail_currency_id,
-                    'price_retail_rub_origin' => $currentOrderProduct->order_product->price_retail_rub_origin,
-
-                ]);
-                continue;
-            }
-
-            $currentProduct = Product::query()->findOrFail($productItem['id']);
-            $productsPrepare[$productItem['id']] = array_merge($prepared, [
-                'price_purchase' => $currentProduct->price_purchase,
-                'price_purchase_currency_id' => $currentProduct->price_purchase_currency_id,
-                'price_retail' => $currentProduct->price_retail,
-                'price_retail_currency_id' => $currentProduct->price_retail_currency_id,
-                'price_retail_rub_origin' => $currentProduct->price_retail_rub,
-            ]);
-        }
-
-        $this->item->products()->sync($productsPrepare);
+        $changeOrderProductsAction = resolve(ChangeOrderProductsAction::class);
+        $changeOrderProductsAction->execute($this->item, H::admin(), $this->productItems);
     }
 
     public function handleDeleteOrder()
@@ -718,18 +688,28 @@ class ShowOrder extends BaseShowComponent
      */
     protected function getOperation(OrderEventType $orderEventType): string
     {
-        /**
-Изменение цены товара
-Изменение количества товара
-Изменение упаковки товара
-Изменение названия товара
-Добавление товара
-Удаление товара
-         */
         switch (true) {
             case $orderEventType->equals(OrderEventType::checkout()) :
             case $orderEventType->equals(OrderEventType::admin_created()) : {
                 return 'Создание заказа';
+            }
+            case $orderEventType->equals(OrderEventType::update_product_price_retail()): {
+                return 'Изменение цены товара';
+            }
+            case $orderEventType->equals(OrderEventType::update_product_count()): {
+                return 'Изменение количества товара';
+            }
+            case $orderEventType->equals(OrderEventType::update_product_unit()): {
+                return 'Изменение упаковки товара';
+            }
+            case $orderEventType->equals(OrderEventType::update_product_name()): {
+                return 'Изменение названия товара';
+            }
+            case $orderEventType->equals(OrderEventType::add_product()): {
+                return 'Добавление товара';
+            }
+            case $orderEventType->equals(OrderEventType::delete_product()) : {
+                return 'Удаление товара';
             }
             case $orderEventType->equals(OrderEventType::update_comment_admin()) : {
                 return 'Комментарий к заказу';
