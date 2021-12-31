@@ -760,4 +760,41 @@ class ShowOrder extends BaseShowComponent
             fn() => $this->isCreating ? $this->item : Order::query()->findOrFail($this->item->id)
         );
     }
+
+    public function getTotalPriceRetailFormatted(): string
+    {
+        return H::priceRubFormatted($this->getTotalPriceRetail(), Currency::ID_RUB);
+    }
+
+    protected function getTotalPriceRetail(): float
+    {
+        return H::runtimeCache(
+            sprintf('%s-total-price-retail-%s', static::class, $this->item->id),
+            fn() => collect($this->productItems)
+                ->reduce(function(float $acc, array $productItem): float {
+                    return $acc + ($productItem['order_product_price_retail_rub'] * $productItem['order_product_count']);
+                }, 0)
+        );
+    }
+
+    public function getTotalPricePurchaseFormatted(): string
+    {
+        return H::priceRubFormatted($this->getTotalPricePurchase(), Currency::ID_RUB);
+    }
+
+    protected function getTotalPricePurchase(): float
+    {
+        return H::runtimeCache(
+            sprintf('%s-total-price-purchase-%s', static::class, $this->item->id),
+            fn() => collect($this->productItems)
+                ->reduce(function(float $acc, array $productItem): float {
+                    return $acc + ($productItem['price_purchase_rub'] * $productItem['order_product_count']);
+                }, 0)
+        );
+    }
+
+    public function getTotalDiffPricePurchasePriceRetailFormatted(): string
+    {
+        return H::priceRubFormatted($this->getTotalPriceRetail() - $this->getTotalPricePurchase(), Currency::ID_RUB);
+    }
 }
