@@ -448,7 +448,7 @@ class ShowOrder extends BaseShowComponent
 
     protected function initProductItems()
     {
-        $this->productItems = $this->item->products->map(fn(Product $product) => OrderProductItemDTO::fromOrderProductItem($product)->toArray())->keyBy('uuid')->sortBy('id')->all();
+        $this->productItems = $this->item->products->map(fn(Product $product) => OrderProductItemDTO::fromOrderProductItem($product)->toArray())->keyBy('uuid')->sortBy('ordering')->all();
     }
 
     protected function initCategoriesSidebar()
