@@ -206,6 +206,11 @@ class H
         if (is_callable($value)) {
             $value = call_user_func($value);
         }
-        return Cache::store('array')->rememberForever($key, fn() => $value);
+        return Cache::store('array')->rememberForever(
+            $key,
+            is_callable($value)
+                ? $value
+                : fn() => $value
+        );
     }
 }
