@@ -9642,7 +9642,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var orderId = +$el.data('orderId');
       var paymentMethodId = +$el.data('id');
-      _helpers_Rest__WEBPACK_IMPORTED_MODULE_1__["default"].PUT(_settings_ajaxUrls__WEBPACK_IMPORTED_MODULE_0__["default"].orderId(orderId), {
+      _helpers_Rest__WEBPACK_IMPORTED_MODULE_1__["default"].POST(_settings_ajaxUrls__WEBPACK_IMPORTED_MODULE_0__["default"].orderId(orderId), {
         'order_id': orderId,
         'payment_method_id': paymentMethodId
       });

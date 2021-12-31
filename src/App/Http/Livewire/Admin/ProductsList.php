@@ -65,6 +65,7 @@ class ProductsList extends BaseItemsListComponent
     {
         $this->mountRequest();
         $this->mountPerPage();
+        $this->mountPerPageOptions();
         $this->fetchItems();
         $this->initBrandsOptions();
         $this->initAvailabilityStatusesOptions();

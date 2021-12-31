@@ -231,15 +231,15 @@
                 @if($this->isEditMode())
                 <div class="add-file">
                     <div class="row">
-                        @foreach($attachments as $index => $attachment)
-                            <div wire:key="instructions-{{$index}}-{{$attachment['url']}}" class="card text-center">
+                        @foreach($customerInvoices as $index => $customerInvoice)
+                            <div wire:key="instructions-{{$index}}-{{$customerInvoice['url']}}" class="card text-center">
                                 <div class="adm-fileinput-item-preview">
-                                    <h5 class="card-title"><a href="{{$attachment['url']}}" target="_blank">{{$attachment['file_name']}}</a></h5>
+                                    <h5 class="card-title"><a href="{{$customerInvoice['url']}}" target="_blank">{{$customerInvoice['file_name']}}</a></h5>
                                 </div>
                                 <div class="form-group">
-                                    @include('admin.livewire.includes.form-control-input', ['field' => "attachments.$index.name"])
+                                    @include('admin.livewire.includes.form-control-input', ['field' => "customerInvoices.$index.name"])
                                 </div>
-                                <button wire:click="deleteAttachment({{$index}})" type="button" class="adm-fileinput-item-preview__remove">&nbsp;</button>
+                                <button wire:click="deleteCustomerInvoice({{$index}})" type="button" class="adm-fileinput-item-preview__remove">&nbsp;</button>
                             </div>
                         @endforeach
                     </div>
@@ -247,20 +247,20 @@
                         <div class="form-group">
                             <div>
                                 <span class="add-file__text">Перетащите файлы в эту область (Drag&Drop)</span>
-                                <input type="file" wire:model="tempAttachment" class="form-control-file @error("tempAttachment") is-invalid @enderror" id="tempAttachment" />
-                                <div wire:loading wire:target="tempAttachment">
+                                <input type="file" wire:model="tempCustomerInvoice" class="form-control-file @error("tempCustomerInvoice") is-invalid @enderror" id="tempCustomerInvoice" />
+                                <div wire:loading wire:target="tempCustomerInvoice">
                                     <div class="spinner-border" role="status">
                                         <span class="sr-only">Loading...</span>
                                     </div>
                                 </div>
                             </div>
-                            @error("tempAttachment") <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            @error("tempCustomerInvoice") <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     @endif
                 </div>
                 @else
-                    @foreach($attachments as $attachment)
-                        <p><a target="_blank" download href="{{route(\App\Constants::ROUTE_ADMIN_MEDIA, ['id' => $attachment['id'], 'name' => $attachment['name']])}}">{{$attachment['name']}}</a></p>
+                    @foreach($customerInvoices as $customerInvoice)
+                        <p><a target="_blank" download href="{{route(\App\Constants::ROUTE_ADMIN_MEDIA, ['id' => $customerInvoice['id'], 'name' => $customerInvoice['name']])}}">{{$customerInvoice['name']}}</a></p>
                     @endforeach
                 @endif
             </div>
@@ -298,6 +298,49 @@
         </div>
     @endif
 
+    @if(!$isCreating)
+        <div class="form-group row">
+            <label class="col-sm-5 col-form-label">Приложенные файлы:</label>
+            <div class="col-sm-7">
+                @if($this->isEditMode())
+                    <div class="add-file">
+                        <div class="row">
+                            @foreach($supplierInvoices as $index => $supplierInvoice)
+                                <div wire:key="instructions-{{$index}}-{{$supplierInvoice['url']}}" class="card text-center">
+                                    <div class="adm-fileinput-item-preview">
+                                        <h5 class="card-title"><a href="{{$supplierInvoice['url']}}" target="_blank">{{$supplierInvoice['file_name']}}</a></h5>
+                                    </div>
+                                    <div class="form-group">
+                                        @include('admin.livewire.includes.form-control-input', ['field' => "supplierInvoices.$index.name"])
+                                    </div>
+                                    <button wire:click="deleteSupplierInvoice({{$index}})" type="button" class="adm-fileinput-item-preview__remove">&nbsp;</button>
+                                </div>
+                            @endforeach
+                        </div>
+                        @if($this->isEditMode())
+                            <div class="form-group">
+                                <div>
+                                    <span class="add-file__text">Перетащите файлы в эту область (Drag&Drop)</span>
+                                    <input type="file" wire:model="tempSupplierInvoice" class="form-control-file @error("tempSupplierInvoice") is-invalid @enderror" id="tempSupplierInvoice" />
+                                    <div wire:loading wire:target="tempSupplierInvoice">
+                                        <div class="spinner-border" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                @error("tempSupplierInvoice") <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            </div>
+                        @endif
+                    </div>
+                @else
+                    @foreach($supplierInvoices as $supplierInvoice)
+                        <p><a target="_blank" download href="{{route(\App\Constants::ROUTE_ADMIN_MEDIA, ['id' => $supplierInvoice['id'], 'name' => $supplierInvoice['name']])}}">{{$supplierInvoice['name']}}</a></p>
+                    @endforeach
+                @endif
+            </div>
+        </div>
+    @endif
+
     @if($isCreating || $this->isEditMode())
         @include('admin.livewire.includes.form-group-textarea', [
             'field' => 'item.comment_admin',
@@ -321,7 +364,7 @@
         <div class="search form-group row justify-content-end">
             <div class="col-xs-12 col-sm-2">
                 <div class="dropdown">
-                    <a href="#" class="btn btn-add btn-secondary">Добавить товар</a>
+                    <button type="button" data-toggle="modal" data-target="#add-product-item" class="btn btn-add btn-secondary">Добавить товар</button>
                 </div>
             </div>
         </div>
@@ -330,26 +373,88 @@
     <table class="table table-bordered table-hover">
         <thead>
             <tr>
+                @if($isCreating || $this->isEditMode())
+                    <th scope="col"><span class="main-grid-head-title">&nbsp;</span></th>
+                @endif
                 <th scope="col">Изображение</th>
                 <th scope="col">Название</th>
                 <th scope="col">Количество</th>
+                <th scope="col">Свойства</th>
                 <th scope="col">Цена</th>
                 <th scope="col">Сумма</th>
             </tr>
         </thead>
         <tbody>
-        <?php /** @var \Domain\Products\Models\Product\Product $product */ ?>
-        @foreach($item->products as $product)
-            <tr>
-                <td><div class="text-center"><img class="img-fluid" src="{{$product['main_image_md_thumb_url']}}" alt="" /></div></td>
-                <td><span class="main-grid-cell-content">{{$product['name']}}</span></td>
-                <td><span class="main-grid-cell-content">{{$product['order_product_count']}}</span></td>
-                <td><span class="main-grid-cell-content">{{$product['price_purchase_rub_formatted']}}</span></td>
-                <td><span class="main-grid-cell-content">{{$product['order_product_count'] * $product['price_purchase_rub']}} р</span></td>
+        <?php /** @var \Domain\Products\DTOs\Admin\OrderProductItemDTO|array $product */ ?>
+        @foreach($productItems as $product)
+            <tr wire:key="product-{{$product['uuid']}}">
+                @if($isCreating || $this->isEditMode())
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn__grid-row-action-button" type="button" id="actions-dropdown-{{$product['uuid']}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                            <div class="dropdown-menu bx-core-popup-menu" aria-labelledby="actions-dropdown-{{$product['uuid']}}">
+                                <div class="bx-core-popup-menu__arrow"></div>
+                                <button type="button" class="bx-core-popup-menu-item" onclick="@this.selectCurrentProductItem('{{$product['uuid']}}').then(res => {if (res) $('#edit-product-item').modal('show') })">
+                                    <span class="bx-core-popup-menu-item-icon adm-menu-edit"></span>
+                                    <span class="bx-core-popup-menu-item-text">Изменить</span>
+                                </button>
+                                <span class="bx-core-popup-menu-separator"></span>
+                                <button type="button" class="bx-core-popup-menu-item" wire:click="removeProductItem({{$product['id']}})">
+                                    <span class="bx-core-popup-menu-item-icon adm-menu-delete"></span>
+                                    <span class="bx-core-popup-menu-item-text">Удалить</span>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                @endif
+                <td><div class="text-center"><a target="_blank" href="{{$product['admin_route']}}"><img class="img-fluid" src="{{$product['image']}}" alt="" /></a></div></td>
+                <td><span class="main-grid-cell-content"><a target="_blank" href="{{$product['admin_route']}}">{{$product['name']}}</a></span></td>
+                <td>
+                    @if($isCreating || $this->isEditMode())
+                        @include('admin.livewire.includes.form-control-input', ['field' => sprintf('productItems.%s.order_product_count', $product['uuid']), 'modifier' => '.debounce.500ms'])
+                    @else
+                        <span class="main-grid-cell-content">{{$product['order_product_count']}}</span>
+                    @endif
+                </td>
+                <td>
+                    <p>Закупочная: {{$product['price_purchase_rub_formatted']}}</p>
+                    <p>Сумма закупки: {{$product['order_product_price_purchase_rub_sum_formatted']}}</p>
+                    <p>Заработок: {{$product['order_product_diff_rub_price_retail_sum_price_purchase_sum_formatted']}}</p>
+                </td>
+                <td>
+                    @if($isCreating || $this->isEditMode())
+                        @include('admin.livewire.includes.form-control-input', ['field' => sprintf('productItems.%s.order_product_price_retail_rub', $product['uuid']), 'modifier' => '.debounce.500ms'])
+                    @else
+                        <p><span class="main-grid-cell-content">{{$product['order_product_price_retail_rub_formatted']}}</span></p>
+                    @endif
+                    @if($product['order_product_price_retail_rub_was_updated'])
+                        <p style="text-decoration: line-through;"><span class="main-grid-cell-content">{{$product['order_product_price_retail_rub_origin_formatted']}}</span></p>
+                    @endif
+                </td>
+                <td><span class="main-grid-cell-content">{{$product['order_product_price_retail_rub_sum_formatted']}}</span></td>
             </tr>
         @endforeach
         </tbody>
     </table>
+
+    <div class="bg-warning py-2">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Розничная стоимость товаров:</th>
+                    <th>{{$this->getTotalPriceRetailFormatted()}}</th>
+                </tr>
+                <tr>
+                    <th>Закупочная стоимость товаров:</th>
+                    <th>{{$this->getTotalPricePurchaseFormatted()}}</th>
+                </tr>
+                <tr>
+                    <th>Заработок:</th>
+                    <th>{{$this->getTotalDiffPricePurchasePriceRetailFormatted()}}</th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
 </div>
 
@@ -380,3 +485,28 @@
         </div>
     </div>
 </div>
+
+<div wire:ignore.self class="modal fade" id="edit-product-item" tabindex="-1" aria-labelledby="edit-product-item-title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="edit-product-item-title">Редактирование товара</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @include('admin.livewire.includes.form-group-input', ['field' => 'currentProductItem.name', 'label' => 'Наименование', 'modifier' => '.defer'])
+                @include('admin.livewire.includes.form-group-input', ['field' => 'currentProductItem.unit', 'label' => 'Упаковка / Единица', 'modifier' => '.defer'])
+                @include('admin.livewire.includes.form-group-input', ['field' => 'currentProductItem.order_product_price_retail_rub', 'label' => 'Розничная цена (руб)', 'modifier' => '.defer'])
+                @include('admin.livewire.includes.form-group-input', ['field' => 'currentProductItem.order_product_count', 'label' => 'Количество', 'modifier' => '.defer'])
+            </div>
+            <div class="modal-footer">
+                <button onclick="@this.handleSaveCurrentProductItem().then((res) => { if(res) $('#edit-product-item').modal('hide') })" type="button" class="btn btn-primary">Сохранить</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@include('admin.livewire.show-order.modal-add-product-item')

@@ -69,6 +69,9 @@ use Support\H;
  * @see \Domain\Products\Models\Product\ProductAcM::getWebRouteAttribute()
  * @property-read string $web_route
  *
+ * @see \Domain\Products\Models\Product\ProductAcM::getAdminRouteAttribute()
+ * @property-read string $admin_route
+ *
  * @see \Domain\Products\Models\Product\ProductAcM::getIsInCartAttribute()
  * @property-read bool|null $is_in_cart
  *
@@ -108,8 +111,17 @@ use Support\H;
  * @see \Domain\Products\Models\Product\ProductAcM::getOrderProductCountAttribute()
  * @property-read int|null $order_product_count
  *
+ * @see \Domain\Products\Models\Product\ProductAcM::getOrderProductOrderingAttribute()
+ * @property-read int|null $order_product_ordering
+ *
  * @see \Domain\Products\Models\Product\ProductAcM::getOrderProductPriceRetailRubAttribute()
  * @property-read float|null $order_product_price_retail_rub
+ *
+ * @see \Domain\Products\Models\Product\ProductAcM::getOrderProductPriceRetailRubOriginAttribute()
+ * @property-read float|null $order_product_price_retail_rub_origin
+ *
+ * @see \Domain\Products\Models\Product\ProductAcM::getOrderProductPriceRetailRubWasUpdatedAttribute()
+ * @property-read bool|null $order_product_price_retail_rub_was_updated
  *
  * @see \Domain\Products\Models\Product\ProductAcM::getOrderProductPriceRetailRubFormattedAttribute()
  * @property-read string|null $order_product_price_retail_rub_formatted
@@ -119,6 +131,12 @@ use Support\H;
  *
  * @see \Domain\Products\Models\Product\ProductAcM::getOrderProductPriceRetailRubSumFormattedAttribute()
  * @property-read string|null $order_product_price_retail_rub_sum_formatted
+ *
+ * @see \Domain\Products\Models\Product\ProductAcM::getOrderProductPricePurchaseRubSumAttribute()
+ * @property-read float|null $order_product_price_purchase_rub_sum
+ *
+ * @see \Domain\Products\Models\Product\ProductAcM::getOrderProductPricePurchaseRubSumFormattedAttribute()
+ * @property-read string|null $order_product_price_purchase_rub_sum_formatted
  *
  * @see \Domain\Products\Models\Product\ProductAcM::getIsActiveNameAttribute()
  * @property-read string $is_active_name
@@ -368,40 +386,77 @@ trait ProductAcM
     {
         return $this->order_product === null
             ? null
-            : $this->order_product->count
-            ;
+            : $this->order_product->count;
+    }
+
+    public function getOrderProductOrderingAttribute(): ?int
+    {
+        return $this->order_product === null
+            ? null
+            : $this->order_product->ordering;
     }
 
     public function getOrderProductPriceRetailRubAttribute(): ?float
     {
         return $this->order_product === null
             ? null
-            : H::priceRub($this->order_product->price_retail, $this->order_product->price_retail_currency_id ?? Product::DEFAULT_CURRENCY_ID)
-            ;
+            : $this->order_product->price_retail_rub;
+    }
+
+    public function getOrderProductPriceRetailRubOriginAttribute(): ?float
+    {
+        return $this->order_product === null
+            ? null
+            : $this->order_product->price_retail_rub_origin;
+    }
+
+    public function getOrderProductPriceRetailRubWasUpdatedAttribute(): ?bool
+    {
+        return $this->order_product === null
+            ? null
+            : $this->order_product->price_retail_rub_was_updated;
     }
 
     public function getOrderProductPriceRetailRubFormattedAttribute(): ?string
     {
         return $this->order_product === null
             ? null
-            : H::priceRubFormatted($this->order_product->price_retail, $this->order_product->price_retail_currency_id ?? Product::DEFAULT_CURRENCY_ID)
-            ;
+            : H::priceRubFormatted($this->order_product->price_retail_rub, Currency::ID_RUB);
     }
 
     public function getOrderProductPriceRetailRubSumAttribute(): ?float
     {
         return $this->order_product === null
             ? null
-            : $this->order_product_count * $this->order_product_price_retail_rub
-            ;
+            : $this->order_product_count * $this->order_product_price_retail_rub;
     }
 
     public function getOrderProductPriceRetailRubSumFormattedAttribute(): ?string
     {
         return $this->order_product === null
             ? null
-            : H::priceRubFormatted($this->order_product->price_retail * $this->order_product->count, $this->order_product->price_retail_currency_id ?? Product::DEFAULT_CURRENCY_ID)
-            ;
+            : H::priceRubFormatted($this->order_product_price_retail_rub_sum, Currency::ID_RUB);
+    }
+
+    public function getOrderProductPricePurchaseRubSumAttribute(): ?float
+    {
+        return $this->order_product === null
+            ? null
+            : $this->order_product_count * $this->price_purchase_rub;
+    }
+
+    public function getOrderProductPricePurchaseRubSumFormattedAttribute(): ?string
+    {
+        return $this->order_product === null
+            ? null
+            : H::priceRubFormatted($this->order_product_price_purchase_rub_sum, Currency::ID_RUB);
+    }
+
+    public function getOrderProductUnitAttribute(): ?string
+    {
+        return $this->order_product === null
+            ? null
+            : $this->order_product->unit;
     }
 
     public function getIsActiveNameAttribute(): string
@@ -441,5 +496,10 @@ trait ProductAcM
 
             return route("product.show.4", [$parent3->slug, $parent2->slug, $parent1->slug, $category->slug, $slug]);
         });
+    }
+
+    public function getAdminRouteAttribute(): string
+    {
+        return route("admin.products.edit", $this->parent_id ?: $this->id);
     }
 }

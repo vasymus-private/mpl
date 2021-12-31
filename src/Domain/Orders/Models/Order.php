@@ -104,8 +104,11 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @see \Domain\Orders\Models\Order::getPaymentMethodAttachmentsAttribute()
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $payment_method_attachments
  *
- * @see \Domain\Orders\Models\Order::getAdminAttachmentsAttribute()
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $admin_attachments
+ * @see \Domain\Orders\Models\Order::getCustomerInvoicesAttribute()
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $customer_invoices
+ *
+ * @see \Domain\Orders\Models\Order::getSupplierInvoicesAttribute()
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $supplier_invoices
  *
  * @see \Domain\Orders\Models\Order::getDateFormattedAttribute()
  * @property-read string|null $date_formatted
@@ -122,7 +125,8 @@ class Order extends BaseModel implements HasMedia
 
     public const MC_INITIAL_ATTACHMENT = "initial-attachment";
     public const MC_PAYMENT_METHOD_ATTACHMENT = "payment-method-attachment";
-    public const MC_ADMIN_ATTACHMENT = 'admin-attachment';
+    public const MC_CUSTOMER_INVOICES = 'customer-invoices';
+    public const MC_SUPPLIER_INVOICES = 'supplier-invoices';
 
     public const DEFAULT_CANCELLED = false;
     public const DEFAULT_ORDER_STATUS_ID = OrderStatus::DEFAULT_ID;
@@ -182,6 +186,7 @@ class Order extends BaseModel implements HasMedia
             ->as('order_product')
             ->withPivot([
                 "count",
+                'ordering',
                 "price_purchase",
                 "price_purchase_currency_id",
                 "price_retail",
@@ -189,6 +194,8 @@ class Order extends BaseModel implements HasMedia
                 "name",
                 'unit',
                 'price_retail_rub',
+                'price_retail_rub_origin',
+                'price_retail_rub_was_updated',
             ])
         ;
     }
@@ -230,7 +237,7 @@ class Order extends BaseModel implements HasMedia
 
     public function events(): HasMany
     {
-        return $this->hasMany(OrderEvent::class, 'order_id', 'id');
+        return $this->hasMany(OrderEvent::class, 'order_id', 'id')->orderBy(sprintf('%s.id', OrderEvent::TABLE), 'desc');
     }
 
     public function registerMediaCollections(): void
@@ -239,7 +246,9 @@ class Order extends BaseModel implements HasMedia
 
         $this->addMediaCollection(static::MC_PAYMENT_METHOD_ATTACHMENT)->useDisk(Constants::MEDIA_DISK_PRIVATE);
 
-        $this->addMediaCollection(static::MC_ADMIN_ATTACHMENT)->useDisk(Constants::MEDIA_DISK_PRIVATE);
+        $this->addMediaCollection(static::MC_CUSTOMER_INVOICES)->useDisk(Constants::MEDIA_DISK_PRIVATE);
+
+        $this->addMediaCollection(static::MC_SUPPLIER_INVOICES)->useDisk(Constants::MEDIA_DISK_PRIVATE);
     }
 
     public function getOrderPriceRetailRubAttribute(): float
@@ -342,9 +351,17 @@ class Order extends BaseModel implements HasMedia
     /**
      * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[]
      * */
-    public function getAdminAttachmentsAttribute(): MediaCollection
+    public function getCustomerInvoicesAttribute(): MediaCollection
     {
-        return $this->getMedia(static::MC_ADMIN_ATTACHMENT);
+        return $this->getMedia(static::MC_CUSTOMER_INVOICES);
+    }
+
+    /**
+     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[]
+     * */
+    public function getSupplierInvoicesAttribute(): MediaCollection
+    {
+        return $this->getMedia(static::MC_SUPPLIER_INVOICES);
     }
 
     public function getDateFormattedAttribute(): ?string

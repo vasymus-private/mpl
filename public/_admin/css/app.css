@@ -10641,7 +10641,7 @@ body {
   background-position: -7px -261px;
 }
 
-.nav-link:hover {
+.nav-link:hover, .nav-link.active {
   background-color: #f2f5f6;
   text-decoration: none;
   color: inherit;
@@ -11353,6 +11353,7 @@ body {
   border-color: #d6dfe1 #ced7d8 #969d9e #bec7c8;
   border-top: none;
   box-shadow: 0 -1px 0 0 rgba(185, 185, 185, 0.2);
+  position: relative;
 }
 .admin-edit-variations__header {
   background: url(../images/bx-admin-sprite-small-2.png) repeat-x 0 -551px;

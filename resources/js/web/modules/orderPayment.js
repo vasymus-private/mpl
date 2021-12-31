@@ -26,7 +26,7 @@ import {formatErrorMessage} from "../../helpers/common"
             let orderId = +$el.data('orderId')
             let paymentMethodId = +$el.data('id')
 
-            Rest.PUT(ajaxUrls.orderId(orderId), {
+            Rest.POST(ajaxUrls.orderId(orderId), {
                 'order_id' : orderId,
                 'payment_method_id' : paymentMethodId,
             })

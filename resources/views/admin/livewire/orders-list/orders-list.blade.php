@@ -135,20 +135,15 @@
                 @endforeach
             </tbody>
         </table>
-
     </div>
 
-    <div class="row">
-        <div class="col-sm-1">
-            Всего: {{$total}}
-        </div>
-        <div class="col-sm-9">
-            {{ $paginator->links("admin.pagination.livewire-bootstrap") }}
-        </div>
-        <div class="col-sm-2">
-            @include('admin.livewire.includes.form-group-select', ['field' => 'per_page', 'label' => 'На странице', 'options' => $per_page_options, 'wire' => ['change' => 'handleSearch'], 'nullOption' => false])
-        </div>
-    </div>
+    @include(
+        'admin.livewire.includes.pagination',
+         array_merge([
+             'options' => $per_page_options,
+             'wire' => ['change' => 'handleSearch']
+         ], compact('paginator', 'total'))
+    )
 
     <div class="row pb-5">
         <div class="col-sm-3" wire:key="delete-btn">
