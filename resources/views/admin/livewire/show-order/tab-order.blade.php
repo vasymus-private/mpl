@@ -437,6 +437,25 @@
         </tbody>
     </table>
 
+    <div class="bg-warning py-2">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Розничная стоимость товаров:</th>
+                    <th>{{$this->getTotalPriceRetailFormatted()}}</th>
+                </tr>
+                <tr>
+                    <th>Закупочная стоимость товаров:</th>
+                    <th>{{$this->getTotalPricePurchaseFormatted()}}</th>
+                </tr>
+                <tr>
+                    <th>Заработок:</th>
+                    <th>{{$this->getTotalDiffPricePurchasePriceRetailFormatted()}}</th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
 </div>
 
 <!-- Modals -->

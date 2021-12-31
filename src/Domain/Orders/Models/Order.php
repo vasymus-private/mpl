@@ -186,6 +186,7 @@ class Order extends BaseModel implements HasMedia
             ->as('order_product')
             ->withPivot([
                 "count",
+                'ordering',
                 "price_purchase",
                 "price_purchase_currency_id",
                 "price_retail",
@@ -236,7 +237,7 @@ class Order extends BaseModel implements HasMedia
 
     public function events(): HasMany
     {
-        return $this->hasMany(OrderEvent::class, 'order_id', 'id');
+        return $this->hasMany(OrderEvent::class, 'order_id', 'id')->orderBy(sprintf('%s.id', OrderEvent::TABLE), 'desc');
     }
 
     public function registerMediaCollections(): void

@@ -2,21 +2,22 @@
 
 namespace Domain\Orders\Actions;
 
+use Domain\Orders\Enums\OrderEventType;
 use Domain\Orders\Models\Order;
+use Domain\Orders\Models\OrderEvent;
+use Domain\Users\Models\BaseUser\BaseUser;
 
 class HandleCancelOrderAction
 {
     /**
-     * @param int $id
+     * @param \Domain\Orders\Models\Order $order
      * @param string|null $cancelMessage
+     * @param \Domain\Users\Models\BaseUser\BaseUser|null $user
      *
-     * @return \Domain\Orders\Models\Order
+     * @return void
      */
-    public function execute(int $id, ?string $cancelMessage): Order
+    public function execute(Order $order, ?string $cancelMessage, BaseUser $user = null): void
     {
-        /** @var \Domain\Orders\Models\Order $order */
-        $order = Order::query()->findOrFail($id);
-
         $cancelledDate = now();
 
         $order->cancelled = true;
@@ -28,6 +29,16 @@ class HandleCancelOrderAction
 
         // TODO ask about email
 
-        return $order;
+        $orderEvent = new OrderEvent();
+        $orderEvent->payload = [
+            'cancelled' => true,
+            'description' => sprintf('Заказ отменен. Причина: %s', $cancelMessage),
+        ];
+        $orderEvent->type = OrderEventType::cancellation();
+        if ($user) {
+            $orderEvent->user()->associate($user);
+        }
+        $orderEvent->order()->associate($order);
+        $orderEvent->save();
     }
 }

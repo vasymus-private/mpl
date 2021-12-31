@@ -15,12 +15,20 @@ use Domain\Common\DTOs\FileDTO;
 use Domain\Common\DTOs\SearchPrependAdminDTO;
 use Domain\Common\Models\Currency;
 use Domain\Common\Models\CustomMedia;
+use Domain\Orders\Actions\ChangeOrderProductsAction;
+use Domain\Orders\Actions\DefaultUpdateOrderAction;
 use Domain\Orders\Actions\DeleteOrderAction;
 use Domain\Orders\Actions\HandleCancelOrderAction;
 use Domain\Orders\Actions\HandleNotCancelOrderAction;
 use Domain\Orders\Actions\OMS\HandleChangeOrderStatusAction;
+use Domain\Orders\Actions\UpdateOrderCustomerInvoicesAction;
+use Domain\Orders\DTOs\DefaultUpdateOrderParams;
+use Domain\Orders\DTOs\OrderHistoryItem;
+use Domain\Orders\DTOs\UpdateOrderInvoicesParamsDTO;
+use Domain\Orders\Enums\OrderEventType;
 use Domain\Orders\Models\BillStatus;
 use Domain\Orders\Models\Order;
+use Domain\Orders\Models\OrderEvent;
 use Domain\Orders\Models\OrderImportance;
 use Domain\Orders\Models\OrderStatus;
 use Domain\Orders\Models\PaymentMethod;
@@ -31,6 +39,7 @@ use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
 use Domain\Users\Models\Admin;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Livewire\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
@@ -168,6 +177,11 @@ class ShowOrder extends BaseShowComponent
      */
     public Order $item;
 
+    /**
+     * @var array[] @see {@link \Domain\Orders\DTOs\OrderHistoryItem}
+     */
+    public array $orderHistoryItems = [];
+
     public function tabs(): array
     {
         return $this->isCreating
@@ -237,13 +251,14 @@ class ShowOrder extends BaseShowComponent
         $this->email = $this->item->request['email'] ?? $this->item->user->email ?? '';
         $this->name = $this->item->request['name'] ?? $this->item->user->name ?? '';
         $this->phone = $this->item->request['phone'] ?? $this->item->user->phone ?? '';
-
         $this->initProductItems();
+
         $this->initCategoriesSidebar();
 
         $this->fetchAdditionalProductItems();
         $this->mountPerPageOptions();
         $this->mountAdditionalProductItemsPerPage();
+        $this->initHistory();
     }
 
     public function render()
@@ -263,73 +278,53 @@ class ShowOrder extends BaseShowComponent
         $this->validate();
 
         $this->saveItem();
-        $this->saveCustomerInvoices();
-        $this->saveSupplierInvoices();
+        $this->saveInvoices();
         $this->saveOrderItems();
+
+        // todo (think of do refresh)
+        $this->item->refresh();
+        $this->item->load(['products.parent', 'products.media', 'media']);
+        $this->initProductItems();
+        $this->initHistory();
     }
 
     protected function saveItem()
     {
-        $request = $this->item->request;
-        $request['email'] = $this->email;
-        $request['name'] = $this->name;
-        $request['phone'] = $this->phone;
-        $this->item->request = $request;
-        $orderStatusId = $this->item->order_status_id;
-        $this->item->order_status_id = $this->item->getOriginal('order_status_id');
-        $this->item->save();
+        $defaultUpdateOrderAction = resolve(DefaultUpdateOrderAction::class);
+
+        $defaultUpdateOrderAction->execute(new DefaultUpdateOrderParams([
+            'order' => $this->getFreshOrder(),
+            'user' => H::admin(),
+            'comment_user' => $this->item->comment_user,
+            'comment_admin' => $this->item->comment_admin,
+            'payment_method_id' => $this->item->payment_method_id,
+            'admin_id' => $this->item->admin_id,
+            'importance_id' => $this->item->importance_id,
+            'name' => $this->name,
+            'email' => $this->email,
+            'phone' => $this->phone,
+        ]));
 
         /** @var \Domain\Orders\Actions\OMS\HandleChangeOrderStatusAction $handleChangeOrderStatusAction */
         $handleChangeOrderStatusAction = resolve(HandleChangeOrderStatusAction::class);
-        $handleChangeOrderStatusAction->execute($this->item, $orderStatusId);
-        $this->item->order_status_id = $orderStatusId;
+        $handleChangeOrderStatusAction->execute(
+            $this->getFreshOrder(),
+            $this->item->order_status_id,
+            H::admin()
+        );
     }
 
     protected function saveOrderItems()
     {
-        $productsPrepare = [];
-
-        /** @var array @see {@link \Domain\Products\DTOs\Admin\OrderProductItemDTO} $productItem */
-        foreach ($this->productItems as $productItem) {
-            $prepared = [
-                'count' => $productItem['order_product_count'],
-                'name' => $productItem['name'],
-                'unit' => $productItem['unit'],
-                'price_retail_rub' => $productItem['order_product_price_retail_rub'],
-                'price_retail_rub_was_updated' => $productItem['order_product_price_retail_rub_was_updated'],
-            ];
-            /** @var \Domain\Products\Models\Product\Product $currentOrderProduct */
-            $currentOrderProduct = $this->item->products->first(fn(Product $product) => (string)$product->id === (string)$productItem['id']);
-            if ($currentOrderProduct) {
-                $productsPrepare[$productItem['id']] = array_merge($prepared, [
-                    'price_purchase' => $currentOrderProduct->order_product->price_purchase,
-                    'price_purchase_currency_id' => $currentOrderProduct->order_product->price_purchase_currency_id,
-                    'price_retail' => $currentOrderProduct->order_product->price_retail,
-                    'price_retail_currency_id' => $currentOrderProduct->order_product->price_retail_currency_id,
-                    'price_retail_rub_origin' => $currentOrderProduct->order_product->price_retail_rub_origin,
-
-                ]);
-                continue;
-            }
-
-            $currentProduct = Product::query()->findOrFail($productItem['id']);
-            $productsPrepare[$productItem['id']] = array_merge($prepared, [
-                'price_purchase' => $currentProduct->price_purchase,
-                'price_purchase_currency_id' => $currentProduct->price_purchase_currency_id,
-                'price_retail' => $currentProduct->price_retail,
-                'price_retail_currency_id' => $currentProduct->price_retail_currency_id,
-                'price_retail_rub_origin' => $currentProduct->price_retail_rub,
-            ]);
-        }
-
-        $this->item->products()->sync($productsPrepare);
+        $changeOrderProductsAction = resolve(ChangeOrderProductsAction::class);
+        $changeOrderProductsAction->execute($this->item, H::admin(), $this->productItems);
     }
 
     public function handleDeleteOrder()
     {
         /** @var \Domain\Orders\Actions\DeleteOrderAction $deleteOrder */
         $deleteOrder = resolve(DeleteOrderAction::class);
-        $deleteOrder->execute($this->item);
+        $deleteOrder->execute($this->item, H::admin());
         return redirect()->route(Constants::ROUTE_ADMIN_ORDERS_INDEX);
     }
 
@@ -342,12 +337,9 @@ class ShowOrder extends BaseShowComponent
 
         /** @var \Domain\Orders\Actions\HandleCancelOrderAction $handleCancelOrderAction */
         $handleCancelOrderAction = resolve(HandleCancelOrderAction::class);
-        $order = $handleCancelOrderAction->execute($this->item->id, $this->cancelMessage);
+        $handleCancelOrderAction->execute($this->item, $this->cancelMessage, H::admin());
 
-        $this->item->cancelled = $order->cancelled;
-        $this->item->cancelled_description = $order->cancelled_description;
-        $this->item->cancelled_date = $order->cancelled_date;
-        $this->item->updated_at = $order->updated_at;
+        $this->initHistory();
 
         return true;
     }
@@ -361,12 +353,9 @@ class ShowOrder extends BaseShowComponent
 
         /** @var \Domain\Orders\Actions\HandleNotCancelOrderAction $handleNotCancelOrderAction */
         $handleNotCancelOrderAction = resolve(HandleNotCancelOrderAction::class);
-        $order = $handleNotCancelOrderAction->execute($this->item->id);
+        $handleNotCancelOrderAction->execute($this->item, H::admin());
 
-        $this->item->cancelled = $order->cancelled;
-        $this->item->cancelled_description = $order->cancelled_description;
-        $this->item->cancelled_date = $order->cancelled_date;
-        $this->item->updated_at = $order->updated_at;
+        $this->initHistory();
 
         return true;
     }
@@ -442,54 +431,19 @@ class ShowOrder extends BaseShowComponent
             ->toArray();
     }
 
-    protected function saveCustomerInvoices()
+    protected function saveInvoices()
     {
-        $this->saveInvoices(Order::MC_CUSTOMER_INVOICES);
-    }
-
-    protected function saveSupplierInvoices()
-    {
-        $this->saveInvoices(Order::MC_SUPPLIER_INVOICES);
-    }
-
-    protected function saveInvoices(string $collectionName)
-    {
-        $attachments = [];
-        $files = $collectionName === Order::MC_CUSTOMER_INVOICES ? $this->customerInvoices : $this->supplierInvoices;
-
-        foreach ($files as $fileDTO) {
-            if ($fileDTO['id'] !== null) {
-                /** @var \Domain\Common\Models\CustomMedia $attachment */
-                $attachment = $this->item->getMedia($collectionName)->first(fn(CustomMedia $customMedia) => $fileDTO['id'] === $customMedia->id);
-                $attachment->name = $fileDTO['name'] ?: $fileDTO['file_name'];
-                $attachment->save();
-                $attachments[] = $fileDTO;
-            } else {
-                $fileAdder = $this->item
-                    ->addMedia($fileDTO['path'])
-                    ->preservingOriginal()
-                    ->usingFileName($fileDTO['file_name'])
-                    ->usingName($fileDTO['name'] ?? $fileDTO['file_name'])
-                ;
-                /** @var \Domain\Common\Models\CustomMedia $attachment */
-                $attachment = $fileAdder->toMediaCollection($collectionName);
-
-                $attachments[] = FileDTO::fromCustomMedia($attachment)->toArray();
-            }
-        }
-
-        $mediasIds = collect($attachments)->pluck('id')->toArray();
-        $this->item->getMedia($collectionName)->each(function(CustomMedia $customMedia) use($mediasIds) {
-            if (!in_array($customMedia->id, $mediasIds)) {
-                $customMedia->delete();
-            }
-        });
-
-        if ($collectionName === Order::MC_CUSTOMER_INVOICES) {
-            $this->customerInvoices = $attachments;
-        } else {
-            $this->supplierInvoices = $attachments;
-        }
+        $updateOrderCustomerInvoicesAction = resolve(UpdateOrderCustomerInvoicesAction::class);
+        $updateOrderCustomerInvoicesAction->execute(new UpdateOrderInvoicesParamsDTO([
+            'order' => $this->getFreshOrder(),
+            'customer_bill_status_id' => $this->item->customer_bill_status_id,
+            'customer_bill_description' => $this->item->customer_bill_description,
+            'customerInvoices' => $this->customerInvoices,
+            'provider_bill_status_id' => $this->item->provider_bill_status_id,
+            'provider_bill_description' => $this->item->provider_bill_description,
+            'supplierInvoices' => $this->supplierInvoices,
+            'user' => H::admin(),
+        ]));
     }
 
     protected function initProductItems()
@@ -709,5 +663,138 @@ class ShowOrder extends BaseShowComponent
             'order_product_price_retail_rub_origin_formatted' => H::priceRubFormatted($order_product_price_retail_rub, Currency::ID_RUB),
             'order_product_price_retail_rub_was_updated' => $priceRetailRubWasUpdated,
         ]);
+    }
+
+    protected function initHistory()
+    {
+        $this->item->load(['events', 'events.user']);
+        $this->orderHistoryItems = $this->item->events
+            ->map(
+                fn(OrderEvent $orderEvent) => (new OrderHistoryItem([
+                    'orderEventId' => $orderEvent->id,
+                    'userName' => $orderEvent->user->name ?? null,
+                    'operation' => $this->getOperation($orderEvent->type),
+                    'description' => $orderEvent->payload['description'] ?? '',
+                    'date' => $orderEvent->created_at ? $orderEvent->created_at->format('Y-m-d H:i:s') : null,
+                ]))->toArray()
+            )
+            ->toArray();
+    }
+
+    /**
+     * @param \Domain\Orders\Enums\OrderEventType $orderEventType
+     *
+     * @return string
+     */
+    protected function getOperation(OrderEventType $orderEventType): string
+    {
+        switch (true) {
+            case $orderEventType->equals(OrderEventType::checkout()) :
+            case $orderEventType->equals(OrderEventType::admin_created()) : {
+                return 'Создание заказа';
+            }
+            case $orderEventType->equals(OrderEventType::update_product_price_retail()): {
+                return 'Изменение цены товара';
+            }
+            case $orderEventType->equals(OrderEventType::update_product_count()): {
+                return 'Изменение количества товара';
+            }
+            case $orderEventType->equals(OrderEventType::update_product_unit()): {
+                return 'Изменение упаковки товара';
+            }
+            case $orderEventType->equals(OrderEventType::update_product_name()): {
+                return 'Изменение названия товара';
+            }
+            case $orderEventType->equals(OrderEventType::add_product()): {
+                return 'Добавление товара';
+            }
+            case $orderEventType->equals(OrderEventType::delete_product()) : {
+                return 'Удаление товара';
+            }
+            case $orderEventType->equals(OrderEventType::update_comment_admin()) : {
+                return 'Комментарий к заказу';
+            }
+            case $orderEventType->equals(OrderEventType::update_status()) : {
+                return 'Изменение статуса заказа';
+            }
+            case $orderEventType->equals(OrderEventType::update_customer_personal_data()) : {
+                return 'Изменение параметров покупателя';
+            }
+            case $orderEventType->equals(OrderEventType::update_payment_method()) : {
+                return 'Изменение способа оплаты';
+            }
+            case $orderEventType->equals(OrderEventType::update_comment_user()) : {
+                return 'Изменение комментария пользователя';
+            }
+            case $orderEventType->equals(OrderEventType::update_admin()) : {
+                return 'Изменение менеджера';
+            }
+            case $orderEventType->equals(OrderEventType::update_importance()) : {
+                return 'Изменение важности';
+            }
+            case $orderEventType->equals(OrderEventType::update_customer_invoice()) : {
+                return 'Изменение счёта покупателя';
+            }
+            case $orderEventType->equals(OrderEventType::update_supplier_invoice()) : {
+                return 'Изменение счёта от поставщика';
+            }
+            case $orderEventType->equals(OrderEventType::cancellation()) : {
+                return 'Отмена заказа';
+            }
+            case $orderEventType->equals(OrderEventType::delete()) : {
+                return 'Удаление заказа';
+            }
+            default : {
+                return '';
+            }
+        }
+    }
+
+    /**
+     * @return \Domain\Orders\Models\Order
+     */
+    protected function getFreshOrder(): Order
+    {
+        return Cache::store('array')->rememberForever(
+            sprintf('fresh-db-order-%s', $this->item->id),
+            fn() => $this->isCreating ? $this->item : Order::query()->findOrFail($this->item->id)
+        );
+    }
+
+    public function getTotalPriceRetailFormatted(): string
+    {
+        return H::priceRubFormatted($this->getTotalPriceRetail(), Currency::ID_RUB);
+    }
+
+    protected function getTotalPriceRetail(): float
+    {
+        return H::runtimeCache(
+            sprintf('%s-total-price-retail-%s', static::class, $this->item->id),
+            fn() => collect($this->productItems)
+                ->reduce(function(float $acc, array $productItem): float {
+                    return $acc + ($productItem['order_product_price_retail_rub'] * $productItem['order_product_count']);
+                }, 0)
+        );
+    }
+
+    public function getTotalPricePurchaseFormatted(): string
+    {
+        return H::priceRubFormatted($this->getTotalPricePurchase(), Currency::ID_RUB);
+    }
+
+    protected function getTotalPricePurchase(): float
+    {
+        return H::runtimeCache(
+            sprintf('%s-total-price-purchase-%s', static::class, $this->item->id),
+            fn() => collect($this->productItems)
+                ->reduce(function(float $acc, array $productItem): float {
+                    return $acc + ($productItem['price_purchase_rub'] * $productItem['order_product_count']);
+                }, 0)
+        );
+    }
+
+    public function getTotalDiffPricePurchasePriceRetailFormatted(): string
+    {
+        return H::priceRubFormatted($this->getTotalPriceRetail() - $this->getTotalPricePurchase(), Currency::ID_RUB);
     }
 }

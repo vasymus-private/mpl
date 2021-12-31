@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 /**
  * @property int $product_id
  * @property int $order_id
+ * @property int $ordering
  * @property int $count
  * @property float $price_purchase
  * @property int $price_purchase_currency_id
@@ -31,5 +32,16 @@ class OrderProduct extends Pivot
 
     protected $casts = [
         'price_retail_rub_was_updated' => 'bool',
+    ];
+
+    /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'count' => 1,
+        'ordering' => 0,
+        'price_retail_rub_was_updated' => false,
     ];
 }
