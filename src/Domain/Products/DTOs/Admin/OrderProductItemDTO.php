@@ -142,6 +142,7 @@ class OrderProductItemDTO extends DataTransferObject
             'admin_route' => $product->admin_route,
 
             // order product and calculated props
+            'ordering' => $product->order_product->ordering ?: $product->id,
             'order_product_price_purchase_rub_sum' => $product->order_product_price_purchase_rub_sum,
             'order_product_price_purchase_rub_sum_formatted' => $product->order_product_price_purchase_rub_sum_formatted,
             'order_product_price_retail_rub' => $product->order_product_price_retail_rub,
