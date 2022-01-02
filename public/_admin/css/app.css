@@ -11030,10 +11030,18 @@ body {
   text-align: left;
 }
 .item-edit .form-control {
+  font-size: 12px;
   height: 30px;
 }
+.item-edit .form-control.message {
+  width: 219px;
+}
 .item-edit .input-group .form-control {
+  font-size: 12px;
   height: calc(1.5em + 0.75rem + 2px);
+}
+.item-edit .input-group .btn {
+  padding: 2px 11px;
 }
 .item-edit select.form-control {
   padding-top: 0;

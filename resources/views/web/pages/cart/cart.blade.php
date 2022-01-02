@@ -97,7 +97,7 @@
                 </table>
                 <div class="basket-mobile basket-mob">
                 @foreach($cartProducts as $cartProduct)
-                    <div class="basket-mobile__product-block">
+                    <div class="basket-mobile__product-block {{ ($cartProduct->cart_product->deleted_at ?? null) !== null ? "deleted-row" : "" }}">
                         <div class="row-line">
                             <div class="basket-mobile__photo">
                                 <img src="{{$cartProduct->main_image_url}}" alt="" class="cart__image" />
@@ -105,7 +105,7 @@
                             <div class="basket-mobile__text">
                                 <p>{!! $cartProduct->name !!}</p>
                                 <div class="row-basket">
-                                    <span class="text-large">{{$cartProduct->price_retail_rub_formatted}} / {{$cartProduct->unit}}.</span>
+                                    <span class="text-large">{{$cartProduct->price_retail_rub_formatted}} / {{$cartProduct->unit}}.</span>                                    
                                     <a href="#" class="js-cart-delete" data-id="{{$cartProduct->id}}" @if(($cartProduct->cart_product->deleted_at ?? null) !== null) style="display: none;" @endif>&nbsp;</a>
                                 </div>
                             </div>
@@ -123,6 +123,10 @@
                                         <input type="text" value="{{$cartProduct->cart_product->count ?? 1}}" class="js-input-hide-on-focus js-add-to-cart-instant-input js-add-to-cart-input-count-{{$cartProduct->id}}" data-id="{{$cartProduct->id}}" />
                                         <button type="button" class="js-cart-increment" data-id="{{$cartProduct->id}}">+</button>
                                     </div>
+                                </div>
+                                <div class="js-cart-column-count-part-deleted" @if(($cartProduct->cart_product->deleted_at ?? null) === null) style="display: none;" @endif data-id="{{$cartProduct->id}}">
+                                    <button type="button" class="js-cart-restore" data-id="{{$cartProduct->id}}">Вернуть</button>
+                                    <button type="button" class="js-cart-destroy" data-id="{{$cartProduct->id}}">Удалить</button>
                                 </div>
                             </div>
                         </div>
