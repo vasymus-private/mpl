@@ -8625,7 +8625,7 @@ textarea.form-control {
 }
 .product-variants__title {
   line-height: 20px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 400;
   font-family: Open Sans, sans-serif;
   margin: 0;
@@ -8633,6 +8633,7 @@ textarea.form-control {
 }
 .product-variants__title a:hover {
   color: #dd522d;
+  text-decoration: none;
 }
 .product-variants__counter {
   background: #999;
@@ -9735,6 +9736,21 @@ textarea.form-control {
   width: auto;
   margin-right: 15px;
   line-height: 25px;
+}
+.basket-mobile .deleted-row .basket-mobile__cost-basket,
+.basket-mobile .deleted-row .basket-mobile__photo,
+.basket-mobile .deleted-row .text-large p {
+  opacity: 0.5;
+}
+.basket-mobile .deleted-row .js-cart-column-count-part-deleted {
+  text-align: center;
+}
+.basket-mobile .deleted-row .js-cart-column-count-part-deleted button {
+  color: #000;
+  padding: 3px 8px;
+  margin: 0 3px;
+  border-radius: 3px;
+  border: 1px solid #333;
 }
 
 .order-text-block {
