@@ -61,7 +61,7 @@
         <div class="col-sm-6">
             <div class="form-inline">
                 <label for="item.coefficient_description" class="text-left mr-2">Описание коэффициента:</label>
-                <input wire:model.defer="item.coefficient_description" type="text" class="form-control @error('item.coefficient_description') is-invalid @enderror" id="item.coefficient_description">
+                <input wire:model.defer="item.coefficient_description" type="text" class="form-control message @error('item.coefficient_description') is-invalid @enderror" id="item.coefficient_description">
                 @error('item.coefficient_description') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
         </div>
