@@ -100,12 +100,12 @@
                     <div class="basket-mobile__product-block {{ ($cartProduct->cart_product->deleted_at ?? null) !== null ? "deleted-row" : "" }}">
                         <div class="row-line">
                             <div class="basket-mobile__photo">
-                                <img src="{{$cartProduct->main_image_url}}" alt="" class="cart__image" />
+                                <img src="{{$cartProduct->main_image_sm_thumb_url}}" alt="" class="cart__image" />
                             </div>
                             <div class="basket-mobile__text">
                                 <p>{!! $cartProduct->name !!}</p>
                                 <div class="row-basket">
-                                    <span class="text-large">{{$cartProduct->price_retail_rub_formatted}} / {{$cartProduct->unit}}.</span>                                    
+                                    <span class="text-large">{{$cartProduct->price_retail_rub_formatted}} / {{$cartProduct->unit}}.</span>
                                     <a href="#" class="js-cart-delete" data-id="{{$cartProduct->id}}" @if(($cartProduct->cart_product->deleted_at ?? null) !== null) style="display: none;" @endif>&nbsp;</a>
                                 </div>
                             </div>
