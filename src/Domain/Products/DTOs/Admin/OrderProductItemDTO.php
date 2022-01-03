@@ -120,6 +120,11 @@ class OrderProductItemDTO extends DataTransferObject
     public ?bool $order_product_price_retail_rub_was_updated;
 
     /**
+     * @var int
+     */
+    public int $ordering;
+
+    /**
      * @param \Domain\Products\Models\Product\Product $product
      *
      * @return self
