@@ -97,7 +97,7 @@
                 </table>
                 <div class="basket-mobile basket-mob">
                 @foreach($cartProducts as $cartProduct)
-                    <div class="basket-mobile__product-block {{ ($cartProduct->cart_product->deleted_at ?? null) !== null ? "deleted-row" : "" }}">
+                    <div class="basket-mobile__product-block js-cart-row {{ ($cartProduct->cart_product->deleted_at ?? null) !== null ? "deleted-row" : "" }}" data-id="{{$cartProduct->id}}">
                         <div class="row-line">
                             <div class="basket-mobile__photo">
                                 <img src="{{$cartProduct->main_image_sm_thumb_url}}" alt="" class="cart__image" />
