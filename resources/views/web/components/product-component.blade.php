@@ -6,7 +6,7 @@
         <div class="put-off-block">
             <a href="#" data-id="{{$product->id}}" class="js-put-aside put-off-block__link {{in_array($product->id, $asideIds) ? "put-off-block__link--active" : ""}}">
                 <i class="fa fa-bookmark" aria-hidden="true"></i>
-                {{in_array($product->id, $asideIds) ? "Отложено" : "Отложить" }} 
+                {{in_array($product->id, $asideIds) ? "Отложено" : "Отложить" }}
             </a>
         </div>
 
@@ -118,14 +118,14 @@
                     <?php /** @var \Domain\Products\Models\Product\Product $variation */ ?>
                 <tr>
                     <td>
-                        <div class="product-variants__photo {{ $variation->main_image_url ? '' : 'img-none' }}">
-                            @if($variation->main_image_url)
+                        <div class="product-variants__photo {{ ($variation->main_image_url || $product->main_image_url) ? '' : 'img-none' }}">
+                            @if($variation->main_image_url || $product->main_image_url)
                                 <a
-                                    href="{{$variation->main_image_url}}"
+                                    href="{{$variation->main_image_url ?: $product->main_image_url}}"
                                     data-fancybox="variation-image-link-loop-{{$index + 1}}"
                                 >
                                     <img
-                                        src="{{$variation->main_image_sm_thumb_url}}"
+                                        src="{{$variation->main_image_sm_thumb_url ?: $product->main_image_sm_thumb_url}}"
                                         alt="{{$variation->name}}"
                                         title="{{$variation->name}}">
                                 </a>
