@@ -31,10 +31,10 @@
         <main class="d-flex">
             <div class="container-fluid d-flex">
                 <div class="row d-flex flex-grow-1 row-overflow-hidden">
-                    <div class="content col-9 order-2" id="content">
+                    @include("admin.layouts.aside", ["class" => "p-0 col-3"])
+                    <div class="content col-9" id="content">
                         @yield('content')
                     </div>
-                    @include("admin.layouts.aside", ["class" => "p-0 col-3 order-1"])
                 </div>
             </div>
         </main>
