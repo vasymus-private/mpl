@@ -12,12 +12,11 @@ use Domain\Common\Models\BaseModel;
  * */
 class PaymentMethod extends BaseModel
 {
-    const TABLE = "payment_methods";
+    public const TABLE = "payment_methods";
 
-    const ID_BANK_CARD = 1;
-    const ID_CASH = 2;
-    const ID_SBERBANK_INVOICE = 3;
-    const ID_CASHLESS_FROM_ACCOUNT = 4;
+    public const ID_BANK_CARD = 1;
+    public const ID_CASH = 2;
+    public const ID_CASHLESS_FROM_ACCOUNT = 3;
 
     /**
      * The table associated with the model.

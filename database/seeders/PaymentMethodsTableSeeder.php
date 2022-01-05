@@ -22,12 +22,6 @@ class PaymentMethodsTableSeeder extends Seeder
             'describable' => false,
         ],
         [
-            'id' => PaymentMethod::ID_SBERBANK_INVOICE,
-            'name' => 'Квитанция Сбербанка',
-            'description' => "Для оформления квитанции потребуется Ваши Ф.И.О. и адрес. С вами свяжутся по email или телефону.",
-            'describable' => false,
-        ],
-        [
             'id' => PaymentMethod::ID_CASHLESS_FROM_ACCOUNT,
             'name' => 'Безналичная оплата со счёта юридического лица',
             'description' => "Для оформления счета потребуются реквизиты организации. С вами свяжутся по email или телефону.",
