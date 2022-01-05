@@ -64,7 +64,7 @@
                         <tr class="js-cart-row {{ ($cartProduct->cart_product->deleted_at ?? null) !== null ? "deleted-row" : "" }}" data-id="{{$cartProduct->id}}">
                             <td>
                                 <div class="row-line row-line__center">
-                                    <img src="{{$cartProduct->main_image_xs_thumb_url}}" alt="" class="cart__image" />
+                                    <img src="{{$cartProduct->main_image_xs_thumb_url ?: $cartProduct->parent->main_image_xs_thumb_url}}" alt="" class="cart__image" />
                                     <a href="{{$cartProduct->web_route}}" class="cart__name-product">{!! $cartProduct->name !!}</a>
                                 </div>
                             </td>
@@ -100,7 +100,7 @@
                     <div class="basket-mobile__product-block js-cart-row {{ ($cartProduct->cart_product->deleted_at ?? null) !== null ? "deleted-row" : "" }}" data-id="{{$cartProduct->id}}">
                         <div class="row-line">
                             <div class="basket-mobile__photo">
-                                <img src="{{$cartProduct->main_image_sm_thumb_url}}" alt="" class="cart__image" />
+                                <img src="{{$cartProduct->main_image_sm_thumb_url ?: $cartProduct->parent->main_image_sm_thumb_url}}" alt="" class="cart__image" />
                             </div>
                             <div class="basket-mobile__text">
                                 <p>{!! $cartProduct->name !!}</p>

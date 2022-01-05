@@ -118,14 +118,14 @@
                     <?php /** @var \Domain\Products\Models\Product\Product $variation */ ?>
                 <tr>
                     <td>
-                        <div class="product-variants__photo {{ ($variation->main_image_url || $product->main_image_url) ? '' : 'img-none' }}">
-                            @if($variation->main_image_url || $product->main_image_url)
+                        <div class="product-variants__photo {{ $variation->main_image_url ? '' : 'img-none' }}">
+                            @if($variation->main_image_url)
                                 <a
-                                    href="{{$variation->main_image_url ?: $product->main_image_url}}"
+                                    href="{{$variation->main_image_url}}"
                                     data-fancybox="variation-image-link-loop-{{$index + 1}}"
                                 >
                                     <img
-                                        src="{{$variation->main_image_sm_thumb_url ?: $product->main_image_sm_thumb_url}}"
+                                        src="{{$variation->main_image_sm_thumb_url}}"
                                         alt="{{$variation->name}}"
                                         title="{{$variation->name}}">
                                 </a>
@@ -228,6 +228,7 @@
                                 Маржа: <span>{{$variation->margin_rub_formatted}}</span>,
                                 Наценка: {{$variation->price_markup}} %,
                                 Заработок: {{$variation->price_income}} %
+                                Редактирование <a href="{{$variation->admin_route}}" target="_blank">в админке</a>
                             </p>
                             <button type="button" data-dismiss="alert" aria-label="Close">X</button>
                         </div>
@@ -306,7 +307,7 @@
                                         data-id="{{$variation->id}}"
                                         data-is-in-cart="{{(int)$variation->is_in_cart}}"
                                     >
-                                        {{$variation->available_submit_label}}
+                                        {{$variation->is_in_cart ? "Добавить" : $variation->available_submit_label}}
                                     </button>
                                 </div>
                             </div>

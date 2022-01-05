@@ -324,7 +324,7 @@ trait ProductAcM
 
     public function getMainImageXsThumbUrlAttribute(): string
     {
-        return $this->getFirstMediaUrl(static::MC_MAIN_IMAGE, static::MCONV_XS_THUMB);
+        return H::runtimeCache(sprintf('product_main_image_xs_thumb_url_%s', $this->id), fn() => $this->getFirstMediaUrl(static::MC_MAIN_IMAGE, static::MCONV_XS_THUMB));
     }
 
     public function getMainImageSmThumbUrlAttribute(): string
