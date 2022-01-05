@@ -104,6 +104,50 @@ import {guidGenerator, hideOnClickOutside} from "../../helpers/common";
             })
         })
 
+
+
+        let $saveInput = $('.js-save-input')
+        let $clearAllSavedInputs = $('.js-clear-all-saved-inputs')
+        // init
+        $saveInput.each(function(i, el) {
+            let $el = $(el)
+            let id = $el.data('id') || $el.attr('id') || $el.attr('name')
+            if (!id) {
+                return true
+            }
+            let currentSaveInput = localStorage.getItem('save-input')
+            try {
+                currentSaveInput = JSON.parse(currentSaveInput) || {}
+            } catch (ignored) {
+                currentSaveInput = {}
+            }
+            let value = currentSaveInput[id]
+            if (!value) {
+                return true
+            }
+            $el.val(value)
+        })
+        // add listeners
+        $saveInput.on('blur', function(event) {
+            let $el = $(event.target)
+            let id = $el.data('id') || $el.attr('id') || $el.attr('name')
+            if (!id) {
+                return true
+            }
+            let currentSaveInput = localStorage.getItem('save-input')
+            try {
+                currentSaveInput = JSON.parse(currentSaveInput) || {}
+            } catch (ignored) {
+                currentSaveInput = {}
+            }
+            currentSaveInput[id] = $el.val()
+            localStorage.setItem('save-input', JSON.stringify(currentSaveInput))
+        })
+        $clearAllSavedInputs.on('click', function() {
+            localStorage.setItem('save-input', JSON.stringify({}))
+        })
+
+
         /*let $inputKeyupValidate = $('.js-keyup-validate')
         $inputKeyupValidate.each((ind, el) => {
             let $input = $(el)
