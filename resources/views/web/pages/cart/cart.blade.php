@@ -14,7 +14,7 @@
             @csrf
             <div class="form-group__item">
                 <label for="name">Имя: <span>*</span></label>
-                <input type="text" class="form-control" id="name" name="name" value="{{old("name") ?? \Support\H::userOrAdmin()->name ?? null}}"/>
+                <input type="text" class="form-control js-save-input" id="name" name="name" value="{{old("name") ?? \Support\H::userOrAdmin()->name ?? null}}"/>
                 @if($errors->has("name"))
                     <div>
                         <span style="color:red">{{$errors->first("name")}}</span>
@@ -24,7 +24,7 @@
 
             <div class="form-group__item">
                 <label for="email">E-mail: <span>*</span></label>
-                <input type="text" class="form-control" id="email" name="email" value="{{old("email") ?? \Support\H::userOrAdmin()->email ?? null}}"/>
+                <input type="text" class="form-control js-save-input" id="email" name="email" value="{{old("email") ?? \Support\H::userOrAdmin()->email ?? null}}"/>
                 @if($errors->has("email"))
                     <div>
                         <span style="color:red">{{$errors->first("email")}}</span>
@@ -35,7 +35,7 @@
                 <label for="phone">Телефон: <span>*</span></label>
                 <div class="row-line row-line__center">
                     <span class="phone-t">+7</span>
-                    <input class="form-control small" type="text" id="phone" name="phone" value="{{old("phone") ?? \Support\H::userOrAdmin()->phone ?? null}}"/>
+                    <input class="form-control small js-save-input" type="text" id="phone" name="phone" value="{{old("phone") ?? \Support\H::userOrAdmin()->phone ?? null}}"/>
                 </div>
                 @if($errors->has("phone"))
                     <div>
@@ -142,7 +142,7 @@
         </div>
         <div class="cart__text-ar">
             <label for="comment">Вы можете оставить комментарий:</label>
-            <textarea name="comment" id="comment" form="form-order" placeholder="Адрес доставки или самовывоз. Удобный способ оплаты.">{{old("comment")}}</textarea>
+            <textarea class="js-save-input" name="comment" id="comment" form="form-order" placeholder="Адрес доставки или самовывоз. Удобный способ оплаты.">{{old("comment")}}</textarea>
             @if($errors->has("comment"))
                 <div>
                     <span style="color:red">{{$errors->first("comment")}}</span>
@@ -157,14 +157,14 @@
                         <input form="form-order" type="file" id="attachment" name="attachment[]" multiple />
                     </div>
                 </div>
-                @if($errors->has("attachment"))
+                @if($errors->has("attachment.*"))
                     <div>
-                        <span style="color:red">{{$errors->first("attachment")}}</span>
+                        <span style="color:red">{{$errors->first("attachment.*")}}</span>
                     </div>
                 @endif
             </div>
             <div class="column">
-                <button class="btn-submit" type="submit" form="form-order">Отправить заказ</button>
+                <button class="btn-submit js-clear-all-saved-inputs" type="submit" form="form-order">Отправить заказ</button>
             </div>
         </div>
         @if($errors->has("cart"))

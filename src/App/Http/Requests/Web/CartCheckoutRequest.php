@@ -16,6 +16,8 @@ use Support\H;
  * */
 class CartCheckoutRequest extends FormRequest
 {
+    protected const MAX_FILE_SIZE_MB = 1;
+
     /**
      * @var \Domain\Users\Models\BaseUser\BaseUser|null
      * */
@@ -49,9 +51,11 @@ class CartCheckoutRequest extends FormRequest
             "phone" => "alpha_num|nullable|max:199",
             "comment" => "string|nullable|max:199",
             "attachment" => "array|nullable",
-            "attachment.*" => "file|max:10000", // TODO validations via mymetypes предполагается, что что-то типа файла с реквизитами (ексель, пдф, фото реквизитов) !!! может несколько файлов // ВОЗМОЖНО ПРОДУМАТЬ КАКОЙ-ТО общий размер файлов с какого-то ip адреса
+            "attachment.*" => sprintf('max:%s', 1024 * self::MAX_FILE_SIZE_MB), // TODO validations via mymetypes предполагается, что что-то типа файла с реквизитами (ексель, пдф, фото реквизитов) !!! может несколько файлов // ВОЗМОЖНО ПРОДУМАТЬ КАКОЙ-ТО общий размер файлов с какого-то ip адреса
         ];
     }
+
+    // todo customize messages
 
     public function withValidator(Validator $validator)
     {
