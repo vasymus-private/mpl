@@ -90,7 +90,7 @@
                             <div class="dropdown">
                                 <button class="btn btn-secondary" type="button" id="actions-dropdown-{{$order['id']}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
                                 <div class="dropdown-menu" aria-labelledby="actions-dropdown-{{$order['id']}}">
-                                    <a class="dropdown-item" href="#">Изменить</a>
+                                    <a class="dropdown-item" href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, $order['id'])}}">Изменить</a>
                                     <a class="dropdown-item" href="#">Копировать</a>
                                     <button type="button" class="dropdown-item btn btn-link" onclick="if (confirm('Вы уверены, что хотите удалить заказ `{{$order['id']}}`?')) {@this.handleDelete({{$order['id']}});}">Удалить</button>
                                 </div>
