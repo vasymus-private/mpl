@@ -293,6 +293,10 @@ class ShowOrder extends BaseShowComponent
         $this->initProductItems();
         $this->initHistory();
 
+        if ($this->isCreating) {
+            return redirect()->route(Constants::ROUTE_ADMIN_ORDERS_EDIT, $this->item->id);
+        }
+
         return true;
     }
 
@@ -300,10 +304,10 @@ class ShowOrder extends BaseShowComponent
     {
         if ($this->isCreating) {
             $createOrderAction = resolve(CreateOrderAction::class);
-            $createOrderAction->execute(new CreateOrderParamsDTO([
+            $order = $createOrderAction->execute(new CreateOrderParamsDTO([
                 'user' => H::admin(),
-                'order_status_id' => $this->item->order_status_id,
-                'importance_id' => $this->item->importance_id,
+                'order_status_id' => $this->item->order_status_id ? (int)$this->item->order_status_id : null,
+                'importance_id' => $this->item->importance_id ? (int)$this->item->importance_id : null,
                 'order_event_type' => OrderEventType::admin_created(),
                 'comment_user' => $this->item->comment_user,
                 'request_name' => $this->name,
@@ -311,16 +315,19 @@ class ShowOrder extends BaseShowComponent
                 'request_phone' => $this->phone,
                 'productItems' => collect($this->productItems)->map(function(array $productItem) {
                     return new \Domain\Orders\DTOs\OrderProductItemDTO([
-                        'count' => $productItem['order_product_count'],
+                        'count' => (int)$productItem['order_product_count'],
                         'name' => $productItem['name'],
                         'unit' => $productItem['unit'],
-                        'ordering' => $productItem['ordering'],
+                        'ordering' => (int)$productItem['ordering'],
                         'price_retail_rub' => $productItem['order_product_price_retail_rub'],
                         'price_retail_rub_origin' => $productItem['order_product_price_retail_rub_origin'],
                         'product' => Product::query()->withTrashed()->where(sprintf('%s.uuid', Product::TABLE), $productItem['uuid'])->firstOrFail(),
                     ]);
-                }),
+                })->all(),
             ]));
+            if ($order) {
+                $this->item = $order;
+            }
             return;
         }
 
