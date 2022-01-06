@@ -12,18 +12,30 @@ use Illuminate\Support\Facades\Log;
 class CreateOrderAction
 {
     /**
+     * @link \App\Http\Livewire\Admin\ShowOrder\ShowOrder::DEFAULT_ORDERING
+     */
+    protected const DEFAULT_ORDERING = 100;
+
+    /**
+     * @link \App\Http\Livewire\Admin\ShowOrder\ShowOrder::ORDERING_STEP
+     */
+    protected const ORDERING_STEP = 100;
+
+    /**
      * @param \Domain\Orders\DTOs\CreateOrderParamsDTO $params
      *
      * @return \Domain\Orders\Models\Order|null
      */
     public function execute(CreateOrderParamsDTO $params): ?Order
     {
+        $initOrdering = static::DEFAULT_ORDERING;
+
         $productsPrepare = [];
 
-        foreach ($params->productItems as $productItem) {
+        foreach (collect($params->productItems)->sortBy('id')->values()->toArray() as $productItem) {
             $productsPrepare[$productItem->product->id] = [
                 "count" => $productItem->count,
-                'ordering' => $productItem->product->id,
+                'ordering' => $initOrdering = $initOrdering + static::ORDERING_STEP,
                 "price_purchase" => $productItem->product->price_purchase,
                 "price_purchase_currency_id" => $productItem->product->price_purchase_currency_id,
                 "price_retail" => $productItem->product->price_retail,

@@ -17,7 +17,7 @@ const resizer = document.querySelector("#resizer");
 const sidebar = document.querySelector("#aside");
 
 let isClicked = false
-let currentFlexBasis = `330px`
+let currentFlexBasis
 
 resizer.addEventListener("mousedown", (event) => {
     isClicked = true
@@ -26,9 +26,11 @@ resizer.addEventListener("mousedown", (event) => {
 document.addEventListener("mousemove", resize, false);
 document.addEventListener("mouseup", () => {
     isClicked = false
-    Rest.PUT(`/admin-ajax/profiles/1`, {
-        adminSidebarFlexBasis: currentFlexBasis,
-    })
+    if (currentFlexBasis) {
+        Rest.PUT(`/admin-ajax/profiles/1`, {
+            adminSidebarFlexBasis: currentFlexBasis,
+        })
+    }
 }, false);
 
 function resize(e) {
