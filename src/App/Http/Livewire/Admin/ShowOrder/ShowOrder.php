@@ -290,6 +290,8 @@ class ShowOrder extends BaseShowComponent
         $this->item->load(['products.parent', 'products.media', 'media']);
         $this->initProductItems();
         $this->initHistory();
+
+        return true;
     }
 
     protected function saveItem()
