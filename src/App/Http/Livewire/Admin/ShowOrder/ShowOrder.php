@@ -17,12 +17,14 @@ use Domain\Common\DTOs\SearchPrependAdminDTO;
 use Domain\Common\Models\Currency;
 use Domain\Common\Models\CustomMedia;
 use Domain\Orders\Actions\ChangeOrderProductsAction;
+use Domain\Orders\Actions\CreateOrderAction;
 use Domain\Orders\Actions\DefaultUpdateOrderAction;
 use Domain\Orders\Actions\DeleteOrderAction;
 use Domain\Orders\Actions\HandleCancelOrderAction;
 use Domain\Orders\Actions\HandleNotCancelOrderAction;
 use Domain\Orders\Actions\OMS\HandleChangeOrderStatusAction;
 use Domain\Orders\Actions\UpdateOrderCustomerInvoicesAction;
+use Domain\Orders\DTOs\CreateOrderParamsDTO;
 use Domain\Orders\DTOs\DefaultUpdateOrderParams;
 use Domain\Orders\DTOs\OrderHistoryItem;
 use Domain\Orders\DTOs\UpdateOrderInvoicesParamsDTO;
@@ -296,6 +298,32 @@ class ShowOrder extends BaseShowComponent
 
     protected function saveItem()
     {
+        if ($this->isCreating) {
+            $createOrderAction = resolve(CreateOrderAction::class);
+            $createOrderAction->execute(new CreateOrderParamsDTO([
+                'user' => H::admin(),
+                'order_status_id' => $this->item->order_status_id,
+                'importance_id' => $this->item->importance_id,
+                'order_event_type' => OrderEventType::admin_created(),
+                'comment_user' => $this->item->comment_user,
+                'request_name' => $this->name,
+                'request_email' => $this->email,
+                'request_phone' => $this->phone,
+                'productItems' => collect($this->productItems)->map(function(array $productItem) {
+                    return new \Domain\Orders\DTOs\OrderProductItemDTO([
+                        'count' => $productItem['order_product_count'],
+                        'name' => $productItem['name'],
+                        'unit' => $productItem['unit'],
+                        'ordering' => $productItem['ordering'],
+                        'price_retail_rub' => $productItem['order_product_price_retail_rub'],
+                        'price_retail_rub_origin' => $productItem['order_product_price_retail_rub_origin'],
+                        'product' => Product::query()->withTrashed()->where(sprintf('%s.uuid', Product::TABLE), $productItem['uuid'])->firstOrFail(),
+                    ]);
+                }),
+            ]));
+            return;
+        }
+
         $defaultUpdateOrderAction = resolve(DefaultUpdateOrderAction::class);
 
         $defaultUpdateOrderAction->execute(new DefaultUpdateOrderParams([
@@ -690,6 +718,7 @@ class ShowOrder extends BaseShowComponent
             'order_product_price_retail_rub_sum' => $order_product_price_retail_rub_sum,
             'order_product_price_retail_rub_sum_formatted' => H::priceRubFormatted($order_product_price_retail_rub_sum, Currency::ID_RUB),
             'order_product_diff_rub_price_retail_sum_price_purchase_sum_formatted' => H::priceRubFormatted($order_product_price_retail_rub_sum - $order_product_price_purchase_rub_sum, Currency::ID_RUB),
+            'order_product_price_retail_rub_origin' => $order_product_price_retail_rub,
             'order_product_price_retail_rub_origin_formatted' => H::priceRubFormatted($order_product_price_retail_rub, Currency::ID_RUB),
             'order_product_price_retail_rub_was_updated' => $priceRetailRubWasUpdated,
         ]);

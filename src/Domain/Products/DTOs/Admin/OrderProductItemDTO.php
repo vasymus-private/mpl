@@ -115,6 +115,11 @@ class OrderProductItemDTO extends DataTransferObject
     public ?string $order_product_price_retail_rub_origin_formatted;
 
     /**
+     * @var string|int|float|null
+     */
+    public $order_product_price_retail_rub_origin;
+
+    /**
      * @var bool|null
      */
     public ?bool $order_product_price_retail_rub_was_updated;
@@ -155,6 +160,7 @@ class OrderProductItemDTO extends DataTransferObject
             'order_product_price_retail_rub_sum' => $product->order_product_price_retail_rub_sum,
             'order_product_price_retail_rub_sum_formatted' => $product->order_product_price_retail_rub_sum_formatted,
             'order_product_diff_rub_price_retail_sum_price_purchase_sum_formatted' => H::priceRubFormatted($product->order_product_price_retail_rub_sum - $product->order_product_price_purchase_rub_sum, Currency::ID_RUB),
+            'order_product_price_retail_rub_origin' => $product->order_product_price_retail_rub_origin,
             'order_product_price_retail_rub_origin_formatted' => H::priceRubFormatted($product->order_product_price_retail_rub_origin, Currency::ID_RUB),
             'order_product_price_retail_rub_was_updated' => $product->order_product_price_retail_rub_was_updated,
         ]);

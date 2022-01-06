@@ -32,17 +32,19 @@ class CreateOrderAction
 
         $productsPrepare = [];
 
-        foreach (collect($params->productItems)->sortBy('id')->values()->toArray() as $productItem) {
+        /** @var \Domain\Orders\DTOs\OrderProductItemDTO $productItem */
+        foreach (collect($params->productItems)->sortBy('ordering')->sortBy('id')->values()->toArray() as $productItem) {
             $productsPrepare[$productItem->product->id] = [
-                "count" => $productItem->count,
-                'ordering' => $initOrdering = $initOrdering + static::ORDERING_STEP,
-                "price_purchase" => $productItem->product->price_purchase,
-                "price_purchase_currency_id" => $productItem->product->price_purchase_currency_id,
-                "price_retail" => $productItem->product->price_retail,
-                "price_retail_currency_id" => $productItem->product->price_retail_currency_id,
-                'unit' => $productItem->product->unit,
-                'price_retail_rub' => $productItem->product->price_retail_rub,
-                'price_retail_rub_origin' => $productItem->product->price_retail_rub,
+                'count' => $productItem->count,
+                'name' => $productItem->name ?? $productItem->product->name,
+                'unit' => $productItem->unit ?? $productItem->product->unit,
+                'ordering' => $productItem->ordering ?: ($initOrdering = $initOrdering + static::ORDERING_STEP),
+                'price_purchase' => $productItem->product->price_purchase,
+                'price_purchase_currency_id' => $productItem->product->price_purchase_currency_id,
+                'price_retail' => $productItem->product->price_retail,
+                'price_retail_currency_id' => $productItem->product->price_retail_currency_id,
+                'price_retail_rub' => $productItem->price_retail_rub ?: $productItem->product->price_retail_rub,
+                'price_retail_rub_origin' => $productItem->price_retail_rub_origin ?: $productItem->product->price_retail_rub,
             ];
         }
 

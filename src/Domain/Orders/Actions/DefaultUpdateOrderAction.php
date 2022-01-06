@@ -48,9 +48,10 @@ class DefaultUpdateOrderAction
         }
 
         $request = $params->order->getOriginal('request');
-        $name = $request['name'];
-        $email = $request['email'];
-        $phone = $request['phone'];
+        $request = is_array($request) ? $request : [];
+        $name = $request['name'] ?? null;
+        $email = $request['email'] ?? null;
+        $phone = $request['phone'] ?? null;
 
         if (
             !empty(
@@ -160,9 +161,10 @@ class DefaultUpdateOrderAction
     private function makeCustomerPersonalDataOrderEvent(DefaultUpdateOrderParams $params): OrderEvent
     {
         $request = $params->order->getOriginal('request');
-        $name = $request['name'];
-        $email = $request['email'];
-        $phone = $request['phone'];
+        $request = is_array($request) ? $request : [];
+        $name = $request['name'] ?? null;
+        $email = $request['email'] ?? null;
+        $phone = $request['phone'] ?? null;
 
         $orderEvent = new OrderEvent();
         $orderEvent->type = OrderEventType::update_customer_personal_data();
