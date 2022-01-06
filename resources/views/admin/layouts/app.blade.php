@@ -29,12 +29,11 @@
     <div id="wrapper" class="wrapper">
         @include("admin.layouts.header")
         <main class="d-flex">
-            <div class="container-fluid d-flex">
-                <div class="row d-flex flex-grow-1 row-overflow-hidden">
-                    @include("admin.layouts.aside", ["class" => "p-0 col-3"])
-                    <div class="content col-9" id="content">
-                        @yield('content')
-                    </div>
+            <div id="resize-container" class="">
+                @include("admin.layouts.aside", ["class" => ""])
+                <div id="resizer"></div>
+                <div class="" id="content">
+                    @yield('content')
                 </div>
             </div>
         </main>
