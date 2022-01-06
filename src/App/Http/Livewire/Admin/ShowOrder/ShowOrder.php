@@ -11,6 +11,7 @@ use App\Http\Livewire\Admin\HasOrderStatuses;
 use App\Http\Livewire\Admin\HasPagination;
 use App\Http\Livewire\Admin\HasPaymentMethods;
 use App\Http\Livewire\Admin\HasTabs;
+use Domain\Common\Actions\MoveOrderingItemAction;
 use Domain\Common\DTOs\FileDTO;
 use Domain\Common\DTOs\SearchPrependAdminDTO;
 use Domain\Common\Models\Currency;
@@ -66,6 +67,9 @@ class ShowOrder extends BaseShowComponent
 
     protected const DEFAULT_TAB = 'order';
     public const MAX_FILE_SIZE_MB = 30;
+
+    public const DEFAULT_ORDERING = 100;
+    public const ORDERING_STEP = 100;
 
     /**
      * @var int|string
@@ -400,7 +404,7 @@ class ShowOrder extends BaseShowComponent
 
     public function selectCurrentProductItem($uuid)
     {
-        $orderProductItem = $this->productItems[$uuid];
+        $orderProductItem = collect($this->productItems)->first(fn(array $productItem) => $productItem['uuid'] === $uuid);
 
         if (!$orderProductItem) {
             return false;
@@ -448,7 +452,24 @@ class ShowOrder extends BaseShowComponent
 
     protected function initProductItems()
     {
-        $this->productItems = $this->item->products->map(fn(Product $product) => OrderProductItemDTO::fromOrderProductItem($product)->toArray())->keyBy('uuid')->sortBy('ordering')->all();
+        $initOrdering = static::DEFAULT_ORDERING;
+
+        $this->productItems = $this->item->products
+            ->map(function(Product $product) use(&$initOrdering) {
+                if ($initOrdering >= $product->order_product->ordering) {
+                    $product->order_product->ordering = $initOrdering = $initOrdering + static::ORDERING_STEP;
+                }
+
+                return OrderProductItemDTO::fromOrderProductItem($product)->toArray();
+            })
+            ->sortBy('ordering')
+            ->values()
+            ->all();
+    }
+
+    public function productItemOrdering($index, bool $isUp = true)
+    {
+        $this->productItems = MoveOrderingItemAction::cached()->execute($this->productItems, (int)$index, $isUp);
     }
 
     protected function initCategoriesSidebar()
@@ -463,13 +484,13 @@ class ShowOrder extends BaseShowComponent
     public function updatedProductItems($value, $field)
     {
         $uuidItemFieldArr = explode('.', $field);
-        $uuid = $uuidItemFieldArr[0];
+        $index = $uuidItemFieldArr[0];
         $itemField = $uuidItemFieldArr[1];
 
-        $orderProductItem = $this->productItems[$uuid];
+        $orderProductItem = collect($this->productItems)->get($index);
         $orderProductItem = $this->handleUpdateProductItem($orderProductItem, $itemField, $value);
 
-        $this->productItems[$uuid] = $orderProductItem;
+        $this->productItems = collect($this->productItems)->map(fn(array $productItem) => $productItem['uuid'] === $orderProductItem['uuid'] ? $orderProductItem : $productItem)->all();
     }
 
     public function handleSaveCurrentProductItem()
@@ -477,7 +498,7 @@ class ShowOrder extends BaseShowComponent
         if (!$this->currentProductItem) {
             return false;
         }
-        $productItemToUpdate = $this->productItems[$this->currentProductItem['uuid']];
+        $productItemToUpdate = collect($this->productItems)->first(fn(array $productItem) => $productItem['uuid'] === $this->currentProductItem['uuid']);
 
         $possibleFieldsToUpdate = ['name', 'unit', 'order_product_price_retail_rub', 'order_product_count'];
         foreach ($possibleFieldsToUpdate as $itemField) {
@@ -485,7 +506,7 @@ class ShowOrder extends BaseShowComponent
                 $productItemToUpdate = $this->handleUpdateProductItem($productItemToUpdate, $itemField, $this->currentProductItem[$itemField]);
             }
         }
-        $this->productItems[$this->currentProductItem['uuid']] = $productItemToUpdate;
+        $this->productItems = collect($this->productItems)->map(fn(array $productItem) => $productItem['uuid'] === $this->currentProductItem['uuid'] ? $productItemToUpdate : $productItem)->all();
 
         return true;
     }
@@ -606,14 +627,19 @@ class ShowOrder extends BaseShowComponent
             )
             ->firstOrFail();
 
-        $this->productItems[$uuid] = $this->createOrderProductItemFromProduct(
+        $largestOrdering = max(collect($this->productItems)->max('ordering'), 0);
+
+        $currentProductItem = collect($this->productItems)->first(fn($productItem) => $productItem['uuid'] === $uuid);
+
+        $this->productItems[] = $this->createOrderProductItemFromProduct(
             $product,
-            (isset($this->productItems[$uuid])
-                ? $this->productItems[$uuid]['order_product_count'] + 1
+            ($currentProductItem
+                ? $currentProductItem['order_product_count'] + 1
                 : 1),
-            (isset($this->productItems[$uuid])
-                ? $this->productItems[$uuid]['price_retail_rub_was_updated']
-                : false)
+            ($currentProductItem
+                ? $currentProductItem['order_product_price_retail_rub_was_updated']
+                : false),
+            $largestOrdering + 100
         )->toArray();
     }
 
@@ -628,10 +654,11 @@ class ShowOrder extends BaseShowComponent
      * @param \Domain\Products\Models\Product\Product $product
      * @param int $count
      * @param bool $priceRetailRubWasUpdated
+     * @param int $ordering
      *
      * @return \Domain\Products\DTOs\Admin\OrderProductItemDTO
      */
-    protected function createOrderProductItemFromProduct(Product $product, int $count = 1, bool $priceRetailRubWasUpdated = false): OrderProductItemDTO
+    protected function createOrderProductItemFromProduct(Product $product, int $count = 1, bool $priceRetailRubWasUpdated = false, int $ordering = null): OrderProductItemDTO
     {
         $order_product_price_purchase_rub_sum = $count * $product->price_purchase_rub;
         $order_product_price_retail_rub = $product->price_retail_rub;
@@ -653,6 +680,7 @@ class ShowOrder extends BaseShowComponent
             'admin_route' => $product->admin_route,
 
             // order product and calculated props
+            'ordering' => $ordering,
             'order_product_price_purchase_rub_sum' => $order_product_price_purchase_rub_sum,
             'order_product_price_purchase_rub_sum_formatted' => H::priceRubFormatted($order_product_price_purchase_rub_sum, Currency::ID_RUB),
             'order_product_price_retail_rub' => $order_product_price_retail_rub,

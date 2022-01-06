@@ -31,6 +31,7 @@ class ChangeOrderProductsAction
                 'unit' => $productItem['unit'],
                 'price_retail_rub' => $productItem['order_product_price_retail_rub'],
                 'price_retail_rub_was_updated' => $productItem['order_product_price_retail_rub_was_updated'],
+                'ordering' => $productItem['ordering'],
             ];
             /** @var \Domain\Products\Models\Product\Product $currentOrderProduct */
             $currentOrderProduct = $order->products->first(fn(Product $product) => (string)$product->id === (string)$productItem['id']);

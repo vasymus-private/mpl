@@ -376,7 +376,7 @@
                 @if($isCreating || $this->isEditMode())
                     <th scope="col"><span class="main-grid-head-title">&nbsp;</span></th>
                 @endif
-                <th scope="col">Изображение</th>
+                <th scope="col">&uarr;&darr;</th>
                 <th scope="col">Название</th>
                 <th scope="col">Количество</th>
                 <th scope="col">Свойства</th>
@@ -386,7 +386,7 @@
         </thead>
         <tbody>
         <?php /** @var \Domain\Products\DTOs\Admin\OrderProductItemDTO|array $product */ ?>
-        @foreach($productItems as $product)
+        @foreach($productItems as $index => $product)
             <tr wire:key="product-{{$product['uuid']}}">
                 @if($isCreating || $this->isEditMode())
                     <td>
@@ -407,11 +407,16 @@
                         </div>
                     </td>
                 @endif
-                <td><div class="text-center"><a target="_blank" href="{{$product['admin_route']}}"><img class="img-fluid" src="{{$product['image']}}" alt="" /></a></div></td>
+                <td>
+                    <div class="buttons-block">
+                        <button @if($loop->first) disabled @endif type="button" wire:click="productItemOrdering({{$index}}, true)" class="btn btn__default">&uarr;</button>
+                        <button @if($loop->last) disabled @endif type="button" wire:click="productItemOrdering({{$index}}, false)" class="btn btn__default">&darr;</button>
+                    </div>
+                </td>
                 <td><span class="main-grid-cell-content"><a target="_blank" href="{{$product['admin_route']}}">{{$product['name']}}</a></span></td>
                 <td>
                     @if($isCreating || $this->isEditMode())
-                        @include('admin.livewire.includes.form-control-input', ['field' => sprintf('productItems.%s.order_product_count', $product['uuid']), 'modifier' => '.debounce.500ms'])
+                        @include('admin.livewire.includes.form-control-input', ['field' => sprintf('productItems.%s.order_product_count', $index), 'modifier' => '.debounce.500ms'])
                     @else
                         <span class="main-grid-cell-content">{{$product['order_product_count']}}</span>
                     @endif
@@ -423,7 +428,7 @@
                 </td>
                 <td>
                     @if($isCreating || $this->isEditMode())
-                        @include('admin.livewire.includes.form-control-input', ['field' => sprintf('productItems.%s.order_product_price_retail_rub', $product['uuid']), 'modifier' => '.debounce.500ms'])
+                        @include('admin.livewire.includes.form-control-input', ['field' => sprintf('productItems.%s.order_product_price_retail_rub', $index), 'modifier' => '.debounce.500ms'])
                     @else
                         <p><span class="main-grid-cell-content">{{$product['order_product_price_retail_rub_formatted']}}</span></p>
                     @endif

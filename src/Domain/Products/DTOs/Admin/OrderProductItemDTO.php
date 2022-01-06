@@ -134,9 +134,6 @@ class OrderProductItemDTO extends DataTransferObject
         return new self([
             'id' => $product->id,
             'uuid' => $product->uuid,
-            'name' => $product->name,
-            'order_product_count' => $product->order_product_count,
-            'unit' => $product->unit,
             'coefficient' => $product->coefficient,
             'availability_status_name' => $product->availability_status_name,
             'image' => $product->main_image_sm_thumb_url,
@@ -147,6 +144,9 @@ class OrderProductItemDTO extends DataTransferObject
             'admin_route' => $product->admin_route,
 
             // order product and calculated props
+            'name' => $product->order_product->name ?? $product->name,
+            'order_product_count' => $product->order_product_count,
+            'unit' => $product->order_product->unit ?? $product->unit,
             'ordering' => $product->order_product->ordering ?: $product->id,
             'order_product_price_purchase_rub_sum' => $product->order_product_price_purchase_rub_sum,
             'order_product_price_purchase_rub_sum_formatted' => $product->order_product_price_purchase_rub_sum_formatted,
