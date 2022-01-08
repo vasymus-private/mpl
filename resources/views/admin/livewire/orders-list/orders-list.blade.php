@@ -54,7 +54,7 @@
             </div>
         </div>
 
-        <table class="table table-bordered table-hover">
+        <table class="table table-bordered table-hover js-order-busy-marker-wrapper">
             <thead>
             <tr>
                 <th scope="col">
@@ -97,7 +97,20 @@
                             </div>
                         </td>
                         <td><span class="main-grid-cell-content">{{$order['date']}}</span></td>
-                        <td><span class="main-grid-cell-content"><a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, $order['id'])}}">№{{$order['id']}}</a></span></td>
+                        <td>
+                            <span class="main-grid-cell-content">
+                                <a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, $order['id'])}}" style="white-space: nowrap;">
+                                    <span class="js-order-busy-marker js-order-busy-marker-{{$order['id']}}" data-id="{{$order['id']}}">
+                                        @if($order['is_busy_by_other_admin'])
+                                            <span style="display: inline-block; width: 20px; height: 20px; background-color: red; border-radius: 100%;"></span>
+                                        @else
+                                            <span style="display: inline-block; width: 20px; height: 20px; background-color: green; border-radius: 100%;"></span>
+                                        @endif
+                                    </span>
+                                    №{{$order['id']}}
+                                </a>
+                            </span>
+                        </td>
                         <td @if($order['order_status_color']) style="background-color: {{$order['order_status_color']}};" @endif><span class="main-grid-cell-content">{{$order['order_status_name']}}</span></td>
                         <td><span class="main-grid-cell-content">{{$order['comment_admin']}}</span></td>
                         <td><span class="main-grid-cell-content">{{$order['comment_user']}}</span></td>
