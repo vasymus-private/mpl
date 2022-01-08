@@ -58,22 +58,47 @@ class H
         return $admin;
     }
 
-    public static function priceRub(float $value = null, int $currencyId): ?float
+    public static function priceRub(float $value = null, int $currencyId = Currency::ID_RUB): ?float
     {
-        $currencyIso = Currency::getIsoName($currencyId);
-        if (!$currencyIso) return null;
+        if ($value === null) {
+            return null;
+        }
 
-        if (!$value) return null;
+        $currencyIso = Currency::getIsoName($currencyId);
+        if (!$currencyIso) {
+            return null;
+        }
 
         return floor(CBRcurrencyConverter::convertRub($currencyIso, $value));
     }
 
-    public static function priceRubFormatted(float $value = null, int $currencyId): string
+    public static function priceRubFormatted(float $value = null, int $currencyId = Currency::ID_RUB): string
     {
         $rub = static::priceRub($value, $currencyId);
-        if ($rub === null) return "";
+        if ($rub === null) {
+            return '';
+        }
 
-        return Currency::getFormattedValue($rub, Currency::ID_RUB) . " " . Currency::getFormattedName(Currency::ID_RUB);
+        return sprintf('%s %s', Currency::getFormattedValue($rub, Currency::ID_RUB), Currency::getFormattedName(Currency::ID_RUB));
+    }
+
+    /**
+     * @param float|null $value
+     * @param int $currencyId
+     *
+     * @return string
+     */
+    public static function priceFormatted(float $value = null, int $currencyId = Currency::ID_RUB): string
+    {
+        if ($currencyId === Currency::ID_RUB) {
+            return static::priceRubFormatted($value, $currencyId);
+        }
+
+        if ($value === null) {
+            return '';
+        }
+
+        return sprintf('%s %s', Currency::getFormattedValue($value, $currencyId), Currency::getFormattedName($currencyId));
     }
 
     public static function getPhone1(): HtmlString
@@ -83,7 +108,7 @@ class H
 
     public static function getPhone2(): HtmlString
     {
-        return new HtmlString('<a href="tel:+74953638799">+7 (915) 363 93 63</a>');
+        return new HtmlString('<a href="tel:+79153639363">+7 (915) 363 93 63</a>');
     }
 
     public static function getMail(): HtmlString

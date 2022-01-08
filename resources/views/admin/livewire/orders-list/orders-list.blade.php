@@ -45,7 +45,7 @@
         <a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_CREATE)}}" class="btn btn-primary mb-2 btn__save mr-2">Добавить заказ</a>
     </div>
 
-    <div class="admin-edit-variations">
+    <div class="admin-edit-variations table-responsive">
         <div wire:loading.flex>
             <div class="d-flex justify-content-center align-items-center bg-light" style="opacity: 0.5; position:absolute; top:0; bottom:0; right:0; left:0; z-index: 20; ">
                 <div class="spinner-border" role="status">
@@ -80,7 +80,7 @@
             </thead>
             <tbody>
                 @foreach($items as $order)
-                    <tr wire:key="product-{{$order['id']}}">
+                    <tr wire:key="product-{{$order['id']}}" ondblclick="location.href=`{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, $order['id'])}}`">
                         <td>
                             <div class="form-check">
                                 <input wire:model.defer="items.{{$order['id']}}.is_checked" class="form-check-input position-static" type="checkbox">
@@ -97,7 +97,7 @@
                             </div>
                         </td>
                         <td><span class="main-grid-cell-content">{{$order['date']}}</span></td>
-                        <td><span class="main-grid-cell-content"><a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, $order['id'])}}">{{$order['id']}}</a></span></td>
+                        <td><span class="main-grid-cell-content"><a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, $order['id'])}}">№{{$order['id']}}</a></span></td>
                         <td @if($order['order_status_color']) style="background-color: {{$order['order_status_color']}};" @endif><span class="main-grid-cell-content">{{$order['order_status_name']}}</span></td>
                         <td><span class="main-grid-cell-content">{{$order['comment_admin']}}</span></td>
                         <td><span class="main-grid-cell-content">{{$order['comment_user']}}</span></td>
@@ -122,10 +122,6 @@
                                     <p>
                                         {{$orderProductItem['name']}} <br>
                                         ({{$orderProductItem['count']}} шт.)
-                                        @if(!empty($orderProductItem['unit']))
-                                            <br>
-                                            Упаковка / единица измерения: {{$orderProductItem['unit']}}
-                                        @endif
                                     </p>
                                 @endforeach
                             </div>

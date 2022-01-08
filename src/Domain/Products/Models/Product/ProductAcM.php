@@ -212,15 +212,10 @@ trait ProductAcM
 
     public function getPriceRetailFormattedAttribute(): string
     {
-        $price = $this->price_retail ?? 0;
-        $currency = $this->price_retail_currency_id
-            ? Currency::getFormattedName($this->price_retail_currency_id)
-            : (
-            isset($this->parent->price_retail_currency_id)
-                ? Currency::getFormattedName($this->parent->price_retail_currency_id)
-                : Currency::getFormattedName(static::DEFAULT_CURRENCY_ID)
-            );
-        return "$price $currency";
+        if (!$this->price_retail_currency_id) {
+            return '';
+        }
+        return H::priceFormatted($this->price_retail ?? 0, $this->price_retail_currency_id);
     }
 
     public function getPricePurchaseRubAttribute(): ?float
@@ -230,20 +225,18 @@ trait ProductAcM
 
     public function getPricePurchaseRubFormattedAttribute(): string
     {
-        return H::priceRubFormatted($this->price_purchase, $this->price_purchase_currency_id ?? static::DEFAULT_CURRENCY_ID);
+        if (!$this->price_purchase_currency_id) {
+            return '';
+        }
+        return H::priceRubFormatted($this->price_purchase, $this->price_purchase_currency_id);
     }
 
     public function getPricePurchaseFormattedAttribute(): string
     {
-        $price = $this->price_purchase ?? 0;
-        $currency = $this->price_purchase_currency_id
-            ? Currency::getFormattedName($this->price_purchase_currency_id)
-            : (
-                isset($this->parent->price_purchase_currency_id)
-                    ? Currency::getFormattedName($this->parent->price_purchase_currency_id)
-                    : Currency::getFormattedName(static::DEFAULT_CURRENCY_ID)
-            );
-        return "$price $currency";
+        if (!$this->price_purchase_currency_id) {
+            return '';
+        }
+        return H::priceFormatted($this->price_purchase ?? 0, $this->price_purchase_currency_id);
     }
 
     public function getCoefficientPriceRubAttribute(): ?float

@@ -367,7 +367,7 @@ class Order extends BaseModel implements HasMedia
     public function getDateFormattedAttribute(): ?string
     {
         return $this->created_at instanceof Carbon
-            ? $this->created_at->format('d-m-Y H:i:s')
+            ? $this->created_at->format('d.m.y H:i:s')
             : null;
     }
 }

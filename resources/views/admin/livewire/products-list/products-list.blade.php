@@ -55,7 +55,7 @@
             </thead>
             <tbody>
             @foreach($items as $product)
-                <tr class="js-product-item" wire:key="product-{{$product['uuid']}}">
+                <tr class="js-product-item" wire:key="product-{{$product['uuid']}}" ondblclick="location.href=`{{route("admin.products.edit", $product['id'])}}`">
                     <td>
                         <div class="form-check">
                             <input wire:model.defer="items.{{$product['uuid']}}.is_checked" @if($editMode) disabled @endif class="form-check-input position-static" type="checkbox">
