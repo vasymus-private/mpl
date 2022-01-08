@@ -41,6 +41,11 @@ class Admin extends BaseUser implements HasMedia
         return Admin::query()->findOrFail(Admin::ID_CENTRAL_ADMIN);
     }
 
+    public static function rbAdmin($value)
+    {
+        return static::query()->select(["*"])->findOrFail($value);
+    }
+
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection(static::MC_COMMON_MEDIA);

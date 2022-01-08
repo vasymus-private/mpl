@@ -115,9 +115,19 @@ class OrderProductItemDTO extends DataTransferObject
     public ?string $order_product_price_retail_rub_origin_formatted;
 
     /**
+     * @var string|int|float|null
+     */
+    public $order_product_price_retail_rub_origin;
+
+    /**
      * @var bool|null
      */
     public ?bool $order_product_price_retail_rub_was_updated;
+
+    /**
+     * @var int|null
+     */
+    public ?int $ordering;
 
     /**
      * @param \Domain\Products\Models\Product\Product $product
@@ -129,9 +139,6 @@ class OrderProductItemDTO extends DataTransferObject
         return new self([
             'id' => $product->id,
             'uuid' => $product->uuid,
-            'name' => $product->name,
-            'order_product_count' => $product->order_product_count,
-            'unit' => $product->unit,
             'coefficient' => $product->coefficient,
             'availability_status_name' => $product->availability_status_name,
             'image' => $product->main_image_sm_thumb_url,
@@ -142,6 +149,9 @@ class OrderProductItemDTO extends DataTransferObject
             'admin_route' => $product->admin_route,
 
             // order product and calculated props
+            'name' => $product->order_product->name ?? $product->name,
+            'order_product_count' => $product->order_product_count,
+            'unit' => $product->order_product->unit ?? $product->unit,
             'ordering' => $product->order_product->ordering ?: $product->id,
             'order_product_price_purchase_rub_sum' => $product->order_product_price_purchase_rub_sum,
             'order_product_price_purchase_rub_sum_formatted' => $product->order_product_price_purchase_rub_sum_formatted,
@@ -150,6 +160,7 @@ class OrderProductItemDTO extends DataTransferObject
             'order_product_price_retail_rub_sum' => $product->order_product_price_retail_rub_sum,
             'order_product_price_retail_rub_sum_formatted' => $product->order_product_price_retail_rub_sum_formatted,
             'order_product_diff_rub_price_retail_sum_price_purchase_sum_formatted' => H::priceRubFormatted($product->order_product_price_retail_rub_sum - $product->order_product_price_purchase_rub_sum, Currency::ID_RUB),
+            'order_product_price_retail_rub_origin' => $product->order_product_price_retail_rub_origin,
             'order_product_price_retail_rub_origin_formatted' => H::priceRubFormatted($product->order_product_price_retail_rub_origin, Currency::ID_RUB),
             'order_product_price_retail_rub_was_updated' => $product->order_product_price_retail_rub_was_updated,
         ]);
