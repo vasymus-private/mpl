@@ -19,7 +19,7 @@ class AdminProfileUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return Gate::allows(AuthServiceProvider::PROFILE_UPDATE, $this->admin);
+        return Gate::allows(AuthServiceProvider::ADMIN_PROFILE_UPDATE, $this->admin);
     }
 
     /**

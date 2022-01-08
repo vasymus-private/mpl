@@ -32,17 +32,17 @@ class OrderStatusesTableSeeder extends Seeder
         [
             "id" => OrderStatus::ID_HELEN_AGREED_WITH_SUPPLIER,
             "name" => "Лена согласовала с поставщиком",
-            'color' => '#0033ff',
+            'color' => '#00ccff',
         ],
         [
             "id" => OrderStatus::ID_ALEX_AGREED_WITH_SUPPLIER,
             "name" => "Саша согласовал с поставщиком",
-            'color' => '#0033ff',
+            'color' => '#00ccff',
         ],
         [
             "id" => OrderStatus::ID_EGOR_AGREED_WITH_SUPPLIER,
             "name" => "Настя согласовала с поставщиком",
-            'color' => '#0033ff',
+            'color' => '#00ccff',
         ],
         [
             "id" => OrderStatus::ID_CUSTOMER_CONFIRMED_CASH,

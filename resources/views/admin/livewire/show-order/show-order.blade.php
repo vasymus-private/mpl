@@ -13,6 +13,9 @@
             Добавление заказа
         @else
             Заказ № {{ $item->id }}
+            @if($item->is_busy_by_other_admin)
+                <span class="d-inline-block bg-warning h5 p-2">С заказом работает менеджер {{$item->busyBy->name ?? ''}}.</span>
+            @endif
         @endif
     </h1>
 
@@ -29,20 +32,25 @@
             @if(!$isCreating)
                 <div class="col-sm-5 d-flex align-items-center">
                     @if($editMode)
-                        <button type="button" onclick="@this.handleSave().then(res => { if (res) { location.href = `{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, ['admin_order' => $item->id, 'editMode' => 0])}}` } })" class="btn btn-secondary dropdown-toggle btn__dropdown">
+                        <button type="button" onclick="@this.handleSave().then(res => { if (res) { location.href = `{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, ['admin_order' => $item->id, 'editMode' => 0])}}` } })" class="btn btn-secondary btn__dropdown text-nowrap">
                             Подробности заказа
                         </button>
                     @else
-                        <a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, ['admin_order' => $item->id, 'editMode' => 1])}}" class="btn btn-secondary dropdown-toggle btn__dropdown">
-                            Изменить заказ
-                        </a>
+                        @if($couldBeChangedByAdmin)
+                            <a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, ['admin_order' => $item->id, 'editMode' => 1])}}" class="btn btn-secondary text-nowrap btn__dropdown">
+                                Изменить заказ
+                            </a>
+                        @else
+                            <span class="btn btn-secondary text-nowrap btn__dropdown">Изменение заблокировано</span>
+                        @endif
+
                     @endif
 
-                    <a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_CREATE)}}" class="btn btn-secondary dropdown-toggle btn__dropdown">
+                    <a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_CREATE)}}" class="btn btn-secondary text-nowrap btn__dropdown">
                         Создать заказ
                     </a>
 
-                    <button wire:click.prevent="handleDeleteOrder" type="button" class="btn btn-secondary dropdown-toggle btn__dropdown">
+                    <button wire:click.prevent="handleDeleteOrder" type="button" class="btn btn-secondary text-nowrap btn__dropdown">
                         Удалить заказ
                     </button>
                 </div>
@@ -90,5 +98,15 @@
             </button>
         </div>
     @endforeach
+
+    <script>
+        document.addEventListener('livewire:load', () => {
+            jQuery(() => {
+                if (@this.shouldPingOrderBusy && typeof handlePingOrderBusy === 'function') {
+                    handlePingOrderBusy({{$item->id}});
+                }
+            })
+        })
+    </script>
 
 </div>

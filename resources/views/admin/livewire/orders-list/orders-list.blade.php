@@ -45,7 +45,7 @@
         <a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_CREATE)}}" class="btn btn-primary mb-2 btn__save mr-2">Добавить заказ</a>
     </div>
 
-    <div class="admin-edit-variations">
+    <div class="admin-edit-variations table-responsive">
         <div wire:loading.flex>
             <div class="d-flex justify-content-center align-items-center bg-light" style="opacity: 0.5; position:absolute; top:0; bottom:0; right:0; left:0; z-index: 20; ">
                 <div class="spinner-border" role="status">
@@ -54,7 +54,7 @@
             </div>
         </div>
 
-        <table class="table table-bordered table-hover">
+        <table class="table table-bordered table-hover js-order-busy-marker-wrapper">
             <thead>
             <tr>
                 <th scope="col">
@@ -80,7 +80,7 @@
             </thead>
             <tbody>
                 @foreach($items as $order)
-                    <tr wire:key="product-{{$order['id']}}">
+                    <tr wire:key="product-{{$order['id']}}" ondblclick="location.href=`{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, $order['id'])}}`">
                         <td>
                             <div class="form-check">
                                 <input wire:model.defer="items.{{$order['id']}}.is_checked" class="form-check-input position-static" type="checkbox">
@@ -88,16 +88,39 @@
                         </td>
                         <td>
                             <div class="dropdown">
-                                <button class="btn btn-secondary" type="button" id="actions-dropdown-{{$order['id']}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
-                                <div class="dropdown-menu" aria-labelledby="actions-dropdown-{{$order['id']}}">
-                                    <a class="dropdown-item" href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, $order['id'])}}">Изменить</a>
-                                    <a class="dropdown-item" href="#">Копировать</a>
-                                    <button type="button" class="dropdown-item btn btn-link" onclick="if (confirm('Вы уверены, что хотите удалить заказ `{{$order['id']}}`?')) {@this.handleDelete({{$order['id']}});}">Удалить</button>
+                                <button class="btn btn__grid-row-action-button" type="button" id="actions-dropdown-{{$order['id']}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                <div class="dropdown-menu bx-core-popup-menu" aria-labelledby="actions-dropdown-{{$order['id']}}">
+                                    <div class="bx-core-popup-menu__arrow"></div>
+                                    <a class="bx-core-popup-menu-item bx-core-popup-menu-item-default" href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, $order['id'])}}">
+                                        <span class="bx-core-popup-menu-item-icon adm-menu-edit"></span>
+                                        <span class="bx-core-popup-menu-item-text">Изменить</span>
+                                    </a>
+                                    <a class="bx-core-popup-menu-item" href="#">
+                                        <span class="bx-core-popup-menu-item-icon adm-menu-copy"></span>
+                                        <span class="bx-core-popup-menu-item-text">Копировать</span>
+                                    </a>
+                                    <button type="button" class="bx-core-popup-menu-item" onclick="if (confirm('Вы уверены, что хотите удалить заказ `{{$order['id']}}`?')) {@this.handleDelete({{$order['id']}});}">
+                                        <span class="bx-core-popup-menu-item-icon adm-menu-delete"></span>
+                                        <span class="bx-core-popup-menu-item-text">Удалить</span>
+                                    </button>
                                 </div>
                             </div>
                         </td>
                         <td><span class="main-grid-cell-content">{{$order['date']}}</span></td>
-                        <td><span class="main-grid-cell-content"><a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, $order['id'])}}">{{$order['id']}}</a></span></td>
+                        <td>
+                            <span class="main-grid-cell-content">
+                                <a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, $order['id'])}}" style="white-space: nowrap;">
+                                    <span class="js-order-busy-marker js-order-busy-marker-{{$order['id']}}" data-id="{{$order['id']}}">
+                                        @if($order['is_busy_by_other_admin'])
+                                            <span style="display: inline-block; width: 20px; height: 20px; background-color: red; border-radius: 100%;"></span>
+                                        @else
+                                            <span style="display: inline-block; width: 20px; height: 20px; background-color: green; border-radius: 100%;"></span>
+                                        @endif
+                                    </span>
+                                    №{{$order['id']}}
+                                </a>
+                            </span>
+                        </td>
                         <td @if($order['order_status_color']) style="background-color: {{$order['order_status_color']}};" @endif><span class="main-grid-cell-content">{{$order['order_status_name']}}</span></td>
                         <td><span class="main-grid-cell-content">{{$order['comment_admin']}}</span></td>
                         <td><span class="main-grid-cell-content">{{$order['comment_user']}}</span></td>
@@ -122,10 +145,6 @@
                                     <p>
                                         {{$orderProductItem['name']}} <br>
                                         ({{$orderProductItem['count']}} шт.)
-                                        @if(!empty($orderProductItem['unit']))
-                                            <br>
-                                            Упаковка / единица измерения: {{$orderProductItem['unit']}}
-                                        @endif
                                     </p>
                                 @endforeach
                             </div>
@@ -139,10 +158,10 @@
 
     @include(
         'admin.livewire.includes.pagination',
-         array_merge([
-             'options' => $per_page_options,
-             'wire' => ['change' => 'handleSearch']
-         ], compact('paginator', 'total'))
+        array_merge([
+            'options' => $per_page_options,
+            'wire' => ['change' => 'handleSearch']
+        ], compact('paginator', 'total'))
     )
 
     <div class="row pb-5">
