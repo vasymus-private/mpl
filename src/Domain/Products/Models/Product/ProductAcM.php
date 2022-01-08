@@ -319,17 +319,17 @@ trait ProductAcM
 
     public function getMainImageUrlAttribute(): string
     {
-        return Cache::store('array')->rememberForever(sprintf('product_main_image_url-%s', $this->id), fn() => $this->getFirstMediaUrl(static::MC_MAIN_IMAGE));
+        return H::runtimeCache(sprintf('product_main_image_url-%s', $this->id), fn() => $this->getFirstMediaUrl(static::MC_MAIN_IMAGE));
     }
 
     public function getMainImageXsThumbUrlAttribute(): string
     {
-        return $this->getFirstMediaUrl(static::MC_MAIN_IMAGE, static::MCONV_XS_THUMB);
+        return H::runtimeCache(sprintf('product_main_image_xs_thumb_url_%s', $this->id), fn() => $this->getFirstMediaUrl(static::MC_MAIN_IMAGE, static::MCONV_XS_THUMB));
     }
 
     public function getMainImageSmThumbUrlAttribute(): string
     {
-        return $this->getFirstMediaUrl(static::MC_MAIN_IMAGE, static::MCONV_SM_THUMB);
+        return H::runtimeCache(sprintf('product_main_image_sm_thumb_url-%s', $this->id), fn() => $this->getFirstMediaUrl(static::MC_MAIN_IMAGE, static::MCONV_SM_THUMB));
     }
 
     public function getMainImageMdThumbUrlAttribute(): string

@@ -29,9 +29,9 @@
             @if(!$isCreating)
                 <div class="col-sm-5 d-flex align-items-center">
                     @if($editMode)
-                        <a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, ['admin_order' => $item->id, 'editMode' => 0])}}" class="btn btn-secondary dropdown-toggle btn__dropdown">
+                        <button type="button" onclick="@this.handleSave().then(res => { if (res) { location.href = `{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, ['admin_order' => $item->id, 'editMode' => 0])}}` } })" class="btn btn-secondary dropdown-toggle btn__dropdown">
                             Подробности заказа
-                        </a>
+                        </button>
                     @else
                         <a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, ['admin_order' => $item->id, 'editMode' => 1])}}" class="btn btn-secondary dropdown-toggle btn__dropdown">
                             Изменить заказ

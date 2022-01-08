@@ -313,7 +313,7 @@ class Order extends BaseModel implements HasMedia
 
     public function getIsIndividualAttribute(): bool
     {
-        return in_array($this->payment_method_id, [PaymentMethod::ID_BANK_CARD, PaymentMethod::ID_CASH, PaymentMethod::ID_SBERBANK_INVOICE]);
+        return in_array($this->payment_method_id, [PaymentMethod::ID_BANK_CARD, PaymentMethod::ID_CASH]);
     }
 
     public function getIsBusinessAttribute(): bool

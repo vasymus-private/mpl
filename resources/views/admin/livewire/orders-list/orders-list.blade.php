@@ -88,11 +88,21 @@
                         </td>
                         <td>
                             <div class="dropdown">
-                                <button class="btn btn-secondary" type="button" id="actions-dropdown-{{$order['id']}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></button>
-                                <div class="dropdown-menu" aria-labelledby="actions-dropdown-{{$order['id']}}">
-                                    <a class="dropdown-item" href="#">Изменить</a>
-                                    <a class="dropdown-item" href="#">Копировать</a>
-                                    <button type="button" class="dropdown-item btn btn-link" onclick="if (confirm('Вы уверены, что хотите удалить заказ `{{$order['id']}}`?')) {@this.handleDelete({{$order['id']}});}">Удалить</button>
+                                <button class="btn btn__grid-row-action-button" type="button" id="actions-dropdown-{{$order['id']}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                <div class="dropdown-menu bx-core-popup-menu" aria-labelledby="actions-dropdown-{{$order['id']}}">
+                                    <div class="bx-core-popup-menu__arrow"></div>
+                                    <a class="bx-core-popup-menu-item bx-core-popup-menu-item-default" href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, $order['id'])}}">
+                                        <span class="bx-core-popup-menu-item-icon adm-menu-edit"></span>
+                                        <span class="bx-core-popup-menu-item-text">Изменить</span>
+                                    </a>
+                                    <a class="bx-core-popup-menu-item" href="#">
+                                        <span class="bx-core-popup-menu-item-icon adm-menu-copy"></span>
+                                        <span class="bx-core-popup-menu-item-text">Копировать</span>
+                                    </a>
+                                    <button type="button" class="bx-core-popup-menu-item" onclick="if (confirm('Вы уверены, что хотите удалить заказ `{{$order['id']}}`?')) {@this.handleDelete({{$order['id']}});}">
+                                        <span class="bx-core-popup-menu-item-icon adm-menu-delete"></span>
+                                        <span class="bx-core-popup-menu-item-text">Удалить</span>
+                                    </button>
                                 </div>
                             </div>
                         </td>
@@ -139,10 +149,10 @@
 
     @include(
         'admin.livewire.includes.pagination',
-         array_merge([
-             'options' => $per_page_options,
-             'wire' => ['change' => 'handleSearch']
-         ], compact('paginator', 'total'))
+        array_merge([
+            'options' => $per_page_options,
+            'wire' => ['change' => 'handleSearch']
+        ], compact('paginator', 'total'))
     )
 
     <div class="row pb-5">

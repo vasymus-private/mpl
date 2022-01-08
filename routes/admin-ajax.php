@@ -17,3 +17,7 @@
  * Name "admin-ajax."
  * !!!
  * */
+
+use Illuminate\Support\Facades\Route;
+
+Route::put('profiles/{admin}', [\App\Http\Controllers\Admin\Ajax\ProfileController::class, 'update'])->name('profile.update');
