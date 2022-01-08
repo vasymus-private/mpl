@@ -7931,324 +7931,59 @@ window.livewireCkeditor4 = function () {
 /*!***********************************************!*\
   !*** ./resources/js/admin/modules/sidebar.js ***!
   \***********************************************/
-/***/ (() => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var adminSidebarSelector = '.js-admin-sidbar';
-var collapseSelector = "[data-toggle=\"collapse\"]";
-var $adminSidebar = $(adminSidebarSelector);
-var $collapse = $adminSidebar.find(collapseSelector);
-var STORAGE_KEY = 'admin-sidebar'; // let tree = getTree()
-// let parentChildrenMap = getParentChildrenMap()
-// let childParentsMap = getChildParentsMap()
-// let siblingsMap = getSiblingsMap()
-// init()
-// addListeners()
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _helpers_Rest__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../helpers/Rest */ "./resources/js/helpers/Rest.js");
 
 $('.js-navigate-categories').on('click', function (event) {
   event.stopPropagation();
   event.preventDefault();
   var $currentTarget = $(event.currentTarget);
   var route = $currentTarget.data('route');
-  if (!route) return true; //let $navLink = $currentTarget.parents('[data-toggle="collapse"]').first()
-  //let collapsibleSelector = $navLink.attr('href') || $navLink.data('target')
-  //let childCollapsibleId = collapsibleSelector.slice(1)
-  //handleSaveOpen(childCollapsibleId)
+
+  if (!route) {
+    return true;
+  }
 
   location.href = route;
 });
+var resizer = document.querySelector("#resizer");
+var sidebar = document.querySelector("#aside");
+var isClicked = false;
+var currentFlexBasis;
+resizer.addEventListener("mousedown", function (event) {
+  isClicked = true;
+});
+document.addEventListener("mousemove", resize, false);
+document.addEventListener("mouseup", function () {
+  isClicked = false;
 
-function init() {
-  var sidebarStorage = getSidebarStorage();
-
-  for (var collapsibleId in sidebarStorage) {
-    var isOpen = sidebarStorage[collapsibleId];
-
-    if (isOpen) {
-      $("#".concat(collapsibleId)).collapse('show');
-    }
-  }
-}
-
-function addListeners() {
-  $collapse.each(function (index, el) {
-    var collapsibleSelector = $(el).attr('href') || $(el).data('target');
-    var $collapsible = $(collapsibleSelector);
-    $collapsible.on('show.bs.collapse', function (event) {
-      event.stopPropagation();
-      var id = $(event.currentTarget).attr('id');
-      handleSaveOpen(id);
-    });
-    $collapsible.on('hide.bs.collapse', function (event) {
-      event.stopPropagation();
-      var id = $(event.currentTarget).attr('id');
-      handleSaveClose(id);
-    });
-  });
-}
-
-function handleSaveOpen(id) {
-  saveOpen(id);
-  var siblings = siblingsMap[id];
-  siblings.forEach(function (siblingId) {
-    handleSaveClose(siblingId);
-  });
-}
-
-function handleSaveClose(id) {
-  saveClose(id);
-  var subtreeIds = parentChildrenMap[id];
-  subtreeIds.forEach(function (id) {
-    return saveClose(id);
-  });
-}
-
-function saveOpen(id) {
-  setInSidebarStorage(id, true);
-}
-
-function saveClose(id) {
-  setInSidebarStorage(id, false);
-}
-
-function getSidebarStorage() {
-  var storage = localStorage.getItem(STORAGE_KEY);
-
-  try {
-    storage = JSON.parse(storage);
-    if (!storage) storage = {};
-  } catch (error) {
-    storage = {};
-  }
-
-  return storage;
-}
-
-function setInSidebarStorage(key, value) {
-  var storage = getSidebarStorage();
-  storage[key] = value;
-  saveSidebarStorage(storage);
-}
-
-function saveSidebarStorage(storage) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(storage));
-}
-
-function getParentChildrenMap() {
-  var treeIds = {};
-  var allIds = getAllIds();
-  allIds.forEach(function (id) {
-    treeIds = _objectSpread(_objectSpread({}, treeIds), {}, _defineProperty({}, id, getSubtreeIds(id)));
-  });
-  return treeIds;
-}
-
-function getChildParentsMap() {
-  var childParentsMap = {};
-  var allIds = getAllIds();
-  allIds.forEach(function (id) {
-    childParentsMap = _objectSpread(_objectSpread({}, childParentsMap), {}, _defineProperty({}, id, getParentsIds(id)));
-  });
-  return childParentsMap;
-}
-
-function getAllIds() {
-  var allIds = [];
-  $collapse.each(function (index, el) {
-    var $el = $(el);
-    var collapsibleSelector = $el.attr('href') || $el.data('target');
-    var id = collapsibleSelector.slice(1);
-    allIds = [].concat(_toConsumableArray(allIds), [id]);
-  });
-  return allIds;
-}
-
-function getSubtreeIds(id) {
-  var subtreeIds = [];
-  var $currentCollapsible = $("#".concat(id));
-  var $collapsibleChildToggle = $currentCollapsible.find(collapseSelector);
-  $collapsibleChildToggle.each(function (index, el) {
-    var $el = $(el);
-    var target = $el.attr('href') || $el.data('target');
-
-    if (target) {
-      var targetId = target.slice(1);
-      subtreeIds = [].concat(_toConsumableArray(subtreeIds), [targetId]);
-    }
-  });
-  return subtreeIds;
-}
-
-function getParentsIds(id) {
-  var parentsIds = [];
-  var $currentCollapsible = $("#".concat(id));
-  var $parents = $currentCollapsible.parents('.collapse');
-  $parents.each(function (index, el) {
-    var $el = $(el);
-    var id = $el.attr('id');
-
-    if (id) {
-      parentsIds = [].concat(_toConsumableArray(parentsIds), [id]);
-    }
-  });
-  return parentsIds;
-}
-
-function getTree() {
-  var tree = {};
-  var parentChildrenMap = getParentChildrenMap();
-  var childParentsMap = getChildParentsMap();
-  var firstLevel = getForLevel(0);
-  firstLevel.forEach(function (id) {
-    tree[id] = {};
-  });
-  var secondLevel = getForLevel(1);
-  secondLevel.forEach(function (id) {
-    var parentId = getParentFor(id, firstLevel);
-    tree[parentId][id] = {};
-  });
-  var thirdLevel = getForLevel(2);
-  thirdLevel.forEach(function (id) {
-    var secondLevelParentId = getParentFor(id, secondLevel);
-    var firstLevelParentId = getParentFor(secondLevelParentId, firstLevel);
-    tree[firstLevelParentId][secondLevelParentId][id] = {};
-  });
-  var fourthLevel = getForLevel(3);
-  fourthLevel.forEach(function (id) {
-    var thirdLevelParentId = getParentFor(id, thirdLevel);
-    var secondLevelParentId = getParentFor(thirdLevelParentId, secondLevel);
-    var firstLevelParentId = getParentFor(secondLevelParentId, firstLevel);
-    tree[firstLevelParentId][secondLevelParentId][thirdLevelParentId][id] = {};
-  });
-  var fifthLevel = getForLevel(4);
-  fifthLevel.forEach(function (id) {
-    var fourthLevelParentId = getParentFor(id, fourthLevel);
-    var thirdLevelParentId = getParentFor(fourthLevelParentId, thirdLevel);
-    var secondLevelParentId = getParentFor(thirdLevelParentId, secondLevel);
-    var firstLevelParentId = getParentFor(secondLevelParentId, firstLevel);
-    tree[firstLevelParentId][secondLevelParentId][thirdLevelParentId][fourthLevelParentId][id] = {};
-  });
-
-  function getForLevel(level) {
-    var forLevel = [];
-
-    for (var id in parentChildrenMap) {
-      var count = getCount(id);
-
-      if (count === level) {
-        forLevel = [].concat(_toConsumableArray(forLevel), [id]);
-      }
-    }
-
-    return forLevel;
-  }
-
-  function getCount(id) {
-    var count = 0;
-
-    for (var _id in parentChildrenMap) {
-      if (id === _id) continue;
-      var childrenIds = parentChildrenMap[_id];
-
-      if (childrenIds.includes(id)) {
-        count++;
-      }
-    }
-
-    return count;
-  }
-
-  function getParentFor(id, upperLevel) {
-    var parents = childParentsMap[id];
-
-    for (var i = 0; i < parents.length; i++) {
-      var parentId = parents[i];
-
-      if (upperLevel.includes(parentId)) {
-        return parentId;
-      }
-    }
-  }
-
-  return tree;
-}
-
-function getSiblingsMap() {
-  var siblingsMap = {};
-  var allIds = getAllIds();
-  allIds.forEach(function (id) {
-    siblingsMap[id] = [];
-  });
-
-  for (var id in tree) {
-    // first level
-    setSiblingsFor(id, tree);
-    var children = tree[id];
-
-    for (var id1 in children) {
-      // second level
-      setSiblingsFor(id1, children);
-      var children2 = children[id1];
-
-      for (var id2 in children2) {
-        // third level
-        setSiblingsFor(id2, children2);
-        var children3 = children2[id2];
-
-        for (var id3 in children3) {
-          // fourth level
-          setSiblingsFor(id3, children3);
-          var children4 = children3[id3];
-
-          for (var id4 in children4) {
-            // fifth level
-            setSiblingsFor(id4, children4);
-          }
-        }
-      }
-    }
-  }
-
-  function setSiblingsFor(id, level) {
-    var levelIds = Object.keys(level);
-    levelIds.forEach(function (id) {
-      levelIds.forEach(function (_id) {
-        if (_id !== id && !siblingsMap[id].includes(_id)) {
-          siblingsMap[id] = [].concat(_toConsumableArray(siblingsMap[id]), [_id]);
-        }
-      });
+  if (currentFlexBasis) {
+    _helpers_Rest__WEBPACK_IMPORTED_MODULE_0__["default"].PUT("/admin-ajax/profiles/1", {
+      adminSidebarFlexBasis: currentFlexBasis
     });
   }
+}, false);
 
-  return siblingsMap;
-}
+function resize(e) {
+  if (isClicked) {
+    currentFlexBasis = sidebar.style.flexBasis = "".concat(e.x, "px");
 
-function getSiblingsAndTheirChildren(id) {
-  var siblingsAndTheirChildren = [];
-  var parents = childParentsMap[id];
-
-  for (var _id in tree) {
-    if (id === _id) {}
+    if (window.getSelection) {
+      if (window.getSelection().empty) {
+        // Chrome
+        window.getSelection().empty();
+      } else if (window.getSelection().removeAllRanges) {
+        // Firefox
+        window.getSelection().removeAllRanges();
+      }
+    } else if (document.selection) {
+      // IE?
+      document.selection.empty();
+    }
   }
-
-  return siblingsAndTheirChildren;
 }
 
 /***/ }),
@@ -8268,6 +8003,130 @@ function getSiblingsAndTheirChildren(id) {
     __webpack_require__(/*! ./modules/sidebar */ "./resources/js/admin/modules/sidebar.js");
   });
 })(jQuery);
+
+/***/ }),
+
+/***/ "./resources/js/helpers/Rest.js":
+/*!**************************************!*\
+  !*** ./resources/js/helpers/Rest.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var acceptH = "Accept";
+var contentTypeH = "Content-Type";
+var xRequestedWithH = "X-Requested-With";
+var xcsrfTokenH = "X-CSRF-TOKEN";
+
+var Rest = /*#__PURE__*/_createClass(function Rest() {
+  var _this = this;
+
+  _classCallCheck(this, Rest);
+
+  _defineProperty(this, "GET", function (url) {
+    var f = fetch(url, {
+      method: "GET",
+      headers: _this.getHeaders()
+    });
+    return f;
+  });
+
+  _defineProperty(this, "POST", function (url) {
+    var body = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var method = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "POST";
+    var f = fetch(url, {
+      method: method,
+      headers: _this.getHeaders(),
+      body: JSON.stringify(body)
+    });
+    return f;
+  });
+
+  _defineProperty(this, "PUT", function (url) {
+    var body = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    return _this.POST(url, body, "PUT");
+  });
+
+  _defineProperty(this, "DELETE", function (url) {
+    var body = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    return _this.POST(url, body, "DELETE");
+  });
+
+  _defineProperty(this, "FILE", function (url, file) {
+    var _headers;
+
+    var data = new FormData();
+    data.append('file', file);
+    var f = fetch(url, {
+      method: "POST",
+      headers: (_headers = {
+        'Process-Data': false,
+        'Cache': false,
+        'Accept': '*/*'
+      }, _defineProperty(_headers, xRequestedWithH, _this._xRequestedWith), _defineProperty(_headers, xcsrfTokenH, _this._xcsrfToken), _headers),
+      body: data
+    });
+    return f;
+  });
+
+  _defineProperty(this, "getFilesHeaders", function () {
+    var _ref;
+
+    return _ref = {
+      'Process-Data': false,
+      'Cache': false,
+      'Accept': '*/*'
+    }, _defineProperty(_ref, xRequestedWithH, _this._xRequestedWith), _defineProperty(_ref, xcsrfTokenH, _this._xcsrfToken), _ref;
+  });
+
+  _defineProperty(this, "getHeaders", function () {
+    var _ref2;
+
+    return _ref2 = {}, _defineProperty(_ref2, acceptH, _this._accept), _defineProperty(_ref2, contentTypeH, _this._contentType), _defineProperty(_ref2, xRequestedWithH, _this._xRequestedWith), _defineProperty(_ref2, xcsrfTokenH, _this._xcsrfToken), _ref2;
+  });
+
+  _defineProperty(this, "middleThen", function (response) {
+    if (response.status >= 400) throw new Error(response.statusText);
+    return response.json();
+  });
+
+  _defineProperty(this, "middleNoContent", function (response) {
+    if (response.status >= 400) throw new Error(response.statusText);
+  });
+
+  _defineProperty(this, "simpleCatch", function (error) {
+    return console.warn(error);
+  });
+
+  this._accept = "application/json, text/plain, */*";
+  this._contentType = "application/json;charset=UTF-8";
+  this._xRequestedWith = "XMLHttpRequest";
+  this._token = null;
+  var token = document.head.querySelector('meta[name="csrf-token"]');
+
+  if (token) {
+    this._xcsrfToken = token.content;
+  } else {
+    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+  }
+});
+
+var rest = new Rest(); // TODO dev only
+
+window.__Rest = rest;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (rest);
 
 /***/ }),
 
@@ -25707,6 +25566,18 @@ process.umask = function() { return 0; };
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/global */
 /******/ 	(() => {
 /******/ 		__webpack_require__.g = (function() {
@@ -25717,6 +25588,22 @@ process.umask = function() { return 0; };
 /******/ 				if (typeof window === 'object') return window;
 /******/ 			}
 /******/ 		})();
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/node module decorator */

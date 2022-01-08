@@ -9526,6 +9526,56 @@ __webpack_require__.r(__webpack_exports__);
         if (!$input.val()) $input.val(value);
       });
     });
+    var $saveInput = $('.js-save-input');
+    var $clearAllSavedInputs = $('.js-clear-all-saved-inputs'); // init
+
+    $saveInput.each(function (i, el) {
+      var $el = $(el);
+      var id = $el.data('id') || $el.attr('id') || $el.attr('name');
+
+      if (!id) {
+        return true;
+      }
+
+      var currentSaveInput = localStorage.getItem('save-input');
+
+      try {
+        currentSaveInput = JSON.parse(currentSaveInput) || {};
+      } catch (ignored) {
+        currentSaveInput = {};
+      }
+
+      var value = currentSaveInput[id];
+
+      if (!value) {
+        return true;
+      }
+
+      $el.val(value);
+    }); // add listeners
+
+    $saveInput.on('blur', function (event) {
+      var $el = $(event.target);
+      var id = $el.data('id') || $el.attr('id') || $el.attr('name');
+
+      if (!id) {
+        return true;
+      }
+
+      var currentSaveInput = localStorage.getItem('save-input');
+
+      try {
+        currentSaveInput = JSON.parse(currentSaveInput) || {};
+      } catch (ignored) {
+        currentSaveInput = {};
+      }
+
+      currentSaveInput[id] = $el.val();
+      localStorage.setItem('save-input', JSON.stringify(currentSaveInput));
+    });
+    $clearAllSavedInputs.on('click', function () {
+      localStorage.setItem('save-input', JSON.stringify({}));
+    });
     /*let $inputKeyupValidate = $('.js-keyup-validate')
     $inputKeyupValidate.each((ind, el) => {
         let $input = $(el)

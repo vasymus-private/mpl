@@ -6,7 +6,7 @@
         <div class="put-off-block">
             <a href="#" data-id="{{$product->id}}" class="js-put-aside put-off-block__link {{in_array($product->id, $asideIds) ? "put-off-block__link--active" : ""}}">
                 <i class="fa fa-bookmark" aria-hidden="true"></i>
-                {{in_array($product->id, $asideIds) ? "Отложено" : "Отложить" }} 
+                {{in_array($product->id, $asideIds) ? "Отложено" : "Отложить" }}
             </a>
         </div>
 
@@ -228,6 +228,7 @@
                                 Маржа: <span>{{$variation->margin_rub_formatted}}</span>,
                                 Наценка: {{$variation->price_markup}} %,
                                 Заработок: {{$variation->price_income}} %
+                                Редактирование <a href="{{$variation->admin_route}}" target="_blank">в админке</a>
                             </p>
                             <button type="button" data-dismiss="alert" aria-label="Close">X</button>
                         </div>
@@ -306,7 +307,7 @@
                                         data-id="{{$variation->id}}"
                                         data-is-in-cart="{{(int)$variation->is_in_cart}}"
                                     >
-                                        {{$variation->available_submit_label}}
+                                        {{$variation->is_in_cart ? "Добавить" : $variation->available_submit_label}}
                                     </button>
                                 </div>
                             </div>

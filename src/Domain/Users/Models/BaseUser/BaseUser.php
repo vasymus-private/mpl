@@ -37,6 +37,8 @@ use Illuminate\Notifications\Notifiable;
  *
  * @property \Carbon\Carbon|null $email_verified_at
  *
+ * @property array $settings
+ *
  * Properties from Accessors / Mutators
  * @see \Domain\Users\Models\BaseUser\BaseUser::getIsAdminAttribute()
  * @property bool $is_admin
@@ -109,6 +111,24 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
      */
     protected $dates = [
         'email_verified_at',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'settings' => 'array',
+    ];
+
+    /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'settings' => '[]',
     ];
 
     /**

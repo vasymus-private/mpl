@@ -12,25 +12,39 @@ use Illuminate\Support\Facades\Log;
 class CreateOrderAction
 {
     /**
+     * @link \App\Http\Livewire\Admin\ShowOrder\ShowOrder::DEFAULT_ORDERING
+     */
+    protected const DEFAULT_ORDERING = 100;
+
+    /**
+     * @link \App\Http\Livewire\Admin\ShowOrder\ShowOrder::ORDERING_STEP
+     */
+    protected const ORDERING_STEP = 100;
+
+    /**
      * @param \Domain\Orders\DTOs\CreateOrderParamsDTO $params
      *
      * @return \Domain\Orders\Models\Order|null
      */
     public function execute(CreateOrderParamsDTO $params): ?Order
     {
+        $initOrdering = static::DEFAULT_ORDERING;
+
         $productsPrepare = [];
 
-        foreach ($params->productItems as $productItem) {
+        /** @var \Domain\Orders\DTOs\OrderProductItemDTO $productItem */
+        foreach (collect($params->productItems)->sortBy('ordering')->sortBy('id')->values()->toArray() as $productItem) {
             $productsPrepare[$productItem->product->id] = [
-                "count" => $productItem->count,
-                'ordering' => $productItem->product->id,
-                "price_purchase" => $productItem->product->price_purchase,
-                "price_purchase_currency_id" => $productItem->product->price_purchase_currency_id,
-                "price_retail" => $productItem->product->price_retail,
-                "price_retail_currency_id" => $productItem->product->price_retail_currency_id,
-                'unit' => $productItem->product->unit,
-                'price_retail_rub' => $productItem->product->price_retail_rub,
-                'price_retail_rub_origin' => $productItem->product->price_retail_rub,
+                'count' => $productItem->count,
+                'name' => $productItem->name ?? $productItem->product->name,
+                'unit' => $productItem->unit ?? $productItem->product->unit,
+                'ordering' => $productItem->ordering ?: ($initOrdering = $initOrdering + static::ORDERING_STEP),
+                'price_purchase' => $productItem->product->price_purchase,
+                'price_purchase_currency_id' => $productItem->product->price_purchase_currency_id,
+                'price_retail' => $productItem->product->price_retail,
+                'price_retail_currency_id' => $productItem->product->price_retail_currency_id,
+                'price_retail_rub' => $productItem->price_retail_rub ?: $productItem->product->price_retail_rub,
+                'price_retail_rub_origin' => $productItem->price_retail_rub_origin ?: $productItem->product->price_retail_rub,
             ];
         }
 

@@ -10606,11 +10606,7 @@ body {
 .sidebar-left {
   background: url(../images/submenu-bg.png) repeat;
   border-right: 1px solid #a4b9cc;
-  overflow: hidden;
   padding-top: 16px;
-  position: relative;
-  z-index: 47;
-  max-width: 330px;
 }
 
 .sidebar-left .nav-item {
@@ -11402,6 +11398,42 @@ body {
   border-color: #565e63 #5d666b #5e676c #5d666b;
   color: #efefef;
   text-shadow: 0 1px #60686d;
+}
+
+#resize-container {
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#content {
+  flex-basis: 0;
+  flex-grow: 1;
+  min-width: 0;
+  position: relative;
+  background: url(../images/submenu-bg.png) repeat;
+}
+
+#aside {
+  position: relative;
+  box-sizing: border-box;
+  min-width: 0;
+  flex-basis: 330px;
+}
+
+#resizer {
+  background: url(../images/submenu-bg.png) repeat;
+  cursor: e-resize;
+  flex-basis: 10px;
+  position: relative;
+  z-index: 100;
+  box-sizing: border-box;
 }
 
 .admin-edit-variations {

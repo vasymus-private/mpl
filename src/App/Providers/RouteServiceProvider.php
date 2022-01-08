@@ -10,6 +10,7 @@ use Domain\FAQs\Models\FAQ;
 use Domain\GalleryItems\Models\GalleryItem;
 use Domain\Products\Models\Product\Product;
 use Domain\Services\Models\Service;
+use Domain\Users\Models\Admin;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 
@@ -104,6 +105,7 @@ class RouteServiceProvider extends ServiceProvider
         Route::bind("admin_category", [Category::class, "rbAdminCategory"]);
         Route::bind("admin_brand", [Brand::class, "rbAdminBrand"]);
         Route::bind('admin_order', [Order::class, "rbAdminOrder"]);
+        Route::bind('admin', [Admin::class, 'rbAdmin']);
 
         Route::bind("parentGalleryItemSlug", [GalleryItem::class, "rbParentGalleryItemSlug"]);
 

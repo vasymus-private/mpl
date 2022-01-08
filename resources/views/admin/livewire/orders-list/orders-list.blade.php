@@ -91,7 +91,7 @@
                                 <button class="btn btn__grid-row-action-button" type="button" id="actions-dropdown-{{$order['id']}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                                 <div class="dropdown-menu bx-core-popup-menu" aria-labelledby="actions-dropdown-{{$order['id']}}">
                                     <div class="bx-core-popup-menu__arrow"></div>
-                                    <a class="bx-core-popup-menu-item bx-core-popup-menu-item-default" href="#">
+                                    <a class="bx-core-popup-menu-item bx-core-popup-menu-item-default" href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, $order['id'])}}">
                                         <span class="bx-core-popup-menu-item-icon adm-menu-edit"></span>
                                         <span class="bx-core-popup-menu-item-text">Изменить</span>
                                     </a>
