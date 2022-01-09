@@ -38,7 +38,11 @@
                     @else
                         @if($couldBeChangedByAdmin)
                             <a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, ['admin_order' => $item->id, 'editMode' => 1])}}" class="btn btn-secondary text-nowrap btn__dropdown">
-                                Изменить заказ
+                                @if($item->is_busy_by_other_admin)
+                                    Разблокировать заказ
+                                @else
+                                    Изменить заказ
+                                @endif
                             </a>
                         @else
                             <span class="btn btn-secondary text-nowrap btn__dropdown">Изменение заблокировано</span>
