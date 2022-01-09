@@ -6,6 +6,8 @@ use Domain\Common\Models\CommonTraits;
 use Domain\Orders\Actions\GetDefaultAdminOrderColumnsAction;
 use Domain\Orders\Enums\OrderAdminColumn;
 use Domain\Orders\Models\Order;
+use Domain\Products\Actions\GetDefaultAdminProductColumnsAction;
+use Domain\Products\Enums\ProductAdminColumn;
 use Domain\Products\Models\Product\Product;
 use Domain\Services\Models\Service;
 use Domain\Users\Models\Pivots\ProductUserAside;
@@ -78,6 +80,10 @@ use Illuminate\Notifications\Notifiable;
  * @see \Domain\Users\Models\BaseUser\BaseUser::getAdminOrderColumnsAttribute()
  * @see \Domain\Users\Models\BaseUser\BaseUser::setAdminOrderColumnsAttribute()
  * @property \Domain\Orders\Enums\OrderAdminColumn[] $admin_order_columns
+ *
+ * @see \Domain\Users\Models\BaseUser\BaseUser::getAdminProductColumnsAttribute()
+ * @see \Domain\Users\Models\BaseUser\BaseUser::setAdminProductColumnsAttribute()
+ * @property \Domain\Products\Enums\ProductAdminColumn[] $admin_product_columns
  *
  * @method static static|\Domain\Users\QueryBuilders\UserQueryBuilder query()
  *
@@ -241,6 +247,26 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
     {
         $settings = $this->settings;
         $settings['adminOrderColumns'] = collect($adminOrderColumns)->map(fn(OrderAdminColumn $orderAdminColumn) => $orderAdminColumn->value)->all();
+        $this->settings = $settings;
+    }
+
+    /**
+     * @return \Domain\Products\Enums\ProductAdminColumn[]
+     */
+    public function getAdminProductColumnsAttribute(): array
+    {
+        $settings = $this->settings;
+        $adminProductColumns = $settings['adminProductColumns'] ?? GetDefaultAdminProductColumnsAction::cached()->execute();
+        return collect($adminProductColumns)->map(fn($value) => ProductAdminColumn::from($value))->all();
+    }
+
+    /**
+     * @param \Domain\Products\Enums\ProductAdminColumn[] $adminProductColumns
+     */
+    public function setAdminProductColumnsAttribute(array $adminProductColumns): void
+    {
+        $settings = $this->settings;
+        $settings['adminProductColumns'] = collect($adminProductColumns)->map(fn(ProductAdminColumn $productAdminColumn) => $productAdminColumn->value)->all();
         $this->settings = $settings;
     }
 }
