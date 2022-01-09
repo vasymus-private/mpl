@@ -6321,6 +6321,7 @@ input, button, select, textarea {
 
 .content-sliders {
   padding: 50px 0 0;
+  overflow: hidden;
 }
 .content-sliders .slider-blocker {
   margin: 0 0 50px;
