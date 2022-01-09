@@ -3,6 +3,8 @@
 namespace Domain\Users\Models\BaseUser;
 
 use Domain\Common\Models\CommonTraits;
+use Domain\Orders\Actions\GetDefaultAdminOrderColumnsAction;
+use Domain\Orders\Enums\OrderAdminColumn;
 use Domain\Orders\Models\Order;
 use Domain\Products\Models\Product\Product;
 use Domain\Services\Models\Service;
@@ -72,6 +74,10 @@ use Illuminate\Notifications\Notifiable;
  *
  * @see \Domain\Users\Models\BaseUser\BaseUser::getCartNotTrashedAttribute()
  * @property \Domain\Products\Collections\ProductCollection|Product[] $cart_not_trashed
+ *
+ * @see \Domain\Users\Models\BaseUser\BaseUser::getAdminOrderColumnsAttribute()
+ * @see \Domain\Users\Models\BaseUser\BaseUser::setAdminOrderColumnsAttribute()
+ * @property \Domain\Orders\Enums\OrderAdminColumn[] $admin_order_columns
  *
  * @method static static|\Domain\Users\QueryBuilders\UserQueryBuilder query()
  *
@@ -214,5 +220,27 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
     public function getCartNotTrashedAttribute(): Collection
     {
         return $this->cart->cartProductsNotTrashed();
+    }
+
+    /**
+     * @return \Domain\Orders\Enums\OrderAdminColumn[]
+     */
+    public function getAdminOrderColumnsAttribute(): array
+    {
+        $settings = $this->settings;
+        $adminOrderColumns = $settings['adminOrderColumns'] ?? GetDefaultAdminOrderColumnsAction::cached()->execute();
+        return collect($adminOrderColumns)->map(fn($value) => OrderAdminColumn::from($value))->all();
+    }
+
+    /**
+     * @param \Domain\Orders\Enums\OrderAdminColumn[] $adminOrderColumns
+     *
+     * @return void
+     */
+    public function setAdminOrderColumnsAttribute(array $adminOrderColumns): void
+    {
+        $settings = $this->settings;
+        $settings['adminOrderColumns'] = collect($adminOrderColumns)->map(fn(OrderAdminColumn $orderAdminColumn) => $orderAdminColumn->value)->all();
+        $this->settings = $settings;
     }
 }

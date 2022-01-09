@@ -3,12 +3,15 @@
 namespace App\Http\Livewire\Admin;
 
 use Carbon\Exceptions\InvalidFormatException;
+use Domain\Orders\Actions\GetDefaultAdminOrderColumnsAction;
+use Domain\Orders\Enums\OrderAdminColumn;
 use Domain\Orders\Models\Order;
 use Domain\Products\DTOs\Admin\OrderItemDTO;
 use Domain\Users\Models\BaseUser\BaseUser;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Support\H;
 
 class OrdersList extends BaseItemsListComponent
 {
@@ -19,19 +22,45 @@ class OrdersList extends BaseItemsListComponent
 
     protected const DATE_FORMAT_DB_QUERY = 'Y-m-d H:i:s';
 
+    /**
+     * @var string
+     */
     public $date_from = '';
 
+    /**
+     * @var string
+     */
     public $date_to = '';
 
+    /**
+     * @var string
+     */
     public $order_id = '';
 
+    /**
+     * @var string
+     */
     public $email = '';
 
+    /**
+     * @var string
+     */
     public $name = '';
 
+    /**
+     * @var string
+     */
     public $admin_id = '';
 
+    /**
+     * @var string|array|null
+     */
     public $request_query;
+
+    /**
+     * @var \Domain\Orders\Enums\OrderAdminColumn[]
+     */
+    public array $orderAdminColumns;
 
     /**
      * @var array[] @see {@link \Domain\Products\DTOs\Admin\OrderItemDTO}
@@ -57,6 +86,7 @@ class OrdersList extends BaseItemsListComponent
         $this->mountPerPageOptions();
         $this->fetchItems();
         $this->initManagersOptions();
+        $this->orderAdminColumns = H::admin()->admin_order_columns;
     }
 
     public function render()
@@ -69,6 +99,11 @@ class OrdersList extends BaseItemsListComponent
                 $this->page
             ),
         ]);
+    }
+
+    public function hydrateOrderAdminColumns(array $value = [])
+    {
+        $this->orderAdminColumns = collect($value)->map(fn($v) => OrderAdminColumn::from($v))->all();
     }
 
     public function clearFilters()
@@ -172,5 +207,35 @@ class OrdersList extends BaseItemsListComponent
         $this->admin_id = $request->input('admin_id', '');
 
         $this->request_query = $request->query();
+    }
+
+    /**
+     * @param int[] $values
+     */
+    public function handleCustomizeOrderList(array $values)
+    {
+        $admin = H::admin();
+        if (count($values) !== count($admin->admin_order_columns)) {
+            return false;
+        }
+
+        $adminOrderColumns = collect($values)->map(fn($value) => OrderAdminColumn::from($value))->all();
+        $admin->admin_order_columns = $adminOrderColumns;
+        $admin->save();
+
+        $this->orderAdminColumns = $adminOrderColumns;
+
+        return true;
+    }
+
+    public function handleDefaultOrderList()
+    {
+        $admin = H::admin();
+        $adminOrderColumns = GetDefaultAdminOrderColumnsAction::cached()->execute();
+        $admin->admin_order_columns = $adminOrderColumns;
+        $admin->save();
+        $this->orderAdminColumns = $adminOrderColumns;
+
+        return true;
     }
 }
