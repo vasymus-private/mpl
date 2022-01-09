@@ -630,12 +630,12 @@ class ShowOrder extends BaseShowComponent
 
     protected function setAdditionalProductItems(array $items)
     {
-        $this->additionalProductItems = collect($items)->map(fn(Product $product) => OrderAdditionalProductItemDTO::create($product)->toArray())->keyBy('uuid')->toArray();
+        $this->additionalProductItems = collect($items)->map(fn(Product $product) => OrderAdditionalProductItemDTO::create($product)->toArray())->toArray();
     }
 
     protected function fetchAdditionalProductItems()
     {
-        $query = Product::query()->notVariations()->with(['variations', 'variations.media', 'variations.parent', 'media']);
+        $query = Product::query()->notVariations()->with(['variations', 'variations.media', 'variations.parent', 'media'])->orderBy(sprintf('%s.ordering', Product::TABLE));
         if ($this->categoryId) {
             $query->where(sprintf('%s.category_id', Product::TABLE), $this->categoryId);
         }

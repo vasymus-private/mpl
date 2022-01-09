@@ -12,6 +12,7 @@ class SpecialProductsTableSeeder extends Seeder
     protected const PRICE = 1000;
     protected const CURRENCY_ID = Currency::ID_RUB;
     protected const NAME = 'Доставка';
+    protected const ORDERING = 10;
 
     /**
      * Run the database seeds.
@@ -43,6 +44,7 @@ class SpecialProductsTableSeeder extends Seeder
         $delivery->is_active = true;
         $delivery->is_with_variations = false;
         $delivery->availability_status_id = AvailabilityStatus::ID_AVAILABLE_IN_STOCK;
+        $delivery->ordering = static::ORDERING;
 
         $delivery->save();
     }
