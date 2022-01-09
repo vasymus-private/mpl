@@ -2,12 +2,15 @@
 
 namespace Domain\Common\Actions;
 
-use Illuminate\Support\Facades\Cache;
+use Support\H;
 
 abstract class BaseAction
 {
+    /**
+     * @return static
+     */
     public static function cached(): self
     {
-        return Cache::store('array')->rememberForever(static::class, fn():self => resolve(static::class));
+        return H::runtimeCache(static::class, fn() => resolve(static::class));
     }
 }

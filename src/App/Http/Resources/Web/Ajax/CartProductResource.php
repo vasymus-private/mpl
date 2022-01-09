@@ -5,6 +5,7 @@ namespace App\Http\Resources\Web\Ajax;
 use Domain\Common\Models\Currency;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Support\H;
 
 class CartProductResource extends JsonResource
 {
@@ -31,10 +32,11 @@ class CartProductResource extends JsonResource
             "currency_rub_formatted" => Currency::getFormattedName(Currency::ID_RUB),
             "price_formatted" => $this->resource->price_retail_rub_formatted,
             "unit" => $this->resource->unit,
-            "count" => $this->resource->cart_product->count ?? null,
+            "count" => $this->resource->cart_product->count ?? 1,
             "route" => $this->resource->web_route,
             "price_name" => $this->resource->price_name,
             "deleted_at" => $this->resource->cart_product->deleted_at ?? null,
+            'price_sum_formatted' => H::priceRubFormatted($this->resource->price_retail_rub * ($this->resource->cart_product->count ?? 1)),
         ];
     }
 }

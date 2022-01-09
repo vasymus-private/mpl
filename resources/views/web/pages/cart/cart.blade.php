@@ -86,7 +86,7 @@
                                 </div>
                             </td>
                             <td>
-                                <span class="js-cart-item-sum-formatted" data-id="{{$cartProduct->id}}">{{ ($cartProduct->cart_product->count ?? 1) * $cartProduct->price_retail_rub }} р</span>
+                                <span class="js-cart-item-sum-formatted" data-id="{{$cartProduct->id}}">{{ \Support\H::priceRubFormatted(($cartProduct->cart_product->count ?? 1) * $cartProduct->price_retail_rub) }}</span>
                             </td>
                             <td>
                                 <a href="#" class="js-cart-delete" data-id="{{$cartProduct->id}}" @if(($cartProduct->cart_product->deleted_at ?? null) !== null) style="display: none;" @endif>&nbsp;</a>
@@ -113,9 +113,7 @@
                         <div class="row-line row-line__right">
                             <div class="basket-mobile__blocker-gree">
                                 <div class="basket-mobile__cost-basket">
-                                    <span>
-                                        {{ ($cartProduct->cart_product->count ?? 1) * $cartProduct->price_retail_rub }} р
-                                    </span>
+                                    <span class="js-cart-item-sum-formatted" data-id="{{$cartProduct->id}}">{{ \Support\H::priceRubFormatted(($cartProduct->cart_product->count ?? 1) * $cartProduct->price_retail_rub) }}</span>
                                 </div>
                                 <div class="basket-mobile__count-basket">
                                     <div class="js-cart-column-count-part-normal" @if(($cartProduct->cart_product->deleted_at ?? null) !== null) style="display: none;" @endif data-id="{{$cartProduct->id}}">
