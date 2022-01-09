@@ -186,7 +186,7 @@ import Products from '../Products'
                     if (item) {
                         $input.val(item.count || 1)
                         let $cartItemSumFormatted = getCartItemSumFormatted$(id)
-                        $cartItemSumFormatted.text(`${(item.count || 1) * item.price_rub} ${item.currency_rub_formatted}`)
+                        $cartItemSumFormatted.text(item.price_sum_formatted)
                     }
                 })
         }
