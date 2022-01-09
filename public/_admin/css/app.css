@@ -10204,7 +10204,6 @@ body {
   display: block;
   margin: 16px 0;
   color: #535c69;
-  vertical-align: top;
   font-size: 13px;
 }
 .table .form-check {
@@ -10250,6 +10249,9 @@ body {
   display: flex;
   align-items: flex-start;
   flex-wrap: nowrap;
+}
+.row-line__right {
+  justify-content: flex-end;
 }
 
 .row-buttons {
@@ -10421,6 +10423,18 @@ body {
   background-color: transparent;
   border-color: transparent;
   box-shadow: 0 0 0 0;
+}
+.btn__cancel-order {
+  background: #fff;
+  border: 1px solid #e0e8ea;
+  border-radius: 2px;
+  box-sizing: border-box;
+  padding-right: 30px;
+  height: 45px;
+  max-width: 442px;
+  width: 100%;
+  color: #2675d7;
+  font-size: 13px;
 }
 
 .custom-checkbox {
@@ -11436,6 +11450,35 @@ body {
   box-sizing: border-box;
 }
 
+.adm-s-result-container-itog-table {
+  flex: 500;
+  max-width: 500px;
+  background: #ecf1d4;
+  padding: 10px;
+  border-radius: 3px;
+}
+.adm-s-result-container-itog-table .table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+}
+.adm-s-result-container-itog-table th {
+  height: 35px;
+  vertical-align: middle;
+  padding: 0 15px;
+  border: 0;
+  font-weight: normal;
+  font-size: 13px;
+  color: #000;
+}
+.adm-s-result-container-itog-table th:last-child {
+  text-align: right;
+}
+.adm-s-result-container-itog-table .adm-s-result-container-itog-table-result th {
+  background: #dbe3b9;
+  font-weight: bold;
+}
+
 .admin-edit-variations {
   border-radius: 5px;
   border: 1px solid;
@@ -11520,4 +11563,61 @@ body {
   min-height: 12px;
   min-width: 12px;
   text-align: left;
+}
+
+.order-edit {
+  background-color: #fff;
+}
+.order-edit .adm-bus-component-title-container {
+  position: relative;
+  padding: 10px;
+  background: #e7f2f2;
+  display: flex;
+}
+.order-edit .adm-bus-component-title-icon {
+  line-height: 16px;
+  display: inline-block;
+  width: 17px;
+  height: 16px;
+  margin-right: 10px;
+  vertical-align: middle;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAQCAYAAADwMZRfAAAApklEQVQ4y62TWxKAIAhFWV+5CfqR/W+g0kRe4ZfN3AFvCXYoOK96sMpFXd47h1dMlBy04cVFdWG95hxkk+0WRb9Fm+DecLWTLPV2fSPN+In92g4BYuDYiG497vMmv+5FPCR5XzsBD9cwyUabgsYIHPJO61Nob/d0SAGTfHpYDVwGzGBNIfuwTKH85LOIZUABbA5e7sH6U48ge0QHNo41/4eyZlum8wCk2+4DSY0a1QAAAABJRU5ErkJggg==) no-repeat center;
+}
+.order-edit .adm-bus-component-title {
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 16px;
+  display: inline-block;
+  vertical-align: middle;
+  color: #3a4649;
+  text-shadow: 0 1px 0 #fff;
+}
+.order-edit .adm-bus-component-content-container {
+  padding: 5px;
+  background: #f7fafa;
+  margin-bottom: 15px;
+}
+.order-edit .align-items-center,
+.order-edit .col-form-label {
+  font-size: 13px;
+}
+.order-edit .block {
+  display: block;
+}
+.order-edit .adm-s-order-table-ddi-table thead th {
+  background: #e8eff1;
+  height: 48px;
+  box-shadow: inset 0 1px 0 0 #fff;
+  border-top: 1px solid #e2e5e5;
+  font-size: 14px;
+  color: #3b4649;
+  font-weight: bold;
+  text-shadow: 0 1px 0 #fff;
+  border-bottom: 1px solid #a9a9a9;
+  padding: 1px 3px;
+  vertical-align: middle;
+}
+.order-edit p {
+  margin: 0 0 5px;
+  font-size: 13px;
 }
