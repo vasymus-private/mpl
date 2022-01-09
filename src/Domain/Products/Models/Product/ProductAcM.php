@@ -27,6 +27,9 @@ use Support\H;
  * @see \Domain\Products\Models\Product\ProductAcM::getAvailabilityStatusNameAttribute()
  * @property-read string $availability_status_name
  *
+ * @see \Domain\Products\Models\Product\ProductAcM::getAvailabilityStatusNameShortAttribute()
+ * @property-read string $availability_status_name_short
+ *
  * @see \Domain\Products\Models\Product\ProductAcM::getPriceRetailRubAttribute()
  * @property-read float|null $price_retail_rub
  *
@@ -196,6 +199,21 @@ trait ProductAcM
             }
             default : {
                 return "Нет в наличии";
+            }
+        }
+    }
+
+    public function getAvailabilityStatusNameShortAttribute(): string
+    {
+        switch ($this->availability_status_id) {
+            case AvailabilityStatus::ID_AVAILABLE_IN_STOCK : {
+                return "Есть";
+            }
+            case AvailabilityStatus::ID_AVAILABLE_NOT_IN_STOCK : {
+                return "На заказ";
+            }
+            default : {
+                return "Нет";
             }
         }
     }

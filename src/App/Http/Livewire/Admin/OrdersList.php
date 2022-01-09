@@ -211,6 +211,8 @@ class OrdersList extends BaseItemsListComponent
 
     /**
      * @param int[] $values
+     *
+     * @return bool
      */
     public function handleCustomizeOrderList(array $values)
     {

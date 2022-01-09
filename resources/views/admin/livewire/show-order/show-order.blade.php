@@ -54,9 +54,11 @@
                         Создать заказ
                     </a>
 
-                    <button wire:click.prevent="handleDeleteOrder" type="button" class="btn btn-secondary text-nowrap btn__dropdown">
-                        Удалить заказ
-                    </button>
+                    @if($couldBeChangedByAdmin)
+                        <button wire:click.prevent="handleDeleteOrder" type="button" class="btn btn-secondary text-nowrap btn__dropdown">
+                            Удалить заказ
+                        </button>
+                    @endif
                 </div>
             @endif
         </div>
