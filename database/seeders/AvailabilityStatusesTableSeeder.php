@@ -2,13 +2,12 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use Domain\Products\Models\AvailabilityStatus;
 use Illuminate\Support\Facades\DB;
 
-class AvailabilityStatusesTableSeeder extends Seeder
+class AvailabilityStatusesTableSeeder extends BaseSeeder
 {
-    protected static $seeds = [
+    protected static array $seeds = [
         [
             'id' => AvailabilityStatus::ID_AVAILABLE_IN_STOCK,
             'name' => 'В наличии на складе',

@@ -2,12 +2,11 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class ClearMedia extends Seeder
+class ClearMedia extends BaseSeeder
 {
     /**
      * Run the database seeds.
@@ -16,6 +15,9 @@ class ClearMedia extends Seeder
      */
     public function run()
     {
+        if (!$this->shouldClearData()) {
+            return;
+        }
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Media::query()->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
