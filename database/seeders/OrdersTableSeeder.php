@@ -11,11 +11,10 @@ use Domain\Orders\Models\Pivots\OrderProduct;
 use Domain\Products\Models\Product\Product;
 use Domain\Users\Models\Admin;
 use Faker\Factory;
-use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
-class OrdersTableSeeder extends Seeder
+class OrdersTableSeeder extends BaseSeeder
 {
     /**
      * Run the database seeds.
@@ -24,6 +23,10 @@ class OrdersTableSeeder extends Seeder
      */
     public function run()
     {
+        if (!$this->shouldClearData()) {
+            return;
+        }
+
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Order::query()->truncate();
         OrderProduct::query()->truncate();

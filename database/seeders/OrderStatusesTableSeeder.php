@@ -3,12 +3,11 @@
 namespace Database\Seeders;
 
 use Domain\Orders\Models\OrderStatus;
-use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class OrderStatusesTableSeeder extends Seeder
+class OrderStatusesTableSeeder extends BaseSeeder
 {
-    protected static $seeds = [
+    protected static array $seeds = [
         [
             "id" => OrderStatus::ID_OPEN,
             "name" => "Заказ открыт",

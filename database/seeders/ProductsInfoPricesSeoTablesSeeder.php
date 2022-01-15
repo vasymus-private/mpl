@@ -15,13 +15,12 @@ use Domain\Users\Models\Pivots\ProductUserCart;
 use Domain\Users\Models\Pivots\ProductUserViewed;
 use Domain\Products\Models\Product\Product;
 use Domain\Seo\Models\Seo;
-use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Exception\NotReadableException;
 
-class ProductsInfoPricesSeoTablesSeeder extends Seeder
+class ProductsInfoPricesSeoTablesSeeder extends BaseSeeder
 {
     protected const CH_NAME_DESC_TRADE_MARK = "Торговая марка";
     protected const CH_NAME_DESC_COUNTRY_NAME = "Страна производитель";
@@ -149,6 +148,10 @@ class ProductsInfoPricesSeoTablesSeeder extends Seeder
      */
     public function run()
     {
+        if (!$this->shouldClearData()) {
+            return;
+        }
+
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Product::query()->truncate();
         ProductUserAside::query()->truncate();
