@@ -3,10 +3,9 @@
 namespace Database\Seeders;
 
 use Domain\Products\Models\CharType;
-use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class CharTypesTableSeeder extends Seeder
+class CharTypesTableSeeder extends BaseSeeder
 {
     protected array $seeds = [
         [

@@ -32,6 +32,17 @@ return [
 
     'random-proxies' => [
         'url' => 'https://www.sslproxies.org',
-    ]
+    ],
+
+    /**
+     * In order to change env via cmd run:
+     * ```
+     * SEEDERS_CLEAR_DATA=true php artisan db:seed
+     * ```
+     * @see https://stackoverflow.com/a/59077741
+     */
+    'seeders' => [
+        'clearData' => env('SEEDERS_CLEAR_DATA', false),
+    ],
 
 ];

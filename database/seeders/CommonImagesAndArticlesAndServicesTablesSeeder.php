@@ -6,13 +6,12 @@ use Domain\Users\Models\Admin;
 use Domain\Articles\Models\Article;
 use Domain\Seo\Models\Seo;
 use Domain\Services\Models\Service;
-use Illuminate\Database\Seeder;
 use Domain\Services\Models\ServicesGroup;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\DomCrawler\Crawler;
 
-class CommonImagesAndArticlesAndServicesTablesSeeder extends Seeder
+class CommonImagesAndArticlesAndServicesTablesSeeder extends BaseSeeder
 {
     protected $oldNewImagesSrc = [];
 
@@ -25,6 +24,10 @@ class CommonImagesAndArticlesAndServicesTablesSeeder extends Seeder
      */
     public function run()
     {
+        if (!$this->shouldClearData()) {
+            return;
+        }
+
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Service::query()->truncate();
         Article::query()->truncate();

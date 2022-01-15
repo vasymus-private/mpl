@@ -3,10 +3,9 @@
 namespace Database\Seeders;
 
 use Domain\Orders\Models\BillStatus;
-use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class BillStatusesTableSeeder extends Seeder
+class BillStatusesTableSeeder extends BaseSeeder
 {
     protected static $seeds = [
         [

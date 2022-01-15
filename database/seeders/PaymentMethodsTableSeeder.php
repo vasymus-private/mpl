@@ -3,12 +3,11 @@
 namespace Database\Seeders;
 
 use Domain\Orders\Models\PaymentMethod;
-use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class PaymentMethodsTableSeeder extends Seeder
+class PaymentMethodsTableSeeder extends BaseSeeder
 {
-    protected static $seeds = [
+    protected static array $seeds = [
         [
             'id' => PaymentMethod::ID_BANK_CARD,
             'name' => 'Банковской картой',

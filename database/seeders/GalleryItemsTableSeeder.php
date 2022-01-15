@@ -4,24 +4,23 @@ namespace Database\Seeders;
 
 use Domain\GalleryItems\Models\GalleryItem;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\HasMedia;
 
-class GalleryItemsTableSeeder extends Seeder
+class GalleryItemsTableSeeder extends BaseSeeder
 {
     /**
      * Run the database seeds.
      *
      * @return void
-     *
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\DiskDoesNotExist
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileDoesNotExist
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileIsTooBig
      */
     public function run()
     {
+        if (!$this->shouldClearData()) {
+            return;
+        }
+
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         GalleryItem::query()->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
@@ -58,10 +57,6 @@ class GalleryItemsTableSeeder extends Seeder
      * @param string $collectionName
      *
      * @return void
-     *
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\DiskDoesNotExist
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileDoesNotExist
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileIsTooBig
      */
     protected function addMedia(HasMedia $model, string $src, string $name, string $collectionName)
     {

@@ -3,12 +3,11 @@
 namespace Database\Seeders;
 
 use Domain\Orders\Models\OrderImportance;
-use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class OrderImportancesTableSeeder extends Seeder
+class OrderImportancesTableSeeder extends BaseSeeder
 {
-    protected static $seeds = [
+    protected static array $seeds = [
         [
             "id" => OrderImportance::ID_GREY,
             "name" => "серый",
