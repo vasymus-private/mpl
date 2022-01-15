@@ -24,5 +24,7 @@ class ClearMedia extends BaseSeeder
 
         Storage::deleteDirectory("public/media");
         Storage::makeDirectory("public/media");
+        Storage::delete('media');
+        Storage::makeDirectory('media');
     }
 }
