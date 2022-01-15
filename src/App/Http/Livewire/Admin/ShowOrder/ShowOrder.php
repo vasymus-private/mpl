@@ -188,6 +188,16 @@ class ShowOrder extends BaseShowComponent
      */
     public array $orderHistoryItems = [];
 
+    /**
+     * @var bool
+     */
+    public bool $shouldPingOrderBusy = false;
+
+    /**
+     * @var bool
+     */
+    public bool $couldBeChangedByAdmin = false;
+
     public function tabs(): array
     {
         return $this->isCreating
@@ -265,6 +275,13 @@ class ShowOrder extends BaseShowComponent
         $this->mountPerPageOptions();
         $this->mountAdditionalProductItemsPerPage();
         $this->initHistory();
+
+        if (!$this->isCreating && !$this->item->is_busy_by_other_admin) {
+            $this->shouldPingOrderBusy = true;
+        }
+        if ($this->isCreating || !$this->item->is_busy_by_other_admin || H::admin()->is_super_admin) {
+            $this->couldBeChangedByAdmin = true;
+        }
     }
 
     public function render()
@@ -613,12 +630,12 @@ class ShowOrder extends BaseShowComponent
 
     protected function setAdditionalProductItems(array $items)
     {
-        $this->additionalProductItems = collect($items)->map(fn(Product $product) => OrderAdditionalProductItemDTO::create($product)->toArray())->keyBy('uuid')->toArray();
+        $this->additionalProductItems = collect($items)->map(fn(Product $product) => OrderAdditionalProductItemDTO::create($product)->toArray())->toArray();
     }
 
     protected function fetchAdditionalProductItems()
     {
-        $query = Product::query()->notVariations()->with(['variations', 'variations.media', 'variations.parent', 'media']);
+        $query = Product::query()->notVariations()->with(['variations', 'variations.media', 'variations.parent', 'media'])->orderBy(sprintf('%s.ordering', Product::TABLE));
         if ($this->categoryId) {
             $query->where(sprintf('%s.category_id', Product::TABLE), $this->categoryId);
         }

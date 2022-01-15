@@ -13,6 +13,7 @@
  * @var array[] $currencies @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Common\Models\Currency}
  * @var array[] $availabilityStatuses @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\AvailabilityStatus}
  * @var \App\Http\Livewire\Admin\ProductsList $this
+ * @var \Domain\Products\Enums\ProductAdminColumn[] $productAdminColumns
  */
 ?>
 <div>
@@ -24,7 +25,11 @@
         'brandFilter' => true,
     ])
 
-    <div class="admin-edit-variations">
+    <div>
+        <button type="button" data-toggle="modal" data-target="#customize-product-list" class="btn btn-primary mb-2 mr-2">Настроить</button>
+    </div>
+
+    <div class="admin-edit-variations table-responsive">
         <div wire:loading.flex>
             <div class="d-flex justify-content-center align-items-center bg-light" style="opacity: 0.5; position:absolute; top:0; bottom:0; right:0; left:0; z-index: 20; ">
                 <div class="spinner-border" role="status">
@@ -42,20 +47,14 @@
                     </div>
                 </th>
                 <th scope="col"><span class="main-grid-head-title">&nbsp;</span></th>
-                <th scope="col">ID</th>
-                <th scope="col">Сортировка</th>
-                <th scope="col">Название</th>
-                <th scope="col">Активность</th>
-                <th scope="col">Упаковка</th>
-                <th scope="col">Закупочная</th>
-                <th scope="col">Розничная</th>
-                <th scope="col">Служебная Информация</th>
-                <th scope="col">Наличие</th>
+                @foreach($productAdminColumns as $productAdminColumn)
+                    <th scope="col">{{$productAdminColumn->label}}</th>
+                @endforeach
             </tr>
             </thead>
             <tbody>
             @foreach($items as $product)
-                <tr class="js-product-item" wire:key="product-{{$product['uuid']}}">
+                <tr class="js-product-item" wire:key="product-{{$product['uuid']}}" ondblclick="location.href=`{{route("admin.products.edit", $product['id'])}}`">
                     <td>
                         <div class="form-check">
                             <input wire:model.defer="items.{{$product['uuid']}}.is_checked" @if($editMode) disabled @endif class="form-check-input position-static" type="checkbox">
@@ -93,77 +92,102 @@
                             </div>
                         </div>
                     </td>
-                    <td><span class="main-grid-cell-content">{{$product['id']}}</span></td>
-                    <td @if($editMode && $product['is_checked']) style="width: 200px;" @endif>
-                        @if($editMode && $product['is_checked'])
-                            @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.ordering"])
-                        @else
-                            <span class="main-grid-cell-content">{{$product['ordering']}}</span>
-                        @endif
-                    </td>
-                    <td>
-                        @if($editMode && $product['is_checked'])
-                            @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.name"])
-                        @else
-                            <span class="main-grid-cell-content"><a href="{{route("admin.products.edit", $product['id'])}}">{{$product['name']}}</a></span>
-                        @endif
-                    </td>
-                    <td>
-                        @if($editMode && $product['is_checked'])
-                            @include('admin.livewire.includes.form-check', ['field' => "items.{$product['uuid']}.is_active"])
-                        @else
-                            <span class="main-grid-cell-content">{{$product['is_active_name']}}</span>
-                        @endif
-                    </td>
-                    <td>
-                        @if($editMode && $product['is_checked'])
-                            @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.unit"])
-                        @else
-                            <span class="main-grid-cell-content">{{$product['unit']}}</span>
-                        @endif
-                    </td>
-                    <td>
-                        @if($editMode && $product['is_checked'])
-                            <div class="form-row">
-                                <div class="col">
-                                    @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.price_purchase"])
-                                </div>
-                                <div class="col">
-                                    @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['uuid']}.price_purchase_currency_id", 'options' => $currencies])
-                                </div>
-                            </div>
-                        @else
-                            <span class="main-grid-cell-content">{{$product['price_purchase_formatted']}}</span>
-                        @endif
-                    </td>
-                    <td>
-                        @if($editMode && $product['is_checked'])
-                            <div class="form-row">
-                                <div class="col">
-                                    @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.price_retail"])
-                                </div>
-                                <div class="col">
-                                    @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['uuid']}.price_retail_currency_id", 'options' => $currencies])
-                                </div>
-                            </div>
-                        @else
-                            <span class="main-grid-cell-content">{{$product['price_retail_formatted']}}</span>
-                        @endif
-                    </td>
-                    <td>
-                        @if($editMode && $product['is_checked'])
-                            @include('admin.livewire.includes.form-control-textarea', ['field' => "items.{$product['uuid']}.admin_comment"])
-                        @else
-                            <span class="main-grid-cell-content">{{$product['admin_comment']}}</span>
-                        @endif
-                    </td>
-                    <td>
-                        @if($editMode && $product['is_checked'])
-                            @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['uuid']}.availability_status_id", 'options' => $availabilityStatuses])
-                        @else
-                            <span class="main-grid-cell-content">{{$product['availability_status_name']}}</span>
-                        @endif
-                    </td>
+
+                    @foreach($productAdminColumns as $productAdminColumn)
+                        @switch(true)
+                            @case($productAdminColumn->equals(\Domain\Products\Enums\ProductAdminColumn::ordering()))
+                                <td @if($editMode && $product['is_checked']) style="width: 200px;" @endif>
+                                    @if($editMode && $product['is_checked'])
+                                        @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.ordering"])
+                                    @else
+                                        <span class="main-grid-cell-content">{{$product['ordering']}}</span>
+                                    @endif
+                                </td>
+                                @break
+                            @case($productAdminColumn->equals(\Domain\Products\Enums\ProductAdminColumn::name()))
+                                <td>
+                                    @if($editMode && $product['is_checked'])
+                                        @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.name"])
+                                    @else
+                                        <span class="main-grid-cell-content"><a href="{{route("admin.products.edit", $product['id'])}}">{{$product['name']}}</a></span>
+                                    @endif
+                                </td>
+                                @break
+                            @case($productAdminColumn->equals(\Domain\Products\Enums\ProductAdminColumn::active()))
+                                <td>
+                                    @if($editMode && $product['is_checked'])
+                                        @include('admin.livewire.includes.form-check', ['field' => "items.{$product['uuid']}.is_active"])
+                                    @else
+                                        <span class="main-grid-cell-content">{{$product['is_active_name']}}</span>
+                                    @endif
+                                </td>
+                                @break
+                            @case($productAdminColumn->equals(\Domain\Products\Enums\ProductAdminColumn::unit()))
+                                <td>
+                                    @if($editMode && $product['is_checked'])
+                                        @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.unit"])
+                                    @else
+                                        <span class="main-grid-cell-content">{{$product['unit']}}</span>
+                                    @endif
+                                </td>
+                                @break
+                            @case($productAdminColumn->equals(\Domain\Products\Enums\ProductAdminColumn::price_purchase()))
+                                <td>
+                                    @if($editMode && $product['is_checked'])
+                                        <div class="form-row">
+                                            <div class="col">
+                                                @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.price_purchase"])
+                                            </div>
+                                            <div class="col">
+                                                @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['uuid']}.price_purchase_currency_id", 'options' => $currencies])
+                                            </div>
+                                        </div>
+                                    @else
+                                        <span class="main-grid-cell-content">{{$product['price_purchase_formatted']}}</span>
+                                    @endif
+                                </td>
+                                @break
+                            @case($productAdminColumn->equals(\Domain\Products\Enums\ProductAdminColumn::price_retail()))
+                                <td>
+                                    @if($editMode && $product['is_checked'])
+                                        <div class="form-row">
+                                            <div class="col">
+                                                @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.price_retail"])
+                                            </div>
+                                            <div class="col">
+                                                @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['uuid']}.price_retail_currency_id", 'options' => $currencies])
+                                            </div>
+                                        </div>
+                                    @else
+                                        <span class="main-grid-cell-content">{{$product['price_retail_formatted']}}</span>
+                                    @endif
+                                </td>
+                                @break
+                            @case($productAdminColumn->equals(\Domain\Products\Enums\ProductAdminColumn::admin_comment()))
+                                <td>
+                                    @if($editMode && $product['is_checked'])
+                                        @include('admin.livewire.includes.form-control-textarea', ['field' => "items.{$product['uuid']}.admin_comment"])
+                                    @else
+                                        <span class="main-grid-cell-content">{{$product['admin_comment']}}</span>
+                                    @endif
+                                </td>
+                                @break
+                            @case($productAdminColumn->equals(\Domain\Products\Enums\ProductAdminColumn::availability()))
+                                <td>
+                                    @if($editMode && $product['is_checked'])
+                                        @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['uuid']}.availability_status_id", 'options' => $availabilityStatuses])
+                                    @else
+                                        <span class="main-grid-cell-content">{{$product['availability_status_name']}}</span>
+                                    @endif
+                                </td>
+                                @break
+                            @case($productAdminColumn->equals(\Domain\Products\Enums\ProductAdminColumn::id()))
+                                <td>
+                                    <span class="main-grid-cell-content">{{$product['id']}}</span>
+                                </td>
+                                @break
+                        @endswitch
+                    @endforeach
                 </tr>
             @endforeach
             </tbody>
@@ -194,5 +218,44 @@
                 <button wire:click.prevent="cancelEdit" type="button" class="btn btn-warning">Отменить</button>
             </div>
         @endif
+    </div>
+
+    <!-- Modals -->
+    <div wire:ignore.self class="modal fade" id="customize-product-list" tabindex="-1" aria-labelledby="customize-product-list-title" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div wire:loading.flex wire:target="handleCustomizeOrderList, handleDefaultOrderList">
+                    <div class="d-flex justify-content-center align-items-center bg-light" style="opacity: 0.5; position:absolute; top:0; bottom:0; right:0; left:0; z-index: 20; ">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="customize-product-list-title">Настройка списка</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <ul id="product-columns-sortable" class="list-group list-group-flush">
+                            @foreach($productAdminColumns as $productAdminColumn)
+                                <li style="cursor:grab;" class="list-group-item" data-value="{{$productAdminColumn->value}}">{{$productAdminColumn->label}}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button
+                        onclick="@this.handleCustomizeProductList(getProductColumnsSortable()).then((res) => { if(res) $('#customize-product-list').modal('hide') })"
+                        type="button"
+                        class="btn btn-primary"
+                    >Сохранить</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
+                    <button onclick="@this.handleDefaultProductList().then((res) => { if(res) $('#customize-product-list').modal('hide') })" type="button" class="btn btn-secondary">Сбросить</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

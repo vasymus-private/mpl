@@ -77,7 +77,7 @@ class ProductItemDTO extends DataTransferObject
             'price_retail_currency_id' => $product->price_retail_currency_id,
             'price_retail_formatted' => $product->price_retail_formatted,
             'availability_status_id' => $product->availability_status_id,
-            'availability_status_name' => $product->availability_status_name,
+            'availability_status_name' => $product->availability_status_name_short,
             'admin_comment' => $product->admin_comment,
         ]);
     }

@@ -59,6 +59,8 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  *
  * @property array $meta
  *
+ * @property bool $is_public_viewable
+ *
  * @see \Domain\Orders\Models\Order::products()
  * @property \Domain\Orders\Models\Pivots\OrderProduct|null $order_product
  *
@@ -85,36 +87,39 @@ class Product extends BaseModel implements HasMedia
     use ProductAcM;
     use HasDeletedItemSlug;
 
-    const DEFAULT_IS_ACTIVE = false;
-    const DEFAULT_IS_WITH_VARIATIONS = false;
-    const DEFAULT_COEFFICIENT_DESCRIPTION_SHOW = false;
-    const DEFAULT_PRICE_NAME = 'Цена';
-    const DEFAULT_AVAILABILITY_STATUS_ID = AvailabilityStatus::ID_NOT_AVAILABLE;
-    const DEFAULT_ACCESSORY_NAME = 'Аксессуары';
-    const DEFAULT_SIMILAR_NAME = 'Похожие';
-    const DEFAULT_RELATED_NAME = 'Сопряженные';
-    const DEFAULT_WORK_NAME = 'Работы';
-    const DEFAULT_INSTRUMENTS_NAME = 'Инструменты';
-    const DEFAULT_CURRENCY_ID = Currency::ID_RUB;
-    const DEFAULT_ORDERING = 500;
+    public const DEFAULT_IS_ACTIVE = false;
+    public const DEFAULT_IS_WITH_VARIATIONS = false;
+    public const DEFAULT_COEFFICIENT_DESCRIPTION_SHOW = false;
+    public const DEFAULT_PRICE_NAME = 'Цена';
+    public const DEFAULT_AVAILABILITY_STATUS_ID = AvailabilityStatus::ID_NOT_AVAILABLE;
+    public const DEFAULT_ACCESSORY_NAME = 'Аксессуары';
+    public const DEFAULT_SIMILAR_NAME = 'Похожие';
+    public const DEFAULT_RELATED_NAME = 'Сопряженные';
+    public const DEFAULT_WORK_NAME = 'Работы';
+    public const DEFAULT_INSTRUMENTS_NAME = 'Инструменты';
+    public const DEFAULT_CURRENCY_ID = Currency::ID_RUB;
+    public const DEFAULT_ORDERING = 500;
 
-    const TABLE = "products";
+    public const TABLE = "products";
 
-    const MAX_CHARACTERISTIC_RATE = 5;
+    public const MAX_CHARACTERISTIC_RATE = 5;
 
-    const MC_MAIN_IMAGE = "main";
-    const MC_ADDITIONAL_IMAGES = "images";
-    const MC_FILES = "files";
+    public const MC_MAIN_IMAGE = "main";
+    public const MC_ADDITIONAL_IMAGES = "images";
+    public const MC_FILES = "files";
 
-    const MCONV_XS_THUMB = "xs-thumb"; // 40x40
-    const MCONV_XS_THUMB_SIZE = 40;
-    const MCONV_SM_THUMB = "sm-thumb"; // 50x50
-    const MCONV_SM_THUMB_SIZE = 50;
-    const MCONV_MD_THUMB = "md-thumb"; // 120x120
-    const MCONV_MD_THUMB_SIZE = 120;
-    const MCONV_LG_THUMB = "lg-thumb"; // 220x220
-    const MCONV_LG_THUMB_SIZE = 220;
-    const MCONV_FILL_BG = "ffffff";
+    public const MCONV_XS_THUMB = "xs-thumb"; // 40x40
+    public const MCONV_XS_THUMB_SIZE = 40;
+    public const MCONV_SM_THUMB = "sm-thumb"; // 50x50
+    public const MCONV_SM_THUMB_SIZE = 50;
+    public const MCONV_MD_THUMB = "md-thumb"; // 120x120
+    public const MCONV_MD_THUMB_SIZE = 120;
+    public const MCONV_LG_THUMB = "lg-thumb"; // 220x220
+    public const MCONV_LG_THUMB_SIZE = 220;
+    public const MCONV_FILL_BG = "ffffff";
+
+    public const DELIVERY_PRODUCT_UUID = 'd097bbbb-1a6f-44e2-acb8-0f5fdf672c37';
+
 
     /**
      * The table associated with the model.
@@ -141,6 +146,7 @@ class Product extends BaseModel implements HasMedia
         'work_name' => self::DEFAULT_WORK_NAME,
         'instruments_name' => self::DEFAULT_INSTRUMENTS_NAME,
         'ordering' => self::DEFAULT_ORDERING,
+        'is_public_viewable' => true,
     ];
 
     /**

@@ -22,7 +22,7 @@ class OrderImportancesTableSeeder extends Seeder
         [
             "id" => OrderImportance::ID_RED,
             "name" => "красный",
-            "color" => "#ff0000",
+            "color" => "rgba(247, 6, 6, 0.52)",
         ]
     ];
     /**

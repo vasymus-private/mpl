@@ -1,0 +1,32 @@
+.adm-s-result-container-itog-table {
+    flex: 500;
+    max-width: 500px;
+    background: #ecf1d4;
+    padding: 10px;
+    border-radius: 3px;
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0;
+    }
+
+    th {
+        height: 35px;
+        vertical-align: middle;
+        padding: 0 15px;
+        border: 0;
+        font-weight: normal;
+        font-size: 13px;
+        color: #000;
+        &:last-child {
+            text-align: right;
+        }
+    }
+
+    .adm-s-result-container-itog-table-result {
+        th {
+            background: #dbe3b9;
+            font-weight: bold;
+        }
+    }
+}

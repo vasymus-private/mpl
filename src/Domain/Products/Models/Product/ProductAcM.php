@@ -27,6 +27,9 @@ use Support\H;
  * @see \Domain\Products\Models\Product\ProductAcM::getAvailabilityStatusNameAttribute()
  * @property-read string $availability_status_name
  *
+ * @see \Domain\Products\Models\Product\ProductAcM::getAvailabilityStatusNameShortAttribute()
+ * @property-read string $availability_status_name_short
+ *
  * @see \Domain\Products\Models\Product\ProductAcM::getPriceRetailRubAttribute()
  * @property-read float|null $price_retail_rub
  *
@@ -200,6 +203,21 @@ trait ProductAcM
         }
     }
 
+    public function getAvailabilityStatusNameShortAttribute(): string
+    {
+        switch ($this->availability_status_id) {
+            case AvailabilityStatus::ID_AVAILABLE_IN_STOCK : {
+                return "Есть";
+            }
+            case AvailabilityStatus::ID_AVAILABLE_NOT_IN_STOCK : {
+                return "На заказ";
+            }
+            default : {
+                return "Нет";
+            }
+        }
+    }
+
     public function getPriceRetailRubAttribute(): ?float
     {
         return H::priceRub($this->price_retail, $this->price_retail_currency_id ?? static::DEFAULT_CURRENCY_ID);
@@ -212,15 +230,10 @@ trait ProductAcM
 
     public function getPriceRetailFormattedAttribute(): string
     {
-        $price = $this->price_retail ?? 0;
-        $currency = $this->price_retail_currency_id
-            ? Currency::getFormattedName($this->price_retail_currency_id)
-            : (
-            isset($this->parent->price_retail_currency_id)
-                ? Currency::getFormattedName($this->parent->price_retail_currency_id)
-                : Currency::getFormattedName(static::DEFAULT_CURRENCY_ID)
-            );
-        return "$price $currency";
+        if (!$this->price_retail_currency_id) {
+            return '';
+        }
+        return H::priceFormatted($this->price_retail ?? 0, $this->price_retail_currency_id);
     }
 
     public function getPricePurchaseRubAttribute(): ?float
@@ -230,20 +243,18 @@ trait ProductAcM
 
     public function getPricePurchaseRubFormattedAttribute(): string
     {
-        return H::priceRubFormatted($this->price_purchase, $this->price_purchase_currency_id ?? static::DEFAULT_CURRENCY_ID);
+        if (!$this->price_purchase_currency_id) {
+            return '';
+        }
+        return H::priceRubFormatted($this->price_purchase, $this->price_purchase_currency_id);
     }
 
     public function getPricePurchaseFormattedAttribute(): string
     {
-        $price = $this->price_purchase ?? 0;
-        $currency = $this->price_purchase_currency_id
-            ? Currency::getFormattedName($this->price_purchase_currency_id)
-            : (
-                isset($this->parent->price_purchase_currency_id)
-                    ? Currency::getFormattedName($this->parent->price_purchase_currency_id)
-                    : Currency::getFormattedName(static::DEFAULT_CURRENCY_ID)
-            );
-        return "$price $currency";
+        if (!$this->price_purchase_currency_id) {
+            return '';
+        }
+        return H::priceFormatted($this->price_purchase ?? 0, $this->price_purchase_currency_id);
     }
 
     public function getCoefficientPriceRubAttribute(): ?float

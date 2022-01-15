@@ -56,6 +56,8 @@ class OrderItemDTO extends DataTransferObject
 
     public ?string $payment_method_name;
 
+    public bool $is_busy_by_other_admin = false;
+
     public static function fromModel(Order $order): self
     {
         return new self([
@@ -80,6 +82,7 @@ class OrderItemDTO extends DataTransferObject
             'products' => $order->products->map(fn(Product $product) => OrderItemProductItemDTO::fromModel($product))->all(),
             'payment_method_id' => $order->payment_method_id,
             'payment_method_name' => $order->payment->name ?? null,
+            'is_busy_by_other_admin' => $order->is_busy_by_other_admin,
         ]);
     }
 }
