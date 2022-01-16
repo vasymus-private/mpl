@@ -43,9 +43,9 @@
                 </th>
                 <th scope="col"><span class="main-grid-head-title">&nbsp;</span></th>
                 <th scope="col">ID</th>
-                <th scope="col">Сортировка</th>
+                <th scope="col">Сорт</th>
                 <th scope="col">Название</th>
-                <th scope="col">Активность</th>
+                <th scope="col">Актив.</th>
                 <th scope="col">Упаковка</th>
                 <th scope="col">Закупочная</th>
                 <th scope="col">Розничная</th>
@@ -178,21 +178,13 @@
          ], compact('paginator', 'total'))
     )
 
-    <div class="row pb-5">
+    <footer class="footer edit-item-footer">
         @if(!$editMode)
-            <div class="col-sm-3" wire:key="edit-btn">
-                <button wire:click.prevent="$set('editMode', true)" type="button" class="btn btn-light"><i class="fa fa-edit"></i> Редактировать</button>
-            </div>
-            <div class="col-sm-3" wire:key="delete-btn">
-                <button onclick="if (confirm('Вы уверены, что хотите удалить продукт выбранные продукты?')) {@this.deleteSelected()}" type="button" class="btn btn-light"><i class="fa fa-times"></i> Удалить</button>
-            </div>
+            <button wire:click.prevent="$set('editMode', true)" type="button" class="btn btn-primary mb-2 btn__save mr-2">Редактировать</button>
+            <button onclick="if (confirm('Вы уверены, что хотите удалить продукт выбранные продукты?')) {@this.deleteSelected()}" type="button" class="btn btn-info mb-2 btn__default">Удалить</button>
         @else
-            <div class="col-sm-3" wire:key="save-btn">
-                <button wire:click.prevent="saveSelected" type="button" class="btn btn-info">Сохранить</button>
-            </div>
-            <div class="col-sm-3" wire:key="cancel-btn">
-                <button wire:click.prevent="cancelEdit" type="button" class="btn btn-warning">Отменить</button>
-            </div>
+            <button wire:click.prevent="saveSelected" type="button" class="btn btn-info">Сохранить</button>
+            <button wire:click.prevent="cancelEdit" type="button" class="btn btn-warning">Отменить</button>
         @endif
-    </div>
+        </footer>
 </div>
