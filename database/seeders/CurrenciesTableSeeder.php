@@ -30,7 +30,7 @@ class CurrenciesTableSeeder extends BaseSeeder
     public function run()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        Currency::query()->truncate();
+        Currency::query()->delete();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         Currency::query()->insert(static::$seeds);

@@ -30,7 +30,7 @@ class AvailabilityStatusesTableSeeder extends BaseSeeder
     public function run()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        AvailabilityStatus::query()->truncate();
+        AvailabilityStatus::query()->delete();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         AvailabilityStatus::query()->insert(static::$seeds);
