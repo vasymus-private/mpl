@@ -16,6 +16,7 @@ jobs:
                 run: |
                     echo "This is sercret: $TESTING_SECRET"
     dump_contexts_to_log:
+        needs: check-bats-version
         runs-on: ubuntu-latest
         steps:
             -   name: Dump GitHub context
