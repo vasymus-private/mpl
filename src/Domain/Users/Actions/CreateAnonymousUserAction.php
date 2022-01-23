@@ -2,10 +2,17 @@
 
 namespace Domain\Users\Actions;
 
+use Domain\Common\Actions\BaseAction;
 use Domain\Users\Models\User\User;
 
-class CreateAnonymousUserAction
+/**
+ * @link \Tests\Feature\Domain\Users\Actions\CreateAnonymousUserActionTest
+ */
+class CreateAnonymousUserAction extends BaseAction
 {
+    /**
+     * @return \Domain\Users\Models\User\User
+     */
     public function execute(): User
     {
         $user = User::create();

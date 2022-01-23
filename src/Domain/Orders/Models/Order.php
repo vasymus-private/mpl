@@ -3,9 +3,11 @@
 namespace Domain\Orders\Models;
 
 use App\Constants;
+use Database\Factories\OrderFactory;
 use Domain\Common\Models\BaseModel;
 use Domain\Users\Models\Admin;
 use Domain\Users\Models\BaseUser\BaseUser;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
@@ -129,6 +131,7 @@ class Order extends BaseModel implements HasMedia
 {
     use SoftDeletes;
     use InteractsWithMedia;
+    use HasFactory;
 
     public const TABLE = "orders";
 
@@ -140,6 +143,8 @@ class Order extends BaseModel implements HasMedia
     public const DEFAULT_CANCELLED = false;
     public const DEFAULT_ORDER_STATUS_ID = OrderStatus::DEFAULT_ID;
     public const DEFAULT_ORDER_IMPORTANCE = OrderImportance::DEFAULT_ID;
+    public const DEFAULT_CUSTOMER_BILL_STATUS_ID = BillStatus::ID_NOT_BILLED;
+    public const DEFAULT_PROVIDER_BILL_STATUS_ID = BillStatus::ID_NOT_BILLED;
 
     public const BUSY_SECONDS_THRESHOLD = 60;
 
@@ -174,11 +179,23 @@ class Order extends BaseModel implements HasMedia
         'order_status_id' => self::DEFAULT_ORDER_STATUS_ID,
         'cancelled' => self::DEFAULT_CANCELLED,
         'importance_id' => self::DEFAULT_ORDER_IMPORTANCE,
+        'customer_bill_status_id' => self::DEFAULT_CUSTOMER_BILL_STATUS_ID,
+        'provider_bill_status_id' => self::DEFAULT_PROVIDER_BILL_STATUS_ID,
     ];
 
     public static function rbAdminOrder($value)
     {
         return static::query()->select(["*"])->findOrFail($value);
+    }
+
+    /**
+     * Create a new factory instance for the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    protected static function newFactory()
+    {
+        return OrderFactory::new();
     }
 
     /**

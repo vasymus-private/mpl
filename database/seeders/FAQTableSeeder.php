@@ -5,13 +5,12 @@ namespace Database\Seeders;
 use Domain\Users\Models\Admin;
 use Domain\FAQs\Models\FAQ;
 use Carbon\Carbon;
-use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Symfony\Component\DomCrawler\Crawler;
 
-class FAQTableSeeder extends Seeder
+class FAQTableSeeder extends BaseSeeder
 {
     /**
      * Run the database seeds.
@@ -20,6 +19,10 @@ class FAQTableSeeder extends Seeder
      */
     public function run()
     {
+        if (!$this->shouldClearData()) {
+            return;
+        }
+
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         FAQ::query()->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');

@@ -45,7 +45,7 @@ class ProductAdminColumn extends Enum
         return [
             'ordering' => 'Сортировка',
             'name' => 'Название',
-            'active' => 'Активность',
+            'active' => 'Актив.',
             'unit' => 'Упаковка',
             'price_purchase' => 'Закупочная',
             'price_retail' => 'Розничная',

@@ -2,11 +2,21 @@
 
 namespace Domain\Users\Actions;
 
+use Domain\Common\Actions\BaseAction;
 use Domain\Products\Models\Product\Product;
 use Domain\Users\Models\BaseUser\BaseUser;
 
-class TransferProductsAction
+/**
+ * @link \Tests\Feature\Domain\Users\Actions\TransferProductsActionTest
+ */
+class TransferProductsAction extends BaseAction
 {
+    /**
+     * @param \Domain\Users\Models\BaseUser\BaseUser $from
+     * @param \Domain\Users\Models\BaseUser\BaseUser $to
+     *
+     * @return void
+     */
     public function execute(BaseUser $from, BaseUser $to)
     {
         $viewedPrepared = [];

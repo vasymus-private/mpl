@@ -109,32 +109,22 @@
             </tbody>
         </table>
     </div>
-
-    <div class="row pb-5">
-        @if(!$editMode)
-            <div class="col-sm-3" wire:key="edit-btn">
-                <button wire:click.prevent="$set('editMode', true)" type="button" class="btn btn-light"><i class="fa fa-edit"></i> Редактировать</button>
-            </div>
-            <div class="col-sm-3" wire:key="delete-btn">
-                <button onclick="@this.deleteSelected().then(res => console.log(res))" type="button" class="btn btn-light"><i class="fa fa-times"></i> Удалить</button>
-            </div>
-        @else
-            <div class="col-sm-3" wire:key="save-btn">
-                <button wire:click.prevent="saveSelected" type="button" class="btn btn-info">Сохранить</button>
-            </div>
-            <div class="col-sm-3" wire:key="cancel-btn">
-                <button wire:click.prevent="cancelEdit" type="button" class="btn btn-warning">Отменить</button>
-            </div>
-        @endif
-    </div>
-    <div class="row pb-5">
-        @foreach($errors->all() as $error)
-            <div wire:key="{{$error}}" class="alert alert-danger alert-dismissible fade show" role="alert">
-                {{$error}}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        @endforeach
-    </div>
+    <footer class="footer edit-item-footer">
+            @if(!$editMode)
+                    <button wire:click.prevent="$set('editMode', true)" type="button" class="btn btn-primary mb-2 btn__save mr-2">Редактировать</button>
+                    <button onclick="@this.deleteSelected().then(res => console.log(res))" type="button" class="btn btn-info mb-2 btn__default">Удалить</button>
+            @else
+                    <button wire:click.prevent="saveSelected" type="button" class="btn btn-info">Сохранить</button>
+                    <button wire:click.prevent="cancelEdit" type="button" class="btn btn-warning">Отменить</button>
+            @endif
+            @foreach($errors->all() as $error)
+                <div wire:key="{{$error}}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{$error}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endforeach
+        </div>
+    </footer>
 </div>

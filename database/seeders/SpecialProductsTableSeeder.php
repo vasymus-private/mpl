@@ -5,9 +5,8 @@ namespace Database\Seeders;
 use Domain\Common\Models\Currency;
 use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Product\Product;
-use Illuminate\Database\Seeder;
 
-class SpecialProductsTableSeeder extends Seeder
+class SpecialProductsTableSeeder extends BaseSeeder
 {
     protected const PRICE = 1000;
     protected const CURRENCY_ID = Currency::ID_RUB;

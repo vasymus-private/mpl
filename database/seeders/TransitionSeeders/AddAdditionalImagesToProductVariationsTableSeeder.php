@@ -2,10 +2,10 @@
 
 namespace Database\Seeders\TransitionSeeders;
 
+use Database\Seeders\BaseSeeder;
 use Domain\Products\Models\Product\Product;
-use Illuminate\Database\Seeder;
 
-class AddAdditionalImagesToProductVariationsTableSeeder extends Seeder
+class AddAdditionalImagesToProductVariationsTableSeeder extends BaseSeeder
 {
     /**
      * Run the database seeds.
