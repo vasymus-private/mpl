@@ -3,12 +3,11 @@
 namespace Database\Seeders;
 
 use Domain\Orders\Models\OrderStatus;
-use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class OrderStatusesTableSeeder extends Seeder
+class OrderStatusesTableSeeder extends BaseSeeder
 {
-    protected static $seeds = [
+    protected static array $seeds = [
         [
             "id" => OrderStatus::ID_OPEN,
             "name" => "Заказ открыт",
@@ -32,17 +31,17 @@ class OrderStatusesTableSeeder extends Seeder
         [
             "id" => OrderStatus::ID_HELEN_AGREED_WITH_SUPPLIER,
             "name" => "Лена согласовала с поставщиком",
-            'color' => '#0033ff',
+            'color' => '#00ccff',
         ],
         [
             "id" => OrderStatus::ID_ALEX_AGREED_WITH_SUPPLIER,
             "name" => "Саша согласовал с поставщиком",
-            'color' => '#0033ff',
+            'color' => '#00ccff',
         ],
         [
             "id" => OrderStatus::ID_EGOR_AGREED_WITH_SUPPLIER,
             "name" => "Настя согласовала с поставщиком",
-            'color' => '#0033ff',
+            'color' => '#00ccff',
         ],
         [
             "id" => OrderStatus::ID_CUSTOMER_CONFIRMED_CASH,
@@ -109,7 +108,7 @@ class OrderStatusesTableSeeder extends Seeder
     public function run()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        OrderStatus::query()->truncate();
+        OrderStatus::query()->delete();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         OrderStatus::query()->insert(static::$seeds);

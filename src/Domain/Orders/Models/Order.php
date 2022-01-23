@@ -3,9 +3,11 @@
 namespace Domain\Orders\Models;
 
 use App\Constants;
+use Database\Factories\OrderFactory;
 use Domain\Common\Models\BaseModel;
 use Domain\Users\Models\Admin;
 use Domain\Users\Models\BaseUser\BaseUser;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
@@ -17,6 +19,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Support\H;
 
 /**
  * @property int $id
@@ -43,6 +46,8 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property bool $cancelled
  * @property string|null $cancelled_description
  * @property \Illuminate\Support\Carbon|null $cancelled_date
+ * @property int|null $busy_by_id
+ * @property \Carbon\Carbon|null $busy_at
  *
  * @see \Domain\Orders\Models\Order::products()
  * @property ProductCollection|Product[] $products
@@ -113,13 +118,20 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @see \Domain\Orders\Models\Order::getDateFormattedAttribute()
  * @property-read string|null $date_formatted
  *
- * @see \Domain\Orders\Models\OrderImportance importance
+ * @see \Domain\Orders\Models\Order::getIsBusyByOtherAdminAttribute()
+ * @property-read bool $is_busy_by_other_admin
+ *
+ * @see \Domain\Orders\Models\Order::importance()
  * @property \Domain\Orders\Models\OrderImportance|null $importance
+ *
+ * @see \Domain\Orders\Models\Order::busyBy()
+ * @property \Domain\Users\Models\BaseUser\BaseUser|null $busyBy
  * */
 class Order extends BaseModel implements HasMedia
 {
     use SoftDeletes;
     use InteractsWithMedia;
+    use HasFactory;
 
     public const TABLE = "orders";
 
@@ -131,6 +143,10 @@ class Order extends BaseModel implements HasMedia
     public const DEFAULT_CANCELLED = false;
     public const DEFAULT_ORDER_STATUS_ID = OrderStatus::DEFAULT_ID;
     public const DEFAULT_ORDER_IMPORTANCE = OrderImportance::DEFAULT_ID;
+    public const DEFAULT_CUSTOMER_BILL_STATUS_ID = BillStatus::ID_NOT_BILLED;
+    public const DEFAULT_PROVIDER_BILL_STATUS_ID = BillStatus::ID_NOT_BILLED;
+
+    public const BUSY_SECONDS_THRESHOLD = 60;
 
     /**
      * The table associated with the model.
@@ -138,13 +154,6 @@ class Order extends BaseModel implements HasMedia
      * @var string
      */
     protected $table = self::TABLE;
-
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = ["ps_date"];
 
     /**
      * The attributes that should be cast.
@@ -157,6 +166,8 @@ class Order extends BaseModel implements HasMedia
         'updated_at' => 'datetime:Y-m-d H:i:s',
         'cancelled' => 'boolean',
         'cancelled_date' => 'datetime:Y-m-d H:i:s',
+        'ps_date' => 'datetime',
+        'busy_at' => 'datetime',
     ];
 
     /**
@@ -168,11 +179,23 @@ class Order extends BaseModel implements HasMedia
         'order_status_id' => self::DEFAULT_ORDER_STATUS_ID,
         'cancelled' => self::DEFAULT_CANCELLED,
         'importance_id' => self::DEFAULT_ORDER_IMPORTANCE,
+        'customer_bill_status_id' => self::DEFAULT_CUSTOMER_BILL_STATUS_ID,
+        'provider_bill_status_id' => self::DEFAULT_PROVIDER_BILL_STATUS_ID,
     ];
 
     public static function rbAdminOrder($value)
     {
         return static::query()->select(["*"])->findOrFail($value);
+    }
+
+    /**
+     * Create a new factory instance for the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    protected static function newFactory()
+    {
+        return OrderFactory::new();
     }
 
     /**
@@ -364,10 +387,30 @@ class Order extends BaseModel implements HasMedia
         return $this->getMedia(static::MC_SUPPLIER_INVOICES);
     }
 
+    /**
+     * @return string|null
+     */
     public function getDateFormattedAttribute(): ?string
     {
         return $this->created_at instanceof Carbon
-            ? $this->created_at->format('d-m-Y H:i:s')
+            ? $this->created_at->format('d.m.y H:i:s')
             : null;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsBusyByOtherAdminAttribute(): bool
+    {
+        if (!$this->busy_by_id || !$this->busy_at) {
+            return false;
+        }
+
+        return (string)$this->busy_by_id !== (string)(H::admin()->id) && $this->busy_at->diffInSeconds(now()) < static::BUSY_SECONDS_THRESHOLD;
+    }
+
+    public function busyBy(): BelongsTo
+    {
+        return $this->belongsTo(BaseUser::class, "busy_by_id", "id");
     }
 }

@@ -62,6 +62,11 @@ class ProductQueryBuilder extends Builder
         return $this;
     }
 
+    public function publicViewable(): self
+    {
+        return $this->where(sprintf('%s.is_public_viewable', $this->table), true);
+    }
+
     /**
      * @param int[] $categoryIds
      *

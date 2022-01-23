@@ -3,10 +3,9 @@
 namespace Database\Seeders;
 
 use Domain\Orders\Models\BillStatus;
-use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class BillStatusesTableSeeder extends Seeder
+class BillStatusesTableSeeder extends BaseSeeder
 {
     protected static $seeds = [
         [
@@ -31,7 +30,7 @@ class BillStatusesTableSeeder extends Seeder
     public function run()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        BillStatus::query()->truncate();
+        BillStatus::query()->delete();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         BillStatus::query()->insert(static::$seeds);

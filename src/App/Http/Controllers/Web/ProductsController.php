@@ -21,6 +21,7 @@ class ProductsController extends BaseWebController
             ::query()
             ->notVariations()
             ->active()
+            ->publicViewable()
             ->orderBy(sprintf('%s.ordering', Product::TABLE))
             ->orderBy(sprintf('%s.id', Product::TABLE));
 

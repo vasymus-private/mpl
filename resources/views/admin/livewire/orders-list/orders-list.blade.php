@@ -4,6 +4,7 @@
  * @var array[] $items @see {@link \Domain\Products\DTOs\Admin\OrderItemDTO}
  * @var array[] $per_page_options @see {@link \Domain\Common\DTOs\OptionDTO[]}
  * @var array[] $managers @see {@link \Domain\Common\DTOs\OptionDTO}
+ * @var \Domain\Orders\Enums\OrderAdminColumn[] $orderAdminColumns
  */
 ?>
 <div>
@@ -43,9 +44,11 @@
 
     <div>
         <a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_CREATE)}}" class="btn btn-primary mb-2 btn__save mr-2">Добавить заказ</a>
+
+        <button type="button" data-toggle="modal" data-target="#customize-order-list" class="btn btn-primary mb-2 mr-2">Настроить</button>
     </div>
 
-    <div class="admin-edit-variations">
+    <div class="admin-edit-variations table-responsive">
         <div wire:loading.flex>
             <div class="d-flex justify-content-center align-items-center bg-light" style="opacity: 0.5; position:absolute; top:0; bottom:0; right:0; left:0; z-index: 20; ">
                 <div class="spinner-border" role="status">
@@ -54,7 +57,7 @@
             </div>
         </div>
 
-        <table class="table table-bordered table-hover">
+        <table class="table table-bordered table-hover js-order-busy-marker-wrapper">
             <thead>
             <tr>
                 <th scope="col">
@@ -63,24 +66,14 @@
                     </div>
                 </th>
                 <th scope="col"><span class="main-grid-head-title">&nbsp;</span></th>
-                <th scope="col">Дата создания</th>
-                <th scope="col">ID</th>
-                <th scope="col">Статус</th>
-                <th scope="col">Комментарии</th>
-                <th scope="col">Комментарий покупателя</th>
-                <th scope="col">Важность</th>
-                <th scope="col">Менеджер</th>
-                <th scope="col">Сумма</th>
-                <th scope="col">Имя</th>
-                <th scope="col">Телефон</th>
-                <th scope="col">Email</th>
-                <th scope="col"><span style="width: 300px;">Позиции</span></th>
-                <th scope="col">Платежная система</th>
+                @foreach($orderAdminColumns as $orderAdminColumn)
+                    <th scope="col">{{$orderAdminColumn->label}}</th>
+                @endforeach
             </tr>
             </thead>
             <tbody>
                 @foreach($items as $order)
-                    <tr wire:key="product-{{$order['id']}}">
+                    <tr wire:key="product-{{$order['id']}}" ondblclick="location.href=`{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, $order['id'])}}`">
                         <td>
                             <div class="form-check">
                                 <input wire:model.defer="items.{{$order['id']}}.is_checked" class="form-check-input position-static" type="checkbox">
@@ -106,41 +99,101 @@
                                 </div>
                             </div>
                         </td>
-                        <td><span class="main-grid-cell-content">{{$order['date']}}</span></td>
-                        <td><span class="main-grid-cell-content"><a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, $order['id'])}}">{{$order['id']}}</a></span></td>
-                        <td @if($order['order_status_color']) style="background-color: {{$order['order_status_color']}};" @endif><span class="main-grid-cell-content">{{$order['order_status_name']}}</span></td>
-                        <td><span class="main-grid-cell-content">{{$order['comment_admin']}}</span></td>
-                        <td><span class="main-grid-cell-content">{{$order['comment_user']}}</span></td>
-                        <td @if($order['importance_color']) style="background-color: {{$order['importance_color']}};" @endif><span class="main-grid-cell-content">{{$order['importance_name']}}</span></td>
-                        <td>
-                            @if($order['admin_id'])
-                                <span class="main-grid-cell-content">
-                                    <span style="border: 1px solid black; padding: 3px 6px; border-radius: 3px; width: 50px; display: inline-block; text-align: center; background-color: {{$order['admin_color'] ?: 'transparent'}};">
-                                        {{$order['admin_name']}}
-                                    </span>
-                                </span>
-                            @endif
-                        </td>
-                        <td><span class="main-grid-cell-content">{{$order['order_price_retail_rub_formatted']}}</span></td>
-                        <td><span class="main-grid-cell-content">{{$order['user_name']}}</span></td>
-                        <td><span class="main-grid-cell-content">{{$order['user_phone']}}</span></td>
-                        <td><span class="main-grid-cell-content">{{$order['user_email']}}</span></td>
-                        <td>
-                            <div class="main-grid-cell-content">
-                                <?php /** @var array $orderProductItem @see {@link \Domain\Products\DTOs\Admin\OrderItemProductItemDTO} */ ?>
-                                @foreach($order['products'] as $orderProductItem)
-                                    <p>
-                                        {{$orderProductItem['name']}} <br>
-                                        ({{$orderProductItem['count']}} шт.)
-                                        @if(!empty($orderProductItem['unit']))
-                                            <br>
-                                            Упаковка / единица измерения: {{$orderProductItem['unit']}}
+
+                        @foreach($orderAdminColumns as $orderAdminColumn)
+                            @switch(true)
+                                @case($orderAdminColumn->equals(\Domain\Orders\Enums\OrderAdminColumn::date()))
+                                    <td>
+                                        <span class="main-grid-cell-content">{{$order['date']}}</span>
+                                    </td>
+                                    @break
+                                @case($orderAdminColumn->equals(\Domain\Orders\Enums\OrderAdminColumn::id()))
+                                    <td>
+                                        <span class="main-grid-cell-content">
+                                            <a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, $order['id'])}}" style="white-space: nowrap;">
+                                                <span class="js-order-busy-marker js-order-busy-marker-{{$order['id']}}" data-id="{{$order['id']}}">
+                                                    @if($order['is_busy_by_other_admin'])
+                                                        <span style="display: inline-block; width: 20px; height: 20px; background-color: red; border-radius: 100%;"></span>
+                                                    @else
+                                                        <span style="display: inline-block; width: 20px; height: 20px; background-color: green; border-radius: 100%;"></span>
+                                                    @endif
+                                                </span>
+                                                №{{$order['id']}}
+                                            </a>
+                                        </span>
+                                    </td>
+                                    @break
+                                @case($orderAdminColumn->equals(\Domain\Orders\Enums\OrderAdminColumn::status()))
+                                    <td @if($order['order_status_color']) style="background-color: {{$order['order_status_color']}};" @endif>
+                                        <span class="main-grid-cell-content">{{$order['order_status_name']}}</span>
+                                    </td>
+                                    @break
+                                @case($orderAdminColumn->equals(\Domain\Orders\Enums\OrderAdminColumn::positions()))
+                                    <td>
+                                        <div class="main-grid-cell-content">
+                                            <?php /** @var array $orderProductItem @see {@link \Domain\Products\DTOs\Admin\OrderItemProductItemDTO} */ ?>
+                                            @foreach($order['products'] as $orderProductItem)
+                                                <p>
+                                                    {{$orderProductItem['name']}} <br>
+                                                    ({{$orderProductItem['count']}} шт.)
+                                                </p>
+                                            @endforeach
+                                        </div>
+                                    </td>
+                                    @break
+                                @case($orderAdminColumn->equals(\Domain\Orders\Enums\OrderAdminColumn::comment_admin()))
+                                    <td>
+                                        <span class="main-grid-cell-content">{{$order['comment_admin']}}</span>
+                                    </td>
+                                    @break
+                                @case($orderAdminColumn->equals(\Domain\Orders\Enums\OrderAdminColumn::importance()))
+                                    <td @if($order['importance_color']) style="background-color: {{$order['importance_color']}};" @endif>
+                                        <span class="main-grid-cell-content">{{$order['importance_name']}}</span>
+                                    </td>
+                                    @break
+                                @case($orderAdminColumn->equals(\Domain\Orders\Enums\OrderAdminColumn::manager()))
+                                    <td>
+                                        @if($order['admin_id'])
+                                            <span class="main-grid-cell-content">
+                                                <span style="border: 1px solid black; padding: 3px 6px; border-radius: 3px; width: 50px; display: inline-block; text-align: center; background-color: {{$order['admin_color'] ?: 'transparent'}};">
+                                                    {{$order['admin_name']}}
+                                                </span>
+                                            </span>
                                         @endif
-                                    </p>
-                                @endforeach
-                            </div>
-                        </td>
-                        <td><span class="main-grid-cell-content">{{$order['payment_method_name']}}</span></td>
+                                    </td>
+                                    @break
+                                @case($orderAdminColumn->equals(\Domain\Orders\Enums\OrderAdminColumn::sum()))
+                                    <td>
+                                        <span class="main-grid-cell-content">{{$order['order_price_retail_rub_formatted']}}</span>
+                                    </td>
+                                    @break
+                                @case($orderAdminColumn->equals(\Domain\Orders\Enums\OrderAdminColumn::name()))
+                                    <td>
+                                        <span class="main-grid-cell-content">{{$order['user_name']}}</span>
+                                    </td>
+                                    @break
+                                @case($orderAdminColumn->equals(\Domain\Orders\Enums\OrderAdminColumn::phone()))
+                                    <td>
+                                        <span class="main-grid-cell-content">{{$order['user_phone']}}</span>
+                                    </td>
+                                    @break
+                                @case($orderAdminColumn->equals(\Domain\Orders\Enums\OrderAdminColumn::email()))
+                                    <td>
+                                        <span class="main-grid-cell-content">{{$order['user_email']}}</span>
+                                    </td>
+                                    @break
+                                @case($orderAdminColumn->equals(\Domain\Orders\Enums\OrderAdminColumn::comment_user()))
+                                    <td>
+                                        <span class="main-grid-cell-content">{{$order['comment_user']}}</span>
+                                    </td>
+                                    @break
+                                @case($orderAdminColumn->equals(\Domain\Orders\Enums\OrderAdminColumn::payment_method()))
+                                    <td>
+                                        <span class="main-grid-cell-content">{{$order['payment_method_name']}}</span>
+                                    </td>
+                                    @break
+                            @endswitch
+                        @endforeach
                     </tr>
                 @endforeach
             </tbody>
@@ -158,6 +211,45 @@
     <div class="row pb-5">
         <div class="col-sm-3" wire:key="delete-btn">
             <button onclick="if (confirm('Вы уверены, что хотите удалить продукт выбранные продукты?')) {@this.deleteSelected()}" type="button" class="btn btn-light"><i class="fa fa-times"></i> Удалить</button>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div wire:ignore.self class="modal fade" id="customize-order-list" tabindex="-1" aria-labelledby="customize-order-list-title" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div wire:loading.flex wire:target="handleCustomizeOrderList, handleDefaultOrderList">
+                    <div class="d-flex justify-content-center align-items-center bg-light" style="opacity: 0.5; position:absolute; top:0; bottom:0; right:0; left:0; z-index: 20; ">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="customize-order-list-title">Настройка списка</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <ul id="order-columns-sortable" class="list-group list-group-flush">
+                            @foreach($orderAdminColumns as $orderAdminColumn)
+                                <li style="cursor:grab;" class="list-group-item" data-value="{{$orderAdminColumn->value}}">{{$orderAdminColumn->label}}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button
+                        onclick="@this.handleCustomizeOrderList(getOrderColumnsSorted()).then((res) => { if(res) $('#customize-order-list').modal('hide') })"
+                        type="button"
+                        class="btn btn-primary"
+                    >Сохранить</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
+                    <button onclick="@this.handleDefaultOrderList().then((res) => { if(res) $('#customize-order-list').modal('hide') })" type="button" class="btn btn-secondary">Сбросить</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

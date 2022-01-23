@@ -16,6 +16,9 @@
     position: relative;
     z-index: 22;
     background: url(../images/submenu-bg.png) repeat;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 100vh;
 }
 #aside {
     // height: 100%;
