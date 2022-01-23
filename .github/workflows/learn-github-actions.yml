@@ -14,4 +14,4 @@ jobs:
                 env:
                     TESTING_SECRET: ${{secrets.TESTING_SECRET}}
                 run: |
-                    echo "$TESTING_SECRET"
+                    echo "This is sercret: $TESTING_SECRET"
