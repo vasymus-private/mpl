@@ -8666,6 +8666,9 @@ textarea.form-control {
   margin: 0 auto;
   display: block;
 }
+.product-variants__input_small:focus {
+  background-color: #fff;
+}
 .product-variants__price-blue {
   color: #03c;
 }

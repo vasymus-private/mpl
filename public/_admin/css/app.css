@@ -10206,6 +10206,14 @@ body {
   color: #535c69;
   font-size: 13px;
 }
+.table .main-grid-cell-content p:after {
+  content: "";
+  background: #333;
+  height: 1px;
+  display: block;
+  width: 67%;
+  margin: 10px auto -7px;
+}
 .table .form-check {
   padding-top: 16px;
 }
@@ -11431,6 +11439,7 @@ body {
   flex-grow: 1;
   min-width: 0;
   position: relative;
+  z-index: 22;
   background: url(../images/submenu-bg.png) repeat;
 }
 
@@ -11448,6 +11457,10 @@ body {
   position: relative;
   z-index: 100;
   box-sizing: border-box;
+}
+
+.form-check-inline {
+  margin: -7px ​-7px 8px 0;
 }
 
 .adm-s-result-container-itog-table {
@@ -11477,6 +11490,14 @@ body {
 .adm-s-result-container-itog-table .adm-s-result-container-itog-table-result th {
   background: #dbe3b9;
   font-weight: bold;
+}
+
+.footer {
+  padding: 15px 15px 3px;
+  margin: 5px 0 0;
+}
+.footer.footer-btns {
+  background: #fff;
 }
 
 .admin-edit-variations {

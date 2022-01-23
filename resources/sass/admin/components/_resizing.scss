@@ -14,6 +14,7 @@
     flex-grow: 1;
     min-width: 0;
     position: relative;
+    z-index: 22;
     background: url(../images/submenu-bg.png) repeat;
 }
 #aside {
@@ -63,4 +64,8 @@
     //        width: 6px;
     //    }
     //}
+}
+
+.form-check-inline {
+    margin: -7px ​-7px 8px 0;
 }
