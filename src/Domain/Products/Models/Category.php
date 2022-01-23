@@ -2,6 +2,7 @@
 
 namespace Domain\Products\Models;
 
+use Database\Factories\CategoryFactory;
 use Domain\Common\Models\BaseModel;
 use Domain\Common\Models\HasDeletedItemSlug;
 use Domain\Products\Actions\HasActiveProductsAction;
@@ -9,6 +10,7 @@ use Domain\Products\Models\Product\Product;
 use Domain\Seo\Models\Seo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
@@ -61,6 +63,7 @@ class Category extends BaseModel
 {
     use SoftDeletes;
     use HasDeletedItemSlug;
+    use HasFactory;
 
     const TABLE = "categories";
 
@@ -115,6 +118,16 @@ class Category extends BaseModel
     public static function rbAdminCategory($value)
     {
         return static::query()->select(["*"])->findOrFail($value);
+    }
+
+    /**
+     * Create a new factory instance for the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    protected static function newFactory()
+    {
+        return CategoryFactory::new();
     }
 
     public function parentCategory(): BelongsTo

@@ -30,7 +30,7 @@ class BillStatusesTableSeeder extends BaseSeeder
     public function run()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        BillStatus::query()->truncate();
+        BillStatus::query()->delete();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         BillStatus::query()->insert(static::$seeds);

@@ -2,12 +2,14 @@
 
 namespace Domain\Products\Models\Product;
 
+use Database\Factories\ProductFactory;
 use Domain\Common\Models\HasDeletedItemSlug;
 use Domain\Products\Collections\ProductCollection;
 use Domain\Products\DTOs\Web\CharCategoryDTO;
 use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\CharCategory;
 use Domain\Products\QueryBuilders\ProductQueryBuilder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Spatie\Image\Manipulations;
@@ -28,7 +30,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property string|null $slug
  * @property int|null $parent_id
  * @property bool $is_with_variations
- * @property int $category_id
+ * @property int|null $category_id
  * @property int|null $ordering
  * @property bool $is_active
  * @property int|null $brand_id
@@ -86,6 +88,7 @@ class Product extends BaseModel implements HasMedia
     use InteractsWithMedia;
     use ProductAcM;
     use HasDeletedItemSlug;
+    use HasFactory;
 
     public const DEFAULT_IS_ACTIVE = false;
     public const DEFAULT_IS_WITH_VARIATIONS = false;
@@ -119,7 +122,6 @@ class Product extends BaseModel implements HasMedia
     public const MCONV_FILL_BG = "ffffff";
 
     public const DELIVERY_PRODUCT_UUID = 'd097bbbb-1a6f-44e2-acb8-0f5fdf672c37';
-
 
     /**
      * The table associated with the model.
@@ -184,6 +186,16 @@ class Product extends BaseModel implements HasMedia
         };
 
         static::saving($cb);
+    }
+
+    /**
+     * Create a new factory instance for the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    protected static function newFactory()
+    {
+        return ProductFactory::new();
     }
 
     /**

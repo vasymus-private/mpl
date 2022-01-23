@@ -21,7 +21,9 @@ class CategoriesTableSeeder extends BaseSeeder
         }
 
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        Category::query()->truncate();
+        Category::query()->delete();
+        // in `php artisan test` truncate is not working
+        DB::statement(sprintf('ALTER TABLE %s AUTO_INCREMENT = 1;', Category::TABLE));
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $rawSeeds = json_decode(Storage::get("seeds/categories/seeds.json"), true);

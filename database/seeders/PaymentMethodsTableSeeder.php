@@ -36,7 +36,7 @@ class PaymentMethodsTableSeeder extends BaseSeeder
     public function run()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        PaymentMethod::query()->truncate();
+        PaymentMethod::query()->delete();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         PaymentMethod::query()->insert(static::$seeds);

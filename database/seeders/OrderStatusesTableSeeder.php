@@ -108,7 +108,7 @@ class OrderStatusesTableSeeder extends BaseSeeder
     public function run()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        OrderStatus::query()->truncate();
+        OrderStatus::query()->delete();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         OrderStatus::query()->insert(static::$seeds);
