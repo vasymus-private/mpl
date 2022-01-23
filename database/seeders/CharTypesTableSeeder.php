@@ -26,7 +26,7 @@ class CharTypesTableSeeder extends BaseSeeder
     public function run()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        CharType::query()->truncate();
+        CharType::query()->delete();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         CharType::query()->insert($this->seeds);

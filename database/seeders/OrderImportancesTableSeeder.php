@@ -32,7 +32,7 @@ class OrderImportancesTableSeeder extends BaseSeeder
     public function run()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        OrderImportance::query()->truncate();
+        OrderImportance::query()->delete();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         OrderImportance::query()->insert(static::$seeds);
