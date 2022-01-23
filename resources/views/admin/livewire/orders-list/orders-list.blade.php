@@ -57,7 +57,7 @@
             </div>
         </div>
 
-        <table class="table table-bordered table-hover js-order-busy-marker-wrapper">
+        <table class="table table-bordered table-hover js-order-busy-marker-wrapper" style="width: 2000px;">
             <thead>
             <tr>
                 <th scope="col">
