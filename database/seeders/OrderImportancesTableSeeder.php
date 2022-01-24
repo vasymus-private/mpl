@@ -22,8 +22,9 @@ class OrderImportancesTableSeeder extends BaseSeeder
             "id" => OrderImportance::ID_RED,
             "name" => "красный",
             "color" => "rgba(247, 6, 6, 0.52)",
-        ]
+        ],
     ];
+
     /**
      * Run the database seeds.
      *

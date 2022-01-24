@@ -70,6 +70,7 @@ class LoginController extends BaseLoginController
     public function login(Request $request)
     {
         $this->setAnonymousUserId($request->user());
+
         return parent::login($request);
     }
 
@@ -88,7 +89,7 @@ class LoginController extends BaseLoginController
         $isValidUserCredentials = $this->guard()->validate($credentials);
         $isValidAdminCredentials = Auth::guard(Constants::AUTH_GUARD_ADMIN)->validate($credentials);
 
-        if (!$isValidUserCredentials && !$isValidAdminCredentials) {
+        if (! $isValidUserCredentials && ! $isValidAdminCredentials) {
             return false;
         }
 
@@ -114,7 +115,7 @@ class LoginController extends BaseLoginController
 
         /** @var \Domain\Users\Models\User\User|\Domain\Users\Models\Admin $authUser */
         $authUser = $this->guard()->user();
-        if (!$authUser) {
+        if (! $authUser) {
             $authUser = Auth::guard(Constants::AUTH_GUARD_ADMIN)->user();
         }
 

@@ -10,7 +10,6 @@ use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Validation\Rules\Exists;
 use Illuminate\Validation\Rules\Unique;
-use Livewire\Component;
 
 class ShowCategory extends BaseShowComponent
 {
@@ -64,7 +63,7 @@ class ShowCategory extends BaseShowComponent
                     'string',
                     'max:250',
                     (new Unique(Category::TABLE, 'slug'))
-                        ->when(!!$this->item->id, function(Unique $unique) {
+                        ->when(! ! $this->item->id, function (Unique $unique) {
                             return $unique->ignore($this->item->id);
                         }),
                 ],
@@ -77,7 +76,7 @@ class ShowCategory extends BaseShowComponent
                 'item.parent_id' => [
                     'nullable',
                     (new Exists(Category::TABLE, 'id'))
-                        ->when(!empty($notIn), function(Exists $exists) use($notIn) {
+                        ->when(! empty($notIn), function (Exists $exists) use ($notIn) {
                             return $exists->whereNotIn('id', $notIn);
                         }),
                 ],
@@ -114,7 +113,7 @@ class ShowCategory extends BaseShowComponent
             ->products()
             ->select(['id', 'name', 'is_active', 'category_id'])
             ->get()
-            ->map(fn(Product $product) => CategoryProductItemDTO::fromModel($product)->toArray())
+            ->map(fn (Product $product) => CategoryProductItemDTO::fromModel($product)->toArray())
             ->all();
     }
 
@@ -128,7 +127,7 @@ class ShowCategory extends BaseShowComponent
         $this->validate();
 
         $shouldRedirect = false;
-        if (!$this->item->id) {
+        if (! $this->item->id) {
             $shouldRedirect = true;
         }
         $this->saveItem();
@@ -143,10 +142,12 @@ class ShowCategory extends BaseShowComponent
     {
         if ($this->item->has_active_products) {
             $this->addError('delete', sprintf('Категория с id %s не может быть удалена, пока у этой категории и или у её подкатегорий есть активные продукты.', $this->item->id));
+
             return false;
         }
         $parentId = $this->item->parent_id;
         DeleteCategoryAction::cached()->execute($this->item);
+
         return redirect()->route('admin.categories.index', ['category_id' => $parentId]);
     }
 

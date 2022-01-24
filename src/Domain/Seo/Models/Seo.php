@@ -15,9 +15,9 @@ use Domain\Common\Models\BaseModel;
  * */
 class Seo extends BaseModel
 {
-    const TABLE = "seo";
+    public const TABLE = "seo";
 
-    const ID_APP = 1;
+    public const ID_APP = 1;
 
     /**
      * The table associated with the model.

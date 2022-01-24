@@ -96,22 +96,23 @@ class ProductsList extends BaseItemsListComponent
 
     public function hydrateProductAdminColumns(array $value = [])
     {
-        $this->productAdminColumns = collect($value)->map(fn($v) => ProductAdminColumn::from($v))->all();
+        $this->productAdminColumns = collect($value)->map(fn ($v) => ProductAdminColumn::from($v))->all();
     }
 
     public function saveSelected()
     {
-        $checked = collect($this->items)->filter(fn(array $item) => $item['is_checked'])->all();
+        $checked = collect($this->items)->filter(fn (array $item) => $item['is_checked'])->all();
         if (empty($checked)) {
             $this->editMode = false;
             $this->selectAll = false;
+
             return;
         }
         $checkedIds = collect($checked)->pluck('id')->toArray();
         $checkedModels = Product::query()->whereIn('id', $checkedIds)->get();
-        $checkedModels->each(function(Product $product) use($checked) {
+        $checkedModels->each(function (Product $product) use ($checked) {
             $payload = $checked[$product->uuid] ?? [];
-            if (!$payload) {
+            if (! $payload) {
                 return true;
             }
             $product->forceFill(
@@ -128,9 +129,9 @@ class ProductsList extends BaseItemsListComponent
 
     public function deleteSelected()
     {
-        $deleteIds = collect($this->items)->filter(fn(array $item) => $item['is_checked'])->pluck('id')->toArray();
+        $deleteIds = collect($this->items)->filter(fn (array $item) => $item['is_checked'])->pluck('id')->toArray();
         $deleteProducts = Product::query()->whereIn('id', $deleteIds)->get();
-        $deleteProducts->each(function(Product $product) {
+        $deleteProducts->each(function (Product $product) {
             $product->clearMediaCollection(Product::MC_MAIN_IMAGE);
             $product->clearMediaCollection(Product::MC_ADDITIONAL_IMAGES);
             $product->clearMediaCollection(Product::MC_FILES);
@@ -197,7 +198,7 @@ class ProductsList extends BaseItemsListComponent
         }
 
         if ($this->search) {
-            $query->where(function(Builder $query) use($table) {
+            $query->where(function (Builder $query) use ($table) {
                 $query
                     ->where("$table.name", "LIKE", "%{$this->search}%")
                     ->orWhere("$table.slug", "LIKE", "%{$this->search}%");
@@ -212,7 +213,7 @@ class ProductsList extends BaseItemsListComponent
      */
     protected function setItems(array $items)
     {
-        $this->items = collect($items)->map(fn(Product $product) => ProductItemDTO::fromModel($product)->toArray())->keyBy('uuid')->all();
+        $this->items = collect($items)->map(fn (Product $product) => ProductItemDTO::fromModel($product)->toArray())->keyBy('uuid')->all();
     }
 
     public function cancelEdit()
@@ -225,11 +226,11 @@ class ProductsList extends BaseItemsListComponent
     public function toggleActive($id)
     {
         $product = Product::query()->find($id);
-        if (!$product) {
+        if (! $product) {
             return;
         }
 
-        $product->is_active = !$product->is_active;
+        $product->is_active = ! $product->is_active;
         $product->save();
         $this->items[$product->uuid] = ProductItemDTO::fromModel($product)->toArray();
     }
@@ -237,7 +238,7 @@ class ProductsList extends BaseItemsListComponent
     public function handleDelete($id)
     {
         $product = Product::query()->find($id);
-        if (!$product) {
+        if (! $product) {
             return;
         }
         DeleteProductAction::cached()->execute($product);
@@ -261,7 +262,7 @@ class ProductsList extends BaseItemsListComponent
             $prepends[] = (new SearchPrependAdminDTO([
                 'label' => $this->brand_name,
                 /** @see \App\Http\Livewire\Admin\ProductsList::clearBrandFilter() */
-                'onClear' => 'clearBrandFilter'
+                'onClear' => 'clearBrandFilter',
             ]))->toArray();
         }
 
@@ -296,7 +297,7 @@ class ProductsList extends BaseItemsListComponent
             return false;
         }
 
-        $productAdminColumns = collect($values)->map(fn($value) => ProductAdminColumn::from($value))->all();
+        $productAdminColumns = collect($values)->map(fn ($value) => ProductAdminColumn::from($value))->all();
         $admin->admin_product_columns = $productAdminColumns;
         $admin->save();
 

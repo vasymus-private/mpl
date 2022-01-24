@@ -19,7 +19,9 @@ class ProfileComposer
     {
         $user = H::userOrAdmin();
 
-        if (!$user) return;
+        if (! $user) {
+            return;
+        }
 
         $user->loadCount(["viewed", "serviceViewed"]);
         $user->load(["aside:id"]);
@@ -28,7 +30,7 @@ class ProfileComposer
 
         $cartItems = CartProductResource::collection($user->cart);
 
-        $cartCount = $user->cart_not_trashed->reduce(function(int $acc, Product $product) {
+        $cartCount = $user->cart_not_trashed->reduce(function (int $acc, Product $product) {
             return $acc + ($product->cart_product->count ?? 1);
         }, 0);
         $cartRoute = route("cart.show");

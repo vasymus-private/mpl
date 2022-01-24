@@ -15,7 +15,7 @@ class TransferOrdersAction
      */
     public function execute(BaseUser $from, BaseUser $to)
     {
-        $from->orders->each(function(Order $order) use($to) {
+        $from->orders->each(function (Order $order) use ($to) {
             $order->user_id = $to->id;
             $order->save();
         });

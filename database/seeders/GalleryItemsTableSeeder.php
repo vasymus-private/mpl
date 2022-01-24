@@ -17,7 +17,7 @@ class GalleryItemsTableSeeder extends BaseSeeder
      */
     public function run()
     {
-        if (!$this->shouldClearData()) {
+        if (! $this->shouldClearData()) {
             return;
         }
 
@@ -64,7 +64,7 @@ class GalleryItemsTableSeeder extends BaseSeeder
             ->addMedia(storage_path("app/$src"))
             ->preservingOriginal()
             ->usingName($name)
-            ->sanitizingFileName(function($fileName) {
+            ->sanitizingFileName(function ($fileName) {
                 return strtolower(str_replace(['#', '/', '\\', ' '], '-', $fileName));
             })
             ->toMediaCollection($collectionName)

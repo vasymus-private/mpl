@@ -62,7 +62,7 @@ class CustomMedia extends Media
      */
     public function getDeleteTimeAttribute(): ?DateTimeInterface
     {
-        if (!$this->getCustomProperty('deleteTime')) {
+        if (! $this->getCustomProperty('deleteTime')) {
             return null;
         }
 

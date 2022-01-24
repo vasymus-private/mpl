@@ -24,10 +24,9 @@ class SidebarBrandsFilterComponent extends Component
      */
     public function __construct($productIds = [])
     {
-        $this->brands = Brand
-            ::query()
+        $this->brands = Brand::query()
             ->withCount([
-                "products" => function(Builder $builder) use($productIds) {
+                "products" => function (Builder $builder) use ($productIds) {
                     return $builder->whereIn(Product::TABLE . ".id", $productIds);
                 },
             ])

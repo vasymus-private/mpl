@@ -8,14 +8,13 @@ use Tests\TestCase;
 
 abstract class BaseActionTestCase extends TestCase
 {
+    use RefreshDatabase {
+        refreshDatabase as _refreshDatabase;
+    }
     /**
      * @var string
      */
     protected string $seeder = DatabaseTestingSeeder::class;
-
-    use RefreshDatabase {
-        refreshDatabase as _refreshDatabase;
-    }
 
     /**
      * @var bool

@@ -74,10 +74,10 @@ class ProductQueryBuilder extends Builder
      */
     public function forMainAndRelatedCategories(array $categoryIds): self
     {
-        return $this->where(function(Builder $builder) use($categoryIds) {
+        return $this->where(function (Builder $builder) use ($categoryIds) {
             return $builder
                 ->whereIn("{$this->table}.category_id", $categoryIds)
-                ->orWhereHas('relatedCategories', function(Builder $categoryQuery) use($categoryIds) {
+                ->orWhereHas('relatedCategories', function (Builder $categoryQuery) use ($categoryIds) {
                     return $categoryQuery->whereIn(Category::TABLE . '.id', $categoryIds);
                 });
         });

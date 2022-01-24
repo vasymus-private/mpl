@@ -8,11 +8,11 @@ namespace Domain\Common\Models;
  * */
 class Currency extends BaseModel
 {
-    const TABLE = "currencies";
+    public const TABLE = "currencies";
 
-    const ID_RUB = 1;
-    const ID_EUR = 2;
-    const ID_USD = 3;
+    public const ID_RUB = 1;
+    public const ID_EUR = 2;
+    public const ID_USD = 3;
 
     /**
      * The table associated with the model.
@@ -31,16 +31,16 @@ class Currency extends BaseModel
     public static function getIdByName(string $name): ?int
     {
         switch (strtolower($name)) {
-            case "rub" : {
+            case "rub": {
                 return static::ID_RUB;
             }
-            case "eur" : {
+            case "eur": {
                 return static::ID_EUR;
             }
-            case "usd" : {
+            case "usd": {
                 return static::ID_USD;
             }
-            default : {
+            default: {
                 return null;
             }
         }
@@ -49,16 +49,16 @@ class Currency extends BaseModel
     public static function getFormattedName(int $id = null): ?string
     {
         switch ($id) {
-            case static::ID_RUB : {
+            case static::ID_RUB: {
                 return "р";
             }
-            case static::ID_EUR : {
+            case static::ID_EUR: {
                 return "EU";
             }
-            case static::ID_USD : {
+            case static::ID_USD: {
                 return "US";
             }
-            default : {
+            default: {
                 return null;
             }
         }
@@ -67,16 +67,16 @@ class Currency extends BaseModel
     public static function getIsoName(int $id = null): ?string
     {
         switch ($id) {
-            case static::ID_RUB : {
+            case static::ID_RUB: {
                 return "RUB";
             }
-            case static::ID_EUR : {
+            case static::ID_EUR: {
                 return "EUR";
             }
-            case static::ID_USD : {
+            case static::ID_USD: {
                 return "USD";
             }
-            default : {
+            default: {
                 return null;
             }
         }

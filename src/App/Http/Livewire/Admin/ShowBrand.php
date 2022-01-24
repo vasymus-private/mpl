@@ -105,7 +105,7 @@ class ShowBrand extends Component
         $this->validate();
 
         $shouldRedirect = false;
-        if (!$this->brand->id) {
+        if (! $this->brand->id) {
             $shouldRedirect = true;
         }
 
@@ -127,10 +127,13 @@ class ShowBrand extends Component
 
     protected function saveMainImage()
     {
-        if (!$this->mainImage) {
+        if (! $this->mainImage) {
             /** @var CustomMedia|null $media */
             $media = $this->brand->getFirstMedia(Brand::MC_MAIN_IMAGE);
-            if ($media) $media->delete();
+            if ($media) {
+                $media->delete();
+            }
+
             return;
         }
 
@@ -183,7 +186,7 @@ class ShowBrand extends Component
 
     public function toggleGenerateSlugMode()
     {
-        $this->generateSlugSyncMode = !$this->generateSlugSyncMode;
+        $this->generateSlugSyncMode = ! $this->generateSlugSyncMode;
         $this->handleGenerateSlug();
     }
 

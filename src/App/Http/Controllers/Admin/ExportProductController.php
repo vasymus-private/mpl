@@ -15,7 +15,7 @@ class ExportProductController extends BaseAdminController
     public function index()
     {
         $centralAdmin = Admin::getCentralAdmin();
-        $mediaItems = $centralAdmin->getMedia(Admin::MC_EXPORT_PRODUCTS)->sortByDesc('created_at')->filter(function(CustomMedia $media) {
+        $mediaItems = $centralAdmin->getMedia(Admin::MC_EXPORT_PRODUCTS)->sortByDesc('created_at')->filter(function (CustomMedia $media) {
             return $media->size > 0;
         })->all();
 
@@ -26,13 +26,14 @@ class ExportProductController extends BaseAdminController
     {
         $centralAdmin = Admin::getCentralAdmin();
         /** @var \Domain\Common\Models\CustomMedia $media */
-        $media = $centralAdmin->getFirstMedia(Admin::MC_EXPORT_PRODUCTS, function(CustomMedia $customMedia) use($request) {
+        $media = $centralAdmin->getFirstMedia(Admin::MC_EXPORT_PRODUCTS, function (CustomMedia $customMedia) use ($request) {
             return (string) $customMedia->id === (string) $request->id;
         });
 
-        if (!$media) {
-            throw (new ModelNotFoundException)->setModel(
-                CustomMedia::class, $request->id
+        if (! $media) {
+            throw (new ModelNotFoundException())->setModel(
+                CustomMedia::class,
+                $request->id
             );
         }
 
@@ -62,13 +63,14 @@ class ExportProductController extends BaseAdminController
     {
         $centralAdmin = Admin::getCentralAdmin();
         /** @var \Domain\Common\Models\CustomMedia $media */
-        $media = $centralAdmin->getFirstMedia(Admin::MC_EXPORT_PRODUCTS, function(CustomMedia $customMedia) use($request) {
+        $media = $centralAdmin->getFirstMedia(Admin::MC_EXPORT_PRODUCTS, function (CustomMedia $customMedia) use ($request) {
             return (string) $customMedia->id === (string) $request->id;
         });
 
-        if (!$media) {
-            throw (new ModelNotFoundException)->setModel(
-                CustomMedia::class, $request->id
+        if (! $media) {
+            throw (new ModelNotFoundException())->setModel(
+                CustomMedia::class,
+                $request->id
             );
         }
 

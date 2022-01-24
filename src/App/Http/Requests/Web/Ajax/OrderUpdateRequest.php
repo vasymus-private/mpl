@@ -39,7 +39,7 @@ class OrderUpdateRequest extends FormRequest
         return [
             "order_id" => [
                 "required",
-                Rule::exists(Order::TABLE, "id")->where("user_id", $this->getAuthUser()->id)
+                Rule::exists(Order::TABLE, "id")->where("user_id", $this->getAuthUser()->id),
             ],
             "payment_method_id" => "required|exists:" . PaymentMethod::class . ",id",
             "payment_method_description" => "string|nullable|max:1000",
@@ -50,6 +50,6 @@ class OrderUpdateRequest extends FormRequest
 
     public function getAuthUser(): BaseUser
     {
-        return Cache::store('array')->rememberForever(sprintf('%s-user', static::class), fn() => H::userOrAdmin());
+        return Cache::store('array')->rememberForever(sprintf('%s-user', static::class), fn () => H::userOrAdmin());
     }
 }

@@ -41,18 +41,17 @@ class CartProductsStoreRequest extends FormRequest
     public function withValidator(Validator $validator)
     {
         $validator->after(function (Validator $validator) {
-            $existsIds = Product
-                ::query()
+            $existsIds = Product::query()
                 ->active()
                 ->available()
-                ->where(function(Builder $query) {
+                ->where(function (Builder $query) {
                     $query
-                        ->orWhere(function(Builder $qu) {
-                            /** @var \Domain\Products\QueryBuilders\ProductQueryBuilder $qu*/
+                        ->orWhere(function (Builder $qu) {
+                            /** @var \Domain\Products\QueryBuilders\ProductQueryBuilder $qu */
                             $qu->variations();
                         })
-                        ->orWhere(function(Builder $qu) {
-                            /** @var \Domain\Products\QueryBuilders\ProductQueryBuilder $qu*/
+                        ->orWhere(function (Builder $qu) {
+                            /** @var \Domain\Products\QueryBuilders\ProductQueryBuilder $qu */
                             $qu->doesntHaveVariations();
                         })
                     ;
@@ -60,7 +59,7 @@ class CartProductsStoreRequest extends FormRequest
                 ->pluck("id")
                 ->toArray()
             ;
-            if (!in_array($this->id, $existsIds)) {
+            if (! in_array($this->id, $existsIds)) {
                 $validator->errors()->add("id", "Id `{$this->id}` of product should exist, be active, be available and be a variation or product without variations.");
             }
         });

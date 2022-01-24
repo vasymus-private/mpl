@@ -15,8 +15,8 @@ trait HasBrands
 
     protected function initBrandsOptions()
     {
-        $this->brands = Cache::store('array')->rememberForever('options-brands', function() {
-            return Brand::query()->select(["id", "name"])->get()->map(fn(Brand $brand) => OptionDTO::fromBrand($brand)->toArray())->all();
+        $this->brands = Cache::store('array')->rememberForever('options-brands', function () {
+            return Brand::query()->select(["id", "name"])->get()->map(fn (Brand $brand) => OptionDTO::fromBrand($brand)->toArray())->all();
         });
     }
 }

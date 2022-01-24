@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Providers\AuthServiceProvider;
 use Domain\Orders\Models\Order;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Support\H;
 
@@ -36,7 +34,7 @@ class HomeController extends Controller
             case $model instanceof Order : {
                 /** @var \Domain\Users\Models\BaseUser\BaseUser $user */
                 $user = $model->user;
-                if (!$user) {
+                if (! $user) {
                     abort(404);
                 }
 

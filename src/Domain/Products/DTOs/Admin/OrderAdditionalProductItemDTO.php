@@ -86,7 +86,7 @@ class OrderAdditionalProductItemDTO extends DataTransferObject
             'is_active_name' => $product->is_active_name,
             'price_retail_formatted' => $product->price_retail_formatted,
             'image' => $product->main_image_sm_thumb_url,
-            'variations' => $parent ? [] : $product->variations->map(fn(Product $item) => static::create($item, $product))->all(),
+            'variations' => $parent ? [] : $product->variations->map(fn (Product $item) => static::create($item, $product))->all(),
         ]);
     }
 }

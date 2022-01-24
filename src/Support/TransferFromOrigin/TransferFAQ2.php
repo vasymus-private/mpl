@@ -2,7 +2,6 @@
 
 namespace Support\TransferFromOrigin;
 
-use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Ixudra\Curl\Builder;
@@ -96,7 +95,7 @@ class TransferFAQ2 extends BaseTransfer
     {
         $crawler
             ->filter("img")
-            ->each(function(Crawler $imgNode) {
+            ->each(function (Crawler $imgNode) {
                 $oldSrc = ltrim($imgNode->attr("src"), "/");
                 /** @var Builder $builder */
                 $builder = Curl::to("https://parket-lux.ru/$oldSrc");
@@ -107,7 +106,7 @@ class TransferFAQ2 extends BaseTransfer
             })
         ;
         $crawler->filter("a")
-            ->each(function(Crawler $anchorNode) {
+            ->each(function (Crawler $anchorNode) {
                 $attr = $anchorNode->attr("href");
                 $newAttr = str_replace(["https://parket-lux.ru/", "http://parket-lux.ru/", "parket-lux.ru/"], "/", $attr);
                 $anchorNode->getNode(0)->setAttribute("href", $newAttr);
@@ -133,7 +132,7 @@ class TransferFAQ2 extends BaseTransfer
 
                 $html = $builder->get();
 
-                if (!$html) {
+                if (! $html) {
                     dump("Failed to fetch $pageUrl");
                 }
 
@@ -161,7 +160,7 @@ class TransferFAQ2 extends BaseTransfer
 
             $html = $builder->get();
 
-            if (!$html) {
+            if (! $html) {
                 dump("Failed to fetch $pageUrl");
             }
 
@@ -182,7 +181,7 @@ class TransferFAQ2 extends BaseTransfer
 
             $resultItem = [];
 
-            $crawler->filter(".faq-section .question .detail_author a")->each(function(Crawler $node) use(&$resultItem) {
+            $crawler->filter(".faq-section .question .detail_author a")->each(function (Crawler $node) use (&$resultItem) {
                 $resultItem[] = [
                     "name" => $node->text(),
                     "href" => $node->attr("href"),

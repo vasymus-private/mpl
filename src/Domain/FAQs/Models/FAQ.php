@@ -35,10 +35,10 @@ class FAQ extends BaseModel implements HasMedia
 {
     use InteractsWithMedia;
 
-    const TABLE = "faq";
-    const UPDATED_AT = null;
+    public const TABLE = "faq";
+    public const UPDATED_AT = null;
 
-    const MC_FILES = "files";
+    public const MC_FILES = "files";
 
     /**
      * The table associated with the model.

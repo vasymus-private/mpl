@@ -22,6 +22,7 @@ class UserFactory extends Factory
     public function definition()
     {
         $date = $this->faker->dateTimeBetween('-3 days');
+
         return [
             'name' => sprintf('%s %s', $this->faker->firstName(), $this->faker->lastName),
             'email' => $this->faker->unique()->safeEmail,

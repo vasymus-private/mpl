@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Web;
 
 use Domain\Articles\Models\Article;
-use Support\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
+use Support\Breadcrumbs\Breadcrumbs;
 
 class ArticlesController extends BaseWebController
 {
     public function show(Request $request)
     {
-        /** @var \Domain\Articles\Models\Article $article*/
+        /** @var \Domain\Articles\Models\Article $article */
         $article = $request->article_slug;
 
         /** @var Article|null $subarticle */

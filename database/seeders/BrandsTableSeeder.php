@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use Domain\Products\Models\Brand;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class BrandsTableSeeder extends BaseSeeder
@@ -16,7 +16,7 @@ class BrandsTableSeeder extends BaseSeeder
      */
     public function run()
     {
-        if (!$this->shouldClearData()) {
+        if (! $this->shouldClearData()) {
             return;
         }
 
@@ -35,8 +35,12 @@ class BrandsTableSeeder extends BaseSeeder
             $seed["slug"] = Str::slug($seed["name"]);
             $manufacturer = Brand::forceCreate($seed);
 
-            if (empty($seedRaw["image"])) continue;
-            if (!Storage::exists($seedRaw["image"])) continue;
+            if (empty($seedRaw["image"])) {
+                continue;
+            }
+            if (! Storage::exists($seedRaw["image"])) {
+                continue;
+            }
 
             $manufacturer
                 ->addMedia(storage_path("app/$seedRaw[image]"))

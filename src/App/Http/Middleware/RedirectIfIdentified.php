@@ -45,6 +45,7 @@ class RedirectIfIdentified
             $user = Auth::guard($guard)->user();
             $users[] = $user;
         }
+
         return $users;
     }
 }

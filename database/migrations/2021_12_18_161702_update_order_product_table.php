@@ -13,7 +13,7 @@ class UpdateOrderProductTable extends Migration
      */
     public function up()
     {
-        Schema::table('order_product', function(Blueprint $table) {
+        Schema::table('order_product', function (Blueprint $table) {
             $table->float('price_retail_rub');
             $table->string('unit')->nullable();
         });
@@ -26,7 +26,7 @@ class UpdateOrderProductTable extends Migration
      */
     public function down()
     {
-        Schema::table('order_product', function(Blueprint $table) {
+        Schema::table('order_product', function (Blueprint $table) {
             $table->dropColumn(['price_retail_rub', 'unit']);
         });
     }

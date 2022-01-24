@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Support\Facades\DB;
 use Domain\Seo\Models\Seo;
+use Illuminate\Support\Facades\DB;
 
 class SeoTableSeeder extends BaseSeeder
 {
@@ -14,7 +14,7 @@ class SeoTableSeeder extends BaseSeeder
      */
     public function run()
     {
-        if (!$this->shouldClearData()) {
+        if (! $this->shouldClearData()) {
             return;
         }
 

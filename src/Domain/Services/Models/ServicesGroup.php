@@ -11,11 +11,11 @@ use Domain\Common\Models\BaseModel;
  * */
 class ServicesGroup extends BaseModel
 {
-    const TABLE = "services_groups";
+    public const TABLE = "services_groups";
 
-    const ID_PARQUET_LAYING = 1;
-    const ID_PARQUET_RESTORATION = 2;
-    const ID_FOUNDATION_PREPARE = 3;
+    public const ID_PARQUET_LAYING = 1;
+    public const ID_PARQUET_RESTORATION = 2;
+    public const ID_FOUNDATION_PREPARE = 3;
 
     /**
      * The table associated with the model.

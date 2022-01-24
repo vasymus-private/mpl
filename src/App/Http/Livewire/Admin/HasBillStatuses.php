@@ -15,8 +15,8 @@ trait HasBillStatuses
 
     protected function initBillStatusesOptions()
     {
-        $this->billStatuses = Cache::store('array')->rememberForever('bill-statuses-options', function() {
-            return BillStatus::query()->get()->map(fn(BillStatus $billStatus) => OptionDTO::stdFromModel($billStatus)->toArray())->all();
+        $this->billStatuses = Cache::store('array')->rememberForever('bill-statuses-options', function () {
+            return BillStatus::query()->get()->map(fn (BillStatus $billStatus) => OptionDTO::stdFromModel($billStatus)->toArray())->all();
         });
     }
 }

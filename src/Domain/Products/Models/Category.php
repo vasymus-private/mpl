@@ -65,18 +65,18 @@ class Category extends BaseModel
     use HasDeletedItemSlug;
     use HasFactory;
 
-    const TABLE = "categories";
+    public const TABLE = "categories";
 
     // TODO temporary decision for menu render
-    const _TEMP_ID_PARKET = 1;
-    const _TEMP_ID_PARKET_GLUE = 8;
-    const _TEMP_ID_PARKET_LACQUER = 19;
-    const _TEMP_ID_PARKET_OIL = 31;
-    const _TEMP_ID_PUTTY = 36;
-    const _TEMP_ID_CARE_TOOLS = 39;
-    const _TEMP_ID_FLOOR_BASE = 46;
-    const _TEMP_ID_EQUIPMENT = 54;
-    const _TEMP_ID_RELATED_TOOLS = 60;
+    public const _TEMP_ID_PARKET = 1;
+    public const _TEMP_ID_PARKET_GLUE = 8;
+    public const _TEMP_ID_PARKET_LACQUER = 19;
+    public const _TEMP_ID_PARKET_OIL = 31;
+    public const _TEMP_ID_PUTTY = 36;
+    public const _TEMP_ID_CARE_TOOLS = 39;
+    public const _TEMP_ID_FLOOR_BASE = 46;
+    public const _TEMP_ID_EQUIPMENT = 54;
+    public const _TEMP_ID_RELATED_TOOLS = 60;
 
     public const DEFAULT_IS_ACTIVE = false;
     public const DEFAULT_ORDERING = 500;
@@ -152,6 +152,7 @@ class Category extends BaseModel
     {
         /** @var \Illuminate\Database\Eloquent\Relations\HasMany|\Domain\Products\QueryBuilders\ProductQueryBuilder $productsQuery */
         $productsQuery = $this->hasMany(Product::class, 'category_id', 'id');
+
         return $productsQuery->notVariations();
     }
 
@@ -162,7 +163,7 @@ class Category extends BaseModel
 
     public static function getTreeRuntimeCached(): Collection
     {
-        return Cache::store('array')->rememberForever('categories', function() {
+        return Cache::store('array')->rememberForever('categories', function () {
             return Category::parents()->with("subcategories.subcategories.subcategories")->orderBy(Category::TABLE . ".ordering")->get();
         });
     }
@@ -174,44 +175,47 @@ class Category extends BaseModel
 
     public static function rbSubcategory1Slug($value, Route $route)
     {
-        /** @var Category $parentCategory*/
+        /** @var Category $parentCategory */
         $parentCategory = $route->category_slug;
+
         return static::query()->where(static::TABLE . ".slug", $value)->where(static::TABLE . ".parent_id", $parentCategory->id)->firstOrFail();
     }
 
     public static function rbSubcategory2Slug($value, Route $route)
     {
-        /** @var Category $parentCategory*/
+        /** @var Category $parentCategory */
         $parentCategory = $route->subcategory1_slug;
+
         return static::query()->where(static::TABLE . ".slug", $value)->where(static::TABLE . ".parent_id", $parentCategory->id)->firstOrFail();
     }
 
     public static function rbSubcategory3Slug($value, Route $route)
     {
-        /** @var Category $parentCategory*/
+        /** @var Category $parentCategory */
         $parentCategory = $route->subcategory2_slug;
+
         return static::query()->where(static::TABLE . ".slug", $value)->where(static::TABLE . ".parent_id", $parentCategory->id)->firstOrFail();
     }
 
     public static function getSidebarDividerCount(Category $category): int
     {
         switch ($category->id) {
-            case static::_TEMP_ID_PARKET :
-            case static::_TEMP_ID_PARKET_GLUE :
-            case static::_TEMP_ID_CARE_TOOLS :
-            case static::_TEMP_ID_FLOOR_BASE : {
+            case static::_TEMP_ID_PARKET:
+            case static::_TEMP_ID_PARKET_GLUE:
+            case static::_TEMP_ID_CARE_TOOLS:
+            case static::_TEMP_ID_FLOOR_BASE: {
                 return 3;
             }
-            case static::_TEMP_ID_PARKET_LACQUER :
-            case static::_TEMP_ID_PARKET_OIL :
+            case static::_TEMP_ID_PARKET_LACQUER:
+            case static::_TEMP_ID_PARKET_OIL:
             case static::_TEMP_ID_PUTTY: {
                 return 2;
             }
-            case static::_TEMP_ID_EQUIPMENT :
-            case static::_TEMP_ID_RELATED_TOOLS : {
+            case static::_TEMP_ID_EQUIPMENT:
+            case static::_TEMP_ID_RELATED_TOOLS: {
                 return 1;
             }
-            default : {
+            default: {
                 return $category->subcategories->count() / 2;
             }
         }
@@ -248,13 +252,15 @@ class Category extends BaseModel
                 $subcategoriesIds = array_merge($subcategoriesIds, $this->allLoadedSubcategoriesIds($subcategory));
             }
         }
+
         return $subcategoriesIds;
     }
 
     public function getHasActiveProductsAttribute(): bool
     {
         /** @var \Domain\Products\Actions\HasActiveProductsAction $hasActiveProductsAction */
-        $hasActiveProductsAction = Cache::store('array')->rememberForever(HasActiveProductsAction::class, fn() => resolve(HasActiveProductsAction::class));
+        $hasActiveProductsAction = Cache::store('array')->rememberForever(HasActiveProductsAction::class, fn () => resolve(HasActiveProductsAction::class));
+
         return $hasActiveProductsAction->execute($this->id);
     }
 }

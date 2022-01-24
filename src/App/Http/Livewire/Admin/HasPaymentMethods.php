@@ -18,8 +18,8 @@ trait HasPaymentMethods
      */
     protected function initPaymentMethodsOptions()
     {
-        $this->paymentMethods = Cache::store('array')->rememberForever('options-payment-methods', function() {
-            return PaymentMethod::query()->get()->map(fn(PaymentMethod $paymentMethod) => OptionDTO::fromPaymentMethod($paymentMethod)->toArray())->all();
+        $this->paymentMethods = Cache::store('array')->rememberForever('options-payment-methods', function () {
+            return PaymentMethod::query()->get()->map(fn (PaymentMethod $paymentMethod) => OptionDTO::fromPaymentMethod($paymentMethod)->toArray())->all();
         });
     }
 }

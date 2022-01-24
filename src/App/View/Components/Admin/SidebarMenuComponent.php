@@ -55,7 +55,7 @@ class SidebarMenuComponent extends Component
      */
     public function __construct(Request $request, GetCategoryAndSubtreeIdsAction $getCategoryAndSubtreeIdsAction)
     {
-        $this->categories = Category::getTreeRuntimeCached()->map(fn(Category $category) => CategoryItemSidebarDTO::fromModel($category))->all();
+        $this->categories = Category::getTreeRuntimeCached()->map(fn (Category $category) => CategoryItemSidebarDTO::fromModel($category))->all();
         $this->currentRouteName = Route::currentRouteName();
         $this->categoriesRoutes = [
             Constants::ROUTE_ADMIN_CATEGORIES_INDEX,
@@ -97,11 +97,11 @@ class SidebarMenuComponent extends Component
         return Cache::store('array')
             ->rememberForever(
                 sprintf("%s-%s-%s", static::class, $type, $id),
-                function() use($type, $id): bool {
+                function () use ($type, $id): bool {
                     switch ($type) {
-                        case 'categories-sub' :
-                        case 'categories' : {
-                            if (!$this->isProductsRoute() && !$this->isCategoriesRoute()) {
+                        case 'categories-sub':
+                        case 'categories': {
+                            if (! $this->isProductsRoute() && ! $this->isCategoriesRoute()) {
                                 return false;
                             }
 
@@ -111,7 +111,7 @@ class SidebarMenuComponent extends Component
 
                             $categoryAndSubtreeIds = $this->getCategoryAndSubtreeIdsAction->execute($id);
 
-                            if (!$categoryAndSubtreeIds) {
+                            if (! $categoryAndSubtreeIds) {
                                 return false;
                             }
 
@@ -128,9 +128,10 @@ class SidebarMenuComponent extends Component
                             if ($this->isBrandsRoute()) {
                                 return true;
                             }
+
                             return false;
                         }
-                        default : {
+                        default: {
                             return false;
                         }
                     }

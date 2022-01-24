@@ -24,8 +24,9 @@ class SimpleCategoryDTO extends DataTransferObject
             'id' => $category->id,
             'name' => $category->name,
             'slug' => $category->slug,
-            'subcategories' => $category->subcategories->reduce(function(array $acc, Category $subcategory) {
+            'subcategories' => $category->subcategories->reduce(function (array $acc, Category $subcategory) {
                 $acc[] = call_user_func([static::class, "fromModel"], $subcategory);
+
                 return $acc;
             }, []),
         ]);

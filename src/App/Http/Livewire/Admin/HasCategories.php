@@ -21,11 +21,11 @@ trait HasCategories
      */
     protected function initCategoriesOptions(array $exclude = [])
     {
-        $this->categories = Category::getTreeRuntimeCached()->reduce(function (array $acc, Category $category) use($exclude) {
+        $this->categories = Category::getTreeRuntimeCached()->reduce(function (array $acc, Category $category) use ($exclude) {
             return $this->categoryToOption($acc, $category, 1, $exclude);
         }, []);
 
-        $this->categoriesSelectOptions = Category::getTreeRuntimeCached()->reduce(function(array $acc, Category $category) use($exclude) {
+        $this->categoriesSelectOptions = Category::getTreeRuntimeCached()->reduce(function (array $acc, Category $category) use ($exclude) {
             return $this->categoryToOption($acc, $category, 1, $exclude, false);
         }, []);
     }
@@ -52,6 +52,7 @@ trait HasCategories
                 $acc = $this->categoryToOption($acc, $subcategory, $level + 1, $exclude, $isHtmlString);
             }
         }
+
         return $acc;
     }
 }

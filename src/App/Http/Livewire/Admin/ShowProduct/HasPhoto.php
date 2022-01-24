@@ -88,7 +88,7 @@ trait HasPhoto
 
     public function deleteAdditionalImage($index)
     {
-        $this->additionalImages = collect($this->additionalImages)->values()->filter(fn(array $additionalImage, int $key) => (string)$index !== (string)$key)->toArray();
+        $this->additionalImages = collect($this->additionalImages)->values()->filter(fn (array $additionalImage, int $key) => (string)$index !== (string)$key)->toArray();
     }
 
     /**
@@ -115,7 +115,7 @@ trait HasPhoto
         $mainImageMedia = $product->getFirstMedia(Product::MC_MAIN_IMAGE);
         $this->mainImage = $mainImageMedia
             ? (
-            $this->isCreatingFromCopy
+                $this->isCreatingFromCopy
                 ? FileDTO::copyFromCustomMedia($mainImageMedia)->toArray()
                 : FileDTO::fromCustomMedia($mainImageMedia)->toArray()
             )
@@ -124,7 +124,7 @@ trait HasPhoto
         $this->additionalImages = $product
             ->getMedia(Product::MC_ADDITIONAL_IMAGES)
             ->map(
-                fn(CustomMedia $media) =>
+                fn (CustomMedia $media) =>
                 $this->isCreatingFromCopy
                     ? FileDTO::copyFromCustomMedia($media)->toArray()
                     : FileDTO::fromCustomMedia($media)->toArray()
@@ -134,18 +134,20 @@ trait HasPhoto
 
     protected function saveMainImage()
     {
-        if (!$this->mainImage) {
+        if (! $this->mainImage) {
             /** @var CustomMedia|null $media */
             $media = $this->item->getFirstMedia(Product::MC_MAIN_IMAGE);
             if ($media) {
                 $media->delete();
             }
+
             return;
         }
 
         if ($this->isCreatingFromCopy || $this->mainImage['id'] === null) {
             $mainImage = new FileDTO($this->mainImage);
             $this->addMedia($mainImage, Product::MC_MAIN_IMAGE);
+
             return;
         }
 

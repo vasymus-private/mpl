@@ -148,6 +148,7 @@ class ShowProduct extends BaseShowProduct
         }
         $category_id = $this->item->category_id;
         DeleteProductAction::cached()->execute($this->item);
+
         return redirect()->route(Constants::ROUTE_ADMIN_PRODUCTS_INDEX, compact('category_id'));
     }
 

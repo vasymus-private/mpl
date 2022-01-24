@@ -26,7 +26,9 @@ class RandomProxiesRepository implements CanGetRandomProxies
     public function getOneRandomProxy(): ?ProxyDTO
     {
         $all = $this->getAllRandomProxies();
-        if (empty($all)) return null;
+        if (empty($all)) {
+            return null;
+        }
 
         return collect($all)->take(20)->random();
     }
@@ -37,12 +39,11 @@ class RandomProxiesRepository implements CanGetRandomProxies
     public function getAllRandomProxies(): array
     {
         return collect($this->store)
-            ->sort(function(ProxyDTO $a, ProxyDTO $b) {
+            ->sort(function (ProxyDTO $a, ProxyDTO $b) {
                 return $b->lastChecked->getTimestamp() - $a->lastChecked->getTimestamp();
             })
             ->values()
             ->toArray()
         ;
     }
-
 }

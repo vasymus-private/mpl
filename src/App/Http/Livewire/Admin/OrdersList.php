@@ -8,9 +8,9 @@ use Domain\Orders\Enums\OrderAdminColumn;
 use Domain\Orders\Models\Order;
 use Domain\Products\DTOs\Admin\OrderItemDTO;
 use Domain\Users\Models\BaseUser\BaseUser;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
-use Illuminate\Database\Eloquent\Builder;
 use Support\H;
 
 class OrdersList extends BaseItemsListComponent
@@ -103,7 +103,7 @@ class OrdersList extends BaseItemsListComponent
 
     public function hydrateOrderAdminColumns(array $value = [])
     {
-        $this->orderAdminColumns = collect($value)->map(fn($v) => OrderAdminColumn::from($v))->all();
+        $this->orderAdminColumns = collect($value)->map(fn ($v) => OrderAdminColumn::from($v))->all();
     }
 
     public function clearFilters()
@@ -176,7 +176,7 @@ class OrdersList extends BaseItemsListComponent
      */
     protected function setItems(array $items)
     {
-        $this->items = collect($items)->map(fn(Order $order) => OrderItemDTO::fromModel($order)->toArray())->all();
+        $this->items = collect($items)->map(fn (Order $order) => OrderItemDTO::fromModel($order)->toArray())->all();
     }
 
     protected function mountRequest()
@@ -221,7 +221,7 @@ class OrdersList extends BaseItemsListComponent
             return false;
         }
 
-        $adminOrderColumns = collect($values)->map(fn($value) => OrderAdminColumn::from($value))->all();
+        $adminOrderColumns = collect($values)->map(fn ($value) => OrderAdminColumn::from($value))->all();
         $admin->admin_order_columns = $adminOrderColumns;
         $admin->save();
 

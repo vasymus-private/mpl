@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * */
 class OrderProduct extends Pivot
 {
-    const TABLE = "order_product";
+    public const TABLE = "order_product";
 
     /**
      * The table associated with the model.

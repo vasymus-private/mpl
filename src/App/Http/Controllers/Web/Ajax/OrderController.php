@@ -33,7 +33,7 @@ class OrderController extends BaseWebController
         }
 
         return [
-            "url" => route('profile')
+            "url" => route('profile'),
         ];
     }
 }

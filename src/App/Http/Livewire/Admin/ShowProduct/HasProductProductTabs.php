@@ -143,13 +143,17 @@ trait HasProductProductTabs
 
     public function loadProductProduct(int $for)
     {
-        if (!in_array($for, ProductProduct::ALL_TYPES)) return;
+        if (! in_array($for, ProductProduct::ALL_TYPES)) {
+            return;
+        }
 
         $filters = $this->searchForProductProduct[$for];
         $category_id = (int)$filters['category_id'];
         $product_name = (string)$filters['product_name'];
 
-        if (!$category_id && !$product_name) return;
+        if (! $category_id && ! $product_name) {
+            return;
+        }
 
         $productQuery = Product::query()->notVariations();
 
@@ -165,25 +169,26 @@ trait HasProductProductTabs
             $productQuery->where(Product::TABLE . ".name", "like", "%{$product_name}%");
         }
 
-        $this->loadedForProductProduct[$for] = collect($productQuery->paginate(20)->items())->map(fn(Product $product) => ProductProductDTO::fromModel($product, "loadedForProductProduct.{$for}.{$product->id}.")->toArray())->keyBy('id')->all();
+        $this->loadedForProductProduct[$for] = collect($productQuery->paginate(20)->items())->map(fn (Product $product) => ProductProductDTO::fromModel($product, "loadedForProductProduct.{$for}.{$product->id}.")->toArray())->keyBy('id')->all();
     }
 
     protected function saveProductProduct()
     {
         foreach ($this->mapTypeToRelationName as $type => $relation) {
             $currentIds = collect($this->productProducts[$type])
-                ->filter(fn(array $item) => !$item['toDelete'])
+                ->filter(fn (array $item) => ! $item['toDelete'])
                 ->pluck('id')
                 ->values()
                 ->toArray();
             $selectedIds = collect($this->loadedForProductProduct[$type])
-                ->filter(fn(array $item) => $item['isSelected'])
+                ->filter(fn (array $item) => $item['isSelected'])
                 ->pluck('id')
                 ->values()
                 ->toArray();
             $ids = array_merge($currentIds, $selectedIds);
-            $sync = collect($ids)->reduce(function(array $acc, int $id) use($type) {
+            $sync = collect($ids)->reduce(function (array $acc, int $id) use ($type) {
                 $acc[$id] = ["type" => $type];
+
                 return $acc;
             }, []);
             $this->item->{$relation}()->sync($sync);
@@ -200,8 +205,9 @@ trait HasProductProductTabs
             /** @var \Illuminate\Support\Collection $rel */
             $rel = $product->{$relation};
             $this->productProducts[$type] = $rel->map(
-                fn(Product $productProduct) => ProductProductDTO::fromModel(
-                    $productProduct, "productProducts.{$type}.{$productProduct->id}."
+                fn (Product $productProduct) => ProductProductDTO::fromModel(
+                    $productProduct,
+                    "productProducts.{$type}.{$productProduct->id}."
                 )->toArray()
             )
                 ->keyBy('id')

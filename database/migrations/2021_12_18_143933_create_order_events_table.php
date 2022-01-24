@@ -24,7 +24,7 @@ class CreateOrderEventsTable extends Migration
             $table->timestamp('created_at')->nullable();
         });
 
-        Schema::table(static::$table, function(Blueprint $table) {
+        Schema::table(static::$table, function (Blueprint $table) {
             $table->foreign('order_id', H::foreignIndexName(static::$table, 'order_id', 'orders', 'id'))->references('id')->on('orders');
         });
     }

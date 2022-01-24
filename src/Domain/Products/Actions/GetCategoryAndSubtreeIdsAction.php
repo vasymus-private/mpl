@@ -25,7 +25,9 @@ class GetCategoryAndSubtreeIdsAction extends BaseAction
 
         $categoryAndSubtree = $this->getCategoryAndSubtreeAction->execute($id);
 
-        if (!$categoryAndSubtree) return $ids;
+        if (! $categoryAndSubtree) {
+            return $ids;
+        }
 
         return $this->cb($ids, $categoryAndSubtree);
     }
@@ -42,6 +44,7 @@ class GetCategoryAndSubtreeIdsAction extends BaseAction
         foreach ($categoryDTO->subcategories as $subcategory) {
             $acc = $this->cb($acc, $subcategory);
         }
+
         return $acc;
     }
 }

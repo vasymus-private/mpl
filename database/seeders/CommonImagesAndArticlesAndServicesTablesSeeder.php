@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use Domain\Users\Models\Admin;
 use Domain\Articles\Models\Article;
 use Domain\Seo\Models\Seo;
 use Domain\Services\Models\Service;
 use Domain\Services\Models\ServicesGroup;
+use Domain\Users\Models\Admin;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\DomCrawler\Crawler;
@@ -24,7 +24,7 @@ class CommonImagesAndArticlesAndServicesTablesSeeder extends BaseSeeder
      */
     public function run()
     {
-        if (!$this->shouldClearData()) {
+        if (! $this->shouldClearData()) {
             return;
         }
 
@@ -65,12 +65,12 @@ class CommonImagesAndArticlesAndServicesTablesSeeder extends BaseSeeder
             $html = Storage::get($htmlPath);
 
             $crawler = new Crawler($html);
-            $crawler->filter("img")->each(function(Crawler $node) {
+            $crawler->filter("img")->each(function (Crawler $node) {
                 $oldSrc = $node->attr("src");
                 $newSrc = $this->oldNewImagesSrc[$oldSrc];
                 $node->getNode(0)->setAttribute("src", $newSrc);
             });
-            $crawler->filter("a")->each(function(Crawler $node) {
+            $crawler->filter("a")->each(function (Crawler $node) {
                 $oldHref = $node->attr("href");
                 $oldHrefBasename = basename($oldHref);
                 $shouldUpdate = false;
@@ -80,6 +80,7 @@ class CommonImagesAndArticlesAndServicesTablesSeeder extends BaseSeeder
                     if ($oldHrefBasename === $oldSrcBasename) {
                         $shouldUpdate = true;
                         $oldIndex = $old;
+
                         break;
                     }
                 }
@@ -132,7 +133,7 @@ class CommonImagesAndArticlesAndServicesTablesSeeder extends BaseSeeder
                 $oldUrlArr = explode("/", trim($seed["_oldUrl"], "\\/"));
                 $isParent = count($oldUrlArr) === 2;
 
-                if (!$isParent) {
+                if (! $isParent) {
                     $parentSlug = $oldUrlArr[1];
                     /** @var \Domain\Articles\Models\Article $parent */
                     $parent = Article::query()->where(Article::TABLE . ".slug", $parentSlug)->firstOrFail();
@@ -141,19 +142,22 @@ class CommonImagesAndArticlesAndServicesTablesSeeder extends BaseSeeder
                 }
             } else {
                 switch (true) {
-                    case in_array($seed["slug"], ["ukladka-shtuchnogo-parketa", "ukladka-massivnoy-doski", "ukladka-parketnoy-doski", "ukladka-laminata", "plintus-i-porozhki"]) : {
+                    case in_array($seed["slug"], ["ukladka-shtuchnogo-parketa", "ukladka-massivnoy-doski", "ukladka-parketnoy-doski", "ukladka-laminata", "plintus-i-porozhki"]): {
                         $serviceGroupId = ServicesGroup::ID_PARQUET_LAYING;
+
                         break;
                     }
-                    case in_array($seed["slug"], ["tsiklevka-parketa", "remont-parketa", "ukhod-za-parketom", "tonirovanie-parketa", "parketnaya-khimiya", "parketnoe-oborudovanie"]) : {
+                    case in_array($seed["slug"], ["tsiklevka-parketa", "remont-parketa", "ukhod-za-parketom", "tonirovanie-parketa", "parketnaya-khimiya", "parketnoe-oborudovanie"]): {
                         $serviceGroupId = ServicesGroup::ID_PARQUET_RESTORATION;
+
                         break;
                     }
-                    case in_array($seed["slug"], ["pol-na-lagakh", "styazhka-pola", "sukhaya-styazhka-knauf"]) : {
+                    case in_array($seed["slug"], ["pol-na-lagakh", "styazhka-pola", "sukhaya-styazhka-knauf"]): {
                         $serviceGroupId = ServicesGroup::ID_FOUNDATION_PREPARE;
+
                         break;
                     }
-                    default : {
+                    default: {
                         throw new \LogicException("Cann't find appropriate service group");
                     }
                 }
