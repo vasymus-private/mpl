@@ -209,7 +209,9 @@ class ProductsList extends BaseItemsListComponent
     }
 
     /**
-     * @inheritDoc
+     * @param \Domain\Products\Models\Product\Product[] $items
+     *
+     * @return void
      */
     protected function setItems(array $items)
     {

@@ -7,6 +7,10 @@ use Domain\Products\Models\Product\Product;
 use Illuminate\Database\Eloquent\Collection;
 use Support\H;
 
+/**
+ * @template TModel of \Domain\Products\Models\Product\Product
+ * @extends Collection<TModel>
+ */
 class ProductCollection extends Collection
 {
     public function sumCartRetailPriceRub(): float

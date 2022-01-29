@@ -12,7 +12,7 @@ use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\Category;
 use Domain\Products\Models\CharType;
-use Domain\Users\Models\Admin;
+use Domain\Users\Models\BaseUser\BaseUser;
 use Spatie\DataTransferObject\DataTransferObject;
 
 class OptionDTO extends DataTransferObject
@@ -118,7 +118,7 @@ class OptionDTO extends DataTransferObject
         ]);
     }
 
-    public static function fromAdmin(Admin $admin): self
+    public static function fromAdmin(BaseUser $admin): self
     {
         return new self([
             'value' => $admin->id,

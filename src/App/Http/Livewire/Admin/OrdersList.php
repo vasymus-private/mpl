@@ -172,7 +172,9 @@ class OrdersList extends BaseItemsListComponent
     }
 
     /**
-     * @inheritDoc
+     * @param \Domain\Orders\Models\Order[] $items
+     *
+     * @return void
      */
     protected function setItems(array $items)
     {

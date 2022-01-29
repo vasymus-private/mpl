@@ -8,7 +8,7 @@ use Domain\Products\Models\Product\Product;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * @template TModelClass of \Illuminate\Database\Eloquent\Model
+ * @template TModelClass of \Domain\Products\Models\Product\Product
  * @extends Builder<TModelClass>
  *
  * @method \Domain\Products\Models\Product\Product|null first()

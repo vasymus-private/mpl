@@ -307,8 +307,9 @@ class Product extends BaseModel implements HasMedia
     /**
      * Create a new Eloquent Collection instance.
      *
-     * @param  array  $models
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @param array<int, \Domain\Products\Models\Product\Product> $models
+     *
+     * @return \Domain\Products\Collections\ProductCollection<\Domain\Products\Models\Product\Product>
      */
     public function newCollection(array $models = [])
     {

@@ -32,7 +32,7 @@ class ShowBrand extends Component
     public Seo $seo;
 
     /**
-     * @var array|null @see {@link \Domain\Common\DTOs\FileDTO}
+     * @var array @see {@link \Domain\Common\DTOs\FileDTO}
      */
     public array $mainImage = [];
 
@@ -86,7 +86,7 @@ class ShowBrand extends Component
 
     public function mount()
     {
-        /** @var \Domain\Common\Models\CustomMedia $mainImageMedia */
+        /** @var \Domain\Common\Models\CustomMedia|null $mainImageMedia */
         $mainImageMedia = $this->brand->getFirstMedia(Product::MC_MAIN_IMAGE);
         $this->mainImage = $mainImageMedia ? FileDTO::fromCustomMedia($mainImageMedia)->toArray() : [];
 

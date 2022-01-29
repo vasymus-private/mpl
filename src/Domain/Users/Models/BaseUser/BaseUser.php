@@ -85,7 +85,7 @@ use Illuminate\Notifications\Notifiable;
  * @see \Domain\Users\Models\BaseUser\BaseUser::setAdminProductColumnsAttribute()
  * @property \Domain\Products\Enums\ProductAdminColumn[] $admin_product_columns
  *
- * @method static static|\Domain\Users\QueryBuilders\UserQueryBuilder query()
+ * @method static \Domain\Users\QueryBuilders\UserQueryBuilder query()
  *
  * @mixin \Domain\Common\Models\BaseModel
  * */
@@ -147,7 +147,8 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
      * Create a new Eloquent query builder for the model.
      *
      * @param  \Illuminate\Database\Query\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     *
+     * @return \Domain\Users\QueryBuilders\UserQueryBuilder<\Domain\Users\Models\BaseUser\BaseUser>
      */
     public function newEloquentBuilder($query)
     {
