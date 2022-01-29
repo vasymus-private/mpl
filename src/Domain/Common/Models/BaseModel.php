@@ -2,7 +2,6 @@
 
 namespace Domain\Common\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -18,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @see Builder::firstOrNew()
  * @method static static firstOrNew(array $attributes = [], array $values = [])
  *
- * @method static static|Builder query()
+ * @method static \Illuminate\Database\Eloquent\Builder query()
  * */
 abstract class BaseModel extends Model
 {

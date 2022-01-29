@@ -79,7 +79,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @mixin \Domain\Products\Models\Product\ProductAcM
  * @mixin \Domain\Common\Models\HasDeletedItemSlug
  *
- * @method static static|\Domain\Products\QueryBuilders\ProductQueryBuilder query()
+ * @method static \Domain\Products\QueryBuilders\ProductQueryBuilder query()
  **/
 class Product extends BaseModel implements HasMedia
 {
@@ -319,7 +319,8 @@ class Product extends BaseModel implements HasMedia
      * Create a new Eloquent query builder for the model.
      *
      * @param  \Illuminate\Database\Query\Builder  $query
-     * @return static|\Domain\Products\QueryBuilders\ProductQueryBuilder
+     *
+     * @return \Domain\Products\QueryBuilders\ProductQueryBuilder<\Domain\Products\Models\Product\Product>
      */
     public function newEloquentBuilder($query): ProductQueryBuilder
     {

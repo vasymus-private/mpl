@@ -34,9 +34,6 @@ class HomeController extends Controller
             case $model instanceof Order : {
                 /** @var \Domain\Users\Models\BaseUser\BaseUser $user */
                 $user = $model->user;
-                if (! $user) {
-                    abort(404);
-                }
 
                 // TODO policy not working most likely because it automatically
                 //$this->authorize(AuthServiceProvider::MEDIA_SHOW, $user);

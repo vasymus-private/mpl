@@ -7,6 +7,12 @@ use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Database\Eloquent\Builder;
 
+/**
+ * @template TModelClass of \Illuminate\Database\Eloquent\Model
+ * @extends Builder<TModelClass>
+ *
+ * @method \Domain\Products\Models\Product\Product|null first()
+ */
 class ProductQueryBuilder extends Builder
 {
     /**

@@ -9,6 +9,13 @@ abstract class BaseTransfer
     use HasTransfer;
     use HasHtmlParsing;
 
+    public const _GUID_KEY_KEY = "key";
+    public const _GUID_KEY_SELECTOR = "selector";
+    public const _GUID_KEY_ATTRIBUTE = "attribute";
+    public const _GUID_KEY_CALLBACK = "callback";
+    public const _GUID_KEY_PATTERN = "pattern";
+    public const _GUID_KEY_MATCH_INDEX = "matchIndex";
+
     /** @var Fetcher */
     protected $fetcher;
 

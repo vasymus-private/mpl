@@ -25,7 +25,7 @@ class ExportProductController extends BaseAdminController
     public function show(Request $request)
     {
         $centralAdmin = Admin::getCentralAdmin();
-        /** @var \Domain\Common\Models\CustomMedia $media */
+        /** @var \Domain\Common\Models\CustomMedia|null $media */
         $media = $centralAdmin->getFirstMedia(Admin::MC_EXPORT_PRODUCTS, function (CustomMedia $customMedia) use ($request) {
             return (string) $customMedia->id === (string) $request->id;
         });
@@ -62,7 +62,7 @@ class ExportProductController extends BaseAdminController
     public function delete(Request $request)
     {
         $centralAdmin = Admin::getCentralAdmin();
-        /** @var \Domain\Common\Models\CustomMedia $media */
+        /** @var \Domain\Common\Models\CustomMedia|null $media */
         $media = $centralAdmin->getFirstMedia(Admin::MC_EXPORT_PRODUCTS, function (CustomMedia $customMedia) use ($request) {
             return (string) $customMedia->id === (string) $request->id;
         });

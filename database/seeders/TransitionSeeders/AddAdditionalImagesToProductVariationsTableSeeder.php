@@ -21,7 +21,6 @@ class AddAdditionalImagesToProductVariationsTableSeeder extends BaseSeeder
 
     protected function seedOne()
     {
-        /** @var \Domain\Products\Models\Product\Product $product */
         $product = Product::query()->where("name", "Алюминиевый плинтус Profilpas - 90")->first();
 
         if (! $product) {
@@ -40,7 +39,6 @@ class AddAdditionalImagesToProductVariationsTableSeeder extends BaseSeeder
 
     protected function seedTwo()
     {
-        /** @var \Domain\Products\Models\Product\Product $product */
         $product = Product::query()->where("name", "Запасные детали для Lagler Trio")->first();
 
         if (! $product) {

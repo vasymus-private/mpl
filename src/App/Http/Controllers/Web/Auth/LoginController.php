@@ -113,7 +113,7 @@ class LoginController extends BaseLoginController
 
         $this->clearLoginAttempts($request);
 
-        /** @var \Domain\Users\Models\User\User|\Domain\Users\Models\Admin $authUser */
+        /** @var \Domain\Users\Models\User\User|\Domain\Users\Models\Admin|null $authUser */
         $authUser = $this->guard()->user();
         if (! $authUser) {
             $authUser = Auth::guard(Constants::AUTH_GUARD_ADMIN)->user();
@@ -148,7 +148,9 @@ class LoginController extends BaseLoginController
      */
     public function getAnonymousUser(): User
     {
-        return User::query()->find($this->anonymousUserId);
+        /** @var \Domain\Users\Models\User\User $user */
+        $user = User::query()->findOrFail($this->anonymousUserId);
+        return $user;
     }
 
     /**

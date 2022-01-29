@@ -55,23 +55,23 @@ class CBRcurrencyConverter
             $date = Carbon::now();
         }
 
-        $key = $date->format(static::$format);
+        $key = $date->format(self::$format);
 
         //return Cache::remember() TODO think of caching
 
-        if (isset(static::$cacheRates[$key][$currency])) {
-            return static::$cacheRates[$key][$currency];
+        if (isset(self::$cacheRates[$key][$currency])) {
+            return self::$cacheRates[$key][$currency];
         }
 
         $xml = static::fetchXml($date);
 
-        return static::$cacheRates[$key][$currency] = static::parseRate($xml, $currency);
+        return self::$cacheRates[$key][$currency] = static::parseRate($xml, $currency);
     }
 
     public static function fetchXml(Carbon $date): string
     {
         /** @var Builder $builder */
-        $builder = Curl::to(static::$baseUrl . "?" . static::$dateParam . "=" . $date->format(static::$format));
+        $builder = Curl::to(self::$baseUrl . "?" . self::$dateParam . "=" . $date->format(self::$format));
 
         $result = $builder->get();
 

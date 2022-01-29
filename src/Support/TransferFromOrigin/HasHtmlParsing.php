@@ -82,11 +82,11 @@ trait HasHtmlParsing
     /**
      * Return html string from instantiated \Symfony\Component\DomCrawler\Crawler instance
      *
-     * @return string|null
+     * @return string
      * */
-    public function getHtml(): ?string
+    public function getHtml(): string
     {
-        return $this->getCrawler()->html() ?? null;
+        return $this->getCrawler()->html();
     }
 
     /**
