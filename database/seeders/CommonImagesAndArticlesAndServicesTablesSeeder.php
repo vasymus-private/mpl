@@ -68,7 +68,9 @@ class CommonImagesAndArticlesAndServicesTablesSeeder extends BaseSeeder
             $crawler->filter("img")->each(function (Crawler $node) {
                 $oldSrc = $node->attr("src");
                 $newSrc = $this->oldNewImagesSrc[$oldSrc];
-                $node->getNode(0)->setAttribute("src", $newSrc);
+                /** @var \DOMElement $domElement */
+                $domElement = $node->getNode(0);
+                $domElement->setAttribute("src", $newSrc);
             });
             $crawler->filter("a")->each(function (Crawler $node) {
                 $oldHref = $node->attr("href");
@@ -86,7 +88,9 @@ class CommonImagesAndArticlesAndServicesTablesSeeder extends BaseSeeder
                 }
                 if ($shouldUpdate) {
                     $newHref = $this->oldNewImagesSrc[$oldIndex];
-                    $node->getNode(0)->setAttribute("href", $newHref);
+                    /** @var \DOMElement $domElement */
+                    $domElement = $node->getNode(0);
+                    $domElement->setAttribute("href", $newHref);
                 }
             });
 

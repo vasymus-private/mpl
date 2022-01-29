@@ -69,7 +69,9 @@ class FAQTableSeeder extends BaseSeeder
             ;
             $url = $media->getUrl();
 
-            $imgNode->getNode(0)->setAttribute("src", $url);
+            /** @var \DOMElement $domElement */
+            $domElement = $imgNode->getNode(0);
+            $domElement->setAttribute("src", $url);
         });
 
         return str_replace(["<body>", "</body>"], "", $crawler->html());
