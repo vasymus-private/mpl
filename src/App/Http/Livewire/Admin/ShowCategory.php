@@ -113,7 +113,7 @@ class ShowCategory extends BaseShowComponent
             ->products()
             ->select(['id', 'name', 'is_active', 'category_id'])
             ->get()
-            ->map(fn (Product $product) => CategoryProductItemDTO::fromModel($product)->toArray())
+            ->map(fn (Product $product) => CategoryProductItemDTO::fromModel($product)->toArray()) // @phpstan-ignore-line
             ->all();
     }
 

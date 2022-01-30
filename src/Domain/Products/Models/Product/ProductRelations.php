@@ -61,7 +61,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 trait ProductRelations
 {
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|\Domain\Products\QueryBuilders\ProductQueryBuilder
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function parent(): BelongsTo
     {
@@ -69,7 +69,7 @@ trait ProductRelations
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany|\Domain\Products\QueryBuilders\ProductQueryBuilder
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function variations(): HasMany
     {
@@ -77,7 +77,7 @@ trait ProductRelations
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|\Domain\Products\QueryBuilders\ProductQueryBuilder
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function products(): BelongsToMany
     {
