@@ -4,7 +4,7 @@
  * @var \Closure $isActive @see {@link \App\View\Components\Admin\SidebarMenuComponent::isActive()}
  */
 ?>
-<nav class="min-vh-100 js-admin-sidbar">
+<nav class="js-admin-sidbar">
     <ul class="nav pt-3">
         <li class="nav-item">
             <a href="#categories" class="nav-link {{$isActive('categories', null) ? '' : 'collapsed'}}" data-toggle="collapse" role="button" aria-expanded="{{$isActive('categories', null) ? 'true' : 'false'}}">

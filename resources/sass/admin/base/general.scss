@@ -67,13 +67,29 @@ main {
 
 .edit-item-footer {
     background-color: #fff;
-    border-radius:  4px 4px 0 0; 
+    border-radius:  4px 4px 0 0;
     border: 1px solid #ced7d8;
     border-bottom: 0;
-    position: sticky;
-    bottom: 0;
-    z-index: 22;
     padding: 10px 0 0;
+}
+.edit-item-footer.edit-item-footer-fixed {
+    position: fixed;
+    z-index: 22;
+    bottom: 0;
+    width: 100%;
+}
+.pin-btn {
+    &:after {
+        content: "<";
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+    }
+    &.pin-btn-pinned {
+        &:after {
+            content: "V";
+        }
+    }
 }
 
 body {
@@ -164,7 +180,7 @@ body {
         margin: 16px 0;
         color: #535c69;
         font-size: 13px;
-        
+
         p {
             &:after {
                 content: "";
