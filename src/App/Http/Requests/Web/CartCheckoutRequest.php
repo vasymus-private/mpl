@@ -12,7 +12,7 @@ use Support\H;
  * @property-read string|null $email
  * @property-read string|null $phone
  * @property-read string|null $comment
- * @property-read \Illuminate\Http\UploadedFile[]|null attachment
+ * @property-read \Illuminate\Http\UploadedFile[]|null $attachment
  * */
 class CartCheckoutRequest extends FormRequest
 {

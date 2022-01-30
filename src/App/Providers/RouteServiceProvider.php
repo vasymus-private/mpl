@@ -76,6 +76,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function ddRoutes()
     {
         $routes = [];
+        /** @var \Illuminate\Routing\AbstractRouteCollection $routeCollection */
         $routeCollection = Route::getRoutes();
         /** @var \Illuminate\Routing\Route $value */
         foreach ($routeCollection as $value) {

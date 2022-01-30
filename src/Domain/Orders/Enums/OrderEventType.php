@@ -28,8 +28,7 @@ use Spatie\Enum\Enum;
 class OrderEventType extends Enum
 {
     /**
-     * @return string[]|int[]|Closure
-     * @psalm-return array<string, string|int> | Closure(string):(int|string)
+     * @return string[]|int[]
      */
     protected static function values()
     {

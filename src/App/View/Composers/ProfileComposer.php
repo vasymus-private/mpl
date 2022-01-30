@@ -19,10 +19,6 @@ class ProfileComposer
     {
         $user = H::userOrAdmin();
 
-        if (! $user) {
-            return;
-        }
-
         $user->loadCount(["viewed", "serviceViewed"]);
         $user->load(["aside:id"]);
 

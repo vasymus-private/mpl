@@ -2,9 +2,9 @@
 
 namespace Support\Traits;
 
-use App\Contracts\RandomProxies\CanGetRandomProxies;
-use App\Repositories\RandomProxies\RandomProxiesCacheRepository;
-use App\Repositories\RandomProxies\RandomProxiesRepository;
+use Support\RandomProxies\Contracts\CanGetRandomProxies;
+use Support\RandomProxies\Repositories\RandomProxiesCacheRepository;
+use Support\RandomProxies\Repositories\RandomProxiesRepository;
 use Campo\UserAgent;
 use Ixudra\Curl\Builder;
 use Ixudra\Curl\Facades\Curl;
