@@ -5,20 +5,20 @@ namespace Domain\Orders\Models;
 use App\Constants;
 use Database\Factories\OrderFactory;
 use Domain\Common\Models\BaseModel;
+use Domain\Orders\Models\Pivots\OrderProduct;
+use Domain\Products\Collections\ProductCollection;
+use Domain\Products\Models\Product\Product;
 use Domain\Users\Models\Admin;
 use Domain\Users\Models\BaseUser\BaseUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Carbon;
-use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
-use Domain\Orders\Models\Pivots\OrderProduct;
-use Domain\Products\Models\Product\Product;
-use Domain\Products\Collections\ProductCollection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 use Support\H;
 
 /**
@@ -292,13 +292,13 @@ class Order extends BaseModel implements HasMedia
     public function getStatusNameForUserAttribute(): string
     {
         switch (true) {
-            case in_array($this->order_status_id, OrderStatus::IDS_OPEN) : {
+            case in_array($this->order_status_id, OrderStatus::IDS_OPEN): {
                 return "Открыт";
             }
-            case in_array($this->order_status_id, OrderStatus::IDS_PAYED) : {
+            case in_array($this->order_status_id, OrderStatus::IDS_PAYED): {
                 return "Оплачен";
             }
-            default : {
+            default: {
                 return "Закрыт";
             }
         }
@@ -306,27 +306,27 @@ class Order extends BaseModel implements HasMedia
 
     public function getUserNameAttribute(): string
     {
-        return !empty($this->user->name)
+        return ! empty($this->user->name)
                 ? $this->user->name
                 : (
-                $this->request["name"] ?? ""
-            )
+                    $this->request["name"] ?? ""
+                )
         ;
     }
 
     public function getUserEmailAttribute(): string
     {
-        return !empty($this->user->email)
+        return ! empty($this->user->email)
                 ? $this->user->email
                 : (
-                $this->request["email"] ?? ""
-            )
+                    $this->request["email"] ?? ""
+                )
         ;
     }
 
     public function getUserPhoneAttribute(): string
     {
-        return !empty($this->user->phone)
+        return ! empty($this->user->phone)
             ? $this->user->phone
             : (
                 $this->request["phone"] ?? ""
@@ -352,7 +352,7 @@ class Order extends BaseModel implements HasMedia
                     $this->is_business
                         ? "Юридическое лицо"
                         : ""
-            );
+                );
     }
 
     /**
@@ -402,7 +402,7 @@ class Order extends BaseModel implements HasMedia
      */
     public function getIsBusyByOtherAdminAttribute(): bool
     {
-        if (!$this->busy_by_id || !$this->busy_at) {
+        if (! $this->busy_by_id || ! $this->busy_at) {
             return false;
         }
 

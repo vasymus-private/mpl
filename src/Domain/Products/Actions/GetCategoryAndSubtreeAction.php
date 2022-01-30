@@ -28,10 +28,14 @@ class GetCategoryAndSubtreeAction
     protected function cb(array $categories, int $id): ?SimpleCategoryDTO
     {
         foreach ($categories as $categoryDTO) {
-            if ($categoryDTO->id === $id) return $categoryDTO;
+            if ($categoryDTO->id === $id) {
+                return $categoryDTO;
+            }
 
             $res = $this->cb($categoryDTO->subcategories, $id);
-            if ($res) return $res;
+            if ($res) {
+                return $res;
+            }
         }
 
         return null;

@@ -28,7 +28,7 @@ class PingOrderBusyController extends BaseAdminController
                 'id' => $order->id,
                 'busy_by_id' => $order->busy_by_id,
                 'busy_at' => $order->busy_at,
-            ]
+            ],
         ];
     }
 }

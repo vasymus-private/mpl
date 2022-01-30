@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Constants;
 use Illuminate\Foundation\Http\Kernel as BaseKernel;
 
 class HttpKernel extends BaseKernel

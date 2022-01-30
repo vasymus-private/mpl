@@ -85,7 +85,7 @@ use Illuminate\Notifications\Notifiable;
  * @see \Domain\Users\Models\BaseUser\BaseUser::setAdminProductColumnsAttribute()
  * @property \Domain\Products\Enums\ProductAdminColumn[] $admin_product_columns
  *
- * @method static static|\Domain\Users\QueryBuilders\UserQueryBuilder query()
+ * @method static \Domain\Users\QueryBuilders\UserQueryBuilder query()
  *
  * @mixin \Domain\Common\Models\BaseModel
  * */
@@ -95,10 +95,10 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
     use SoftDeletes;
     use CommonTraits;
 
-    const TABLE = "users";
+    public const TABLE = "users";
 
-    const ADMIN_THRESHOLD = 5;
-    const SUPER_ADMIN = 10;
+    public const ADMIN_THRESHOLD = 5;
+    public const SUPER_ADMIN = 10;
 
     /**
      * The table associated with the model.
@@ -147,7 +147,8 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
      * Create a new Eloquent query builder for the model.
      *
      * @param  \Illuminate\Database\Query\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     *
+     * @return \Domain\Users\QueryBuilders\UserQueryBuilder<\Domain\Users\Models\BaseUser\BaseUser>
      */
     public function newEloquentBuilder($query)
     {
@@ -166,7 +167,7 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
 
     public function getIsIdentifiedAttribute(): bool
     {
-        return !empty($this->email);
+        return ! empty($this->email);
     }
 
     public function getIsAnonymous2Attribute(): bool
@@ -235,7 +236,8 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
     {
         $settings = $this->settings;
         $adminOrderColumns = $settings['adminOrderColumns'] ?? GetDefaultAdminOrderColumnsAction::cached()->execute();
-        return collect($adminOrderColumns)->map(fn($value) => OrderAdminColumn::from($value))->all();
+
+        return collect($adminOrderColumns)->map(fn ($value) => OrderAdminColumn::from($value))->all();
     }
 
     /**
@@ -246,7 +248,7 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
     public function setAdminOrderColumnsAttribute(array $adminOrderColumns): void
     {
         $settings = $this->settings;
-        $settings['adminOrderColumns'] = collect($adminOrderColumns)->map(fn(OrderAdminColumn $orderAdminColumn) => $orderAdminColumn->value)->all();
+        $settings['adminOrderColumns'] = collect($adminOrderColumns)->map(fn (OrderAdminColumn $orderAdminColumn) => $orderAdminColumn->value)->all();
         $this->settings = $settings;
     }
 
@@ -257,7 +259,8 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
     {
         $settings = $this->settings;
         $adminProductColumns = $settings['adminProductColumns'] ?? GetDefaultAdminProductColumnsAction::cached()->execute();
-        return collect($adminProductColumns)->map(fn($value) => ProductAdminColumn::from($value))->all();
+
+        return collect($adminProductColumns)->map(fn ($value) => ProductAdminColumn::from($value))->all();
     }
 
     /**
@@ -266,7 +269,7 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
     public function setAdminProductColumnsAttribute(array $adminProductColumns): void
     {
         $settings = $this->settings;
-        $settings['adminProductColumns'] = collect($adminProductColumns)->map(fn(ProductAdminColumn $productAdminColumn) => $productAdminColumn->value)->all();
+        $settings['adminProductColumns'] = collect($adminProductColumns)->map(fn (ProductAdminColumn $productAdminColumn) => $productAdminColumn->value)->all();
         $this->settings = $settings;
     }
 }

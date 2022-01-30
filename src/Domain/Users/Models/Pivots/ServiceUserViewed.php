@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * */
 class ServiceUserViewed extends Pivot
 {
-    const TABLE = "service_user_viewed";
+    public const TABLE = "service_user_viewed";
 
     /**
      * The table associated with the model.

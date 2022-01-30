@@ -64,6 +64,6 @@ trait HasOthersTab
 
     protected function initRelatedCategories(Product $product)
     {
-        $this->relatedCategories = $product->relatedCategories->pluck('id')->map(fn($id) => (string)$id)->toArray();
+        $this->relatedCategories = $product->relatedCategories->pluck('id')->map(fn ($id) => (string)$id)->toArray();
     }
 }

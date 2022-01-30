@@ -17,7 +17,7 @@ class BrandsController extends BaseWebController
 
     public function show(Request $request)
     {
-        /** @var Brand $brand*/
+        /** @var Brand $brand */
         $brand = $request->brand_slug;
         $products = Product::query()->where(Product::TABLE . ".brand_id", $brand->id)->get();
 

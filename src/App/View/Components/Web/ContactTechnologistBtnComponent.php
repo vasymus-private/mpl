@@ -12,6 +12,7 @@ class ContactTechnologistBtnComponent extends Component
     {
         $this->random = rand(1, 1000);
     }
+
     /**
      * Get the view / contents that represent the component.
      *

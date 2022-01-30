@@ -54,7 +54,7 @@ class DefaultUpdateOrderAction
         $phone = $request['phone'] ?? null;
 
         if (
-            !empty(
+            ! empty(
                 array_diff(
                     [$name, $email, $phone],
                     [$params->name, $params->email, $params->phone]
@@ -87,6 +87,7 @@ class DefaultUpdateOrderAction
             'description' => $params->comment_user,
         ];
         $orderEvent->type = OrderEventType::update_comment_user();
+
         return $orderEvent;
     }
 
@@ -102,6 +103,7 @@ class DefaultUpdateOrderAction
             'description' => $params->comment_admin,
         ];
         $orderEvent->type = OrderEventType::update_comment_admin();
+
         return $orderEvent;
     }
 
@@ -118,6 +120,7 @@ class DefaultUpdateOrderAction
             'description' => sprintf('Способ оплаты изменён на "%s"', $paymentMethod->name),
         ];
         $orderEvent->type = OrderEventType::update_payment_method();
+
         return $orderEvent;
     }
 
@@ -134,6 +137,7 @@ class DefaultUpdateOrderAction
             'description' => $admin->name,
         ];
         $orderEvent->type = OrderEventType::update_admin();
+
         return $orderEvent;
     }
 
@@ -150,6 +154,7 @@ class DefaultUpdateOrderAction
             'description' => $orderImportance->name,
         ];
         $orderEvent->type = OrderEventType::update_importance();
+
         return $orderEvent;
     }
 
@@ -181,6 +186,7 @@ class DefaultUpdateOrderAction
         $orderEvent->payload = [
             'description' => $description,
         ];
+
         return $orderEvent;
     }
 

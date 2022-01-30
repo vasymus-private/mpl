@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Web;
 
 use Domain\Services\Events\ServiceViewedEvent;
 use Domain\Services\Models\Service;
-use Support\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
+use Support\Breadcrumbs\Breadcrumbs;
 use Support\H;
 
 class ServicesController extends BaseWebController

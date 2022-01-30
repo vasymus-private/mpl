@@ -10,12 +10,12 @@ class CharTypesTableSeeder extends BaseSeeder
     protected array $seeds = [
         [
             'id' => CharType::ID_TEXT,
-            'name' => CharType::NAME_TEXT
+            'name' => CharType::NAME_TEXT,
         ],
         [
             'id' => CharType::ID_RATE,
             'name' => CharType::NAME_RATE,
-        ]
+        ],
     ];
 
     /**

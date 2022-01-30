@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * */
 class ProductUserAside extends Pivot
 {
-    const TABLE = "product_user_aside";
+    public const TABLE = "product_user_aside";
 
     /**
      * The table associated with the model.

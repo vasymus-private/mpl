@@ -11,6 +11,6 @@ abstract class BaseAction
      */
     public static function cached(): self
     {
-        return H::runtimeCache(static::class, fn() => resolve(static::class));
+        return H::runtimeCache(static::class, fn () => resolve(static::class));
     }
 }

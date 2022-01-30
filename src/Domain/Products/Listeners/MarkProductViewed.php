@@ -3,8 +3,6 @@
 namespace Domain\Products\Listeners;
 
 use Domain\Products\Events\ProductViewedEvent;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class MarkProductViewed
 {

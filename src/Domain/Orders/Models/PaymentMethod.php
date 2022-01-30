@@ -38,6 +38,6 @@ class PaymentMethod extends BaseModel
      * @var array
      */
     protected $casts = [
-        'describable' => 'boolean'
+        'describable' => 'boolean',
     ];
 }

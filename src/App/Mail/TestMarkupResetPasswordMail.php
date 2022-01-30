@@ -2,20 +2,16 @@
 
 namespace App\Mail;
 
-use Domain\Orders\Models\Order;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\HtmlString;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
 class TestMarkupResetPasswordMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * The view factory implementation.
@@ -53,7 +49,7 @@ class TestMarkupResetPasswordMail extends Mailable
 
         $contents = $this->viewFactory->make("emails.reset-password", $data)->render();
 
-        $cssInliner = new CssToInlineStyles;
+        $cssInliner = new CssToInlineStyles();
         $css = $this->viewFactory->make("emails.themes.custom", $data)->render();
         $htmlAndCssInline = $cssInliner->convert(
             $contents,

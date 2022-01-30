@@ -11,13 +11,13 @@ use Domain\Common\Models\BaseModel;
  * */
 class OrderImportance extends BaseModel
 {
-    const TABLE = "order_importances";
+    public const TABLE = "order_importances";
 
-    const ID_GREY = 1;
-    const ID_YELLOW = 2;
-    const ID_RED = 3;
+    public const ID_GREY = 1;
+    public const ID_YELLOW = 2;
+    public const ID_RED = 3;
 
-    const DEFAULT_ID = self::ID_GREY;
+    public const DEFAULT_ID = self::ID_GREY;
 
     /**
      * The table associated with the model.

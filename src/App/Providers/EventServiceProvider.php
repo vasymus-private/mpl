@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use Domain\Products\Events\ProductViewedEvent;
-use Domain\Services\Events\ServiceViewedEvent;
 use Domain\Products\Listeners\MarkProductViewed;
+use Domain\Services\Events\ServiceViewedEvent;
 use Domain\Services\Listeners\MarkServiceViewed;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;

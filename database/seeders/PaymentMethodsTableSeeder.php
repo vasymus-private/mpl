@@ -25,7 +25,7 @@ class PaymentMethodsTableSeeder extends BaseSeeder
             'name' => 'Безналичная оплата со счёта юридического лица',
             'description' => "Для оформления счета потребуются реквизиты организации. С вами свяжутся по email или телефону.",
             'describable' => true,
-        ]
+        ],
     ];
 
     /**

@@ -64,7 +64,7 @@ class CreateOrderAction
                     "name" => $params->request_name,
                     "email" => $params->request_email,
                     "phone" => $params->request_phone,
-                ]
+                ],
             ];
             $order = Order::forceCreate($orderParams);
 

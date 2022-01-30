@@ -10,10 +10,10 @@ class DeleteCategoryAction extends BaseAction
 {
     public function execute(Category $category)
     {
-        $category->subcategories->each(function(Category $subcategory) {
+        $category->subcategories->each(function (Category $subcategory) {
             static::cached()->execute($subcategory);
         });
-        $category->products->each(function(Product $product) {
+        $category->products->each(function (Product $product) {
             $product->is_active = false;
             $product->save();
         });

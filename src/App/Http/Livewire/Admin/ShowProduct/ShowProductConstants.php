@@ -15,5 +15,7 @@ final class ShowProductConstants
 
     public const MAX_FILE_SIZE_MB = 30;
 
-    private function __construct() {}
+    private function __construct()
+    {
+    }
 }

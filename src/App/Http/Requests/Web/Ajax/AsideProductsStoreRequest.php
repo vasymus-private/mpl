@@ -40,7 +40,7 @@ class AsideProductsStoreRequest extends FormRequest
     {
         $validator->after(function (Validator $validator) {
             $existsIds = Product::query()->notVariations()->active()->pluck("id")->toArray();
-            if (!in_array($this->id, $existsIds)) {
+            if (! in_array($this->id, $existsIds)) {
                 $validator->errors()->add("id", "Id `{$this->id}` of product should exist, be active and not be a variation.");
             }
         });

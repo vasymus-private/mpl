@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Web;
 
-use Domain\Products\Models\Category;
 use Illuminate\Http\Request;
 
 class VideosController extends BaseWebController

@@ -3,7 +3,6 @@
 namespace Domain\Products\Models;
 
 use Domain\Common\Models\BaseModel;
-use Domain\Products\DTOs\InformationalPriceDTO;
 
 /**
  * @property int $id
@@ -13,7 +12,7 @@ use Domain\Products\DTOs\InformationalPriceDTO;
  * */
 class InformationalPrice extends BaseModel
 {
-    const TABLE = "informational_prices";
+    public const TABLE = "informational_prices";
 
     /**
      * The table associated with the model.

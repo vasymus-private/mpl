@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Http\Requests\Web\CartCheckoutRequest;
+use App\Mail\OrderShippedMail;
 use DateInterval;
 use Domain\Orders\Actions\CreateOrderAction;
 use Domain\Orders\DTOs\CreateOrderParamsDTO;
 use Domain\Orders\DTOs\OrderProductItemDTO;
 use Domain\Orders\Enums\OrderEventType;
-use Domain\Users\Models\BaseUser\BaseUser;
-use Exception;
-use Support\H;
-use App\Http\Requests\Web\CartCheckoutRequest;
-use App\Mail\OrderShippedMail;
 use Domain\Orders\Models\Order;
 use Domain\Orders\Models\OrderImportance;
 use Domain\Orders\Models\OrderStatus;
 use Domain\Products\Models\Product\Product;
+use Domain\Users\Models\BaseUser\BaseUser;
+use Exception;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Support\H;
 
 class CartCheckoutController extends BaseWebController
 {
@@ -36,7 +36,7 @@ class CartCheckoutController extends BaseWebController
         if ($authUser->is_identified) {
             $email = $authUser->email;
             $password = null;
-        } else if ($userWithEmailExists) {
+        } elseif ($userWithEmailExists) {
             $email = $request->email;
             $password = null;
         } else {
@@ -61,7 +61,8 @@ class CartCheckoutController extends BaseWebController
 
         try {
             $authUser->cart()->detach();
-        } catch (Exception $ignored) {}
+        } catch (Exception $ignored) {
+        }
 
         return redirect()->route("cart.success", $order->id);
     }
@@ -71,7 +72,7 @@ class CartCheckoutController extends BaseWebController
         $createOrderAction = resolve(CreateOrderAction::class);
 
         $productItems = [];
-        $user->cart_not_trashed->each(function(Product $product) use(&$productItems) {
+        $user->cart_not_trashed->each(function (Product $product) use (&$productItems) {
             $productItems[] = new OrderProductItemDTO([
                 'count' => $product->cart_product->count ?? 1,
                 'product' => $product,

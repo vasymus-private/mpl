@@ -31,7 +31,7 @@ class Admin extends BaseUser implements HasMedia
     {
         parent::boot();
 
-        static::addGlobalScope("admin", function(Builder $builder) {
+        static::addGlobalScope("admin", function (Builder $builder) {
             $builder->where(static::TABLE . ".status", ">=", static::ADMIN_THRESHOLD);
         });
     }

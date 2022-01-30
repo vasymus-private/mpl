@@ -2,10 +2,10 @@
 
 namespace App\View\Components\Web;
 
+use Carbon\Carbon;
 use Domain\Products\DTOs\ViewedDTO;
 use Domain\Products\Models\Product\Product;
 use Domain\Services\Models\Service;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -28,17 +28,17 @@ class SidebarMenuViewedComponent extends Component
     {
         $user = H::userOrAdmin();
         $user->load([
-            "viewed" => function(BelongsToMany $query) {
+            "viewed" => function (BelongsToMany $query) {
                 $query->orderBy("pivot_created_at", "desc")->limit(5);
             },
-            "serviceViewed" => function(BelongsToMany $query) {
+            "serviceViewed" => function (BelongsToMany $query) {
                 $query->orderBy("pivot_created_at", "desc")->limit(5);
             },
-            "viewed.category.parentCategory"
+            "viewed.category.parentCategory",
         ]);
 
         $this->viewed = $user->viewed->merge($user->serviceViewed)
-                    ->sort(function(Model $itemA, Model $itemB) {
+                    ->sort(function (Model $itemA, Model $itemB) {
                         $pivotA = $itemA instanceof Product
                                     ? $itemA->viewed_product
                                     : $itemA->viewed_service
@@ -65,7 +65,7 @@ class SidebarMenuViewedComponent extends Component
 
                         return $bCreatedAt - $aCreatedAt;
                     })
-                    ->map(function(Model $item) {
+                    ->map(function (Model $item) {
                         $web_route = $item instanceof Product
                                         ? $item->web_route
                                         : ($item instanceof Service
@@ -84,13 +84,14 @@ class SidebarMenuViewedComponent extends Component
                                         ? $item->name
                                         : "")
                         ;
+
                         return new ViewedDTO([
                             "web_route" => $web_route,
                             "image_url" => $image_url,
                             "name" => $name,
                         ]);
                     })
-                    ->filter(function(ViewedDTO $dto) {
+                    ->filter(function (ViewedDTO $dto) {
                         return (bool)$dto->web_route && (bool)$dto->name;
                     })
                     ->take(5)

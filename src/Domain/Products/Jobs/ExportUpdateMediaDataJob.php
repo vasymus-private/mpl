@@ -6,19 +6,19 @@ use App\Constants;
 use DateTimeInterface;
 use Domain\Common\Models\CustomMedia;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Log;
 use Spatie\MediaLibrary\Support\File;
-use Support\H;
 
 class ExportUpdateMediaDataJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     public int $id;
 
@@ -45,8 +45,9 @@ class ExportUpdateMediaDataJob implements ShouldQueue
     {
         /** @var \Domain\Common\Models\CustomMedia $media */
         $media = CustomMedia::query()->findOrFail($this->id);
-        if (!$this->finishArchive($media)) {
+        if (! $this->finishArchive($media)) {
             $this->release(60 * 2);
+
             return;
         }
         $media->size = filesize($media->getPath());
@@ -65,6 +66,7 @@ class ExportUpdateMediaDataJob implements ShouldQueue
     protected function finishArchive(CustomMedia $media): bool
     {
         $realMimeType = File::getMimeType($media->getPath());
+
         return $realMimeType === Constants::MIME_ZIP;
     }
 

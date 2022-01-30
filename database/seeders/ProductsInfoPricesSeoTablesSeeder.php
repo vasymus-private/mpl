@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Domain\Products\Models\AvailabilityStatus;
 use Domain\Common\Models\Currency;
 use Domain\Products\Models\Char;
 use Domain\Products\Models\CharCategory;
@@ -10,11 +9,11 @@ use Domain\Products\Models\CharType;
 use Domain\Products\Models\InformationalPrice;
 use Domain\Products\Models\Pivots\CategoryProduct;
 use Domain\Products\Models\Pivots\ProductProduct;
+use Domain\Products\Models\Product\Product;
+use Domain\Seo\Models\Seo;
 use Domain\Users\Models\Pivots\ProductUserAside;
 use Domain\Users\Models\Pivots\ProductUserCart;
 use Domain\Users\Models\Pivots\ProductUserViewed;
-use Domain\Products\Models\Product\Product;
-use Domain\Seo\Models\Seo;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -148,7 +147,7 @@ class ProductsInfoPricesSeoTablesSeeder extends BaseSeeder
      */
     public function run()
     {
-        if (!$this->shouldClearData()) {
+        if (! $this->shouldClearData()) {
             return;
         }
 
@@ -199,27 +198,32 @@ class ProductsInfoPricesSeoTablesSeeder extends BaseSeeder
             foreach ($asIsAttributes as $attribute) {
                 if (($rawSeed[$attribute] ?? null) !== null) {
                     switch (true) {
-                        case $attribute === 'admin_comment' :
-                        case $attribute === 'name' : {
+                        case $attribute === 'admin_comment':
+                        case $attribute === 'name': {
                             $seed[$attribute] = str_replace('&quot;', '"', $rawSeed[$attribute]);
+
                             break;
                         }
-                        case $attribute === "manufacturer_id" : {
+                        case $attribute === "manufacturer_id": {
                             $seed["brand_id"] = $rawSeed["manufacturer_id"];
+
                             break;
                         }
-                        case $attribute === "is_available" :
-                        case $attribute === "is_in_stock" : {
+                        case $attribute === "is_available":
+                        case $attribute === "is_in_stock": {
                             $seed['availability_status_id'] = rand(1, 3);
+
                             break;
                         }
-                        case $attribute === "price_purchase" :
-                        case $attribute === "coefficient" : {
-                            $seed[$attribute] = !empty($rawSeed[$attribute]) ? $rawSeed[$attribute] : null;
+                        case $attribute === "price_purchase":
+                        case $attribute === "coefficient": {
+                            $seed[$attribute] = ! empty($rawSeed[$attribute]) ? $rawSeed[$attribute] : null;
+
                             break;
                         }
-                        default : {
+                        default: {
                             $seed[$attribute] = $rawSeed[$attribute];
+
                             break;
                         }
                     }
@@ -237,10 +241,12 @@ class ProductsInfoPricesSeoTablesSeeder extends BaseSeeder
 
             $seed["is_active"] = true;
 
-            if (!empty($rawSeed["price_retail_currency_id"]))
+            if (! empty($rawSeed["price_retail_currency_id"])) {
                 $seed["price_retail_currency_id"] = Currency::getIdByName($rawSeed["price_retail_currency_id"]);
-            if (!empty($rawSeed["price_purchase_currency_name"])) // YES it's currency name -- RUB, EUR, USD we should put to price_purchase_currency_id -- it's not a typo
+            }
+            if (! empty($rawSeed["price_purchase_currency_name"])) { // YES it's currency name -- RUB, EUR, USD we should put to price_purchase_currency_id -- it's not a typo
                 $seed["price_purchase_currency_id"] = Currency::getIdByName($rawSeed["price_purchase_currency_name"]);
+            }
 
             if (empty($seed["price_retail_currency_id"])) {
                 $pricePurchaseCurrencyId = $seed["price_purchase_currency_id"] ?? null;
@@ -249,7 +255,9 @@ class ProductsInfoPricesSeoTablesSeeder extends BaseSeeder
                 }
             }
 
-            if (empty($seed["slug"])) $seed["slug"] = str_slug($seed["name"]);
+            if (empty($seed["slug"])) {
+                $seed["slug"] = str_slug($seed["name"]);
+            }
 
             try {
                 $product = Product::forceCreate($seed);
@@ -261,7 +269,6 @@ class ProductsInfoPricesSeoTablesSeeder extends BaseSeeder
             $this->seedSeo($product, $rawSeed["seo"]);
             $this->seedInfoPrices($product, $rawSeed["informational_prices"]);
             $this->seedMedia($product, $rawSeed["media"]);
-
         }
     }
 
@@ -315,29 +322,40 @@ class ProductsInfoPricesSeoTablesSeeder extends BaseSeeder
             /** @var Product $product */
             $product = Product::query()->findOrFail($rawSeed["id"]);
 
-            $loop = function(array $ids, int $type): ?array {
-                if (empty($ids)) return null;
+            $loop = function (array $ids, int $type): ?array {
+                if (empty($ids)) {
+                    return null;
+                }
 
                 return Product::query()
                     ->whereIn(Product::TABLE . ".id", $ids)
                     ->pluck("id")
-                    ->reduce(function(array $acc, int $id) use($type) {
+                    ->reduce(function (array $acc, int $id) use ($type) {
                         $acc[$id] = ["type" => $type];
+
                         return $acc;
                     }, []);
             };
 
             $accessoriesSync = $loop($rawSeed["accessoriesIds"] ?? [], ProductProduct::TYPE_ACCESSORY);
-            if ($accessoriesSync) $product->accessory()->sync($accessoriesSync);
+            if ($accessoriesSync) {
+                $product->accessory()->sync($accessoriesSync);
+            }
 
             $similarSync = $loop($rawSeed["similarIds"] ?? [], ProductProduct::TYPE_SIMILAR);
-            if ($similarSync) $product->similar()->sync($similarSync);
+            if ($similarSync) {
+                $product->similar()->sync($similarSync);
+            }
 
             $relatedSync = $loop($rawSeed["relatedIds"] ?? [], ProductProduct::TYPE_RELATED);
-            if ($relatedSync) $product->related()->sync($relatedSync);
+            if ($relatedSync) {
+                $product->related()->sync($relatedSync);
+            }
 
             $workSync = $loop($rawSeed["workIds"] ?? [], ProductProduct::TYPE_WORK);
-            if ($workSync) $product->works()->sync($workSync);
+            if ($workSync) {
+                $product->works()->sync($workSync);
+            }
         }
     }
 
@@ -354,18 +372,24 @@ class ProductsInfoPricesSeoTablesSeeder extends BaseSeeder
             /** @var Product $parentProduct */
             $parentProduct = Product::query()->findOrFail($rawSeed["id"]);
 
-            if (empty($rawSeed["variations"])) continue;
+            if (empty($rawSeed["variations"])) {
+                continue;
+            }
 
             foreach ($rawSeed["variations"] as $variation) {
                 $asIsAttributes = ["name", "price_retail", "ordering", "price_purchase", "is_active", "unit", "coefficient", "preview"];
                 $seed = [];
                 foreach ($asIsAttributes as $attribute) {
-                    if (!empty($variation[$attribute])) $seed[$attribute] = $variation[$attribute];
+                    if (! empty($variation[$attribute])) {
+                        $seed[$attribute] = $variation[$attribute];
+                    }
                 }
-                if (!empty($variation["price_retail_currency_id"]))
+                if (! empty($variation["price_retail_currency_id"])) {
                     $seed["price_retail_currency_id"] = Currency::getIdByName($variation["price_retail_currency_id"]);
-                if (!empty($variation["price_purchase_currency_id"]))
+                }
+                if (! empty($variation["price_purchase_currency_id"])) {
                     $seed["price_purchase_currency_id"] = Currency::getIdByName($variation["price_purchase_currency_id"]);
+                }
 
                 $seed["is_active"] = true;
                 $seed["parent_id"] = $parentProduct["id"];
@@ -373,21 +397,22 @@ class ProductsInfoPricesSeoTablesSeeder extends BaseSeeder
                 $seed['availability_status_id'] = rand(1, 3);
                 $product = Product::forceCreate($seed);
 
-                if (!empty($variation["image"]["src"])) {
+                if (! empty($variation["image"]["src"])) {
                     $src = $variation["image"]["src"];
                     $name = $variation["image"]["name"];
                     $fileAdder = $product
                         ->addMedia(storage_path("app/$src"))
                         ->preservingOriginal()
                     ;
-                    if (!empty($name)) {
+                    if (! empty($name)) {
                         $fileAdder
                             ->usingName($name)
-                            ->sanitizingFileName(function($fileName) {
+                            ->sanitizingFileName(function ($fileName) {
                                 return strtolower(str_replace(['#', '/', '\\', ' '], '-', $fileName));
                             })
                         ;
                     }
+
                     try {
                         $fileAdder->toMediaCollection(Product::MC_MAIN_IMAGE);
                     } catch (NotReadableException $exception) {
@@ -400,20 +425,22 @@ class ProductsInfoPricesSeoTablesSeeder extends BaseSeeder
 
     protected function seedSeo(Product $product, array $seo)
     {
-        if (empty($seo["h1"]) && $seo["title"] && $seo["keywords"] && $seo["description"]) return;
+        if (empty($seo["h1"]) && $seo["title"] && $seo["keywords"] && $seo["description"]) {
+            return;
+        }
 
         $seoM = $product->seo ?: new Seo();
 
-        if (!empty($seo["h1"])) {
+        if (! empty($seo["h1"])) {
             $seoM->h1 = Str::limit($seo["h1"], 188);
         }
-        if (!empty($seo["title"])) {
-            $seoM->title =  Str::limit($seo["title"], 188);
+        if (! empty($seo["title"])) {
+            $seoM->title = Str::limit($seo["title"], 188);
         }
-        if (!empty($seo["keywords"])) {
+        if (! empty($seo["keywords"])) {
             $seoM->keywords = $seo["keywords"];
         }
-        if (!empty($seo["description"])) {
+        if (! empty($seo["description"])) {
             $seoM->description = $seo["description"];
         }
 
@@ -434,15 +461,16 @@ class ProductsInfoPricesSeoTablesSeeder extends BaseSeeder
 
     protected function seedMedia(Product $product, array $media)
     {
-        $loop = function(array $mediaInfo, string $collectionName) use($product) {
+        $loop = function (array $mediaInfo, string $collectionName) use ($product) {
             $src = $mediaInfo["src"];
             $name = $mediaInfo["name"];
+
             try {
                 $product
                     ->addMedia(storage_path("app/$src"))
                     ->preservingOriginal()
                     ->usingName($name)
-                    ->sanitizingFileName(function($fileName) {
+                    ->sanitizingFileName(function ($fileName) {
                         return strtolower(str_replace(['#', '/', '\\', ' '], '-', $fileName));
                     })
                     ->toMediaCollection($collectionName)
@@ -450,10 +478,11 @@ class ProductsInfoPricesSeoTablesSeeder extends BaseSeeder
             } catch (NotReadableException $exception) {
                 dump($exception->getMessage());
             }
-
         };
 
-        if ($media["mainImage"]) $loop($media["mainImage"], Product::MC_MAIN_IMAGE);
+        if ($media["mainImage"]) {
+            $loop($media["mainImage"], Product::MC_MAIN_IMAGE);
+        }
         foreach ($media["images"] as $mediaInfo) {
             $loop($mediaInfo, Product::MC_ADDITIONAL_IMAGES);
         }
@@ -465,7 +494,7 @@ class ProductsInfoPricesSeoTablesSeeder extends BaseSeeder
     protected function seedProductIsWithVariants()
     {
         Product::query()->whereHas('variations')->update([
-            'is_with_variations' => 1
+            'is_with_variations' => 1,
         ]);
     }
 }

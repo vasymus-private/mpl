@@ -26,7 +26,9 @@ class TransferServicesAndArticles extends BaseTransfer
 
         foreach ($raw as $item) {
             $seed = $this->handleRawSeedItem($item);
-            if (!empty($seed)) $seeds[] = $seed;
+            if (! empty($seed)) {
+                $seeds[] = $seed;
+            }
         }
 
         Storage::put("seeds/pages/seeds.json", json_encode($seeds, JSON_UNESCAPED_UNICODE));
@@ -37,8 +39,9 @@ class TransferServicesAndArticles extends BaseTransfer
         $url = $item["link"];
         $images = $item["images"];
         $html = $this->fetchHtml($url);
-        if (!$html) {
+        if (! $html) {
             dump("Failed to fetch html $url");
+
             return null;
         }
         $this->handleStoreHtml($url, $html);
@@ -47,7 +50,9 @@ class TransferServicesAndArticles extends BaseTransfer
         $oldNewImages = [];
         foreach ($images as $oldImageSrc) {
             $newImageSrc = $this->fetchAndStoreImage($oldImageSrc);
-            if ($newImageSrc) $oldNewImages[$oldImageSrc] = $newImageSrc;
+            if ($newImageSrc) {
+                $oldNewImages[$oldImageSrc] = $newImageSrc;
+            }
         }
         $updatedHtml = $this->getHtmlWithUpdatedImgSrc($html, $oldNewImages);
         $onlyContentFromUpdatedHtml = $this->getOnlyContent($updatedHtml);
@@ -60,8 +65,9 @@ class TransferServicesAndArticles extends BaseTransfer
             $isSaved = Storage::put($path, $onlyContentFromUpdatedHtml);
         }
 
-        if (!$isSaved) {
+        if (! $isSaved) {
             dump("Failed to save new html $url");
+
             return null;
         }
 
@@ -82,9 +88,10 @@ class TransferServicesAndArticles extends BaseTransfer
     {
         $result = "";
         $crawler = new Crawler($html);
-        $crawler->filter("article.article-content")->each(function(Crawler $node) use(&$result) {
+        $crawler->filter("article.article-content")->each(function (Crawler $node) use (&$result) {
             $result = $node->outerHtml();
         });
+
         return $result;
     }
 
@@ -97,7 +104,7 @@ class TransferServicesAndArticles extends BaseTransfer
             "keywords" => null,
             "h1" => null,
         ];
-        $crawler->filter("meta")->each(function(Crawler $node) use(&$result) {
+        $crawler->filter("meta")->each(function (Crawler $node) use (&$result) {
             if ($node->attr("name") === "keywords") {
                 $result["keywords"] = $node->attr("content");
             }
@@ -105,10 +112,10 @@ class TransferServicesAndArticles extends BaseTransfer
                 $result["description"] = $node->attr("content");
             }
         });
-        $crawler->filter("title")->each(function(Crawler $node) use(&$result) {
+        $crawler->filter("title")->each(function (Crawler $node) use (&$result) {
             $result["title"] = $node->text();
         });
-        $crawler->filter("h1")->each(function(Crawler $node) use(&$result) {
+        $crawler->filter("h1")->each(function (Crawler $node) use (&$result) {
             $result["h1"] = $node->text();
         });
 
@@ -120,8 +127,10 @@ class TransferServicesAndArticles extends BaseTransfer
         $crawler = new Crawler($html);
 
         foreach ($oldNewImages as $old => $new) {
-            $crawler->filter("img")->each(function(Crawler $node) use($old, $new) {
-                if ($node->attr("src") === $old) $node->getNode(0)->setAttribute("src", $new);
+            $crawler->filter("img")->each(function (Crawler $node) use ($old, $new) {
+                if ($node->attr("src") === $old) {
+                    $node->getNode(0)->setAttribute("src", $new);
+                }
             });
         }
 
@@ -138,10 +147,12 @@ class TransferServicesAndArticles extends BaseTransfer
             $isSaved = Storage::put($path, $html);
         }
 
-        if (!$isSaved) {
+        if (! $isSaved) {
             dump("Failed to save old html $url");
+
             return null;
         }
+
         return $path;
     }
 
@@ -153,6 +164,7 @@ class TransferServicesAndArticles extends BaseTransfer
     public function fetchAndStoreImage(string $url): ?string
     {
         $url = parse_url($url)["path"];
+
         return $this->fetchAndStoreFileToPath($url, "seeds/pages/images/" . ltrim($url, "/\\"));
     }
 }

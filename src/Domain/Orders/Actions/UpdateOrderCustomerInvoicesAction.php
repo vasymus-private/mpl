@@ -31,7 +31,7 @@ class UpdateOrderCustomerInvoicesAction
      */
     public function execute(UpdateOrderInvoicesParamsDTO $params): void
     {
-        if (!$this->haveChanges($params)) {
+        if (! $this->haveChanges($params)) {
             return;
         }
 
@@ -165,7 +165,7 @@ class UpdateOrderCustomerInvoicesAction
             $detailed = $hasNewInvoices && $hasDeletedInvoices
                 ? 'добавил и удалил.'
                 : (
-                $hasNewInvoices
+                    $hasNewInvoices
                     ? 'добавил.'
                     : 'удалил'
                 );
@@ -182,7 +182,7 @@ class UpdateOrderCustomerInvoicesAction
      */
     private function hasNewInvoices(array $invoices): bool
     {
-        return collect($invoices)->isNotEmpty() && collect($invoices)->contains(fn(array $file) => $file['id'] === null);
+        return collect($invoices)->isNotEmpty() && collect($invoices)->contains(fn (array $file) => $file['id'] === null);
     }
 
     /**
@@ -192,7 +192,7 @@ class UpdateOrderCustomerInvoicesAction
      */
     private function hasDeletedCustomerInvoices(UpdateOrderInvoicesParamsDTO $params): bool
     {
-        return H::runtimeCache(sprintf('%s-%s-%s', static::class, 'customer-invoices', $params->order->id), function() use($params) {
+        return H::runtimeCache(sprintf('%s-%s-%s', static::class, 'customer-invoices', $params->order->id), function () use ($params) {
             $payloadInvoicesIds = collect($params->customerInvoices)->pluck('id')->filter()->values()->toArray();
             $currentInvoicesIds = $params->order->customer_invoices->pluck('id')->filter()->values()->toArray();
 
@@ -207,7 +207,7 @@ class UpdateOrderCustomerInvoicesAction
      */
     private function hasDeletedSupplierInvoices(UpdateOrderInvoicesParamsDTO $params): bool
     {
-        return H::runtimeCache(sprintf('%s-%s-%s', static::class, 'supplier-invoices', $params->order->id), function() use($params) {
+        return H::runtimeCache(sprintf('%s-%s-%s', static::class, 'supplier-invoices', $params->order->id), function () use ($params) {
             $payloadInvoicesIds = collect($params->supplierInvoices)->pluck('id')->filter()->values()->toArray();
             $currentInvoicesIds = $params->order->supplier_invoices->pluck('id')->filter()->values()->toArray();
 

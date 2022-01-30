@@ -98,12 +98,12 @@ class Breadcrumbs
         return [
             new BreadcrumbDTO([
                 "name" => "Главная",
-                "url" => route("home")
+                "url" => route("home"),
             ]),
             new BreadcrumbDTO([
                 "name" => $service->name,
-                "url" => null
-            ])
+                "url" => null,
+            ]),
         ];
     }
 
@@ -118,7 +118,7 @@ class Breadcrumbs
         $breadcrumbs = [
             new BreadcrumbDTO([
                 "name" => "Главная",
-                "url" => route("home")
+                "url" => route("home"),
             ]),
         ];
         $breadcrumbs[] = new BreadcrumbDTO([

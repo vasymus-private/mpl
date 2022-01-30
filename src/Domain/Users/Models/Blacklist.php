@@ -2,7 +2,6 @@
 
 namespace Domain\Users\Models;
 
-use Domain\Common\Models\BaseModel;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -16,8 +15,8 @@ class Blacklist extends \Domain\Common\Models\BaseModel
 {
     use SoftDeletes;
 
-    const TABLE = "blacklist";
-    const UPDATED_AT = null;
+    public const TABLE = "blacklist";
+    public const UPDATED_AT = null;
 
     /**
      * The table associated with the model.

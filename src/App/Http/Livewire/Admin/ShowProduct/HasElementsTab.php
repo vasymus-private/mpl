@@ -50,8 +50,8 @@ trait HasElementsTab
                 'string',
                 'max:250',
                 (new Unique(Product::TABLE, 'slug'))->when($this->item->id, function (Unique $unique) {
-                    return $unique->whereNot('id', $this->item->id);
-                })
+                    return $unique->whereNot('id', (string)$this->item->id);
+                }),
             ],
             'item.ordering' => 'integer|nullable',
             'item.brand_id' => 'integer|nullable|exists:' . Brand::class . ",id",
@@ -128,7 +128,7 @@ trait HasElementsTab
     public function deleteInfoPrice($uuid)
     {
         $infoPrice = $this->infoPrices[$uuid] ?? null;
-        if (!$infoPrice) {
+        if (! $infoPrice) {
             return;
         }
 
@@ -137,7 +137,7 @@ trait HasElementsTab
 
     public function deleteInstruction($index)
     {
-        $this->instructions = collect($this->instructions)->values()->filter(fn(array $instruction, int $key) => (string)$index !== (string)$key)->toArray();
+        $this->instructions = collect($this->instructions)->values()->filter(fn (array $instruction, int $key) => (string)$index !== (string)$key)->toArray();
     }
 
     /**
@@ -153,7 +153,7 @@ trait HasElementsTab
     {
         $this->infoPrices = $product->infoPrices
             ->map(
-                fn(InformationalPrice $informationalPrice) =>
+                fn (InformationalPrice $informationalPrice) =>
                 $this->isCreatingFromCopy
                     ? InformationalPriceDTO::copyFromModel($informationalPrice)->toArray()
                     : InformationalPriceDTO::fromModel($informationalPrice)->toArray()
@@ -167,7 +167,7 @@ trait HasElementsTab
         $this->instructions = $product
             ->getMedia(Product::MC_FILES)
             ->map(
-                fn(CustomMedia $media) =>
+                fn (CustomMedia $media) =>
                 $this->isCreatingFromCopy
                     ? FileDTO::copyFromCustomMedia($media)->toArray()
                     : FileDTO::fromCustomMedia($media)->toArray()
@@ -200,7 +200,7 @@ trait HasElementsTab
 
     protected function saveInfoPrices()
     {
-        $infoPricesIds = collect($this->infoPrices)->pluck('id')->filter(fn($id) => !!$id)->toArray();
+        $infoPricesIds = collect($this->infoPrices)->pluck('id')->filter(fn ($id) => ! ! $id)->toArray();
         $this->item
             ->infoPrices()
             ->whereNotIn('id', $infoPricesIds)

@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use Domain\Users\Models\Admin;
-use Domain\FAQs\Models\FAQ;
 use Carbon\Carbon;
+use Domain\FAQs\Models\FAQ;
+use Domain\Users\Models\Admin;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -19,7 +19,7 @@ class FAQTableSeeder extends BaseSeeder
      */
     public function run()
     {
-        if (!$this->shouldClearData()) {
+        if (! $this->shouldClearData()) {
             return;
         }
 
@@ -38,7 +38,9 @@ class FAQTableSeeder extends BaseSeeder
             }
             $name = $seed["name"];
             $slug = $seed["slug"];
-            if (empty($slug)) $seed["slug"] = Str::slug($name);
+            if (empty($slug)) {
+                $seed["slug"] = Str::slug($name);
+            }
             $seed["created_at"] = $rawSeed["created_at"]
                 ? Carbon::createFromFormat("d.m.Y", $rawSeed["created_at"])
                 : null
@@ -56,7 +58,7 @@ class FAQTableSeeder extends BaseSeeder
     protected function storeImageAndUpdateHtml(string $html): string
     {
         $crawler = new Crawler($html);
-        $crawler->filter("img")->each(function(Crawler $imgNode) {
+        $crawler->filter("img")->each(function (Crawler $imgNode) {
             $attr = $imgNode->attr("src");
 
             $admin = Admin::getCentralAdmin();
@@ -67,7 +69,9 @@ class FAQTableSeeder extends BaseSeeder
             ;
             $url = $media->getUrl();
 
-            $imgNode->getNode(0)->setAttribute("src", $url);
+            /** @var \DOMElement $domElement */
+            $domElement = $imgNode->getNode(0);
+            $domElement->setAttribute("src", $url);
         });
 
         return str_replace(["<body>", "</body>"], "", $crawler->html());
