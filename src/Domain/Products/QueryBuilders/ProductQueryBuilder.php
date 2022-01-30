@@ -51,24 +51,6 @@ class ProductQueryBuilder extends Builder
         return $this->doesntHave("variations");
     }
 
-    /**
-     * @param \Domain\Products\Models\Category[] $categories
-     *
-     * @return self
-     *
-     * todo remove if not needed
-     */
-    public function forMainCategory(array $categories): self
-    {
-        foreach ($categories as $cat) {
-            if ($cat) {
-                return $this->where("{$this->table}.category_id", $cat->id);
-            }
-        }
-
-        return $this;
-    }
-
     public function publicViewable(): self
     {
         return $this->where(sprintf('%s.is_public_viewable', $this->table), true);

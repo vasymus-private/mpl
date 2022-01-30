@@ -6,7 +6,9 @@ use Symfony\Component\DomCrawler\Crawler;
 
 trait HasHtmlParsing
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     public $attribute;
 
     /**
@@ -19,7 +21,7 @@ trait HasHtmlParsing
     /**
      * Final result of parsing
      *
-     * @var array
+     * @var array|null
      * */
     protected $result;
 
@@ -76,7 +78,7 @@ trait HasHtmlParsing
      * */
     public function getCrawler(): ?Crawler
     {
-        return isset($this->crawler) ? $this->crawler : null;
+        return $this->crawler ?? null; // @phpstan-ignore-line
     }
 
     /**
@@ -86,7 +88,8 @@ trait HasHtmlParsing
      * */
     public function getHtml(): ?string
     {
-        return $this->getCrawler()->html() ?? null;
+        $crawler = $this->getCrawler();
+        return $crawler ? $crawler->html() : null;
     }
 
     /**

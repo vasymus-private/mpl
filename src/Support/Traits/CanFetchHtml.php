@@ -45,7 +45,7 @@ trait CanFetchHtml
         $proxies = resolve(CanGetRandomProxies::class);
         $randomProxy = $proxies->getOneRandomProxy();
         if ($randomProxy) {
-            $this->fetchBuilder->withProxy($randomProxy->ip, $randomProxy->port);
+            $this->fetchBuilder->withProxy($randomProxy->ip, (string)$randomProxy->port);
         }
 
         return $this;

@@ -25,6 +25,6 @@ class MarkProductViewed
     public function handle(ProductViewedEvent $event)
     {
         $event->user->viewed()->detach($event->product->id);
-        $event->user->viewed()->syncWithoutDetaching($event->product->id);
+        $event->user->viewed()->syncWithoutDetaching([$event->product->id]);
     }
 }

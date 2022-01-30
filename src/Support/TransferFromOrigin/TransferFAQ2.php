@@ -72,10 +72,10 @@ class TransferFAQ2 extends BaseTransfer
             $date2 = $crawler->filter(".news-detail div")->eq(4)->text();
 
 
-            $question2 = $question2Crawler->count() ? $this->hadleNodeHtml($question2Crawler) : "";
+            $question2 = $question2Crawler->count() > 0 ? $this->hadleNodeHtml($question2Crawler) : "";
 
 
-            $answer2 = $answer2Crawler->count() ? $this->hadleNodeHtml($answer2Crawler) : "";
+            $answer2 = $answer2Crawler->count() > 0 ? $this->hadleNodeHtml($answer2Crawler) : "";
 
             $parsed[] = [
                 "id" => $id2,
@@ -102,14 +102,18 @@ class TransferFAQ2 extends BaseTransfer
                 $img = $builder->get();
                 $newSrc = "seeds/faq/new/media/$oldSrc";
                 Storage::put($newSrc, $img);
-                $imgNode->getNode(0)->setAttribute("src", $newSrc);
+                /** @var \DOMElement $domEl */
+                $domEl = $imgNode->getNode(0);
+                $domEl->setAttribute("src", $newSrc);
             })
         ;
         $crawler->filter("a")
             ->each(function (Crawler $anchorNode) {
                 $attr = $anchorNode->attr("href");
                 $newAttr = str_replace(["https://parket-lux.ru/", "http://parket-lux.ru/", "parket-lux.ru/"], "/", $attr);
-                $anchorNode->getNode(0)->setAttribute("href", $newAttr);
+                /** @var \DOMElement $domEl */
+                $domEl = $anchorNode->getNode(0);
+                $domEl->setAttribute("href", $newAttr);
             })
         ;
 
