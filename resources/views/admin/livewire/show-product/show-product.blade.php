@@ -65,13 +65,16 @@
         </div>
     </div>
 
-    <ul class="nav nav-tabs item-tabs" role="tablist">
-        @foreach($tabs as $tab => $label)
-            <li wire:key="{{ $tab }}" class="nav-item @if(!$is_with_variations && $tab === 'variations') d-none @endif" role="presentation">
-                <a wire:click="selectTab('{{$tab}}')" wire:ignore.self class="nav-link @if($tab === $activeTab) active @endif" data-toggle="tab" id="{{$tab}}-tab" href="#{{$tab}}" role="tab" aria-controls="{{$tab}}" aria-selected="{{$tab === $activeTab ? 'true' : 'false'}}">{{$label}}</a>
-            </li>
-        @endforeach
-    </ul>
+    <div class="js-nav-tabs-wrapper">
+        <div class="js-nav-tabs-marker"></div>
+        <ul class="nav nav-tabs js-nav-tabs item-tabs" role="tablist">
+            @foreach($tabs as $tab => $label)
+                <li wire:key="{{ $tab }}" class="nav-item @if(!$is_with_variations && $tab === 'variations') d-none @endif" role="presentation">
+                    <a wire:click="selectTab('{{$tab}}')" wire:ignore.self class="nav-link @if($tab === $activeTab) active @endif" data-toggle="tab" id="{{$tab}}-tab" href="#{{$tab}}" role="tab" aria-controls="{{$tab}}" aria-selected="{{$tab === $activeTab ? 'true' : 'false'}}">{{$label}}</a>
+                </li>
+            @endforeach
+        </ul>
+    </div>
 
     <form wire:submit.prevent="handleSave" class="position-relative">
         <div wire:loading.flex wire:target="handleSave">
@@ -98,11 +101,17 @@
             @endforeach
         </div>
 
-        <div class="edit-item-footer">
-            <button type="submit" class="btn btn-primary mb-2 btn__save mr-2">Сохранить</button>
+        <div wire:ignore class="js-edit-footer-wrapper">
+            <div class="js-edit-item-footer-marker"></div>
+            <div class="edit-item-footer js-edit-item-footer">
+                <button type="submit" class="btn btn-primary mb-2 btn__save mr-2">Сохранить</button>
 
-            <a href="{{route(\App\Constants::ROUTE_ADMIN_PRODUCTS_INDEX, ['category_id' => $item->category_id])}}" type="button" class="btn btn-info mb-2 btn__default">Отменить</a>
+                <a href="{{route(\App\Constants::ROUTE_ADMIN_PRODUCTS_INDEX, ['category_id' => $item->category_id])}}" type="button" class="btn btn-info mb-2 btn__default">Отменить</a>
+
+                <button type="button" class="btn btn-info js-pin-btn pin-btn"></button>
+            </div>
         </div>
+
     </form>
 
     @foreach($errors->all() as $error)

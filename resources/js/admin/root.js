@@ -7,5 +7,7 @@
         require('./modules/orderBusy')
         require('./modules/orderColumns')
         require('./modules/productColumns')
+        require('./modules/navTabsSticky')
+        require('./modules/footerSticky')
     })
 })(jQuery)

@@ -21,7 +21,7 @@ class User extends BaseUser
         parent::boot();
 
         static::addGlobalScope("user", function (Builder $builder) {
-            $builder->where(sprintf("%s.", static::TABLE), "<", static::ADMIN_THRESHOLD);
+            $builder->where(sprintf("%s.status", static::TABLE), "<", static::ADMIN_THRESHOLD);
         });
     }
 
