@@ -32,7 +32,7 @@ class ShowBrand extends Component
     public Seo $seo;
 
     /**
-     * @var array|null @see {@link \Domain\Common\DTOs\FileDTO}
+     * @var array @see {@link \Domain\Common\DTOs\FileDTO}
      */
     public array $mainImage = [];
 
@@ -86,7 +86,7 @@ class ShowBrand extends Component
 
     public function mount()
     {
-        /** @var \Domain\Common\Models\CustomMedia $mainImageMedia */
+        /** @var \Domain\Common\Models\CustomMedia|null $mainImageMedia */
         $mainImageMedia = $this->brand->getFirstMedia(Product::MC_MAIN_IMAGE);
         $this->mainImage = $mainImageMedia ? FileDTO::fromCustomMedia($mainImageMedia)->toArray() : [];
 
@@ -105,7 +105,7 @@ class ShowBrand extends Component
         $this->validate();
 
         $shouldRedirect = false;
-        if (!$this->brand->id) {
+        if (! $this->brand->id) {
             $shouldRedirect = true;
         }
 
@@ -127,10 +127,13 @@ class ShowBrand extends Component
 
     protected function saveMainImage()
     {
-        if (!$this->mainImage) {
+        if (! $this->mainImage) {
             /** @var CustomMedia|null $media */
             $media = $this->brand->getFirstMedia(Brand::MC_MAIN_IMAGE);
-            if ($media) $media->delete();
+            if ($media) {
+                $media->delete();
+            }
+
             return;
         }
 
@@ -183,7 +186,7 @@ class ShowBrand extends Component
 
     public function toggleGenerateSlugMode()
     {
-        $this->generateSlugSyncMode = !$this->generateSlugSyncMode;
+        $this->generateSlugSyncMode = ! $this->generateSlugSyncMode;
         $this->handleGenerateSlug();
     }
 

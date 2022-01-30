@@ -10,7 +10,7 @@ class OrderFactory extends Factory
     /**
      * The name of the factory's corresponding model.
      *
-     * @var string
+     * @var class-string<\Domain\Orders\Models\Order>
      */
     protected $model = Order::class;
 

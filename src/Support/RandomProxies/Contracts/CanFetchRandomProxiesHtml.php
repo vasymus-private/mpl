@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Support\RandomProxies\Contracts;
-
 
 interface CanFetchRandomProxiesHtml
 {

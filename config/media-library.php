@@ -38,7 +38,7 @@ return [
      *
      * This model is only used in Media Library Pro (https://medialibrary.pro)
      */
-    'temporary_upload_model' => Spatie\MediaLibraryPro\Models\TemporaryUpload::class,
+    'temporary_upload_model' => Spatie\MediaLibraryPro\Models\TemporaryUpload::class, // @phpstan-ignore-line
 
     /*
      * When enabled, Media Library Pro will only process temporary uploads there were uploaded

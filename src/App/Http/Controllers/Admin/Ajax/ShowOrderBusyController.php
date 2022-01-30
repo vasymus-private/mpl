@@ -24,7 +24,7 @@ class ShowOrderBusyController extends BaseAdminController
                 ->select(['id', 'busy_by_id', 'busy_at'])
                 ->whereIn(sprintf('%s.id', Order::TABLE), $ids)
                 ->get()
-                ->map(fn(Order $order) => [
+                ->map(fn (Order $order) => [
                     'id' => $order->id,
                     'busy_by_id' => $order->busy_by_id, // TODO remove temporary dev only
                     'busy_at' => $order->busy_at, // TODO remove temporary dev only

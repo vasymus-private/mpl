@@ -79,7 +79,7 @@ class OrderItemDTO extends DataTransferObject
             'user_email' => $order->user->email ?? null,
             'user_phone' => $order->user->phone ?? null,
             'order_price_retail_rub_formatted' => $order->order_price_retail_rub_formatted,
-            'products' => $order->products->map(fn(Product $product) => OrderItemProductItemDTO::fromModel($product))->all(),
+            'products' => $order->products->map(fn (Product $product) => OrderItemProductItemDTO::fromModel($product))->all(),
             'payment_method_id' => $order->payment_method_id,
             'payment_method_name' => $order->payment->name ?? null,
             'is_busy_by_other_admin' => $order->is_busy_by_other_admin,

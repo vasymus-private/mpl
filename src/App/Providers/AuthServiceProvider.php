@@ -35,8 +35,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define(static::ADMIN_PROFILE_UPDATE, [AdminProfilePolicy::class, 'update']);
 
         Gate::before(function ($user) {
-            if ($user instanceof BaseUser)
+            if ($user instanceof BaseUser) {
                 return $user->is_super_admin;
+            }
         });
     }
 }

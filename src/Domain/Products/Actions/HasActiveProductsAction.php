@@ -33,18 +33,17 @@ class HasActiveProductsAction
         $productT = Product::TABLE;
         $productAlias = "p1";
 
-        return Category
-            ::query()
+        return Category::query()
             ->select("$categoryT.id")
-            ->leftJoin("$categoryT as $subcategory1Alias", function(JoinClause $query) use($categoryT, $subcategory1Alias) {
+            ->leftJoin("$categoryT as $subcategory1Alias", function (JoinClause $query) use ($categoryT, $subcategory1Alias) {
                 $query->on("$categoryT.id", "=", "$subcategory1Alias.parent_id")
                     ->whereNull("$subcategory1Alias.deleted_at");
             })
-            ->leftJoin("$categoryT as $subcategory2Alias", function(JoinClause $query) use($categoryT, $subcategory1Alias, $subcategory2Alias) {
+            ->leftJoin("$categoryT as $subcategory2Alias", function (JoinClause $query) use ($categoryT, $subcategory1Alias, $subcategory2Alias) {
                 $query->on("$subcategory1Alias.id", "=", "$subcategory2Alias.parent_id")
                     ->whereNull("$subcategory2Alias.deleted_at");
             })
-            ->join("$productT as $productAlias", function(JoinClause $query) use($categoryT, $subcategory1Alias, $subcategory2Alias, $productAlias) {
+            ->join("$productT as $productAlias", function (JoinClause $query) use ($categoryT, $subcategory1Alias, $subcategory2Alias, $productAlias) {
                 $query->whereRaw(
                     DB::raw("$productAlias.category_id in (`$categoryT`.`id`, `$subcategory1Alias`.`id`, `$subcategory2Alias`.`id`)")
                 )

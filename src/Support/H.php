@@ -3,16 +3,15 @@
 namespace Support;
 
 use App\Constants;
-use DateInterval;
 use Domain\Common\Models\Currency;
 use Domain\Users\Models\Admin;
 use Domain\Users\Models\BaseUser\BaseUser;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\HtmlString;
 use LogicException;
 use Support\CBRcurrencyConverter\CBRcurrencyConverter;
-use Illuminate\Support\HtmlString;
 
 class H
 {
@@ -55,6 +54,7 @@ class H
     {
         /** @var \Domain\Users\Models\Admin $admin */
         $admin = Auth::guard(Constants::AUTH_GUARD_ADMIN)->user();
+
         return $admin;
     }
 
@@ -65,7 +65,7 @@ class H
         }
 
         $currencyIso = Currency::getIsoName($currencyId);
-        if (!$currencyIso) {
+        if (! $currencyIso) {
             return null;
         }
 
@@ -139,8 +139,7 @@ class H
     public static function random_str(
         int $length,
         string $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    ): string
-    {
+    ): string {
         $str = '';
         $max = mb_strlen($keyspace, '8bit') - 1;
         if ($max < 1) {
@@ -149,6 +148,7 @@ class H
         for ($i = 0; $i < $length; ++$i) {
             $str .= $keyspace[random_int(0, $max)];
         }
+
         return $str;
     }
 
@@ -159,7 +159,7 @@ class H
      */
     public static function trimAndNullEmptyString($value)
     {
-        if (!is_string($value)) {
+        if (! is_string($value)) {
             return $value;
         }
 
@@ -174,34 +174,34 @@ class H
     public static function getMimeTypeName($mimeType): string
     {
         switch ($mimeType) {
-            case Constants::MIME_DOC :
-            case Constants::MIME_DOCX : {
+            case Constants::MIME_DOC:
+            case Constants::MIME_DOCX: {
                 return "MS Word";
             }
-            case Constants::MIME_PPT :
-            case Constants::MIME_PPTX : {
+            case Constants::MIME_PPT:
+            case Constants::MIME_PPTX: {
                 return "MS PowerPoint";
             }
-            case Constants::MIME_XLS :
-            case Constants::MIME_XLSX : {
+            case Constants::MIME_XLS:
+            case Constants::MIME_XLSX: {
                 return "MS Excel";
             }
-            case Constants::MIME_GIF : {
+            case Constants::MIME_GIF: {
                 return "gif";
             }
-            case Constants::MIME_JPEG : {
+            case Constants::MIME_JPEG: {
                 return "jpeg";
             }
-            case Constants::MIME_PNG : {
+            case Constants::MIME_PNG: {
                 return "png";
             }
-            case Constants::MIME_HTML : {
+            case Constants::MIME_HTML: {
                 return "html";
             }
-            case Constants::MIME_PDF : {
+            case Constants::MIME_PDF: {
                 return "pdf";
             }
-            default : {
+            default: {
                 return "";
             }
         }
@@ -232,7 +232,7 @@ class H
             $key,
             is_callable($value)
                 ? $value
-                : fn() => $value
+                : fn () => $value
         );
     }
 }

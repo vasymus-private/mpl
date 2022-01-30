@@ -12,6 +12,7 @@ trait HasDeletedItemSlug
     public function getDeletedItemSlugAttribute(): ?string
     {
         $meta = $this->meta;
+
         return $meta['deleted_item_slug'];
     }
 

@@ -15,8 +15,8 @@ trait HasOrderStatuses
 
     protected function initOrderStatusesOptions()
     {
-        $this->orderStatuses = Cache::store('array')->rememberForever('options-order-statuses', function() {
-            return OrderStatus::query()->get()->map(fn(OrderStatus $orderStatus) => OptionDTO::fromOrderStatus($orderStatus)->toArray())->all();
+        $this->orderStatuses = Cache::store('array')->rememberForever('options-order-statuses', function () {
+            return OrderStatus::query()->get()->map(fn (OrderStatus $orderStatus) => OptionDTO::fromOrderStatus($orderStatus)->toArray())->all();
         });
     }
 }

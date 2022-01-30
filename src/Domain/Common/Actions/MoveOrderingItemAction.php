@@ -15,17 +15,17 @@ class MoveOrderingItemAction extends BaseAction
     public function execute(array $items, int $index, bool $isUp, bool $descending = false): array
     {
         $item = $items[$index] ?? null;
-        if (!$item) {
+        if (! $item) {
             return $items;
         }
         $prevItem = $items[$index - 1] ?? null;
         $nextItem = $items[$index + 1] ?? null;
 
-        if ($isUp && !$prevItem) {
+        if ($isUp && ! $prevItem) {
             return $items;
         }
 
-        if (!$isUp && !$nextItem) {
+        if (! $isUp && ! $nextItem) {
             return $items;
         }
         $currentOrdering = $item['ordering'];

@@ -119,9 +119,9 @@ class VariationDTO extends DataTransferObject
             'availability_status_name' => $product->availability_status_name,
             'preview' => $product->preview,
             'main_image' => $mainImage ? FileDTO::fromCustomMedia($mainImage)->toArray() : null,
-            'additional_images' => $product->getMedia(Product::MC_ADDITIONAL_IMAGES)->map(fn(CustomMedia $media) => FileDTO::fromCustomMedia($media)->toArray())->all(),
+            'additional_images' => $product->getMedia(Product::MC_ADDITIONAL_IMAGES)->map(fn (CustomMedia $media) => FileDTO::fromCustomMedia($media)->toArray())->all(),
             'main_image_media_urls' => ProductMediaUrlsDTO::fromModel($product)->toArray(),
-            'additional_images_media_urls' => $product->getMedia(Product::MC_ADDITIONAL_IMAGES)->map(function(CustomMedia $customMedia) {
+            'additional_images_media_urls' => $product->getMedia(Product::MC_ADDITIONAL_IMAGES)->map(function (CustomMedia $customMedia) {
                 return ProductMediaUrlsDTO::fromCustomMedia($customMedia)->toArray();
             })->all(),
         ]);
@@ -133,6 +133,7 @@ class VariationDTO extends DataTransferObject
         $dto->id = null;
         $dto->parent_id = null;
         $dto->uuid = Str::uuid()->toString();
+
         return $dto;
     }
 }

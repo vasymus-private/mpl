@@ -32,7 +32,7 @@ trait HasTabs
     protected function getHasTabsQueryString(): array
     {
         return [
-            'activeTab' => ['except' => '']
+            'activeTab' => ['except' => ''],
         ];
     }
 
@@ -65,6 +65,7 @@ trait HasTabs
         if (method_exists($this, 'tabs')) {
             return $this->tabs();
         }
+
         return [];
     }
 

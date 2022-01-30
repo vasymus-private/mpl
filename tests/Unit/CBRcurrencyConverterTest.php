@@ -25,7 +25,7 @@ class CBRcurrencyConverterTest extends TestCase
 
         $err = [];
 
-        if (!$doc) {
+        if (! $doc) {
             $errors = libxml_get_errors();
 
             foreach ($errors as $error) {

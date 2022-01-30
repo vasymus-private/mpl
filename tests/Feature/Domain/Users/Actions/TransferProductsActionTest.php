@@ -14,8 +14,7 @@ class TransferProductsActionTest extends BaseActionTestCase
         $product = Product::factory()->create();
 
         /** @var \Domain\Users\Models\BaseUser\BaseUser $fromUser */
-        $fromUser = User
-            ::factory()
+        $fromUser = User::factory()
             ->hasAttached(
                 $product,
                 [

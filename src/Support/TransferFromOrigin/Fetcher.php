@@ -2,12 +2,12 @@
 
 namespace Support\TransferFromOrigin;
 
-use Support\RandomProxies\Contracts\CanGetRandomProxies;
-use Support\RandomProxies\Repositories\RandomProxiesCacheRepository;
-use Support\RandomProxies\Repositories\RandomProxiesRepository;
 use Campo\UserAgent;
 use Ixudra\Curl\Builder;
 use Ixudra\Curl\Facades\Curl;
+use Support\RandomProxies\Contracts\CanGetRandomProxies;
+use Support\RandomProxies\Repositories\RandomProxiesCacheRepository;
+use Support\RandomProxies\Repositories\RandomProxiesRepository;
 
 class Fetcher
 {
@@ -46,15 +46,19 @@ class Fetcher
      * */
     public function fetch()
     {
-        if (!$this->url) throw new \LogicException("Fetch url is not provided");
+        if (! $this->url) {
+            throw new \LogicException("Fetch url is not provided");
+        }
 
         /** @var Builder $builder */
         $builder = Curl::to($this->url);
         $builder->withOption('USERPWD', "{$this->username}:{$this->password}");
         $headers = [];
+
         try {
             $headers[] = "User-Agent: " . UserAgent::random();
-        } catch (\Exception $exc) {}
+        } catch (\Exception $exc) {
+        }
 //        if (!empty($headers)) $builder->withHeaders($headers);
 //        $this->addRandomProxy($builder);
 //
@@ -69,6 +73,8 @@ class Fetcher
         $proxies = resolve(CanGetRandomProxies::class);
         $randomProxy = $proxies->getOneRandomProxy();
 
-        if ($randomProxy) $builder->withProxy($randomProxy->ip, $randomProxy->port);
+        if ($randomProxy) {
+            $builder->withProxy($randomProxy->ip, $randomProxy->port);
+        }
     }
 }

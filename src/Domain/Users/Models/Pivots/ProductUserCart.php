@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * */
 class ProductUserCart extends Pivot
 {
-    const TABLE = "product_user_cart";
+    public const TABLE = "product_user_cart";
 
     /**
      * The table associated with the model.

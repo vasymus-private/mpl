@@ -28,3 +28,7 @@ yarn-error.log
 .idea
 
 /docker
+.php_cs.cache
+.php-cs-fixer.cache
+
+build

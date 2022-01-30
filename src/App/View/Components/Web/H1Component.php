@@ -2,7 +2,6 @@
 
 namespace App\View\Components\Web;
 
-use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
 use Illuminate\View\Component;
 
@@ -22,10 +21,11 @@ class H1Component extends Component
      */
     public function __construct($entity = null)
     {
-        if (null === $entity || gettype($entity) === "string")
+        if (null === $entity || gettype($entity) === "string") {
             $this->h1 = $entity;
-        else
+        } else {
             $this->h1 = $entity->seo->h1 ?? $entity->name ?? null;
+        }
     }
 
     /**

@@ -7,18 +7,17 @@ use Domain\Products\DTOs\FiltrateByCategoriesParamsDTO;
 use Domain\Products\Events\ProductViewedEvent;
 use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
-use Support\Breadcrumbs\Breadcrumbs;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Support\Breadcrumbs\Breadcrumbs;
 use Support\H;
 
 class ProductsController extends BaseWebController
 {
     public function index(Request $request, FiltrateByCategoriesAction $filtrateByCategoriesAction)
     {
-        $query = Product
-            ::query()
+        $query = Product::query()
             ->notVariations()
             ->active()
             ->publicViewable()
@@ -37,12 +36,12 @@ class ProductsController extends BaseWebController
         $query = $filtrateByCategoriesAction->execute($query, new FiltrateByCategoriesParamsDTO(compact("category", "subcategory1", "subcategory2", "subcategory3")));
 
         $brands = $request->input("brands", []);
-        if (!empty($brands) && !empty($brands[0])) {
+        if (! empty($brands) && ! empty($brands[0])) {
             $query->whereIn(Product::TABLE . ".brand_id", $request->input("brands"));
         }
 
-        if (!empty($request->search)) {
-            $query->where(function(Builder $builder) use($request) {
+        if (! empty($request->search)) {
+            $query->where(function (Builder $builder) use ($request) {
                 $builder
                     ->orWhere(Product::TABLE . ".name", "like", "%{$request->search}%")
                     ->orWhere(Product::TABLE . ".preview", "like", "%{$request->search}%")
@@ -56,7 +55,7 @@ class ProductsController extends BaseWebController
         $query->with([
             "category.parentCategory.parentCategory.parentCategory",
             "infoPrices",
-            'media'
+            'media',
         ]);
 
         /** @var LengthAwarePaginator $products */
@@ -72,7 +71,7 @@ class ProductsController extends BaseWebController
 
         $seoArr = null;
         foreach ([$subcategory3, $subcategory2, $subcategory1, $category] as $item) {
-            if (!empty($seoArr)) {
+            if (! empty($seoArr)) {
                 break;
             }
             if ($item->seo ?? null) {

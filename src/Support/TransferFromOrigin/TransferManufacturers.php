@@ -16,13 +16,13 @@ class TransferManufacturers extends BaseTransfer
             $id = $this->getIncrementId();
             $preview = trim($rawItem["preview"]);
             $description = trim($rawItem["description"]);
-            $image = !empty($rawItem["imageSrc"]) ? $this->fetchAndStoreFile($rawItem["imageSrc"], $id, "manufacturers") : null;
+            $image = ! empty($rawItem["imageSrc"]) ? $this->fetchAndStoreFile($rawItem["imageSrc"], $id, "manufacturers") : null;
 
             $seed = [
                 "id" => $id,
                 "name" => $rawItem["name"],
-                "preview" => !empty($preview) ? $preview : strip_tags($description),
-                "description" => !empty($description) ? $description : $preview,
+                "preview" => ! empty($preview) ? $preview : strip_tags($description),
+                "description" => ! empty($description) ? $description : $preview,
                 "image" => $image,
                 "ordering" => (int) $rawItem["SORT"],
                 "_old_id" => (int) $rawItem["id"],

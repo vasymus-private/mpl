@@ -20,7 +20,7 @@ class TransferProductsAction extends BaseAction
     public function execute(BaseUser $from, BaseUser $to)
     {
         $viewedPrepared = [];
-        $from->viewed->each(function(Product $product) use(&$viewedPrepared) {
+        $from->viewed->each(function (Product $product) use (&$viewedPrepared) {
             $viewedPrepared[$product->id] = [
                 "created_at" => $product->viewed_product->created_at ?? null,
                 "updated_at" => $product->viewed_product->updated_at ?? null,
@@ -29,7 +29,7 @@ class TransferProductsAction extends BaseAction
         $to->viewed()->sync($viewedPrepared);
 
         $cartPrepared = [];
-        $from->cart_not_trashed->each(function(Product $product) use(&$cartPrepared) {
+        $from->cart_not_trashed->each(function (Product $product) use (&$cartPrepared) {
             $cartPrepared[$product->id] = [
                 "created_at" => $product->cart_product->created_at ?? null,
                 "updated_at" => $product->cart_product->updated_at ?? null,
@@ -39,7 +39,7 @@ class TransferProductsAction extends BaseAction
         $to->cart()->sync($cartPrepared);
 
         $asidePrepared = [];
-        $from->aside->each(function(Product $product) use(&$asidePrepared) {
+        $from->aside->each(function (Product $product) use (&$asidePrepared) {
             $asidePrepared[$product->id] = [
                 "created_at" => $product->aside_product->created_at ?? null,
                 "updated_at" => $product->aside_product->updated_at ?? null,

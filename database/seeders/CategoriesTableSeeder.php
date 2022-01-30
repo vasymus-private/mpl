@@ -16,7 +16,7 @@ class CategoriesTableSeeder extends BaseSeeder
      */
     public function run()
     {
-        if (!$this->shouldClearData()) {
+        if (! $this->shouldClearData()) {
             return;
         }
 
@@ -34,17 +34,19 @@ class CategoriesTableSeeder extends BaseSeeder
                 $seed[$attribute] = $rawSeed[$attribute];
             }
             $category = Category::forceCreate($seed);
-            if (empty($rawSeed["seo_title"]) && empty($rawSeed["seo_keywords"]) && empty($rawSeed["seo_content"])) continue;
+            if (empty($rawSeed["seo_title"]) && empty($rawSeed["seo_keywords"]) && empty($rawSeed["seo_content"])) {
+                continue;
+            }
 
             $seo = $category->seo ?: new Seo();
 
-            if (!empty($rawSeed["seo_title"])) {
+            if (! empty($rawSeed["seo_title"])) {
                 $seo->title = $rawSeed["seo_title"];
             }
-            if (!empty($rawSeed["seo_keywords"])) {
+            if (! empty($rawSeed["seo_keywords"])) {
                 $seo->keywords = $rawSeed["seo_keywords"];
             }
-            if (!empty($rawSeed["seo_content"])) {
+            if (! empty($rawSeed["seo_content"])) {
                 $seo->description = $rawSeed["seo_content"];
             }
 

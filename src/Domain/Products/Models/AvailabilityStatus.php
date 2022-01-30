@@ -10,11 +10,11 @@ use Domain\Common\Models\BaseModel;
  * */
 class AvailabilityStatus extends BaseModel
 {
-    const TABLE = "availability_statuses";
+    public const TABLE = "availability_statuses";
 
-    const ID_AVAILABLE_IN_STOCK = 1;
-    const ID_AVAILABLE_NOT_IN_STOCK = 2;
-    const ID_NOT_AVAILABLE = 3;
+    public const ID_AVAILABLE_IN_STOCK = 1;
+    public const ID_AVAILABLE_NOT_IN_STOCK = 2;
+    public const ID_NOT_AVAILABLE = 3;
 
     /**
      * The table associated with the model.

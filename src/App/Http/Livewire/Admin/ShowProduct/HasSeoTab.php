@@ -44,6 +44,7 @@ trait HasSeoTab
                 $seo->seoable_id = null;
                 $seo->seoable_type = null;
                 $this->seo = $seo;
+
                 return;
             }
         }

@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use Domain\GalleryItems\Models\GalleryItem;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\HasMedia;
@@ -17,7 +16,7 @@ class GalleryItemsTableSeeder extends BaseSeeder
      */
     public function run()
     {
-        if (!$this->shouldClearData()) {
+        if (! $this->shouldClearData()) {
             return;
         }
 
@@ -51,7 +50,7 @@ class GalleryItemsTableSeeder extends BaseSeeder
     }
 
     /**
-     * @param HasMedia|Model $model
+     * @param \Spatie\MediaLibrary\HasMedia $model
      * @param string $src
      * @param string $name
      * @param string $collectionName
@@ -64,7 +63,7 @@ class GalleryItemsTableSeeder extends BaseSeeder
             ->addMedia(storage_path("app/$src"))
             ->preservingOriginal()
             ->usingName($name)
-            ->sanitizingFileName(function($fileName) {
+            ->sanitizingFileName(function ($fileName) {
                 return strtolower(str_replace(['#', '/', '\\', ' '], '-', $fileName));
             })
             ->toMediaCollection($collectionName)

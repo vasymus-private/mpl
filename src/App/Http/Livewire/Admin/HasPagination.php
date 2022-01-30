@@ -50,7 +50,7 @@ trait HasPagination
     protected function mountPerPageOptions()
     {
         $this->per_page_options = collect(OptionDTO::fromItemsArr([5, 10, 20, 50, 100, 200, 500]))
-            ->map(fn(OptionDTO $optionDTO) => $optionDTO->toArray())
+            ->map(fn (OptionDTO $optionDTO) => $optionDTO->toArray())
             ->all();
     }
 

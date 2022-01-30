@@ -25,7 +25,7 @@ class CharCategoryDTO extends DataTransferObject
             'id' => $charCategory->id,
             'name' => $charCategory->name,
             'ordering' => $charCategory->ordering,
-            'chars' => $charCategory->chars->map(fn(Char $char) => CharDTO::fromModel($char))->all(),
+            'chars' => $charCategory->chars->map(fn (Char $char) => CharDTO::fromModel($char))->all(),
         ]);
     }
 }
