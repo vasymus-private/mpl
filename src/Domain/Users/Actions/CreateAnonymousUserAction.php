@@ -17,6 +17,9 @@ class CreateAnonymousUserAction extends BaseAction
     {
         $user = User::create();
 
-        return User::query()->findOrFail($user->id);
+        /** @var \Domain\Users\Models\User\User $result */
+        $result = User::query()->findOrFail($user->id);
+
+        return $result;
     }
 }
