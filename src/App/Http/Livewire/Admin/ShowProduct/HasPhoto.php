@@ -14,7 +14,7 @@ use Livewire\TemporaryUploadedFile;
 trait HasPhoto
 {
     /**
-     * @var array|null @see {@link \Domain\Common\DTOs\FileDTO}
+     * @var array @see {@link \Domain\Common\DTOs\FileDTO}
      */
     public array $mainImage = [];
 
@@ -111,7 +111,7 @@ trait HasPhoto
 
     protected function initImages(Product $product)
     {
-        /** @var \Domain\Common\Models\CustomMedia $mainImageMedia */
+        /** @var \Domain\Common\Models\CustomMedia|null $mainImageMedia */
         $mainImageMedia = $product->getFirstMedia(Product::MC_MAIN_IMAGE);
         $this->mainImage = $mainImageMedia
             ? (

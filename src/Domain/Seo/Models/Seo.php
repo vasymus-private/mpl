@@ -10,8 +10,8 @@ use Domain\Common\Models\BaseModel;
  * @property string|null $h1
  * @property string|null $keywords
  * @property string|null $description
- * @property int $seoable_id
- * @property string $seoable_type
+ * @property int|null $seoable_id
+ * @property string|null $seoable_type
  * */
 class Seo extends BaseModel
 {

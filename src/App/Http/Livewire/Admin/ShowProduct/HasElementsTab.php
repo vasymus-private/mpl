@@ -50,7 +50,7 @@ trait HasElementsTab
                 'string',
                 'max:250',
                 (new Unique(Product::TABLE, 'slug'))->when($this->item->id, function (Unique $unique) {
-                    return $unique->whereNot('id', $this->item->id);
+                    return $unique->whereNot('id', (string)$this->item->id);
                 }),
             ],
             'item.ordering' => 'integer|nullable',

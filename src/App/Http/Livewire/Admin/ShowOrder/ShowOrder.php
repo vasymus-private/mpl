@@ -571,11 +571,11 @@ class ShowOrder extends BaseShowComponent
     }
 
     /**
-     * @param array|\Domain\Products\DTOs\Admin\OrderProductItemDTO $orderProductItem
+     * @param array $orderProductItem @see {@link \Domain\Products\DTOs\Admin\OrderProductItemDTO}
      * @param string $itemField
      * @param int|string $value
      *
-     * @return array|\Domain\Products\DTOs\Admin\OrderProductItemDTO
+     * @return array @see {@link \Domain\Products\DTOs\Admin\OrderProductItemDTO}
      */
     protected function handleUpdateProductItem(array $orderProductItem, string $itemField, $value): array
     {

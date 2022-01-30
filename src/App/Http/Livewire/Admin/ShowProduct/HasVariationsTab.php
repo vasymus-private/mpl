@@ -38,12 +38,12 @@ trait HasVariationsTab
     public bool $variationsEditMode = false;
 
     /**
-     * @var \Livewire\TemporaryUploadedFile
+     * @var \Livewire\TemporaryUploadedFile|null
      */
     public $tempVariationMainImage;
 
     /**
-     * @var \Livewire\TemporaryUploadedFile
+     * @var \Livewire\TemporaryUploadedFile|null
      */
     public $tempVariationAdditionalImage;
 
