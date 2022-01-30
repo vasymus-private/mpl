@@ -12,6 +12,6 @@ class GetCategoriesTreeAction
      */
     public function execute(): array
     {
-        return Category::getTreeRuntimeCached()->map(fn(Category $category) => SimpleCategoryDTO::fromModel($category))->all();
+        return Category::getTreeRuntimeCached()->map(fn (Category $category) => SimpleCategoryDTO::fromModel($category))->all();
     }
 }

@@ -17,7 +17,7 @@ class TransferGallery extends BaseTransfer
 
             $mainImageSrc = $item["PICTURE"]["SRC"];
             $mainImage = $this->fetchAndStoreMedia($id, $mainImageSrc, $item["PICTURE"]["ORIGINAL_NAME"], $item["PICTURE"]["ID"]);
-            if (!$mainImage) {
+            if (! $mainImage) {
                 dump("Failed to store $mainImageSrc");
             }
 
@@ -43,7 +43,7 @@ class TransferGallery extends BaseTransfer
                     null,
                     $subPhoto["PREVIEW_PICTURE"]["ID"]
                 );
-                if (!$subMainImage) {
+                if (! $subMainImage) {
                     dump("Failed to store $subMaingImageSrc");
                 }
 
@@ -69,14 +69,16 @@ class TransferGallery extends BaseTransfer
         $detailPageUrls = require(storage_path("app/seeds/photos/raw-list.php"));
 
         foreach ($detailPageUrls as $zeroBasedIndex => $item) {
-            if ($zeroBasedIndex < $zeroBasedIndexStart) continue;
+            if ($zeroBasedIndex < $zeroBasedIndexStart) {
+                continue;
+            }
 
             $location = $item["SECTION_PAGE_URL"];
             $fileName = "$item[ID].php";
 
             $isSuccess = $this->fetchAndStoreRawItem($location, $fileName);
 
-            if (!$isSuccess) {
+            if (! $isSuccess) {
                 dump("Failed to fetch and store / parse $location | File name: $fileName");
             }
         }
@@ -86,11 +88,14 @@ class TransferGallery extends BaseTransfer
     {
         if (Storage::exists("seeds/photos/gallery-items/$fileName")) {
             dump("File $fileName exists");
+
             return true;
         }
 
         $html = $this->fetchHtml($location);
-        if (!$html) return false;
+        if (! $html) {
+            return false;
+        }
 
         $startFlag = "<!-----START----->";
         $endFlag = "<!-----END----->";
@@ -111,7 +116,9 @@ class TransferGallery extends BaseTransfer
 
     public function fetchAndStoreMedia(int $attachToId, string $src = null, string $originalName = null, $oldImageId = null): ?array
     {
-        if (!$src) return null;
+        if (! $src) {
+            return null;
+        }
 
         $storeFolder = $this->getStdStorageFolder("photos");
 
@@ -122,7 +129,9 @@ class TransferGallery extends BaseTransfer
 
         $storedFile = $this->fetchAndStoreFileToPath($src, $storagePath);
 
-        if (!$storedFile) return null;
+        if (! $storedFile) {
+            return null;
+        }
 
         return [
             "_old_id" => $oldImageId,

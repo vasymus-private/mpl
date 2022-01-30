@@ -3,11 +3,11 @@
 namespace App\Providers;
 
 use Domain\Articles\Models\Article;
+use Domain\FAQs\Models\FAQ;
+use Domain\GalleryItems\Models\GalleryItem;
 use Domain\Orders\Models\Order;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\Category;
-use Domain\FAQs\Models\FAQ;
-use Domain\GalleryItems\Models\GalleryItem;
 use Domain\Products\Models\Product\Product;
 use Domain\Services\Models\Service;
 use Domain\Users\Models\Admin;
@@ -79,7 +79,6 @@ class RouteServiceProvider extends ServiceProvider
         $routeCollection = Route::getRoutes();
         /** @var \Illuminate\Routing\Route $value */
         foreach ($routeCollection as $value) {
-
             $name = $value->getName();
 //            dump("$name : {$value->uri} : " . implode(", ", $value->methods));
             $routes[$name] = [

@@ -18,7 +18,7 @@ class CartProductsController extends BaseWebController
         $user = H::userOrAdmin();
 
         $user->load([
-            "cart" => function(BelongsToMany $builder) {
+            "cart" => function (BelongsToMany $builder) {
                 $builder
                     ->orderBy("pivot_created_at", "desc")
                 ;
@@ -34,11 +34,11 @@ class CartProductsController extends BaseWebController
 
         $user->cart()->detach($request->id);
         $user->cart()->syncWithoutDetaching([
-            $request->id => ["count" => $request->count]
+            $request->id => ["count" => $request->count],
         ]);
 
         $user->load([
-            "cart" => function(BelongsToMany $builder) {
+            "cart" => function (BelongsToMany $builder) {
                 $builder
                     ->orderBy("pivot_created_at", "desc")
                 ;
@@ -55,7 +55,7 @@ class CartProductsController extends BaseWebController
         $user->cart()->syncWithoutDetaching($request->prepare());
 
         $user->load([
-            "cart" => function(BelongsToMany $builder) {
+            "cart" => function (BelongsToMany $builder) {
                 $builder
                     ->orderBy("pivot_created_at", "desc")
                 ;
@@ -71,7 +71,7 @@ class CartProductsController extends BaseWebController
         $user->cart()->detach($request->id);
 
         $user->load([
-            "cart" => function(BelongsToMany $builder) {
+            "cart" => function (BelongsToMany $builder) {
                 $builder
                     ->orderBy("pivot_created_at", "desc")
                 ;

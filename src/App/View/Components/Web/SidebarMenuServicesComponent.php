@@ -13,7 +13,6 @@ class SidebarMenuServicesComponent extends Component
      */
     public function __construct()
     {
-
     }
 
     /**

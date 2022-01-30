@@ -59,7 +59,7 @@ class CartCheckoutRequest extends FormRequest
 
     public function withValidator(Validator $validator)
     {
-        $validator->after(function(Validator $validator) {
+        $validator->after(function (Validator $validator) {
             $this->validateCartNotEmpty();
             if ($this->getAuthUser()->is_anonymous2) {
                 $this->validateAnonymous();
@@ -94,7 +94,9 @@ class CartCheckoutRequest extends FormRequest
 
     public function getEmailUser(): ?BaseUser
     {
-        if ($this->emailUser !== null) return $this->emailUser;
+        if ($this->emailUser !== null) {
+            return $this->emailUser;
+        }
 
         return $this->emailUser = BaseUser::query()->where("email", $this->email)->first();
     }

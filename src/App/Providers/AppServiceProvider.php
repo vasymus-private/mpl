@@ -2,17 +2,16 @@
 
 namespace App\Providers;
 
-use Domain\Orders\Models\Order;
-use Domain\Users\Models\Admin;
 use Domain\Articles\Models\Article;
-use Domain\Products\Models\Category;
 use Domain\FAQs\Models\FAQ;
 use Domain\GalleryItems\Models\GalleryItem;
+use Domain\Orders\Models\Order;
 use Domain\Products\Models\Brand;
+use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
 use Domain\Services\Models\Service;
+use Domain\Users\Models\Admin;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if (!$this->app->isProduction()) {
+        if (! $this->app->isProduction()) {
             $this->app->register(\KitLoong\MigrationsGenerator\MigrationsGeneratorServiceProvider::class);
         }
     }

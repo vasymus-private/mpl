@@ -34,7 +34,7 @@ class ChangeOrderProductsAction
                 'ordering' => $productItem['ordering'],
             ];
             /** @var \Domain\Products\Models\Product\Product $currentOrderProduct */
-            $currentOrderProduct = $order->products->first(fn(Product $product) => (string)$product->id === (string)$productItem['id']);
+            $currentOrderProduct = $order->products->first(fn (Product $product) => (string)$product->id === (string)$productItem['id']);
             // updating
             if ($currentOrderProduct) {
                 $productsPrepare[$productItem['id']] = array_merge($prepared, [

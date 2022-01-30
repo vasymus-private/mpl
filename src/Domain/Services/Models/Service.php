@@ -2,9 +2,9 @@
 
 namespace Domain\Services\Models;
 
+use Carbon\Carbon;
 use Domain\Common\Models\BaseModel;
 use Domain\Seo\Models\Seo;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -35,7 +35,7 @@ class Service extends BaseModel
 {
     use SoftDeletes;
 
-    const TABLE = "services";
+    public const TABLE = "services";
 
     /**
      * The attributes that should be cast.

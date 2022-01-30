@@ -13,14 +13,14 @@ trait HasGenerateSlug
 
     protected function initGenerateSlug()
     {
-        if (!$this->item->id) {
+        if (! $this->item->id) {
             $this->generateSlugSyncMode = true;
         }
     }
 
     public function toggleGenerateSlugMode()
     {
-        $this->generateSlugSyncMode = !$this->generateSlugSyncMode;
+        $this->generateSlugSyncMode = ! $this->generateSlugSyncMode;
         $this->handleGenerateSlug();
     }
 

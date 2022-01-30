@@ -26,5 +26,4 @@ class RandomProxiesHtmlFetcher implements CanFetchRandomProxiesHtml
     {
         return $this->prepareFetch($this->url)->addUserAgent()->execFetch();
     }
-
 }

@@ -20,8 +20,8 @@ class User extends BaseUser
     {
         parent::boot();
 
-        static::addGlobalScope("user", function(Builder $builder) {
-            $builder->where(static::TABLE . ".status", "<", static::ADMIN_THRESHOLD);
+        static::addGlobalScope("user", function (Builder $builder) {
+            $builder->where(sprintf("%s.", static::TABLE), "<", static::ADMIN_THRESHOLD);
         });
     }
 

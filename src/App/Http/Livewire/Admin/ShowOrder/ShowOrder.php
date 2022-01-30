@@ -276,10 +276,10 @@ class ShowOrder extends BaseShowComponent
         $this->mountAdditionalProductItemsPerPage();
         $this->initHistory();
 
-        if (!$this->isCreating && !$this->item->is_busy_by_other_admin) {
+        if (! $this->isCreating && ! $this->item->is_busy_by_other_admin) {
             $this->shouldPingOrderBusy = true;
         }
-        if ($this->isCreating || !$this->item->is_busy_by_other_admin || H::admin()->is_super_admin) {
+        if ($this->isCreating || ! $this->item->is_busy_by_other_admin || H::admin()->is_super_admin) {
             $this->couldBeChangedByAdmin = true;
         }
     }
@@ -330,7 +330,7 @@ class ShowOrder extends BaseShowComponent
                 'request_name' => $this->name,
                 'request_email' => $this->email,
                 'request_phone' => $this->phone,
-                'productItems' => collect($this->productItems)->map(function(array $productItem) {
+                'productItems' => collect($this->productItems)->map(function (array $productItem) {
                     return new \Domain\Orders\DTOs\OrderProductItemDTO([
                         'count' => (int)$productItem['order_product_count'],
                         'name' => $productItem['name'],
@@ -345,6 +345,7 @@ class ShowOrder extends BaseShowComponent
             if ($order) {
                 $this->item = $order;
             }
+
             return;
         }
 
@@ -383,6 +384,7 @@ class ShowOrder extends BaseShowComponent
         /** @var \Domain\Orders\Actions\DeleteOrderAction $deleteOrder */
         $deleteOrder = resolve(DeleteOrderAction::class);
         $deleteOrder->execute($this->item, H::admin());
+
         return redirect()->route(Constants::ROUTE_ADMIN_ORDERS_INDEX);
     }
 
@@ -390,6 +392,7 @@ class ShowOrder extends BaseShowComponent
     {
         if ($this->isCreating) {
             $this->skipRender();
+
             return false;
         }
 
@@ -406,6 +409,7 @@ class ShowOrder extends BaseShowComponent
     {
         if ($this->isCreating) {
             $this->skipRender();
+
             return false;
         }
 
@@ -425,12 +429,12 @@ class ShowOrder extends BaseShowComponent
 
     public function deleteCustomerInvoice($index)
     {
-        $this->customerInvoices = collect($this->customerInvoices)->values()->filter(fn(array $attachment, int $key) => (string)$index !== (string)$key)->toArray();
+        $this->customerInvoices = collect($this->customerInvoices)->values()->filter(fn (array $attachment, int $key) => (string)$index !== (string)$key)->toArray();
     }
 
     public function deleteSupplierInvoice($index)
     {
-        $this->supplierInvoices = collect($this->supplierInvoices)->values()->filter(fn(array $attachment, int $key) => (string)$index !== (string)$key)->toArray();
+        $this->supplierInvoices = collect($this->supplierInvoices)->values()->filter(fn (array $attachment, int $key) => (string)$index !== (string)$key)->toArray();
     }
 
     /**
@@ -453,19 +457,20 @@ class ShowOrder extends BaseShowComponent
 
     public function removeProductItem($id)
     {
-        $this->productItems = collect($this->productItems)->filter(fn(array $productItem) => (string)$productItem['id'] !== (string)$id)->toArray();
+        $this->productItems = collect($this->productItems)->filter(fn (array $productItem) => (string)$productItem['id'] !== (string)$id)->toArray();
     }
 
     public function selectCurrentProductItem($uuid)
     {
-        $orderProductItem = collect($this->productItems)->first(fn(array $productItem) => $productItem['uuid'] === $uuid);
+        $orderProductItem = collect($this->productItems)->first(fn (array $productItem) => $productItem['uuid'] === $uuid);
 
-        if (!$orderProductItem) {
+        if (! $orderProductItem) {
             return false;
         }
 
         $this->currentProductItem = $orderProductItem;
         $this->initialCurrentProductItem = $orderProductItem;
+
         return true;
     }
 
@@ -474,7 +479,7 @@ class ShowOrder extends BaseShowComponent
         $this->customerInvoices = $this->item
             ->customer_invoices
             ->map(
-                fn(CustomMedia $media) => FileDTO::fromCustomMedia($media)->toArray()
+                fn (CustomMedia $media) => FileDTO::fromCustomMedia($media)->toArray()
             )
             ->toArray();
     }
@@ -484,7 +489,7 @@ class ShowOrder extends BaseShowComponent
         $this->supplierInvoices = $this->item
             ->supplier_invoices
             ->map(
-                fn(CustomMedia $media) => FileDTO::fromCustomMedia($media)->toArray()
+                fn (CustomMedia $media) => FileDTO::fromCustomMedia($media)->toArray()
             )
             ->toArray();
     }
@@ -509,7 +514,7 @@ class ShowOrder extends BaseShowComponent
         $initOrdering = static::DEFAULT_ORDERING;
 
         $this->productItems = $this->item->products
-            ->map(function(Product $product) use(&$initOrdering) {
+            ->map(function (Product $product) use (&$initOrdering) {
                 if ($initOrdering >= $product->order_product->ordering) {
                     $product->order_product->ordering = $initOrdering = $initOrdering + static::ORDERING_STEP;
                 }
@@ -528,7 +533,7 @@ class ShowOrder extends BaseShowComponent
 
     protected function initCategoriesSidebar()
     {
-        $this->categoriesSidebar = Category::getTreeRuntimeCached()->map(fn(Category $category) => CategoryItemSidebarDTO::fromModel($category)->toArray())->all();
+        $this->categoriesSidebar = Category::getTreeRuntimeCached()->map(fn (Category $category) => CategoryItemSidebarDTO::fromModel($category)->toArray())->all();
     }
 
     /**
@@ -544,15 +549,15 @@ class ShowOrder extends BaseShowComponent
         $orderProductItem = collect($this->productItems)->get($index);
         $orderProductItem = $this->handleUpdateProductItem($orderProductItem, $itemField, $value);
 
-        $this->productItems = collect($this->productItems)->map(fn(array $productItem) => $productItem['uuid'] === $orderProductItem['uuid'] ? $orderProductItem : $productItem)->all();
+        $this->productItems = collect($this->productItems)->map(fn (array $productItem) => $productItem['uuid'] === $orderProductItem['uuid'] ? $orderProductItem : $productItem)->all();
     }
 
     public function handleSaveCurrentProductItem()
     {
-        if (!$this->currentProductItem) {
+        if (! $this->currentProductItem) {
             return false;
         }
-        $productItemToUpdate = collect($this->productItems)->first(fn(array $productItem) => $productItem['uuid'] === $this->currentProductItem['uuid']);
+        $productItemToUpdate = collect($this->productItems)->first(fn (array $productItem) => $productItem['uuid'] === $this->currentProductItem['uuid']);
 
         $possibleFieldsToUpdate = ['name', 'unit', 'order_product_price_retail_rub', 'order_product_count'];
         foreach ($possibleFieldsToUpdate as $itemField) {
@@ -560,17 +565,17 @@ class ShowOrder extends BaseShowComponent
                 $productItemToUpdate = $this->handleUpdateProductItem($productItemToUpdate, $itemField, $this->currentProductItem[$itemField]);
             }
         }
-        $this->productItems = collect($this->productItems)->map(fn(array $productItem) => $productItem['uuid'] === $this->currentProductItem['uuid'] ? $productItemToUpdate : $productItem)->all();
+        $this->productItems = collect($this->productItems)->map(fn (array $productItem) => $productItem['uuid'] === $this->currentProductItem['uuid'] ? $productItemToUpdate : $productItem)->all();
 
         return true;
     }
 
     /**
-     * @param array|\Domain\Products\DTOs\Admin\OrderProductItemDTO $orderProductItem
+     * @param array $orderProductItem @see {@link \Domain\Products\DTOs\Admin\OrderProductItemDTO}
      * @param string $itemField
      * @param int|string $value
      *
-     * @return array|\Domain\Products\DTOs\Admin\OrderProductItemDTO
+     * @return array @see {@link \Domain\Products\DTOs\Admin\OrderProductItemDTO}
      */
     protected function handleUpdateProductItem(array $orderProductItem, string $itemField, $value): array
     {
@@ -582,6 +587,7 @@ class ShowOrder extends BaseShowComponent
                 $orderProductItem['order_product_price_purchase_rub_sum_formatted'] = H::priceRubFormatted($orderProductItem['order_product_price_purchase_rub_sum'], Currency::ID_RUB);
                 $orderProductItem['order_product_diff_rub_price_retail_sum_price_purchase_sum_formatted'] = H::priceRubFormatted($orderProductItem['order_product_price_retail_rub_sum'] - $orderProductItem['order_product_price_purchase_rub_sum'], Currency::ID_RUB);
                 $orderProductItem[$itemField] = $value;
+
                 break;
             }
             case 'order_product_price_retail_rub': {
@@ -591,6 +597,7 @@ class ShowOrder extends BaseShowComponent
                 $orderProductItem['order_product_price_retail_rub_sum_formatted'] = H::priceRubFormatted($orderProductItem['order_product_price_retail_rub_sum'], Currency::ID_RUB);
                 $orderProductItem['order_product_diff_rub_price_retail_sum_price_purchase_sum_formatted'] = H::priceRubFormatted($orderProductItem['order_product_price_retail_rub_sum'] - $orderProductItem['order_product_price_purchase_rub_sum'], Currency::ID_RUB);
                 $orderProductItem[$itemField] = $value;
+
                 break;
             }
             default: {
@@ -611,10 +618,11 @@ class ShowOrder extends BaseShowComponent
 
     public function setProductItemFilter($categoryId = null)
     {
-        if (!$categoryId) {
+        if (! $categoryId) {
             $this->categoryId = null;
             $this->productItemsFilters = [];
             $this->fetchAdditionalProductItems();
+
             return;
         }
         $category = Category::query()->findOrFail($categoryId);
@@ -630,7 +638,7 @@ class ShowOrder extends BaseShowComponent
 
     protected function setAdditionalProductItems(array $items)
     {
-        $this->additionalProductItems = collect($items)->map(fn(Product $product) => OrderAdditionalProductItemDTO::create($product)->toArray())->toArray();
+        $this->additionalProductItems = collect($items)->map(fn (Product $product) => OrderAdditionalProductItemDTO::create($product)->toArray())->toArray();
     }
 
     protected function fetchAdditionalProductItems()
@@ -683,7 +691,7 @@ class ShowOrder extends BaseShowComponent
 
         $largestOrdering = max(collect($this->productItems)->max('ordering'), 0);
 
-        $currentProductItem = collect($this->productItems)->first(fn($productItem) => $productItem['uuid'] === $uuid);
+        $currentProductItem = collect($this->productItems)->first(fn ($productItem) => $productItem['uuid'] === $uuid);
 
         $this->productItems[] = $this->createOrderProductItemFromProduct(
             $product,
@@ -700,7 +708,7 @@ class ShowOrder extends BaseShowComponent
     public function toggleShowVariations(string $uuid)
     {
         $productItem = $this->additionalProductItems[$uuid];
-        $productItem['showVariations'] = !$productItem['showVariations'];
+        $productItem['showVariations'] = ! $productItem['showVariations'];
         $this->additionalProductItems[$uuid] = $productItem;
     }
 
@@ -753,7 +761,7 @@ class ShowOrder extends BaseShowComponent
         $this->item->load(['events', 'events.user']);
         $this->orderHistoryItems = $this->item->events
             ->map(
-                fn(OrderEvent $orderEvent) => (new OrderHistoryItem([
+                fn (OrderEvent $orderEvent) => (new OrderHistoryItem([
                     'orderEventId' => $orderEvent->id,
                     'userName' => $orderEvent->user->name ?? null,
                     'operation' => $this->getOperation($orderEvent->type),
@@ -772,8 +780,8 @@ class ShowOrder extends BaseShowComponent
     protected function getOperation(OrderEventType $orderEventType): string
     {
         switch (true) {
-            case $orderEventType->equals(OrderEventType::checkout()) :
-            case $orderEventType->equals(OrderEventType::admin_created()) : {
+            case $orderEventType->equals(OrderEventType::checkout()):
+            case $orderEventType->equals(OrderEventType::admin_created()): {
                 return 'Создание заказа';
             }
             case $orderEventType->equals(OrderEventType::update_product_price_retail()): {
@@ -791,43 +799,43 @@ class ShowOrder extends BaseShowComponent
             case $orderEventType->equals(OrderEventType::add_product()): {
                 return 'Добавление товара';
             }
-            case $orderEventType->equals(OrderEventType::delete_product()) : {
+            case $orderEventType->equals(OrderEventType::delete_product()): {
                 return 'Удаление товара';
             }
-            case $orderEventType->equals(OrderEventType::update_comment_admin()) : {
+            case $orderEventType->equals(OrderEventType::update_comment_admin()): {
                 return 'Комментарий к заказу';
             }
-            case $orderEventType->equals(OrderEventType::update_status()) : {
+            case $orderEventType->equals(OrderEventType::update_status()): {
                 return 'Изменение статуса заказа';
             }
-            case $orderEventType->equals(OrderEventType::update_customer_personal_data()) : {
+            case $orderEventType->equals(OrderEventType::update_customer_personal_data()): {
                 return 'Изменение параметров покупателя';
             }
-            case $orderEventType->equals(OrderEventType::update_payment_method()) : {
+            case $orderEventType->equals(OrderEventType::update_payment_method()): {
                 return 'Изменение способа оплаты';
             }
-            case $orderEventType->equals(OrderEventType::update_comment_user()) : {
+            case $orderEventType->equals(OrderEventType::update_comment_user()): {
                 return 'Изменение комментария пользователя';
             }
-            case $orderEventType->equals(OrderEventType::update_admin()) : {
+            case $orderEventType->equals(OrderEventType::update_admin()): {
                 return 'Изменение менеджера';
             }
-            case $orderEventType->equals(OrderEventType::update_importance()) : {
+            case $orderEventType->equals(OrderEventType::update_importance()): {
                 return 'Изменение важности';
             }
-            case $orderEventType->equals(OrderEventType::update_customer_invoice()) : {
+            case $orderEventType->equals(OrderEventType::update_customer_invoice()): {
                 return 'Изменение счёта покупателя';
             }
-            case $orderEventType->equals(OrderEventType::update_supplier_invoice()) : {
+            case $orderEventType->equals(OrderEventType::update_supplier_invoice()): {
                 return 'Изменение счёта от поставщика';
             }
-            case $orderEventType->equals(OrderEventType::cancellation()) : {
+            case $orderEventType->equals(OrderEventType::cancellation()): {
                 return 'Отмена заказа';
             }
-            case $orderEventType->equals(OrderEventType::delete()) : {
+            case $orderEventType->equals(OrderEventType::delete()): {
                 return 'Удаление заказа';
             }
-            default : {
+            default: {
                 return '';
             }
         }
@@ -840,7 +848,7 @@ class ShowOrder extends BaseShowComponent
     {
         return Cache::store('array')->rememberForever(
             sprintf('fresh-db-order-%s', $this->item->id),
-            fn() => $this->isCreating ? $this->item : Order::query()->findOrFail($this->item->id)
+            fn () => $this->isCreating ? $this->item : Order::query()->findOrFail($this->item->id)
         );
     }
 
@@ -853,8 +861,8 @@ class ShowOrder extends BaseShowComponent
     {
         return H::runtimeCache(
             sprintf('%s-total-price-retail-%s', static::class, $this->item->id),
-            fn() => collect($this->productItems)
-                ->reduce(function(float $acc, array $productItem): float {
+            fn () => collect($this->productItems)
+                ->reduce(function (float $acc, array $productItem): float {
                     return $acc + ($productItem['order_product_price_retail_rub'] * $productItem['order_product_count']);
                 }, 0)
         );
@@ -869,8 +877,8 @@ class ShowOrder extends BaseShowComponent
     {
         return H::runtimeCache(
             sprintf('%s-total-price-purchase-%s', static::class, $this->item->id),
-            fn() => collect($this->productItems)
-                ->reduce(function(float $acc, array $productItem): float {
+            fn () => collect($this->productItems)
+                ->reduce(function (float $acc, array $productItem): float {
                     return $acc + ($productItem['price_purchase_rub'] * $productItem['order_product_count']);
                 }, 0)
         );

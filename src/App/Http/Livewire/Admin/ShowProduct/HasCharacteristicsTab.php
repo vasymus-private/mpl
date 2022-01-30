@@ -85,11 +85,11 @@ trait HasCharacteristicsTab
             'newChar.name' => 'required|string|max:250',
             'newChar.category_id' => [
                 'required',
-                (new Exists(CharCategory::TABLE, 'id'))->where('product_id', $this->item->id)
+                (new Exists(CharCategory::TABLE, 'id'))->where('product_id', $this->item->id),
             ],
             'newChar.type_id' => [
                 'required',
-                (new Exists(CharType::TABLE, 'id'))
+                (new Exists(CharType::TABLE, 'id')),
             ],
         ];
     }
@@ -163,14 +163,14 @@ trait HasCharacteristicsTab
         $charCategories = $this->item->charCategories()->get();
         $chars = $this->item->chars()->get();
 
-        $chars->each(function(Char $char) use($charsIds) {
-            if (!in_array($char->id, $charsIds)) {
+        $chars->each(function (Char $char) use ($charsIds) {
+            if (! in_array($char->id, $charsIds)) {
                 $char->delete();
             }
         });
 
-        $charCategories->each(function(CharCategory $charCategory) use($charCategoriesIds) {
-            if (!in_array($charCategory->id, $charCategoriesIds)) {
+        $charCategories->each(function (CharCategory $charCategory) use ($charCategoriesIds) {
+            if (! in_array($charCategory->id, $charCategoriesIds)) {
                 $charCategory->delete();
             }
         });
@@ -182,7 +182,7 @@ trait HasCharacteristicsTab
     public function getCharCategoryOptions(): array
     {
         return collect($this->charCategories)
-            ->map(fn(array $charCategory) => (new OptionDTO([
+            ->map(fn (array $charCategory) => (new OptionDTO([
                 'value' => $charCategory['id'],
                 'label' => $charCategory['name'],
             ]))->toArray())
@@ -191,12 +191,12 @@ trait HasCharacteristicsTab
 
     protected function initCharRateOptions()
     {
-        $this->charRateOptions = collect(OptionDTO::fromItemsArr(range(0, CharType::RATE_SIZE)))->map(fn(OptionDTO $optionDTO) => $optionDTO->toArray())->all();
+        $this->charRateOptions = collect(OptionDTO::fromItemsArr(range(0, CharType::RATE_SIZE)))->map(fn (OptionDTO $optionDTO) => $optionDTO->toArray())->all();
     }
 
     protected function initCharTypeOptions()
     {
-        $this->charTypes = CharType::query()->get()->map(fn(CharType $charType) => OptionDTO::fromCharType($charType)->toArray())->all();
+        $this->charTypes = CharType::query()->get()->map(fn (CharType $charType) => OptionDTO::fromCharType($charType)->toArray())->all();
     }
 
     protected function initChars(Product $product)
@@ -204,10 +204,11 @@ trait HasCharacteristicsTab
         $initOrdering = CharCategory::DEFAULT_ORDERING;
 
         $this->charCategories = $product->charCategories
-            ->map(function(CharCategory $charCategory) use(&$initOrdering) {
+            ->map(function (CharCategory $charCategory) use (&$initOrdering) {
                 if ($initOrdering >= $charCategory->ordering) {
                     $charCategory->ordering = $initOrdering = $initOrdering + 100;
                 }
+
                 return CharCategoryDTO::fromModel($charCategory)->toArray();
             })
             ->sortBy('ordering')
@@ -223,8 +224,9 @@ trait HasCharacteristicsTab
     public function charOrdering($charCategoryIndex, $index, bool $isUp = true)
     {
         $chars = $this->charCategories[$charCategoryIndex]['chars'] ?? null;
-        if (!$chars) {
+        if (! $chars) {
             $this->skipRender();
+
             return;
         }
         $chars = MoveOrderingItemAction::cached()->execute($chars, (int)$index, $isUp);
@@ -240,8 +242,9 @@ trait HasCharacteristicsTab
     public function deleteChar($charCategoryIndex, $index)
     {
         $charCategory = $this->charCategories[$charCategoryIndex];
-        if (!$charCategory) {
+        if (! $charCategory) {
             $this->skipRender();
+
             return;
         }
         $chars = $charCategory['chars'];
@@ -282,10 +285,11 @@ trait HasCharacteristicsTab
         $this->validate($this->getNewCharRules());
 
         $charCategoryId = $this->newChar['category_id'];
-        $charCategory = collect($this->charCategories)->first(fn(array $item) => (string)$item['id'] === (string)$charCategoryId);
+        $charCategory = collect($this->charCategories)->first(fn (array $item) => (string)$item['id'] === (string)$charCategoryId);
 
         if ($charCategory === null) {
             $this->skipRender();
+
             return;
         }
 
@@ -304,6 +308,7 @@ trait HasCharacteristicsTab
         foreach ($this->charCategories as $index => $item) {
             if ((string)$item['id'] === (string)$charCategoryId) {
                 $this->charCategories[$index] = $charCategory;
+
                 break;
             }
         }

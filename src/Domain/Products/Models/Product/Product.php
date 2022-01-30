@@ -3,25 +3,25 @@
 namespace Domain\Products\Models\Product;
 
 use Database\Factories\ProductFactory;
+use Domain\Common\Models\BaseModel;
+use Domain\Common\Models\Currency;
 use Domain\Common\Models\HasDeletedItemSlug;
 use Domain\Products\Collections\ProductCollection;
 use Domain\Products\DTOs\Web\CharCategoryDTO;
 use Domain\Products\Models\AvailabilityStatus;
+use Domain\Products\Models\Category;
 use Domain\Products\Models\CharCategory;
 use Domain\Products\QueryBuilders\ProductQueryBuilder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Spatie\Image\Manipulations;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Domain\Common\Models\BaseModel;
-use Domain\Products\Models\Category;
-use Domain\Common\Models\Currency;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Routing\Route;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * @property int $id
@@ -79,7 +79,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @mixin \Domain\Products\Models\Product\ProductAcM
  * @mixin \Domain\Common\Models\HasDeletedItemSlug
  *
- * @method static static|\Domain\Products\QueryBuilders\ProductQueryBuilder query()
+ * @method static \Domain\Products\QueryBuilders\ProductQueryBuilder query()
  **/
 class Product extends BaseModel implements HasMedia
 {
@@ -179,8 +179,8 @@ class Product extends BaseModel implements HasMedia
 
         static::booting();
 
-        $cb = function(self $product) {
-            if (!$product->uuid) {
+        $cb = function (self $product) {
+            if (! $product->uuid) {
                 $product->uuid = (string) Str::uuid();
             }
         };
@@ -204,11 +204,10 @@ class Product extends BaseModel implements HasMedia
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        if (!$this->uuid) {
+        if (! $this->uuid) {
             $this->uuid = (string) Str::uuid();
         }
     }
-
 
     public static function rbProductSlug($value, Route $route)
     {
@@ -220,18 +219,19 @@ class Product extends BaseModel implements HasMedia
         $subcategory2 = $route->subcategory2_slug;
         /** @var Category|null $subcategory3 */
         $subcategory3 = $route->subcategory3_slug;
+
         return static::query()
             ->where(static::TABLE . ".slug", $value)
-            ->where(function(Builder $builder) use($category, $subcategory1, $subcategory2, $subcategory3) {
+            ->where(function (Builder $builder) use ($category, $subcategory1, $subcategory2, $subcategory3) {
                 return $builder
                         ->orWhere(static::TABLE . ".category_id", $category->id)
-                        ->when($subcategory3->id ?? null, function(Builder $b, $sub3Id) {
+                        ->when($subcategory3->id ?? null, function (Builder $b, $sub3Id) {
                             return $b->orWhere(static::TABLE . ".category_id", $sub3Id);
                         })
-                        ->when($subcategory2->id ?? null, function(Builder $b, $sub2Id) {
+                        ->when($subcategory2->id ?? null, function (Builder $b, $sub2Id) {
                             return $b->orWhere(static::TABLE . ".category_id", $sub2Id);
                         })
-                        ->when($subcategory1->id ?? null, function(Builder $b, $sub1Id) {
+                        ->when($subcategory1->id ?? null, function (Builder $b, $sub1Id) {
                             return $b->orWhere(static::TABLE . ".category_id", $sub1Id);
                         })
                 ;
@@ -307,8 +307,9 @@ class Product extends BaseModel implements HasMedia
     /**
      * Create a new Eloquent Collection instance.
      *
-     * @param  array  $models
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @param array<int, \Domain\Products\Models\Product\Product> $models
+     *
+     * @return \Domain\Products\Collections\ProductCollection<\Domain\Products\Models\Product\Product>
      */
     public function newCollection(array $models = [])
     {
@@ -319,7 +320,8 @@ class Product extends BaseModel implements HasMedia
      * Create a new Eloquent query builder for the model.
      *
      * @param  \Illuminate\Database\Query\Builder  $query
-     * @return static|\Domain\Products\QueryBuilders\ProductQueryBuilder
+     *
+     * @return \Domain\Products\QueryBuilders\ProductQueryBuilder<\Domain\Products\Models\Product\Product>
      */
     public function newEloquentBuilder($query): ProductQueryBuilder
     {
@@ -331,11 +333,10 @@ class Product extends BaseModel implements HasMedia
      */
     public function characteristics(): array
     {
-        return Cache
-            ::store('array')
+        return Cache::store('array')
             ->rememberForever(
                 sprintf('%s-characteristics-%s', static::class, $this->id),
-                fn() => $this->charCategories->map(fn(CharCategory $charCategory) => CharCategoryDTO::fromModel($charCategory))->all()
+                fn () => $this->charCategories->map(fn (CharCategory $charCategory) => CharCategoryDTO::fromModel($charCategory))->all()
             );
     }
 
@@ -345,7 +346,9 @@ class Product extends BaseModel implements HasMedia
 
         foreach ($characteristics as $charCategory) {
             foreach ($charCategory->chars as $char) {
-                if (!$char->is_empty) return false;
+                if (! $char->is_empty) {
+                    return false;
+                }
             }
         }
 

@@ -2,10 +2,10 @@
 
 namespace Domain\Products\Models;
 
-use Domain\Common\Models\BaseModel;
-use Domain\Seo\Models\Seo;
-use Domain\Products\Models\Product\Product;
 use Carbon\Carbon;
+use Domain\Common\Models\BaseModel;
+use Domain\Products\Models\Product\Product;
+use Domain\Seo\Models\Seo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -29,11 +29,11 @@ class Brand extends BaseModel implements HasMedia
     use SoftDeletes;
     use InteractsWithMedia;
 
-    const TABLE = "brands";
+    public const TABLE = "brands";
 
-    const DEFAULT_ORDERING = 500;
+    public const DEFAULT_ORDERING = 500;
 
-    const MC_MAIN_IMAGE = "main";
+    public const MC_MAIN_IMAGE = "main";
 
     /**
      * The table associated with the model.

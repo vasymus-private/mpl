@@ -15,5 +15,4 @@ interface CanGetRandomProxies
      * @return App\Services\RandomProxies\DTOs\ProxyDTO[]
      * */
     public function getAllRandomProxies(): array;
-
 }

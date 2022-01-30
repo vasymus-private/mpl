@@ -48,9 +48,9 @@ class ExportProductsAction
      */
     public function execute(array $productsIds, string $filePath = null): string
     {
-        if (!$filePath) {
+        if (! $filePath) {
             $filePath = tempnam('/tmp', 'zip');
-            if (!$filePath) {
+            if (! $filePath) {
                 $this->throwException();
             }
         }
@@ -78,7 +78,7 @@ class ExportProductsAction
                 'seo',
                 'charCategories.chars',
             ])
-            ->chunk(50, function(ProductCollection $productCollection) {
+            ->chunk(50, function (ProductCollection $productCollection) {
                 H::logInfo();
                 foreach ($productCollection->notVariations() as $product) {
                     $this->addProduct($product);
@@ -131,7 +131,7 @@ class ExportProductsAction
             json_encode($result, JSON_UNESCAPED_UNICODE)
         );
 
-        if (!$isAdded) {
+        if (! $isAdded) {
             $this->throwException(null, $product);
         }
     }
@@ -172,7 +172,7 @@ class ExportProductsAction
             json_encode($result, JSON_UNESCAPED_UNICODE)
         );
 
-        if (!$isAdded) {
+        if (! $isAdded) {
             $this->throwException(null, $product);
         }
     }
@@ -195,7 +195,7 @@ class ExportProductsAction
             json_encode($result, JSON_UNESCAPED_UNICODE)
         );
 
-        if (!$isAdded) {
+        if (! $isAdded) {
             $this->throwException(null, $product);
         }
     }
@@ -231,7 +231,7 @@ class ExportProductsAction
             json_encode($result, JSON_UNESCAPED_UNICODE)
         );
 
-        if (!$isAdded) {
+        if (! $isAdded) {
             $this->throwException(null, $product);
         }
     }
@@ -255,7 +255,7 @@ class ExportProductsAction
             json_encode($result, JSON_UNESCAPED_UNICODE)
         );
 
-        if (!$isAdded) {
+        if (! $isAdded) {
             $this->throwException(null, $product);
         }
     }
@@ -269,7 +269,7 @@ class ExportProductsAction
     {
         $productFolder = $this->getZipProductFolder($product);
         $isAdded = $this->zip->addEmptyDir($productFolder);
-        if (!$isAdded) {
+        if (! $isAdded) {
             $this->throwException(null, $product);
         }
     }
@@ -287,7 +287,7 @@ class ExportProductsAction
             $this->getZipProductDataFile($product),
             json_encode($productData->toArray(), JSON_UNESCAPED_UNICODE)
         );
-        if (!$isAdded) {
+        if (! $isAdded) {
             $this->throwException(null, $product);
         }
     }
@@ -364,7 +364,7 @@ class ExportProductsAction
         $isAdded = $this->zip->addEmptyDir(
             $this->getZipVariationFolder($product, $variation)
         );
-        if (!$isAdded) {
+        if (! $isAdded) {
             $this->throwException(null, $product);
         }
     }
@@ -382,7 +382,7 @@ class ExportProductsAction
             $this->getZipVariationDataFile($product, $variation),
             json_encode($variationData->toArray(), JSON_UNESCAPED_UNICODE)
         );
-        if (!$isAdded) {
+        if (! $isAdded) {
             $this->throwException(null, $product);
         }
     }
@@ -429,7 +429,7 @@ class ExportProductsAction
             $zipPath
         );
 
-        if (!$isAdded) {
+        if (! $isAdded) {
             $this->throwException(null, $product, $media);
         }
     }

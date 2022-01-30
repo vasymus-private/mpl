@@ -15,11 +15,13 @@ class TransferCategories extends BaseTransfer
         foreach ($raw as $rawItem) {
             $oldParentId = $rawItem["IBLOCK_SECTION_ID"];
             $newParentId = null;
-            if (!empty($oldParentId)) {
-                $find = collect($result)->first(function(array $item) use($oldParentId) {
+            if (! empty($oldParentId)) {
+                $find = collect($result)->first(function (array $item) use ($oldParentId) {
                     return (int)$item["_old_id"] === (int)$oldParentId;
                 });
-                if (!$find) throw new \RuntimeException("Parent id not found.");
+                if (! $find) {
+                    throw new \RuntimeException("Parent id not found.");
+                }
                 $newParentId = $find["id"];
             }
 

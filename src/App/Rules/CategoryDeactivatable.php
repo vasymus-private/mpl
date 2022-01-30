@@ -67,14 +67,16 @@ class CategoryDeactivatable implements Rule, DataAwareRule
         }
         $this->idValue = Arr::get($this->data, str_replace($this->isActiveField, $this->idField, $attribute), null);
 
-        if (!$this->idValue) {
+        if (! $this->idValue) {
             $this->message = ':attribute отсутствует id категории.';
+
             return false;
         }
 
         $this->categoryExists = Category::query()->where(Category::TABLE . ".id", $this->idValue)->exists();
-        if (!$this->categoryExists) {
+        if (! $this->categoryExists) {
             $this->message = ":attribute категории с id: {$this->idValue} не существует.";
+
             return false;
         }
 
@@ -82,6 +84,7 @@ class CategoryDeactivatable implements Rule, DataAwareRule
 
         if ($hasActiveProducts) {
             $this->message = ":attribute категория с id {$this->idValue} не может быть деактивирована, пока у этой категории и или у её подкатегорий есть активные продукты.";
+
             return false;
         }
 

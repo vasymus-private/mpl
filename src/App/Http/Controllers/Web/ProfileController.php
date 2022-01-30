@@ -28,14 +28,14 @@ class ProfileController extends BaseWebController
             ! hash_equals((string) $id, (string) $user->getKey()) &&
             ! hash_equals((string) $id, (string) $emailUser->getKey())
         ) {
-            throw new AuthorizationException;
+            throw new AuthorizationException();
         }
 
         if (
             ! hash_equals((string) $hash, sha1($user->email)) &&
             ! hash_equals((string) $hash, sha1($emailUser->email))
         ) {
-            throw new AuthorizationException;
+            throw new AuthorizationException();
         }
 
         if ($user->id === $emailUser->id) {

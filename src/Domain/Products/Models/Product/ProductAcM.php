@@ -171,13 +171,13 @@ trait ProductAcM
     public function getAvailableSubmitLabelAttribute(): string
     {
         switch ($this->availability_status_id) {
-            case AvailabilityStatus::ID_AVAILABLE_IN_STOCK : {
+            case AvailabilityStatus::ID_AVAILABLE_IN_STOCK: {
                 return "В корзину";
             }
-            case AvailabilityStatus::ID_AVAILABLE_NOT_IN_STOCK : {
+            case AvailabilityStatus::ID_AVAILABLE_NOT_IN_STOCK: {
                 return "На заказ";
             }
-            default : {
+            default: {
                 return "Нет в наличии";
             }
         }
@@ -191,13 +191,13 @@ trait ProductAcM
     public function getAvailabilityStatusNameAttribute(): string
     {
         switch ($this->availability_status_id) {
-            case AvailabilityStatus::ID_AVAILABLE_IN_STOCK : {
+            case AvailabilityStatus::ID_AVAILABLE_IN_STOCK: {
                 return "Есть в наличии";
             }
-            case AvailabilityStatus::ID_AVAILABLE_NOT_IN_STOCK : {
+            case AvailabilityStatus::ID_AVAILABLE_NOT_IN_STOCK: {
                 return "Товар на заказ";
             }
-            default : {
+            default: {
                 return "Нет в наличии";
             }
         }
@@ -206,13 +206,13 @@ trait ProductAcM
     public function getAvailabilityStatusNameShortAttribute(): string
     {
         switch ($this->availability_status_id) {
-            case AvailabilityStatus::ID_AVAILABLE_IN_STOCK : {
+            case AvailabilityStatus::ID_AVAILABLE_IN_STOCK: {
                 return "Есть";
             }
-            case AvailabilityStatus::ID_AVAILABLE_NOT_IN_STOCK : {
+            case AvailabilityStatus::ID_AVAILABLE_NOT_IN_STOCK: {
                 return "На заказ";
             }
-            default : {
+            default: {
                 return "Нет";
             }
         }
@@ -230,9 +230,10 @@ trait ProductAcM
 
     public function getPriceRetailFormattedAttribute(): string
     {
-        if (!$this->price_retail_currency_id) {
+        if (! $this->price_retail_currency_id) {
             return '';
         }
+
         return H::priceFormatted($this->price_retail ?? 0, $this->price_retail_currency_id);
     }
 
@@ -243,26 +244,32 @@ trait ProductAcM
 
     public function getPricePurchaseRubFormattedAttribute(): string
     {
-        if (!$this->price_purchase_currency_id) {
+        if (! $this->price_purchase_currency_id) {
             return '';
         }
+
         return H::priceRubFormatted($this->price_purchase, $this->price_purchase_currency_id);
     }
 
     public function getPricePurchaseFormattedAttribute(): string
     {
-        if (!$this->price_purchase_currency_id) {
+        if (! $this->price_purchase_currency_id) {
             return '';
         }
+
         return H::priceFormatted($this->price_purchase ?? 0, $this->price_purchase_currency_id);
     }
 
     public function getCoefficientPriceRubAttribute(): ?float
     {
-        if (!$this->coefficient || (int)$this->coefficient === 0) return null;
+        if (! $this->coefficient || (int)$this->coefficient === 0) {
+            return null;
+        }
 
         $priceRetailRub = $this->price_retail_rub;
-        if (!$priceRetailRub) return null;
+        if (! $priceRetailRub) {
+            return null;
+        }
 
         return $priceRetailRub / $this->coefficient;
     }
@@ -292,7 +299,9 @@ trait ProductAcM
         $margin = $this->margin_rub;
         $purchaseRub = $this->price_purchase_rub;
 
-        if (!$margin || !$purchaseRub) return null;
+        if (! $margin || ! $purchaseRub) {
+            return null;
+        }
 
         return round($margin * 100 / $purchaseRub, 2);
     }
@@ -302,7 +311,9 @@ trait ProductAcM
         $margin = $this->margin_rub;
         $retailRub = $this->price_retail_rub;
 
-        if (!$margin || !$retailRub) return null;
+        if (! $margin || ! $retailRub) {
+            return null;
+        }
 
         return round($margin * 100 / $retailRub, 2);
     }
@@ -310,7 +321,9 @@ trait ProductAcM
     public function getIsInCartAttribute(): ?bool
     {
         $user = H::userOrAdmin();
-        if (!$user) return null;
+        if (! $user) {
+            return null;
+        }
 
         return in_array($this->id, $user->cart_not_trashed->pluck("id")->toArray());
     }
@@ -318,10 +331,12 @@ trait ProductAcM
     public function getCartCountAttribute(): ?int
     {
         $user = H::userOrAdmin();
-        if (!$user) return null;
+        if (! $user) {
+            return null;
+        }
 
         /** @var \Domain\Products\Models\Product\Product $search|null */
-        $search = $user->cart_not_trashed->first(function(Product $product) {
+        $search = $user->cart_not_trashed->first(function (Product $product) {
             return (string)$this->id === (string)$product->id;
         });
 
@@ -330,17 +345,17 @@ trait ProductAcM
 
     public function getMainImageUrlAttribute(): string
     {
-        return H::runtimeCache(sprintf('product_main_image_url-%s', $this->id), fn() => $this->getFirstMediaUrl(static::MC_MAIN_IMAGE));
+        return H::runtimeCache(sprintf('product_main_image_url-%s', $this->id), fn () => $this->getFirstMediaUrl(static::MC_MAIN_IMAGE));
     }
 
     public function getMainImageXsThumbUrlAttribute(): string
     {
-        return H::runtimeCache(sprintf('product_main_image_xs_thumb_url_%s', $this->id), fn() => $this->getFirstMediaUrl(static::MC_MAIN_IMAGE, static::MCONV_XS_THUMB));
+        return H::runtimeCache(sprintf('product_main_image_xs_thumb_url_%s', $this->id), fn () => $this->getFirstMediaUrl(static::MC_MAIN_IMAGE, static::MCONV_XS_THUMB));
     }
 
     public function getMainImageSmThumbUrlAttribute(): string
     {
-        return H::runtimeCache(sprintf('product_main_image_sm_thumb_url-%s', $this->id), fn() => $this->getFirstMediaUrl(static::MC_MAIN_IMAGE, static::MCONV_SM_THUMB));
+        return H::runtimeCache(sprintf('product_main_image_sm_thumb_url-%s', $this->id), fn () => $this->getFirstMediaUrl(static::MC_MAIN_IMAGE, static::MCONV_SM_THUMB));
     }
 
     public function getMainImageMdThumbUrlAttribute(): string
@@ -358,7 +373,7 @@ trait ProductAcM
      * */
     public function getImagesUrlsAttribute(): array
     {
-        return $this->getMedia(static::MC_ADDITIONAL_IMAGES)->map(fn(Media $media) => $media->getFullUrl())->toArray();
+        return $this->getMedia(static::MC_ADDITIONAL_IMAGES)->map(fn (Media $media) => $media->getFullUrl())->toArray();
     }
 
     /**
@@ -366,7 +381,7 @@ trait ProductAcM
      * */
     public function getImagesXsThumbsUrlsAttribute(): array
     {
-        return $this->getMedia(static::MC_ADDITIONAL_IMAGES)->map(fn(Media $media) => $media->getFullUrl(static::MCONV_XS_THUMB))->toArray();
+        return $this->getMedia(static::MC_ADDITIONAL_IMAGES)->map(fn (Media $media) => $media->getFullUrl(static::MCONV_XS_THUMB))->toArray();
     }
 
     /**
@@ -374,7 +389,7 @@ trait ProductAcM
      * */
     public function getImagesSmThumbsUrlsAttribute(): array
     {
-        return $this->getMedia(static::MC_ADDITIONAL_IMAGES)->map(fn(Media $media) => $media->getFullUrl(static::MCONV_SM_THUMB))->toArray();
+        return $this->getMedia(static::MC_ADDITIONAL_IMAGES)->map(fn (Media $media) => $media->getFullUrl(static::MCONV_SM_THUMB))->toArray();
     }
 
     /**
@@ -382,7 +397,7 @@ trait ProductAcM
      * */
     public function getImagesMdThumbsUrlsAttribute(): array
     {
-        return $this->getMedia(static::MC_ADDITIONAL_IMAGES)->map(fn(Media $media) => $media->getFullUrl(static::MCONV_MD_THUMB))->toArray();
+        return $this->getMedia(static::MC_ADDITIONAL_IMAGES)->map(fn (Media $media) => $media->getFullUrl(static::MCONV_MD_THUMB))->toArray();
     }
 
     /**
@@ -390,7 +405,7 @@ trait ProductAcM
      * */
     public function getImagesLgThumbsUrlsAttribute(): array
     {
-        return $this->getMedia(static::MC_ADDITIONAL_IMAGES)->map(fn(Media $media) => $media->getFullUrl(static::MCONV_LG_THUMB))->toArray();
+        return $this->getMedia(static::MC_ADDITIONAL_IMAGES)->map(fn (Media $media) => $media->getFullUrl(static::MCONV_LG_THUMB))->toArray();
     }
 
     public function getOrderProductCountAttribute(): ?int
@@ -477,7 +492,7 @@ trait ProductAcM
 
     public function getWebRouteAttribute(): string
     {
-        return Cache::store('array')->rememberForever(sprintf('product_web_route_%s', $this->id), function() {
+        return Cache::store('array')->rememberForever(sprintf('product_web_route_%s', $this->id), function () {
             if ($this->is_variation) {
                 return $this->parent->web_route;
             }

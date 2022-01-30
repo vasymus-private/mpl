@@ -10,7 +10,7 @@ class UserFactory extends Factory
     /**
      * The name of the factory's corresponding model.
      *
-     * @var string
+     * @var class-string<\Domain\Users\Models\User\User>
      */
     protected $model = User::class;
 
@@ -22,6 +22,7 @@ class UserFactory extends Factory
     public function definition()
     {
         $date = $this->faker->dateTimeBetween('-3 days');
+
         return [
             'name' => sprintf('%s %s', $this->faker->firstName(), $this->faker->lastName),
             'email' => $this->faker->unique()->safeEmail,

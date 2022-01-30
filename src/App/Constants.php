@@ -50,5 +50,7 @@ final class Constants
     public const MEDIA_DISK_PUBLIC = 'public-media';
     public const MEDIA_DISK_PRIVATE = 'private-media';
 
-    private function __construct() {}
+    private function __construct()
+    {
+    }
 }

@@ -2,11 +2,11 @@
 
 namespace App\View\Components\Web;
 
-use Support\H;
 use Domain\Common\Models\Currency;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\Component;
+use Support\H;
 
 class SidebarMenuCartComponent extends Component
 {
@@ -34,13 +34,13 @@ class SidebarMenuCartComponent extends Component
     {
         $user = H::userOrAdmin();
 
-        $cartProducts = $user->cart_not_trashed->filter(function(Product $product) {
+        $cartProducts = $user->cart_not_trashed->filter(function (Product $product) {
             return ($product->cart_product->deleted_at ?? null) === null;
         });
 
         $this->cartProducts = $cartProducts->take(10);
 
-        $this->totalSum = $cartProducts->reduce(function(float $acc, Product $product) {
+        $this->totalSum = $cartProducts->reduce(function (float $acc, Product $product) {
             return $acc += ($product->price_retail_rub * ($product->cart_product->count ?? 1));
         }, 0.0);
 

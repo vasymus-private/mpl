@@ -29,9 +29,13 @@ trait HasDescription
         ];
     }
 
-    protected function initDescriptionTab() {}
+    protected function initDescriptionTab()
+    {
+    }
 
-    protected function handleSaveDescriptionTab() {}
+    protected function handleSaveDescriptionTab()
+    {
+    }
 
     protected function getDescriptionTabAttributes(): array
     {

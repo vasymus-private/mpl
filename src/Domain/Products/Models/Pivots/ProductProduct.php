@@ -11,15 +11,15 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * */
 class ProductProduct extends Pivot
 {
-    const TABLE = "product_product";
+    public const TABLE = "product_product";
 
-    const TYPE_ACCESSORY = 1;
-    const TYPE_SIMILAR = 2;
-    const TYPE_RELATED = 3;
-    const TYPE_WORK = 4;
-    const TYPE_INSTRUMENT = 5;
+    public const TYPE_ACCESSORY = 1;
+    public const TYPE_SIMILAR = 2;
+    public const TYPE_RELATED = 3;
+    public const TYPE_WORK = 4;
+    public const TYPE_INSTRUMENT = 5;
 
-    const ALL_TYPES = [
+    public const ALL_TYPES = [
         self::TYPE_ACCESSORY,
         self::TYPE_SIMILAR,
         self::TYPE_RELATED,

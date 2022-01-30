@@ -15,7 +15,7 @@ class ClearMedia extends BaseSeeder
      */
     public function run()
     {
-        if (!$this->shouldClearData()) {
+        if (! $this->shouldClearData()) {
             return;
         }
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');

@@ -2,11 +2,11 @@
 
 namespace Domain\Products\Models\Product;
 
+use Domain\Products\Models\Brand;
 use Domain\Products\Models\Category;
 use Domain\Products\Models\Char;
 use Domain\Products\Models\CharCategory;
 use Domain\Products\Models\InformationalPrice;
-use Domain\Products\Models\Brand;
 use Domain\Products\Models\Pivots\CategoryProduct;
 use Domain\Products\Models\Pivots\ProductProduct;
 use Domain\Seo\Models\Seo;
@@ -83,6 +83,7 @@ trait ProductRelations
     {
         /** @var BelongsToMany $bm */
         $bm = $this->belongsToMany(Product::class, ProductProduct::TABLE, "product_1_id", "product_2_id");
+
         return $bm
                 ->using(ProductProduct::class)
                 ->withPivot(["type"])

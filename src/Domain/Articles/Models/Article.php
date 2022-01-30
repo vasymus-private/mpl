@@ -32,7 +32,7 @@ class Article extends BaseModel
 {
     use SoftDeletes;
 
-    const TABLE = "articles";
+    public const TABLE = "articles";
 
     /**
      * The table associated with the model.
@@ -52,7 +52,8 @@ class Article extends BaseModel
 
     public static function route(Article $article): string
     {
-        return route("articles.show",
+        return route(
+            "articles.show",
             $article->parent_id === null
                 ? [$article->slug]
                 : [$article->slug, $article->parent->slug]
@@ -61,8 +62,7 @@ class Article extends BaseModel
 
     public static function rbArticleSlug($value, Route $route)
     {
-        return static
-            ::active()
+        return static::active()
             ->whereNull(static::TABLE . ".parent_id")
             ->where(static::TABLE . ".slug", $value)
             ->firstOrFail()
@@ -73,8 +73,8 @@ class Article extends BaseModel
     {
         /** @var Article $parent */
         $parent = $route->article_slug;
-        return static
-            ::active()
+
+        return static::active()
             ->where(static::TABLE . ".parent_id", $parent->id)
             ->where(static::TABLE . ".slug", $value)
             ->firstOrFail()

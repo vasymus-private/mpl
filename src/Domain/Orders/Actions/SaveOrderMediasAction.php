@@ -18,8 +18,8 @@ class SaveOrderMediasAction
     {
         // delete
         $mediasIds = collect($files)->pluck('id')->filter()->values()->toArray();
-        $order->getMedia($collectionName)->each(function(CustomMedia $customMedia) use($mediasIds) {
-            if (!in_array($customMedia->id, $mediasIds)) {
+        $order->getMedia($collectionName)->each(function (CustomMedia $customMedia) use ($mediasIds) {
+            if (! in_array($customMedia->id, $mediasIds)) {
                 $customMedia->delete();
             }
         });
@@ -28,9 +28,10 @@ class SaveOrderMediasAction
             // updating
             if ($fileDTO['id'] !== null) {
                 /** @var \Domain\Common\Models\CustomMedia $file */
-                $file = $order->getMedia($collectionName)->first(fn(CustomMedia $customMedia) => $fileDTO['id'] === $customMedia->id);
+                $file = $order->getMedia($collectionName)->first(fn (CustomMedia $customMedia) => $fileDTO['id'] === $customMedia->id);
                 $file->name = $fileDTO['name'] ?: $fileDTO['file_name'];
                 $file->save();
+
                 continue;
             }
             // creating

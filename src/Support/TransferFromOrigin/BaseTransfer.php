@@ -9,6 +9,13 @@ abstract class BaseTransfer
     use HasTransfer;
     use HasHtmlParsing;
 
+    public const _GUID_KEY_KEY = "key";
+    public const _GUID_KEY_SELECTOR = "selector";
+    public const _GUID_KEY_ATTRIBUTE = "attribute";
+    public const _GUID_KEY_CALLBACK = "callback";
+    public const _GUID_KEY_PATTERN = "pattern";
+    public const _GUID_KEY_MATCH_INDEX = "matchIndex";
+
     /** @var Fetcher */
     protected $fetcher;
 
@@ -23,8 +30,7 @@ abstract class BaseTransfer
         ?string $username = "parket",
         ?string $password = "parket",
         $fetcher = null
-    )
-    {
+    ) {
         $this->site = $site;
         $this->fetcher = $fetcher !== null ? $fetcher : new Fetcher();
         $this->fetcher->setUsername($username);
@@ -47,12 +53,14 @@ abstract class BaseTransfer
         $file = $this->fetchFile($location);
         $oldFileName = basename($location);
         $path = $this->getStdStoragePath($oldFileName, $itemId, $entity);
+
         return $this->storeFile($path, $file);
     }
 
     public function fetchAndStoreFileToPath(string $location, string $storagePath): ?string
     {
         $file = $this->fetchFile($location);
+
         return $this->storeFile($storagePath, $file);
     }
 
@@ -61,6 +69,7 @@ abstract class BaseTransfer
         $this->pageUrl = $location;
 
         $this->fetcher->setUrl($this->getUrl());
+
         return $this->fetcher->fetch();
     }
 
@@ -69,6 +78,7 @@ abstract class BaseTransfer
         $this->pageUrl = ltrim($location, "/\\");
 
         $this->fetcher->setUrl($this->getUrl());
+
         return $this->fetcher->fetch();
     }
 
@@ -76,8 +86,9 @@ abstract class BaseTransfer
     {
         $isSaved = Storage::put($path, $file);
 
-        if (!$isSaved) {
+        if (! $isSaved) {
             dump("Failed to save image: $path");
+
             return null;
         }
 
@@ -88,6 +99,7 @@ abstract class BaseTransfer
     {
         $folder = $this->getStdStorageFolder($entity);
         $fileName = $this->getStdFileName($oldFileName, $itemId);
+
         return "$folder/$fileName";
     }
 
@@ -99,6 +111,7 @@ abstract class BaseTransfer
     public function getStdFileName(string $oldFileName, string $itemId): string
     {
         $extension = pathinfo($oldFileName)['extension'] ?? null;
+
         return $extension ? "$itemId.$extension" : "$itemId";
     }
 }

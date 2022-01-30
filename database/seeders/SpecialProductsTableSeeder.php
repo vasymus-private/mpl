@@ -26,7 +26,7 @@ class SpecialProductsTableSeeder extends BaseSeeder
     public function seedDeliveryProduct()
     {
         $delivery = Product::query()->where(sprintf('%s.uuid', Product::TABLE), Product::DELIVERY_PRODUCT_UUID)->first();
-        if (!$delivery) {
+        if (! $delivery) {
             $delivery = new Product();
         }
 
