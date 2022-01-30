@@ -74,7 +74,7 @@ class Fetcher
         $randomProxy = $proxies->getOneRandomProxy();
 
         if ($randomProxy) {
-            $builder->withProxy($randomProxy->ip, $randomProxy->port);
+            $builder->withProxy($randomProxy->ip, (string)$randomProxy->port);
         }
     }
 }

@@ -11,7 +11,8 @@ use Illuminate\Database\Eloquent\Builder;
  * @template TModelClass of \Domain\Products\Models\Product\Product
  * @extends Builder<TModelClass>
  *
- * @method \Domain\Products\Models\Product\Product|null first()
+ * @method \Domain\Products\Models\Product\Product|null first($columns = ['*'])
+ * @method \Domain\Products\Models\Product\Product findOrFail($id, $columns = ['*'])
  */
 class ProductQueryBuilder extends Builder
 {
@@ -48,24 +49,6 @@ class ProductQueryBuilder extends Builder
     public function doesntHaveVariations(): self
     {
         return $this->doesntHave("variations");
-    }
-
-    /**
-     * @param \Domain\Products\Models\Category[] $categories
-     *
-     * @return self
-     *
-     * todo remove if not needed
-     */
-    public function forMainCategory(array $categories): self
-    {
-        foreach ($categories as $cat) {
-            if ($cat) {
-                return $this->where("{$this->table}.category_id", $cat->id);
-            }
-        }
-
-        return $this;
     }
 
     public function publicViewable(): self

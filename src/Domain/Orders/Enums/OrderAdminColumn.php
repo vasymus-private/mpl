@@ -22,8 +22,7 @@ use Spatie\Enum\Enum;
 class OrderAdminColumn extends Enum
 {
     /**
-     * @return string[]|int[]|Closure
-     * @psalm-return array<string, string|int> | Closure(string):(int|string)
+     * @return string[]|int[]
      */
     protected static function values()
     {
@@ -45,8 +44,7 @@ class OrderAdminColumn extends Enum
     }
 
     /**
-     * @return string[]|Closure
-     * @psalm-return array<string, string> | Closure(string):string
+     * @return string[]
      */
     protected static function labels()
     {

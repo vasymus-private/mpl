@@ -38,7 +38,9 @@ class Admin extends BaseUser implements HasMedia
 
     public static function getCentralAdmin(): self
     {
-        return Admin::query()->findOrFail(Admin::ID_CENTRAL_ADMIN);
+        /** @var \Domain\Users\Models\Admin $admin */
+        $admin = Admin::query()->findOrFail(Admin::ID_CENTRAL_ADMIN);
+        return $admin;
     }
 
     public static function rbAdmin($value)

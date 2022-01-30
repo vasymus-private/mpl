@@ -25,6 +25,6 @@ class MarkServiceViewed
     public function handle(ServiceViewedEvent $event)
     {
         $event->user->serviceViewed()->detach($event->service->id);
-        $event->user->serviceViewed()->syncWithoutDetaching($event->service->id);
+        $event->user->serviceViewed()->syncWithoutDetaching([$event->service->id]);
     }
 }
