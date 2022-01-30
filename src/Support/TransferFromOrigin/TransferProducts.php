@@ -287,7 +287,7 @@ class TransferProducts extends BaseTransfer
                 $variation = [
                     "name" => $offer['NAME'],
                     "price_retail" => $offer['ITEM_PRICES'][0]['PRICE'] ?? null,
-                    "price_retail_currency_id" => ['ITEM_PRICES'][0]['CURRENCY'] ?? null,
+                    "price_retail_currency_id" => ['ITEM_PRICES'][0]['CURRENCY'] ?? null, // @phpstan-ignore-line
                     "image" => $image,
                     "ordering" => $offer["SORT"],
                     "price_purchase" => $offer["PROPERTIES"]["purchase"]["VALUE"],

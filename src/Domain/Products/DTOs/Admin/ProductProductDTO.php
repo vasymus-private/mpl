@@ -31,7 +31,7 @@ class ProductProductDTO extends DataTransferObject
      */
     public static function fromModel(Product $product, ?string $wireModelPrefix = null): self
     {
-        return new self([
+        return new static([
             'id' => $product->id,
             'name' => $product->name,
             'url' => route("admin.products.edit", $product->id),
