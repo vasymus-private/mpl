@@ -11,7 +11,8 @@ use Illuminate\Database\Eloquent\Builder;
  * @template TModelClass of \Domain\Products\Models\Product\Product
  * @extends Builder<TModelClass>
  *
- * @method \Domain\Products\Models\Product\Product|null first()
+ * @method \Domain\Products\Models\Product\Product|null first($columns = ['*'])
+ * @method \Domain\Products\Models\Product\Product findOrFail($id, $columns = ['*'])
  */
 class ProductQueryBuilder extends Builder
 {

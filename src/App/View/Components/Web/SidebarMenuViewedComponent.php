@@ -37,64 +37,54 @@ class SidebarMenuViewedComponent extends Component
             "viewed.category.parentCategory",
         ]);
 
-        $this->viewed = $user->viewed->merge($user->serviceViewed)
-                    ->sort(function (Model $itemA, Model $itemB) {
-                        $pivotA = $itemA instanceof Product
-                                    ? $itemA->viewed_product
-                                    : $itemA->viewed_service
-                        ;
-                        $pivotB = $itemB instanceof Product
-                                    ? $itemB->viewed_product
-                                    : $itemB->viewed_service
-                        ;
-                        $aCreatedAt = $pivotA->created_at ?? null;
-                        $bCreatedAt = $pivotB->created_at ?? null;
+        $this->viewed = $user->viewed
+            ->merge($user->serviceViewed)
+            ->sort(function (Model $itemA, Model $itemB) {
+                /**
+                 * @var \Domain\Products\Models\Product\Product|\Domain\Services\Models\Service $itemA
+                 * @var \Domain\Products\Models\Product\Product|\Domain\Services\Models\Service $itemB
+                 */
+                $pivotA = $itemA instanceof Product
+                            ? $itemA->viewed_product
+                            : $itemA->viewed_service;
+                $pivotB = $itemB instanceof Product
+                            ? $itemB->viewed_product
+                            : $itemB->viewed_service;
 
-                        $aCreatedAt = $aCreatedAt instanceof Carbon
-                                        ? $aCreatedAt->getTimestamp()
-                                        : (Carbon::canBeCreatedFromFormat($aCreatedAt, "Y-m-d H:i:s")
-                                            ? Carbon::createFromFormat($aCreatedAt, "Y-m-d H:i:s")->getTimestamp()
-                                            : null)
-                        ;
-                        $bCreatedAt = $bCreatedAt instanceof Carbon
-                                        ? $bCreatedAt->getTimestamp()
-                                        : (Carbon::canBeCreatedFromFormat($bCreatedAt, "Y-m-d H:i:s")
-                                            ? Carbon::createFromFormat($bCreatedAt, "Y-m-d H:i:s")->getTimestamp()
-                                            : null)
-                        ;
+                $aCreatedAt = $pivotA->created_at ?? null;
+                $bCreatedAt = $pivotB->created_at ?? null;
 
-                        return $bCreatedAt - $aCreatedAt;
-                    })
-                    ->map(function (Model $item) {
-                        $web_route = $item instanceof Product
-                                        ? $item->web_route
-                                        : ($item instanceof Service
-                                            ? $item->web_route
-                                            : "")
-                        ;
-                        $image_url = $item instanceof Product
-                                        ? $item->main_image_url
-                                        : ($item instanceof Service
-                                            ? "" // TODO main service image
-                                            : "")
-                        ;
-                        $name = $item instanceof Product
-                                    ? $item->name
-                                    : ($item instanceof Service
-                                        ? $item->name
-                                        : "")
-                        ;
+                $aCreatedAt = $aCreatedAt instanceof Carbon
+                                ? $aCreatedAt->getTimestamp()
+                                : 0
+                ;
+                $bCreatedAt = $bCreatedAt instanceof Carbon
+                                ? $bCreatedAt->getTimestamp()
+                                : 0
+                ;
 
-                        return new ViewedDTO([
-                            "web_route" => $web_route,
-                            "image_url" => $image_url,
-                            "name" => $name,
-                        ]);
-                    })
-                    ->filter(function (ViewedDTO $dto) {
-                        return (bool)$dto->web_route && (bool)$dto->name;
-                    })
-                    ->take(5)
+                return $bCreatedAt - $aCreatedAt;
+            })
+            ->map(function (Model $item) {
+                /**
+                 * @var \Domain\Products\Models\Product\Product|\Domain\Services\Models\Service $item
+                 */
+                $web_route = $item->web_route;
+                $image_url = $item instanceof Product
+                                ? $item->main_image_url
+                                : ""; // TODO main service image
+                $name = $item->name;
+
+                return new ViewedDTO([
+                    "web_route" => $web_route,
+                    "image_url" => $image_url,
+                    "name" => $name,
+                ]);
+            })
+            ->filter(function (ViewedDTO $dto) {
+                return (bool)$dto->web_route && (bool)$dto->name;
+            })
+            ->take(5)
         ;
     }
 

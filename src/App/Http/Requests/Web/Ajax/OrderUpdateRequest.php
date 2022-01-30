@@ -6,7 +6,6 @@ use Domain\Orders\Models\Order;
 use Domain\Orders\Models\PaymentMethod;
 use Domain\Users\Models\BaseUser\BaseUser;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\Rule;
 use Support\H;
@@ -15,7 +14,7 @@ use Support\H;
  * @property-read int $order_id
  * @property-read int $payment_method_id
  * @property-read string|null $payment_method_description
- * @property-read UploadedFile[]|null attachment
+ * @property-read \Illuminate\Http\UploadedFile[]|null $attachment
  * */
 class OrderUpdateRequest extends FormRequest
 {

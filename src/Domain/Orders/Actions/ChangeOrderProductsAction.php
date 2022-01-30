@@ -23,7 +23,7 @@ class ChangeOrderProductsAction
 
         $productsPrepare = [];
 
-        /** @var array @see {@link \Domain\Products\DTOs\Admin\OrderProductItemDTO} $productItem */
+        /** @see {@link \Domain\Products\DTOs\Admin\OrderProductItemDTO} */
         foreach ($productItems as $productItem) {
             $prepared = [
                 'count' => $productItem['order_product_count'],
@@ -33,7 +33,7 @@ class ChangeOrderProductsAction
                 'price_retail_rub_was_updated' => $productItem['order_product_price_retail_rub_was_updated'],
                 'ordering' => $productItem['ordering'],
             ];
-            /** @var \Domain\Products\Models\Product\Product $currentOrderProduct */
+            /** @var \Domain\Products\Models\Product\Product|null $currentOrderProduct */
             $currentOrderProduct = $order->products->first(fn (Product $product) => (string)$product->id === (string)$productItem['id']);
             // updating
             if ($currentOrderProduct) {
@@ -90,7 +90,7 @@ class ChangeOrderProductsAction
 
     /**
      * @param int $productItemId
-     * @param $newCount
+     * @param int $newCount
      *
      * @return \Domain\Orders\Models\OrderEvent
      */

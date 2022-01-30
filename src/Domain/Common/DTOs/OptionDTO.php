@@ -27,10 +27,21 @@ class OptionDTO extends DataTransferObject
      */
     public $label;
 
+    /**
+     * @var bool
+     */
     public bool $disabled = false;
 
+    /**
+     * @var bool
+     */
     public bool $isHtmlString = false;
 
+    /**
+     * @param \Domain\Products\Models\Brand $brand
+     *
+     * @return self
+     */
     public static function fromBrand(Brand $brand): self
     {
         return new self([
@@ -39,6 +50,11 @@ class OptionDTO extends DataTransferObject
         ]);
     }
 
+    /**
+     * @param \Domain\Common\Models\Currency $currency
+     *
+     * @return self
+     */
     public static function fromCurrency(Currency $currency): self
     {
         return new self([
@@ -47,6 +63,11 @@ class OptionDTO extends DataTransferObject
         ]);
     }
 
+    /**
+     * @param \Domain\Products\Models\AvailabilityStatus $availabilityStatus
+     *
+     * @return self
+     */
     public static function fromAvailabilityStatus(AvailabilityStatus $availabilityStatus): self
     {
         return new self([
@@ -153,8 +174,8 @@ class OptionDTO extends DataTransferObject
     public static function stdFromModel(BaseModel $model): self
     {
         return new self([
-            'value' => $model->id,
-            'label' => $model->name ?? "",
+            'value' => $model->id, // @phpstan-ignore-line
+            'label' => $model->name ?? "", // @phpstan-ignore-line
         ]);
     }
 }

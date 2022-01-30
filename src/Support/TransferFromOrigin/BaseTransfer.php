@@ -16,14 +16,14 @@ abstract class BaseTransfer
     public const _GUID_KEY_PATTERN = "pattern";
     public const _GUID_KEY_MATCH_INDEX = "matchIndex";
 
-    /** @var Fetcher */
+    /** @var \Support\TransferFromOrigin\Fetcher */
     protected $fetcher;
 
     /**
-     * @param string|null $site
+     * @param string $site
      * @param string|null $username
      * @param string|null $password
-     * @param Fetcher|null $fetcher
+     * @param \Support\TransferFromOrigin\Fetcher|null $fetcher
      * */
     public function __construct(
         string $site = "http://union.parket-lux.ru",
@@ -98,7 +98,7 @@ abstract class BaseTransfer
     public function getStdStoragePath(string $oldFileName, int $itemId, string $entity): string
     {
         $folder = $this->getStdStorageFolder($entity);
-        $fileName = $this->getStdFileName($oldFileName, $itemId);
+        $fileName = $this->getStdFileName($oldFileName, (string)$itemId);
 
         return "$folder/$fileName";
     }

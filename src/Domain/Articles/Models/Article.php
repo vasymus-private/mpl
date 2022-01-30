@@ -72,7 +72,7 @@ class Article extends BaseModel
     public static function rbSubArticleSlug($value, Route $route)
     {
         /** @var Article $parent */
-        $parent = $route->article_slug;
+        $parent = $route->article_slug; // @phpstan-ignore-line
 
         return static::active()
             ->where(static::TABLE . ".parent_id", $parent->id)

@@ -30,7 +30,7 @@ class SidebarBrandsFilterComponent extends Component
                     return $builder->whereIn(Product::TABLE . ".id", $productIds);
                 },
             ])
-            ->having("products_count", ">", 0)
+            ->having("products_count", ">", '0')
             ->get()
         ;
     }

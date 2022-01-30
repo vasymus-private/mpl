@@ -299,7 +299,7 @@ class ExportProductsAction
      */
     private function addProductMedia(Product $product): void
     {
-        /** @var \Domain\Common\Models\CustomMedia $mainMedia */
+        /** @var \Domain\Common\Models\CustomMedia|null $mainMedia */
         $mainMedia = $product->getFirstMedia(Product::MC_MAIN_IMAGE);
         if ($mainMedia) {
             $this->addMedia(
@@ -395,7 +395,7 @@ class ExportProductsAction
      */
     private function addVariationMedia(Product $product, Product $variation): void
     {
-        /** @var \Domain\Common\Models\CustomMedia $mainMedia */
+        /** @var \Domain\Common\Models\CustomMedia|null $mainMedia */
         $mainMedia = $variation->getFirstMedia(Product::MC_MAIN_IMAGE);
         if ($mainMedia) {
             $this->addMedia(
@@ -482,7 +482,7 @@ class ExportProductsAction
      */
     private function getZipProductDataFile(Product $product): string
     {
-        return sprintf('%s/%s', $this->getZipProductFolder($product), static::PRODUCT_DATA_FILE_NAME);
+        return sprintf('%s/%s', $this->getZipProductFolder($product), self::PRODUCT_DATA_FILE_NAME);
     }
 
     /**
@@ -492,7 +492,7 @@ class ExportProductsAction
      */
     private function getZipInfoPricesFile(Product $product): string
     {
-        return sprintf('%s/%s', $this->getZipProductFolder($product), static::INFO_PRICES_FILE_NAME);
+        return sprintf('%s/%s', $this->getZipProductFolder($product), self::INFO_PRICES_FILE_NAME);
     }
 
     /**
@@ -502,7 +502,7 @@ class ExportProductsAction
      */
     private function getZipProductProductRelationsFile(Product $product): string
     {
-        return sprintf('%s/%s', $this->getZipProductFolder($product), static::PRODUCT_PRODUCT_RELATIONS_FILE_NAME);
+        return sprintf('%s/%s', $this->getZipProductFolder($product), self::PRODUCT_PRODUCT_RELATIONS_FILE_NAME);
     }
 
     /**
@@ -512,7 +512,7 @@ class ExportProductsAction
      */
     private function getZipCategoryProductRelationsFile(Product $product): string
     {
-        return sprintf('%s/%s', $this->getZipProductFolder($product), static::CATEGORY_PRODUCT_RELATIONS_FILE_NAME);
+        return sprintf('%s/%s', $this->getZipProductFolder($product), self::CATEGORY_PRODUCT_RELATIONS_FILE_NAME);
     }
 
     /**
@@ -522,7 +522,7 @@ class ExportProductsAction
      */
     private function getZipCharacteristicsFile(Product $product): string
     {
-        return sprintf('%s/%s', $this->getZipProductFolder($product), static::CHARACTERISTICS_FILE_NAME);
+        return sprintf('%s/%s', $this->getZipProductFolder($product), self::CHARACTERISTICS_FILE_NAME);
     }
 
     /**
@@ -532,7 +532,7 @@ class ExportProductsAction
      */
     private function getZipSeoFile(Product $product): string
     {
-        return sprintf('%s/%s', $this->getZipProductFolder($product), static::SEO_FILE_NAME);
+        return sprintf('%s/%s', $this->getZipProductFolder($product), self::SEO_FILE_NAME);
     }
 
     /**
@@ -580,7 +580,7 @@ class ExportProductsAction
      */
     private function getZipVariationDataFile(Product $product, Product $variation): string
     {
-        return sprintf('%s/%s', $this->getZipVariationFolder($product, $variation), static::VARIATION_DATA_FILE_NAME);
+        return sprintf('%s/%s', $this->getZipVariationFolder($product, $variation), self::VARIATION_DATA_FILE_NAME);
     }
 
     /**
