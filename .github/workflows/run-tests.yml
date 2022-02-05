@@ -10,7 +10,12 @@ jobs:
         steps:
             -   uses: actions/checkout@v2
                 with:
-                    submodules: 'docker'
+                    submodules: 'true'
+
+            -   name: Display Folders
+                run: |
+                    ls -al
+                    ls -al docker
 
             -   name: Display Docker Version
                 run: |
