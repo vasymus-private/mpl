@@ -1,5 +1,4 @@
 import Sortable from "sortablejs"
-
 ;(() => {
     let orderColumnsSortable = document.getElementById("order-columns-sortable")
     if (!orderColumnsSortable) {

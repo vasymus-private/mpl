@@ -1,7 +1,6 @@
 import ajaxUrls from "../settings/ajaxUrls"
 import Rest from "../../helpers/Rest"
 import { formatErrorMessage } from "../../helpers/common"
-
 ;(function ($) {
     $().ready(() => {
         let $choosePaymentMethod = $(".js-choose-payment-method")

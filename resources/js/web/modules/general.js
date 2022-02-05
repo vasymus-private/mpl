@@ -1,6 +1,5 @@
 import { getProductsHoverOnPopover } from "../helpers/products"
 import { guidGenerator, hideOnClickOutside } from "../../helpers/common"
-
 ;(function ($) {
     $().ready(() => {
         //jQuery('.js-form-select-autosubmit').on('')

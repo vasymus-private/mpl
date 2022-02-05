@@ -1,5 +1,4 @@
 import Sortable from "sortablejs"
-
 ;(() => {
     let productColumnsSortable = document.getElementById(
         "product-columns-sortable"

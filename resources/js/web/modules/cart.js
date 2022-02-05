@@ -15,7 +15,6 @@ import Mustache from "mustache"
 import { numberWithSpaces } from "../../helpers/common"
 import { debounce } from "lodash"
 import Products from "../Products"
-
 ;(function ($) {
     $().ready(() => {
         let animationClass = "pulsing"
