@@ -18,6 +18,9 @@ jobs:
                     restore-keys: |
                         ${{ runner.os }}-node-
 
+            -   name: Install Dependencies
+                run: node -v
+
             -   name: Npm Format
                 run: npm run format
 
