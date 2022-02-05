@@ -1,9 +1,11 @@
-name: 'Code Formatting'
+name: Code Formatting
+
 on:
     - push
 
 jobs:
     code-formatting:
+        name: Code Formatting
         runs-on: ubuntu-20.04
 
         steps:
