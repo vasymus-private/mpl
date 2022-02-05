@@ -26,7 +26,7 @@ services:
             args:
                 # change .env XDEBUG_TRIGGER to use other then 'PHPSTORM'
                 XDEBUG_TRIGGER: "${XDEBUG_TRIGGER:-PHPSTORM}"
-                XDEBUG_ON: "${XDEBUG_ON:-false}"
+                XDEBUG_ON: false
         volumes:
             # used delegated mode here on docker for mac for faster disk I/O
             - .:/var/www/html:delegated
@@ -100,40 +100,6 @@ services:
         image: redis:6.2.6
         volumes:
             - redis-data:/data
-
-    ### Adminer ###
-    adminer:
-        image: adminer:4.8.0-standalone
-        environment:
-            - ADMINER_DESIGN=flat
-            - ADM_DEFAULT_SERVER=db
-            - ADMINER_PLUGINS=
-        depends_on:
-            - db
-        labels:
-            - traefik.http.routers.adminer.rule=Host(`adminer-${DOCKER_SERVER_NAME:-app.localhost}`)
-
-    ### Mailhog ###
-    mailhog:
-        image: mailhog/mailhog
-        labels:
-            - traefik.http.routers.mailhog.rule=Host(`mail-${DOCKER_SERVER_NAME:-app.localhost}`)
-            - traefik.http.services.mailhog.loadbalancer.server.port=8025
-        # About command @see https://github.com/mailhog/MailHog/issues/187#issuecomment-733009406
-        command: -invite-jim=1
-
-    ### Redis WebUI ###
-    redis-webui:
-        image: erikdubbelboer/phpredisadmin:v1.13.2
-        environment:
-            - ADMIN_USER=default
-            - ADMIN_PASS=secret
-            - REDIS_1_HOST=redis
-            - REDIS_1_PORT=6379
-        labels:
-            - traefik.http.routers.redis.rule=Host(`redis-${DOCKER_SERVER_NAME:-app.localhost}`)
-        depends_on:
-            - redis
 
 volumes:
     mariadb-db-data:
