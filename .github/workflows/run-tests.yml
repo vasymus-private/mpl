@@ -14,3 +14,9 @@ jobs:
                 run: |
                     docker -v
                     docker-compose -v
+
+            -   name: Run Docker Compose
+                run: docker-compose up -d --build
+
+            -   name: Run Php Artisan Test
+                run: php artisan test
