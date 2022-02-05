@@ -1,5 +1,4 @@
 import Rest from "../../helpers/Rest"
-
 ;(() => {
     $(".js-navigate-categories").on("click", (event) => {
         event.stopPropagation()

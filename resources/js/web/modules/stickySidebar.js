@@ -1,5 +1,4 @@
 import StickySidebar from "sticky-sidebar"
-
 ;(function ($) {
     $().ready(() => {
         if ($(".js-sticky-sidebar").length) {

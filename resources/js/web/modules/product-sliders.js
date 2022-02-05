@@ -1,5 +1,4 @@
 import Swiper, { Navigation } from "swiper"
-
 ;(function ($) {
     $().ready(() => {
         const sliders = []

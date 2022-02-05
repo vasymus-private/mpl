@@ -23,7 +23,6 @@ import "./modules/cart"
 import "./modules/putProductAside"
 import "./modules/product-sliders"
 import "./modules/orderPayment"
-
 ;(($) => {
     // When DOM is ready
     $(() => {

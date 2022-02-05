@@ -1,5 +1,4 @@
 import Rest from "../../helpers/Rest"
-
 ;(() => {
     handleMarkers()
 

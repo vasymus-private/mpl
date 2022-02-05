@@ -150,6 +150,7 @@ class LoginController extends BaseLoginController
     {
         /** @var \Domain\Users\Models\User\User $user */
         $user = User::query()->findOrFail($this->anonymousUserId);
+
         return $user;
     }
 
