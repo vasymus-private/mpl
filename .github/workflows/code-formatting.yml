@@ -1,0 +1,36 @@
+name: 'Code Formatting'
+on:
+    - push
+
+jobs:
+    code-formatting:
+        runs-on: ubuntu-20.04
+
+        steps:
+            -   name: Checkout Code
+                uses: actions/checkout@v2
+
+            -   name: Cache Npm Dependencies
+                uses: actions/cache@v2
+                with:
+                    path: ~/.npm
+                    key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+                    restore-keys: |
+                        ${{ runner.os }}-node-
+
+            -   name: Install Dependencies
+                run: npm install # or yarn install
+
+            -   name: Npm Format
+                run: npm run format
+
+            -   name: Run php-cs-fixer
+                uses: docker://oskarstark/php-cs-fixer-ga
+                with:
+                    args: --config=.php-cs-fixer.php --allow-risky=yes
+
+            -   name: Commit Changes
+                uses: stefanzweifel/git-auto-commit-action@v4
+                with:
+                    commit_message: PHP CS changes
+

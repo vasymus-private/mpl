@@ -1,17 +1,16 @@
 var slimScroll = (function ($) {
-    'use strict';
+    "use strict"
 
     function init() {
-        $('.mb-body-left').slimScroll({
-            height: $('.menu_main').height(),
+        $(".mb-body-left").slimScroll({
+            height: $(".menu_main").height(),
             touchScrollStep: 100,
-        });
+        })
     }
 
     return {
-        init: init
-    };
+        init: init,
+    }
+})(jQuery)
 
-}(jQuery));
-
-export default slimScroll;
+export default slimScroll
