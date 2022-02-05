@@ -15,18 +15,6 @@ jobs:
                     php-version: '8.0.12'
                     coverage: none
 
-            -   name: Get Composer Cache Directory
-                id: composer-cache
-                run: |
-                    echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-            -   uses: actions/cache@v2
-                with:
-                    path: ${{ steps.composer-cache.outputs.dir }}
-                    key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-                    restore-keys: |
-                        ${{ runner.os }}-composer-
-
             -   name: Install Composer Dependencies
                 run: composer install -n --prefer-dist
                 env:
