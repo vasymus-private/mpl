@@ -26,7 +26,7 @@ services:
             args:
                 # change .env XDEBUG_TRIGGER to use other then 'PHPSTORM'
                 XDEBUG_TRIGGER: "${XDEBUG_TRIGGER:-PHPSTORM}"
-                XDEBUG_ON: false
+                XDEBUG_ON: "false"
         volumes:
             # used delegated mode here on docker for mac for faster disk I/O
             - .:/var/www/html:delegated
