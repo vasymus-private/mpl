@@ -60,7 +60,7 @@ class OrderItemDTO extends DataTransferObject
 
     public static function fromModel(Order $order): self
     {
-        return new self([
+        return new static([
             'id' => $order->id,
             'date' => $order->date_formatted,
             'order_status_id' => $order->order_status_id,

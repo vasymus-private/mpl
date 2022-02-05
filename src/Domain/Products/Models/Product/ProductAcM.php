@@ -76,7 +76,7 @@ use Support\H;
  * @property-read string $admin_route
  *
  * @see \Domain\Products\Models\Product\ProductAcM::getIsInCartAttribute()
- * @property-read bool|null $is_in_cart
+ * @property-read bool $is_in_cart
  *
  * @see \Domain\Products\Models\Product\ProductAcM::getCartCountAttribute()
  * @property-read int|null $cart_count
@@ -318,12 +318,9 @@ trait ProductAcM
         return round($margin * 100 / $retailRub, 2);
     }
 
-    public function getIsInCartAttribute(): ?bool
+    public function getIsInCartAttribute(): bool
     {
         $user = H::userOrAdmin();
-        if (! $user) {
-            return null;
-        }
 
         return in_array($this->id, $user->cart_not_trashed->pluck("id")->toArray());
     }
@@ -331,9 +328,6 @@ trait ProductAcM
     public function getCartCountAttribute(): ?int
     {
         $user = H::userOrAdmin();
-        if (! $user) {
-            return null;
-        }
 
         /** @var \Domain\Products\Models\Product\Product $search|null */
         $search = $user->cart_not_trashed->first(function (Product $product) {

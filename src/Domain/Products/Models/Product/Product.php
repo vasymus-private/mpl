@@ -75,10 +75,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @see \Domain\Users\Models\BaseUser\BaseUser::aside()
  * @property \Domain\Users\Models\Pivots\ProductUserAside|null $aside_product
  *
- * @mixin \Domain\Products\Models\Product\ProductRelations
- * @mixin \Domain\Products\Models\Product\ProductAcM
- * @mixin \Domain\Common\Models\HasDeletedItemSlug
- *
  * @method static \Domain\Products\QueryBuilders\ProductQueryBuilder query()
  **/
 class Product extends BaseModel implements HasMedia
@@ -166,9 +162,11 @@ class Product extends BaseModel implements HasMedia
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var string[]
      */
-    protected $fillable = ['uuid'];
+    protected $fillable = [
+        'uuid',
+    ];
 
     /**
      * @inheritDoc
@@ -212,13 +210,13 @@ class Product extends BaseModel implements HasMedia
     public static function rbProductSlug($value, Route $route)
     {
         /** @var Category $category */
-        $category = $route->category_slug;
+        $category = $route->category_slug; // @phpstan-ignore-line
         /** @var \Domain\Products\Models\Category|null $subcategory1 */
-        $subcategory1 = $route->subcategory1_slug;
+        $subcategory1 = $route->subcategory1_slug; // @phpstan-ignore-line
         /** @var \Domain\Products\Models\Category|null $subcategory2 */
-        $subcategory2 = $route->subcategory2_slug;
+        $subcategory2 = $route->subcategory2_slug; // @phpstan-ignore-line
         /** @var Category|null $subcategory3 */
-        $subcategory3 = $route->subcategory3_slug;
+        $subcategory3 = $route->subcategory3_slug; // @phpstan-ignore-line
 
         return static::query()
             ->where(static::TABLE . ".slug", $value)
@@ -259,7 +257,7 @@ class Product extends BaseModel implements HasMedia
 
     public function registerMediaConversions(Media $media = null): void
     {
-        $this->addMediaConversion(static::MCONV_XS_THUMB)
+        $this->addMediaConversion(static::MCONV_XS_THUMB) // @phpstan-ignore-line
             ->fit(
                 Manipulations::FIT_FILL,
                 static::MCONV_XS_THUMB_SIZE,
@@ -270,7 +268,7 @@ class Product extends BaseModel implements HasMedia
             ->nonOptimized()
         ;
 
-        $this->addMediaConversion(static::MCONV_SM_THUMB)
+        $this->addMediaConversion(static::MCONV_SM_THUMB) // @phpstan-ignore-line
             ->fit(
                 Manipulations::FIT_FILL,
                 static::MCONV_SM_THUMB_SIZE,
@@ -281,7 +279,7 @@ class Product extends BaseModel implements HasMedia
             ->nonOptimized()
         ;
 
-        $this->addMediaConversion(static::MCONV_MD_THUMB)
+        $this->addMediaConversion(static::MCONV_MD_THUMB) // @phpstan-ignore-line
             ->fit(
                 Manipulations::FIT_FILL,
                 static::MCONV_MD_THUMB_SIZE,
@@ -292,7 +290,7 @@ class Product extends BaseModel implements HasMedia
             ->nonOptimized()
         ;
 
-        $this->addMediaConversion(static::MCONV_LG_THUMB)
+        $this->addMediaConversion(static::MCONV_LG_THUMB) // @phpstan-ignore-line
             ->fit(
                 Manipulations::FIT_FILL,
                 static::MCONV_LG_THUMB_SIZE,

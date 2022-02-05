@@ -23,10 +23,13 @@ class CategoryDeactivatable implements Rule, DataAwareRule
     protected string $idField;
 
     /**
-     * @var int|string|null
+     * @var string|null
      */
-    protected $idValue;
+    protected ?string $idValue;
 
+    /**
+     * @var bool
+     */
     protected bool $categoryExists = false;
 
     /**
@@ -34,15 +37,21 @@ class CategoryDeactivatable implements Rule, DataAwareRule
      */
     protected string $isActiveField;
 
+    /**
+     * @var \Domain\Products\Actions\HasActiveProductsAction
+     */
     protected HasActiveProductsAction $hasActiveProductsAction;
 
+    /**
+     * @var string
+     */
     protected string $message = '';
 
     /**
      * Create a new rule instance.
      *
-     * @param string|null
-     * @param string|null
+     * @param string $idField
+     * @param string $isActiveField
      *
      * @return void
      */

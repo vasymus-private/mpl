@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Cache;
 /**
  * @property int $id
  * @property string $name
- * @property string $slug
+ * @property string|null $slug
  * @property int|null $parent_id
  * @property int $ordering
  * @property bool $is_active
@@ -56,8 +56,6 @@ use Illuminate\Support\Facades\Cache;
  *
  * @see \Domain\Products\Models\Category::getHasActiveProductsAttribute()
  * @property-read bool $has_active_products
- *
- * @mixin \Domain\Common\Models\HasDeletedItemSlug
  * */
 class Category extends BaseModel
 {
@@ -146,14 +144,17 @@ class Category extends BaseModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany|\Domain\Products\QueryBuilders\ProductQueryBuilder
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function products(): HasMany
     {
-        /** @var \Illuminate\Database\Eloquent\Relations\HasMany|\Domain\Products\QueryBuilders\ProductQueryBuilder $productsQuery */
+        /** @var \Domain\Products\QueryBuilders\ProductQueryBuilder $productsQuery */
         $productsQuery = $this->hasMany(Product::class, 'category_id', 'id');
 
-        return $productsQuery->notVariations();
+        /** @var \Illuminate\Database\Eloquent\Relations\HasMany $result */
+        $result = $productsQuery->notVariations();
+
+        return $result;
     }
 
     public function scopeParents(Builder $builder): Builder
@@ -176,7 +177,7 @@ class Category extends BaseModel
     public static function rbSubcategory1Slug($value, Route $route)
     {
         /** @var Category $parentCategory */
-        $parentCategory = $route->category_slug;
+        $parentCategory = $route->category_slug; // @phpstan-ignore-line
 
         return static::query()->where(static::TABLE . ".slug", $value)->where(static::TABLE . ".parent_id", $parentCategory->id)->firstOrFail();
     }
@@ -184,7 +185,7 @@ class Category extends BaseModel
     public static function rbSubcategory2Slug($value, Route $route)
     {
         /** @var Category $parentCategory */
-        $parentCategory = $route->subcategory1_slug;
+        $parentCategory = $route->subcategory1_slug; // @phpstan-ignore-line
 
         return static::query()->where(static::TABLE . ".slug", $value)->where(static::TABLE . ".parent_id", $parentCategory->id)->firstOrFail();
     }
@@ -192,7 +193,7 @@ class Category extends BaseModel
     public static function rbSubcategory3Slug($value, Route $route)
     {
         /** @var Category $parentCategory */
-        $parentCategory = $route->subcategory2_slug;
+        $parentCategory = $route->subcategory2_slug; // @phpstan-ignore-line
 
         return static::query()->where(static::TABLE . ".slug", $value)->where(static::TABLE . ".parent_id", $parentCategory->id)->firstOrFail();
     }

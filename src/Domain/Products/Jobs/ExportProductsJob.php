@@ -11,7 +11,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Carbon;
-use Spatie\MediaLibrary\Support\File;
 
 class ExportProductsJob implements ShouldQueue
 {
@@ -37,7 +36,7 @@ class ExportProductsJob implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param int[]
+     * @param int[] $productsIds
      *
      * @return void
      */
@@ -64,7 +63,7 @@ class ExportProductsJob implements ShouldQueue
         // second, add to to media library
         $name = sprintf(
             '%s--%s.zip',
-            static::ARCHIVE_FILE_NAME_PREFIX,
+            self::ARCHIVE_FILE_NAME_PREFIX,
             Carbon::now()->format('Y-m-d--H-i-s')
         );
         $centralAdmin = Admin::getCentralAdmin();

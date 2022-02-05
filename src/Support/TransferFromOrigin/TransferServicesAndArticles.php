@@ -13,7 +13,7 @@ class TransferServicesAndArticles extends BaseTransfer
      * @param string|null $password
      * @param Fetcher|null $fetcher
      * */
-    public function __construct(?string $site = "http://union.parket-lux.ru", string $username = "parket", string $password = "parket", $fetcher = null)
+    public function __construct(?string $site = "http://union.parket-lux.ru", string $username = "parket", string $password = "parket", $fetcher = null) // // @phpstan-ignore-line
     {
         parent::__construct("https://parket-lux.ru", null, null, $fetcher);
     }
@@ -129,7 +129,7 @@ class TransferServicesAndArticles extends BaseTransfer
         foreach ($oldNewImages as $old => $new) {
             $crawler->filter("img")->each(function (Crawler $node) use ($old, $new) {
                 if ($node->attr("src") === $old) {
-                    $node->getNode(0)->setAttribute("src", $new);
+                    $node->getNode(0)->setAttribute("src", $new); // @phpstan-ignore-line
                 }
             });
         }

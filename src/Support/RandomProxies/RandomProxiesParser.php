@@ -89,7 +89,7 @@ class RandomProxiesParser implements CanParseRandomProxiesHtml
             $this->result = [];
         }
 
-        if (is_null($this->result)) {
+        if ($this->result === null) {
             $this->parseRawResult();
             $this->rawResultToEntries();
         }
