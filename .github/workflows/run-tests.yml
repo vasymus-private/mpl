@@ -23,6 +23,9 @@ jobs:
             -   name: Install Composer Dependencies In Docker Container
                 run: docker-compose exec -T app composer install -n --prefer-dist
 
+            -   name: Display Docker Php Info
+                run: docker-compose exec -T app php -i
+
             -   name: Run Php Artisan Test
                 # -T option because of https://github.com/docker/compose/issues/7306#issuecomment-602163499
                 run: docker-compose exec -T app php artisan test

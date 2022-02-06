@@ -30,12 +30,6 @@ services:
         volumes:
             # used delegated mode here on docker for mac for faster disk I/O
             - .:/var/www/html:delegated
-        extra_hosts:
-            # is used for xdebug
-            - "host.docker.internal:host-gateway"
-        environment:
-            # for xdebug working in cli
-            PHP_IDE_CONFIG: "serverName=Docker"
         labels:
             - traefik.http.routers.app.rule=Host(`${DOCKER_SERVER_NAME:-app.localhost}`)
             - traefik.http.services.app.loadbalancer.server.port=80
