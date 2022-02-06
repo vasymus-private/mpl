@@ -16,7 +16,6 @@ jobs:
                     php-version: '8.0.12'
                     coverage: none
 
-
             -   name: Get Composer Cache Directory
                 id: composer-cache
                 run: |
