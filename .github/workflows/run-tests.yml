@@ -17,11 +17,17 @@ jobs:
                     docker -v
                     docker-compose -v
 
+            -   name: Create .env
+                run: cp .env.example .env
+
             -   name: Run Docker Compose
                 run: docker-compose -f docker-compose.ci.yml up -d --build
 
             -   name: Install Composer Dependencies In Docker Container
                 run: docker-compose exec -T app composer install -n --prefer-dist
+
+            -   name: Generate Key
+                run: docker-compose exec -T app php artisan key:generate
 
             -   name: Display Docker Php Info
                 run: docker-compose exec -T app php -i
