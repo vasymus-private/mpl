@@ -20,6 +20,11 @@ jobs:
                     node-version: '16.13.2'
                     cache: 'npm'
 
+            -   name: Display Node And Npm versions
+                run: |
+                    node -v
+                    npm -v
+
             -   name: Install Npm Dependencies
                 run: npm install
 
