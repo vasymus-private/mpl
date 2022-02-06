@@ -2,7 +2,8 @@
 
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
+use Illuminate\Support\Facades\DB;
+use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
@@ -13,6 +14,7 @@ class ExampleTest extends TestCase
      */
     public function testBasicTest()
     {
+        dump(DB::connection()->getPdo(), DB::connection()->getConfig());
         $this->assertTrue(true);
     }
 }
