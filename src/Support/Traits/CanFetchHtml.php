@@ -2,12 +2,12 @@
 
 namespace Support\Traits;
 
-use Support\RandomProxies\Contracts\CanGetRandomProxies;
-use Support\RandomProxies\Repositories\RandomProxiesCacheRepository;
-use Support\RandomProxies\Repositories\RandomProxiesRepository;
 use Campo\UserAgent;
 use Ixudra\Curl\Builder;
 use Ixudra\Curl\Facades\Curl;
+use Support\RandomProxies\Contracts\CanGetRandomProxies;
+use Support\RandomProxies\Repositories\RandomProxiesCacheRepository;
+use Support\RandomProxies\Repositories\RandomProxiesRepository;
 
 trait CanFetchHtml
 {
