@@ -14,7 +14,8 @@ class ExampleTest extends TestCase
      */
     public function testBasicTest()
     {
-        dump(DB::connection()->getConfig());
+        exec('printenv', $output);
+        dump($output, DB::connection()->getConfig());
         $this->assertTrue(true);
     }
 }
