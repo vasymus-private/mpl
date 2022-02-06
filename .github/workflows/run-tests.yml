@@ -20,21 +20,8 @@ jobs:
             -   name: Run Docker Compose
                 run: docker-compose -f docker-compose.ci.yml up -d --build
 
-
-            -   name: Get Composer Cache Directory
-                id: composer-cache
-                run: |
-                    docker-compose exec -T app echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-            -   uses: actions/cache@v2
-                with:
-                    path: ${{ steps.composer-cache.outputs.dir }}
-                    key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-                    restore-keys: |
-                        ${{ runner.os }}-composer-
-
-            -   name: Install Composer Dependencies
-                run: docker-compose exec -T -e COMPOSER_AUTH="${secrets.COMPOSER_AUTH}" app composer install -n --prefer-dist
+            -   name: Install Composer Dependencies In Docker Container
+                run: docker-compose exec -T app composer install -n --prefer-dist
 
             -   name: Run Php Artisan Test
                 # -T option because of https://github.com/docker/compose/issues/7306#issuecomment-602163499
