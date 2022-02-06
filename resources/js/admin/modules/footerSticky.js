@@ -1,10 +1,10 @@
-(() => {
-    let wrapperSelector = '.js-edit-footer-wrapper'
-    let footerSelector = '.js-edit-item-footer'
-    let fixedClass = 'edit-item-footer-fixed'
-    let pinButtonSelector = '.js-pin-btn'
-    let pinButtonPinnedClass = 'pin-btn-pinned'
-    let footerMarkerSelector = '.js-edit-item-footer-marker'
+;(() => {
+    let wrapperSelector = ".js-edit-footer-wrapper"
+    let footerSelector = ".js-edit-item-footer"
+    let fixedClass = "edit-item-footer-fixed"
+    let pinButtonSelector = ".js-pin-btn"
+    let pinButtonPinnedClass = "pin-btn-pinned"
+    let footerMarkerSelector = ".js-edit-item-footer-marker"
 
     let $window = $(window)
     let $wrappers = $(wrapperSelector)
@@ -19,15 +19,15 @@
         setIsPinned(isPinned)
         main()
 
-        $btn.on('click', () => {
+        $btn.on("click", () => {
             toggleIsPinned()
         })
 
-        $('[data-toggle="tab"]').on('shown.bs.tab', () => {
+        $('[data-toggle="tab"]').on("shown.bs.tab", () => {
             main()
         })
 
-        $window.on('scroll', () => {
+        $window.on("scroll", () => {
             main()
         })
 

@@ -1,7 +1,6 @@
-import {getProductsHoverOnPopover} from '../helpers/products'
-import {guidGenerator, hideOnClickOutside} from "../../helpers/common";
-
-(function($) {
+import { getProductsHoverOnPopover } from "../helpers/products"
+import { guidGenerator, hideOnClickOutside } from "../../helpers/common"
+;(function ($) {
     $().ready(() => {
         //jQuery('.js-form-select-autosubmit').on('')
 
@@ -17,15 +16,15 @@ import {guidGenerator, hideOnClickOutside} from "../../helpers/common";
             let tooltipClass = $el.data("class")
 
             $el.tooltip({
-                placement : $el.data("placement"),
-                trigger : "manual",
-                template : `
+                placement: $el.data("placement"),
+                trigger: "manual",
+                template: `
                     <div class="tooltip ${tooltipClass}" role="tooltip">
                         <div class="arrow"></div>
                         <a class="js-tooltip-close tooltip-close" href="javascript:void(0)" type="button">X</a>
                         <div class="tooltip-inner"></div>
                     </div>
-                `
+                `,
             })
 
             let timeout
@@ -44,19 +43,18 @@ import {guidGenerator, hideOnClickOutside} from "../../helpers/common";
                 timeout = setTimeout(hideCB, time)
             })
 
-            $el.on("shown.bs.tooltip", event => {
+            $el.on("shown.bs.tooltip", (event) => {
                 let tooltipId = $(event.target).attr("aria-describedby")
 
                 let tooltipSelector = `#${tooltipId}`
                 let $tooltip = $(tooltipSelector)
 
-                $tooltip.find(".js-tooltip-close").on('click', hideCB)
+                $tooltip.find(".js-tooltip-close").on("click", hideCB)
                 hideOnClickOutside(tooltipSelector, hideCB)
             })
-
         })
 
-        $('.js-back').on('click', event => {
+        $(".js-back").on("click", (event) => {
             event.preventDefault()
             window.history.go(-1)
         })
@@ -65,25 +63,28 @@ import {guidGenerator, hideOnClickOutside} from "../../helpers/common";
 
         $productItems.each((ind, el) => {
             let $productItem = $(el)
-            if (!$productItem.is(':visible')) {
-                return;
+            if (!$productItem.is(":visible")) {
+                return
             }
             $productItem.popover({
-                container : "body",
-                html : true,
+                container: "body",
+                html: true,
                 //placement : "right",
-                template : '<div class="popover popover-product-item" role="tooltip"><div class="arrow"></div><button type="button" class="popover-close js-product-item-popover-close" style="position: absolute; top: 0; right: 0">X</button><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
-                trigger : "manual",
-                sanitize : false,
-                title : "&nbsp;",
+                template:
+                    '<div class="popover popover-product-item" role="tooltip"><div class="arrow"></div><button type="button" class="popover-close js-product-item-popover-close" style="position: absolute; top: 0; right: 0">X</button><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
+                trigger: "manual",
+                sanitize: false,
+                title: "&nbsp;",
             })
 
-            $productItem.on("shown.bs.popover", event => {
+            $productItem.on("shown.bs.popover", (event) => {
                 let $target = $(event.target)
-                let $popup = $(`#${$target.attr('aria-describedby')}`)
-                $popup.find(".js-product-item-popover-close").on("click", ev => {
-                    $productItem.popover("hide")
-                })
+                let $popup = $(`#${$target.attr("aria-describedby")}`)
+                $popup
+                    .find(".js-product-item-popover-close")
+                    .on("click", (ev) => {
+                        $productItem.popover("hide")
+                    })
             })
 
             $productItem.popover("show")
@@ -95,27 +96,25 @@ import {guidGenerator, hideOnClickOutside} from "../../helpers/common";
 
             let value = ""
 
-            $input.on("focus", event => {
+            $input.on("focus", (event) => {
                 value = $input.val()
                 $input.val("")
             })
-            $input.on("blur", event => {
+            $input.on("blur", (event) => {
                 if (!$input.val()) $input.val(value)
             })
         })
 
-
-
-        let $saveInput = $('.js-save-input')
-        let $clearAllSavedInputs = $('.js-clear-all-saved-inputs')
+        let $saveInput = $(".js-save-input")
+        let $clearAllSavedInputs = $(".js-clear-all-saved-inputs")
         // init
-        $saveInput.each(function(i, el) {
+        $saveInput.each(function (i, el) {
             let $el = $(el)
-            let id = $el.data('id') || $el.attr('id') || $el.attr('name')
+            let id = $el.data("id") || $el.attr("id") || $el.attr("name")
             if (!id) {
                 return true
             }
-            let currentSaveInput = localStorage.getItem('save-input')
+            let currentSaveInput = localStorage.getItem("save-input")
             try {
                 currentSaveInput = JSON.parse(currentSaveInput) || {}
             } catch (ignored) {
@@ -128,25 +127,24 @@ import {guidGenerator, hideOnClickOutside} from "../../helpers/common";
             $el.val(value)
         })
         // add listeners
-        $saveInput.on('blur', function(event) {
+        $saveInput.on("blur", function (event) {
             let $el = $(event.target)
-            let id = $el.data('id') || $el.attr('id') || $el.attr('name')
+            let id = $el.data("id") || $el.attr("id") || $el.attr("name")
             if (!id) {
                 return true
             }
-            let currentSaveInput = localStorage.getItem('save-input')
+            let currentSaveInput = localStorage.getItem("save-input")
             try {
                 currentSaveInput = JSON.parse(currentSaveInput) || {}
             } catch (ignored) {
                 currentSaveInput = {}
             }
             currentSaveInput[id] = $el.val()
-            localStorage.setItem('save-input', JSON.stringify(currentSaveInput))
+            localStorage.setItem("save-input", JSON.stringify(currentSaveInput))
         })
-        $clearAllSavedInputs.on('click', function() {
-            localStorage.setItem('save-input', JSON.stringify({}))
+        $clearAllSavedInputs.on("click", function () {
+            localStorage.setItem("save-input", JSON.stringify({}))
         })
-
 
         /*let $inputKeyupValidate = $('.js-keyup-validate')
         $inputKeyupValidate.each((ind, el) => {

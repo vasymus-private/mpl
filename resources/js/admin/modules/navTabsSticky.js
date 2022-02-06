@@ -1,8 +1,8 @@
-(() => {
-    let wrapperSelector = '.js-nav-tabs-wrapper'
-    let navSelector = '.js-nav-tabs'
-    let markerSelector = '.js-nav-tabs-marker'
-    let fixedClass = 'nav-tabs-fixed'
+;(() => {
+    let wrapperSelector = ".js-nav-tabs-wrapper"
+    let navSelector = ".js-nav-tabs"
+    let markerSelector = ".js-nav-tabs-marker"
+    let fixedClass = "nav-tabs-fixed"
 
     let $window = $(window)
     let $wrappers = $(wrapperSelector)
@@ -14,11 +14,11 @@
 
         main()
 
-        $('[data-toggle="tab"]').on('shown.bs.tab', () => {
+        $('[data-toggle="tab"]').on("shown.bs.tab", () => {
             main()
         })
 
-        $window.on('scroll', () => {
+        $window.on("scroll", () => {
             main()
         })
 

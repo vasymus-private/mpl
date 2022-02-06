@@ -89,6 +89,7 @@ trait HasHtmlParsing
     public function getHtml(): ?string
     {
         $crawler = $this->getCrawler();
+
         return $crawler ? $crawler->html() : null;
     }
 
