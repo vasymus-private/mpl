@@ -14,7 +14,7 @@ class ExampleTest extends TestCase
      */
     public function testBasicTest()
     {
-        dump(DB::connection()->getPdo(), DB::connection()->getConfig());
+        dump(DB::connection()->getConfig());
         $this->assertTrue(true);
     }
 }
