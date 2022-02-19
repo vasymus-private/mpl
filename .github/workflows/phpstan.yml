@@ -1,10 +1,7 @@
 name: PHPStan
 
 on:
-    workflow_run:
-        workflows: ["Code Formatting"]
-        types:
-            - completed
+    - push
 
 jobs:
     phpstan:
