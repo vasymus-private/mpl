@@ -2,11 +2,14 @@ name: PHPStan
 
 on:
     - push
+    workflow_run:
+        workflows: ["Code Formatting"]
+        types:
+            - completed
 
 jobs:
     phpstan:
         name: phpstan
-        needs: code-formatting
         runs-on: ubuntu-20.04
         steps:
             -   uses: actions/checkout@v2

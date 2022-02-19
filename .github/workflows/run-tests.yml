@@ -2,11 +2,14 @@ name: Run Tests
 
 on:
     - push
+    workflow_run:
+        workflows: ["Code Formatting", "PHPStan"]
+        types:
+            - completed
 
 jobs:
     phpunit:
         name: Run Tests
-        needs: [code-formatting, phpstan]
         runs-on: ubuntu-20.04
         steps:
             -   uses: actions/checkout@v2
