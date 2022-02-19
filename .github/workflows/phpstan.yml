@@ -1,7 +1,6 @@
 name: PHPStan
 
 on:
-    push:
     workflow_run:
         workflows: ["Code Formatting"]
         types:
