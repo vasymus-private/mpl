@@ -112,21 +112,23 @@
                             <div class="form-group">
                                 @include('admin.livewire.includes.form-control-input', ['field' => "instructions.$index.name"])
                             </div>
+                            <button @if($loop->first) disabled @endif type="button" wire:click="instructionsOrdering({{$index}}, true)" class="btn btn__default">&uarr;</button>
                             <button wire:click="deleteInstruction({{$index}})" type="button" class="adm-fileinput-item-preview__remove">&nbsp;</button>
+                            <button @if($loop->last) disabled @endif type="button" wire:click="instructionsOrdering({{$index}}, false)" class="btn btn__default">&darr;</button>
                         </div>
                     @endforeach
                 </div>
                 <div class="form-group">
                     <div>
                         <span class="add-file__text">Перетащите файлы в эту область (Drag&Drop)</span>
-                        <input type="file" wire:model="tempInstruction" class="form-control-file @error("tempInstruction") is-invalid @enderror" id="tempInstruction" />
-                        <div wire:loading wire:target="tempInstruction">
+                        <input type="file" multiple wire:model="tempInstructions" class="form-control-file @error("tempInstructions") is-invalid @enderror" id="tempInstructions" />
+                        <div wire:loading wire:target="tempInstructions">
                             <div class="spinner-border" role="status">
                                 <span class="sr-only">Loading...</span>
                             </div>
                         </div>
                     </div>
-                    @error("tempInstruction") <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    @error("tempInstructions") <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
             </div>
         </div>

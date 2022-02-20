@@ -28,10 +28,16 @@ trait HasCharacteristicsTab
      */
     public array $charRateOptions;
 
+    /**
+     * @var string[]
+     */
     protected static array $defaultNewCharCategory = [
         'name' => '',
     ];
 
+    /**
+     * @var string[]|null[]
+     */
     protected static array $defaultNewChar = [
         'name' => '',
         'category_id' => null,
