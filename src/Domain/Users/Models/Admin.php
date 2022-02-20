@@ -40,6 +40,7 @@ class Admin extends BaseUser implements HasMedia
     {
         /** @var \Domain\Users\Models\Admin $admin */
         $admin = Admin::query()->findOrFail(Admin::ID_CENTRAL_ADMIN);
+
         return $admin;
     }
 

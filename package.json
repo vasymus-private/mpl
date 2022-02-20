@@ -1,4 +1,5 @@
 {
+    "name": "mpl",
     "private": true,
     "scripts": {
         "dev": "npm run development",
@@ -7,16 +8,18 @@
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "npm run production",
-        "production": "mix --production"
+        "production": "mix --production",
+        "format": "prettier --write \"resources/js/**/*.{js,ts}\""
     },
     "devDependencies": {
         "@babel/core": "^7.16.5",
         "@babel/plugin-proposal-class-properties": "^7.16.5",
         "axios": "^0.24.0",
         "bootstrap": "^4.6.1",
-        "laravel-mix": "^6.0.39",
+        "laravel-mix": "^6.0.41",
         "lodash": "^4.17.21",
         "postcss": "^8.4.5",
+        "prettier": "2.5.1",
         "sass": "^1.45.0",
         "sass-loader": "^12.4.0"
     },
