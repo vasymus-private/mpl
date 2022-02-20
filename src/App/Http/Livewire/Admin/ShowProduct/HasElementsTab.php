@@ -10,7 +10,6 @@ use Domain\Common\Models\CustomMedia;
 use Domain\Products\DTOs\InformationalPriceDTO;
 use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Brand;
-use Domain\Products\Models\CharCategory;
 use Domain\Products\Models\InformationalPrice;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Validation\Rules\Unique;
@@ -149,8 +148,9 @@ trait HasElementsTab
     {
         $largestOrdering = max(collect($this->instructions)->max('ordering'), 0);
 
-        $fileDTOs = collect($values)->map(function(TemporaryUploadedFile $value) use(&$largestOrdering) {
+        $fileDTOs = collect($values)->map(function (TemporaryUploadedFile $value) use (&$largestOrdering) {
             $largestOrdering = $largestOrdering + 100;
+
             return FileDTO::fromTemporaryUploadedFile($value, ['ordering' => $largestOrdering])->toArray();
         })->all();
         $this->instructions = array_merge($this->instructions, $fileDTOs);
@@ -175,10 +175,11 @@ trait HasElementsTab
 
         $this->instructions = $product
             ->getMedia(Product::MC_FILES)
-            ->map(function(CustomMedia $media) use(&$initOrdering) {
+            ->map(function (CustomMedia $media) use (&$initOrdering) {
                 if ($initOrdering >= $media->order_column) {
                     $media->order_column = $initOrdering = $initOrdering + 100;
                 }
+
                 return $this->isCreatingFromCopy
                     ? FileDTO::copyFromCustomMedia($media)->toArray()
                     : FileDTO::fromCustomMedia($media)->toArray();
