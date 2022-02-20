@@ -20,21 +20,21 @@ services:
             - APP_NAME=${APP_NAME}
             - APP_KEY=${APP_KEY}
             - APP_URL=${APP_URL}
-            - DB_HOST=${DB_HOST:db}
-            - DB_DATABASE=${DB_DATABASE:mpl}
+            - DB_HOST=${DB_HOST:-db}
+            - DB_DATABASE=${DB_DATABASE:-mpl}
             - DB_USERNAME=${DB_USERNAME}
             - DB_PASSWORD=${DB_PASSWORD}
             - CACHE_DRIVER=redis
             - FILESYSTEM_DRIVER=local
             - QUEUE_CONNECTION=database
-            - SESSION_DRIVER=${SESSION_DRIVER:redis}
+            - SESSION_DRIVER=${SESSION_DRIVER:-redis}
             - REDIS_HOST=redis
             - MAIL_MAILER=mailgun
             - MAILGUN_DOMAIN=${MAILGUN_DOMAIN}
             - MAILGUN_SECRET=${MAILGUN_SECRET}
             - MAILGUN_ENDPOINT=api.mailgun.net
             - MAIL_FROM_ADDRESS=null
-            - MAIL_FROM_NAME=${MAIL_FROM_NAME:Parket}
+            - MAIL_FROM_NAME=${MAIL_FROM_NAME:-Parket}
         ports:
             - 80:80
 #        labels:
@@ -59,7 +59,7 @@ services:
             - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
             - MYSQL_USER=${MYSQL_USER}
             - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-            - MYSQL_DATABASE=${MYSQL_DATABASE:mpl}
+            - MYSQL_DATABASE=${MYSQL_DATABASE:-mpl}
             # didn't want to add any bind mount or additional Dockerfile, so put it to env variable
             # $$ is used for escaping from docker-compose @see https://docs.docker.com/compose/environment-variables/#substitute-environment-variables-in-compose-files
             # Init script will be run ONLY on first initialization

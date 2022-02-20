@@ -1,0 +1,17 @@
+name: Deploy 2
+
+on:
+    - push
+
+jobs:
+    code-formatting:
+        name: Code Formatting
+        runs-on: ubuntu-20.04
+        steps:
+            -   name: executing remote ssh commands using password
+                uses: appleboy/ssh-action@master
+                with:
+                    host: ${{ secrets.HOST_IP }}
+                    username: ${{ secrets.HOST_USERNAME }}
+                    key: ${{ secrets.HOST_KEY }}
+                    script: whoami
