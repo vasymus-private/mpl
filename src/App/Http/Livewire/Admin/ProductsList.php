@@ -144,7 +144,7 @@ class ProductsList extends BaseItemsListComponent
 
     public function hasChecked()
     {
-        return collect($this->items)->contains(fn(array $item) => (bool)$item['is_checked']);
+        return collect($this->items)->contains(fn (array $item) => (bool)$item['is_checked']);
     }
 
     public function clearAllFilters()
