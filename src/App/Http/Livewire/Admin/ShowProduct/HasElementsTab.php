@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\ShowProduct;
 
 use App\Http\Livewire\Admin\HasGenerateSlug;
+use Domain\Common\Actions\MoveOrderingItemAction;
 use Domain\Common\DTOs\FileDTO;
 use Domain\Common\Models\Currency;
 use Domain\Common\Models\CustomMedia;
@@ -35,7 +36,7 @@ trait HasElementsTab
     /**
      * @var \Livewire\TemporaryUploadedFile
      */
-    public $tempInstruction;
+    public $tempInstructions;
 
     /**
      * @return array
@@ -77,7 +78,7 @@ trait HasElementsTab
 
             'instructions.*.name' => 'nullable|max:250',
 
-            'tempInstruction' => 'nullable|max:' . (1024 * self::MAX_FILE_SIZE_MB), // 1024 -> 1024 kb = 1 mb
+            'tempInstructions.*' => 'nullable|max:' . (1024 * self::MAX_FILE_SIZE_MB), // 1024 -> 1024 kb = 1 mb
         ];
     }
 
@@ -141,12 +142,18 @@ trait HasElementsTab
     }
 
     /**
-     * @param \Livewire\TemporaryUploadedFile $value
+     * @param \Livewire\TemporaryUploadedFile[] $values
      */
-    public function updatedTempInstruction(TemporaryUploadedFile $value)
+    public function updatedTempInstructions($values)
     {
-        $fileDTO = FileDTO::fromTemporaryUploadedFile($value);
-        $this->instructions[] = $fileDTO->toArray();
+        $largestOrdering = max(collect($this->instructions)->max('ordering'), 0);
+
+        $fileDTOs = collect($values)->map(function (TemporaryUploadedFile $value) use (&$largestOrdering) {
+            $largestOrdering = $largestOrdering + 100;
+
+            return FileDTO::fromTemporaryUploadedFile($value, ['ordering' => $largestOrdering])->toArray();
+        })->all();
+        $this->instructions = array_merge($this->instructions, $fileDTOs);
     }
 
     protected function initInfoPrices(Product $product)
@@ -164,15 +171,27 @@ trait HasElementsTab
 
     protected function initInstructions(Product $product)
     {
+        $initOrdering = Product::DEFAULT_FILE_ORDERING;
+
         $this->instructions = $product
             ->getMedia(Product::MC_FILES)
-            ->map(
-                fn (CustomMedia $media) =>
-                $this->isCreatingFromCopy
+            ->map(function (CustomMedia $media) use (&$initOrdering) {
+                if ($initOrdering >= $media->order_column) {
+                    $media->order_column = $initOrdering = $initOrdering + 100;
+                }
+
+                return $this->isCreatingFromCopy
                     ? FileDTO::copyFromCustomMedia($media)->toArray()
-                    : FileDTO::fromCustomMedia($media)->toArray()
-            )
+                    : FileDTO::fromCustomMedia($media)->toArray();
+            })
+            ->sortBy('ordering')
+            ->values()
             ->toArray();
+    }
+
+    public function instructionsOrdering($index, bool $isUp = true)
+    {
+        $this->instructions = MoveOrderingItemAction::cached()->execute($this->instructions, (int)$index, $isUp);
     }
 
     protected function getElementsTabAttributes(): array

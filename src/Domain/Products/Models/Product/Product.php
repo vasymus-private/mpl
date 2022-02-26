@@ -98,6 +98,7 @@ class Product extends BaseModel implements HasMedia
     public const DEFAULT_INSTRUMENTS_NAME = 'Инструменты';
     public const DEFAULT_CURRENCY_ID = Currency::ID_RUB;
     public const DEFAULT_ORDERING = 500;
+    public const DEFAULT_FILE_ORDERING = 100;
 
     public const TABLE = "products";
 

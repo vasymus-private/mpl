@@ -156,7 +156,11 @@ abstract class BaseShowProduct extends BaseShowComponent
 
         foreach ($fileDTOs as $fileDTO) {
             if ($this->isCreatingFromCopy) {
-                $this->addMedia(new FileDTO($fileDTO), $collectionName);
+                $media = $this->addMedia(new FileDTO($fileDTO), $collectionName);
+                if ($fileDTO['ordering'] !== null) {
+                    $media->order_column = $fileDTO['ordering'];
+                    $media->save();
+                }
                 $medias[] = $fileDTO;
 
                 continue;
@@ -166,10 +170,17 @@ abstract class BaseShowProduct extends BaseShowComponent
                 /** @var \Domain\Common\Models\CustomMedia $media */
                 $media = $this->item->getMedia($collectionName)->first(fn (CustomMedia $customMedia) => $fileDTO['id'] === $customMedia->id);
                 $media->name = $fileDTO['name'] ?: $fileDTO['file_name'];
+                if ($fileDTO['ordering'] !== null) {
+                    $media->order_column = $fileDTO['ordering'];
+                }
                 $media->save();
                 $medias[] = $fileDTO;
             } else {
                 $media = $this->addMedia(new FileDTO($fileDTO), $collectionName);
+                if ($fileDTO['ordering'] !== null) {
+                    $media->order_column = $fileDTO['ordering'];
+                    $media->save();
+                }
                 $medias[] = FileDTO::fromCustomMedia($media)->toArray();
             }
         }

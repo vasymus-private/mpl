@@ -188,7 +188,7 @@ class ProductsList extends BaseItemsListComponent
         if ($this->category_id) {
             $category = Category::query()->findOrFail($this->category_id);
             $this->category_name = $category->name;
-            $query->where("$table.category_id", $this->category_id);
+            $query->forMainAndRelatedCategories([$this->category_id]);
         }
 
         if ($this->brand_id) {
