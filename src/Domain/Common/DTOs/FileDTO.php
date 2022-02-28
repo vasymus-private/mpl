@@ -30,6 +30,8 @@ class FileDTO extends DataTransferObject
 
     public ?string $uuid;
 
+    public ?int $ordering;
+
     public static function fromCustomMedia(CustomMedia $media): self
     {
         if (! $media->id) { // otherwise $media->getPath() will throw type error
@@ -45,6 +47,7 @@ class FileDTO extends DataTransferObject
             "path" => $media->getPath(),
             "url" => $media->getUrl(),
             "uuid" => $media->uuid,
+            'ordering' => $media->order_column,
         ]);
     }
 
@@ -63,10 +66,11 @@ class FileDTO extends DataTransferObject
             "path" => $media->getPath(),
             "url" => $media->getUrl(),
             "uuid" => Str::uuid()->toString(),
+            'ordering' => $media->order_column,
         ]);
     }
 
-    public static function fromTemporaryUploadedFile(TemporaryUploadedFile $temporaryUploadedFile): self
+    public static function fromTemporaryUploadedFile(TemporaryUploadedFile $temporaryUploadedFile, array $add = []): self
     {
         try {
             $url = $temporaryUploadedFile->temporaryUrl();
@@ -82,7 +86,7 @@ class FileDTO extends DataTransferObject
             );
         }
 
-        return new self([
+        return new self(array_merge([
             "id" => null,
             "mime_type" => $temporaryUploadedFile->getMimeType(),
             "mime_type_name" => H::getMimeTypeName($temporaryUploadedFile->getMimeType()),
@@ -91,6 +95,6 @@ class FileDTO extends DataTransferObject
             "path" => $temporaryUploadedFile->getRealPath(),
             "url" => $url ?? '',
             "uuid" => Str::uuid()->toString(),
-        ]);
+        ], $add));
     }
 }
