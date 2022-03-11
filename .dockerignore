@@ -29,6 +29,8 @@ ___docs
 /storage/framework/sessions/*
 /storage/framework/testing/*
 /storage/framework/views/*
+/storage/app/media/*
+/storage/app/public/media/*
 .env
 .env.backup
 .phpunit.result.cache

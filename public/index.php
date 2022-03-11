@@ -21,7 +21,10 @@ define('LARAVEL_START', microtime(true));
 |
 */
 
-require __DIR__.'/../vendor/autoload.php';
+$vendorPath = getenv('COMPOSER_VENDOR_DIR')
+    ? sprintf('%s/autoload.php', getenv('COMPOSER_VENDOR_DIR')) // if it's in docker container and it has env variable like '/var/www/vendor'
+    : __DIR__.'/../vendor/autoload.php';
+require $vendorPath;
 
 /*
 |--------------------------------------------------------------------------
