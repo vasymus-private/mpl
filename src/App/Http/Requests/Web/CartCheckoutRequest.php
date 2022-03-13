@@ -100,6 +100,7 @@ class CartCheckoutRequest extends FormRequest
 
         /** @var \Domain\Users\Models\BaseUser\BaseUser|null $emailUser */
         $emailUser = BaseUser::query()->where("email", $this->email)->first();
+
         return $this->emailUser = $emailUser;
     }
 
