@@ -10,8 +10,10 @@ jobs:
         steps:
             -   name: Checkout Code
                 uses: actions/checkout@v2
+
             -   name: Assign docker-stack.template.yml To Env Variable
                 run: cat docker-stack.template.yml > $DOCKER_STACK_YML
+
             -   name: executing remote ssh commands ssh key
                 uses: appleboy/ssh-action@master
                 env:
@@ -20,7 +22,7 @@ jobs:
                     MYSQL_USER: ${{ secrets.MYSQL_USER }}
                     MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
                     MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-                    DOCKER_STACK_YML: ${{ DOCKER_STACK_YML }}
+                    DOCKER_STACK_YML: ${{ env.DOCKER_STACK_YML }}
                 with:
                     host: ${{ secrets.HOST_IP }}
                     username: ${{ secrets.HOST_USERNAME }}
