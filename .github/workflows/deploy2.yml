@@ -12,7 +12,7 @@ jobs:
                 uses: actions/checkout@v2
 
             -   name: Assign docker-stack.template.yml To Env Variable
-                run: cat docker-stack.template.yml > $DOCKER_STACK_YML
+                run: DOCKER_STACK_YML=$(< docker-stack.template.yml)
 
             -   name: executing remote ssh commands ssh key
                 uses: appleboy/ssh-action@master
