@@ -4,8 +4,8 @@ on:
     - push
 
 jobs:
-    code-formatting:
-        name: Code Formatting
+    ssh-swarm:
+        name: SSH And Swarm
         runs-on: ubuntu-20.04
         steps:
             -   name: executing remote ssh commands ssh key

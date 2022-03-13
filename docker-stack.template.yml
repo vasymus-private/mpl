@@ -15,7 +15,7 @@ services:
 
     ### APP (php-fpm) ###
     app:
-        image: vasymus/mpl:${IMAGE_APP_TAG:-latest}
+        image: ${IMAGE_APP:-vasymus/mpl}:${IMAGE_APP_TAG:-latest}
         environment:
             - APP_NAME=${APP_NAME}
             - APP_KEY=${APP_KEY}
