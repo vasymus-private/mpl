@@ -5,9 +5,8 @@ on:
         workflows: ["Run Tests"]
         types: [completed]
         branches:
-            - 'master'
-            - 'develop'
-            - 'testing-actions'
+            -   'develop'
+            -   'testing-actions'
 
 jobs:
     on-success:
