@@ -14,7 +14,7 @@ class ServicesGroupsTableSeeder extends BaseSeeder
      */
     public function run()
     {
-        if (! $this->shouldClearData()) {
+        if (ServicesGroup::query()->count() !== 0 && ! $this->shouldClearData()) {
             return;
         }
 
