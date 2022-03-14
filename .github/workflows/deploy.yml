@@ -1,9 +1,11 @@
 name: Deploy
 
 on:
-    workflow_run:
-        workflows: [Docker Image Push]
-        types: [completed]
+    #workflow_run:
+    #    workflows: [Docker Image Push]
+    #    types: [completed]
+    #    branches: [master, develop, testing-actions]
+    push:
         branches: [master, develop, testing-actions]
 
 jobs:

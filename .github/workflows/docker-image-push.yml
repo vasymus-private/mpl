@@ -1,9 +1,11 @@
 name: Docker Image Push
 
 on:
-    workflow_run:
-        workflows: [Run Tests]
-        types: [completed]
+    #workflow_run:
+    #    workflows: [Run Tests]
+    #    types: [completed]
+    #    branches: [master, develop, testing-actions]
+    push:
         branches: [master, develop, testing-actions]
 
 jobs:
