@@ -8,8 +8,10 @@ jobs:
         name: Code Formatting
         runs-on: ubuntu-20.04
         steps:
-            -   name: Checkout Code
+            -   name: Checkout
                 uses: actions/checkout@v2
+                with:
+                    submodules: 'true'
 
             # has built-in cache functionality
             # see https://github.com/actions/setup-node#caching-packages-dependencies
