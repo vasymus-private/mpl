@@ -41,9 +41,10 @@ jobs:
                     username: ${{ secrets.HOST_USERNAME }}
                     key: ${{ secrets.HOST_KEY }}
                     port: ${{ secrets.HOST_PORT }}
-                    envs: APP_NAME,APP_KEY,APP_URL,MYSQL_USER,MYSQL_PASSWORD,MYSQL_ROOT_PASSWORD,DOCKER_STACK_YML
+                    envs: APP_NAME,APP_KEY,APP_URL,MYSQL_USER,MYSQL_PASSWORD,MYSQL_ROOT_PASSWORD,DOCKER_STACK_YML,IMAGE_APP,IMAGE_APP_TAG
                     script: |
                         echo "$DOCKER_STACK_YML" > docker-stack.template.yml
+                        rm -f .env
                         echo APP_NAME="$APP_NAME" >> .env
                         echo APP_KEY="$APP_KEY" >> .env
                         echo APP_URL="$APP_URL" >> .env
@@ -54,7 +55,6 @@ jobs:
                         echo IMAGE_APP_TAG="$IMAGE_APP_TAG" >> .env
                         docker-compose --file docker-stack.template.yml config > current-docker-stack.yml
                         docker-compose --file docker-stack.template.yml config | docker stack deploy mpl -c -
-                        rm -f .env
     on-failure:
         runs-on: ubuntu-20.04
         if: ${{ github.event.workflow_run.conclusion == 'failure' }}
