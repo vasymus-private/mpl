@@ -19,7 +19,7 @@ class FAQTableSeeder extends BaseSeeder
      */
     public function run()
     {
-        if (! $this->shouldClearData()) {
+        if (FAQ::query()->count() !== 0 && ! $this->shouldClearData()) {
             return;
         }
 
