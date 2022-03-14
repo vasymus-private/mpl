@@ -13,9 +13,9 @@ jobs:
 
             -   name: Assign Content To Env Variable
                 run: |
-                    echo "DOCKER_STACK_YML<<EOF" >> $GITHUB_ENV
-                    $(< docker-stack.template.yml) >> $GITHUB_ENV
-                    echo "EOF" >> $GITHUB_ENV
+                    echo 'DOCKER_STACK_YML<<EOF' >> $GITHUB_ENV
+                    cat docker-stack.template.yml >> $GITHUB_ENV
+                    echo 'EOF' >> $GITHUB_ENV
 
             -   name: executing remote ssh commands ssh key
                 uses: appleboy/ssh-action@master
