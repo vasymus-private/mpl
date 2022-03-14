@@ -682,6 +682,7 @@ class ShowOrder extends BaseShowComponent
 
     public function addProductItemToOrder(string $uuid)
     {
+        /** @var \Domain\Products\Models\Product\Product $product */
         $product = Product::query()
             ->where(
                 sprintf('%s.uuid', Product::TABLE),

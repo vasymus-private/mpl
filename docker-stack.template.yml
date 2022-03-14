@@ -15,15 +15,15 @@ services:
 
     ### APP (php-fpm) ###
     app:
-        image: vasymus/mpl:${IMAGE_APP_TAG}
+        image: ${IMAGE_APP:-vasymus/mpl}:${IMAGE_APP_TAG:-latest}
         environment:
             - APP_NAME=${APP_NAME}
             - APP_KEY=${APP_KEY}
             - APP_URL=${APP_URL}
             - DB_HOST=${DB_HOST:-db}
-            - DB_DATABASE=${DB_DATABASE:-mpl}
-            - DB_USERNAME=${DB_USERNAME}
-            - DB_PASSWORD=${DB_PASSWORD}
+            - DB_DATABASE=${MYSQL_DATABASE:-mpl}
+            - DB_USERNAME=${MYSQL_USER}
+            - DB_PASSWORD=${MYSQL_PASSWORD}
             - CACHE_DRIVER=redis
             - FILESYSTEM_DRIVER=local
             - QUEUE_CONNECTION=database
@@ -43,8 +43,6 @@ services:
             #- traefik.http.routers.blog.tls=true
             #- traefik.http.routers.blog.tls.certresolver=lets-encrypt
             #- traefik.port=80
-        depends_on:
-            - db
 
     ### DB (MariaDB) ###
     db:

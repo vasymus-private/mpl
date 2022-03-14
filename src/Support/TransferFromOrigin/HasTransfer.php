@@ -18,7 +18,7 @@ trait HasTransfer
     {
         $url = "{$this->site}/{$this->pageUrl}";
         if ($this->pageNum) {
-            $url .+"?{$this->pageKey}={$this->pageNum}";
+            $url .= "?{$this->pageKey}={$this->pageNum}";
         }
 
         return $url;
