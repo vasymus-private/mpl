@@ -52,6 +52,7 @@ jobs:
                         echo MYSQL_ROOT_PASSWORD="$MYSQL_ROOT_PASSWORD" >> .env
                         echo IMAGE_APP="$IMAGE_APP" >> .env
                         echo IMAGE_APP_TAG="$IMAGE_APP_TAG" >> .env
+                        docker-compose --file docker-stack.template.yml config > current-docker-stack.yml
                         docker-compose --file docker-stack.template.yml config | docker stack deploy mpl -c -
                         rm -f .env
     on-failure:
