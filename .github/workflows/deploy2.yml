@@ -31,6 +31,6 @@ jobs:
                     username: ${{ secrets.HOST_USERNAME }}
                     key: ${{ secrets.HOST_KEY }}
                     port: ${{ secrets.HOST_PORT }}
-                    envs: APP_NAME,APP_KEY,APP_URL,MYSQL_USER,MYSQL_PASSWORD,MYSQL_ROOT_PASSWORD
+                    envs: APP_NAME,APP_KEY,APP_URL,MYSQL_USER,MYSQL_PASSWORD,MYSQL_ROOT_PASSWORD,DOCKER_STACK_YML
                     #script: docker-compose --file docker-stack.template.yml config | docker stack deploy mpl -c -
-                    script: echo "$APP_NAME" > docker-stack.template.yml
+                    script: echo "$DOCKER_STACK_YML" > docker-stack.template.yml
