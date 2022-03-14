@@ -24,10 +24,10 @@ services:
             - DB_DATABASE=${MYSQL_DATABASE:-mpl}
             - DB_USERNAME=${MYSQL_USER}
             - DB_PASSWORD=${MYSQL_PASSWORD}
-            - CACHE_DRIVER=redis
+            - CACHE_DRIVER=${CACHE_DRIVER:-database}
             - FILESYSTEM_DRIVER=local
-            - QUEUE_CONNECTION=database
-            - SESSION_DRIVER=${SESSION_DRIVER:-redis}
+            - QUEUE_CONNECTION=${QUEUE_CONNECTION:-database}
+            - SESSION_DRIVER=${SESSION_DRIVER:-database}
             - REDIS_HOST=redis
             - MAIL_MAILER=mailgun
             - MAILGUN_DOMAIN=${MAILGUN_DOMAIN}
@@ -83,11 +83,11 @@ services:
 #            retries: 10
 
     ### Redis ###
-    redis:
-        image: redis:6.2.6
-        volumes:
-            - redis-data:/data
+    #redis:
+    #    image: redis:6.2.6
+    #    volumes:
+    #        - redis-data:/data
 
 volumes:
     mariadb-db-data:
-    redis-data:
+    #redis-data:
