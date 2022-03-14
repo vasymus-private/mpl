@@ -12,6 +12,7 @@ use Domain\Products\Models\Product\Product;
 use Domain\Users\Models\Admin;
 use Faker\Factory;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
 class OrdersTableSeeder extends BaseSeeder
@@ -23,6 +24,9 @@ class OrdersTableSeeder extends BaseSeeder
      */
     public function run()
     {
+        if (App::isProduction()) {
+            return;
+        }
         if (Order::query()->count() !== 0 && ! $this->shouldClearData()) {
             return;
         }
