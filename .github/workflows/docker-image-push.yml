@@ -6,7 +6,6 @@ on:
         types: [completed]
         branches:
             -   'develop'
-            -   'testing-actions'
 
 jobs:
     on-success:
