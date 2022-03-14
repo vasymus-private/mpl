@@ -1,4 +1,4 @@
-name: Deploy
+name: Redeploy
 
 on:
     workflow_run:
