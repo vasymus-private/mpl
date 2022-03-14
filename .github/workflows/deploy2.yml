@@ -12,7 +12,7 @@ jobs:
                 uses: actions/checkout@v2
 
             -   name: Assign Content To Env Variable
-                run: echo "DOCKER_STACK_YML=$(cat docker-stack.template.yml)" >> $GITHUB_ENV
+                run: echo "DOCKER_STACK_YML=$(< docker-stack.template.yml)" >> $GITHUB_ENV
 
             -   name: executing remote ssh commands ssh key
                 uses: appleboy/ssh-action@master
