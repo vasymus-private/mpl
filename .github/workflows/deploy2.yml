@@ -12,7 +12,7 @@ jobs:
                 uses: actions/checkout@v2
 
             -   name: Assign Content To Env Variable
-                run: DOCKER_STACK_YML=$(cat docker-stack.template.yml)
+                run: echo "DOCKER_STACK_YML=$(cat docker-stack.template.yml)" >> $GITHUB_ENV
 
             -   name: executing remote ssh commands ssh key
                 uses: appleboy/ssh-action@master
@@ -30,4 +30,4 @@ jobs:
                     port: ${{ secrets.HOST_PORT }}
                     envs: APP_NAME,APP_KEY,APP_URL,MYSQL_USER,MYSQL_PASSWORD,MYSQL_ROOT_PASSWORD
                     #script: docker-compose --file docker-stack.template.yml config | docker stack deploy mpl -c -
-                    script: echo "$DOCKER_STACK_YML" && echo "$DOCKER_STACK_YML" > docker-stack.template.yml
+                    script: echo "$DOCKER_STACK_YML" > docker-stack.template.yml
