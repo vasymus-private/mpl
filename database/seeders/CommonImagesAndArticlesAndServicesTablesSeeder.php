@@ -24,7 +24,7 @@ class CommonImagesAndArticlesAndServicesTablesSeeder extends BaseSeeder
      */
     public function run()
     {
-        if (! $this->shouldClearData()) {
+        if ((Service::query()->count() !== 0 && Article::query()->count() !== 0) && ! $this->shouldClearData()) {
             return;
         }
 

@@ -16,7 +16,7 @@ class GalleryItemsTableSeeder extends BaseSeeder
      */
     public function run()
     {
-        if (! $this->shouldClearData()) {
+        if (GalleryItem::query()->count() !== 0 && ! $this->shouldClearData()) {
             return;
         }
 

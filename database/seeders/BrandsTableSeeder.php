@@ -16,7 +16,7 @@ class BrandsTableSeeder extends BaseSeeder
      */
     public function run()
     {
-        if (! $this->shouldClearData()) {
+        if (Brand::query()->count() !== 0 && ! $this->shouldClearData()) {
             return;
         }
 

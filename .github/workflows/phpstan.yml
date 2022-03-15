@@ -8,7 +8,10 @@ jobs:
         name: phpstan
         runs-on: ubuntu-20.04
         steps:
-            -   uses: actions/checkout@v2
+            -   name: Checkout
+                uses: actions/checkout@v2
+                with:
+                    submodules: 'true'
 
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2

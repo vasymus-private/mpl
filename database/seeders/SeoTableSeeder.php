@@ -14,7 +14,7 @@ class SeoTableSeeder extends BaseSeeder
      */
     public function run()
     {
-        if (! $this->shouldClearData()) {
+        if (Seo::query()->count() !== 0 && ! $this->shouldClearData()) {
             return;
         }
 

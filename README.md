@@ -86,3 +86,15 @@ exit
 # stop docker-compose when finish working
 docker-compose down
 ```
+
+# CI/CD
+
+## Manual Actions on hosting
+
+Ssh to according hosting. Create separate user or use existing one (not `root`), for example, `developer` and add him to `docker` group.
+
+```shell
+sudo usermod -a -G docker developer
+```
+
+Install docker-compose according to [guid](https://docs.docker.com/compose/install/#install-compose-on-linux-systems).

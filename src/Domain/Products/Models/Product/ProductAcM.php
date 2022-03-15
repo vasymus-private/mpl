@@ -262,7 +262,7 @@ trait ProductAcM
 
     public function getCoefficientPriceRubAttribute(): ?float
     {
-        if (! $this->coefficient || (int)$this->coefficient === 0) {
+        if (! $this->coefficient || (float)$this->coefficient === 0.0) {
             return null;
         }
 
