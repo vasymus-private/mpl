@@ -43,7 +43,8 @@ jobs:
                     file: ./docker/app/Dockerfile
                     builder: ${{ steps.buildx.outputs.name }}
                     push: true
-                    tags: ${{ secrets.DOCKER_HUB_USERNAME }}/mpl:${{ github.sha }}
+                    #tags: ${{ secrets.DOCKER_HUB_USERNAME }}/mpl:${{ github.sha }}
+                    tags: ${{ secrets.DOCKER_HUB_USERNAME }}/mpl:latest
                     cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/mpl:buildcache
                     cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/mpl:buildcache,mode=max
 
