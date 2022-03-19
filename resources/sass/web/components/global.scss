@@ -117,9 +117,7 @@ a {
 }
 
 .wrapper {
-    // background: url(../images/bg.png) repeat;
-    background-color: red !important;
-    background-attachment: fixed;
+    background: url(../images/bg.png) repeat fixed;
     overflow: hidden;
     transition: transform .5s, -webkit-transform .5s;
     z-index: 222;
