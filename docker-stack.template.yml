@@ -46,7 +46,7 @@ services:
     db:
         image: mariadb:10.6.4
         volumes:
-            - mariadb-db-data:/var/lib/mysql
+            - mariadb-db-data2:/var/lib/mysql
         deploy:
             placement:
                 constraints: [node.role == manager]
@@ -75,5 +75,12 @@ services:
             && chmod 555 /etc/mysql/conf.d/my.cnf
             && docker-entrypoint.sh mysqld'
 
+    ### Redis ###
+    redis:
+        image: redis:6.2.6
+        volumes:
+            - redis-data:/data
+
 volumes:
-    mariadb-db-data:
+    mariadb-db-data2:
+    redis-data:
