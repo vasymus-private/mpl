@@ -19,6 +19,7 @@
 /vendor
 .env
 .env.backup
+.env-docker-stack
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml

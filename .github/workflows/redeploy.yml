@@ -1,0 +1,62 @@
+name: Redeploy
+
+on:
+    workflow_run:
+        workflows: ["Docker Image Push"]
+        types: [completed]
+        branches:
+            -   'develop'
+
+jobs:
+    on-success:
+        runs-on: ubuntu-20.04
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v2
+                with:
+                    submodules: 'true'
+
+            -   name: Assign Content To Env Variable
+                run: |
+                    echo 'DOCKER_STACK_YML<<EOF' >> $GITHUB_ENV
+                    cat docker-stack.template.yml >> $GITHUB_ENV
+                    echo 'EOF' >> $GITHUB_ENV
+
+            -   name: executing remote ssh commands ssh key
+                uses: appleboy/ssh-action@master
+                env:
+                    APP_NAME: "Market Parket"
+                    APP_KEY: ${{ secrets.APP_KEY }}
+                    APP_URL: "http://${{ secrets.HOST_IP }}"
+                    MYSQL_USER: ${{ secrets.MYSQL_USER }}
+                    MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+                    MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+                    DOCKER_STACK_YML: ${{ env.DOCKER_STACK_YML }}
+                    IMAGE_APP: ${{ secrets.DOCKER_HUB_USERNAME }}/mpl
+                    #IMAGE_APP_TAG: ${{ github.sha }}
+                    IMAGE_APP_TAG: latest
+                with:
+                    host: ${{ secrets.HOST_IP }}
+                    username: ${{ secrets.HOST_USERNAME }}
+                    key: ${{ secrets.HOST_KEY }}
+                    port: ${{ secrets.HOST_PORT }}
+                    envs: APP_NAME,APP_KEY,APP_URL,MYSQL_USER,MYSQL_PASSWORD,MYSQL_ROOT_PASSWORD,DOCKER_STACK_YML,IMAGE_APP,IMAGE_APP_TAG
+                    script: |
+                        echo "$DOCKER_STACK_YML" > docker-stack.template.yml
+                        rm -f .env
+                        echo APP_NAME="$APP_NAME" >> .env
+                        echo APP_KEY="$APP_KEY" >> .env
+                        echo APP_URL="$APP_URL" >> .env
+                        echo MYSQL_USER="$MYSQL_USER" >> .env
+                        echo MYSQL_PASSWORD="$MYSQL_PASSWORD" >> .env
+                        echo MYSQL_ROOT_PASSWORD="$MYSQL_ROOT_PASSWORD" >> .env
+                        echo IMAGE_APP="$IMAGE_APP" >> .env
+                        echo IMAGE_APP_TAG="$IMAGE_APP_TAG" >> .env
+                        docker-compose --file docker-stack.template.yml config > current-docker-stack.yml
+                        docker-compose --file docker-stack.template.yml config | docker stack deploy mpl -c -
+    on-failure:
+        runs-on: ubuntu-20.04
+        if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+        steps:
+            -   run: echo 'The triggering workflow failed'

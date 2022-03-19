@@ -17,7 +17,7 @@ trait HasManagers
     protected function initManagersOptions()
     {
         $this->managers = Cache::store('array')->rememberForever('options-managers', function () {
-            return Admin::query()->get()->map(fn (BaseUser $admin) => OptionDTO::fromAdmin($admin)->toArray())->all();
+            return Admin::query()->get()->map(fn (BaseUser $admin) => OptionDTO::fromAdmin($admin)->toArray())->all(); // @phpstan-ignore-line
         });
     }
 }

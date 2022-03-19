@@ -18,7 +18,7 @@ class UsersAndAdminsTableSeeder extends BaseSeeder
      */
     public function run()
     {
-        if (! $this->shouldClearData()) {
+        if (BaseUser::query()->count() !== 0 && ! $this->shouldClearData()) {
             return;
         }
 

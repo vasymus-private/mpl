@@ -34,7 +34,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property int|null $ordering
  * @property bool $is_active
  * @property int|null $brand_id
- * @property string|null $coefficient
+ * @property float|null $coefficient
  * @property string|null $coefficient_description
  * @property bool $coefficient_description_show
  * @property string|null $coefficient_variation_description

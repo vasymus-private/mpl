@@ -98,7 +98,10 @@ class CartCheckoutRequest extends FormRequest
             return $this->emailUser;
         }
 
-        return $this->emailUser = BaseUser::query()->where("email", $this->email)->first();
+        /** @var \Domain\Users\Models\BaseUser\BaseUser|null $emailUser */
+        $emailUser = BaseUser::query()->where("email", $this->email)->first();
+
+        return $this->emailUser = $emailUser;
     }
 
     public function isAuthUserEqualsEmailUser(): bool

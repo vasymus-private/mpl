@@ -232,6 +232,7 @@ class ProductsList extends BaseItemsListComponent
 
     public function toggleActive($id)
     {
+        /** @var \Domain\Products\Models\Product\Product|null $product */
         $product = Product::query()->find($id);
         if (! $product) {
             return;
@@ -244,6 +245,7 @@ class ProductsList extends BaseItemsListComponent
 
     public function handleDelete($id)
     {
+        /** @var \Domain\Products\Models\Product\Product|null $product */
         $product = Product::query()->find($id);
         if (! $product) {
             return;

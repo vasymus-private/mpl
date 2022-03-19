@@ -5,8 +5,12 @@
 .vscode
 .idea
 .editorconfig
-/bootstrap/cache/*
+___docs
+/bootstrap/cache
+!/bootstrap/cache/.gitignore
 /database/*.sqlite*
+/docker
+!/docker/app
 *Dockerfile*
 #**/*Dockerfile*
 *docker-compose*
@@ -16,25 +20,38 @@
 /public/hot
 /public/storage
 /public/vendor
+/public/_admin
+/public/css
+/public/fonts
+/public/images
+/public/js
+/vendor
 # ignore everything from storage
 # except for storage/app/persistent and storage/app/public/persistent
 # should be adjusted for concrete project if need
-!/storage/app/persistent/
-!/storage/app/public/persistent/
-/storage/logs/*
-/storage/media-library/temp/*
-/storage/debugbar/*
-/storage/framework/cache/data/*
-/storage/framework/sessions/*
-/storage/framework/testing/*
-/storage/framework/views/*
+/storage/*
+!/storage/logs/.gitignore
+!/storage/debugbar/.gitignore
+!/storage/framework/cache/.gitignore
+!/storage/framework/cache/data/.gitignore
+!/storage/framework/sessions/.gitignore
+!/storage/framework/testing/.gitignore
+!/storage/framework/views/.gitignore
+!/storage/app/.gitignore
+!/storage/app/currencies-rate.xml
+!/storage/app/seeds
+!/storage/app/public/.gitignore
+
 .env
 .env.backup
 .phpunit.result.cache
 docker-compose.override.yml
+.php-cs-fixer.cache
 Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
 
 /build
+
+README.md
