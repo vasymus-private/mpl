@@ -46,9 +46,9 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-
         parent::boot();
+
+        $this->routeBinding();
     }
 
     /**
@@ -67,8 +67,6 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapWebRoutes();
 
         $this->mapAjaxRoutes();
-
-        $this->routeBinding();
 
         //$this->ddRoutes();
     }
