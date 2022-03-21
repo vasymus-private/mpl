@@ -39,8 +39,8 @@ services:
             - MAILGUN_ENDPOINT=api.mailgun.net
             - MAIL_FROM_ADDRESS=null
             - MAIL_FROM_NAME=${MAIL_FROM_NAME:-Parket}
-        volumes:
-            - app-data:/var/www/html/storage
+        #volumes:
+        #    - app-data:/var/www/html/storage
         ports:
             - 80:80
 
@@ -86,4 +86,4 @@ services:
 volumes:
     mariadb-db-data2:
     redis-data:
-    app-data:
+    #app-data:
