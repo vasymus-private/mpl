@@ -26,9 +26,9 @@ class ProductsController extends BaseWebController
 
         /** @var \Domain\Products\Models\Category|null $category */
         $category = $request->category_slug;
-        /** @var Category|null $subcategory1 */
+        /** @var \Domain\Products\Models\Category|null $subcategory1 */
         $subcategory1 = $request->subcategory1_slug;
-        /** @var Category|null $subcategory2 */
+        /** @var \Domain\Products\Models\Category|null $subcategory2 */
         $subcategory2 = $request->subcategory2_slug;
         /** @var \Domain\Products\Models\Category|null $subcategory3 */
         $subcategory3 = $request->subcategory3_slug;

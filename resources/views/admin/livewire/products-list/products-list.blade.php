@@ -57,7 +57,7 @@
                 <tr class="js-product-item" wire:key="product-{{$product['uuid']}}" ondblclick="location.href=`{{route("admin.products.edit", $product['id'])}}`">
                     <td>
                         <div class="form-check">
-                            <input wire:model.defer="items.{{$product['uuid']}}.is_checked" @if($editMode) disabled @endif class="form-check-input position-static" type="checkbox">
+                            <input wire:model="items.{{$product['uuid']}}.is_checked" @if($editMode) disabled @endif class="form-check-input position-static" type="checkbox">
                         </div>
                     </td>
                     <td>
@@ -204,8 +204,8 @@
 
     <footer class="footer edit-item-footer">
         @if(!$editMode)
-            <button wire:click.prevent="$set('editMode', true)" type="button" class="btn btn-primary mb-2 btn__save mr-2">Редактировать</button>
-            <button onclick="if (confirm('Вы уверены, что хотите удалить продукт выбранные продукты?')) {@this.deleteSelected()}" type="button" class="btn btn-info mb-2 btn__default">Удалить</button>
+            <button wire:click.prevent="$set('editMode', true)" type="button" @if(!$this->hasChecked()) disabled @endif class="btn btn-primary mb-2 btn__save mr-2">Редактировать</button>
+            <button onclick="if (confirm('Вы уверены, что хотите удалить продукт выбранные продукты?')) {@this.deleteSelected()}" type="button" @if(!$this->hasChecked()) disabled @endif class="btn btn-info mb-2 btn__default">Удалить</button>
         @else
             <button wire:click.prevent="saveSelected" type="button" class="btn btn-info">Сохранить</button>
             <button wire:click.prevent="cancelEdit" type="button" class="btn btn-warning">Отменить</button>
