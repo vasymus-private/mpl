@@ -47,6 +47,19 @@ services:
         depends_on:
             - db
 
+#    node:
+#        image: node:14.18.1-slim
+#        environment:
+#            - NODE_ENV=development
+#            - PORT=3000
+#        volumes:
+#            - ./node:/opt/node_app
+#        working_dir: /opt/node_app
+#        ports:
+#            - 3000:3000
+#        command:
+#            bash -c 'npm install --no-optional 2>&1 && npm cache clean --force && /opt/node_app/node_modules/.bin/nodemon ./bin/www'
+
     ### DB (MariaDB) ###
     db:
         image: mariadb:10.6.4
