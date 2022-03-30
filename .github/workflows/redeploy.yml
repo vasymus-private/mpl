@@ -56,7 +56,10 @@ jobs:
                         mkdir -p storage/app/public
                         mkdir -p storage/app/media
                         mkdir -p storage/debugbar
-                        mkdir -p storage/framework
+                        mkdir -p storage/framework/cache/data
+                        mkdir -p storage/framework/sessions
+                        mkdir -p storage/framework/testing
+                        mkdir -p storage/framework/views
                         mkdir -p storage/logs
                         docker-compose --file docker-stack.template.yml config > current-docker-stack.yml
                         docker-compose --file docker-stack.template.yml config | docker stack deploy mpl -c -
