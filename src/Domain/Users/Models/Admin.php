@@ -2,7 +2,6 @@
 
 namespace Domain\Users\Models;
 
-use App\Constants;
 use App\Providers\MediaLibraryServiceProvider;
 use Domain\Users\Models\BaseUser\BaseUser;
 use Illuminate\Database\Eloquent\Builder;
