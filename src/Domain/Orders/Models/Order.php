@@ -2,7 +2,6 @@
 
 namespace Domain\Orders\Models;
 
-use App\Constants;
 use App\Providers\MediaLibraryServiceProvider;
 use Database\Factories\OrderFactory;
 use Domain\Common\Models\BaseModel;
