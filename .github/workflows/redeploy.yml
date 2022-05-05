@@ -60,13 +60,13 @@ jobs:
                         echo MYSQL_ROOT_PASSWORD="$MYSQL_ROOT_PASSWORD" >> .env
                         echo IMAGE_APP="$IMAGE_APP" >> .env
                         echo IMAGE_APP_TAG="$IMAGE_APP_TAG" >> .env
-                        echo AWS_ACCESS_KEY_ID="AWS_ACCESS_KEY_ID" >> .env
-                        echo AWS_SECRET_ACCESS_KEY="AWS_SECRET_ACCESS_KEY" >> .env
-                        echo AWS_DEFAULT_REGION="AWS_DEFAULT_REGION" >> .env
-                        echo AWS_BUCKET="AWS_BUCKET" >> .env
-                        echo AWS_BUCKET_PRIVATE="AWS_BUCKET_PRIVATE" >> .env
-                        echo AWS_ENDPOINT="AWS_ENDPOINT" >> .env
-                        echo AWS_URL="AWS_URL" >> .env
+                        echo AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID" >> .env
+                        echo AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY" >> .env
+                        echo AWS_DEFAULT_REGION="$AWS_DEFAULT_REGION" >> .env
+                        echo AWS_BUCKET="$AWS_BUCKET" >> .env
+                        echo AWS_BUCKET_PRIVATE="$AWS_BUCKET_PRIVATE" >> .env
+                        echo AWS_ENDPOINT="$AWS_ENDPOINT" >> .env
+                        echo AWS_URL="$AWS_URL" >> .env
 
                         docker-compose --file docker-stack.template.yml config > current-docker-stack.yml
                         docker-compose --file docker-stack.template.yml config | docker stack deploy mpl -c -
