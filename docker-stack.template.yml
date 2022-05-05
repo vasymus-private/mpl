@@ -40,6 +40,13 @@ services:
             - MAIL_FROM_ADDRESS=null
             - MAIL_FROM_NAME=${MAIL_FROM_NAME:-Parket}
             - MEDIA_DISK_IS_CLOUD=true
+            - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+            - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+            - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+            - AWS_BUCKET=${AWS_BUCKET}
+            - AWS_BUCKET_PRIVATE=${AWS_BUCKET_PRIVATE}
+            - AWS_ENDPOINT=${AWS_ENDPOINT}
+            - AWS_URL=${AWS_URL}
         volumes:
             - ./storage/app/public:/var/www/html/storage/app/public
             - ./storage/app/media:/var/www/html/storage/app/media
