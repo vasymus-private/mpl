@@ -49,6 +49,9 @@ final class Constants
 
     public const MEDIA_DISK_PUBLIC = 'public-media';
     public const MEDIA_DISK_PRIVATE = 'private-media';
+    public const MEDIA_PREFIX = 'media';
+    public const MEDIA_DISK_S3_PUBLIC = 's3';
+    public const MEDIA_DISK_S3_PRIVATE = 's3-private';
 
     private function __construct()
     {

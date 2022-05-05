@@ -45,4 +45,8 @@ return [
         'clearData' => env('SEEDERS_CLEAR_DATA', false),
     ],
 
+    'media-library' => [
+        'mediaDiscIsCloud' => env('MEDIA_DISK_IS_CLOUD', false)
+    ]
+
 ];

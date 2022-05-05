@@ -39,6 +39,7 @@ services:
             - MAILGUN_ENDPOINT=api.mailgun.net
             - MAIL_FROM_ADDRESS=null
             - MAIL_FROM_NAME=${MAIL_FROM_NAME:-Parket}
+            - MEDIA_DISK_IS_CLOUD=true
         volumes:
             - ./storage/app/public:/var/www/html/storage/app/public
             - ./storage/app/media:/var/www/html/storage/app/media

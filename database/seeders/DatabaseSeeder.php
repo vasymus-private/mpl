@@ -32,7 +32,7 @@ class DatabaseSeeder extends BaseSeeder
         $this->call(ProductsInfoPricesSeoTablesSeeder::class);
         $this->call(GalleryItemsTableSeeder::class);
 
-        $this->call(OrdersTableSeeder::class);
+//        $this->call(OrdersTableSeeder::class);
 
         $this->call(SpecialProductsTableSeeder::class);
     }

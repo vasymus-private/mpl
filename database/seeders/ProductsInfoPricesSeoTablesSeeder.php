@@ -170,10 +170,18 @@ class ProductsInfoPricesSeoTablesSeeder extends BaseSeeder
         $this->seedProductIsWithVariants();
     }
 
+    /**
+     * @return array[]|\Illuminate\Support\Collection
+     */
+    protected function getRawSeeds()
+    {
+        return collect($this->rawSeeds)->take(10);
+    }
+
     protected function initialSeed()
     {
         dump("initial seeding");
-        foreach ($this->rawSeeds as $rawSeed) {
+        foreach ($this->getRawSeeds() as $rawSeed) {
             $asIsAttributes = [
                 "id",
                 "name",
@@ -318,7 +326,7 @@ class ProductsInfoPricesSeoTablesSeeder extends BaseSeeder
     {
         dump("seed relations");
 
-        foreach ($this->rawSeeds as $rawSeed) {
+        foreach ($this->getRawSeeds() as $rawSeed) {
             /** @var Product $product */
             $product = Product::query()->findOrFail($rawSeed["id"]);
 
@@ -368,7 +376,7 @@ class ProductsInfoPricesSeoTablesSeeder extends BaseSeeder
     {
         dump("seed variations");
 
-        foreach ($this->rawSeeds as $rawSeed) {
+        foreach ($this->getRawSeeds() as $rawSeed) {
             /** @var Product $parentProduct */
             $parentProduct = Product::query()->findOrFail($rawSeed["id"]);
 

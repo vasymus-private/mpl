@@ -3,6 +3,7 @@
 namespace Domain\Users\Models;
 
 use App\Constants;
+use App\Providers\MediaLibraryServiceProvider;
 use Domain\Users\Models\BaseUser\BaseUser;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\MediaLibrary\HasMedia;
@@ -53,6 +54,8 @@ class Admin extends BaseUser implements HasMedia
     {
         $this->addMediaCollection(static::MC_COMMON_MEDIA);
 
-        $this->addMediaCollection(static::MC_EXPORT_PRODUCTS)->useDisk(Constants::MEDIA_DISK_PRIVATE);
+        $this
+            ->addMediaCollection(static::MC_EXPORT_PRODUCTS)
+            ->useDisk(MediaLibraryServiceProvider::getPrivateMediaDisk());
     }
 }
