@@ -175,7 +175,7 @@ class ProductsInfoPricesSeoTablesSeeder extends BaseSeeder
      */
     protected function getRawSeeds()
     {
-        return collect($this->rawSeeds)->take(10);
+        return collect($this->rawSeeds);
     }
 
     protected function initialSeed()
