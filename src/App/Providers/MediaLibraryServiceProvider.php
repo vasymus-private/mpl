@@ -10,17 +10,9 @@ class MediaLibraryServiceProvider extends BaseMediaLibraryServiceProvider
     /**
      * @return string
      */
-    public static function getDiskName(): string
-    {
-        return static::getPublicMediaDisk();
-    }
-
-    /**
-     * @return string
-     */
     public static function getPublicMediaDisk(): string
     {
-        return config('services.media-library.mediaDiscIsCloud') ? Constants::MEDIA_DISK_S3_PUBLIC : Constants::MEDIA_DISK_PUBLIC;
+        return config('media-library.media_disc_is_cloud') ? Constants::MEDIA_DISK_S3_PUBLIC : Constants::MEDIA_DISK_PUBLIC;
     }
 
     /**
@@ -28,6 +20,6 @@ class MediaLibraryServiceProvider extends BaseMediaLibraryServiceProvider
      */
     public static function getPrivateMediaDisk(): string
     {
-        return config('services.media-library.mediaDiscIsCloud') ? Constants::MEDIA_DISK_S3_PRIVATE : Constants::MEDIA_DISK_PRIVATE;
+        return config('media-library.media_disc_is_cloud') ? Constants::MEDIA_DISK_S3_PRIVATE : Constants::MEDIA_DISK_PRIVATE;
     }
 }

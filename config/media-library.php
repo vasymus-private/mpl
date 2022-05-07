@@ -1,7 +1,6 @@
 <?php
 
 use App\Constants;
-use App\Providers\MediaLibraryServiceProvider;
 use Domain\Common\Jobs\PerformConversionsJob;
 
 return [
@@ -10,7 +9,16 @@ return [
      * The disk on which to store added files and derived images by default. Choose
      * one or more of the disks you've configured in config/filesystems.php.
      */
-    'disk_name' => MediaLibraryServiceProvider::getDiskName(),
+    'disk_name' => env('MEDIA_DISK', Constants::MEDIA_DISK_PUBLIC),
+
+    /*
+     * Custom param. Temporary decision. TODO
+     * if MEDIA_DISK=public or not defined
+     * then MEDIA_DISK_IS_CLOUD should be false
+     * if MEDIA_DISK=s3
+     * then MEDIA_DISK_IS_CLOUD should be true
+     */
+    'media_disc_is_cloud' => env('MEDIA_DISK_IS_CLOUD', false),
 
     /*
      * The maximum file size of an item in bytes.

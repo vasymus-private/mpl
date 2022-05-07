@@ -40,6 +40,7 @@ services:
             - MAIL_FROM_ADDRESS=null
             - MAIL_FROM_NAME=${MAIL_FROM_NAME:-Parket}
             - MEDIA_DISK_IS_CLOUD=true
+            - MEDIA_DISK=s3
             - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
             - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
             - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
