@@ -46,6 +46,7 @@ ___docs
 .env.backup
 .phpunit.result.cache
 docker-compose.override.yml
+docker-stack.template.yml
 .php-cs-fixer.cache
 Homestead.json
 Homestead.yaml

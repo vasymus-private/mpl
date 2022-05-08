@@ -2,7 +2,7 @@
 
 namespace Domain\Orders\Models;
 
-use App\Constants;
+use App\Providers\MediaLibraryServiceProvider;
 use Database\Factories\OrderFactory;
 use Domain\Common\Models\BaseModel;
 use Domain\Orders\Models\Pivots\OrderProduct;
@@ -265,13 +265,21 @@ class Order extends BaseModel implements HasMedia
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection(static::MC_INITIAL_ATTACHMENT)->useDisk(Constants::MEDIA_DISK_PRIVATE);
+        $this
+            ->addMediaCollection(static::MC_INITIAL_ATTACHMENT)
+            ->useDisk(MediaLibraryServiceProvider::getPrivateMediaDisk());
 
-        $this->addMediaCollection(static::MC_PAYMENT_METHOD_ATTACHMENT)->useDisk(Constants::MEDIA_DISK_PRIVATE);
+        $this
+            ->addMediaCollection(static::MC_PAYMENT_METHOD_ATTACHMENT)
+            ->useDisk(MediaLibraryServiceProvider::getPrivateMediaDisk());
 
-        $this->addMediaCollection(static::MC_CUSTOMER_INVOICES)->useDisk(Constants::MEDIA_DISK_PRIVATE);
+        $this
+            ->addMediaCollection(static::MC_CUSTOMER_INVOICES)
+            ->useDisk(MediaLibraryServiceProvider::getPrivateMediaDisk());
 
-        $this->addMediaCollection(static::MC_SUPPLIER_INVOICES)->useDisk(Constants::MEDIA_DISK_PRIVATE);
+        $this
+            ->addMediaCollection(static::MC_SUPPLIER_INVOICES)
+            ->useDisk(MediaLibraryServiceProvider::getPrivateMediaDisk());
     }
 
     public function getOrderPriceRetailRubAttribute(): float
