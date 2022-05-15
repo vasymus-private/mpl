@@ -3,29 +3,29 @@
 namespace Domain\Orders\Actions;
 
 use Domain\Common\Actions\BaseAction;
-use Domain\Orders\Enums\OrderAdminColumn;
+use Domain\Common\Enums\Column;
 
 class GetDefaultAdminOrderColumnsAction extends BaseAction
 {
     /**
-     * @return \Domain\Orders\Enums\OrderAdminColumn[]
+     * @return \Domain\Common\Enums\Column[]
      */
     public function execute(): array
     {
         return [
-            OrderAdminColumn::date(),
-            OrderAdminColumn::id(),
-            OrderAdminColumn::status(),
-            OrderAdminColumn::positions(),
-            OrderAdminColumn::comment_admin(),
-            OrderAdminColumn::importance(),
-            OrderAdminColumn::manager(),
-            OrderAdminColumn::sum(),
-            OrderAdminColumn::name(),
-            OrderAdminColumn::phone(),
-            OrderAdminColumn::email(),
-            OrderAdminColumn::comment_user(),
-            OrderAdminColumn::payment_method(),
+            Column::date_creation(),
+            Column::id(),
+            Column::status(),
+            Column::positions(),
+            Column::comment_admin(),
+            Column::importance(),
+            Column::manager(),
+            Column::sum(),
+            Column::name(),
+            Column::phone(),
+            Column::email(),
+            Column::comment_user(),
+            Column::payment_method(),
         ];
     }
 }

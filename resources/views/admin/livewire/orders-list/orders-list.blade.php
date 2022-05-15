@@ -4,7 +4,7 @@
  * @var array[] $items @see {@link \Domain\Products\DTOs\Admin\OrderItemDTO}
  * @var array[] $per_page_options @see {@link \Domain\Common\DTOs\OptionDTO[]}
  * @var array[] $managers @see {@link \Domain\Common\DTOs\OptionDTO}
- * @var \Domain\Orders\Enums\OrderAdminColumn[] $orderAdminColumns
+ * @var \Domain\Common\Enums\Column[] $sortableColumns
  */
 ?>
 <div>
@@ -45,7 +45,7 @@
     <div>
         <a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_CREATE)}}" class="btn btn-primary mb-2 btn__save mr-2">Добавить заказ</a>
 
-        <button type="button" data-toggle="modal" data-target="#customize-order-list" class="btn btn-primary mb-2 mr-2">Настроить</button>
+        <button type="button" data-toggle="modal" data-target="#customize-list" class="btn btn-primary mb-2 mr-2">Настроить</button>
     </div>
 
     <div class="admin-edit-variations table-responsive">
@@ -66,7 +66,7 @@
                     </div>
                 </th>
                 <th scope="col"><span class="main-grid-head-title">&nbsp;</span></th>
-                @foreach($orderAdminColumns as $orderAdminColumn)
+                @foreach($sortableColumns as $orderAdminColumn)
                     <th scope="col">{{$orderAdminColumn->label}}</th>
                 @endforeach
             </tr>
@@ -100,14 +100,14 @@
                             </div>
                         </td>
 
-                        @foreach($orderAdminColumns as $orderAdminColumn)
+                        @foreach($sortableColumns as $sortableColumn)
                             @switch(true)
-                                @case($orderAdminColumn->equals(\Domain\Orders\Enums\OrderAdminColumn::date()))
+                                @case($sortableColumn->equals(\Domain\Common\Enums\Column::date_creation()))
                                     <td>
                                         <span class="main-grid-cell-content">{{$order['date']}}</span>
                                     </td>
                                     @break
-                                @case($orderAdminColumn->equals(\Domain\Orders\Enums\OrderAdminColumn::id()))
+                                @case($sortableColumn->equals(\Domain\Common\Enums\Column::id()))
                                     <td>
                                         <span class="main-grid-cell-content">
                                             <a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, $order['id'])}}" style="white-space: nowrap;">
@@ -123,12 +123,12 @@
                                         </span>
                                     </td>
                                     @break
-                                @case($orderAdminColumn->equals(\Domain\Orders\Enums\OrderAdminColumn::status()))
+                                @case($sortableColumn->equals(\Domain\Common\Enums\Column::status()))
                                     <td @if($order['order_status_color']) style="background-color: {{$order['order_status_color']}};" @endif>
                                         <span class="main-grid-cell-content">{{$order['order_status_name']}}</span>
                                     </td>
                                     @break
-                                @case($orderAdminColumn->equals(\Domain\Orders\Enums\OrderAdminColumn::positions()))
+                                @case($sortableColumn->equals(\Domain\Common\Enums\Column::positions()))
                                     <td>
                                         <div class="main-grid-cell-content">
                                             <?php /** @var array $orderProductItem @see {@link \Domain\Products\DTOs\Admin\OrderItemProductItemDTO} */ ?>
@@ -141,17 +141,17 @@
                                         </div>
                                     </td>
                                     @break
-                                @case($orderAdminColumn->equals(\Domain\Orders\Enums\OrderAdminColumn::comment_admin()))
+                                @case($sortableColumn->equals(\Domain\Common\Enums\Column::comment_admin()))
                                     <td>
                                         <span class="main-grid-cell-content">{{$order['comment_admin']}}</span>
                                     </td>
                                     @break
-                                @case($orderAdminColumn->equals(\Domain\Orders\Enums\OrderAdminColumn::importance()))
+                                @case($sortableColumn->equals(\Domain\Common\Enums\Column::importance()))
                                     <td @if($order['importance_color']) style="background-color: {{$order['importance_color']}};" @endif>
                                         <span class="main-grid-cell-content">{{$order['importance_name']}}</span>
                                     </td>
                                     @break
-                                @case($orderAdminColumn->equals(\Domain\Orders\Enums\OrderAdminColumn::manager()))
+                                @case($sortableColumn->equals(\Domain\Common\Enums\Column::manager()))
                                     <td>
                                         @if($order['admin_id'])
                                             <span class="main-grid-cell-content">
@@ -162,32 +162,32 @@
                                         @endif
                                     </td>
                                     @break
-                                @case($orderAdminColumn->equals(\Domain\Orders\Enums\OrderAdminColumn::sum()))
+                                @case($sortableColumn->equals(\Domain\Common\Enums\Column::sum()))
                                     <td>
                                         <span class="main-grid-cell-content">{{$order['order_price_retail_rub_formatted']}}</span>
                                     </td>
                                     @break
-                                @case($orderAdminColumn->equals(\Domain\Orders\Enums\OrderAdminColumn::name()))
+                                @case($sortableColumn->equals(\Domain\Common\Enums\Column::name()))
                                     <td>
                                         <span class="main-grid-cell-content">{{$order['user_name']}}</span>
                                     </td>
                                     @break
-                                @case($orderAdminColumn->equals(\Domain\Orders\Enums\OrderAdminColumn::phone()))
+                                @case($sortableColumn->equals(\Domain\Common\Enums\Column::phone()))
                                     <td>
                                         <span class="main-grid-cell-content">{{$order['user_phone']}}</span>
                                     </td>
                                     @break
-                                @case($orderAdminColumn->equals(\Domain\Orders\Enums\OrderAdminColumn::email()))
+                                @case($sortableColumn->equals(\Domain\Common\Enums\Column::email()))
                                     <td>
                                         <span class="main-grid-cell-content">{{$order['user_email']}}</span>
                                     </td>
                                     @break
-                                @case($orderAdminColumn->equals(\Domain\Orders\Enums\OrderAdminColumn::comment_user()))
+                                @case($sortableColumn->equals(\Domain\Common\Enums\Column::comment_user()))
                                     <td>
                                         <span class="main-grid-cell-content">{{$order['comment_user']}}</span>
                                     </td>
                                     @break
-                                @case($orderAdminColumn->equals(\Domain\Orders\Enums\OrderAdminColumn::payment_method()))
+                                @case($sortableColumn->equals(\Domain\Common\Enums\Column::payment_method()))
                                     <td>
                                         <span class="main-grid-cell-content">{{$order['payment_method_name']}}</span>
                                     </td>
@@ -215,10 +215,10 @@
     </div>
 
     <!-- Modals -->
-    <div wire:ignore.self class="modal fade" id="customize-order-list" tabindex="-1" aria-labelledby="customize-order-list-title" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="customize-list" tabindex="-1" aria-labelledby="customize-list-title" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div wire:loading.flex wire:target="handleCustomizeOrderList, handleDefaultOrderList">
+                <div wire:loading.flex wire:target="handleCustomizeSortableList, handleDefaultSortableList">
                     <div class="d-flex justify-content-center align-items-center bg-light" style="opacity: 0.5; position:absolute; top:0; bottom:0; right:0; left:0; z-index: 20; ">
                         <div class="spinner-border" role="status">
                             <span class="sr-only">Loading...</span>
@@ -226,7 +226,7 @@
                     </div>
                 </div>
                 <div class="modal-header">
-                    <h5 class="modal-title" id="customize-order-list-title">Настройка списка</h5>
+                    <h5 class="modal-title" id="customize-list-title">Настройка списка</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -234,20 +234,20 @@
                 <div class="modal-body">
                     <div class="card">
                         <ul id="order-columns-sortable" class="list-group list-group-flush">
-                            @foreach($orderAdminColumns as $orderAdminColumn)
-                                <li style="cursor:grab;" class="list-group-item" data-value="{{$orderAdminColumn->value}}">{{$orderAdminColumn->label}}</li>
+                            @foreach($sortableColumns as $sortableColumn)
+                                <li style="cursor:grab;" class="list-group-item" data-value="{{$sortableColumn->value}}">{{$sortableColumn->label}}</li>
                             @endforeach
                         </ul>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button
-                        onclick="@this.handleCustomizeOrderList(getOrderColumnsSorted()).then((res) => { if(res) $('#customize-order-list').modal('hide') })"
+                        onclick="@this.handleCustomizeSortableList(getColumnsSorted('order-columns-sortable')).then((res) => { if(res) $('#customize-list').modal('hide') })"
                         type="button"
                         class="btn btn-primary"
                     >Сохранить</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
-                    <button onclick="@this.handleDefaultOrderList().then((res) => { if(res) $('#customize-order-list').modal('hide') })" type="button" class="btn btn-secondary">Сбросить</button>
+                    <button onclick="@this.handleDefaultSortableList().then((res) => { if(res) $('#customize-list').modal('hide') })" type="button" class="btn btn-secondary">Сбросить</button>
                 </div>
             </div>
         </div>

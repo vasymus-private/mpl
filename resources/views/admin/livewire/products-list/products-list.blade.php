@@ -13,7 +13,7 @@
  * @var array[] $currencies @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Common\Models\Currency}
  * @var array[] $availabilityStatuses @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\AvailabilityStatus}
  * @var \App\Http\Livewire\Admin\ProductsList $this
- * @var \Domain\Products\Enums\ProductAdminColumn[] $productAdminColumns
+ * @var \Domain\Common\Enums\Column[] $sortableColumns
  */
 ?>
 <div>
@@ -26,7 +26,7 @@
     ])
 
     <div>
-        <button type="button" data-toggle="modal" data-target="#customize-product-list" class="btn btn-primary mb-2 mr-2">Настроить</button>
+        <button type="button" data-toggle="modal" data-target="#customize-list" class="btn btn-primary mb-2 mr-2">Настроить</button>
     </div>
 
     <div class="admin-edit-variations table-responsive">
@@ -47,8 +47,8 @@
                     </div>
                 </th>
                 <th scope="col"><span class="main-grid-head-title">&nbsp;</span></th>
-                @foreach($productAdminColumns as $productAdminColumn)
-                    <th scope="col">{{$productAdminColumn->label}}</th>
+                @foreach($sortableColumns as $sortableColumn)
+                    <th scope="col">{{$sortableColumn->label}}</th>
                 @endforeach
             </tr>
             </thead>
@@ -93,9 +93,9 @@
                         </div>
                     </td>
 
-                    @foreach($productAdminColumns as $productAdminColumn)
+                    @foreach($sortableColumns as $sortableColumn)
                         @switch(true)
-                            @case($productAdminColumn->equals(\Domain\Products\Enums\ProductAdminColumn::ordering()))
+                            @case($sortableColumn->equals(\Domain\Common\Enums\Column::ordering()))
                                 <td @if($editMode && $product['is_checked']) style="width: 200px;" @endif>
                                     @if($editMode && $product['is_checked'])
                                         @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.ordering"])
@@ -104,7 +104,7 @@
                                     @endif
                                 </td>
                                 @break
-                            @case($productAdminColumn->equals(\Domain\Products\Enums\ProductAdminColumn::name()))
+                            @case($sortableColumn->equals(\Domain\Common\Enums\Column::name()))
                                 <td>
                                     @if($editMode && $product['is_checked'])
                                         @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.name"])
@@ -113,7 +113,7 @@
                                     @endif
                                 </td>
                                 @break
-                            @case($productAdminColumn->equals(\Domain\Products\Enums\ProductAdminColumn::active()))
+                            @case($sortableColumn->equals(\Domain\Common\Enums\Column::active()))
                                 <td>
                                     @if($editMode && $product['is_checked'])
                                         @include('admin.livewire.includes.form-check', ['field' => "items.{$product['uuid']}.is_active"])
@@ -122,7 +122,7 @@
                                     @endif
                                 </td>
                                 @break
-                            @case($productAdminColumn->equals(\Domain\Products\Enums\ProductAdminColumn::unit()))
+                            @case($sortableColumn->equals(\Domain\Common\Enums\Column::unit()))
                                 <td>
                                     @if($editMode && $product['is_checked'])
                                         @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.unit"])
@@ -131,7 +131,7 @@
                                     @endif
                                 </td>
                                 @break
-                            @case($productAdminColumn->equals(\Domain\Products\Enums\ProductAdminColumn::price_purchase()))
+                            @case($sortableColumn->equals(\Domain\Common\Enums\Column::price_purchase()))
                                 <td>
                                     @if($editMode && $product['is_checked'])
                                         <div class="form-row">
@@ -147,7 +147,7 @@
                                     @endif
                                 </td>
                                 @break
-                            @case($productAdminColumn->equals(\Domain\Products\Enums\ProductAdminColumn::price_retail()))
+                            @case($sortableColumn->equals(\Domain\Common\Enums\Column::price_retail()))
                                 <td>
                                     @if($editMode && $product['is_checked'])
                                         <div class="form-row">
@@ -163,7 +163,7 @@
                                     @endif
                                 </td>
                                 @break
-                            @case($productAdminColumn->equals(\Domain\Products\Enums\ProductAdminColumn::admin_comment()))
+                            @case($sortableColumn->equals(\Domain\Common\Enums\Column::admin_comment()))
                                 <td>
                                     @if($editMode && $product['is_checked'])
                                         @include('admin.livewire.includes.form-control-textarea', ['field' => "items.{$product['uuid']}.admin_comment"])
@@ -172,7 +172,7 @@
                                     @endif
                                 </td>
                                 @break
-                            @case($productAdminColumn->equals(\Domain\Products\Enums\ProductAdminColumn::availability()))
+                            @case($sortableColumn->equals(\Domain\Common\Enums\Column::availability()))
                                 <td>
                                     @if($editMode && $product['is_checked'])
                                         @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['uuid']}.availability_status_id", 'options' => $availabilityStatuses])
@@ -181,7 +181,7 @@
                                     @endif
                                 </td>
                                 @break
-                            @case($productAdminColumn->equals(\Domain\Products\Enums\ProductAdminColumn::id()))
+                            @case($sortableColumn->equals(\Domain\Common\Enums\Column::id()))
                                 <td>
                                     <span class="main-grid-cell-content">{{$product['id']}}</span>
                                 </td>
@@ -212,10 +212,10 @@
         @endif
     </footer>
     <!-- Modals -->
-    <div wire:ignore.self class="modal fade" id="customize-product-list" tabindex="-1" aria-labelledby="customize-product-list-title" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="customize-list" tabindex="-1" aria-labelledby="customize-list-title" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div wire:loading.flex wire:target="handleCustomizeOrderList, handleDefaultOrderList">
+                <div wire:loading.flex wire:target="handleCustomizeSortableList, handleDefaultSortableList">
                     <div class="d-flex justify-content-center align-items-center bg-light" style="opacity: 0.5; position:absolute; top:0; bottom:0; right:0; left:0; z-index: 20; ">
                         <div class="spinner-border" role="status">
                             <span class="sr-only">Loading...</span>
@@ -223,7 +223,7 @@
                     </div>
                 </div>
                 <div class="modal-header">
-                    <h5 class="modal-title" id="customize-product-list-title">Настройка списка</h5>
+                    <h5 class="modal-title" id="customize-list-title">Настройка списка</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -231,20 +231,20 @@
                 <div class="modal-body">
                     <div class="card">
                         <ul id="product-columns-sortable" class="list-group list-group-flush">
-                            @foreach($productAdminColumns as $productAdminColumn)
-                                <li style="cursor:grab;" class="list-group-item" data-value="{{$productAdminColumn->value}}">{{$productAdminColumn->label}}</li>
+                            @foreach($sortableColumns as $sortableColumn)
+                                <li style="cursor:grab;" class="list-group-item" data-value="{{$sortableColumn->value}}">{{$sortableColumn->label}}</li>
                             @endforeach
                         </ul>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button
-                        onclick="@this.handleCustomizeProductList(getProductColumnsSortable()).then((res) => { if(res) $('#customize-product-list').modal('hide') })"
+                        onclick="@this.handleCustomizeSortableList(getColumnsSorted('product-columns-sortable')).then((res) => { if(res) $('#customize-list').modal('hide') })"
                         type="button"
                         class="btn btn-primary"
                     >Сохранить</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
-                    <button onclick="@this.handleDefaultProductList().then((res) => { if(res) $('#customize-product-list').modal('hide') })" type="button" class="btn btn-secondary">Сбросить</button>
+                    <button onclick="@this.handleDefaultSortableList().then((res) => { if(res) $('#customize-list').modal('hide') })" type="button" class="btn btn-secondary">Сбросить</button>
                 </div>
             </div>
         </div>

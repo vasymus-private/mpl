@@ -1,17 +1,18 @@
 import Sortable from "sortablejs"
-;(() => {
-    let orderColumnsSortable = document.getElementById("order-columns-sortable")
-    if (!orderColumnsSortable) {
+
+function init(id) {
+    let sortable = document.getElementById(id)
+    if (!sortable) {
         return
     }
-    new Sortable(orderColumnsSortable, {
+    new Sortable(sortable, {
         animation: 150,
         ghostClass: "blue-background-class",
     })
 
-    window.getOrderColumnsSorted = () => {
+    window.getColumnsSorted = (id) => {
         let values = []
-        $(orderColumnsSortable)
+        $(`#${id}`)
             .children()
             .each((i, el) => {
                 let value = $(el).data("value")
@@ -22,4 +23,8 @@ import Sortable from "sortablejs"
             })
         return values
     }
-})()
+}
+
+export {
+    init,
+}
