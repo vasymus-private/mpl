@@ -305,7 +305,7 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
     public function setAdminProductVariantColumnsAttribute(array $adminProductVariantColumns): void
     {
         $settings = $this->settings;
-        $settings[static::SETTINGS_ADMIN_PRODUCT_VARIANT_COLUMNS] = collect($adminProductVariantColumns)->map(fn(Column $productVariantAdminColumn) => $productVariantAdminColumn->value)->all();
+        $settings[static::SETTINGS_ADMIN_PRODUCT_VARIANT_COLUMNS] = collect($adminProductVariantColumns)->map(fn (Column $productVariantAdminColumn) => $productVariantAdminColumn->value)->all();
         $this->settings = $settings;
     }
 }
