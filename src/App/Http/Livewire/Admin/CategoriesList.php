@@ -12,6 +12,8 @@ use Livewire\Component;
 
 class CategoriesList extends Component
 {
+    use HasSelectAll;
+
     protected const ALL_CATEGORIES_QUERY = "all";
 
     public $search = '';
@@ -30,16 +32,14 @@ class CategoriesList extends Component
     /**
      * @var array[] @see {@link \Domain\Products\DTOs\Admin\CategoryItemDTO}
      */
-    public array $categories = [];
-
-    public $selectAll = false;
+    public array $items = [];
 
     protected function rules(): array
     {
         return [
-            'categories.*.name' => 'required|string|max:250',
-            'categories.*.ordering' => 'integer|nullable',
-            'categories.*.is_active' => [
+            'items.*.name' => 'required|string|max:250',
+            'items.*.ordering' => 'integer|nullable',
+            'items.*.is_active' => [
                 'nullable',
                 'boolean',
                 new CategoryDeactivatable(),
@@ -77,7 +77,7 @@ class CategoriesList extends Component
             $query->where(Category::TABLE . ".name", "LIKE", "%{$this->search}%");
         }
 
-        $this->categories = $query->get()->map(fn (Category $category) => CategoryItemDTO::fromModel($category)->toArray())->keyBy('id')->all();
+        $this->items = $query->get()->map(fn (Category $category) => CategoryItemDTO::fromModel($category)->toArray())->keyBy('id')->all();
     }
 
     public function handleSearch()
@@ -101,30 +101,33 @@ class CategoriesList extends Component
     public function cancelEdit()
     {
         $this->editMode = false;
+        $this->changeSelectAll(false);
         $this->selectAll = false;
         $this->setItems();
     }
 
     public function toggleActive($id)
     {
-        if (isset($this->categories[$id])) {
-            $this->categories[$id]['is_active'] = ! $this->categories[$id]['is_active'];
-
-            try {
-                $this->validateOnly("categories.*.is_active");
-            } catch (ValidationException $exc) {
-                $this->categories[$id]['is_active'] = ! $this->categories[$id]['is_active'];
-
-                throw $exc;
-            }
-
-            /** @var \Domain\Products\Models\Category $category */
-            $category = Category::query()->findOrFail($id);
-            $category->is_active = ! $category->is_active;
-            $category->save();
-
-            $this->categories[$id] = CategoryItemDTO::fromModel($category)->toArray();
+        if (!isset($this->items[$id])) {
+            return;
         }
+
+        $this->items[$id]['is_active'] = ! $this->items[$id]['is_active'];
+
+        try {
+            $this->validateOnly("items.*.is_active");
+        } catch (ValidationException $exc) {
+            $this->items[$id]['is_active'] = ! $this->items[$id]['is_active'];
+
+            throw $exc;
+        }
+
+        /** @var \Domain\Products\Models\Category $category */
+        $category = Category::query()->findOrFail($id);
+        $category->is_active = ! $category->is_active;
+        $category->save();
+
+        $this->items[$id] = CategoryItemDTO::fromModel($category)->toArray();
     }
 
     /**
@@ -148,10 +151,10 @@ class CategoriesList extends Component
     {
         $this->validate();
 
-        $ids = collect($this->categories)->pluck('id')->values()->toArray();
+        $ids = collect($this->items)->pluck('id')->values()->toArray();
         $categories = Category::query()->whereIn(Category::TABLE . '.id', $ids)->get();
         $categories->each(function (Category $category) {
-            $payload = $this->categories[$category->id] ?? [];
+            $payload = $this->items[$category->id] ?? [];
             $category->forceFill(collect($payload)->only($this->getUpdateKeys())->toArray());
             $category->save();
         });
@@ -174,7 +177,7 @@ class CategoriesList extends Component
 
     public function deleteSelected()
     {
-        $selectedIds = collect($this->categories)->filter(fn (array $item) => $item['is_checked'])->pluck('id')->values()->toArray();
+        $selectedIds = collect($this->items)->filter(fn (array $item) => $item['is_checked'])->pluck('id')->values()->toArray();
         if (empty($selectedIds)) {
             return true;
         }
@@ -193,7 +196,7 @@ class CategoriesList extends Component
 
     public function navigate($categoryId)
     {
-        $category = $this->categories[$categoryId] ?? null;
+        $category = $this->items[$categoryId] ?? null;
         if (! $category) {
             return null;
         }
