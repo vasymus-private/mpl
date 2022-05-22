@@ -101,7 +101,7 @@ class CategoriesList extends Component
     public function cancelEdit()
     {
         $this->editMode = false;
-        $this->changeSelectAll(false);
+        $this->changeItemsSelectAll(false);
         $this->selectAll = false;
         $this->setItems();
     }

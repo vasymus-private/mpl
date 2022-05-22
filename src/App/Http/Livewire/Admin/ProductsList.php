@@ -111,6 +111,7 @@ class ProductsList extends BaseItemsListComponent
             $product->save();
         });
         $this->editMode = false;
+        $this->changeItemsSelectAll(false);
         $this->selectAll = false;
         $this->fetchItems();
     }
@@ -126,13 +127,9 @@ class ProductsList extends BaseItemsListComponent
             $product->delete();
         });
         $this->editMode = false;
+        $this->changeItemsSelectAll(false);
         $this->selectAll = false;
         $this->fetchItems();
-    }
-
-    public function hasChecked()
-    {
-        return collect($this->items)->contains(fn (array $item) => (bool)$item['is_checked']);
     }
 
     public function clearAllFilters()
@@ -214,6 +211,7 @@ class ProductsList extends BaseItemsListComponent
     public function cancelEdit()
     {
         $this->editMode = false;
+        $this->changeItemsSelectAll(false);
         $this->selectAll = false;
         $this->fetchItems();
     }

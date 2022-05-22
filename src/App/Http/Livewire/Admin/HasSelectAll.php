@@ -8,10 +8,10 @@ trait HasSelectAll
 
     public function updatedSelectAll(bool $isChecked)
     {
-        $this->changeSelectAll($isChecked);
+        $this->changeItemsSelectAll($isChecked);
     }
 
-    public function changeSelectAll(bool $isChecked)
+    protected function changeItemsSelectAll(bool $isChecked)
     {
         $this->items = collect($this->items)->map(function (array $item) use ($isChecked) {
             $item['is_checked'] = $isChecked;

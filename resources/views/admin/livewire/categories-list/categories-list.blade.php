@@ -7,7 +7,22 @@
  * @var \App\Http\Livewire\Admin\CategoriesList $this
  */
 ?>
-<div x-data="{ items: @entangle('items').defer, editMode: @entangle('editMode'), selectAll: @entangle('selectAll') }">
+<div x-data="{
+        items: @entangle('items').defer,
+        editMode: @entangle('editMode'),
+        selectAll: @entangle('selectAll')
+    }"
+     x-init="
+        Livewire.hook('message.processed', (message, component) => {
+            [...$el.querySelectorAll('.js-product-item-checkbox')].forEach(e => {
+                let uuid = e.dataset['itemId'];
+                let item = component.$wire.items[uuid];
+                if (item) {
+                    e.checked = item.is_checked;
+                }
+            })
+        })
+    ">
     @include('admin.livewire.includes.form-search', [
         'submit' => 'handleSearch',
         'newRoute' => route('admin.categories.create'),
@@ -46,12 +61,21 @@
             <tbody>
             @foreach($items as $category)
                 <tr class="js-product-item" wire:key="product-{{$category['id']}}">
-                    <td @click="if (!editMode) { items[{{$category['id']}}].is_checked = !items[{{$category['id']}}].is_checked; }">
+                    <td
+                        data-item-id="{{$category['id']}}"
+                        @click="
+                            if(!editMode && items[$el.dataset['itemId']]) {
+                                let isChecked = items[$el.dataset['itemId']].is_checked;
+                                items[$el.dataset['itemId']].is_checked = !isChecked;
+                                $el.querySelector('input').checked = !isChecked;
+                            }
+                        ">
                         <div class="form-check">
                             <input
-                                x-model="items[{{$category['id']}}].is_checked"
+                                data-item-id="{{$category['id']}}"
+                                @click.stop="$el.closest('td').click()"
                                 x-bind:disabled="editMode"
-                                class="form-check-input position-static"
+                                class="form-check-input position-static js-product-item-checkbox"
                                 type="checkbox">
                         </div>
                     </td>

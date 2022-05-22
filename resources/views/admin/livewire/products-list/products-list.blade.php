@@ -16,7 +16,22 @@
  * @var \Domain\Common\Enums\Column[] $sortableColumns
  */
 ?>
-<div>
+<div x-data="{
+        items: @entangle('items').defer,
+        editMode: @entangle('editMode'),
+        selectAll: @entangle('selectAll')
+    }"
+     x-init="
+        Livewire.hook('message.processed', (message, component) => {
+            [...$el.querySelectorAll('.js-product-item-checkbox')].forEach(e => {
+                let uuid = e.dataset['itemId'];
+                let item = component.$wire.items[uuid];
+                if (item) {
+                    e.checked = item.is_checked;
+                }
+            })
+        })
+    ">
     @include('admin.livewire.includes.form-search', [
         'submit' => 'handleSearch',
         'newRoute' => route('admin.products.create'),
@@ -40,24 +55,41 @@
 
         <table class="table table-bordered table-hover" style="width: 2000px;">
             <thead>
-            <tr>
-                <th scope="col">
-                    <div class="form-check form-check-inline">
-                        <input wire:model="selectAll" @if($editMode) disabled @endif class="form-check-input position-static" type="checkbox">
-                    </div>
-                </th>
-                <th scope="col"><span class="main-grid-head-title">&nbsp;</span></th>
-                @foreach($sortableColumns as $sortableColumn)
-                    <th scope="col">{{$sortableColumn->label}}</th>
-                @endforeach
-            </tr>
+                <tr>
+                    <th scope="col">
+                        <div class="form-check form-check-inline">
+                            <input
+                                x-bind:disabled="editMode"
+                                x-model="selectAll"
+                                class="form-check-input position-static"
+                                type="checkbox">
+                        </div>
+                    </th>
+                    <th scope="col"><span class="main-grid-head-title">&nbsp;</span></th>
+                    @foreach($sortableColumns as $sortableColumn)
+                        <th scope="col">{{$sortableColumn->label}}</th>
+                    @endforeach
+                </tr>
             </thead>
             <tbody>
             @foreach($items as $product)
-                <tr class="js-product-item" wire:key="product-{{$product['uuid']}}" ondblclick="location.href=`{{route("admin.products.edit", $product['id'])}}`">
-                    <td>
+                <tr class="js-product-item" wire:key="product-{{$product['uuid']}}">
+                    <td
+                        data-item-id="{{$product['uuid']}}"
+                        @click="
+                            if(!editMode && items[$el.dataset['itemId']]) {
+                                let isChecked = items[$el.dataset['itemId']].is_checked;
+                                items[$el.dataset['itemId']].is_checked = !isChecked;
+                                $el.querySelector('input').checked = !isChecked;
+                            }
+                        ">
                         <div class="form-check">
-                            <input wire:model="items.{{$product['uuid']}}.is_checked" @if($editMode) disabled @endif class="form-check-input position-static" type="checkbox">
+                            <input
+                                data-item-id="{{$product['uuid']}}"
+                                @click.stop="$el.closest('td').click()"
+                                x-bind:disabled="editMode"
+                                class="form-check-input position-static js-product-item-checkbox"
+                                type="checkbox">
                         </div>
                     </td>
                     <td>
@@ -98,7 +130,7 @@
                             @case($sortableColumn->equals(\Domain\Common\Enums\Column::ordering()))
                                 <td @if($editMode && $product['is_checked']) style="width: 200px;" @endif>
                                     @if($editMode && $product['is_checked'])
-                                        @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.ordering"])
+                                        @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.ordering", 'modifier' => '.defer'])
                                     @else
                                         <span class="main-grid-cell-content">{{$product['ordering']}}</span>
                                     @endif
@@ -107,7 +139,7 @@
                             @case($sortableColumn->equals(\Domain\Common\Enums\Column::name()))
                                 <td>
                                     @if($editMode && $product['is_checked'])
-                                        @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.name"])
+                                        @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.name", 'modifier' => '.defer'])
                                     @else
                                         <span class="main-grid-cell-content"><a href="{{route("admin.products.edit", $product['id'])}}">{{$product['name']}}</a></span>
                                     @endif
@@ -116,7 +148,7 @@
                             @case($sortableColumn->equals(\Domain\Common\Enums\Column::active()))
                                 <td>
                                     @if($editMode && $product['is_checked'])
-                                        @include('admin.livewire.includes.form-check', ['field' => "items.{$product['uuid']}.is_active"])
+                                        @include('admin.livewire.includes.form-check', ['field' => "items.{$product['uuid']}.is_active", 'modifier' => '.defer'])
                                     @else
                                         <span class="main-grid-cell-content">{{$product['is_active_name']}}</span>
                                     @endif
@@ -125,7 +157,7 @@
                             @case($sortableColumn->equals(\Domain\Common\Enums\Column::unit()))
                                 <td>
                                     @if($editMode && $product['is_checked'])
-                                        @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.unit"])
+                                        @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.unit", 'modifier' => '.defer'])
                                     @else
                                         <span class="main-grid-cell-content">{{$product['unit']}}</span>
                                     @endif
@@ -136,10 +168,10 @@
                                     @if($editMode && $product['is_checked'])
                                         <div class="form-row">
                                             <div class="col">
-                                                @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.price_purchase"])
+                                                @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.price_purchase", 'modifier' => '.defer'])
                                             </div>
                                             <div class="col">
-                                                @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['uuid']}.price_purchase_currency_id", 'options' => $currencies])
+                                                @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['uuid']}.price_purchase_currency_id", 'options' => $currencies, 'modifier' => '.defer'])
                                             </div>
                                         </div>
                                     @else
@@ -152,10 +184,10 @@
                                     @if($editMode && $product['is_checked'])
                                         <div class="form-row">
                                             <div class="col">
-                                                @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.price_retail"])
+                                                @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.price_retail", 'modifier' => '.defer'])
                                             </div>
                                             <div class="col">
-                                                @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['uuid']}.price_retail_currency_id", 'options' => $currencies])
+                                                @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['uuid']}.price_retail_currency_id", 'options' => $currencies, 'modifier' => '.defer'])
                                             </div>
                                         </div>
                                     @else
@@ -166,7 +198,7 @@
                             @case($sortableColumn->equals(\Domain\Common\Enums\Column::admin_comment()))
                                 <td>
                                     @if($editMode && $product['is_checked'])
-                                        @include('admin.livewire.includes.form-control-textarea', ['field' => "items.{$product['uuid']}.admin_comment"])
+                                        @include('admin.livewire.includes.form-control-textarea', ['field' => "items.{$product['uuid']}.admin_comment", 'modifier' => '.defer'])
                                     @else
                                         <span class="main-grid-cell-content">{{$product['admin_comment']}}</span>
                                     @endif
@@ -175,7 +207,7 @@
                             @case($sortableColumn->equals(\Domain\Common\Enums\Column::availability()))
                                 <td>
                                     @if($editMode && $product['is_checked'])
-                                        @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['uuid']}.availability_status_id", 'options' => $availabilityStatuses])
+                                        @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['uuid']}.availability_status_id", 'options' => $availabilityStatuses, 'modifier' => '.defer'])
                                     @else
                                         <span class="main-grid-cell-content">{{$product['availability_status_name']}}</span>
                                     @endif
@@ -204,13 +236,14 @@
 
     <footer class="footer edit-item-footer">
         @if(!$editMode)
-            <button wire:click.prevent="$set('editMode', true)" type="button" @if(!$this->hasChecked()) disabled @endif class="btn btn-primary mb-2 btn__save mr-2">Редактировать</button>
-            <button onclick="if (confirm('Вы уверены, что хотите удалить продукт выбранные продукты?')) {@this.deleteSelected()}" type="button" @if(!$this->hasChecked()) disabled @endif class="btn btn-info mb-2 btn__default">Удалить</button>
+            <button wire:click.prevent="$set('editMode', true)" x-bind:disabled="!Object.values(items).some(item => item.is_checked)" type="button" class="btn btn-primary mb-2 btn__save mr-2">Редактировать</button>
+            <button x-bind:disabled="!Object.values(items).some(item => item.is_checked)" onclick="if (confirm('Вы уверены, что хотите удалить продукт выбранные продукты?')) {@this.deleteSelected()}" type="button" class="btn btn-info mb-2 btn__default">Удалить</button>
         @else
             <button wire:click.prevent="saveSelected" type="button" class="btn btn-info">Сохранить</button>
-            <button wire:click.prevent="cancelEdit" type="button" class="btn btn-warning">Отменить</button>
+            <button @click="$wire.cancelEdit()" type="button" class="btn btn-warning">Отменить</button>
         @endif
     </footer>
+
     <!-- Modals -->
     <div wire:ignore.self class="modal fade" id="customize-list" tabindex="-1" aria-labelledby="customize-list-title" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
