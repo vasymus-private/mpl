@@ -67,7 +67,7 @@
                     </th>
                     <th scope="col"><span class="main-grid-head-title">&nbsp;</span></th>
                     @foreach($sortableColumns as $sortableColumn)
-                        <th scope="col">{{$sortableColumn->label}}</th>
+                        <th wire:key="sortable-column-table-header-{{$sortableColumn->value}}" scope="col">{{$sortableColumn->label}}</th>
                     @endforeach
                 </tr>
             </thead>
@@ -128,7 +128,7 @@
                     @foreach($sortableColumns as $sortableColumn)
                         @switch(true)
                             @case($sortableColumn->equals(\Domain\Common\Enums\Column::ordering()))
-                                <td @if($editMode && $product['is_checked']) style="width: 200px;" @endif>
+                                <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}" @if($editMode && $product['is_checked']) style="width: 200px;" @endif>
                                     @if($editMode && $product['is_checked'])
                                         @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.ordering", 'modifier' => '.defer'])
                                     @else
@@ -137,7 +137,7 @@
                                 </td>
                                 @break
                             @case($sortableColumn->equals(\Domain\Common\Enums\Column::name()))
-                                <td>
+                                <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}">
                                     @if($editMode && $product['is_checked'])
                                         @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.name", 'modifier' => '.defer'])
                                     @else
@@ -146,7 +146,7 @@
                                 </td>
                                 @break
                             @case($sortableColumn->equals(\Domain\Common\Enums\Column::active()))
-                                <td>
+                                <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}">
                                     @if($editMode && $product['is_checked'])
                                         @include('admin.livewire.includes.form-check', ['field' => "items.{$product['uuid']}.is_active", 'modifier' => '.defer'])
                                     @else
@@ -155,7 +155,7 @@
                                 </td>
                                 @break
                             @case($sortableColumn->equals(\Domain\Common\Enums\Column::unit()))
-                                <td>
+                                <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}">
                                     @if($editMode && $product['is_checked'])
                                         @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.unit", 'modifier' => '.defer'])
                                     @else
@@ -164,7 +164,7 @@
                                 </td>
                                 @break
                             @case($sortableColumn->equals(\Domain\Common\Enums\Column::price_purchase()))
-                                <td>
+                                <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}">
                                     @if($editMode && $product['is_checked'])
                                         <div class="form-row">
                                             <div class="col">
@@ -180,7 +180,7 @@
                                 </td>
                                 @break
                             @case($sortableColumn->equals(\Domain\Common\Enums\Column::price_retail()))
-                                <td>
+                                <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}">
                                     @if($editMode && $product['is_checked'])
                                         <div class="form-row">
                                             <div class="col">
@@ -196,7 +196,7 @@
                                 </td>
                                 @break
                             @case($sortableColumn->equals(\Domain\Common\Enums\Column::admin_comment()))
-                                <td>
+                                <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}">
                                     @if($editMode && $product['is_checked'])
                                         @include('admin.livewire.includes.form-control-textarea', ['field' => "items.{$product['uuid']}.admin_comment", 'modifier' => '.defer'])
                                     @else
@@ -205,7 +205,7 @@
                                 </td>
                                 @break
                             @case($sortableColumn->equals(\Domain\Common\Enums\Column::availability()))
-                                <td>
+                                <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}">
                                     @if($editMode && $product['is_checked'])
                                         @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['uuid']}.availability_status_id", 'options' => $availabilityStatuses, 'modifier' => '.defer'])
                                     @else
@@ -214,7 +214,7 @@
                                 </td>
                                 @break
                             @case($sortableColumn->equals(\Domain\Common\Enums\Column::id()))
-                                <td>
+                                <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}">
                                     <span class="main-grid-cell-content">{{$product['id']}}</span>
                                 </td>
                                 @break
@@ -265,7 +265,7 @@
                     <div class="card">
                         <ul id="product-columns-sortable" class="list-group list-group-flush">
                             @foreach($sortableColumns as $sortableColumn)
-                                <li style="cursor:grab;" class="list-group-item" data-value="{{$sortableColumn->value}}">{{$sortableColumn->label}}</li>
+                                <li wire:key="sortable-column-modal-list-{{$sortableColumn->value}}" style="cursor:grab;" class="list-group-item" data-value="{{$sortableColumn->value}}">{{$sortableColumn->label}}</li>
                             @endforeach
                         </ul>
                     </div>

@@ -7,7 +7,22 @@
  * @var \Domain\Common\Enums\Column[] $sortableColumns
  */
 ?>
-<div>
+<div x-data="{
+        items: @entangle('items').defer,
+        editMode: @entangle('editMode'),
+        selectAll: @entangle('selectAll')
+    }"
+     x-init="
+        Livewire.hook('message.processed', (message, component) => {
+            [...$el.querySelectorAll('.js-product-item-checkbox')].forEach(e => {
+                let uuid = e.dataset['itemId'];
+                let item = component.$wire.items[uuid];
+                if (item) {
+                    e.checked = item.is_checked;
+                }
+            })
+        })
+    ">
     <form wire:submit.prevent="handleSearch" class="filter-form">
         <div class="filter-form__body">
             <div class="form-group row">
@@ -66,8 +81,8 @@
                     </div>
                 </th>
                 <th scope="col"><span class="main-grid-head-title">&nbsp;</span></th>
-                @foreach($sortableColumns as $orderAdminColumn)
-                    <th scope="col">{{$orderAdminColumn->label}}</th>
+                @foreach($sortableColumns as $sortableColumn)
+                    <th wire:key="sortable-column-table-header-{{$sortableColumn->value}}" scope="col">{{$sortableColumn->label}}</th>
                 @endforeach
             </tr>
             </thead>
@@ -103,12 +118,12 @@
                         @foreach($sortableColumns as $sortableColumn)
                             @switch(true)
                                 @case($sortableColumn->equals(\Domain\Common\Enums\Column::date_creation()))
-                                    <td>
+                                    <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}">
                                         <span class="main-grid-cell-content">{{$order['date']}}</span>
                                     </td>
                                     @break
                                 @case($sortableColumn->equals(\Domain\Common\Enums\Column::id()))
-                                    <td>
+                                    <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}">
                                         <span class="main-grid-cell-content">
                                             <a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, $order['id'])}}" style="white-space: nowrap;">
                                                 <span class="js-order-busy-marker js-order-busy-marker-{{$order['id']}}" data-id="{{$order['id']}}">
@@ -124,12 +139,12 @@
                                     </td>
                                     @break
                                 @case($sortableColumn->equals(\Domain\Common\Enums\Column::status()))
-                                    <td @if($order['order_status_color']) style="background-color: {{$order['order_status_color']}};" @endif>
+                                    <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}" @if($order['order_status_color']) style="background-color: {{$order['order_status_color']}};" @endif>
                                         <span class="main-grid-cell-content">{{$order['order_status_name']}}</span>
                                     </td>
                                     @break
                                 @case($sortableColumn->equals(\Domain\Common\Enums\Column::positions()))
-                                    <td>
+                                    <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}">
                                         <div class="main-grid-cell-content">
                                             <?php /** @var array $orderProductItem @see {@link \Domain\Products\DTOs\Admin\OrderItemProductItemDTO} */ ?>
                                             @foreach($order['products'] as $orderProductItem)
@@ -142,17 +157,17 @@
                                     </td>
                                     @break
                                 @case($sortableColumn->equals(\Domain\Common\Enums\Column::comment_admin()))
-                                    <td>
+                                    <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}">
                                         <span class="main-grid-cell-content">{{$order['comment_admin']}}</span>
                                     </td>
                                     @break
                                 @case($sortableColumn->equals(\Domain\Common\Enums\Column::importance()))
-                                    <td @if($order['importance_color']) style="background-color: {{$order['importance_color']}};" @endif>
+                                    <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}" @if($order['importance_color']) style="background-color: {{$order['importance_color']}};" @endif>
                                         <span class="main-grid-cell-content">{{$order['importance_name']}}</span>
                                     </td>
                                     @break
                                 @case($sortableColumn->equals(\Domain\Common\Enums\Column::manager()))
-                                    <td>
+                                    <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}">
                                         @if($order['admin_id'])
                                             <span class="main-grid-cell-content">
                                                 <span style="border: 1px solid black; padding: 3px 6px; border-radius: 3px; width: 50px; display: inline-block; text-align: center; background-color: {{$order['admin_color'] ?: 'transparent'}};">
@@ -163,32 +178,32 @@
                                     </td>
                                     @break
                                 @case($sortableColumn->equals(\Domain\Common\Enums\Column::sum()))
-                                    <td>
+                                    <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}">
                                         <span class="main-grid-cell-content">{{$order['order_price_retail_rub_formatted']}}</span>
                                     </td>
                                     @break
                                 @case($sortableColumn->equals(\Domain\Common\Enums\Column::name()))
-                                    <td>
+                                    <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}">
                                         <span class="main-grid-cell-content">{{$order['user_name']}}</span>
                                     </td>
                                     @break
                                 @case($sortableColumn->equals(\Domain\Common\Enums\Column::phone()))
-                                    <td>
+                                    <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}">
                                         <span class="main-grid-cell-content">{{$order['user_phone']}}</span>
                                     </td>
                                     @break
                                 @case($sortableColumn->equals(\Domain\Common\Enums\Column::email()))
-                                    <td>
+                                    <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}">
                                         <span class="main-grid-cell-content">{{$order['user_email']}}</span>
                                     </td>
                                     @break
                                 @case($sortableColumn->equals(\Domain\Common\Enums\Column::comment_user()))
-                                    <td>
+                                    <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}">
                                         <span class="main-grid-cell-content">{{$order['comment_user']}}</span>
                                     </td>
                                     @break
                                 @case($sortableColumn->equals(\Domain\Common\Enums\Column::payment_method()))
-                                    <td>
+                                    <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}">
                                         <span class="main-grid-cell-content">{{$order['payment_method_name']}}</span>
                                     </td>
                                     @break
@@ -235,7 +250,7 @@
                     <div class="card">
                         <ul id="order-columns-sortable" class="list-group list-group-flush">
                             @foreach($sortableColumns as $sortableColumn)
-                                <li style="cursor:grab;" class="list-group-item" data-value="{{$sortableColumn->value}}">{{$sortableColumn->label}}</li>
+                                <li wire:key="sortable-column-modal-list-{{$sortableColumn->value}}" style="cursor:grab;" class="list-group-item" data-value="{{$sortableColumn->value}}">{{$sortableColumn->label}}</li>
                             @endforeach
                         </ul>
                     </div>

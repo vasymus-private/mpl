@@ -8247,26 +8247,23 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
- // "product-columns-sortable" getProductColumnsSortable
-// "order-columns-sortable" getOrderColumnsSorted
-// "product-variant-columns-sortable"
+
 
 function init(id) {
-  var sortable = document.getElementById(id);
-
-  if (!sortable) {
+  if (!document.getElementById(id)) {
     return;
   }
 
-  new sortablejs__WEBPACK_IMPORTED_MODULE_0__["default"](sortable, {
+  new sortablejs__WEBPACK_IMPORTED_MODULE_0__["default"](document.getElementById(id), {
     animation: 150,
     ghostClass: "blue-background-class"
   });
 
   window.getColumnsSorted = function (id) {
     var values = [];
-    $("#".concat(id)).children().each(function (i, el) {
+    $(document.getElementById(id)).children().each(function (i, el) {
       var value = $(el).data("value");
+      var label = $(el).text();
 
       if (!value) {
         return;
@@ -8274,7 +8271,7 @@ function init(id) {
 
       values = [].concat(_toConsumableArray(values), [value]);
     });
-    return values;
+    return _toConsumableArray(new Set(values));
   };
 }
 
@@ -8302,9 +8299,9 @@ function init(id) {
 
     var columnSorting = __webpack_require__(/*! ./modules/sortColumns */ "./resources/js/admin/modules/sortColumns.js");
 
-    columnSorting.init('product-columns-sortable');
-    columnSorting.init('order-columns-sortable');
-    columnSorting.init('product-variant-columns-sortable');
+    columnSorting.init("product-columns-sortable");
+    columnSorting.init("order-columns-sortable");
+    columnSorting.init("product-variant-columns-sortable");
 
     __webpack_require__(/*! ./modules/navTabsSticky */ "./resources/js/admin/modules/navTabsSticky.js");
 

@@ -65,7 +65,7 @@ trait HasSortableColumns
         $admin->admin_order_columns = $sortableColumns;
         $admin->save();
 
-        $this->sortableColumns = $sortableColumns;
+        $this->sortableColumns = $admin->admin_order_columns;
 
         return true;
     }
@@ -79,7 +79,7 @@ trait HasSortableColumns
         $sortableColumns = GetDefaultAdminOrderColumnsAction::cached()->execute();
         $admin->admin_order_columns = $sortableColumns;
         $admin->save();
-        $this->sortableColumns = $sortableColumns;
+        $this->sortableColumns = $admin->admin_order_columns;
 
         return true;
     }
@@ -100,7 +100,7 @@ trait HasSortableColumns
         $admin->admin_product_columns = $sortableColumns;
         $admin->save();
 
-        $this->sortableColumns = $sortableColumns;
+        $this->sortableColumns = $admin->admin_product_columns;
 
         return true;
     }
@@ -114,7 +114,7 @@ trait HasSortableColumns
         $sortableColumns = GetDefaultAdminProductColumnsAction::cached()->execute();
         $admin->admin_product_columns = $sortableColumns;
         $admin->save();
-        $this->sortableColumns = $sortableColumns;
+        $this->sortableColumns = $admin->admin_product_columns;
 
         return true;
     }
@@ -135,7 +135,7 @@ trait HasSortableColumns
         $admin->admin_product_variant_columns = $sortableColumns;
         $admin->save();
 
-        $this->sortableColumns = $sortableColumns;
+        $this->sortableColumns = $admin->admin_product_variant_columns;
 
         return true;
     }
@@ -149,7 +149,7 @@ trait HasSortableColumns
         $sortableColumns = GetDefaultAdminProductVariantColumnsAction::cached()->execute();
         $admin->admin_product_variant_columns = $sortableColumns;
         $admin->save();
-        $this->sortableColumns = $sortableColumns;
+        $this->sortableColumns = $admin->admin_product_variant_columns;
 
         return true;
     }
