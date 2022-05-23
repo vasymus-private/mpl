@@ -108,7 +108,7 @@ class CategoriesList extends Component
 
     public function toggleActive($id)
     {
-        if (!isset($this->items[$id])) {
+        if (! isset($this->items[$id])) {
             return;
         }
 
