@@ -44,8 +44,6 @@
         <button type="button" data-toggle="modal" data-target="#customize-list" class="btn btn-primary mb-2 mr-2">Настроить</button>
     </div>
 
-    <div>{{json_encode($sortableColumns)}}</div>
-
     <div class="admin-edit-variations table-responsive">
         <div wire:loading.flex>
             <div class="d-flex justify-content-center align-items-center bg-light" style="opacity: 0.5; position:absolute; top:0; bottom:0; right:0; left:0; z-index: 20; ">
@@ -75,7 +73,7 @@
             </thead>
             <tbody>
             @foreach($items as $product)
-                <tr class="js-product-item" wire:key="product-{{$product['uuid']}}">
+                <tr class="js-product-item" wire:key="product-{{$product['uuid']}}-{{json_encode($sortableColumns)}}">
                     <td
                         wire:key="sortable-column-table-row-checkbox"
                         data-item-id="{{$product['uuid']}}"

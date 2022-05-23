@@ -66,7 +66,7 @@
             </thead>
             <tbody>
             @foreach($variations as $variation)
-                <tr wire:key="{{$variation['uuid']}}">
+                <tr wire:key="{{$variation['uuid']}}-{{json_encode($sortableColumns)}}">
                     <td
                         data-item-id="{{$variation['uuid']}}"
                         @click="

@@ -6,7 +6,6 @@ use Domain\Common\Enums\Column;
 use Domain\Orders\Actions\GetDefaultAdminOrderColumnsAction;
 use Domain\Products\Actions\GetDefaultAdminProductColumnsAction;
 use Domain\Products\Actions\GetDefaultAdminProductVariantColumnsAction;
-use Illuminate\Support\Facades\Log;
 use Support\H;
 
 trait HasSortableColumns

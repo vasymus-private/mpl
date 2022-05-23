@@ -92,7 +92,7 @@
             </thead>
             <tbody>
                 @foreach($items as $order)
-                    <tr wire:key="order-{{$order['id']}}">
+                    <tr wire:key="order-{{$order['id']}}-{{json_encode($sortableColumns)}}">
                         <td
                             data-item-id="{{$order['id']}}"
                             @click="
