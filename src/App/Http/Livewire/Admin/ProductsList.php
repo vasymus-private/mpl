@@ -5,16 +5,13 @@ namespace App\Http\Livewire\Admin;
 use Domain\Common\DTOs\SearchPrependAdminDTO;
 use Domain\Common\Models\Currency;
 use Domain\Products\Actions\DeleteProductAction;
-use Domain\Products\Actions\GetDefaultAdminProductColumnsAction;
 use Domain\Products\DTOs\Admin\ProductItemDTO;
-use Domain\Products\Enums\ProductAdminColumn;
 use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Support\H;
 
 class ProductsList extends BaseItemsListComponent
 {
@@ -22,30 +19,47 @@ class ProductsList extends BaseItemsListComponent
     use HasAvailabilityStatuses;
     use HasCurrencies;
     use HasSelectAll;
+    use HasSortableColumns;
 
+    /**
+     * @var string|int
+     */
     public $search = '';
 
+    /**
+     * @var string|int
+     */
     public $category_id = '';
 
+    /**
+     * @var string
+     */
     public $category_name = '';
 
+    /**
+     * @var string|int
+     */
     public $brand_id = '';
 
+    /**
+     * @var string
+     */
     public $brand_name = '';
 
+    /**
+     * @var string|array|null
+     */
     public $request_query;
 
+    /**
+     * @var bool
+     */
     public $editMode = false;
 
     /**
      * @var array[] @see {@link \Domain\Products\DTOs\Admin\ProductItemDTO[]}
      */
     public array $items = [];
-
-    /**
-     * @var \Domain\Products\Enums\ProductAdminColumn[]
-     */
-    public array $productAdminColumns;
 
     protected array $rules = [
         'items.*.name' => 'required|string|max:250',
@@ -79,7 +93,7 @@ class ProductsList extends BaseItemsListComponent
         $this->initAvailabilityStatusesOptions();
         $this->initCurrenciesOptions();
 
-        $this->productAdminColumns = H::admin()->admin_product_columns;
+        $this->initProductsAsSortableColumns();
     }
 
     public function render()
@@ -92,11 +106,6 @@ class ProductsList extends BaseItemsListComponent
                 $this->page
             ),
         ]);
-    }
-
-    public function hydrateProductAdminColumns(array $value = [])
-    {
-        $this->productAdminColumns = collect($value)->map(fn ($v) => ProductAdminColumn::from($v))->all();
     }
 
     public function saveSelected()
@@ -123,6 +132,7 @@ class ProductsList extends BaseItemsListComponent
             $product->save();
         });
         $this->editMode = false;
+        $this->changeItemsSelectAll(false);
         $this->selectAll = false;
         $this->fetchItems();
     }
@@ -138,13 +148,9 @@ class ProductsList extends BaseItemsListComponent
             $product->delete();
         });
         $this->editMode = false;
+        $this->changeItemsSelectAll(false);
         $this->selectAll = false;
         $this->fetchItems();
-    }
-
-    public function hasChecked()
-    {
-        return collect($this->items)->contains(fn (array $item) => (bool)$item['is_checked']);
     }
 
     public function clearAllFilters()
@@ -226,6 +232,7 @@ class ProductsList extends BaseItemsListComponent
     public function cancelEdit()
     {
         $this->editMode = false;
+        $this->changeItemsSelectAll(false);
         $this->selectAll = false;
         $this->fetchItems();
     }
@@ -278,6 +285,9 @@ class ProductsList extends BaseItemsListComponent
         return $prepends;
     }
 
+    /**
+     * @return string[]
+     */
     protected function getUpdateKeys(): array
     {
         return [
@@ -299,30 +309,16 @@ class ProductsList extends BaseItemsListComponent
      *
      * @return bool
      */
-    public function handleCustomizeProductList(array $values)
+    public function handleCustomizeSortableList(array $values): bool
     {
-        $admin = H::admin();
-        if (count($values) !== count($admin->admin_product_columns)) {
-            return false;
-        }
-
-        $productAdminColumns = collect($values)->map(fn ($value) => ProductAdminColumn::from($value))->all();
-        $admin->admin_product_columns = $productAdminColumns;
-        $admin->save();
-
-        $this->productAdminColumns = $productAdminColumns;
-
-        return true;
+        return $this->customizeProductsSortableList($values);
     }
 
-    public function handleDefaultProductList()
+    /**
+     * @return bool
+     */
+    public function handleDefaultSortableList(): bool
     {
-        $admin = H::admin();
-        $productAdminColumns = GetDefaultAdminProductColumnsAction::cached()->execute();
-        $admin->admin_product_columns = $productAdminColumns;
-        $admin->save();
-        $this->productAdminColumns = $productAdminColumns;
-
-        return true;
+        return $this->defaultProductsSortableList();
     }
 }

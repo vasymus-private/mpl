@@ -175,7 +175,7 @@ class OptionDTO extends DataTransferObject
     {
         return new self([
             'value' => $model->id, // @phpstan-ignore-line
-            'label' => $model->name ?? "", // @phpstan-ignore-line
+            'label' => $model->name ?? "",
         ]);
     }
 }

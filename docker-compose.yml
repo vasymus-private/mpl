@@ -62,7 +62,7 @@ services:
 
     ### DB (MariaDB) ###
     db:
-        image: mariadb:10.6.4
+        image: mariadb:10.7.3
         volumes:
             - mariadb-db-data:/var/lib/mysql
         environment:
