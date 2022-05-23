@@ -77,7 +77,11 @@
             <tr>
                 <th scope="col">
                     <div class="form-check form-check-inline">
-                        <input wire:model="selectAll" class="form-check-input position-static" type="checkbox">
+                        <input
+                            x-bind:disabled="editMode"
+                            x-model="selectAll"
+                            class="form-check-input position-static"
+                            type="checkbox">
                     </div>
                 </th>
                 <th scope="col"><span class="main-grid-head-title">&nbsp;</span></th>
@@ -88,10 +92,23 @@
             </thead>
             <tbody>
                 @foreach($items as $order)
-                    <tr wire:key="product-{{$order['id']}}" ondblclick="location.href=`{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, $order['id'])}}`">
-                        <td>
+                    <tr wire:key="order-{{$order['id']}}">
+                        <td
+                            data-item-id="{{$order['id']}}"
+                            @click="
+                                if(!editMode && items[$el.dataset['itemId']]) {
+                                    let isChecked = items[$el.dataset['itemId']].is_checked;
+                                    items[$el.dataset['itemId']].is_checked = !isChecked;
+                                    $el.querySelector('input').checked = !isChecked;
+                                }
+                            ">
                             <div class="form-check">
-                                <input wire:model.defer="items.{{$order['id']}}.is_checked" class="form-check-input position-static" type="checkbox">
+                                <input
+                                    data-item-id="{{$order['id']}}"
+                                    @click.stop="$el.closest('td').click()"
+                                    x-bind:disabled="editMode"
+                                    class="form-check-input position-static js-product-item-checkbox"
+                                    type="checkbox">
                             </div>
                         </td>
                         <td>
@@ -225,7 +242,13 @@
 
     <div class="row pb-5">
         <div class="col-sm-3" wire:key="delete-btn">
-            <button onclick="if (confirm('Вы уверены, что хотите удалить продукт выбранные продукты?')) {@this.deleteSelected()}" type="button" class="btn btn-light"><i class="fa fa-times"></i> Удалить</button>
+            <button
+                x-bind:disabled="!Object.values(items).some(item => item.is_checked)"
+                onclick="if (confirm('Вы уверены, что хотите удалить продукт выбранные заказы?')) {@this.deleteSelected()}"
+                type="button"
+                class="btn btn-light">
+                <i class="fa fa-times"></i> Удалить
+            </button>
         </div>
     </div>
 

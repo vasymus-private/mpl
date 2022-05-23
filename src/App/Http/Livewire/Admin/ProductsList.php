@@ -21,18 +21,39 @@ class ProductsList extends BaseItemsListComponent
     use HasSelectAll;
     use HasSortableColumns;
 
+    /**
+     * @var string|int
+     */
     public $search = '';
 
+    /**
+     * @var string|int
+     */
     public $category_id = '';
 
+    /**
+     * @var string
+     */
     public $category_name = '';
 
+    /**
+     * @var string|int
+     */
     public $brand_id = '';
 
+    /**
+     * @var string
+     */
     public $brand_name = '';
 
+    /**
+     * @var string|array|null
+     */
     public $request_query;
 
+    /**
+     * @var bool
+     */
     public $editMode = false;
 
     /**

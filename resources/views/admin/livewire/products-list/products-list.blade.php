@@ -237,7 +237,13 @@
     <footer class="footer edit-item-footer">
         @if(!$editMode)
             <button wire:click.prevent="$set('editMode', true)" x-bind:disabled="!Object.values(items).some(item => item.is_checked)" type="button" class="btn btn-primary mb-2 btn__save mr-2">Редактировать</button>
-            <button x-bind:disabled="!Object.values(items).some(item => item.is_checked)" onclick="if (confirm('Вы уверены, что хотите удалить продукт выбранные продукты?')) {@this.deleteSelected()}" type="button" class="btn btn-info mb-2 btn__default">Удалить</button>
+            <button
+                x-bind:disabled="!Object.values(items).some(item => item.is_checked)"
+                onclick="if (confirm('Вы уверены, что хотите удалить продукт выбранные продукты?')) {@this.deleteSelected()}"
+                type="button"
+                class="btn btn-info mb-2 btn__default">
+                Удалить
+            </button>
         @else
             <button wire:click.prevent="saveSelected" type="button" class="btn btn-info">Сохранить</button>
             <button @click="$wire.cancelEdit()" type="button" class="btn btn-warning">Отменить</button>

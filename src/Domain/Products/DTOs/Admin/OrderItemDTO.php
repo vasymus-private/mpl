@@ -58,6 +58,8 @@ class OrderItemDTO extends DataTransferObject
 
     public bool $is_busy_by_other_admin = false;
 
+    public bool $is_checked = false;
+
     public static function fromModel(Order $order): self
     {
         return new static([

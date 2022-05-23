@@ -56,6 +56,11 @@ class OrdersList extends BaseItemsListComponent
     public $request_query;
 
     /**
+     * @var bool
+     */
+    public $editMode = false;
+
+    /**
      * @var array[] @see {@link \Domain\Products\DTOs\Admin\OrderItemDTO}
      */
     public array $items = [];
@@ -166,7 +171,7 @@ class OrdersList extends BaseItemsListComponent
      */
     protected function setItems(array $items)
     {
-        $this->items = collect($items)->map(fn (Order $order) => OrderItemDTO::fromModel($order)->toArray())->all();
+        $this->items = collect($items)->map(fn (Order $order) => OrderItemDTO::fromModel($order)->toArray())->keyBy('id')->all();
     }
 
     protected function mountRequest()
@@ -215,5 +220,15 @@ class OrdersList extends BaseItemsListComponent
     public function handleDefaultSortableList(): bool
     {
         return $this->defaultOrdersSortableList();
+    }
+
+    public function deleteSelected()
+    {
+        // todo
+    }
+
+    public function handleDelete($id)
+    {
+        // todo
     }
 }
