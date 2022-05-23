@@ -6,6 +6,7 @@ use Domain\Common\Enums\Column;
 use Domain\Orders\Actions\GetDefaultAdminOrderColumnsAction;
 use Domain\Products\Actions\GetDefaultAdminProductColumnsAction;
 use Domain\Products\Actions\GetDefaultAdminProductVariantColumnsAction;
+use Illuminate\Support\Facades\Log;
 use Support\H;
 
 trait HasSortableColumns
@@ -46,7 +47,7 @@ trait HasSortableColumns
      */
     public function hydrateSortableColumns(array $value = [])
     {
-        $this->sortableColumns = collect($value)->map(fn ($v) => Column::from($v))->all();
+        $this->sortableColumns = collect($value)->map(fn ($v) => Column::from($v))->unique()->values()->all();
     }
 
     /**
@@ -92,7 +93,8 @@ trait HasSortableColumns
     public function customizeProductsSortableList(array $values): bool
     {
         $admin = H::admin();
-        if (count($values) !== count($admin->admin_product_columns)) {
+        $values = collect($values)->unique();
+        if ($values->count() !== count($admin->admin_product_columns)) {
             return false;
         }
 

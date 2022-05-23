@@ -248,7 +248,7 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
         $settings = $this->settings;
         $adminOrderColumns = $settings[static::SETTINGS_ADMIN_ORDER_COLUMNS] ?? GetDefaultAdminOrderColumnsAction::cached()->execute();
 
-        return collect($adminOrderColumns)->map(fn ($value) => Column::from($value))->all();
+        return collect($adminOrderColumns)->unique()->values()->map(fn ($value) => Column::from($value))->all();
     }
 
     /**
@@ -271,7 +271,7 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
         $settings = $this->settings;
         $adminProductColumns = $settings[static::SETTINGS_ADMIN_PRODUCT_COLUMNS] ?? GetDefaultAdminProductColumnsAction::cached()->execute();
 
-        return collect($adminProductColumns)->map(fn ($value) => Column::from($value))->all();
+        return collect($adminProductColumns)->unique()->values()->map(fn ($value) => Column::from($value))->all();
     }
 
     /**
@@ -294,7 +294,7 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
         $settings = $this->settings;
         $adminProductVariantColumns = $settings[static::SETTINGS_ADMIN_PRODUCT_VARIANT_COLUMNS] ?? GetDefaultAdminProductVariantColumnsAction::cached()->execute();
 
-        return collect($adminProductVariantColumns)->map(fn ($value) => Column::from($value))->all();
+        return collect($adminProductVariantColumns)->unique()->values()->map(fn ($value) => Column::from($value))->all();
     }
 
     /**
