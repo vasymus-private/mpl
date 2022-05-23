@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\ShowProduct;
 
+use App\Http\Livewire\Admin\HasSelectAll;
 use Domain\Common\DTOs\FileDTO;
 use Domain\Common\Models\Currency;
 use Domain\Common\Models\CustomMedia;
@@ -17,6 +18,8 @@ use Livewire\TemporaryUploadedFile;
  */
 trait HasVariationsTab
 {
+    use HasSelectAll;
+
     /**
      * @var bool
      */
@@ -35,7 +38,7 @@ trait HasVariationsTab
     /**
      * @var bool
      */
-    public bool $variationsEditMode = false;
+    public bool $editMode = false;
 
     /**
      * @var \Livewire\TemporaryUploadedFile|null
@@ -46,11 +49,6 @@ trait HasVariationsTab
      * @var \Livewire\TemporaryUploadedFile|null
      */
     public $tempVariationAdditionalImage;
-
-    /**
-     * @var bool
-     */
-    public $variationsSelectAll = false;
 
     /**
      * @return array
@@ -200,7 +198,7 @@ trait HasVariationsTab
         });
         $this->initVariations($this->item);
         $this->handleSetVariationsEditMode(false);
-        $this->variationsSelectAll = false;
+        $this->selectAll = false;
     }
 
     public function saveCurrentVariation()
@@ -349,14 +347,9 @@ trait HasVariationsTab
         $this->currentVariation['additional_images'][] = $fileDTO->toArray();
     }
 
-    public function updatedVariationsSelectAll(bool $value)
-    {
-        $this->handleCheckAllVariations($value);
-    }
-
     public function handleSetVariationsEditMode(?bool $mode = null)
     {
-        $this->variationsEditMode = $mode !== null ? $mode : ! $this->variationsEditMode;
+        $this->editMode = $mode !== null ? $mode : ! $this->editMode;
     }
 
     public function handleDeleteSelectedVariations()
@@ -379,7 +372,7 @@ trait HasVariationsTab
 
         $this->initVariations($this->item);
         $this->handleSetVariationsEditMode(false);
-        $this->variationsSelectAll = false;
+        $this->selectAll = false;
     }
 
     public function deleteVariation($uuid)
@@ -394,7 +387,10 @@ trait HasVariationsTab
             return;
         }
         DeleteVariationAction::cached()->execute($variation);
-        $this->variations = collect($this->variations)->filter(fn (array $variation) => (string)$variation['uuid'] !== (string)$uuid)->all();
+        $this->variations = collect($this->variations)
+            ->filter(fn (array $variation) => (string)$variation['uuid'] !== (string)$uuid)
+            ->keyBy('uuid')
+            ->all();
     }
 
     public function copyVariation($copyUuid)
@@ -439,15 +435,6 @@ trait HasVariationsTab
 
         $this->handleSetVariationsEditMode(false);
         $this->initVariations($this->item);
-    }
-
-    public function handleCheckAllVariations(bool $isChecked)
-    {
-        $this->variations = collect($this->variations)->map(function (array $item) use ($isChecked) {
-            $item['is_checked'] = $isChecked;
-
-            return $item;
-        })->all();
     }
 
     protected function initVariations(Product $product)
