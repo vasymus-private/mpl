@@ -449,7 +449,7 @@ trait HasVariationsTab
                     : VariationDTO::fromModel($variation)->toArray()
             )
             ->keyBy('uuid')
-            ->toArray();
+            ->all();
         $this->currentVariation = (new VariationDTO())->toArray();
     }
 

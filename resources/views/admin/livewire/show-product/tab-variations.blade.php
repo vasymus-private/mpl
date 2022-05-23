@@ -16,6 +16,7 @@
         isCreatingFromCopy: @entangle('isCreatingFromCopy')
     }"
      x-init="
+        window._items = items;
         Livewire.hook('message.processed', (message, component) => {
             [...$el.querySelectorAll('.js-product-item-checkbox')].forEach(e => {
                 let uuid = e.dataset['itemId'];
@@ -36,6 +37,14 @@
     </div>
 
     <div class="table-responsive">
+        <div wire:loading.flex>
+            <div class="d-flex justify-content-center align-items-center bg-light" style="opacity: 0.5; position:absolute; top:0; bottom:0; right:0; left:0; z-index: 20; ">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+
         <table class="table table-bordered table-hover" style="width: 3000px;">
             <thead>
                 <tr>
@@ -61,9 +70,9 @@
                     <td
                         data-item-id="{{$variation['uuid']}}"
                         @click="
-                            if(!editMode && variations[$el.dataset['itemId']]) {
-                                let isChecked = variations[$el.dataset['itemId']].is_checked;
-                                variations[$el.dataset['itemId']].is_checked = !isChecked;
+                            if(!editMode && items[$el.dataset['itemId']]) {
+                                let isChecked = items[$el.dataset['itemId']].is_checked;
+                                items[$el.dataset['itemId']].is_checked = !isChecked;
                                 $el.querySelector('input').checked = !isChecked;
                             }
                         ">
@@ -72,7 +81,7 @@
                                 data-item-id="{{$variation['uuid']}}"
                                 @click.stop="$el.closest('td').click()"
                                 x-bind:disabled="editMode || isCreatingFromCopy"
-                                class="form-check-input"
+                                class="form-check-input js-product-item-checkbox"
                                 type="checkbox"
                             />
                         </div>
@@ -122,7 +131,7 @@
                             @case($sortableColumn->equals(\Domain\Common\Enums\Column::name()))
                                 <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}">
                                     @if($editMode && $variation['is_checked'])
-                                        @include('admin.livewire.includes.form-control-input', ['field' => "variations.$variation[uuid].name"])
+                                        @include('admin.livewire.includes.form-control-input', ['field' => "variations.$variation[uuid].name", 'modifier' => '.defer'])
                                     @else
                                         {{$variation['name']}}
                                     @endif
@@ -159,7 +168,7 @@
                             @case($sortableColumn->equals(\Domain\Common\Enums\Column::ordering()))
                                 <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}">
                                     @if($editMode && $variation['is_checked'])
-                                        @include('admin.livewire.includes.form-control-input', ['field' => "variations.$variation[uuid].ordering"])
+                                        @include('admin.livewire.includes.form-control-input', ['field' => "variations.$variation[uuid].ordering", 'modifier' => '.defer'])
                                     @else
                                         {{$variation['ordering']}}
                                     @endif
@@ -170,7 +179,7 @@
                                     @if($editMode && $variation['is_checked'])
                                         <div class="form-row">
                                             <div class="col">
-                                                @include('admin.livewire.includes.form-control-input', ['field' => "variations.$variation[uuid].price_purchase"])
+                                                @include('admin.livewire.includes.form-control-input', ['field' => "variations.$variation[uuid].price_purchase", 'modifier' => '.defer'])
                                             </div>
                                             <div class="col">
                                                 @include('admin.livewire.includes.form-control-select', ['field' => "variations.$variation[uuid].price_purchase_currency_id", 'options' => $currencies])
@@ -184,7 +193,7 @@
                             @case($sortableColumn->equals(\Domain\Common\Enums\Column::unit()))
                                 <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}">
                                     @if($editMode && $variation['is_checked'])
-                                        @include('admin.livewire.includes.form-control-input', ['field' => "variations.$variation[uuid].unit"])
+                                        @include('admin.livewire.includes.form-control-input', ['field' => "variations.$variation[uuid].unit", 'modifier' => '.defer'])
                                     @else
                                         {{$variation['unit']}}
                                     @endif
@@ -193,7 +202,7 @@
                             @case($sortableColumn->equals(\Domain\Common\Enums\Column::coefficient()))
                                 <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}">
                                     @if($editMode && $variation['is_checked'])
-                                        @include('admin.livewire.includes.form-control-input', ['field' => "variations.$variation[uuid].coefficient"])
+                                        @include('admin.livewire.includes.form-control-input', ['field' => "variations.$variation[uuid].coefficient", 'modifier' => '.defer'])
                                     @else
                                         {{$variation['coefficient']}}
                                     @endif
@@ -202,7 +211,7 @@
                             @case($sortableColumn->equals(\Domain\Common\Enums\Column::coefficient_description()))
                                 <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}">
                                     @if($editMode && $variation['is_checked'])
-                                        @include('admin.livewire.includes.form-control-input', ['field' => "variations.$variation[uuid].coefficient_description"])
+                                        @include('admin.livewire.includes.form-control-input', ['field' => "variations.$variation[uuid].coefficient_description", 'modifier' => '.defer'])
                                     @else
                                         {{$variation['coefficient_description']}}
                                     @endif
@@ -213,7 +222,7 @@
                                     @if($editMode && $variation['is_checked'])
                                         <div class="form-row">
                                             <div class="col">
-                                                @include('admin.livewire.includes.form-control-input', ['field' => "variations.$variation[uuid].price_retail"])
+                                                @include('admin.livewire.includes.form-control-input', ['field' => "variations.$variation[uuid].price_retail", 'modifier' => '.defer'])
                                             </div>
                                             <div class="col">
                                                 @include('admin.livewire.includes.form-control-select', ['field' => "variations.$variation[uuid].price_retail_currency_id", 'options' => $currencies])

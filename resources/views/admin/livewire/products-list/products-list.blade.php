@@ -171,7 +171,7 @@
                                                 @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.price_purchase", 'modifier' => '.defer'])
                                             </div>
                                             <div class="col">
-                                                @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['uuid']}.price_purchase_currency_id", 'options' => $currencies, 'modifier' => '.defer'])
+                                                @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['uuid']}.price_purchase_currency_id", 'options' => $currencies])
                                             </div>
                                         </div>
                                     @else
@@ -187,7 +187,7 @@
                                                 @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.price_retail", 'modifier' => '.defer'])
                                             </div>
                                             <div class="col">
-                                                @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['uuid']}.price_retail_currency_id", 'options' => $currencies, 'modifier' => '.defer'])
+                                                @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['uuid']}.price_retail_currency_id", 'options' => $currencies])
                                             </div>
                                         </div>
                                     @else
@@ -207,7 +207,7 @@
                             @case($sortableColumn->equals(\Domain\Common\Enums\Column::availability()))
                                 <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}">
                                     @if($editMode && $product['is_checked'])
-                                        @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['uuid']}.availability_status_id", 'options' => $availabilityStatuses, 'modifier' => '.defer'])
+                                        @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['uuid']}.availability_status_id", 'options' => $availabilityStatuses])
                                     @else
                                         <span class="main-grid-cell-content">{{$product['availability_status_name']}}</span>
                                     @endif
