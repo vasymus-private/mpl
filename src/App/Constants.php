@@ -42,6 +42,10 @@ final class Constants
     public const ROUTE_ADMIN_ORDERS_CREATE = 'admin.orders.create';
     public const ROUTE_ADMIN_ORDERS_EDIT = 'admin.orders.edit';
 
+    public const ROUTE_ADMIN_ARTICLES_INDEX = 'admin.articles.index';
+    public const ROUTE_ADMIN_ARTICLES_CREATE = 'admin.articles.create';
+    public const ROUTE_ADMIN_ARTICLES_EDIT = 'admin.articles.edit';
+
     public const ROUTE_ADMIN_EXPORT_PRODUCTS_INDEX = 'admin.export-products.index';
     public const ROUTE_ADMIN_EXPORT_PRODUCTS_SHOW = 'admin.export-products.show';
     public const ROUTE_ADMIN_EXPORT_PRODUCTS_STORE = 'admin.export-products.store';

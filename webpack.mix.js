@@ -1,4 +1,5 @@
 const mix = require('laravel-mix');
+const webpackConfig = require('./webpack.config')
 
 /*
  |--------------------------------------------------------------------------
@@ -17,6 +18,10 @@ mix
 
     .js("resources/js/admin/app.js", 'public/_admin/js')
     .sass("resources/sass/admin/app.scss", "public/_admin/css")
+
+    .js('resources/js/admin/client.js', 'public/_admin/js')
+    .vue({ runtimeOnly: (process.env.NODE_ENV || 'production') === 'production' })
+    .webpackConfig(webpackConfig)
 ;
 
 mix.copyDirectory('resources/images/web', 'public/images')

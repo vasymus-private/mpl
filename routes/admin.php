@@ -12,6 +12,7 @@
 */
 
 use App\Constants;
+use App\Http\Controllers\Admin\ArticlesController;
 use App\Http\Controllers\Admin\BrandsController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\ExportProductController;
@@ -138,4 +139,12 @@ Route::
         [ExportProductController::class, 'delete']
     )
     ->name(Constants::ROUTE_ADMIN_EXPORT_PRODUCTS_DELETE)
+;
+
+Route::
+    get(
+        'articles',
+        [ArticlesController::class, 'index']
+    )
+    ->name(Constants::ROUTE_ADMIN_ARTICLES_INDEX)
 ;
