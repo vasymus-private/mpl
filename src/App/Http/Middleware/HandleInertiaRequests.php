@@ -40,6 +40,7 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             'auth' => function () {
                 $userOrAdmin = H::userOrAdmin();
+
                 return [
                     'user' => $userOrAdmin
                         ? array_merge($userOrAdmin->only([
