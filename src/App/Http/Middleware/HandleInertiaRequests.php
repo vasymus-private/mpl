@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use Domain\Products\DTOs\Admin\CategoryItemSidebarDTO;
+use Domain\Products\Models\Category;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Support\H;
@@ -59,6 +61,9 @@ class HandleInertiaRequests extends Middleware
                     'error' => $request->session()->get('error'),
                 ];
             },
+            'categoriesTree' => function() {
+                return Category::getTreeRuntimeCached()->map(fn (Category $category) => CategoryItemSidebarDTO::fromModel($category))->all();
+            }
         ]);
     }
 }

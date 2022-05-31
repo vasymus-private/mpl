@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Head title="Статьи" />
+        <Head title="Услуги" />
         <h1>Hello</h1>
     </div>
 </template>
@@ -15,7 +15,7 @@ export default {
         Head
     },
     props: {
-        articles: Array,
+        services: Array,
         auth: Object,
     },
     data() {
@@ -24,7 +24,7 @@ export default {
         }
     },
     created() {
-        console.log('--- articles', this.articles)
+        console.log('--- services', this.services)
         console.log('--- auth', this.auth)
     }
 }

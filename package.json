@@ -31,6 +31,7 @@
         "@fancyapps/fancybox": "^3.5.7",
         "@inertiajs/inertia": "^0.11.0",
         "@inertiajs/inertia-vue": "^0.8.0",
+        "bootstrap-vue": "^2.22.0",
         "ckeditor4": "^4.17.1",
         "include-media": "^1.4.10",
         "jquery": "^3.6.0",
