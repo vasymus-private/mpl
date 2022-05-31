@@ -6,14 +6,14 @@ import {BootstrapVue} from 'bootstrap-vue'
 
 
 createInertiaApp({
-    resolve: name => require(`./Pages/${name}`),
+    resolve: (name) => require(`./Pages/${name}`),
     setup({ el, App, props, plugin }) {
         Vue.use(plugin)
         Vue.use(ZiggyVue, Ziggy)
         Vue.use(BootstrapVue)
 
         new Vue({
-            render: h => h(App, props),
+            render: (h) => h(App, props),
         }).$mount(el)
     },
 })
