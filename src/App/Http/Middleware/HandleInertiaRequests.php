@@ -62,9 +62,9 @@ class HandleInertiaRequests extends Middleware
                     'error' => $request->session()->get('error'),
                 ];
             },
-            'categoriesTree' => function() {
+            'categoriesTree' => function () {
                 return Category::getTreeRuntimeCached()->map(fn (Category $category) => CategoryItemSidebarDTO::fromModel($category))->all();
-            }
+            },
         ]);
     }
 }
