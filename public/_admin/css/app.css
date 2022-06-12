@@ -10229,6 +10229,7 @@ body {
 }
 .table .form-check {
   padding-top: 16px;
+  margin: 0 -11px 0 -7px;
 }
 .table .form-check.no-margin {
   margin: 0;
@@ -10241,7 +10242,8 @@ body {
   text-decoration: none;
 }
 .table .dropdown {
-  margin: 10px 0;
+  margin: 10px -6px;
+  width: 14px;
 }
 .table .adm-list-table-icon {
   background: url(../images/icons-sprite-14.png) no-repeat center -1512px;
@@ -11391,6 +11393,7 @@ body {
 
 .block-pagination {
   margin: 10px 0 0;
+  max-width: 1347px;
 }
 .block-pagination__text {
   color: #3f4b54;
@@ -11558,8 +11561,17 @@ body {
   height: 21px;
   vertical-align: middle !important;
   padding: 6px 16px 4px;
-  font-size: 13px;
+  font-size: 11px;
   text-align: left;
+}
+.admin-edit-variations th:nth-child(2) {
+  width: 15px;
+}
+.admin-edit-variations th:nth-child(4) {
+  width: 185px;
+}
+.admin-edit-variations th:nth-child(9) {
+  width: 293px;
 }
 .admin-edit-variations td {
   background: #fff;
@@ -11570,6 +11582,9 @@ body {
   padding: 11px 0 10px 16px;
   text-align: left;
   vertical-align: middle;
+}
+.admin-edit-variations td:nth-child(2) {
+  width: 15px;
 }
 .admin-edit-variations tr:nth-child(odd) td {
   background-color: #f5f9f9;
