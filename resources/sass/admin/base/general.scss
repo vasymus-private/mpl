@@ -195,6 +195,7 @@ body {
 
     .form-check {
         padding-top: 16px;
+        margin: 0 -11px 0 -7px;
         &.no-margin {
             margin: 0;
         }
@@ -209,7 +210,8 @@ body {
     }
 
     .dropdown {
-        margin: 10px 0;
+        margin: 10px -6px;
+        width: 14px;
     }
 
     .adm-list-table-icon {

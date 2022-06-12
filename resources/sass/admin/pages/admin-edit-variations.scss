@@ -46,8 +46,19 @@
         height: 21px;
         vertical-align: middle !important;
         padding: 6px 16px 4px;
-        font-size: 13px;
+        font-size: 11px;
         text-align: left;
+        &:nth-child(2) {
+            width: 15px;
+        }
+
+        &:nth-child(4) {
+            width: 185px;
+        }
+
+        &:nth-child(9) {
+            width: 293px;
+        }
     }
 
     td {
@@ -59,6 +70,9 @@
         padding: 11px 0 10px 16px;
         text-align: left;
         vertical-align: middle;
+        &:nth-child(2) {
+            width: 15px;
+        }
     }
 
     tr {
