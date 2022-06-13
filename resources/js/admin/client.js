@@ -1,9 +1,8 @@
-import Vue from 'vue'
-import { createInertiaApp } from '@inertiajs/inertia-vue'
-import {ZiggyVue} from 'ziggy'
-import {Ziggy} from '@/helpers/ziggy'
-import {BootstrapVue} from 'bootstrap-vue'
-
+import Vue from "vue"
+import { createInertiaApp } from "@inertiajs/inertia-vue"
+import { ZiggyVue } from "ziggy"
+import { Ziggy } from "@/helpers/ziggy"
+import { BootstrapVue } from "bootstrap-vue"
 
 createInertiaApp({
     resolve: (name) => require(`./Pages/${name}`),
