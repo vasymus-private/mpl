@@ -1,25 +1,29 @@
 import Sortable from "sortablejs"
-;(() => {
-    let orderColumnsSortable = document.getElementById("order-columns-sortable")
-    if (!orderColumnsSortable) {
+
+function init(id) {
+    if (!document.getElementById(id)) {
         return
     }
-    new Sortable(orderColumnsSortable, {
+    new Sortable(document.getElementById(id), {
         animation: 150,
         ghostClass: "blue-background-class",
     })
 
-    window.getOrderColumnsSorted = () => {
+    window.getColumnsSorted = (id) => {
         let values = []
-        $(orderColumnsSortable)
+        $(document.getElementById(id))
             .children()
             .each((i, el) => {
                 let value = $(el).data("value")
+                let label = $(el).text()
                 if (!value) {
                     return
                 }
                 values = [...values, value]
             })
-        return values
+
+        return [...new Set(values)]
     }
-})()
+}
+
+export { init }

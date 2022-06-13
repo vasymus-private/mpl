@@ -3,20 +3,18 @@
 namespace App\Http\Livewire\Admin;
 
 use Carbon\Exceptions\InvalidFormatException;
-use Domain\Orders\Actions\GetDefaultAdminOrderColumnsAction;
-use Domain\Orders\Enums\OrderAdminColumn;
 use Domain\Orders\Models\Order;
 use Domain\Products\DTOs\Admin\OrderItemDTO;
 use Domain\Users\Models\BaseUser\BaseUser;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
-use Support\H;
 
 class OrdersList extends BaseItemsListComponent
 {
     use HasSelectAll;
     use HasManagers;
+    use HasSortableColumns;
 
     protected const DATE_FORMAT_DISPLAY = 'd-m-Y H:i:s';
 
@@ -58,9 +56,9 @@ class OrdersList extends BaseItemsListComponent
     public $request_query;
 
     /**
-     * @var \Domain\Orders\Enums\OrderAdminColumn[]
+     * @var bool
      */
-    public array $orderAdminColumns;
+    public $editMode = false;
 
     /**
      * @var array[] @see {@link \Domain\Products\DTOs\Admin\OrderItemDTO}
@@ -86,7 +84,7 @@ class OrdersList extends BaseItemsListComponent
         $this->mountPerPageOptions();
         $this->fetchItems();
         $this->initManagersOptions();
-        $this->orderAdminColumns = H::admin()->admin_order_columns;
+        $this->initOrdersAsSortableColumns();
     }
 
     public function render()
@@ -99,11 +97,6 @@ class OrdersList extends BaseItemsListComponent
                 $this->page
             ),
         ]);
-    }
-
-    public function hydrateOrderAdminColumns(array $value = [])
-    {
-        $this->orderAdminColumns = collect($value)->map(fn ($v) => OrderAdminColumn::from($v))->all();
     }
 
     public function clearFilters()
@@ -178,7 +171,7 @@ class OrdersList extends BaseItemsListComponent
      */
     protected function setItems(array $items)
     {
-        $this->items = collect($items)->map(fn (Order $order) => OrderItemDTO::fromModel($order)->toArray())->all();
+        $this->items = collect($items)->map(fn (Order $order) => OrderItemDTO::fromModel($order)->toArray())->keyBy('id')->all();
     }
 
     protected function mountRequest()
@@ -216,30 +209,26 @@ class OrdersList extends BaseItemsListComponent
      *
      * @return bool
      */
-    public function handleCustomizeOrderList(array $values)
+    public function handleCustomizeSortableList(array $values): bool
     {
-        $admin = H::admin();
-        if (count($values) !== count($admin->admin_order_columns)) {
-            return false;
-        }
-
-        $adminOrderColumns = collect($values)->map(fn ($value) => OrderAdminColumn::from($value))->all();
-        $admin->admin_order_columns = $adminOrderColumns;
-        $admin->save();
-
-        $this->orderAdminColumns = $adminOrderColumns;
-
-        return true;
+        return $this->customizeOrdersSortableList($values);
     }
 
-    public function handleDefaultOrderList()
+    /**
+     * @return bool
+     */
+    public function handleDefaultSortableList(): bool
     {
-        $admin = H::admin();
-        $adminOrderColumns = GetDefaultAdminOrderColumnsAction::cached()->execute();
-        $admin->admin_order_columns = $adminOrderColumns;
-        $admin->save();
-        $this->orderAdminColumns = $adminOrderColumns;
+        return $this->defaultOrdersSortableList();
+    }
 
-        return true;
+    public function deleteSelected()
+    {
+        // todo
+    }
+
+    public function handleDelete($id)
+    {
+        // todo
     }
 }

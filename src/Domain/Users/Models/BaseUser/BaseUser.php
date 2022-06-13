@@ -2,12 +2,12 @@
 
 namespace Domain\Users\Models\BaseUser;
 
+use Domain\Common\Enums\Column;
 use Domain\Common\Models\CommonTraits;
 use Domain\Orders\Actions\GetDefaultAdminOrderColumnsAction;
-use Domain\Orders\Enums\OrderAdminColumn;
 use Domain\Orders\Models\Order;
 use Domain\Products\Actions\GetDefaultAdminProductColumnsAction;
-use Domain\Products\Enums\ProductAdminColumn;
+use Domain\Products\Actions\GetDefaultAdminProductVariantColumnsAction;
 use Domain\Products\Models\Product\Product;
 use Domain\Services\Models\Service;
 use Domain\Users\Models\Pivots\ProductUserAside;
@@ -79,11 +79,15 @@ use Illuminate\Notifications\Notifiable;
  *
  * @see \Domain\Users\Models\BaseUser\BaseUser::getAdminOrderColumnsAttribute()
  * @see \Domain\Users\Models\BaseUser\BaseUser::setAdminOrderColumnsAttribute()
- * @property \Domain\Orders\Enums\OrderAdminColumn[] $admin_order_columns
+ * @property \Domain\Common\Enums\Column[] $admin_order_columns
  *
  * @see \Domain\Users\Models\BaseUser\BaseUser::getAdminProductColumnsAttribute()
  * @see \Domain\Users\Models\BaseUser\BaseUser::setAdminProductColumnsAttribute()
- * @property \Domain\Products\Enums\ProductAdminColumn[] $admin_product_columns
+ * @property \Domain\Common\Enums\Column[] $admin_product_columns
+ *
+ * @see \Domain\Users\Models\BaseUser\BaseUser::getAdminProductVariantColumnsAttribute()
+ * @see \Domain\Users\Models\BaseUser\BaseUser::setAdminProductVariantColumnsAttribute()
+ * @property \Domain\Common\Enums\Column[] $admin_product_variant_columns
  *
  * @method static \Domain\Users\QueryBuilders\UserQueryBuilder query()
  *
@@ -102,6 +106,10 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
 
     public const ADMIN_THRESHOLD = 5;
     public const SUPER_ADMIN = 10;
+
+    protected const SETTINGS_ADMIN_ORDER_COLUMNS = 'adminOrderColumns';
+    protected const SETTINGS_ADMIN_PRODUCT_COLUMNS = 'adminProductColumns';
+    protected const SETTINGS_ADMIN_PRODUCT_VARIANT_COLUMNS = 'adminProductVariantColumns';
 
     /**
      * The table associated with the model.
@@ -233,46 +241,71 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * @return \Domain\Orders\Enums\OrderAdminColumn[]
+     * @return \Domain\Common\Enums\Column[]
      */
     public function getAdminOrderColumnsAttribute(): array
     {
         $settings = $this->settings;
-        $adminOrderColumns = $settings['adminOrderColumns'] ?? GetDefaultAdminOrderColumnsAction::cached()->execute();
+        $adminOrderColumns = $settings[static::SETTINGS_ADMIN_ORDER_COLUMNS] ?? GetDefaultAdminOrderColumnsAction::cached()->execute();
 
-        return collect($adminOrderColumns)->map(fn ($value) => OrderAdminColumn::from($value))->all();
+        return collect($adminOrderColumns)->unique()->values()->map(fn ($value) => Column::from($value))->all();
     }
 
     /**
-     * @param \Domain\Orders\Enums\OrderAdminColumn[] $adminOrderColumns
+     * @param \Domain\Common\Enums\Column[] $adminOrderColumns
      *
      * @return void
      */
     public function setAdminOrderColumnsAttribute(array $adminOrderColumns): void
     {
         $settings = $this->settings;
-        $settings['adminOrderColumns'] = collect($adminOrderColumns)->map(fn (OrderAdminColumn $orderAdminColumn) => $orderAdminColumn->value)->all();
+        $settings[static::SETTINGS_ADMIN_ORDER_COLUMNS] = collect($adminOrderColumns)->map(fn (Column $orderAdminColumn) => $orderAdminColumn->value)->all();
         $this->settings = $settings;
     }
 
     /**
-     * @return \Domain\Products\Enums\ProductAdminColumn[]
+     * @return \Domain\Common\Enums\Column[]
      */
     public function getAdminProductColumnsAttribute(): array
     {
         $settings = $this->settings;
-        $adminProductColumns = $settings['adminProductColumns'] ?? GetDefaultAdminProductColumnsAction::cached()->execute();
+        $adminProductColumns = $settings[static::SETTINGS_ADMIN_PRODUCT_COLUMNS] ?? GetDefaultAdminProductColumnsAction::cached()->execute();
 
-        return collect($adminProductColumns)->map(fn ($value) => ProductAdminColumn::from($value))->all();
+        return collect($adminProductColumns)->unique()->values()->map(fn ($value) => Column::from($value))->all();
     }
 
     /**
-     * @param \Domain\Products\Enums\ProductAdminColumn[] $adminProductColumns
+     * @param \Domain\Common\Enums\Column[] $adminProductColumns
+     *
+     * @return void
      */
     public function setAdminProductColumnsAttribute(array $adminProductColumns): void
     {
         $settings = $this->settings;
-        $settings['adminProductColumns'] = collect($adminProductColumns)->map(fn (ProductAdminColumn $productAdminColumn) => $productAdminColumn->value)->all();
+        $settings[static::SETTINGS_ADMIN_PRODUCT_COLUMNS] = collect($adminProductColumns)->map(fn (Column $productAdminColumn) => $productAdminColumn->value)->all();
+        $this->settings = $settings;
+    }
+
+    /**
+     * @return \Domain\Common\Enums\Column[]
+     */
+    public function getAdminProductVariantColumnsAttribute(): array
+    {
+        $settings = $this->settings;
+        $adminProductVariantColumns = $settings[static::SETTINGS_ADMIN_PRODUCT_VARIANT_COLUMNS] ?? GetDefaultAdminProductVariantColumnsAction::cached()->execute();
+
+        return collect($adminProductVariantColumns)->unique()->values()->map(fn ($value) => Column::from($value))->all();
+    }
+
+    /**
+     * @param \Domain\Common\Enums\Column[] $adminProductVariantColumns
+     *
+     * @return void
+     */
+    public function setAdminProductVariantColumnsAttribute(array $adminProductVariantColumns): void
+    {
+        $settings = $this->settings;
+        $settings[static::SETTINGS_ADMIN_PRODUCT_VARIANT_COLUMNS] = collect($adminProductVariantColumns)->map(fn (Column $productVariantAdminColumn) => $productVariantAdminColumn->value)->all();
         $this->settings = $settings;
     }
 }

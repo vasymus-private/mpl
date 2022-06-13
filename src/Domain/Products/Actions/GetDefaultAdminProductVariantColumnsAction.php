@@ -5,7 +5,7 @@ namespace Domain\Products\Actions;
 use Domain\Common\Actions\BaseAction;
 use Domain\Common\Enums\Column;
 
-class GetDefaultAdminProductColumnsAction extends BaseAction
+class GetDefaultAdminProductVariantColumnsAction extends BaseAction
 {
     /**
      * @return \Domain\Common\Enums\Column[]
@@ -13,13 +13,16 @@ class GetDefaultAdminProductColumnsAction extends BaseAction
     public function execute(): array
     {
         return [
-            Column::ordering(),
             Column::name(),
             Column::active(),
-            Column::unit(),
+            Column::detailed_image(),
+            Column::additional_images(),
+            Column::ordering(),
             Column::price_purchase(),
+            Column::unit(),
+            Column::coefficient(),
+            Column::coefficient_description(),
             Column::price_retail(),
-            Column::admin_comment(),
             Column::availability(),
             Column::id(),
         ];
