@@ -4427,21 +4427,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @inertiajs/inertia-vue */ "./node_modules/@inertiajs/inertia-vue/dist/index.js");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 //
 //
 //
@@ -4682,8 +4679,119 @@ __webpack_require__.r(__webpack_exports__);
       return this.$page.props.categoriesTree;
     }
   },
+  created: function created() {
+    window._route = this.route;
+    console.log('---', this.categories);
+    window._test = this.getCategoryAndSubtreeIds;
+  },
+  data: function data() {
+    return {
+      cache: new Map()
+    };
+  },
   methods: {
-    isActive: function isActive() {}
+    isActive: function isActive(type) {
+      var id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+      switch (type) {
+        case 'categories-sub':
+        case 'categories':
+          {
+            if (!this.route().current('admin.products.*') && !this.route().current('admin.categories.*')) {
+              return false;
+            }
+
+            if (id === null) {
+              return true;
+            }
+
+            var categoryAndSubtreeIds = this.getCategoryAndSubtreeIds(id);
+
+            if (!categoryAndSubtreeIds) {
+              return false;
+            }
+
+            var categoryIdParam = +this.route().params.category_id;
+            return categoryAndSubtreeIds.includes(categoryIdParam);
+          }
+
+        case 'reference':
+          {
+            return this.route().current('admin.brands.*') || this.route().current('admin.articles.*') || this.route().current('admin.services.*') || this.route().current('admin.faq.*') || this.route().current('admin.contacts.*');
+          }
+
+        case 'reference-brands':
+          {
+            return this.route().current('admin.brands.*');
+          }
+
+        case 'reference-articles':
+          {
+            return this.route().current('admin.articles.*');
+          }
+
+        case 'reference-services':
+          {
+            return this.route().current('admin.services.*');
+          }
+
+        case 'reference-faq':
+          {
+            return this.route().current('admin.faq.*');
+          }
+
+        case 'reference-contacts':
+          {
+            return this.route().current('admin.contacts.*');
+          }
+
+        default:
+          {
+            return false;
+          }
+      }
+    },
+    getCategoryAndSubtreeIds: function getCategoryAndSubtreeIds(id) {
+      if (this.cache.get(id)) {
+        return this.cache.get(id);
+      }
+
+      var getCategoryAndSubcategoryCb = function getCategoryAndSubcategoryCb(categories, _id) {
+        for (var i = 0; i < categories.length; i++) {
+          if (categories[i].id === _id) {
+            return categories[i];
+          }
+
+          var res = getCategoryAndSubcategoryCb(categories[i].subcategories, _id);
+
+          if (res) {
+            return res;
+          }
+        }
+
+        return null;
+      };
+
+      var categoryAndSubcategories = getCategoryAndSubcategoryCb(this.$page.props.categoriesTree, id);
+
+      if (!categoryAndSubcategories) {
+        this.cache.set(id, null);
+        return this.cache.get(id);
+      }
+
+      var getIdsCb = function getIdsCb(acc, category) {
+        acc = [].concat(_toConsumableArray(acc), [category.id]);
+
+        for (var i = 0; i < category.subcategories.length; i++) {
+          acc = getIdsCb(acc, category.subcategories[i]);
+        }
+
+        return acc;
+      };
+
+      this.cache.set(id, getIdsCb([], categoryAndSubcategories));
+      return this.cache.get(id);
+    }
   }
 });
 
@@ -57528,7 +57636,6 @@ var render = function () {
     [
       _c(
         "nav",
-        { staticClass: "js-admin-sidbar" },
         [
           _c("b-nav", { tag: "ul", staticClass: "pt-3" }, [
             _c(
@@ -57566,7 +57673,11 @@ var render = function () {
                   {
                     tag: "ul",
                     staticClass: "nav",
-                    attrs: { tag: "ul", id: "categories" },
+                    attrs: {
+                      visible: _vm.isActive("categories"),
+                      tag: "ul",
+                      id: "categories",
+                    },
                   },
                   [
                     _c(
@@ -57598,7 +57709,11 @@ var render = function () {
                           {
                             tag: "ul",
                             staticClass: "nav",
-                            attrs: { tag: "ul", id: "categories-sub" },
+                            attrs: {
+                              visible: _vm.isActive("categories-sub"),
+                              tag: "ul",
+                              id: "categories-sub",
+                            },
                           },
                           [
                             _c("li", { staticClass: "nav-item" }, [
@@ -57677,6 +57792,10 @@ var render = function () {
                                       tag: "ul",
                                       staticClass: "nav",
                                       attrs: {
+                                        visible: _vm.isActive(
+                                          "categories",
+                                          category.id
+                                        ),
                                         tag: "ul",
                                         id: "categories-" + category.id,
                                       },
@@ -57780,6 +57899,10 @@ var render = function () {
                                                   tag: "ul",
                                                   staticClass: "nav",
                                                   attrs: {
+                                                    visible: _vm.isActive(
+                                                      "categories",
+                                                      subcategory1.id
+                                                    ),
                                                     tag: "ul",
                                                     id:
                                                       "categories-" +
@@ -57902,6 +58025,11 @@ var render = function () {
                                                               staticClass:
                                                                 "nav",
                                                               attrs: {
+                                                                visible:
+                                                                  _vm.isActive(
+                                                                    "categories",
+                                                                    subcategory2.id
+                                                                  ),
                                                                 tag: "ul",
                                                                 id:
                                                                   "categories-" +
@@ -58044,6 +58172,11 @@ var render = function () {
                                                                             "nav",
                                                                           attrs:
                                                                             {
+                                                                              visible:
+                                                                                _vm.isActive(
+                                                                                  "categories",
+                                                                                  subcategory3.id
+                                                                                ),
                                                                               tag: "ul",
                                                                               id:
                                                                                 "categories-" +
@@ -58178,7 +58311,11 @@ var render = function () {
                   {
                     tag: "ul",
                     staticClass: "nav",
-                    attrs: { tag: "ul", id: "reference" },
+                    attrs: {
+                      visible: _vm.isActive("reference"),
+                      tag: "ul",
+                      id: "reference",
+                    },
                   },
                   [
                     _c(
@@ -58191,12 +58328,12 @@ var render = function () {
                             directives: [
                               {
                                 name: "b-toggle",
-                                rawName: "v-b-toggle.reference-1",
-                                modifiers: { "reference-1": true },
+                                rawName: "v-b-toggle.reference-brands",
+                                modifiers: { "reference-brands": true },
                               },
                             ],
                             staticClass: "nav-link sub-level-1",
-                            attrs: { href: "#reference-1" },
+                            attrs: { href: "#reference-brands" },
                           },
                           [
                             _c("span", { staticClass: "adm-arrow-icon" }),
@@ -58216,7 +58353,11 @@ var render = function () {
                           {
                             tag: "ul",
                             staticClass: "nav",
-                            attrs: { tag: "ul", id: "reference-1" },
+                            attrs: {
+                              visible: _vm.isActive("reference-brands"),
+                              tag: "ul",
+                              id: "reference-brands",
+                            },
                           },
                           [
                             _c("li", { staticClass: "nav-item" }, [
@@ -58255,12 +58396,12 @@ var render = function () {
                             directives: [
                               {
                                 name: "b-toggle",
-                                rawName: "v-b-toggle.reference-2",
-                                modifiers: { "reference-2": true },
+                                rawName: "v-b-toggle.reference-articles",
+                                modifiers: { "reference-articles": true },
                               },
                             ],
                             staticClass: "nav-link sub-level-1",
-                            attrs: { href: "#reference-2" },
+                            attrs: { href: "#reference-articles" },
                           },
                           [
                             _c("span", { staticClass: "adm-arrow-icon" }),
@@ -58280,7 +58421,11 @@ var render = function () {
                           {
                             tag: "ul",
                             staticClass: "nav",
-                            attrs: { tag: "ul", id: "reference-2" },
+                            attrs: {
+                              visible: _vm.isActive("reference-articles"),
+                              tag: "ul",
+                              id: "reference-articles",
+                            },
                           },
                           [
                             _c(
@@ -58326,12 +58471,12 @@ var render = function () {
                             directives: [
                               {
                                 name: "b-toggle",
-                                rawName: "v-b-toggle.reference-3",
-                                modifiers: { "reference-3": true },
+                                rawName: "v-b-toggle.reference-services",
+                                modifiers: { "reference-services": true },
                               },
                             ],
                             staticClass: "nav-link sub-level-1",
-                            attrs: { href: "#reference-3" },
+                            attrs: { href: "#reference-services" },
                           },
                           [
                             _c("span", { staticClass: "adm-arrow-icon" }),
@@ -58351,7 +58496,11 @@ var render = function () {
                           {
                             tag: "ul",
                             staticClass: "nav",
-                            attrs: { tag: "ul", id: "reference-3" },
+                            attrs: {
+                              visible: _vm.isActive("reference-services"),
+                              tag: "ul",
+                              id: "reference-services",
+                            },
                           },
                           [
                             _c(
@@ -58397,55 +58546,12 @@ var render = function () {
                             directives: [
                               {
                                 name: "b-toggle",
-                                rawName: "v-b-toggle.reference-4",
-                                modifiers: { "reference-4": true },
+                                rawName: "v-b-toggle.reference-faq",
+                                modifiers: { "reference-faq": true },
                               },
                             ],
                             staticClass: "nav-link sub-level-1",
-                            attrs: { href: "#reference-4" },
-                          },
-                          [
-                            _c("span", { staticClass: "adm-arrow-icon" }),
-                            _vm._v(" "),
-                            _c("span", {
-                              staticClass: "adm-icon iblock_menu_icon_iblocks",
-                            }),
-                            _vm._v(" "),
-                            _c("span", { staticClass: "nav-link-text" }, [
-                              _vm._v("Отзывы о товарах и услугах"),
-                            ]),
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "b-collapse",
-                          {
-                            tag: "ul",
-                            staticClass: "nav",
-                            attrs: { tag: "ul", id: "reference-4" },
-                          },
-                          [_vm._m(1)]
-                        ),
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "li",
-                      { staticClass: "nav-item" },
-                      [
-                        _c(
-                          "a",
-                          {
-                            directives: [
-                              {
-                                name: "b-toggle",
-                                rawName: "v-b-toggle.reference-5",
-                                modifiers: { "reference-5": true },
-                              },
-                            ],
-                            staticClass: "nav-link sub-level-1",
-                            attrs: { href: "#reference-5" },
+                            attrs: { href: "#reference-faq" },
                           },
                           [
                             _c("span", { staticClass: "adm-arrow-icon" }),
@@ -58465,9 +58571,13 @@ var render = function () {
                           {
                             tag: "ul",
                             staticClass: "nav",
-                            attrs: { tag: "ul", id: "reference-5" },
+                            attrs: {
+                              visible: _vm.isActive("reference-faq"),
+                              tag: "ul",
+                              id: "reference-faq",
+                            },
                           },
-                          [_vm._m(2)]
+                          [_vm._m(1)]
                         ),
                       ],
                       1
@@ -58483,12 +58593,12 @@ var render = function () {
                             directives: [
                               {
                                 name: "b-toggle",
-                                rawName: "v-b-toggle.reference-6",
-                                modifiers: { "reference-6": true },
+                                rawName: "v-b-toggle.reference-contacts",
+                                modifiers: { "reference-contacts": true },
                               },
                             ],
                             staticClass: "nav-link sub-level-1",
-                            attrs: { href: "#reference-6" },
+                            attrs: { href: "#reference-contacts" },
                           },
                           [
                             _c("span", { staticClass: "adm-arrow-icon" }),
@@ -58508,9 +58618,13 @@ var render = function () {
                           {
                             tag: "ul",
                             staticClass: "nav",
-                            attrs: { tag: "ul", id: "reference-6" },
+                            attrs: {
+                              visible: _vm.isActive("reference-contacts"),
+                              tag: "ul",
+                              id: "reference-contacts",
+                            },
                           },
-                          [_vm._m(3)]
+                          [_vm._m(2)]
                         ),
                       ],
                       1
@@ -58558,7 +58672,7 @@ var render = function () {
                     staticClass: "nav",
                     attrs: { tag: "ul", id: "highload" },
                   },
-                  [_vm._m(4)]
+                  [_vm._m(3)]
                 ),
               ],
               1
@@ -58628,18 +58742,6 @@ var staticRenderFns = [
         ]),
       ]
     )
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item" }, [
-      _c("a", { staticClass: "nav-link sub-level-2", attrs: { href: "#" } }, [
-        _c("span", { staticClass: "adm-arrow-icon-dot" }),
-        _vm._v(" "),
-        _c("span", { staticClass: "nav-link-text" }, [_vm._v("Элементы")]),
-      ]),
-    ])
   },
   function () {
     var _vm = this

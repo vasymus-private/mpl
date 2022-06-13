@@ -1,6 +1,6 @@
 <template>
     <aside id="aside" class="sidebar-left" style="flex-basis: 330px">
-        <nav class="js-admin-sidbar">
+        <nav>
             <ul is="b-nav" class="pt-3">
                 <li class="nav-item">
                     <a href="#categories" v-b-toggle.categories class="nav-link">
@@ -8,7 +8,7 @@
                         <span class="adm-icon iblock_menu_icon_types"></span>
                         <span class="nav-link-text">Каталог товаров</span>
                     </a>
-                    <ul is="b-collapse" tag="ul" id="categories" class="nav">
+                    <ul is="b-collapse" :visible="isActive('categories')" tag="ul" id="categories" class="nav">
                         <li class="nav-item">
                             <a href="#categories-sub" v-b-toggle.categories-sub class="nav-link sub-level-1">
                                 <span class="adm-arrow-icon"></span>
@@ -17,7 +17,7 @@
                                     <span class="nav-link-text">Каталог товаров</span>
                                 </span>
                             </a>
-                            <ul is="b-collapse" tag="ul" id="categories-sub" class="nav">
+                            <ul is="b-collapse" :visible="isActive('categories-sub')" tag="ul" id="categories-sub" class="nav">
                                 <li class="nav-item">
                                     <a :href="route('admin.products.index')" class="nav-link sub-level-2">
                                         <span class="adm-arrow-icon-dot"></span>
@@ -32,7 +32,7 @@
                                             <span class="nav-link-text">{{category.name}}</span>
                                         </span>
                                     </a>
-                                    <ul is="b-collapse" tag="ul" :id="`categories-${category.id}`" class="nav">
+                                    <ul is="b-collapse" :visible="isActive('categories', category.id)" tag="ul" :id="`categories-${category.id}`" class="nav">
                                         <li class="nav-item">
                                             <a :href="route('admin.products.index', {category_id : category.id})" class="nav-link sub-level-3">
                                                 <span class="adm-arrow-icon-dot"></span>
@@ -51,7 +51,7 @@
                                                     <span class="nav-link-text">{{subcategory1.name}}</span>
                                                 </span>
                                             </a>
-                                            <ul is="b-collapse" tag="ul" :id="`categories-${subcategory1.id}`" class="nav">
+                                            <ul is="b-collapse" :visible="isActive('categories', subcategory1.id)" tag="ul" :id="`categories-${subcategory1.id}`" class="nav">
                                                 <li class="nav-item">
                                                     <a :href="route('admin.products.index', {category_id: subcategory1.id})" class="nav-link sub-level-4">
                                                         <span class="adm-arrow-icon-dot"></span>
@@ -70,7 +70,7 @@
                                                             <span class="nav-link-text">{{subcategory2.name}}</span>
                                                         </span>
                                                     </a>
-                                                    <ul is="b-collapse" tag="ul" :id="`categories-${subcategory2.id}`" class="nav">
+                                                    <ul is="b-collapse" :visible="isActive('categories', subcategory2.id)" tag="ul" :id="`categories-${subcategory2.id}`" class="nav">
                                                         <li class="nav-item">
                                                             <a :href="route('admin.products.index', {category_id: subcategory2.id})" class="nav-link sub-level-5">
                                                                 <span class="adm-arrow-icon-dot"></span>
@@ -87,7 +87,7 @@
                                                                 <span class="adm-icon iblock_menu_icon_sections"></span>
                                                                 <span class="nav-link-text">{{subcategory3.name}}</span>
                                                             </a>
-                                                            <ul is="b-collapse" tag="ul" :id="`categories-${subcategory3.id}`" class="nav">
+                                                            <ul is="b-collapse" :visible="isActive('categories', subcategory3.id)" tag="ul" :id="`categories-${subcategory3.id}`" class="nav">
                                                                 <li class="nav-item">
                                                                     <a :href="route('admin.products.index', {category_id: subcategory3.id})" class="nav-link sub-level-6">
                                                                         <span class="adm-arrow-icon-dot"></span>
@@ -113,14 +113,14 @@
                         <span class="adm-icon iblock_menu_icon_types"></span>
                         <span class="nav-link-text">Справочники</span>
                     </a>
-                    <ul is="b-collapse" tag="ul" id="reference" class="nav">
+                    <ul is="b-collapse" :visible="isActive('reference')" tag="ul" id="reference" class="nav">
                         <li class="nav-item">
-                            <a href="#reference-1" v-b-toggle.reference-1 class="nav-link sub-level-1">
+                            <a href="#reference-brands" v-b-toggle.reference-brands class="nav-link sub-level-1">
                                 <span class="adm-arrow-icon"></span>
                                 <span class="adm-icon iblock_menu_icon_iblocks"></span>
                                 <span class="nav-link-text">Производители</span>
                             </a>
-                            <ul is="b-collapse" tag="ul" id="reference-1" class="nav">
+                            <ul is="b-collapse" :visible="isActive('reference-brands')" tag="ul" id="reference-brands" class="nav">
                                 <li class="nav-item">
                                     <a :href="route('admin.brands.index')" class="nav-link sub-level-2">
                                         <span class="adm-arrow-icon-dot"></span>
@@ -130,12 +130,12 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="#reference-2" v-b-toggle.reference-2 class="nav-link sub-level-1">
+                            <a href="#reference-articles" v-b-toggle.reference-articles class="nav-link sub-level-1">
                                 <span class="adm-arrow-icon"></span>
                                 <span class="adm-icon iblock_menu_icon_iblocks"></span>
                                 <span class="nav-link-text">Статьи</span>
                             </a>
-                            <ul is="b-collapse" tag="ul" id="reference-2" class="nav">
+                            <ul is="b-collapse" :visible="isActive('reference-articles')" tag="ul" id="reference-articles" class="nav">
                                 <li class="nav-item">
                                     <Link :href="route('admin.articles.index')" class="nav-link sub-level-2">
                                         <span class="adm-arrow-icon-dot"></span>
@@ -145,12 +145,12 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="#reference-3" v-b-toggle.reference-3 class="nav-link sub-level-1">
+                            <a href="#reference-services" v-b-toggle.reference-services class="nav-link sub-level-1">
                                 <span class="adm-arrow-icon"></span>
                                 <span class="adm-icon iblock_menu_icon_iblocks"></span>
                                 <span class="nav-link-text">Услуги</span>
                             </a>
-                            <ul is="b-collapse" tag="ul" id="reference-3" class="nav">
+                            <ul is="b-collapse" :visible="isActive('reference-services')" tag="ul" id="reference-services" class="nav">
                                 <li class="nav-item">
                                     <Link :href="route('admin.services.index')" class="nav-link sub-level-2">
                                         <span class="adm-arrow-icon-dot"></span>
@@ -160,27 +160,12 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="#reference-4" v-b-toggle.reference-4 class="nav-link sub-level-1">
-                                <span class="adm-arrow-icon"></span>
-                                <span class="adm-icon iblock_menu_icon_iblocks"></span>
-                                <span class="nav-link-text">Отзывы о товарах и услугах</span>
-                            </a>
-                            <ul is="b-collapse" tag="ul" id="reference-4" class="nav">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link sub-level-2">
-                                        <span class="adm-arrow-icon-dot"></span>
-                                        <span class="nav-link-text">Элементы</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#reference-5" v-b-toggle.reference-5 class="nav-link sub-level-1">
+                            <a href="#reference-faq" v-b-toggle.reference-faq class="nav-link sub-level-1">
                                 <span class="adm-arrow-icon"></span>
                                 <span class="adm-icon iblock_menu_icon_iblocks"></span>
                                 <span class="nav-link-text">Вопрос-ответ</span>
                             </a>
-                            <ul is="b-collapse" tag="ul" id="reference-5" class="nav">
+                            <ul is="b-collapse" :visible="isActive('reference-faq')" tag="ul" id="reference-faq" class="nav">
                                 <li class="nav-item">
                                     <a href="#" class="nav-link sub-level-2">
                                         <span class="adm-arrow-icon-dot"></span>
@@ -190,12 +175,12 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="#reference-6" v-b-toggle.reference-6 class="nav-link sub-level-1">
+                            <a href="#reference-contacts" v-b-toggle.reference-contacts class="nav-link sub-level-1">
                                 <span class="adm-arrow-icon"></span>
                                 <span class="adm-icon iblock_menu_icon_iblocks"></span>
                                 <span class="nav-link-text">Контактные формы</span>
                             </a>
-                            <ul is="b-collapse" tag="ul" id="reference-6" class="nav">
+                            <ul is="b-collapse" :visible="isActive('reference-contacts')" tag="ul" id="reference-contacts" class="nav">
                                 <li class="nav-item">
                                     <a href="#" class="nav-link sub-level-2">
                                         <span class="adm-arrow-icon-dot"></span>
@@ -255,9 +240,107 @@ export default {
             return this.$page.props.categoriesTree
         }
     },
+    created() {
+        window._route = this.route
+        console.log('---', this.categories)
+        window._test = this.getCategoryAndSubtreeIds
+    },
+    data() {
+        return {
+            cache: new Map(),
+        }
+    },
     methods: {
-        isActive() {
+        isActive(type, id = null) {
+            switch (type) {
+                case 'categories-sub':
+                case 'categories': {
+                    if (!this.route().current('admin.products.*') && !this.route().current('admin.categories.*')) {
+                        return false
+                    }
 
+                    if (id === null) {
+                        return true;
+                    }
+
+                    let categoryAndSubtreeIds = this.getCategoryAndSubtreeIds(id)
+
+                    if (!categoryAndSubtreeIds) {
+                        return false
+                    }
+
+                    let categoryIdParam = +this.route().params.category_id
+
+                    return categoryAndSubtreeIds.includes(categoryIdParam)
+                }
+                case 'reference': {
+                    return this.route().current('admin.brands.*') ||
+                        this.route().current('admin.articles.*') ||
+                        this.route().current('admin.services.*') ||
+                        this.route().current('admin.faq.*') ||
+                        this.route().current('admin.contacts.*')
+                }
+                case 'reference-brands': {
+                    return this.route().current('admin.brands.*')
+                }
+                case 'reference-articles': {
+                    return this.route().current('admin.articles.*')
+                }
+                case 'reference-services': {
+                    return this.route().current('admin.services.*')
+                }
+                case 'reference-faq': {
+                    return this.route().current('admin.faq.*')
+                }
+                case 'reference-contacts': {
+                    return this.route().current('admin.contacts.*')
+                }
+                default: {
+                    return false
+                }
+            }
+        },
+        getCategoryAndSubtreeIds(id) {
+            if (this.cache.get(id)) {
+                return this.cache.get(id)
+            }
+
+            let getCategoryAndSubcategoryCb = (categories, _id) => {
+                for (let i = 0; i < categories.length; i++) {
+                    if (categories[i].id === _id) {
+                        return categories[i]
+                    }
+
+                    let res = getCategoryAndSubcategoryCb(categories[i].subcategories, _id)
+                    if (res) {
+                        return res
+                    }
+                }
+
+                return null
+            }
+
+            let categoryAndSubcategories = getCategoryAndSubcategoryCb(this.$page.props.categoriesTree, id)
+
+            if (!categoryAndSubcategories) {
+                this.cache.set(id, null)
+                return this.cache.get(id)
+            }
+
+            let getIdsCb = (acc, category) => {
+                acc = [...acc, category.id]
+                for (let i = 0; i < category.subcategories.length; i++) {
+                    acc = getIdsCb(acc, category.subcategories[i])
+                }
+                return acc
+            }
+
+            this.cache.set(
+                id,
+                getIdsCb([], categoryAndSubcategories)
+            )
+
+            return this.cache.get(id)
         }
     }
 }
