@@ -166,7 +166,6 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapAdminAjaxRoutes()
     {
         Route::prefix("admin-ajax")
-            ->name("admin-ajax.")
             ->middleware(['web', "auth:admin"])
             //->namespace($this->namespace)
             ->group(base_path('routes/admin-ajax.php'));

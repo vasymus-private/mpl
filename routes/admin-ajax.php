@@ -14,12 +14,14 @@
 /**
  * !!!
  * Prefix "admin-ajax"
- * Name "admin-ajax."
  * !!!
  * */
 
+use App\Constants;
 use Illuminate\Support\Facades\Route;
 
-Route::put('profiles/{admin}', [\App\Http\Controllers\Admin\Ajax\ProfileController::class, 'update'])->name('profile.update');
-Route::post('show-order-busy', \App\Http\Controllers\Admin\Ajax\ShowOrderBusyController::class)->name('show-order-busy');
-Route::post('ping-order-busy/{id}', \App\Http\Controllers\Admin\Ajax\PingOrderBusyController::class)->name('ping-order-busy');
+Route::put('profiles/{admin}', [\App\Http\Controllers\Admin\Ajax\ProfileController::class, 'update'])->name('admin-ajax.profile.update');
+Route::post('show-order-busy', \App\Http\Controllers\Admin\Ajax\ShowOrderBusyController::class)->name('admin-ajax.show-order-busy');
+Route::post('ping-order-busy/{id}', \App\Http\Controllers\Admin\Ajax\PingOrderBusyController::class)->name('admin-ajax.ping-order-busy');
+
+Route::put('sort-columns', \App\Http\Controllers\Admin\Ajax\Product\SortColumnsController::class)->name(Constants::ROUTE_ADMIN_AJAX_SORT_COLUMNS);

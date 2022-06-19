@@ -37,7 +37,7 @@ Route
         "temp-products",
         [ProductsController::class, "indexTemp"]
     )
-    ->name(Constants::ROUTE_TEMP_ADMIN_PRODUCTS_INDEX)
+    ->name(Constants::ROUTE_ADMIN_PRODUCTS_TEMP_INDEX)
 ;
 Route
     ::get(

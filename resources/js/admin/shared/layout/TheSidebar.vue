@@ -8,7 +8,7 @@
                         <span class="adm-icon iblock_menu_icon_types"></span>
                         <span class="nav-link-text">Каталог товаров</span>
                     </a>
-                    <ul is="b-collapse" :visible="isActive('categories')" tag="ul" id="categories" class="nav">
+                    <ul is="b-collapse" :visible="isActive(routeTypes.categories)" tag="ul" id="categories" class="nav">
                         <li class="nav-item">
                             <a href="#categories-sub" v-b-toggle.categories-sub class="nav-link sub-level-1">
                                 <span class="adm-arrow-icon"></span>
@@ -17,12 +17,12 @@
                                     <span class="nav-link-text">Каталог товаров</span>
                                 </span>
                             </a>
-                            <ul is="b-collapse" :visible="isActive('categories-sub')" tag="ul" id="categories-sub" class="nav">
+                            <ul is="b-collapse" :visible="isActive(routeTypes.categoriesSub)" tag="ul" id="categories-sub" class="nav">
                                 <li class="nav-item">
-                                    <a :href="route(routeNames.ROUTE_TEMP_ADMIN_PRODUCTS_INDEX)" class="nav-link sub-level-2">
+                                    <Link :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX)" class="nav-link sub-level-2">
                                         <span class="adm-arrow-icon-dot"></span>
                                         <span class="nav-link-text">Товары</span>
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li v-for="category in categories" class="nav-item">
                                     <a :href="`#categories-${category.id}`" v-b-toggle="`categories-${category.id}`" class="nav-link sub-level-2">
@@ -32,12 +32,12 @@
                                             <span class="nav-link-text">{{category.name}}</span>
                                         </span>
                                     </a>
-                                    <ul is="b-collapse" :visible="isActive('categories', category.id)" tag="ul" :id="`categories-${category.id}`" class="nav">
+                                    <ul is="b-collapse" :visible="isActive(routeTypes.categories, category.id)" tag="ul" :id="`categories-${category.id}`" class="nav">
                                         <li class="nav-item">
-                                            <a :href="route(routeNames.ROUTE_TEMP_ADMIN_PRODUCTS_INDEX, {category_id : category.id})" class="nav-link sub-level-3">
+                                            <Link :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id : category.id})" class="nav-link sub-level-3">
                                                 <span class="adm-arrow-icon-dot"></span>
                                                 <span class="nav-link-text">Товары</span>
-                                            </a>
+                                            </Link>
                                         </li>
                                         <li v-for="subcategory1 in category.subcategories" class="nav-item">
                                             <a
@@ -51,12 +51,12 @@
                                                     <span class="nav-link-text">{{subcategory1.name}}</span>
                                                 </span>
                                             </a>
-                                            <ul is="b-collapse" :visible="isActive('categories', subcategory1.id)" tag="ul" :id="`categories-${subcategory1.id}`" class="nav">
+                                            <ul is="b-collapse" :visible="isActive(routeTypes.categories, subcategory1.id)" tag="ul" :id="`categories-${subcategory1.id}`" class="nav">
                                                 <li class="nav-item">
-                                                    <a :href="route(routeNames.ROUTE_TEMP_ADMIN_PRODUCTS_INDEX, {category_id: subcategory1.id})" class="nav-link sub-level-4">
+                                                    <Link :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id: subcategory1.id})" class="nav-link sub-level-4">
                                                         <span class="adm-arrow-icon-dot"></span>
                                                         <span class="nav-link-text">Товары</span>
-                                                    </a>
+                                                    </Link>
                                                 </li>
                                                 <li v-for="subcategory2 in subcategory1.subcategories" class="nav-item">
                                                     <a
@@ -70,12 +70,12 @@
                                                             <span class="nav-link-text">{{subcategory2.name}}</span>
                                                         </span>
                                                     </a>
-                                                    <ul is="b-collapse" :visible="isActive('categories', subcategory2.id)" tag="ul" :id="`categories-${subcategory2.id}`" class="nav">
+                                                    <ul is="b-collapse" :visible="isActive(routeTypes.categories, subcategory2.id)" tag="ul" :id="`categories-${subcategory2.id}`" class="nav">
                                                         <li class="nav-item">
-                                                            <a :href="route(routeNames.ROUTE_TEMP_ADMIN_PRODUCTS_INDEX, {category_id: subcategory2.id})" class="nav-link sub-level-5">
+                                                            <Link :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id: subcategory2.id})" class="nav-link sub-level-5">
                                                                 <span class="adm-arrow-icon-dot"></span>
                                                                 <span class="nav-link-text">Товары</span>
-                                                            </a>
+                                                            </Link>
                                                         </li>
                                                         <li v-for="subcategory3 in subcategory2.subcategories" class="nav-item">
                                                             <a
@@ -87,12 +87,12 @@
                                                                 <span class="adm-icon iblock_menu_icon_sections"></span>
                                                                 <span class="nav-link-text">{{subcategory3.name}}</span>
                                                             </a>
-                                                            <ul is="b-collapse" :visible="isActive('categories', subcategory3.id)" tag="ul" :id="`categories-${subcategory3.id}`" class="nav">
+                                                            <ul is="b-collapse" :visible="isActive(routeTypes.categories, subcategory3.id)" tag="ul" :id="`categories-${subcategory3.id}`" class="nav">
                                                                 <li class="nav-item">
-                                                                    <a :href="route(routeNames.ROUTE_TEMP_ADMIN_PRODUCTS_INDEX, {category_id: subcategory3.id})" class="nav-link sub-level-6">
+                                                                    <Link :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id: subcategory3.id})" class="nav-link sub-level-6">
                                                                         <span class="adm-arrow-icon-dot"></span>
                                                                         <span class="nav-link-text">Товары</span>
-                                                                    </a>
+                                                                    </Link>
                                                                 </li>
                                                             </ul>
                                                         </li>
@@ -113,14 +113,14 @@
                         <span class="adm-icon iblock_menu_icon_types"></span>
                         <span class="nav-link-text">Справочники</span>
                     </a>
-                    <ul is="b-collapse" :visible="isActive('reference')" tag="ul" id="reference" class="nav">
+                    <ul is="b-collapse" :visible="isActive(routeTypes.reference)" tag="ul" id="reference" class="nav">
                         <li class="nav-item">
                             <a href="#reference-brands" v-b-toggle.reference-brands class="nav-link sub-level-1">
                                 <span class="adm-arrow-icon"></span>
                                 <span class="adm-icon iblock_menu_icon_iblocks"></span>
                                 <span class="nav-link-text">Производители</span>
                             </a>
-                            <ul is="b-collapse" :visible="isActive('reference-brands')" tag="ul" id="reference-brands" class="nav">
+                            <ul is="b-collapse" :visible="isActive(routeTypes.referenceBrands)" tag="ul" id="reference-brands" class="nav">
                                 <li class="nav-item">
                                     <a :href="route(routeNames.ROUTE_ADMIN_BRANDS_INDEX)" class="nav-link sub-level-2">
                                         <span class="adm-arrow-icon-dot"></span>
@@ -135,7 +135,7 @@
                                 <span class="adm-icon iblock_menu_icon_iblocks"></span>
                                 <span class="nav-link-text">Статьи</span>
                             </a>
-                            <ul is="b-collapse" :visible="isActive('reference-articles')" tag="ul" id="reference-articles" class="nav">
+                            <ul is="b-collapse" :visible="isActive(routeTypes.referenceArticles)" tag="ul" id="reference-articles" class="nav">
                                 <li class="nav-item">
                                     <Link :href="route(routeNames.ROUTE_ADMIN_ARTICLES_INDEX)" class="nav-link sub-level-2">
                                         <span class="adm-arrow-icon-dot"></span>
@@ -150,7 +150,7 @@
                                 <span class="adm-icon iblock_menu_icon_iblocks"></span>
                                 <span class="nav-link-text">Услуги</span>
                             </a>
-                            <ul is="b-collapse" :visible="isActive('reference-services')" tag="ul" id="reference-services" class="nav">
+                            <ul is="b-collapse" :visible="isActive(routeTypes.referenceServices)" tag="ul" id="reference-services" class="nav">
                                 <li class="nav-item">
                                     <Link :href="route(routeNames.ROUTE_ADMIN_SERVICES_INDEX)" class="nav-link sub-level-2">
                                         <span class="adm-arrow-icon-dot"></span>
@@ -165,7 +165,7 @@
                                 <span class="adm-icon iblock_menu_icon_iblocks"></span>
                                 <span class="nav-link-text">Вопрос-ответ</span>
                             </a>
-                            <ul is="b-collapse" :visible="isActive('reference-faq')" tag="ul" id="reference-faq" class="nav">
+                            <ul is="b-collapse" :visible="isActive(routeTypes.referenceFaq)" tag="ul" id="reference-faq" class="nav">
                                 <li class="nav-item">
                                     <a href="#" class="nav-link sub-level-2">
                                         <span class="adm-arrow-icon-dot"></span>
@@ -180,7 +180,7 @@
                                 <span class="adm-icon iblock_menu_icon_iblocks"></span>
                                 <span class="nav-link-text">Контактные формы</span>
                             </a>
-                            <ul is="b-collapse" :visible="isActive('reference-contacts')" tag="ul" id="reference-contacts" class="nav">
+                            <ul is="b-collapse" :visible="isActive(routeTypes.referenceContacts)" tag="ul" id="reference-contacts" class="nav">
                                 <li class="nav-item">
                                     <a href="#" class="nav-link sub-level-2">
                                         <span class="adm-arrow-icon-dot"></span>
@@ -252,13 +252,23 @@ export default {
     data() {
         return {
             cache: new Map(),
+            routeTypes: {
+                categoriesSub : 'categories-sub',
+                categories: 'categories',
+                reference: 'reference',
+                referenceBrands: 'reference-brands',
+                referenceArticles: 'reference-articles',
+                referenceServices: 'reference-services',
+                referenceFaq: 'reference-faq',
+                referenceContacts: 'reference-contacts',
+            },
         }
     },
     methods: {
         isActive(type, id = null) {
             switch (type) {
-                case 'categories-sub':
-                case 'categories': {
+                case this.routeTypes.categoriesSub:
+                case this.routeTypes.categories: {
                     if (!this.route().current('admin.products.*') && !this.route().current('admin.categories.*')) {
                         return false
                     }
@@ -277,26 +287,26 @@ export default {
 
                     return categoryAndSubtreeIds.includes(categoryIdParam)
                 }
-                case 'reference': {
+                case this.routeTypes.reference: {
                     return this.route().current('admin.brands.*') ||
                         this.route().current('admin.articles.*') ||
                         this.route().current('admin.services.*') ||
                         this.route().current('admin.faq.*') ||
                         this.route().current('admin.contacts.*')
                 }
-                case 'reference-brands': {
+                case this.routeTypes.referenceBrands: {
                     return this.route().current('admin.brands.*')
                 }
-                case 'reference-articles': {
+                case this.routeTypes.referenceArticles: {
                     return this.route().current('admin.articles.*')
                 }
-                case 'reference-services': {
+                case this.routeTypes.referenceServices: {
                     return this.route().current('admin.services.*')
                 }
-                case 'reference-faq': {
+                case this.routeTypes.referenceFaq: {
                     return this.route().current('admin.faq.*')
                 }
-                case 'reference-contacts': {
+                case this.routeTypes.referenceContacts: {
                     return this.route().current('admin.contacts.*')
                 }
                 default: {

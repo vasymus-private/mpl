@@ -30,9 +30,9 @@ final class Constants
     public const ROUTE_ADMIN_PRODUCTS_CREATE = 'admin.products.create';
     public const ROUTE_ADMIN_PRODUCTS_EDIT = 'admin.products.edit';
 
-    public const ROUTE_TEMP_ADMIN_PRODUCTS_INDEX = 'admin.temp.products.index';
-    public const ROUTE_TEMP_ADMIN_PRODUCTS_CREATE = 'admin.temp.products.create';
-    public const ROUTE_TEMP_ADMIN_PRODUCTS_EDIT = 'admin.temp.products.edit';
+    public const ROUTE_ADMIN_PRODUCTS_TEMP_INDEX = 'admin.products.temp.index';
+    public const ROUTE_ADMIN_PRODUCTS_TEMP_CREATE = 'admin.products.temp.create';
+    public const ROUTE_ADMIN_PRODUCTS_TEMP_EDIT = 'admin.products.temp.edit';
 
     public const ROUTE_ADMIN_CATEGORIES_INDEX = 'admin.categories.index';
     public const ROUTE_ADMIN_CATEGORIES_CREATE = 'admin.categories.create';
@@ -58,6 +58,8 @@ final class Constants
     public const ROUTE_ADMIN_EXPORT_PRODUCTS_SHOW = 'admin.export-products.show';
     public const ROUTE_ADMIN_EXPORT_PRODUCTS_STORE = 'admin.export-products.store';
     public const ROUTE_ADMIN_EXPORT_PRODUCTS_DELETE = 'admin.export-products.delete';
+
+    public const ROUTE_ADMIN_AJAX_SORT_COLUMNS = 'admin-ajax.sort-columns';
 
     public const MEDIA_DISK_PUBLIC = 'public';
     public const MEDIA_DISK_PRIVATE = 'private-media';

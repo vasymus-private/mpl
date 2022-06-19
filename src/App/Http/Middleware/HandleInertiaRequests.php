@@ -2,10 +2,12 @@
 
 namespace App\Http\Middleware;
 
+use Closure;
 use Domain\Products\DTOs\Admin\CategoryItemSidebarDTO;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use Inertia\Middleware;
 use Support\H;
 
@@ -30,6 +32,15 @@ class HandleInertiaRequests extends Middleware
     {
         return parent::version($request);
     }
+
+    public function handle(Request $request, Closure $next)
+    {
+        if (!Route::is('admin*')) {
+            return $next($request);
+        }
+        return parent::handle($request, $next);
+    }
+
 
     /**
      * Defines the props that are shared by default.
@@ -67,6 +78,9 @@ class HandleInertiaRequests extends Middleware
                 return Category::getTreeRuntimeCached()->map(fn (Category $category) => CategoryItemSidebarDTO::fromModel($category))->all();
             },
             'brandOptions' => Brand::getBrandOptions(),
+            'adminOrderColumns' => H::admin()->admin_order_columns_arr,
+            'adminProductColumns' => H::admin()->admin_product_columns_arr,
+            'adminProductVariantColumns' => H::admin()->admin_product_variant_columns_arr,
         ]);
     }
 }

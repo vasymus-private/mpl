@@ -12,9 +12,9 @@ export default {
                 ROUTE_ADMIN_PRODUCTS_CREATE: "admin.products.create",
                 ROUTE_ADMIN_PRODUCTS_EDIT: "admin.products.edit",
 
-                ROUTE_TEMP_ADMIN_PRODUCTS_INDEX: "admin.temp.products.index",
-                ROUTE_TEMP_ADMIN_PRODUCTS_CREATE: "admin.temp.products.create",
-                ROUTE_TEMP_ADMIN_PRODUCTS_EDIT: "admin.temp.products.edit",
+                ROUTE_ADMIN_PRODUCTS_TEMP_INDEX: "admin.products.temp.index",
+                ROUTE_ADMIN_PRODUCTS_TEMP_CREATE: "admin.products.temp.create",
+                ROUTE_ADMIN_PRODUCTS_TEMP_EDIT: "admin.products.temp.edit",
 
                 ROUTE_ADMIN_CATEGORIES_INDEX: "admin.categories.index",
                 ROUTE_ADMIN_CATEGORIES_CREATE: "admin.categories.create",
@@ -36,13 +36,12 @@ export default {
                 ROUTE_ADMIN_SERVICES_CREATE: "admin.services.create",
                 ROUTE_ADMIN_SERVICES_EDIT: "admin.services.edit",
 
-                ROUTE_ADMIN_EXPORT_PRODUCTS_INDEX:
-                    "admin.export-products.index",
+                ROUTE_ADMIN_EXPORT_PRODUCTS_INDEX: "admin.export-products.index",
                 ROUTE_ADMIN_EXPORT_PRODUCTS_SHOW: "admin.export-products.show",
-                ROUTE_ADMIN_EXPORT_PRODUCTS_STORE:
-                    "admin.export-products.store",
-                ROUTE_ADMIN_EXPORT_PRODUCTS_DELETE:
-                    "admin.export-products.delete",
+                ROUTE_ADMIN_EXPORT_PRODUCTS_STORE: "admin.export-products.store",
+                ROUTE_ADMIN_EXPORT_PRODUCTS_DELETE: "admin.export-products.delete",
+
+                ROUTE_ADMIN_AJAX_SORT_COLUMNS: 'admin-ajax.sort-columns',
             }
         },
     },
