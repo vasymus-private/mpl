@@ -72,7 +72,7 @@ class OptionDTO extends DataTransferObject
     {
         return new self([
             'value' => $availabilityStatus->id,
-            'label' => $availabilityStatus->name,
+            'label' => $availabilityStatus->formatted_short_name,
         ]);
     }
 
