@@ -45,10 +45,10 @@
             </div>
         </div>
 
-        <table class="table table-bordered table-hover" style="width: 3000px;">
+        <table class="table table-variants table-bordered table-hover" style="width: 1500px;">
             <thead>
                 <tr>
-                    <th>
+                    <th style="width: 10px;">
                         <div class="form-check form-check-inline">
                             <input
                                 x-bind:disabled="editMode || isCreatingFromCopy"
@@ -60,7 +60,7 @@
                     </th>
                     <th>&nbsp;</th>
                     @foreach($sortableColumns as $sortableColumn)
-                        <th wire:key="sortable-column-table-header-{{$sortableColumn->value}}" scope="col">{{$sortableColumn->label}}</th>
+                        <th wire:key="sortable-column-table-header-{{$sortableColumn->value}}" style="width: 10px;" scope="col">{{$sortableColumn->label}}</th>
                     @endforeach
                 </tr>
             </thead>

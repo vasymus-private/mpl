@@ -53,7 +53,7 @@
             </div>
         </div>
 
-        <table class="table table-bordered table-hover" style="width: 2000px;">
+        <table class="table table-bordered table-hover" style="width: 1338px;">
             <thead>
                 <tr>
                     <th wire:key="sortable-column-table-header-checkbox" scope="col">
@@ -65,7 +65,7 @@
                                 type="checkbox">
                         </div>
                     </th>
-                    <th wire:key="sortable-column-table-header-dropdown" scope="col"><span class="main-grid-head-title">&nbsp;</span></th>
+                    <th wire:key="sortable-column-table-header-dropdown" scope="col">&nbsp;</th>
                     @foreach($sortableColumns as $sortableColumn)
                         <th wire:key="sortable-column-table-header-{{$sortableColumn->value}}" scope="col">{{$sortableColumn->label}}</th>
                     @endforeach

@@ -51,7 +51,7 @@
                                 type="checkbox">
                         </div>
                     </th>
-                    <th scope="col"><span class="main-grid-head-title">&nbsp;</span></th>
+                    <th scope="col">&nbsp;</th>
                     <th scope="col">ID</th>
                     <th scope="col">Название</th>
                     <th scope="col">Сортировка</th>
