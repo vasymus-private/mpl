@@ -23,9 +23,9 @@ class ProductsController extends BaseAdminController
                 ->select(["*"])
                 ->notVariations()
                 ->orderByOrderingAndId()
-                ->when($request->category_id, fn(ProductQueryBuilder $query, int $categoryId) => $query->forMainAndRelatedCategories([$categoryId]))
-                ->when($request->brand_id, fn(ProductQueryBuilder $query, int $brandId) => $query->whereBrandId($brandId))
-                ->when($request->search, fn(ProductQueryBuilder $query, string $search) => $query->whereNameOrSlugLike($search))
+                ->when($request->category_id, fn (ProductQueryBuilder $query, int $categoryId) => $query->forMainAndRelatedCategories([$categoryId]))
+                ->when($request->brand_id, fn (ProductQueryBuilder $query, int $brandId) => $query->whereBrandId($brandId))
+                ->when($request->search, fn (ProductQueryBuilder $query, string $search) => $query->whereNameOrSlugLike($search))
                 ->paginate(),
         ]);
     }
