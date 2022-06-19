@@ -36,12 +36,15 @@ export default {
                 ROUTE_ADMIN_SERVICES_CREATE: "admin.services.create",
                 ROUTE_ADMIN_SERVICES_EDIT: "admin.services.edit",
 
-                ROUTE_ADMIN_EXPORT_PRODUCTS_INDEX: "admin.export-products.index",
+                ROUTE_ADMIN_EXPORT_PRODUCTS_INDEX:
+                    "admin.export-products.index",
                 ROUTE_ADMIN_EXPORT_PRODUCTS_SHOW: "admin.export-products.show",
-                ROUTE_ADMIN_EXPORT_PRODUCTS_STORE: "admin.export-products.store",
-                ROUTE_ADMIN_EXPORT_PRODUCTS_DELETE: "admin.export-products.delete",
+                ROUTE_ADMIN_EXPORT_PRODUCTS_STORE:
+                    "admin.export-products.store",
+                ROUTE_ADMIN_EXPORT_PRODUCTS_DELETE:
+                    "admin.export-products.delete",
 
-                ROUTE_ADMIN_AJAX_SORT_COLUMNS: 'admin-ajax.sort-columns',
+                ROUTE_ADMIN_AJAX_SORT_COLUMNS: "admin-ajax.sort-columns",
             }
         },
     },

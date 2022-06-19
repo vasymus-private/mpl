@@ -70,7 +70,7 @@ class SortColumnsController extends BaseAdminController
                 'adminOrderColumns' => H::admin()->admin_order_columns_arr,
                 'adminProductColumns' => H::admin()->admin_product_columns_arr,
                 'adminProductVariantColumns' => H::admin()->admin_product_variant_columns_arr,
-            ]
+            ],
         ];
     }
 }

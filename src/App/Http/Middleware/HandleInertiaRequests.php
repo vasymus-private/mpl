@@ -35,12 +35,12 @@ class HandleInertiaRequests extends Middleware
 
     public function handle(Request $request, Closure $next)
     {
-        if (!Route::is('admin*')) {
+        if (! Route::is('admin*')) {
             return $next($request);
         }
+
         return parent::handle($request, $next);
     }
-
 
     /**
      * Defines the props that are shared by default.
