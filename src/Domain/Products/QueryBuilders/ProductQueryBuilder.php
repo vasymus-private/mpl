@@ -89,7 +89,7 @@ class ProductQueryBuilder extends Builder
      */
     public function whereNameOrSlugLike(string $search): self
     {
-        return $this->where(function (Builder $query) use($search) {
+        return $this->where(function (Builder $query) use ($search) {
             return $query
                 ->where(
                     sprintf('%s.name', $this->table),
