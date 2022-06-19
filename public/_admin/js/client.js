@@ -4266,6 +4266,53 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/Pages/Products/Index.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/Pages/Products/Index.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @inertiajs/inertia-vue */ "./node_modules/@inertiajs/inertia-vue/dist/index.js");
+/* harmony import */ var _admin_shared_layout_TheLayout__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/admin/shared/layout/TheLayout */ "./resources/js/admin/shared/layout/TheLayout.vue");
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  layout: _admin_shared_layout_TheLayout__WEBPACK_IMPORTED_MODULE_1__["default"],
+  components: {
+    Head: _inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_0__.Head
+  },
+  props: {
+    productsPaginated: Object,
+    auth: Object
+  },
+  data: function data() {
+    return {};
+  },
+  computed: {
+    products: function products() {
+      return this.productsPaginated.data;
+    }
+  },
+  created: function created() {
+    console.log('--- productsPaginated', this.productsPaginated);
+    console.log('--- auth', this.auth);
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/Pages/Services/Index.vue?vue&type=script&lang=js&":
 /*!**********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/Pages/Services/Index.vue?vue&type=script&lang=js& ***!
@@ -4427,6 +4474,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @inertiajs/inertia-vue */ "./node_modules/@inertiajs/inertia-vue/dist/index.js");
+/* harmony import */ var _admin_mixins_routeNames__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/admin/mixins/routeNames */ "./resources/js/admin/mixins/routeNames.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -4670,10 +4718,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     Link: _inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_0__.Link
   },
+  mixins: [_admin_mixins_routeNames__WEBPACK_IMPORTED_MODULE_1__["default"]],
   computed: {
     categories: function categories() {
       return this.$page.props.categoriesTree;
@@ -4772,7 +4822,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         return null;
       };
 
-      var categoryAndSubcategories = getCategoryAndSubcategoryCb(this.$page.props.categoriesTree, id);
+      var categoryAndSubcategories = getCategoryAndSubcategoryCb(this.categories, id);
 
       if (!categoryAndSubcategories) {
         this.cache.set(id, null);
@@ -4791,6 +4841,58 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
       this.cache.set(id, getIdsCb([], categoryAndSubcategories));
       return this.cache.get(id);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/admin/mixins/routeNames.js":
+/*!*************************************************!*\
+  !*** ./resources/js/admin/mixins/routeNames.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  computed: {
+    routeNames: function routeNames() {
+      /**
+       * @see src/App/Constants.php
+       */
+      return {
+        ROUTE_ADMIN_HOME: 'admin.home',
+        ROUTE_ADMIN_MEDIA: 'admin.media',
+        ROUTE_ADMIN_PRODUCTS_INDEX: 'admin.products.index',
+        ROUTE_ADMIN_PRODUCTS_CREATE: 'admin.products.create',
+        ROUTE_ADMIN_PRODUCTS_EDIT: 'admin.products.edit',
+        ROUTE_TEMP_ADMIN_PRODUCTS_INDEX: 'admin.temp.products.index',
+        ROUTE_TEMP_ADMIN_PRODUCTS_CREATE: 'admin.temp.products.create',
+        ROUTE_TEMP_ADMIN_PRODUCTS_EDIT: 'admin.temp.products.edit',
+        ROUTE_ADMIN_CATEGORIES_INDEX: 'admin.categories.index',
+        ROUTE_ADMIN_CATEGORIES_CREATE: 'admin.categories.create',
+        ROUTE_ADMIN_CATEGORIES_EDIT: 'admin.categories.edit',
+        ROUTE_ADMIN_BRANDS_INDEX: 'admin.brands.index',
+        ROUTE_ADMIN_BRANDS_CREATE: 'admin.brands.create',
+        ROUTE_ADMIN_BRANDS_EDIT: 'admin.brands.edit',
+        ROUTE_ADMIN_ORDERS_INDEX: 'admin.orders.index',
+        ROUTE_ADMIN_ORDERS_CREATE: 'admin.orders.create',
+        ROUTE_ADMIN_ORDERS_EDIT: 'admin.orders.edit',
+        ROUTE_ADMIN_ARTICLES_INDEX: 'admin.articles.index',
+        ROUTE_ADMIN_ARTICLES_CREATE: 'admin.articles.create',
+        ROUTE_ADMIN_ARTICLES_EDIT: 'admin.articles.edit',
+        ROUTE_ADMIN_SERVICES_INDEX: 'admin.services.index',
+        ROUTE_ADMIN_SERVICES_CREATE: 'admin.services.create',
+        ROUTE_ADMIN_SERVICES_EDIT: 'admin.services.edit',
+        ROUTE_ADMIN_EXPORT_PRODUCTS_INDEX: 'admin.export-products.index',
+        ROUTE_ADMIN_EXPORT_PRODUCTS_SHOW: 'admin.export-products.show',
+        ROUTE_ADMIN_EXPORT_PRODUCTS_STORE: 'admin.export-products.store',
+        ROUTE_ADMIN_EXPORT_PRODUCTS_DELETE: 'admin.export-products.delete'
+      };
     }
   }
 });
@@ -4855,6 +4957,10 @@ var Ziggy = {
     },
     "admin.products.index": {
       "uri": "admin\/products",
+      "methods": ["GET", "HEAD"]
+    },
+    "admin.temp.products.index": {
+      "uri": "admin\/temp-products",
       "methods": ["GET", "HEAD"]
     },
     "admin.products.create": {
@@ -57069,6 +57175,45 @@ component.options.__file = "resources/js/admin/Pages/Articles/Index.vue"
 
 /***/ }),
 
+/***/ "./resources/js/admin/Pages/Products/Index.vue":
+/*!*****************************************************!*\
+  !*** ./resources/js/admin/Pages/Products/Index.vue ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Index_vue_vue_type_template_id_0dbc50f0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Index.vue?vue&type=template&id=0dbc50f0& */ "./resources/js/admin/Pages/Products/Index.vue?vue&type=template&id=0dbc50f0&");
+/* harmony import */ var _Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Index.vue?vue&type=script&lang=js& */ "./resources/js/admin/Pages/Products/Index.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Index_vue_vue_type_template_id_0dbc50f0___WEBPACK_IMPORTED_MODULE_0__.render,
+  _Index_vue_vue_type_template_id_0dbc50f0___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/admin/Pages/Products/Index.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/admin/Pages/Services/Index.vue":
 /*!*****************************************************!*\
   !*** ./resources/js/admin/Pages/Services/Index.vue ***!
@@ -57241,6 +57386,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/admin/Pages/Products/Index.vue?vue&type=script&lang=js&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/admin/Pages/Products/Index.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Index.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/Pages/Products/Index.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/admin/Pages/Services/Index.vue?vue&type=script&lang=js&":
 /*!******************************************************************************!*\
   !*** ./resources/js/admin/Pages/Services/Index.vue?vue&type=script&lang=js& ***!
@@ -57318,6 +57479,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_802652ee___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_802652ee___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Index.vue?vue&type=template&id=802652ee& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/Pages/Articles/Index.vue?vue&type=template&id=802652ee&");
+
+
+/***/ }),
+
+/***/ "./resources/js/admin/Pages/Products/Index.vue?vue&type=template&id=0dbc50f0&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/admin/Pages/Products/Index.vue?vue&type=template&id=0dbc50f0& ***!
+  \************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_0dbc50f0___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_0dbc50f0___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_0dbc50f0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Index.vue?vue&type=template&id=0dbc50f0& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/Pages/Products/Index.vue?vue&type=template&id=0dbc50f0&");
 
 
 /***/ }),
@@ -57410,6 +57588,39 @@ var render = function () {
     "div",
     [
       _c("Head", { attrs: { title: "Статьи" } }),
+      _vm._v(" "),
+      _c("h1", [_vm._v("Hello")]),
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/Pages/Products/Index.vue?vue&type=template&id=0dbc50f0&":
+/*!***************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/admin/Pages/Products/Index.vue?vue&type=template&id=0dbc50f0& ***!
+  \***************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("Head", { attrs: { title: "Товары" } }),
       _vm._v(" "),
       _c("h1", [_vm._v("Hello")]),
     ],
@@ -57722,7 +57933,10 @@ var render = function () {
                                 {
                                   staticClass: "nav-link sub-level-2",
                                   attrs: {
-                                    href: _vm.route("admin.products.index"),
+                                    href: _vm.route(
+                                      _vm.routeNames
+                                        .ROUTE_TEMP_ADMIN_PRODUCTS_INDEX
+                                    ),
                                   },
                                 },
                                 [
@@ -57808,7 +58022,8 @@ var render = function () {
                                             staticClass: "nav-link sub-level-3",
                                             attrs: {
                                               href: _vm.route(
-                                                "admin.products.index",
+                                                _vm.routeNames
+                                                  .ROUTE_TEMP_ADMIN_PRODUCTS_INDEX,
                                                 { category_id: category.id }
                                               ),
                                             },
@@ -57921,7 +58136,8 @@ var render = function () {
                                                             "nav-link sub-level-4",
                                                           attrs: {
                                                             href: _vm.route(
-                                                              "admin.products.index",
+                                                              _vm.routeNames
+                                                                .ROUTE_TEMP_ADMIN_PRODUCTS_INDEX,
                                                               {
                                                                 category_id:
                                                                   subcategory1.id,
@@ -58051,7 +58267,9 @@ var render = function () {
                                                                         "nav-link sub-level-5",
                                                                       attrs: {
                                                                         href: _vm.route(
-                                                                          "admin.products.index",
+                                                                          _vm
+                                                                            .routeNames
+                                                                            .ROUTE_TEMP_ADMIN_PRODUCTS_INDEX,
                                                                           {
                                                                             category_id:
                                                                               subcategory2.id,
@@ -58199,7 +58417,9 @@ var render = function () {
                                                                                   attrs:
                                                                                     {
                                                                                       href: _vm.route(
-                                                                                        "admin.products.index",
+                                                                                        _vm
+                                                                                          .routeNames
+                                                                                          .ROUTE_TEMP_ADMIN_PRODUCTS_INDEX,
                                                                                         {
                                                                                           category_id:
                                                                                             subcategory3.id,
@@ -58366,7 +58586,9 @@ var render = function () {
                                 {
                                   staticClass: "nav-link sub-level-2",
                                   attrs: {
-                                    href: _vm.route("admin.brands.index"),
+                                    href: _vm.route(
+                                      _vm.routeNames.ROUTE_ADMIN_BRANDS_INDEX
+                                    ),
                                   },
                                 },
                                 [
@@ -58437,7 +58659,10 @@ var render = function () {
                                   {
                                     staticClass: "nav-link sub-level-2",
                                     attrs: {
-                                      href: _vm.route("admin.articles.index"),
+                                      href: _vm.route(
+                                        _vm.routeNames
+                                          .ROUTE_ADMIN_ARTICLES_INDEX
+                                      ),
                                     },
                                   },
                                   [
@@ -58512,7 +58737,10 @@ var render = function () {
                                   {
                                     staticClass: "nav-link sub-level-2",
                                     attrs: {
-                                      href: _vm.route("admin.services.index"),
+                                      href: _vm.route(
+                                        _vm.routeNames
+                                          .ROUTE_ADMIN_SERVICES_INDEX
+                                      ),
                                     },
                                   },
                                   [
@@ -58683,7 +58911,9 @@ var render = function () {
                 "a",
                 {
                   staticClass: "nav-link",
-                  attrs: { href: _vm.route("admin.orders.index") },
+                  attrs: {
+                    href: _vm.route(_vm.routeNames.ROUTE_ADMIN_ORDERS_INDEX),
+                  },
                 },
                 [
                   _c("span", { staticStyle: { width: "20px" } }),
@@ -58704,7 +58934,11 @@ var render = function () {
                 "a",
                 {
                   staticClass: "nav-link",
-                  attrs: { href: _vm.route("admin.export-products.index") },
+                  attrs: {
+                    href: _vm.route(
+                      _vm.routeNames.ROUTE_ADMIN_EXPORT_PRODUCTS_INDEX
+                    ),
+                  },
                 },
                 [
                   _c("span", { staticStyle: { width: "20px" } }),
@@ -70952,6 +71186,8 @@ Vue.compile = compileToFunctions;
 var map = {
 	"./Articles/Index": "./resources/js/admin/Pages/Articles/Index.vue",
 	"./Articles/Index.vue": "./resources/js/admin/Pages/Articles/Index.vue",
+	"./Products/Index": "./resources/js/admin/Pages/Products/Index.vue",
+	"./Products/Index.vue": "./resources/js/admin/Pages/Products/Index.vue",
 	"./Services/Index": "./resources/js/admin/Pages/Services/Index.vue",
 	"./Services/Index.vue": "./resources/js/admin/Pages/Services/Index.vue"
 };

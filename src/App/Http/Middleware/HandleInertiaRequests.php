@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Domain\Products\DTOs\Admin\CategoryItemSidebarDTO;
+use Domain\Products\Models\Brand;
 use Domain\Products\Models\Category;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -65,6 +66,7 @@ class HandleInertiaRequests extends Middleware
             'categoriesTree' => function () {
                 return Category::getTreeRuntimeCached()->map(fn (Category $category) => CategoryItemSidebarDTO::fromModel($category))->all();
             },
+            'brandOptions' => Brand::getBrandOptions(),
         ]);
     }
 }

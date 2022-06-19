@@ -3,12 +3,14 @@
 namespace Domain\Products\Models;
 
 use Carbon\Carbon;
+use Domain\Common\DTOs\OptionDTO;
 use Domain\Common\Models\BaseModel;
 use Domain\Products\Models\Product\Product;
 use Domain\Seo\Models\Seo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -85,7 +87,16 @@ class Brand extends BaseModel implements HasMedia
     {
         $this
             ->addMediaCollection(static::MC_MAIN_IMAGE)
-            ->singleFile()
-        ;
+            ->singleFile();
+    }
+
+    /**
+     * @return \Domain\Common\DTOs\OptionDTO[]
+     */
+    public static function getBrandOptions(): array
+    {
+        return Cache::store('array')->rememberForever('options-brands', function () {
+            return Brand::query()->select(["id", "name"])->get()->map(fn (Brand $brand) => OptionDTO::fromBrand($brand)->toArray())->all();
+        });
     }
 }

@@ -71,4 +71,48 @@ class ProductQueryBuilder extends Builder
                 });
         });
     }
+
+    /**
+     * @param int $brandId
+     *
+     * @return $this
+     */
+    public function whereBrandId(int $brandId): self
+    {
+        return $this->where(sprintf('%s.brand_id', $this->table), $brandId);
+    }
+
+    /**
+     * @param string $search
+     *
+     * @return $this
+     */
+    public function whereNameOrSlugLike(string $search): self
+    {
+        return $this->where(function (Builder $query) use($search) {
+            return $query
+                ->where(
+                    sprintf('%s.name', $this->table),
+                    'LIKE',
+                    "%{$search}%"
+                )
+                ->orWhere(
+                    sprintf('%s.slug', $this->table),
+                    'LIKE',
+                    "%{$search}%"
+                );
+        });
+    }
+
+    /**
+     * @param string $direction
+     *
+     * @return $this
+     */
+    public function orderByOrderingAndId(string $direction = 'asc'): self
+    {
+        return $this
+            ->orderBy(sprintf('%s.ordering', $this->table), $direction)
+            ->orderBy(sprintf('%s.id', $this->table), $direction);
+    }
 }

@@ -189,12 +189,10 @@ class ProductsList extends BaseItemsListComponent
      */
     protected function getItemsQuery(): Builder
     {
-        $table = Product::TABLE;
         $query = Product::query()
             ->select(["*"])
             ->notVariations()
-            ->orderBy(sprintf('%s.ordering', $table))
-            ->orderBy(sprintf('%s.id', $table));
+            ->orderByOrderingAndId();
 
         if ($this->category_id) {
             $category = Category::query()->findOrFail($this->category_id);
@@ -205,15 +203,11 @@ class ProductsList extends BaseItemsListComponent
         if ($this->brand_id) {
             $brand = Brand::query()->findOrFail($this->brand_id);
             $this->brand_name = $brand->name;
-            $query->where("$table.brand_id", $this->brand_id);
+            $query->whereBrandId($this->brand_id);
         }
 
         if ($this->search) {
-            $query->where(function (Builder $query) use ($table) {
-                $query
-                    ->where("$table.name", "LIKE", "%{$this->search}%")
-                    ->orWhere("$table.slug", "LIKE", "%{$this->search}%");
-            });
+            $query->whereNameOrSlugLike($this->search);
         }
 
         return $query;

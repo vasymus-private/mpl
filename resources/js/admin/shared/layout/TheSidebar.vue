@@ -19,7 +19,7 @@
                             </a>
                             <ul is="b-collapse" :visible="isActive('categories-sub')" tag="ul" id="categories-sub" class="nav">
                                 <li class="nav-item">
-                                    <a :href="route('admin.products.index')" class="nav-link sub-level-2">
+                                    <a :href="route(routeNames.ROUTE_TEMP_ADMIN_PRODUCTS_INDEX)" class="nav-link sub-level-2">
                                         <span class="adm-arrow-icon-dot"></span>
                                         <span class="nav-link-text">Товары</span>
                                     </a>
@@ -34,7 +34,7 @@
                                     </a>
                                     <ul is="b-collapse" :visible="isActive('categories', category.id)" tag="ul" :id="`categories-${category.id}`" class="nav">
                                         <li class="nav-item">
-                                            <a :href="route('admin.products.index', {category_id : category.id})" class="nav-link sub-level-3">
+                                            <a :href="route(routeNames.ROUTE_TEMP_ADMIN_PRODUCTS_INDEX, {category_id : category.id})" class="nav-link sub-level-3">
                                                 <span class="adm-arrow-icon-dot"></span>
                                                 <span class="nav-link-text">Товары</span>
                                             </a>
@@ -53,7 +53,7 @@
                                             </a>
                                             <ul is="b-collapse" :visible="isActive('categories', subcategory1.id)" tag="ul" :id="`categories-${subcategory1.id}`" class="nav">
                                                 <li class="nav-item">
-                                                    <a :href="route('admin.products.index', {category_id: subcategory1.id})" class="nav-link sub-level-4">
+                                                    <a :href="route(routeNames.ROUTE_TEMP_ADMIN_PRODUCTS_INDEX, {category_id: subcategory1.id})" class="nav-link sub-level-4">
                                                         <span class="adm-arrow-icon-dot"></span>
                                                         <span class="nav-link-text">Товары</span>
                                                     </a>
@@ -72,7 +72,7 @@
                                                     </a>
                                                     <ul is="b-collapse" :visible="isActive('categories', subcategory2.id)" tag="ul" :id="`categories-${subcategory2.id}`" class="nav">
                                                         <li class="nav-item">
-                                                            <a :href="route('admin.products.index', {category_id: subcategory2.id})" class="nav-link sub-level-5">
+                                                            <a :href="route(routeNames.ROUTE_TEMP_ADMIN_PRODUCTS_INDEX, {category_id: subcategory2.id})" class="nav-link sub-level-5">
                                                                 <span class="adm-arrow-icon-dot"></span>
                                                                 <span class="nav-link-text">Товары</span>
                                                             </a>
@@ -89,7 +89,7 @@
                                                             </a>
                                                             <ul is="b-collapse" :visible="isActive('categories', subcategory3.id)" tag="ul" :id="`categories-${subcategory3.id}`" class="nav">
                                                                 <li class="nav-item">
-                                                                    <a :href="route('admin.products.index', {category_id: subcategory3.id})" class="nav-link sub-level-6">
+                                                                    <a :href="route(routeNames.ROUTE_TEMP_ADMIN_PRODUCTS_INDEX, {category_id: subcategory3.id})" class="nav-link sub-level-6">
                                                                         <span class="adm-arrow-icon-dot"></span>
                                                                         <span class="nav-link-text">Товары</span>
                                                                     </a>
@@ -122,7 +122,7 @@
                             </a>
                             <ul is="b-collapse" :visible="isActive('reference-brands')" tag="ul" id="reference-brands" class="nav">
                                 <li class="nav-item">
-                                    <a :href="route('admin.brands.index')" class="nav-link sub-level-2">
+                                    <a :href="route(routeNames.ROUTE_ADMIN_BRANDS_INDEX)" class="nav-link sub-level-2">
                                         <span class="adm-arrow-icon-dot"></span>
                                         <span class="nav-link-text">Элементы</span>
                                     </a>
@@ -137,7 +137,7 @@
                             </a>
                             <ul is="b-collapse" :visible="isActive('reference-articles')" tag="ul" id="reference-articles" class="nav">
                                 <li class="nav-item">
-                                    <Link :href="route('admin.articles.index')" class="nav-link sub-level-2">
+                                    <Link :href="route(routeNames.ROUTE_ADMIN_ARTICLES_INDEX)" class="nav-link sub-level-2">
                                         <span class="adm-arrow-icon-dot"></span>
                                         <span class="nav-link-text">Элементы</span>
                                     </Link>
@@ -152,7 +152,7 @@
                             </a>
                             <ul is="b-collapse" :visible="isActive('reference-services')" tag="ul" id="reference-services" class="nav">
                                 <li class="nav-item">
-                                    <Link :href="route('admin.services.index')" class="nav-link sub-level-2">
+                                    <Link :href="route(routeNames.ROUTE_ADMIN_SERVICES_INDEX)" class="nav-link sub-level-2">
                                         <span class="adm-arrow-icon-dot"></span>
                                         <span class="nav-link-text">Элементы</span>
                                     </Link>
@@ -209,7 +209,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a :href="route('admin.orders.index')" class="nav-link">
+                    <a :href="route(routeNames.ROUTE_ADMIN_ORDERS_INDEX)" class="nav-link">
                         <span style="width: 20px;"></span>
                         <span class="adm-icon iblock_menu_icon_types"></span>
                         <span class="nav-link-text">Заказы</span>
@@ -217,7 +217,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a :href="route('admin.export-products.index')" class="nav-link">
+                    <a :href="route(routeNames.ROUTE_ADMIN_EXPORT_PRODUCTS_INDEX)" class="nav-link">
                         <span style="width: 20px;"></span>
                         <span class="adm-icon iblock_menu_icon_types"></span>
                         <span class="nav-link-text">Экспорт</span>
@@ -230,11 +230,15 @@
 
 <script>
 import { Link } from '@inertiajs/inertia-vue'
+import routeNames from "@/admin/mixins/routeNames";
 
 export default {
     components: {
         Link
     },
+    mixins: [
+        routeNames,
+    ],
     computed: {
         categories() {
             return this.$page.props.categoriesTree
@@ -320,7 +324,7 @@ export default {
                 return null
             }
 
-            let categoryAndSubcategories = getCategoryAndSubcategoryCb(this.$page.props.categoriesTree, id)
+            let categoryAndSubcategories = getCategoryAndSubcategoryCb(this.categories, id)
 
             if (!categoryAndSubcategories) {
                 this.cache.set(id, null)

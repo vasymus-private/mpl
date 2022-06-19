@@ -34,6 +34,13 @@ Route
 ;
 Route
     ::get(
+        "temp-products",
+        [ProductsController::class, "indexTemp"]
+    )
+    ->name(Constants::ROUTE_TEMP_ADMIN_PRODUCTS_INDEX)
+;
+Route
+    ::get(
         "products/create",
         [ProductsController::class, "create"]
     )

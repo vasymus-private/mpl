@@ -91,6 +91,7 @@
             "@php artisan key:generate --ansi"
         ],
         "format": "vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php --allow-risky=yes",
-        "analyse": "vendor/bin/phpstan analyse --memory-limit=2G"
+        "analyse": "vendor/bin/phpstan analyse --memory-limit=2G",
+        "ziggy-routes": "php artisan ziggy:generate ./resources/js/helpers/ziggy.js"
     }
 }
