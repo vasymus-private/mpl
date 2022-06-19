@@ -90,10 +90,10 @@ class Column extends Enum
             'price_retail' => 'Розничная',
             'admin_comment' => 'Служебная Информация',
             'availability' => 'Наличие',
-            'active' => 'Активность',
+            'active' => 'Акт-ть',
             'detailed_image' => 'Детальная картинка',
             'additional_images' => 'Дополнительные фото',
-            'ordering' => 'Сортировка',
+            'ordering' => 'Сорт-ка',
             'coefficient' => 'Коэффициент',
             'coefficient_description' => 'Описание коэффициента',
         ];

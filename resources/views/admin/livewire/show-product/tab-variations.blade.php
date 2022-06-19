@@ -45,7 +45,7 @@
             </div>
         </div>
 
-        <table class="table table-bordered table-hover">
+        <table class="table table-variants table-bordered table-hover" style="width: 1500px;">
             <thead>
                 <tr>
                     <th style="width: 10px;">
