@@ -5,103 +5,103 @@ export default {
              * @see src/Domain/Common/Enums/Column.php
              */
             columnNames: {
-                'id' : {
+                id: {
                     value: 1,
-                    label: 'ID',
+                    label: "ID",
                 },
-                'name' : {
+                name: {
                     value: 2,
-                    label: 'Имя',
+                    label: "Имя",
                 },
-                'date_creation' : {
+                date_creation: {
                     value: 3,
-                    label: 'Дата создания',
+                    label: "Дата создания",
                 },
-                'status' : {
+                status: {
                     value: 4,
-                    label: 'Статус',
+                    label: "Статус",
                 },
-                'positions' : {
+                positions: {
                     value: 5,
-                    label: 'Позиции',
+                    label: "Позиции",
                 },
-                'comment_admin' : {
+                comment_admin: {
                     value: 6,
-                    label: 'Комментарии',
+                    label: "Комментарии",
                 },
-                'importance' : {
+                importance: {
                     value: 7,
-                    label: 'Важность',
+                    label: "Важность",
                 },
-                'manager' : {
+                manager: {
                     value: 8,
-                    label: 'Менеджер',
+                    label: "Менеджер",
                 },
-                'sum' : {
+                sum: {
                     value: 9,
-                    label: 'Сумма',
+                    label: "Сумма",
                 },
-                'phone' : {
+                phone: {
                     value: 10,
-                    label: 'Телефон',
+                    label: "Телефон",
                 },
-                'email' : {
+                email: {
                     value: 11,
-                    label: 'Email',
+                    label: "Email",
                 },
-                'comment_user' : {
+                comment_user: {
                     value: 12,
-                    label: 'Комментарий покупателя',
+                    label: "Комментарий покупателя",
                 },
-                'payment_method' : {
+                payment_method: {
                     value: 13,
-                    label: 'Платежная система',
+                    label: "Платежная система",
                 },
-                'unit' : {
+                unit: {
                     value: 14,
-                    label: 'Упаковка',
+                    label: "Упаковка",
                 },
-                'price_purchase' : {
+                price_purchase: {
                     value: 15,
-                    label: 'Закупочная',
+                    label: "Закупочная",
                 },
-                'price_retail' : {
+                price_retail: {
                     value: 16,
-                    label: 'Розничная',
+                    label: "Розничная",
                 },
-                'admin_comment' : {
+                admin_comment: {
                     value: 17,
-                    label: 'Служебная Информация',
+                    label: "Служебная Информация",
                 },
-                'availability' : {
+                availability: {
                     value: 18,
-                    label: 'Наличие',
+                    label: "Наличие",
                 },
-                'active' : {
+                active: {
                     value: 19,
-                    label: 'Акт-ть',
+                    label: "Акт-ть",
                 },
-                'detailed_image' : {
+                detailed_image: {
                     value: 20,
-                    label: 'Детальная картинка',
+                    label: "Детальная картинка",
                 },
-                'additional_images' : {
+                additional_images: {
                     value: 21,
-                    label: 'Дополнительные фото',
+                    label: "Дополнительные фото",
                 },
-                'ordering' : {
+                ordering: {
                     value: 22,
-                    label: 'Сорт-ка',
+                    label: "Сорт-ка",
                 },
-                'coefficient' : {
+                coefficient: {
                     value: 23,
-                    label: 'Коэффициент',
+                    label: "Коэффициент",
                 },
-                'coefficient_description' : {
+                coefficient_description: {
                     value: 24,
-                    label: 'Описание коэффициента',
+                    label: "Описание коэффициента",
                 },
-            }
+            },
         }
-    }
+    },
 }
