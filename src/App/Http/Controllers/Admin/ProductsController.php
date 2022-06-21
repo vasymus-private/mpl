@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Domain\Common\Enums\Column;
 use Domain\Products\Models\Product\Product;
 use Domain\Products\QueryBuilders\ProductQueryBuilder;
 use Illuminate\Http\Request;

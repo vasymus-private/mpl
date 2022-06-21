@@ -8,12 +8,14 @@
 
         <h1 class="adm-title">Каталог товаров <span class="adm-fav-link"></span></h1>
 
+        <form-search-row :new-route="route(routeNames.ROUTE_ADMIN_PRODUCTS_CREATE)" :options="brandOptions"></form-search-row>
+
         <div>
             <button type="button" v-b-modal.customize-list class="btn btn-primary mb-2 mr-2">Настроить</button>
         </div>
 
         <div class="admin-edit-variations table-responsive">
-            <table class="table table-bordered table-hover" style="width: 1338px;">
+            <table class="table table-bordered table-hover">
                 <thead>
                 <tr>
                     <th scope="col">
@@ -48,135 +50,58 @@
                                 toggle-class="btn btn__grid-row-action-button"
                                 menu-class="bx-core-popup-menu"
                             >
-                                <a class="dropdown-item bx-core-popup-menu-item bx-core-popup-menu-item-default" href="{{route("admin.products.edit", $product['id'])}}">
-                                <span class="bx-core-popup-menu-item-icon adm-menu-edit"></span>
-                                <span class="bx-core-popup-menu-item-text">Изменить</span>
-                                </a>
-                                <button type="button" class="bx-core-popup-menu-item" wire:click="toggleActive({{$product['id']}})">
+                                <b-dropdown-item :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_EDIT, product.id)" class="bx-core-popup-menu-item bx-core-popup-menu-item-default">
+                                    <span class="bx-core-popup-menu-item-icon adm-menu-edit"></span>
+                                    <span class="bx-core-popup-menu-item-text">Изменить</span>
+                                </b-dropdown-item>
+                                <b-dropdown-item-button @click="handleActivation(id)" class="x-core-popup-menu-item">
                                     <span class="bx-core-popup-menu-item-icon"></span>
-                                    <span class="bx-core-popup-menu-item-text">
-                                            @if($product['is_active'])
-                                                Деактивировать
-                                            @else
-                                                Активировать
-                                            @endif
-                                        </span>
-                                </button>
-                                <span class="bx-core-popup-menu-separator"></span>
-                                <a class="bx-core-popup-menu-item" href="{{route(\App\Constants::ROUTE_ADMIN_PRODUCTS_CREATE, ['copy_id' => $product['id']])}}">
+                                    <span class="bx-core-popup-menu-item-text">{{product.is_active ? 'Деактивировать' : 'Активировать'}}</span>
+                                </b-dropdown-item-button>
+                                <b-dropdown-divider class="bx-core-popup-menu-separator"></b-dropdown-divider>
+                                <b-dropdown-item :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_CREATE, {copy_id : product.id})" class="bx-core-popup-menu-item">
                                     <span class="bx-core-popup-menu-item-icon adm-menu-copy"></span>
                                     <span class="bx-core-popup-menu-item-text">Копировать</span>
-                                </a>
-                                <span class="bx-core-popup-menu-separator"></span>
-                                <button type="button" class="bx-core-popup-menu-item" onclick="if (confirm('Вы уверены, что хотите удалить продукт `{{$product['id']}}` `{{$product['name']}}` ?')) {@this.handleDelete({{$product['id']}});}">
-                                    <span class="bx-core-popup-menu-item-icon adm-menu-delete"></span>
+                                </b-dropdown-item>
+                                <b-dropdown-divider class="bx-core-popup-menu-separator"></b-dropdown-divider>
+                                <b-dropdown-item-button @click="handleDelete(product.id)" class="x-core-popup-menu-item">
+                                    <span class="bx-core-popup-menu-item-icon"></span>
                                     <span class="bx-core-popup-menu-item-text">Удалить</span>
-                                </button>
-
-                                <b-dropdown-item>First Action</b-dropdown-item>
-                                <b-dropdown-item>Second Action</b-dropdown-item>
-                                <b-dropdown-item>Third Action</b-dropdown-item>
-                                <b-dropdown-divider></b-dropdown-divider>
-                                <b-dropdown-item active>Active action</b-dropdown-item>
-                                <b-dropdown-item disabled>Disabled action</b-dropdown-item>
+                                </b-dropdown-item-button>
                             </b-dropdown>
                         </td>
 
-                        @foreach($sortableColumns as $sortableColumn)
-                        @switch(true)
-                        @case($sortableColumn->equals(\Domain\Common\Enums\Column::ordering()))
-                        <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}-{{$sortableColumn->label}}" @if($editMode && $product['is_checked']) style="width: 200px;" @endif>
-                        @if($editMode && $product['is_checked'])
-                        @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.ordering", 'modifier' => '.defer'])
-                        @else
-                        <span class="main-grid-cell-content">{{$product['ordering']}}</span>
-                        @endif
-                        </td>
-                        @break
-                        @case($sortableColumn->equals(\Domain\Common\Enums\Column::name()))
-                        <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}-{{$sortableColumn->label}}">
-                            @if($editMode && $product['is_checked'])
-                            @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.name", 'modifier' => '.defer'])
-                            @else
-                            <span class="main-grid-cell-content"><a href="{{route("admin.products.edit", $product['id'])}}">{{$product['name']}}</a></span>
-                            @endif
-                        </td>
-                        @break
-                        @case($sortableColumn->equals(\Domain\Common\Enums\Column::active()))
-                        <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}-{{$sortableColumn->label}}">
-                            @if($editMode && $product['is_checked'])
-                            @include('admin.livewire.includes.form-check', ['field' => "items.{$product['uuid']}.is_active", 'modifier' => '.defer'])
-                            @else
-                            <span class="main-grid-cell-content">{{$product['is_active_name']}}</span>
-                            @endif
-                        </td>
-                        @break
-                        @case($sortableColumn->equals(\Domain\Common\Enums\Column::unit()))
-                        <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}-{{$sortableColumn->label}}">
-                            @if($editMode && $product['is_checked'])
-                            @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.unit", 'modifier' => '.defer'])
-                            @else
-                            <span class="main-grid-cell-content">{{$product['unit']}}</span>
-                            @endif
-                        </td>
-                        @break
-                        @case($sortableColumn->equals(\Domain\Common\Enums\Column::price_purchase()))
-                        <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}-{{$sortableColumn->label}}">
-                            @if($editMode && $product['is_checked'])
-                            <div class="form-row">
-                                <div class="col">
-                                    @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.price_purchase", 'modifier' => '.defer'])
-                                </div>
-                                <div class="col">
-                                    @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['uuid']}.price_purchase_currency_id", 'options' => $currencies])
-                                </div>
-                            </div>
-                            @else
-                            <span class="main-grid-cell-content">{{$product['price_purchase_formatted']}}</span>
-                            @endif
-                        </td>
-                        @break
-                        @case($sortableColumn->equals(\Domain\Common\Enums\Column::price_retail()))
-                        <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}-{{$sortableColumn->label}}">
-                            @if($editMode && $product['is_checked'])
-                            <div class="form-row">
-                                <div class="col">
-                                    @include('admin.livewire.includes.form-control-input', ['field' => "items.{$product['uuid']}.price_retail", 'modifier' => '.defer'])
-                                </div>
-                                <div class="col">
-                                    @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['uuid']}.price_retail_currency_id", 'options' => $currencies])
-                                </div>
-                            </div>
-                            @else
-                            <span class="main-grid-cell-content">{{$product['price_retail_formatted']}}</span>
-                            @endif
-                        </td>
-                        @break
-                        @case($sortableColumn->equals(\Domain\Common\Enums\Column::admin_comment()))
-                        <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}-{{$sortableColumn->label}}">
-                            @if($editMode && $product['is_checked'])
-                            @include('admin.livewire.includes.form-control-textarea', ['field' => "items.{$product['uuid']}.admin_comment", 'modifier' => '.defer'])
-                            @else
-                            <span class="main-grid-cell-content">{{$product['admin_comment']}}</span>
-                            @endif
-                        </td>
-                        @break
-                        @case($sortableColumn->equals(\Domain\Common\Enums\Column::availability()))
-                        <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}-{{$sortableColumn->label}}">
-                            @if($editMode && $product['is_checked'])
-                            @include('admin.livewire.includes.form-control-select', ['field' => "items.{$product['uuid']}.availability_status_id", 'options' => $availabilityStatuses])
-                            @else
-                            <span class="main-grid-cell-content">{{$product['availability_status_name']}}</span>
-                            @endif
-                        </td>
-                        @break
-                        @case($sortableColumn->equals(\Domain\Common\Enums\Column::id()))
-                        <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}-{{$sortableColumn->label}}">
-                            <span class="main-grid-cell-content">{{$product['id']}}</span>
-                        </td>
-                        @break
-                        @endswitch
-                        @endforeach
+                        <template v-for="sortableColumn in sortableColumns">
+                            <td v-if="sortableColumn.value === columnNames.ordering.value" :key="sortableColumn.value">
+<!--                                <b-form-input v-if="editMode && product.is_checked" v-model="product.ordering"></b-form-input>-->
+                                <span class="main-grid-cell-content">{{product.ordering}}</span>
+                            </td>
+                            <td v-if="sortableColumn.value === columnNames.name.value" :key="sortableColumn.value">
+<!--                                <b-form-input v-if="editMode && product.is_checked" v-model="product.name"></b-form-input>-->
+                                <span class="main-grid-cell-content">{{product.name}}</span>
+                            </td>
+                            <td v-if="sortableColumn.value === columnNames.active.value" :key="sortableColumn.value">
+                                <span class="main-grid-cell-content">{{product.is_active_name}}</span>
+                            </td>
+                            <td v-if="sortableColumn.value === columnNames.unit.value" :key="sortableColumn.value">
+                                <span class="main-grid-cell-content">{{product.unit}}</span>
+                            </td>
+                            <td v-if="sortableColumn.value === columnNames.price_purchase.value" :key="sortableColumn.value">
+                                <span class="main-grid-cell-content">{{product.price_purchase_formatted}}</span>
+                            </td>
+                            <td v-if="sortableColumn.value === columnNames.price_retail.value" :key="sortableColumn.value">
+                                <span class="main-grid-cell-content">{{product.price_retail_formatted}}</span>
+                            </td>
+                            <td v-if="sortableColumn.value === columnNames.admin_comment.value" :key="sortableColumn.value">
+                                <span class="main-grid-cell-content">{{product.admin_comment}}</span>
+                            </td>
+                            <td v-if="sortableColumn.value === columnNames.availability.value" :key="sortableColumn.value">
+                                <span class="main-grid-cell-content">{{product.availability_status_name}}</span>
+                            </td>
+                            <td v-if="sortableColumn.value === columnNames.id.value" :key="sortableColumn.value">
+                                <span class="main-grid-cell-content">{{product.id}}</span>
+                            </td>
+                        </template>
                     </tr>
                 </tbody>
             </table>
@@ -191,13 +116,13 @@
         >
             <div class="card">
                 <draggable
-                    :list="sortableColumns"
+                    :list="tempSortableColumns"
                     :disabled="!sortColumnsEnabled"
                     class="list-group list-group-flush"
                 >
                     <div
                         class="list-group-item"
-                        v-for="sortableColumn in sortableColumns"
+                        v-for="sortableColumn in tempSortableColumns"
                         :key="sortableColumn.value"
                     >
                         {{ sortableColumn.label }}
@@ -220,15 +145,19 @@ import routeNames from "@/admin/mixins/routeNames";
 import draggable from 'vuedraggable';
 import Vue from "vue";
 import axios from 'axios';
+import columnNames from "@/admin/mixins/columnNames";
+import FormSearchRow from "@/admin/components/FormSearchRow";
 
 export default {
     layout: TheLayout,
     components: {
         Head,
-        draggable
+        draggable,
+        FormSearchRow,
     },
     mixins: [
         routeNames,
+        columnNames,
     ],
     props: {
         productsPaginated: Object,
@@ -236,19 +165,23 @@ export default {
         adminProductColumns: Array,
         editMode: false,
         selectAll: false,
-        checkedProducts: [],
+        columnEnums: Object,
+        brandOptions: Array,
     },
     data() {
         return {
-            sortableColumns : Vue.util.extend([], this.adminProductColumns),
+            sortableColumns: Vue.util.extend([], this.adminProductColumns),
+            tempSortableColumns: Vue.util.extend([], this.adminProductColumns),
+            checkedProducts: [],
             sortColumnsEnabled: true,
             modalShow: false,
+            products: Vue.util.extend([], this.productsPaginated.data)
         }
     },
     computed: {
-        products() {
-            return this.productsPaginated.data
-        },
+        columns() {
+            return this.columnEnums
+        }
     },
     methods: {
         saveSortedColumns() {
@@ -260,6 +193,7 @@ export default {
                 .then((axiosResponse = {}) => {
                     let {data: {data : {adminProductColumns = []}}} = axiosResponse
                     this.sortableColumns = adminProductColumns
+                    this.tempSortableColumns = Vue.util.extend([], adminProductColumns)
                 })
                 .finally(() => {
                     this.sortColumnsEnabled = true
@@ -275,11 +209,18 @@ export default {
                 .then((axiosResponse = {}) => {
                     let {data: {data : {adminProductColumns = []}}} = axiosResponse
                     this.sortableColumns = adminProductColumns
+                    this.tempSortableColumns = Vue.util.extend([], adminProductColumns)
                 })
                 .finally(() => {
                     this.sortColumnsEnabled = true
                     this.modalShow = false
                 })
+        },
+        handleActivation(id) {
+
+        },
+        handleDelete(id) {
+
         }
     },
     created() {

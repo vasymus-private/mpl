@@ -62,7 +62,6 @@ class Column extends Enum
             'ordering' => 22,
             'coefficient' => 23,
             'coefficient_description' => 24,
-            'availability_status' => 25,
         ];
     }
 

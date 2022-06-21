@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Domain\Common\Enums\Column;
 use Domain\Products\DTOs\Admin\CategoryItemSidebarDTO;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\Category;
@@ -78,6 +79,7 @@ class HandleInertiaRequests extends Middleware
                 return Category::getTreeRuntimeCached()->map(fn (Category $category) => CategoryItemSidebarDTO::fromModel($category))->all();
             },
             'brandOptions' => Brand::getBrandOptions(),
+            'columnEnums' => Column::toArray(),
             'adminOrderColumns' => H::admin()->admin_order_columns_arr,
             'adminProductColumns' => H::admin()->admin_product_columns_arr,
             'adminProductVariantColumns' => H::admin()->admin_product_variant_columns_arr,
