@@ -20,8 +20,11 @@ mix
     .js("resources/js/admin/app.js", 'public/_admin/js')
     .sass("resources/sass/admin/app.scss", "public/_admin/css")
 
-    .js('resources/js/admin/client.js', 'public/_admin/js')
-    .vue({ runtimeOnly: (process.env.NODE_ENV || 'production') === 'production' })
+    .ts('resources/js/admin/client.js', 'public/_admin/js')
+    .vue({
+        runtimeOnly: (process.env.NODE_ENV || 'production') === 'production',
+        version: 3
+    })
     .webpackConfig(webpackConfig)
     .alias({
         ziggy: path.resolve('vendor/tightenco/ziggy/dist/vue'),
@@ -36,9 +39,3 @@ mix.copyDirectory('resources/fonts', 'public/fonts')
 mix.options({
     processCssUrls : false,
 });
-
-// mix.webpackConfig({
-//     stats: {
-//         children: true,
-//     }
-// });
