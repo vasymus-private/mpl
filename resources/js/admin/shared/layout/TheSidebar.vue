@@ -229,7 +229,7 @@
 </template>
 
 <script>
-import { Link } from '@inertiajs/inertia-vue'
+import { Link } from '@inertiajs/inertia-vue3'
 import routeNames from "@/admin/mixins/routeNames";
 
 export default {

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { Head } from '@inertiajs/inertia-vue'
+import { Head } from '@inertiajs/inertia-vue3'
 import TheLayout from "@/admin/shared/layout/TheLayout";
 
 export default {

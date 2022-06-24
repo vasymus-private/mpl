@@ -42,8 +42,7 @@
 </template>
 
 <script>
-import {Link} from "@inertiajs/inertia-vue";
-import Vue from "vue";
+import {Link} from "@inertiajs/inertia-vue3";
 import childTypes from "@/admin/mixins/childTypes";
 
 export default {
@@ -73,7 +72,7 @@ export default {
     ],
     data() {
         return {
-            selectedValue: this.selected ? Vue.util.extend({}, this.selected) : null,
+            selectedValue: this.selected ? {} : null, //  Vue.util.extend({}, this.selected) : null,
             search: '',
         }
     },

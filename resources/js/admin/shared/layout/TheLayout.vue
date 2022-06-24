@@ -3,7 +3,7 @@
         <the-header />
         <main class="d-flex">
             <div id="resize-container" class="">
-                <the-sidebar />
+<!--                <the-sidebar />-->
                 <div id="resizer"></div>
                 <div class="" id="content">
                     <slot />
@@ -15,12 +15,12 @@
 
 <script>
 import TheHeader from '@/admin/shared/layout/TheHeader'
-import TheSidebar from '@/admin/shared/layout/TheSidebar'
+// import TheSidebar from '@/admin/shared/layout/TheSidebar'
 
 export default {
     components: {
         TheHeader,
-        TheSidebar
+        // TheSidebar
     }
 }
 </script>

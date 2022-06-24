@@ -8,10 +8,10 @@
 
         <h1 class="adm-title">Каталог товаров <span class="adm-fav-link"></span></h1>
 
-        <form-search-row :new-route="route(routeNames.ROUTE_ADMIN_PRODUCTS_CREATE)" :options="brandOptions"></form-search-row>
+<!--        <form-search-row :new-route="route(routeNames.ROUTE_ADMIN_PRODUCTS_CREATE)" :options="brandOptions"></form-search-row>-->
 
         <div>
-            <button type="button" v-b-modal.customize-list class="btn btn-primary mb-2 mr-2">Настроить</button>
+            <button type="button" class="btn btn-primary mb-2 mr-2">Настроить</button>
         </div>
 
         <div class="admin-edit-variations table-responsive">
@@ -44,31 +44,31 @@
                             </div>
                         </td>
                         <td>
-                            <b-dropdown
-                                :id="`actions-dropdown-${product.uuid}`"
-                                text=""
-                                toggle-class="btn btn__grid-row-action-button"
-                                menu-class="bx-core-popup-menu"
-                            >
-                                <b-dropdown-item :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_EDIT, product.id)" class="bx-core-popup-menu-item bx-core-popup-menu-item-default">
-                                    <span class="bx-core-popup-menu-item-icon adm-menu-edit"></span>
-                                    <span class="bx-core-popup-menu-item-text">Изменить</span>
-                                </b-dropdown-item>
-                                <b-dropdown-item-button @click="handleActivation(id)" class="x-core-popup-menu-item">
-                                    <span class="bx-core-popup-menu-item-icon"></span>
-                                    <span class="bx-core-popup-menu-item-text">{{product.is_active ? 'Деактивировать' : 'Активировать'}}</span>
-                                </b-dropdown-item-button>
-                                <b-dropdown-divider class="bx-core-popup-menu-separator"></b-dropdown-divider>
-                                <b-dropdown-item :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_CREATE, {copy_id : product.id})" class="bx-core-popup-menu-item">
-                                    <span class="bx-core-popup-menu-item-icon adm-menu-copy"></span>
-                                    <span class="bx-core-popup-menu-item-text">Копировать</span>
-                                </b-dropdown-item>
-                                <b-dropdown-divider class="bx-core-popup-menu-separator"></b-dropdown-divider>
-                                <b-dropdown-item-button @click="handleDelete(product.id)" class="x-core-popup-menu-item">
-                                    <span class="bx-core-popup-menu-item-icon"></span>
-                                    <span class="bx-core-popup-menu-item-text">Удалить</span>
-                                </b-dropdown-item-button>
-                            </b-dropdown>
+<!--                            <b-dropdown-->
+<!--                                :id="`actions-dropdown-${product.uuid}`"-->
+<!--                                text=""-->
+<!--                                toggle-class="btn btn__grid-row-action-button"-->
+<!--                                menu-class="bx-core-popup-menu"-->
+<!--                            >-->
+<!--                                <b-dropdown-item :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_EDIT, product.id)" class="bx-core-popup-menu-item bx-core-popup-menu-item-default">-->
+<!--                                    <span class="bx-core-popup-menu-item-icon adm-menu-edit"></span>-->
+<!--                                    <span class="bx-core-popup-menu-item-text">Изменить</span>-->
+<!--                                </b-dropdown-item>-->
+<!--                                <b-dropdown-item-button @click="handleActivation(id)" class="x-core-popup-menu-item">-->
+<!--                                    <span class="bx-core-popup-menu-item-icon"></span>-->
+<!--                                    <span class="bx-core-popup-menu-item-text">{{product.is_active ? 'Деактивировать' : 'Активировать'}}</span>-->
+<!--                                </b-dropdown-item-button>-->
+<!--                                <b-dropdown-divider class="bx-core-popup-menu-separator"></b-dropdown-divider>-->
+<!--                                <b-dropdown-item :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_CREATE, {copy_id : product.id})" class="bx-core-popup-menu-item">-->
+<!--                                    <span class="bx-core-popup-menu-item-icon adm-menu-copy"></span>-->
+<!--                                    <span class="bx-core-popup-menu-item-text">Копировать</span>-->
+<!--                                </b-dropdown-item>-->
+<!--                                <b-dropdown-divider class="bx-core-popup-menu-separator"></b-dropdown-divider>-->
+<!--                                <b-dropdown-item-button @click="handleDelete(product.id)" class="x-core-popup-menu-item">-->
+<!--                                    <span class="bx-core-popup-menu-item-icon"></span>-->
+<!--                                    <span class="bx-core-popup-menu-item-text">Удалить</span>-->
+<!--                                </b-dropdown-item-button>-->
+<!--                            </b-dropdown>-->
                         </td>
 
                         <template v-for="sortableColumn in sortableColumns">
@@ -108,42 +108,40 @@
         </div>
 
         <!-- Modals -->
-        <b-modal
-            class="modal fade"
-            id="customize-list"
-            title="Настройка списка"
-            v-model="modalShow"
-        >
-            <div class="card">
-                <draggable
-                    :list="tempSortableColumns"
-                    :disabled="!sortColumnsEnabled"
-                    class="list-group list-group-flush"
-                >
-                    <div
-                        class="list-group-item"
-                        v-for="sortableColumn in tempSortableColumns"
-                        :key="sortableColumn.value"
-                    >
-                        {{ sortableColumn.label }}
-                    </div>
-                </draggable>
-            </div>
-            <template #modal-footer>
-                <button @click="saveSortedColumns" type="button" class="btn btn-primary">Сохранить</button>
-                <button @click="modalShow = false" type="button" class="btn btn-secondary">Отменить</button>
-                <button @click="defaultSortedColumns" type="button" class="btn btn-secondary">Сбросить</button>
-            </template>
-        </b-modal>
+<!--        <b-modal-->
+<!--            class="modal fade"-->
+<!--            id="customize-list"-->
+<!--            title="Настройка списка"-->
+<!--            v-model="modalShow"-->
+<!--        >-->
+<!--            <div class="card">-->
+<!--                <draggable-->
+<!--                    :list="tempSortableColumns"-->
+<!--                    :disabled="!sortColumnsEnabled"-->
+<!--                    class="list-group list-group-flush"-->
+<!--                >-->
+<!--                    <div-->
+<!--                        class="list-group-item"-->
+<!--                        v-for="sortableColumn in tempSortableColumns"-->
+<!--                        :key="sortableColumn.value"-->
+<!--                    >-->
+<!--                        {{ sortableColumn.label }}-->
+<!--                    </div>-->
+<!--                </draggable>-->
+<!--            </div>-->
+<!--            <template #modal-footer>-->
+<!--                <button @click="saveSortedColumns" type="button" class="btn btn-primary">Сохранить</button>-->
+<!--                <button @click="modalShow = false" type="button" class="btn btn-secondary">Отменить</button>-->
+<!--                <button @click="defaultSortedColumns" type="button" class="btn btn-secondary">Сбросить</button>-->
+<!--            </template>-->
+<!--        </b-modal>-->
     </div>
 </template>
 
 <script>
-import { Head } from '@inertiajs/inertia-vue';
+import { Head } from '@inertiajs/inertia-vue3';
 import TheLayout from "@/admin/shared/layout/TheLayout";
 import routeNames from "@/admin/mixins/routeNames";
-import draggable from 'vuedraggable';
-import Vue from "vue";
 import axios from 'axios';
 import columnNames from "@/admin/mixins/columnNames";
 import FormSearchRow from "@/admin/components/FormSearchRow";
@@ -152,7 +150,6 @@ export default {
     layout: TheLayout,
     components: {
         Head,
-        draggable,
         FormSearchRow,
     },
     mixins: [
@@ -170,12 +167,12 @@ export default {
     },
     data() {
         return {
-            sortableColumns: Vue.util.extend([], this.adminProductColumns),
-            tempSortableColumns: Vue.util.extend([], this.adminProductColumns),
+            sortableColumns: [], // Vue.util.extend([], this.adminProductColumns),
+            tempSortableColumns: [], //Vue.util.extend([], this.adminProductColumns),
             checkedProducts: [],
             sortColumnsEnabled: true,
             modalShow: false,
-            products: Vue.util.extend([], this.productsPaginated.data)
+            products: [], //Vue.util.extend([], this.productsPaginated.data)
         }
     },
     computed: {
@@ -193,7 +190,7 @@ export default {
                 .then((axiosResponse = {}) => {
                     let {data: {data : {adminProductColumns = []}}} = axiosResponse
                     this.sortableColumns = adminProductColumns
-                    this.tempSortableColumns = Vue.util.extend([], adminProductColumns)
+                    this.tempSortableColumns = [] // Vue.util.extend([], adminProductColumns)
                 })
                 .finally(() => {
                     this.sortColumnsEnabled = true
@@ -209,7 +206,7 @@ export default {
                 .then((axiosResponse = {}) => {
                     let {data: {data : {adminProductColumns = []}}} = axiosResponse
                     this.sortableColumns = adminProductColumns
-                    this.tempSortableColumns = Vue.util.extend([], adminProductColumns)
+                    this.tempSortableColumns = [] // Vue.util.extend([], adminProductColumns)
                 })
                 .finally(() => {
                     this.sortColumnsEnabled = true
