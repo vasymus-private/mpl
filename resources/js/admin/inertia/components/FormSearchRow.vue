@@ -43,7 +43,7 @@
 
 <script>
 import {Link} from "@inertiajs/inertia-vue3";
-import childTypes from "@/admin/mixins/childTypes";
+import childTypes from "@/admin/inertia/mixins/childTypes";
 
 export default {
     props: {

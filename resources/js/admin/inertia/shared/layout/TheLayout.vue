@@ -1,6 +1,6 @@
 <template>
     <div id="wrapper" class="wrapper">
-        <the-header />
+        <TheHeader />
         <main class="d-flex">
             <div id="resize-container" class="">
 <!--                <the-sidebar />-->
@@ -14,8 +14,8 @@
 </template>
 
 <script>
-import TheHeader from '@/admin/shared/layout/TheHeader'
-// import TheSidebar from '@/admin/shared/layout/TheSidebar'
+import TheHeader from './TheHeader'
+// import TheSidebar from './TheSidebar'
 
 export default {
     components: {

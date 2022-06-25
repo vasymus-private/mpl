@@ -5,12 +5,22 @@ module.exports = {
     output: {chunkFilename: 'js/[name].js?id=[chunkhash]'},
     resolve: {
         alias: {
-            '@': path.resolve('./resources/js'),
+            '@': path.resolve('./resources/js/'),
         },
-        extensions: ['.js', '.vue', '.json'],
+        extensions: ['*', '.js', '.jsx', '.vue', '.ts', '.tsx'],
     },
     devServer: {
         allowedHosts: 'all',
+    },
+    module  : {
+        rules : [
+            {
+                test    : /\.tsx?$/,
+                loader  : 'ts-loader',
+                options : {appendTsSuffixTo : [/\.vue$/]},
+                exclude : /node_modules/,
+            },
+        ],
     },
     // stats: {
     //     children: true,

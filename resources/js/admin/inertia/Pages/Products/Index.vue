@@ -140,11 +140,11 @@
 
 <script>
 import { Head } from '@inertiajs/inertia-vue3';
-import TheLayout from "@/admin/shared/layout/TheLayout";
-import routeNames from "@/admin/mixins/routeNames";
+import TheLayout from "@/admin/inertia/shared/layout/TheLayout";
+import routeNames from "@/admin/inertia/mixins/routeNames";
 import axios from 'axios';
-import columnNames from "@/admin/mixins/columnNames";
-import FormSearchRow from "@/admin/components/FormSearchRow";
+import columnNames from "@/admin/inertia/mixins/columnNames";
+import FormSearchRow from "@/admin/inertia/components/FormSearchRow";
 
 export default {
     layout: TheLayout,

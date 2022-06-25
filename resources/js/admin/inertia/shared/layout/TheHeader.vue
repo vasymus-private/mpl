@@ -1,3 +1,25 @@
+<script>
+import axios from 'axios'
+import {glo} from 'vue'
+
+
+export default {
+    computed: {
+        name() {
+            return this.$page.props.auth.user.name;
+        }
+    },
+    methods: {
+        logout() {
+            axios.post(this.route('logout'))
+                .then(() => {
+                    window.location.href = '/'
+                })
+        }
+    }
+}
+</script>
+
 <template>
     <header id="header" class="header">
         <nav class="navbar navbar-expand-lg">
@@ -34,23 +56,3 @@
         <div class="adm-header-bottom"></div>
     </header>
 </template>
-
-<script>
-import axios from 'axios'
-
-export default {
-    computed: {
-        name() {
-            return this.$page.props.auth.user.name;
-        }
-    },
-    methods: {
-        logout() {
-            axios.post(this.route('logout'))
-                .then(() => {
-                    window.location.href = '/'
-                })
-        }
-    }
-}
-</script>
