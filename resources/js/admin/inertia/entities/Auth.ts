@@ -1,5 +1,5 @@
-import User from "./User";
+import User from "./User"
 
 export default interface Auth {
-    user: User|null,
+    user: User | null
 }
