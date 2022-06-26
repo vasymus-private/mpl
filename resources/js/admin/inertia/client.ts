@@ -7,8 +7,7 @@ import { Ziggy } from "@/helpers/ziggy"
 import { InertiaProgress } from "@inertiajs/progress"
 import { createPinia } from "pinia"
 import { initFromPageProps } from "@/admin/inertia/store"
-import 'bootstrap'
-
+import "bootstrap"
 
 createInertiaApp({
     resolve: (name) => require(`./Pages/${name}`),
