@@ -10,7 +10,7 @@ import { createPinia } from "pinia"
 const pinia = createPinia()
 
 createInertiaApp({
-    resolve: name => require(`./Pages/${name}`),
+    resolve: (name) => require(`./Pages/${name}`),
     // @ts-ignore
     setup({ el, App, props, plugin, ...rest }) {
         console.log("--- base setup ---", props, rest)
