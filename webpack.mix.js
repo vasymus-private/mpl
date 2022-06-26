@@ -1,6 +1,5 @@
 const mix = require('laravel-mix');
 const webpackConfig = require('./webpack.config')
-const path = require('path')
 
 /*
  |--------------------------------------------------------------------------
@@ -26,9 +25,6 @@ mix
         version: 3
     })
     .webpackConfig(webpackConfig)
-    .alias({
-        ziggy: path.resolve('vendor/tightenco/ziggy/dist/vue'),
-    })
 ;
 
 mix.copyDirectory('resources/images/web', 'public/images')
@@ -38,4 +34,5 @@ mix.copyDirectory('resources/fonts', 'public/fonts')
 
 mix.options({
     processCssUrls : false,
-});
+})
+;

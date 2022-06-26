@@ -34352,15 +34352,18 @@ function compileToFunction(template, options) {
 
 /***/ }),
 
-/***/ "./resources/js/admin/inertia/Pages sync recursive ^\\.\\/.*\\.vue$":
-/*!**************************************************************!*\
-  !*** ./resources/js/admin/inertia/Pages/ sync ^\.\/.*\.vue$ ***!
-  \**************************************************************/
+/***/ "./resources/js/admin/inertia/Pages sync recursive ^\\.\\/.*$":
+/*!*********************************************************!*\
+  !*** ./resources/js/admin/inertia/Pages/ sync ^\.\/.*$ ***!
+  \*********************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var map = {
+	"./Articles/Index": "./resources/js/admin/inertia/Pages/Articles/Index.vue",
 	"./Articles/Index.vue": "./resources/js/admin/inertia/Pages/Articles/Index.vue",
+	"./Products/Index": "./resources/js/admin/inertia/Pages/Products/Index.vue",
 	"./Products/Index.vue": "./resources/js/admin/inertia/Pages/Products/Index.vue",
+	"./Services/Index": "./resources/js/admin/inertia/Pages/Services/Index.vue",
 	"./Services/Index.vue": "./resources/js/admin/inertia/Pages/Services/Index.vue"
 };
 
@@ -34382,7 +34385,7 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = "./resources/js/admin/inertia/Pages sync recursive ^\\.\\/.*\\.vue$";
+webpackContext.id = "./resources/js/admin/inertia/Pages sync recursive ^\\.\\/.*$";
 
 /***/ }),
 
@@ -34716,8 +34719,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 var pinia = (0,pinia__WEBPACK_IMPORTED_MODULE_5__.createPinia)();
 (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.createInertiaApp)({
   resolve: function resolve(name) {
-    console.log("name", name);
-    return __webpack_require__("./resources/js/admin/inertia/Pages sync recursive ^\\.\\/.*\\.vue$")("./".concat(name, ".vue"))["default"];
+    return __webpack_require__("./resources/js/admin/inertia/Pages sync recursive ^\\.\\/.*$")("./".concat(name));
   },
   // @ts-ignore
   setup: function setup(_ref) {
@@ -34728,7 +34730,7 @@ var pinia = (0,pinia__WEBPACK_IMPORTED_MODULE_5__.createPinia)();
         rest = _objectWithoutProperties(_ref, _excluded);
 
     console.log("--- base setup ---", props, rest);
-    (0,vue__WEBPACK_IMPORTED_MODULE_0__.createApp)({
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createApp)({
       render: function render() {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.h)(App, props);
       }

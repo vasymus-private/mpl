@@ -10,14 +10,11 @@ import { createPinia } from "pinia"
 const pinia = createPinia()
 
 createInertiaApp({
-    resolve: (name) => {
-        console.log("name", name)
-        return require(`./Pages/${name}.vue`).default
-    },
+    resolve: name => require(`./Pages/${name}`),
     // @ts-ignore
     setup({ el, App, props, plugin, ...rest }) {
         console.log("--- base setup ---", props, rest)
-        createApp({ render: () => h(App, props) })
+        return createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue, Ziggy)
             .use(pinia)
