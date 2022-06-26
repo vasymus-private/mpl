@@ -1,15 +1,15 @@
 <script lang="ts" setup>
 import { Head } from '@inertiajs/inertia-vue3'
-import TheLayout from "@/admin/inertia/shared/layout/TheLayout.vue";
+import TheLayout from "@/admin/inertia/shared/layout/TheLayout.vue"
 import {onMounted} from 'vue'
-import {useServicesStore} from "@/admin/inertia/store/services";
+import {useServicesStore} from "@/admin/inertia/store/services"
 
 
-const servicesStore = useServicesStore()
+const servicesStore = useServicesStore();
 
 onMounted(() => {
     console.log('--- services', servicesStore.entities)
-})
+});
 
 </script>
 

@@ -1,3 +1,9 @@
+<script lang="ts" setup>
+import TheHeader from "@/admin/inertia/shared/layout/TheHeader.vue"
+// import TheSidebar from "@/admin/inertia/shared/layout/TheSidebar.vue"
+
+</script>
+
 <template>
     <div id="wrapper" class="wrapper">
         <TheHeader />
@@ -12,15 +18,3 @@
         </main>
     </div>
 </template>
-
-<script>
-import TheHeader from './TheHeader'
-// import TheSidebar from './TheSidebar'
-
-export default {
-    components: {
-        TheHeader,
-        // TheSidebar
-    }
-}
-</script>
