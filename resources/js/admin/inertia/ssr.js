@@ -2,7 +2,6 @@ import { createSSRApp, h } from "vue"
 import { renderToString } from "@vue/server-renderer"
 import { createInertiaApp } from "@inertiajs/inertia-vue3"
 import createServer from "@inertiajs/server"
-// @ts-ignore
 import { ZiggyVue } from "ziggy"
 import { Ziggy } from "@/helpers/ziggy"
 import { createPinia } from "pinia"

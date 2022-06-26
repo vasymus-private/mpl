@@ -12,7 +12,7 @@ import TheHeader from "@/admin/inertia/shared/layout/TheHeader.vue"
 <!--                <the-sidebar />-->
                 <div id="resizer"></div>
                 <div class="" id="content">
-                    <slot />
+                    <slot></slot>
                 </div>
             </div>
         </main>

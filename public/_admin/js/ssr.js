@@ -333,7 +333,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! pinia */ "pinia");
 /* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(pinia__WEBPACK_IMPORTED_MODULE_0__);
 
-var ARTICLES_STORE = 'articles';
+var ARTICLES_STORE = "articles";
 var useArticlesStore = (0,pinia__WEBPACK_IMPORTED_MODULE_0__.defineStore)(ARTICLES_STORE, {
   state: function state() {
     return {
@@ -364,7 +364,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! pinia */ "pinia");
 /* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(pinia__WEBPACK_IMPORTED_MODULE_0__);
 
-var AUTH_STORE = 'auth'; // useStore could be anything like useUser, useCart
+var AUTH_STORE = "auth"; // useStore could be anything like useUser, useCart
 // the first argument is a unique id of the store across your application
 
 var useAuthStore = (0,pinia__WEBPACK_IMPORTED_MODULE_0__.defineStore)(AUTH_STORE, {
@@ -452,7 +452,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! pinia */ "pinia");
 /* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(pinia__WEBPACK_IMPORTED_MODULE_0__);
 
-var SERVICES_STORE = 'services';
+var SERVICES_STORE = "services";
 var useServicesStore = (0,pinia__WEBPACK_IMPORTED_MODULE_0__.defineStore)(SERVICES_STORE, {
   state: function state() {
     return {
@@ -2802,7 +2802,7 @@ var __webpack_exports__ = {};
 (() => {
 "use strict";
 /*!*******************************************!*\
-  !*** ./resources/js/admin/inertia/ssr.ts ***!
+  !*** ./resources/js/admin/inertia/ssr.js ***!
   \*******************************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "vue");
@@ -2822,7 +2822,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- // @ts-ignore
 
 
 
