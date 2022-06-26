@@ -6,8 +6,7 @@ import { ZiggyVue } from "ziggy"
 import { Ziggy } from "@/helpers/ziggy"
 import { InertiaProgress } from "@inertiajs/progress"
 import { createPinia } from "pinia"
-import {initFromPageProps} from "@/admin/inertia/store";
-
+import { initFromPageProps } from "@/admin/inertia/store"
 
 const pinia = createPinia()
 

@@ -1,4 +1,4 @@
 export default interface Column {
-    value: number,
+    value: number
     label: string
 }

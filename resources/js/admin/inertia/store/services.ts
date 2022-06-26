@@ -1,17 +1,17 @@
 import { defineStore } from "pinia"
-import {Service} from "@/admin/inertia/entities/Service";
+import { Service } from "@/admin/inertia/entities/Service"
 
-export const SERVICES_STORE = 'services'
+export const SERVICES_STORE = "services"
 
 export const useServicesStore = defineStore(SERVICES_STORE, {
-    state: (): { entities: Array<Service>; } => {
+    state: (): { entities: Array<Service> } => {
         return {
-            entities: []
+            entities: [],
         }
     },
     actions: {
         setEntities(entities: Array<Service>): void {
             this.entities = entities
-        }
-    }
+        },
+    },
 })
