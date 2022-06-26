@@ -12,7 +12,7 @@ import {initFromPageProps} from "@/admin/inertia/store";
 const pinia = createPinia()
 
 createInertiaApp({
-    resolve: name => require(`./Pages/${name}`),
+    resolve: (name) => require(`./Pages/${name}`),
     // @ts-ignore
     setup({ el, App, props, plugin }) {
         try {
