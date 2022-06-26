@@ -1,6 +1,5 @@
 <script>
 import axios from 'axios'
-import {glo} from 'vue'
 
 
 export default {

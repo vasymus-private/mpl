@@ -4,7 +4,11 @@ import { createInertiaApp } from "@inertiajs/inertia-vue3"
 import { ZiggyVue } from "ziggy"
 // @ts-ignore
 import { Ziggy } from "@/helpers/ziggy"
-import { InertiaProgress } from "@inertiajs/progress"
+import { InertiaProgress } from '@inertiajs/progress'
+import { createPinia } from 'pinia'
+
+
+const pinia = createPinia()
 
 createInertiaApp({
     resolve: (name) => {
@@ -17,6 +21,7 @@ createInertiaApp({
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue, Ziggy)
+            .use(pinia)
             .mount(el)
     },
 })
