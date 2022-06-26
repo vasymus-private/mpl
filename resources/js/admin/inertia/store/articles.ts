@@ -1,9 +1,9 @@
 import { defineStore } from "pinia"
 import Article from "@/admin/inertia/entities/Article"
 
-export const ARTICLES_STORE = "articles"
+export const storeName = "articles"
 
-export const useArticlesStore = defineStore(ARTICLES_STORE, {
+export const useArticlesStore = defineStore(storeName, {
     state: (): { entities: Array<Article> } => {
         return {
             entities: [],

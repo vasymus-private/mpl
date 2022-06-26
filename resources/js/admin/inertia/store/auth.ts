@@ -2,11 +2,11 @@ import { defineStore } from "pinia"
 import Auth from "@/admin/inertia/entities/Auth"
 import User from "@/admin/inertia/entities/User"
 
-export const AUTH_STORE = "auth"
+export const storeName = "auth"
 
 // useStore could be anything like useUser, useCart
 // the first argument is a unique id of the store across your application
-export const useAuthStore = defineStore(AUTH_STORE, {
+export const useAuthStore = defineStore(storeName, {
     state: (): Auth => {
         return {
             user: {
