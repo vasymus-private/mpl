@@ -1,21 +1,16 @@
 <script lang="ts" setup>
 import { Head } from '@inertiajs/inertia-vue3'
-import TheLayout from "@/admin/inertia/shared/layout/TheLayout.vue";
+import TheLayout from "@/admin/inertia/shared/layout/TheLayout.vue"
 import {onMounted} from 'vue'
-import Article from "../../entities/Article";
-import Auth from "../../entities/Auth";
+import {useArticlesStore} from "@/admin/inertia/store/articles";
 
 
-const props = defineProps<{
-    auth: Auth,
-    articles: Array<Article>
-}>()
+const articlesStore = useArticlesStore()
 
 onMounted(() => {
-    console.log('--- articles', props.articles)
-    console.log('--- auth', props.auth)
-    console.log('--- temp')
+    console.log('--- articles', articlesStore.entities)
 })
+
 </script>
 
 <template>

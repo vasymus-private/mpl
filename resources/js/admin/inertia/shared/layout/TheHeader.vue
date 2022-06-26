@@ -1,21 +1,15 @@
-<script>
+<script lang="ts" setup>
 import axios from 'axios'
+import {useAuthStore} from "@/admin/inertia/store/auth"
 
 
-export default {
-    computed: {
-        name() {
-            return this.$page.props.auth.user.name;
-        }
-    },
-    methods: {
-        logout() {
-            axios.post(this.route('logout'))
-                .then(() => {
-                    window.location.href = '/'
-                })
-        }
-    }
+const authStore = useAuthStore()
+
+const logout = () => {
+    axios.post(route('logout'))
+        .then(() => {
+            window.location.href = '/'
+        })
 }
 </script>
 
@@ -43,7 +37,7 @@ export default {
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
                         <span class="adm-header-user-block">
-                            {{ name }}
+                            {{ authStore.userName }}
                         </span>
                     </li>
                     <li class="nav-item">

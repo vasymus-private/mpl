@@ -2,15 +2,13 @@
 import { Head } from '@inertiajs/inertia-vue3'
 import TheLayout from "@/admin/inertia/shared/layout/TheLayout.vue";
 import {onMounted} from 'vue'
-import {Service} from "@/admin/inertia/entities/Service";
+import {useServicesStore} from "@/admin/inertia/store/services";
 
 
-const props = defineProps<{
-    services: Array<Service>
-}>()
+const servicesStore = useServicesStore()
 
 onMounted(() => {
-    console.log('--- services', props.services)
+    console.log('--- services', servicesStore.entities)
 })
 
 </script>

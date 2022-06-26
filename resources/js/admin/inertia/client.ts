@@ -6,19 +6,28 @@ import { ZiggyVue } from "ziggy"
 import { Ziggy } from "@/helpers/ziggy"
 import { InertiaProgress } from "@inertiajs/progress"
 import { createPinia } from "pinia"
+import {initFromPageProps} from "@/admin/inertia/store";
+
 
 const pinia = createPinia()
 
 createInertiaApp({
     resolve: name => require(`./Pages/${name}`),
     // @ts-ignore
-    setup({ el, App, props, plugin, ...rest }) {
-        console.log("--- base setup ---", props, rest)
-        return createApp({ render: () => h(App, props) })
-            .use(plugin)
-            .use(ZiggyVue, Ziggy)
-            .use(pinia)
-            .mount(el)
+    setup({ el, App, props, plugin }) {
+        try {
+            // console.log("--- base setup ---")
+            // console.log('--- App ---', App)
+            // console.log('--- props ---', props)
+            return createApp({ render: () => h(App, props) })
+                .use(plugin)
+                .use(ZiggyVue, Ziggy)
+                .use(pinia)
+                .mount(el)
+            // walkaround for passing page props to pinia
+        } finally {
+            initFromPageProps(pinia, props?.initialPage?.props)
+        }
     },
 })
 

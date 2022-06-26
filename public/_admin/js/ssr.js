@@ -17,33 +17,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "@inertiajs/inertia-vue3");
 /* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _admin_inertia_shared_layout_TheLayout_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/admin/inertia/shared/layout/TheLayout.vue */ "./resources/js/admin/inertia/shared/layout/TheLayout.vue");
+/* harmony import */ var _admin_inertia_store_articles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/admin/inertia/store/articles */ "./resources/js/admin/inertia/store/articles.ts");
+
 
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
   __name: 'Index',
-  props: {
-    auth: {
-      type: null,
-      required: true
-    },
-    articles: {
-      type: Array,
-      required: true
-    }
-  },
   setup: function setup(__props, _ref) {
     var expose = _ref.expose;
     expose();
-    var props = __props;
+    var articlesStore = (0,_admin_inertia_store_articles__WEBPACK_IMPORTED_MODULE_3__.useArticlesStore)();
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
-      console.log('--- articles', props.articles);
-      console.log('--- auth', props.auth);
+      console.log('--- articles', articlesStore.entities);
       console.log('--- temp');
     });
     var __returned__ = {
-      props: props,
+      articlesStore: articlesStore,
       Head: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.Head,
       TheLayout: _admin_inertia_shared_layout_TheLayout_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
     };
@@ -73,29 +64,71 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "@inertiajs/inertia-vue3");
 /* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _admin_inertia_shared_layout_TheLayout_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/admin/inertia/shared/layout/TheLayout.vue */ "./resources/js/admin/inertia/shared/layout/TheLayout.vue");
+/* harmony import */ var _admin_inertia_store_services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/admin/inertia/store/services */ "./resources/js/admin/inertia/store/services.ts");
+
 
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
   __name: 'Index',
-  props: {
-    services: {
-      type: Array,
-      required: true
-    }
-  },
   setup: function setup(__props, _ref) {
     var expose = _ref.expose;
     expose();
-    var props = __props;
+    var servicesStore = (0,_admin_inertia_store_services__WEBPACK_IMPORTED_MODULE_3__.useServicesStore)();
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
-      console.log('--- services', props.services);
+      console.log('--- services', servicesStore.entities);
     });
     var __returned__ = {
-      props: props,
+      servicesStore: servicesStore,
       Head: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.Head,
       TheLayout: _admin_inertia_shared_layout_TheLayout_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+    };
+    Object.defineProperty(__returned__, '__isScriptSetup', {
+      enumerable: false,
+      value: true
+    });
+    return __returned__;
+  }
+}));
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/ts-loader/index.js??clonedRuleSet-21!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/admin/inertia/shared/layout/TheHeader.vue?vue&type=script&lang=ts&setup=true":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/ts-loader/index.js??clonedRuleSet-21!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/admin/inertia/shared/layout/TheHeader.vue?vue&type=script&lang=ts&setup=true ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "vue");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "axios");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _admin_inertia_store_auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/admin/inertia/store/auth */ "./resources/js/admin/inertia/store/auth.ts");
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
+  __name: 'TheHeader',
+  setup: function setup(__props, _ref) {
+    var expose = _ref.expose;
+    expose();
+    var authStore = (0,_admin_inertia_store_auth__WEBPACK_IMPORTED_MODULE_2__.useAuthStore)();
+
+    var logout = function logout() {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post(route('logout')).then(function () {
+        window.location.href = '/';
+      });
+    };
+
+    var __returned__ = {
+      authStore: authStore,
+      logout: logout
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
       enumerable: false,
@@ -188,6 +221,182 @@ function ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options
 
   }, _parent));
 }
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/ts-loader/index.js??clonedRuleSet-21!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/admin/inertia/shared/layout/TheHeader.vue?vue&type=template&id=15699740&ts=true":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/ts-loader/index.js??clonedRuleSet-21!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/admin/inertia/shared/layout/TheHeader.vue?vue&type=template&id=15699740&ts=true ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ssrRender": () => (/* binding */ ssrRender)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "vue");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_server_renderer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue/server-renderer */ "vue/server-renderer");
+/* harmony import */ var vue_server_renderer__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_server_renderer__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
+  _push("<header".concat((0,vue_server_renderer__WEBPACK_IMPORTED_MODULE_1__.ssrRenderAttrs)((0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({
+    id: "header",
+    "class": "header"
+  }, _attrs)), "><nav class=\"navbar navbar-expand-lg\"><a class=\"navbar-brand\"").concat((0,vue_server_renderer__WEBPACK_IMPORTED_MODULE_1__.ssrRenderAttr)("href", _ctx.route('home')), ">\u0421\u0430\u0439\u0442</a><button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\"><span class=\"navbar-toggler-icon\"></span></button><div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\"><ul class=\"navbar-nav mr-auto header-menu\"><li class=\"nav-item active\"><a class=\"header-link\"").concat((0,vue_server_renderer__WEBPACK_IMPORTED_MODULE_1__.ssrRenderAttr)("href", _ctx.route('admin.home')), ">\u0410\u0434\u043C\u0438\u043D\u0438\u0441\u0442\u0440\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435 <span class=\"sr-only\">(current)</span></a></li></ul><ul class=\"navbar-nav ml-auto\"><li class=\"nav-item\"><span class=\"adm-header-user-block\">").concat((0,vue_server_renderer__WEBPACK_IMPORTED_MODULE_1__.ssrInterpolate)($setup.authStore.userName), "</span></li><li class=\"nav-item\"><button type=\"button\" class=\"adm-header-exit\">\u0412\u044B\u0439\u0442\u0438</button></li></ul></div></nav><div class=\"adm-header-bottom\"></div></header>"));
+}
+
+/***/ }),
+
+/***/ "./resources/js/admin/inertia/store/articles.ts":
+/*!******************************************************!*\
+  !*** ./resources/js/admin/inertia/store/articles.ts ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ARTICLES_STORE": () => (/* binding */ ARTICLES_STORE),
+/* harmony export */   "useArticlesStore": () => (/* binding */ useArticlesStore)
+/* harmony export */ });
+/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! pinia */ "pinia");
+/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(pinia__WEBPACK_IMPORTED_MODULE_0__);
+
+var ARTICLES_STORE = 'articles';
+var useArticlesStore = (0,pinia__WEBPACK_IMPORTED_MODULE_0__.defineStore)(ARTICLES_STORE, {
+  state: function state() {
+    return {
+      entities: []
+    };
+  },
+  actions: {
+    setEntities: function setEntities(entities) {
+      this.entities = entities;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/admin/inertia/store/auth.ts":
+/*!**************************************************!*\
+  !*** ./resources/js/admin/inertia/store/auth.ts ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "AUTH_STORE": () => (/* binding */ AUTH_STORE),
+/* harmony export */   "useAuthStore": () => (/* binding */ useAuthStore)
+/* harmony export */ });
+/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! pinia */ "pinia");
+/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(pinia__WEBPACK_IMPORTED_MODULE_0__);
+
+var AUTH_STORE = 'auth'; // useStore could be anything like useUser, useCart
+// the first argument is a unique id of the store across your application
+
+var useAuthStore = (0,pinia__WEBPACK_IMPORTED_MODULE_0__.defineStore)(AUTH_STORE, {
+  state: function state() {
+    return {
+      user: {
+        id: null,
+        name: null,
+        email: null,
+        phone: null,
+        is_anonymous: null
+      }
+    };
+  },
+  getters: {
+    userName: function userName(state) {
+      return state.user.name;
+    }
+  },
+  actions: {
+    setAuthUser: function setAuthUser(user) {
+      this.user = user;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/admin/inertia/store/index.ts":
+/*!***************************************************!*\
+  !*** ./resources/js/admin/inertia/store/index.ts ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "initFromPageProps": () => (/* binding */ initFromPageProps)
+/* harmony export */ });
+/* harmony import */ var _admin_inertia_store_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/admin/inertia/store/auth */ "./resources/js/admin/inertia/store/auth.ts");
+/* harmony import */ var _admin_inertia_store_articles__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/admin/inertia/store/articles */ "./resources/js/admin/inertia/store/articles.ts");
+/* harmony import */ var _admin_inertia_store_services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/admin/inertia/store/services */ "./resources/js/admin/inertia/store/services.ts");
+
+
+ // props on all page @see \App\Http\Middleware\HandleInertiaRequests::share()
+
+var initFromPageProps = function initFromPageProps(pinia, initialPageProps) {
+  var _initialPageProps$adm = initialPageProps.adminOrderColumns,
+      adminOrderColumns = _initialPageProps$adm === void 0 ? [] : _initialPageProps$adm,
+      _initialPageProps$adm2 = initialPageProps.adminProductColumns,
+      adminProductColumns = _initialPageProps$adm2 === void 0 ? [] : _initialPageProps$adm2,
+      _initialPageProps$adm3 = initialPageProps.adminProductVariantColumns,
+      adminProductVariantColumns = _initialPageProps$adm3 === void 0 ? [] : _initialPageProps$adm3,
+      _initialPageProps$art = initialPageProps.articles,
+      articles = _initialPageProps$art === void 0 ? [] : _initialPageProps$art,
+      auth = initialPageProps.auth,
+      _initialPageProps$bra = initialPageProps.brandOptions,
+      brandOptions = _initialPageProps$bra === void 0 ? [] : _initialPageProps$bra,
+      _initialPageProps$cat = initialPageProps.categoriesTree,
+      categoriesTree = _initialPageProps$cat === void 0 ? [] : _initialPageProps$cat,
+      _initialPageProps$ser = initialPageProps.services,
+      services = _initialPageProps$ser === void 0 ? [] : _initialPageProps$ser;
+  var authStore = (0,_admin_inertia_store_auth__WEBPACK_IMPORTED_MODULE_0__.useAuthStore)(pinia);
+  authStore.setAuthUser(auth.user);
+  var articlesStore = (0,_admin_inertia_store_articles__WEBPACK_IMPORTED_MODULE_1__.useArticlesStore)(pinia);
+  articlesStore.setEntities(articles);
+  var servicesStore = (0,_admin_inertia_store_services__WEBPACK_IMPORTED_MODULE_2__.useServicesStore)(pinia);
+  servicesStore.setEntities(services);
+};
+
+/***/ }),
+
+/***/ "./resources/js/admin/inertia/store/services.ts":
+/*!******************************************************!*\
+  !*** ./resources/js/admin/inertia/store/services.ts ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "SERVICES_STORE": () => (/* binding */ SERVICES_STORE),
+/* harmony export */   "useServicesStore": () => (/* binding */ useServicesStore)
+/* harmony export */ });
+/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! pinia */ "pinia");
+/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(pinia__WEBPACK_IMPORTED_MODULE_0__);
+
+var SERVICES_STORE = 'services';
+var useServicesStore = (0,pinia__WEBPACK_IMPORTED_MODULE_0__.defineStore)(SERVICES_STORE, {
+  state: function state() {
+    return {
+      entities: []
+    };
+  },
+  actions: {
+    setEntities: function setEntities(entities) {
+      this.entities = entities;
+    }
+  }
+});
 
 /***/ }),
 
@@ -356,37 +565,6 @@ __webpack_require__.r(__webpack_exports__);
 
       console.log(type, args);
       this.$emit(type, args);
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/admin/inertia/shared/layout/TheHeader.vue?vue&type=script&lang=js":
-/*!********************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/admin/inertia/shared/layout/TheHeader.vue?vue&type=script&lang=js ***!
-  \********************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "axios");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  computed: {
-    name: function name() {
-      return this.$page.props.auth.user.name;
-    }
-  },
-  methods: {
-    logout: function logout() {
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post(this.route('logout')).then(function () {
-        window.location.href = '/';
-      });
     }
   }
 });
@@ -772,32 +950,6 @@ function ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options
   }
 
   _push("</div>");
-}
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/admin/inertia/shared/layout/TheHeader.vue?vue&type=template&id=15699740":
-/*!************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/admin/inertia/shared/layout/TheHeader.vue?vue&type=template&id=15699740 ***!
-  \************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ssrRender": () => (/* binding */ ssrRender)
-/* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "vue");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vue_server_renderer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue/server-renderer */ "vue/server-renderer");
-/* harmony import */ var vue_server_renderer__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_server_renderer__WEBPACK_IMPORTED_MODULE_1__);
-
-
-function ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
-  _push("<header".concat((0,vue_server_renderer__WEBPACK_IMPORTED_MODULE_1__.ssrRenderAttrs)((0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({
-    id: "header",
-    "class": "header"
-  }, _attrs)), "><nav class=\"navbar navbar-expand-lg\"><a class=\"navbar-brand\"").concat((0,vue_server_renderer__WEBPACK_IMPORTED_MODULE_1__.ssrRenderAttr)("href", _ctx.route('home')), ">\u0421\u0430\u0439\u0442</a><button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\"><span class=\"navbar-toggler-icon\"></span></button><div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\"><ul class=\"navbar-nav mr-auto header-menu\"><li class=\"nav-item active\"><a class=\"header-link\"").concat((0,vue_server_renderer__WEBPACK_IMPORTED_MODULE_1__.ssrRenderAttr)("href", _ctx.route('admin.home')), ">\u0410\u0434\u043C\u0438\u043D\u0438\u0441\u0442\u0440\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435 <span class=\"sr-only\">(current)</span></a></li></ul><ul class=\"navbar-nav ml-auto\"><li class=\"nav-item\"><span class=\"adm-header-user-block\">").concat((0,vue_server_renderer__WEBPACK_IMPORTED_MODULE_1__.ssrInterpolate)($options.name), "</span></li><li class=\"nav-item\"><button type=\"button\" class=\"adm-header-exit\">\u0412\u044B\u0439\u0442\u0438</button></li></ul></div></nav><div class=\"adm-header-bottom\"></div></header>"));
 }
 
 /***/ }),
@@ -2223,15 +2375,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _TheHeader_vue_vue_type_template_id_15699740__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TheHeader.vue?vue&type=template&id=15699740 */ "./resources/js/admin/inertia/shared/layout/TheHeader.vue?vue&type=template&id=15699740");
-/* harmony import */ var _TheHeader_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TheHeader.vue?vue&type=script&lang=js */ "./resources/js/admin/inertia/shared/layout/TheHeader.vue?vue&type=script&lang=js");
+/* harmony import */ var _TheHeader_vue_vue_type_template_id_15699740_ts_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TheHeader.vue?vue&type=template&id=15699740&ts=true */ "./resources/js/admin/inertia/shared/layout/TheHeader.vue?vue&type=template&id=15699740&ts=true");
+/* harmony import */ var _TheHeader_vue_vue_type_script_lang_ts_setup_true__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TheHeader.vue?vue&type=script&lang=ts&setup=true */ "./resources/js/admin/inertia/shared/layout/TheHeader.vue?vue&type=script&lang=ts&setup=true");
 /* harmony import */ var _var_www_html_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,_var_www_html_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_TheHeader_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['ssrRender',_TheHeader_vue_vue_type_template_id_15699740__WEBPACK_IMPORTED_MODULE_0__.ssrRender],['__file',"resources/js/admin/inertia/shared/layout/TheHeader.vue"]])
+const __exports__ = /*#__PURE__*/(0,_var_www_html_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_TheHeader_vue_vue_type_script_lang_ts_setup_true__WEBPACK_IMPORTED_MODULE_1__["default"], [['ssrRender',_TheHeader_vue_vue_type_template_id_15699740_ts_true__WEBPACK_IMPORTED_MODULE_0__.ssrRender],['__file',"resources/js/admin/inertia/shared/layout/TheHeader.vue"]])
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
 
@@ -2294,6 +2446,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/admin/inertia/shared/layout/TheHeader.vue?vue&type=script&lang=ts&setup=true":
+/*!***************************************************************************************************!*\
+  !*** ./resources/js/admin/inertia/shared/layout/TheHeader.vue?vue&type=script&lang=ts&setup=true ***!
+  \***************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_ts_loader_index_js_clonedRuleSet_21_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TheHeader_vue_vue_type_script_lang_ts_setup_true__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_ts_loader_index_js_clonedRuleSet_21_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TheHeader_vue_vue_type_script_lang_ts_setup_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/ts-loader/index.js??clonedRuleSet-21!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./TheHeader.vue?vue&type=script&lang=ts&setup=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/ts-loader/index.js??clonedRuleSet-21!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/admin/inertia/shared/layout/TheHeader.vue?vue&type=script&lang=ts&setup=true");
+ 
+
+/***/ }),
+
 /***/ "./resources/js/admin/inertia/Pages/Articles/Index.vue?vue&type=template&id=69f5de3e&ts=true":
 /*!***************************************************************************************************!*\
   !*** ./resources/js/admin/inertia/Pages/Articles/Index.vue?vue&type=template&id=69f5de3e&ts=true ***!
@@ -2326,6 +2494,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/admin/inertia/shared/layout/TheHeader.vue?vue&type=template&id=15699740&ts=true":
+/*!******************************************************************************************************!*\
+  !*** ./resources/js/admin/inertia/shared/layout/TheHeader.vue?vue&type=template&id=15699740&ts=true ***!
+  \******************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ssrRender": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_ts_loader_index_js_clonedRuleSet_21_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TheHeader_vue_vue_type_template_id_15699740_ts_true__WEBPACK_IMPORTED_MODULE_0__.ssrRender)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_ts_loader_index_js_clonedRuleSet_21_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TheHeader_vue_vue_type_template_id_15699740_ts_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/ts-loader/index.js??clonedRuleSet-21!../../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[3]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./TheHeader.vue?vue&type=template&id=15699740&ts=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/ts-loader/index.js??clonedRuleSet-21!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/admin/inertia/shared/layout/TheHeader.vue?vue&type=template&id=15699740&ts=true");
+
+
+/***/ }),
+
 /***/ "./resources/js/admin/inertia/Pages/Products/Index.vue?vue&type=script&lang=js":
 /*!*************************************************************************************!*\
   !*** ./resources/js/admin/inertia/Pages/Products/Index.vue?vue&type=script&lang=js ***!
@@ -2354,22 +2538,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FormSearchRow_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FormSearchRow_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./FormSearchRow.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/admin/inertia/components/FormSearchRow.vue?vue&type=script&lang=js");
- 
-
-/***/ }),
-
-/***/ "./resources/js/admin/inertia/shared/layout/TheHeader.vue?vue&type=script&lang=js":
-/*!****************************************************************************************!*\
-  !*** ./resources/js/admin/inertia/shared/layout/TheHeader.vue?vue&type=script&lang=js ***!
-  \****************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TheHeader_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TheHeader_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./TheHeader.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/admin/inertia/shared/layout/TheHeader.vue?vue&type=script&lang=js");
  
 
 /***/ }),
@@ -2418,22 +2586,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ssrRender": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FormSearchRow_vue_vue_type_template_id_4f1e46c8__WEBPACK_IMPORTED_MODULE_0__.ssrRender)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FormSearchRow_vue_vue_type_template_id_4f1e46c8__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[3]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./FormSearchRow.vue?vue&type=template&id=4f1e46c8 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/admin/inertia/components/FormSearchRow.vue?vue&type=template&id=4f1e46c8");
-
-
-/***/ }),
-
-/***/ "./resources/js/admin/inertia/shared/layout/TheHeader.vue?vue&type=template&id=15699740":
-/*!**********************************************************************************************!*\
-  !*** ./resources/js/admin/inertia/shared/layout/TheHeader.vue?vue&type=template&id=15699740 ***!
-  \**********************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ssrRender": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TheHeader_vue_vue_type_template_id_15699740__WEBPACK_IMPORTED_MODULE_0__.ssrRender)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TheHeader_vue_vue_type_template_id_15699740__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[3]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./TheHeader.vue?vue&type=template&id=15699740 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/admin/inertia/shared/layout/TheHeader.vue?vue&type=template&id=15699740");
 
 
 /***/ }),
@@ -2535,6 +2687,17 @@ module.exports = require("axios");
 
 /***/ }),
 
+/***/ "pinia":
+/*!************************!*\
+  !*** external "pinia" ***!
+  \************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("pinia");
+
+/***/ }),
+
 /***/ "vue":
 /*!**********************!*\
   !*** external "vue" ***!
@@ -2630,7 +2793,7 @@ var __webpack_exports__ = {};
 (() => {
 "use strict";
 /*!*******************************************!*\
-  !*** ./resources/js/admin/inertia/ssr.js ***!
+  !*** ./resources/js/admin/inertia/ssr.ts ***!
   \*******************************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "vue");
@@ -2644,12 +2807,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var ziggy__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ziggy */ "./vendor/tightenco/ziggy/dist/vue.js");
 /* harmony import */ var ziggy__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(ziggy__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _helpers_ziggy__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/helpers/ziggy */ "./resources/js/helpers/ziggy.js");
+/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! pinia */ "pinia");
+/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(pinia__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _admin_inertia_store__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/admin/inertia/store */ "./resources/js/admin/inertia/store/index.ts");
+
+
+
+ // @ts-ignore
 
 
 
 
 
-
+var pinia = (0,pinia__WEBPACK_IMPORTED_MODULE_6__.createPinia)();
 _inertiajs_server__WEBPACK_IMPORTED_MODULE_3___default()(function (page) {
   return (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_2__.createInertiaApp)({
     page: page,
@@ -2661,11 +2831,18 @@ _inertiajs_server__WEBPACK_IMPORTED_MODULE_3___default()(function (page) {
       var app = _ref.app,
           props = _ref.props,
           plugin = _ref.plugin;
-      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createSSRApp)({
-        render: function render() {
-          return (0,vue__WEBPACK_IMPORTED_MODULE_0__.h)(app, props);
-        }
-      }).use(plugin).use(ziggy__WEBPACK_IMPORTED_MODULE_4__.ZiggyVue, _helpers_ziggy__WEBPACK_IMPORTED_MODULE_5__.Ziggy);
+
+      try {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createSSRApp)({
+          render: function render() {
+            return (0,vue__WEBPACK_IMPORTED_MODULE_0__.h)(app, props);
+          }
+        }).use(plugin).use(ziggy__WEBPACK_IMPORTED_MODULE_4__.ZiggyVue, _helpers_ziggy__WEBPACK_IMPORTED_MODULE_5__.Ziggy); // walkaround for passing page props to pinia
+      } finally {
+        var _props$initialPage;
+
+        (0,_admin_inertia_store__WEBPACK_IMPORTED_MODULE_7__.initFromPageProps)(pinia, props === null || props === void 0 ? void 0 : (_props$initialPage = props.initialPage) === null || _props$initialPage === void 0 ? void 0 : _props$initialPage.props);
+      }
     }
   });
 });

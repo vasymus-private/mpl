@@ -1,7 +1,7 @@
 export default interface User {
-    id: number
-    name: string
-    email: string
+    id: number | null
+    name: string | null
+    email: string | null
     phone: string | null
-    is_anonymous: boolean
+    is_anonymous: boolean | null
 }
