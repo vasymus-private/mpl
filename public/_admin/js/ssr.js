@@ -201,11 +201,23 @@ function ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options
           title: "Статьи"
         }, null, _parent, _scopeId));
 
-        _push("<h1".concat(_scopeId, ">\u0421\u0442\u0430\u0442\u044C\u0438</h1></div>"));
+        _push("<h1".concat(_scopeId, ">\u0421\u0442\u0430\u0442\u044C\u0438</h1><p").concat(_scopeId, "><button class=\"btn btn-primary\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#collapseExample\" aria-expanded=\"false\" aria-controls=\"collapseExample\"").concat(_scopeId, "> Button with data-bs-target </button></p><div class=\"collapse\" id=\"collapseExample\"").concat(_scopeId, "><div class=\"card card-body\"").concat(_scopeId, "> Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger. </div></div></div>"));
       } else {
         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Head"], {
           title: "Статьи"
-        }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h1", null, "Статьи")])];
+        }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h1", null, "Статьи"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+          "class": "btn btn-primary",
+          type: "button",
+          "data-bs-toggle": "collapse",
+          "data-bs-target": "#collapseExample",
+          "aria-expanded": "false",
+          "aria-controls": "collapseExample"
+        }, " Button with data-bs-target ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+          "class": "collapse",
+          id: "collapseExample"
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+          "class": "card card-body"
+        }, " Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger. ")])])];
       }
     }),
     _: 1
@@ -327,14 +339,14 @@ function ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ARTICLES_STORE": () => (/* binding */ ARTICLES_STORE),
+/* harmony export */   "storeName": () => (/* binding */ storeName),
 /* harmony export */   "useArticlesStore": () => (/* binding */ useArticlesStore)
 /* harmony export */ });
 /* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! pinia */ "pinia");
 /* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(pinia__WEBPACK_IMPORTED_MODULE_0__);
 
-var ARTICLES_STORE = "articles";
-var useArticlesStore = (0,pinia__WEBPACK_IMPORTED_MODULE_0__.defineStore)(ARTICLES_STORE, {
+var storeName = "articles";
+var useArticlesStore = (0,pinia__WEBPACK_IMPORTED_MODULE_0__.defineStore)(storeName, {
   state: function state() {
     return {
       entities: []
@@ -358,16 +370,16 @@ var useArticlesStore = (0,pinia__WEBPACK_IMPORTED_MODULE_0__.defineStore)(ARTICL
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "AUTH_STORE": () => (/* binding */ AUTH_STORE),
+/* harmony export */   "storeName": () => (/* binding */ storeName),
 /* harmony export */   "useAuthStore": () => (/* binding */ useAuthStore)
 /* harmony export */ });
 /* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! pinia */ "pinia");
 /* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(pinia__WEBPACK_IMPORTED_MODULE_0__);
 
-var AUTH_STORE = "auth"; // useStore could be anything like useUser, useCart
+var storeName = "auth"; // useStore could be anything like useUser, useCart
 // the first argument is a unique id of the store across your application
 
-var useAuthStore = (0,pinia__WEBPACK_IMPORTED_MODULE_0__.defineStore)(AUTH_STORE, {
+var useAuthStore = (0,pinia__WEBPACK_IMPORTED_MODULE_0__.defineStore)(storeName, {
   state: function state() {
     return {
       user: {
@@ -446,14 +458,14 @@ var initFromPageProps = function initFromPageProps(pinia, initialPageProps) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "SERVICES_STORE": () => (/* binding */ SERVICES_STORE),
+/* harmony export */   "storeName": () => (/* binding */ storeName),
 /* harmony export */   "useServicesStore": () => (/* binding */ useServicesStore)
 /* harmony export */ });
 /* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! pinia */ "pinia");
 /* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(pinia__WEBPACK_IMPORTED_MODULE_0__);
 
-var SERVICES_STORE = "services";
-var useServicesStore = (0,pinia__WEBPACK_IMPORTED_MODULE_0__.defineStore)(SERVICES_STORE, {
+var storeName = "services";
+var useServicesStore = (0,pinia__WEBPACK_IMPORTED_MODULE_0__.defineStore)(storeName, {
   state: function state() {
     return {
       entities: []
@@ -2827,7 +2839,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var pinia = (0,pinia__WEBPACK_IMPORTED_MODULE_6__.createPinia)();
 _inertiajs_server__WEBPACK_IMPORTED_MODULE_3___default()(function (page) {
   return (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_2__.createInertiaApp)({
     page: page,
@@ -2839,6 +2850,7 @@ _inertiajs_server__WEBPACK_IMPORTED_MODULE_3___default()(function (page) {
       var app = _ref.app,
           props = _ref.props,
           plugin = _ref.plugin;
+      var pinia = (0,pinia__WEBPACK_IMPORTED_MODULE_6__.createPinia)();
 
       try {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createSSRApp)({

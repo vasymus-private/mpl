@@ -7,7 +7,6 @@ import { Ziggy } from "@/helpers/ziggy"
 import { createPinia } from "pinia"
 import { initFromPageProps } from "@/admin/inertia/store"
 
-const pinia = createPinia()
 
 createServer((page) =>
     createInertiaApp({
@@ -15,6 +14,7 @@ createServer((page) =>
         render: renderToString,
         resolve: (name) => require(`./Pages/${name}`),
         setup({ app, props, plugin }) {
+            const pinia = createPinia()
             try {
                 return createSSRApp({ render: () => h(app, props) })
                     .use(plugin)

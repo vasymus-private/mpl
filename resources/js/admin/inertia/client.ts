@@ -7,13 +7,14 @@ import { Ziggy } from "@/helpers/ziggy"
 import { InertiaProgress } from "@inertiajs/progress"
 import { createPinia } from "pinia"
 import { initFromPageProps } from "@/admin/inertia/store"
+import 'bootstrap'
 
-const pinia = createPinia()
 
 createInertiaApp({
     resolve: (name) => require(`./Pages/${name}`),
     // @ts-ignore
     setup({ el, App, props, plugin }) {
+        const pinia = createPinia()
         try {
             // console.log("--- base setup ---")
             // console.log('--- App ---', App)
