@@ -4,9 +4,8 @@ import { createInertiaApp } from "@inertiajs/inertia-vue3"
 import { ZiggyVue } from "ziggy"
 // @ts-ignore
 import { Ziggy } from "@/helpers/ziggy"
-import { InertiaProgress } from '@inertiajs/progress'
-import { createPinia } from 'pinia'
-
+import { InertiaProgress } from "@inertiajs/progress"
+import { createPinia } from "pinia"
 
 const pinia = createPinia()
 
