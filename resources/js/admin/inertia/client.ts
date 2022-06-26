@@ -4,17 +4,16 @@ import { createInertiaApp } from "@inertiajs/inertia-vue3"
 import { ZiggyVue } from "ziggy"
 // @ts-ignore
 import { Ziggy } from "@/helpers/ziggy"
-import { InertiaProgress } from '@inertiajs/progress'
-
+import { InertiaProgress } from "@inertiajs/progress"
 
 createInertiaApp({
     resolve: (name) => {
-        console.log('name', name)
+        console.log("name", name)
         return require(`./Pages/${name}.vue`).default
     },
     // @ts-ignore
     setup({ el, App, props, plugin, ...rest }) {
-        console.log('--- base setup ---', props, rest)
+        console.log("--- base setup ---", props, rest)
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue, Ziggy)
@@ -28,7 +27,7 @@ InertiaProgress.init({
     delay: 250,
 
     // The color of the progress bar.
-    color: '#29d',
+    color: "#29d",
 
     // Whether to include the default NProgress styles.
     includeCSS: true,
