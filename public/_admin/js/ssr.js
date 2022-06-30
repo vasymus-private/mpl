@@ -2857,7 +2857,7 @@ _inertiajs_server__WEBPACK_IMPORTED_MODULE_3___default()(function (page) {
           render: function render() {
             return (0,vue__WEBPACK_IMPORTED_MODULE_0__.h)(app, props);
           }
-        }).use(plugin).use(ziggy__WEBPACK_IMPORTED_MODULE_4__.ZiggyVue, _helpers_ziggy__WEBPACK_IMPORTED_MODULE_5__.Ziggy); // walkaround for passing page props to pinia
+        }).use(plugin).use(ziggy__WEBPACK_IMPORTED_MODULE_4__.ZiggyVue, _helpers_ziggy__WEBPACK_IMPORTED_MODULE_5__.Ziggy).use(pinia); // walkaround for passing page props to pinia
       } finally {
         var _props$initialPage;
 

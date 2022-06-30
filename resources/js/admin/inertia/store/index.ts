@@ -8,6 +8,7 @@ import { Pinia } from "pinia"
 import { useArticlesStore } from "@/admin/inertia/store/articles"
 import { Service } from "@/admin/inertia/entities/Service"
 import { useServicesStore } from "@/admin/inertia/store/services"
+import { useCategoriesTreeStore } from '@/admin/inertia/store/categoriesTree'
 
 // props on all page @see \App\Http\Middleware\HandleInertiaRequests::share()
 export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
@@ -39,4 +40,7 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
 
     const servicesStore = useServicesStore(pinia)
     servicesStore.setEntities(services)
+
+    const categoriesTreeStore = useCategoriesTreeStore(pinia)
+    categoriesTreeStore.setEntities(categoriesTree)
 }

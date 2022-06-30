@@ -231,6 +231,7 @@
 <script>
 import { Link } from '@inertiajs/inertia-vue3'
 import routeNames from "@/admin/mixins/routeNames";
+import {routeTypes} from "@/admin/inertia/shared/ziggyRoutes"
 
 export default {
     components: {
@@ -253,14 +254,7 @@ export default {
         return {
             cache: new Map(),
             routeTypes: {
-                categoriesSub : 'categories-sub',
-                categories: 'categories',
-                reference: 'reference',
-                referenceBrands: 'reference-brands',
-                referenceArticles: 'reference-articles',
-                referenceServices: 'reference-services',
-                referenceFaq: 'reference-faq',
-                referenceContacts: 'reference-contacts',
+                ...routeTypes
             },
         }
     },

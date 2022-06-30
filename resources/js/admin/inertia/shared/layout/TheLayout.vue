@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import TheHeader from "@/admin/inertia/shared/layout/TheHeader.vue"
-// import TheSidebar from "@/admin/inertia/shared/layout/TheSidebar.vue"
+import TheSidebar2 from "@/admin/inertia/shared/layout/TheSidebar2.vue"
 
 </script>
 
@@ -9,7 +9,7 @@ import TheHeader from "@/admin/inertia/shared/layout/TheHeader.vue"
         <TheHeader />
         <main class="d-flex">
             <div id="resize-container" class="">
-<!--                <the-sidebar />-->
+                <TheSidebar2 />
                 <div id="resizer"></div>
                 <div class="" id="content">
                     <slot></slot>

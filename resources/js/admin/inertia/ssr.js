@@ -19,6 +19,7 @@ createServer((page) =>
                 return createSSRApp({ render: () => h(app, props) })
                     .use(plugin)
                     .use(ZiggyVue, Ziggy)
+                    .use(pinia)
                 // walkaround for passing page props to pinia
             } finally {
                 initFromPageProps(pinia, props?.initialPage?.props)
