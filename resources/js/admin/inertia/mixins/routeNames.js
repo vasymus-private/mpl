@@ -1,4 +1,4 @@
-import {routeNames} from "@/admin/inertia/shared/ziggyRoutes";
+import { routeNames } from "@/admin/inertia/shared/ziggyRoutes"
 
 export default {
     computed: {

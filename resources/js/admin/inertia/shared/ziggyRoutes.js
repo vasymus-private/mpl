@@ -39,12 +39,12 @@ export const routeNames = {
 }
 
 export const routeTypes = {
-    categoriesSub : 'categories-sub',
-    categories: 'categories',
-    reference: 'reference',
-    referenceBrands: 'reference-brands',
-    referenceArticles: 'reference-articles',
-    referenceServices: 'reference-services',
-    referenceFaq: 'reference-faq',
-    referenceContacts: 'reference-contacts',
+    categoriesSub: "categories-sub",
+    categories: "categories",
+    reference: "reference",
+    referenceBrands: "reference-brands",
+    referenceArticles: "reference-articles",
+    referenceServices: "reference-services",
+    referenceFaq: "reference-faq",
+    referenceContacts: "reference-contacts",
 }
