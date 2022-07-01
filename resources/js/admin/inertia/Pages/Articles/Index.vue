@@ -2,7 +2,7 @@
 import { Head } from '@inertiajs/inertia-vue3'
 import TheLayout from "@/admin/inertia/shared/layout/TheLayout.vue"
 import {onMounted} from 'vue'
-import {useArticlesStore} from "@/admin/inertia/store/articles"
+import {useArticlesStore} from "@/admin/inertia/modules/articles"
 
 
 const articlesStore = useArticlesStore();

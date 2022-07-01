@@ -1,13 +1,12 @@
 import { createApp, h } from "vue"
 import { createInertiaApp } from "@inertiajs/inertia-vue3"
-// @ts-ignore
-import { ZiggyVue } from "ziggy"
-// @ts-ignore
+import {ZiggyVue} from "ziggy-js/src/js/vue";
 import { Ziggy } from "@/helpers/ziggy"
 import { InertiaProgress } from "@inertiajs/progress"
 import { createPinia } from "pinia"
-import { initFromPageProps } from "@/admin/inertia/store"
+import { initFromPageProps } from "@/admin/inertia/modules"
 import "bootstrap"
+
 
 createInertiaApp({
     resolve: (name) => require(`./Pages/${name}`),

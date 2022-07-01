@@ -25443,7 +25443,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
 /* harmony import */ var _admin_inertia_shared_layout_TheLayout_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/admin/inertia/shared/layout/TheLayout.vue */ "./resources/js/admin/inertia/shared/layout/TheLayout.vue");
-/* harmony import */ var _admin_inertia_store_articles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/admin/inertia/store/articles */ "./resources/js/admin/inertia/store/articles.ts");
+/* harmony import */ var _admin_inertia_modules_articles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/admin/inertia/modules/articles */ "./resources/js/admin/inertia/modules/articles.ts");
 
 
 
@@ -25454,7 +25454,7 @@ __webpack_require__.r(__webpack_exports__);
   setup: function setup(__props, _ref) {
     var expose = _ref.expose;
     expose();
-    var articlesStore = (0,_admin_inertia_store_articles__WEBPACK_IMPORTED_MODULE_3__.useArticlesStore)();
+    var articlesStore = (0,_admin_inertia_modules_articles__WEBPACK_IMPORTED_MODULE_3__.useArticlesStore)();
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
       console.log('--- articles', articlesStore.entities);
     });
@@ -25487,7 +25487,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
 /* harmony import */ var _admin_inertia_shared_layout_TheLayout_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/admin/inertia/shared/layout/TheLayout.vue */ "./resources/js/admin/inertia/shared/layout/TheLayout.vue");
-/* harmony import */ var _admin_inertia_store_services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/admin/inertia/store/services */ "./resources/js/admin/inertia/store/services.ts");
+/* harmony import */ var _admin_inertia_modules_services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/admin/inertia/modules/services */ "./resources/js/admin/inertia/modules/services.ts");
 
 
 
@@ -25498,7 +25498,7 @@ __webpack_require__.r(__webpack_exports__);
   setup: function setup(__props, _ref) {
     var expose = _ref.expose;
     expose();
-    var servicesStore = (0,_admin_inertia_store_services__WEBPACK_IMPORTED_MODULE_3__.useServicesStore)();
+    var servicesStore = (0,_admin_inertia_modules_services__WEBPACK_IMPORTED_MODULE_3__.useServicesStore)();
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
       console.log('--- services', servicesStore.entities);
     });
@@ -25559,10 +25559,6 @@ __webpack_require__.r(__webpack_exports__);
       type: Boolean,
       required: false
     },
-    isArrow: {
-      type: Boolean,
-      required: false
-    },
     isArrowSpace: {
       type: Boolean,
       required: false
@@ -25602,7 +25598,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _admin_inertia_store_auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/admin/inertia/store/auth */ "./resources/js/admin/inertia/store/auth.ts");
+/* harmony import */ var _admin_inertia_modules_auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/admin/inertia/modules/auth */ "./resources/js/admin/inertia/modules/auth.ts");
 
 
 
@@ -25611,7 +25607,7 @@ __webpack_require__.r(__webpack_exports__);
   setup: function setup(__props, _ref) {
     var expose = _ref.expose;
     expose();
-    var authStore = (0,_admin_inertia_store_auth__WEBPACK_IMPORTED_MODULE_2__.useAuthStore)();
+    var authStore = (0,_admin_inertia_modules_auth__WEBPACK_IMPORTED_MODULE_2__.useAuthStore)();
 
     var logout = function logout() {
       axios__WEBPACK_IMPORTED_MODULE_1___default().post(route('logout')).then(function () {
@@ -25682,7 +25678,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var _admin_inertia_shared_layout_NavItem_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/admin/inertia/shared/layout/NavItem.vue */ "./resources/js/admin/inertia/shared/layout/NavItem.vue");
-/* harmony import */ var _admin_inertia_shared_ziggyRoutes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/admin/inertia/shared/ziggyRoutes */ "./resources/js/admin/inertia/shared/ziggyRoutes.js");
+/* harmony import */ var _admin_inertia_modules_routes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/admin/inertia/modules/routes */ "./resources/js/admin/inertia/modules/routes.ts");
 
 
 
@@ -25691,9 +25687,12 @@ __webpack_require__.r(__webpack_exports__);
   setup: function setup(__props, _ref) {
     var expose = _ref.expose;
     expose();
+    var routesStore = (0,_admin_inertia_modules_routes__WEBPACK_IMPORTED_MODULE_2__.useRoutesStore)();
     var __returned__ = {
+      routesStore: routesStore,
       NavItem: _admin_inertia_shared_layout_NavItem_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-      routeNames: _admin_inertia_shared_ziggyRoutes__WEBPACK_IMPORTED_MODULE_2__.routeNames
+      RouteTypeEnum: _admin_inertia_modules_routes__WEBPACK_IMPORTED_MODULE_2__.RouteTypeEnum,
+      routeNames: _admin_inertia_modules_routes__WEBPACK_IMPORTED_MODULE_2__.routeNames
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
       enumerable: false,
@@ -25824,7 +25823,7 @@ var _hoisted_5 = ["id"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_1, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)((0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDynamicComponent)($props.isInertiaLink ? $setup.Link : 'a'), {
     href: $props.idOrHref,
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['nav-link', $props.navLinkClass || '', $props.isActiveCollapse ? '' : 'collapsed']),
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['nav-link', $props.navLinkClass || '', $props.isCollapse && !$props.isActiveCollapse ? 'collapsed' : '']),
     "data-bs-toggle": $props.isCollapse ? 'collapse' : null,
     "data-bs-target": $props.isCollapse ? "#".concat($props.idOrHref) : null,
     "aria-expanded": !$props.isCollapse ? null : $props.isCollapse && $props.isActiveCollapse ? 'true' : 'false',
@@ -26018,11 +26017,153 @@ var _hoisted_2 = {
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("aside", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["NavItem"], {
+    "id-or-href": "reference",
+    "is-inertia-link": false,
+    title: "Справочники",
+    "is-collapse": true,
+    "is-active-collapse": $setup.routesStore.isActiveRoute($setup.RouteTypeEnum.reference),
+    "icon-class": "adm-icon iblock_menu_icon_types"
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["NavItem"], {
+        "id-or-href": "reference-brands",
+        "is-inertia-link": false,
+        title: "Производители",
+        "is-collapse": true,
+        "is-active-collapse": $setup.routesStore.isActiveRoute($setup.RouteTypeEnum.referenceBrands),
+        "icon-class": "adm-icon iblock_menu_icon_iblocks",
+        "nav-link-class": "sub-level-1"
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["NavItem"], {
+            "id-or-href": _ctx.route($setup.routeNames.ROUTE_ADMIN_BRANDS_INDEX),
+            "is-inertia-link": false,
+            title: "Элементы",
+            "is-collapse": false,
+            "icon-class": "adm-arrow-icon-dot",
+            "nav-link-class": "sub-level-2"
+          }, null, 8
+          /* PROPS */
+          , ["id-or-href"])];
+        }),
+        _: 1
+        /* STABLE */
+
+      }, 8
+      /* PROPS */
+      , ["is-active-collapse"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["NavItem"], {
+        "id-or-href": "reference-articles",
+        "is-inertia-link": false,
+        title: "Статьи",
+        "is-collapse": true,
+        "is-active-collapse": $setup.routesStore.isActiveRoute($setup.RouteTypeEnum.referenceArticles),
+        "icon-class": "adm-icon iblock_menu_icon_iblocks",
+        "nav-link-class": "sub-level-1"
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["NavItem"], {
+            "id-or-href": _ctx.route($setup.routeNames.ROUTE_ADMIN_ARTICLES_INDEX),
+            "is-inertia-link": true,
+            title: "Элементы",
+            "is-collapse": false,
+            "icon-class": "adm-arrow-icon-dot",
+            "nav-link-class": "sub-level-2"
+          }, null, 8
+          /* PROPS */
+          , ["id-or-href"])];
+        }),
+        _: 1
+        /* STABLE */
+
+      }, 8
+      /* PROPS */
+      , ["is-active-collapse"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["NavItem"], {
+        "id-or-href": "reference-services",
+        "is-inertia-link": false,
+        title: "Услуги",
+        "is-collapse": true,
+        "is-active-collapse": $setup.routesStore.isActiveRoute($setup.RouteTypeEnum.referenceServices),
+        "icon-class": "adm-icon iblock_menu_icon_iblocks",
+        "nav-link-class": "sub-level-1"
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["NavItem"], {
+            "id-or-href": _ctx.route($setup.routeNames.ROUTE_ADMIN_SERVICES_INDEX),
+            "is-inertia-link": true,
+            title: "Элементы",
+            "is-collapse": false,
+            "icon-class": "adm-arrow-icon-dot",
+            "nav-link-class": "sub-level-2"
+          }, null, 8
+          /* PROPS */
+          , ["id-or-href"])];
+        }),
+        _: 1
+        /* STABLE */
+
+      }, 8
+      /* PROPS */
+      , ["is-active-collapse"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["NavItem"], {
+        "id-or-href": "reference-faq",
+        "is-inertia-link": false,
+        title: "Вопрос-ответ",
+        "is-collapse": true,
+        "is-active-collapse": $setup.routesStore.isActiveRoute($setup.RouteTypeEnum.referenceFaq),
+        "icon-class": "adm-icon iblock_menu_icon_iblocks",
+        "nav-link-class": "sub-level-1"
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["NavItem"], {
+            "id-or-href": "#",
+            "is-inertia-link": false,
+            title: "Элементы",
+            "is-collapse": false,
+            "icon-class": "adm-arrow-icon-dot",
+            "nav-link-class": "sub-level-2"
+          })];
+        }),
+        _: 1
+        /* STABLE */
+
+      }, 8
+      /* PROPS */
+      , ["is-active-collapse"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["NavItem"], {
+        "id-or-href": "reference-contacts",
+        "is-inertia-link": false,
+        title: "Контактные формы",
+        "is-collapse": true,
+        "is-active-collapse": $setup.routesStore.isActiveRoute($setup.RouteTypeEnum.referenceContacts),
+        "icon-class": "adm-icon iblock_menu_icon_iblocks",
+        "nav-link-class": "sub-level-1"
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["NavItem"], {
+            "id-or-href": "#",
+            "is-inertia-link": false,
+            title: "Элементы",
+            "is-collapse": false,
+            "icon-class": "adm-arrow-icon-dot",
+            "nav-link-class": "sub-level-2"
+          })];
+        }),
+        _: 1
+        /* STABLE */
+
+      }, 8
+      /* PROPS */
+      , ["is-active-collapse"])];
+    }),
+    _: 1
+    /* STABLE */
+
+  }, 8
+  /* PROPS */
+  , ["is-active-collapse"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["NavItem"], {
     "id-or-href": "highload",
     "is-inertia-link": false,
     title: "Highload-блоки",
     "is-collapse": true,
-    "is-active-collapse": true,
+    "is-active-collapse": false,
     "icon-class": "adm-icon iblock_menu_icon_types"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -26061,10 +26202,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./resources/js/admin/inertia/store/articles.ts":
-/*!******************************************************!*\
-  !*** ./resources/js/admin/inertia/store/articles.ts ***!
-  \******************************************************/
+/***/ "./resources/js/admin/inertia/modules/articles.ts":
+/*!********************************************************!*\
+  !*** ./resources/js/admin/inertia/modules/articles.ts ***!
+  \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -26091,10 +26232,10 @@ var useArticlesStore = (0,pinia__WEBPACK_IMPORTED_MODULE_0__.defineStore)(storeN
 
 /***/ }),
 
-/***/ "./resources/js/admin/inertia/store/auth.ts":
-/*!**************************************************!*\
-  !*** ./resources/js/admin/inertia/store/auth.ts ***!
-  \**************************************************/
+/***/ "./resources/js/admin/inertia/modules/auth.ts":
+/*!****************************************************!*\
+  !*** ./resources/js/admin/inertia/modules/auth.ts ***!
+  \****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -26134,10 +26275,10 @@ var useAuthStore = (0,pinia__WEBPACK_IMPORTED_MODULE_0__.defineStore)(storeName,
 
 /***/ }),
 
-/***/ "./resources/js/admin/inertia/store/categoriesTree.ts":
-/*!************************************************************!*\
-  !*** ./resources/js/admin/inertia/store/categoriesTree.ts ***!
-  \************************************************************/
+/***/ "./resources/js/admin/inertia/modules/categoriesTree.ts":
+/*!**************************************************************!*\
+  !*** ./resources/js/admin/inertia/modules/categoriesTree.ts ***!
+  \**************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -26215,10 +26356,10 @@ var getIdsCb = function getIdsCb(acc, category) {
 
 /***/ }),
 
-/***/ "./resources/js/admin/inertia/store/index.ts":
-/*!***************************************************!*\
-  !*** ./resources/js/admin/inertia/store/index.ts ***!
-  \***************************************************/
+/***/ "./resources/js/admin/inertia/modules/index.ts":
+/*!*****************************************************!*\
+  !*** ./resources/js/admin/inertia/modules/index.ts ***!
+  \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -26226,10 +26367,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "initFromPageProps": () => (/* binding */ initFromPageProps)
 /* harmony export */ });
-/* harmony import */ var _admin_inertia_store_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/admin/inertia/store/auth */ "./resources/js/admin/inertia/store/auth.ts");
-/* harmony import */ var _admin_inertia_store_articles__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/admin/inertia/store/articles */ "./resources/js/admin/inertia/store/articles.ts");
-/* harmony import */ var _admin_inertia_store_services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/admin/inertia/store/services */ "./resources/js/admin/inertia/store/services.ts");
-/* harmony import */ var _admin_inertia_store_categoriesTree__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/admin/inertia/store/categoriesTree */ "./resources/js/admin/inertia/store/categoriesTree.ts");
+/* harmony import */ var _admin_inertia_modules_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/admin/inertia/modules/auth */ "./resources/js/admin/inertia/modules/auth.ts");
+/* harmony import */ var _admin_inertia_modules_articles__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/admin/inertia/modules/articles */ "./resources/js/admin/inertia/modules/articles.ts");
+/* harmony import */ var _admin_inertia_modules_services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/admin/inertia/modules/services */ "./resources/js/admin/inertia/modules/services.ts");
+/* harmony import */ var _admin_inertia_modules_categoriesTree__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/admin/inertia/modules/categoriesTree */ "./resources/js/admin/inertia/modules/categoriesTree.ts");
 
 
 
@@ -26251,22 +26392,199 @@ var initFromPageProps = function initFromPageProps(pinia, initialPageProps) {
       categoriesTree = _initialPageProps$cat === void 0 ? [] : _initialPageProps$cat,
       _initialPageProps$ser = initialPageProps.services,
       services = _initialPageProps$ser === void 0 ? [] : _initialPageProps$ser;
-  var authStore = (0,_admin_inertia_store_auth__WEBPACK_IMPORTED_MODULE_0__.useAuthStore)(pinia);
+  var authStore = (0,_admin_inertia_modules_auth__WEBPACK_IMPORTED_MODULE_0__.useAuthStore)(pinia);
   authStore.setAuthUser(auth.user);
-  var articlesStore = (0,_admin_inertia_store_articles__WEBPACK_IMPORTED_MODULE_1__.useArticlesStore)(pinia);
+  var articlesStore = (0,_admin_inertia_modules_articles__WEBPACK_IMPORTED_MODULE_1__.useArticlesStore)(pinia);
   articlesStore.setEntities(articles);
-  var servicesStore = (0,_admin_inertia_store_services__WEBPACK_IMPORTED_MODULE_2__.useServicesStore)(pinia);
+  var servicesStore = (0,_admin_inertia_modules_services__WEBPACK_IMPORTED_MODULE_2__.useServicesStore)(pinia);
   servicesStore.setEntities(services);
-  var categoriesTreeStore = (0,_admin_inertia_store_categoriesTree__WEBPACK_IMPORTED_MODULE_3__.useCategoriesTreeStore)(pinia);
+  var categoriesTreeStore = (0,_admin_inertia_modules_categoriesTree__WEBPACK_IMPORTED_MODULE_3__.useCategoriesTreeStore)(pinia);
   categoriesTreeStore.setEntities(categoriesTree);
 };
 
 /***/ }),
 
-/***/ "./resources/js/admin/inertia/store/services.ts":
+/***/ "./resources/js/admin/inertia/modules/routes.ts":
 /*!******************************************************!*\
-  !*** ./resources/js/admin/inertia/store/services.ts ***!
+  !*** ./resources/js/admin/inertia/modules/routes.ts ***!
   \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "storeName": () => (/* binding */ storeName),
+/* harmony export */   "useRoutesStore": () => (/* binding */ useRoutesStore),
+/* harmony export */   "routeNames": () => (/* binding */ routeNames),
+/* harmony export */   "RouteTypeEnum": () => (/* binding */ RouteTypeEnum),
+/* harmony export */   "routeTypes": () => (/* binding */ routeTypes)
+/* harmony export */ });
+/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! pinia */ "./node_modules/pinia/dist/pinia.esm-browser.js");
+/* harmony import */ var _admin_inertia_modules_categoriesTree__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/admin/inertia/modules/categoriesTree */ "./resources/js/admin/inertia/modules/categoriesTree.ts");
+/* harmony import */ var ziggy_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ziggy-js */ "./node_modules/ziggy-js/dist/index.js");
+/* harmony import */ var ziggy_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(ziggy_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _helpers_ziggy__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/helpers/ziggy */ "./resources/js/helpers/ziggy.js");
+
+
+
+
+var storeName = 'routes';
+var categoryAndSubtreeIdsCache = new Map();
+var useRoutesStore = (0,pinia__WEBPACK_IMPORTED_MODULE_3__.defineStore)(storeName, {
+  getters: {
+    isActiveRoute: function isActiveRoute() {
+      return function (type) {
+        var id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+        var categoriesTreeStore = (0,_admin_inertia_modules_categoriesTree__WEBPACK_IMPORTED_MODULE_0__.useCategoriesTreeStore)();
+        var router = ziggy_js__WEBPACK_IMPORTED_MODULE_1___default()(undefined, undefined, undefined, _helpers_ziggy__WEBPACK_IMPORTED_MODULE_2__.Ziggy);
+
+        switch (type) {
+          case RouteTypeEnum.categoriesSub:
+          case RouteTypeEnum.categories:
+            {
+              if (!router.current(RouteNameGroupEnum.Products) && !router.current(RouteNameGroupEnum.Categories)) {
+                return false;
+              }
+
+              if (id === null) {
+                return true;
+              }
+
+              var categoryAndSubtreeIds;
+
+              if (categoryAndSubtreeIdsCache.has(id)) {
+                categoryAndSubtreeIds = categoryAndSubtreeIdsCache.get(id);
+              }
+
+              if (!categoryAndSubtreeIdsCache.has(id)) {
+                categoryAndSubtreeIdsCache.set(id, categoriesTreeStore.getCategoryAndSubtreeIds(id));
+                categoryAndSubtreeIds = categoryAndSubtreeIdsCache.get(id);
+              }
+
+              if (!categoryAndSubtreeIds) {
+                return false;
+              }
+
+              var routeParams = router.params;
+              var categoryIdParam = +routeParams.category_id;
+              return categoryAndSubtreeIds.includes(categoryIdParam);
+            }
+
+          case RouteTypeEnum.reference:
+            {
+              return router.current(RouteNameGroupEnum.Brands) || router.current(RouteNameGroupEnum.Articles) || router.current(RouteNameGroupEnum.Services) || router.current(RouteNameGroupEnum.Faq) || router.current(RouteNameGroupEnum.Contacts);
+            }
+
+          case RouteTypeEnum.referenceBrands:
+            {
+              return router.current(RouteNameGroupEnum.Brands);
+            }
+
+          case RouteTypeEnum.referenceArticles:
+            {
+              return router.current(RouteNameGroupEnum.Articles);
+            }
+
+          case RouteTypeEnum.referenceServices:
+            {
+              return router.current(RouteNameGroupEnum.Services);
+            }
+
+          case RouteTypeEnum.referenceFaq:
+            {
+              return router.current(RouteNameGroupEnum.Faq);
+            }
+
+          case RouteTypeEnum.referenceContacts:
+            {
+              return router.current(RouteNameGroupEnum.Contacts);
+            }
+
+          default:
+            {
+              return false;
+            }
+        }
+      };
+    }
+  }
+});
+var routeNames = {
+  ROUTE_ADMIN_HOME: "admin.home",
+  ROUTE_ADMIN_MEDIA: "admin.media",
+  ROUTE_ADMIN_PRODUCTS_INDEX: "admin.products.index",
+  ROUTE_ADMIN_PRODUCTS_CREATE: "admin.products.create",
+  ROUTE_ADMIN_PRODUCTS_EDIT: "admin.products.edit",
+  ROUTE_ADMIN_PRODUCTS_TEMP_INDEX: "admin.products.temp.index",
+  ROUTE_ADMIN_PRODUCTS_TEMP_CREATE: "admin.products.temp.create",
+  ROUTE_ADMIN_PRODUCTS_TEMP_EDIT: "admin.products.temp.edit",
+  ROUTE_ADMIN_CATEGORIES_INDEX: "admin.categories.index",
+  ROUTE_ADMIN_CATEGORIES_CREATE: "admin.categories.create",
+  ROUTE_ADMIN_CATEGORIES_EDIT: "admin.categories.edit",
+  ROUTE_ADMIN_BRANDS_INDEX: "admin.brands.index",
+  ROUTE_ADMIN_BRANDS_CREATE: "admin.brands.create",
+  ROUTE_ADMIN_BRANDS_EDIT: "admin.brands.edit",
+  ROUTE_ADMIN_ORDERS_INDEX: "admin.orders.index",
+  ROUTE_ADMIN_ORDERS_CREATE: "admin.orders.create",
+  ROUTE_ADMIN_ORDERS_EDIT: "admin.orders.edit",
+  ROUTE_ADMIN_ARTICLES_INDEX: "admin.articles.index",
+  ROUTE_ADMIN_ARTICLES_CREATE: "admin.articles.create",
+  ROUTE_ADMIN_ARTICLES_EDIT: "admin.articles.edit",
+  ROUTE_ADMIN_SERVICES_INDEX: "admin.services.index",
+  ROUTE_ADMIN_SERVICES_CREATE: "admin.services.create",
+  ROUTE_ADMIN_SERVICES_EDIT: "admin.services.edit",
+  ROUTE_ADMIN_EXPORT_PRODUCTS_INDEX: "admin.export-products.index",
+  ROUTE_ADMIN_EXPORT_PRODUCTS_SHOW: "admin.export-products.show",
+  ROUTE_ADMIN_EXPORT_PRODUCTS_STORE: "admin.export-products.store",
+  ROUTE_ADMIN_EXPORT_PRODUCTS_DELETE: "admin.export-products.delete",
+  ROUTE_ADMIN_AJAX_SORT_COLUMNS: "admin-ajax.sort-columns"
+};
+var RouteNameGroupEnum;
+
+(function (RouteNameGroupEnum) {
+  RouteNameGroupEnum["Products"] = "admin.products.*";
+  RouteNameGroupEnum["Categories"] = "admin.categories.*";
+  RouteNameGroupEnum["Brands"] = "admin.brands.*";
+  RouteNameGroupEnum["Articles"] = "admin.articles.*";
+  RouteNameGroupEnum["Services"] = "admin.services.*";
+  RouteNameGroupEnum["Faq"] = "admin.faq.*";
+  RouteNameGroupEnum["Contacts"] = "admin.contacts.*";
+})(RouteNameGroupEnum || (RouteNameGroupEnum = {}));
+
+var RouteTypeEnum;
+
+(function (RouteTypeEnum) {
+  RouteTypeEnum["categoriesSub"] = "categories-sub";
+  RouteTypeEnum["categories"] = "categories";
+  RouteTypeEnum["reference"] = "reference";
+  RouteTypeEnum["referenceBrands"] = "reference-brands";
+  RouteTypeEnum["referenceArticles"] = "reference-articles";
+  RouteTypeEnum["referenceServices"] = "reference-services";
+  RouteTypeEnum["referenceFaq"] = "reference-faq";
+  RouteTypeEnum["referenceContacts"] = "reference-contacts";
+})(RouteTypeEnum || (RouteTypeEnum = {}));
+/**
+ * @deprecated use {@link RouteTypeEnum}
+ */
+
+
+var routeTypes = {
+  categoriesSub: 'categories-sub',
+  categories: 'categories',
+  reference: 'reference',
+  referenceBrands: 'reference-brands',
+  referenceArticles: 'reference-articles',
+  referenceServices: 'reference-services',
+  referenceFaq: 'reference-faq',
+  referenceContacts: 'reference-contacts'
+};
+
+/***/ }),
+
+/***/ "./resources/js/admin/inertia/modules/services.ts":
+/*!********************************************************!*\
+  !*** ./resources/js/admin/inertia/modules/services.ts ***!
+  \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -26994,7 +27312,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _admin_inertia_shared_ziggyRoutes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/admin/inertia/shared/ziggyRoutes */ "./resources/js/admin/inertia/shared/ziggyRoutes.js");
+/* harmony import */ var _admin_inertia_modules_routes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/admin/inertia/modules/routes */ "./resources/js/admin/inertia/modules/routes.ts");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -27008,65 +27326,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       /**
        * @see src/App/Constants.php
        */
-      return _objectSpread({}, _admin_inertia_shared_ziggyRoutes__WEBPACK_IMPORTED_MODULE_0__.routeNames);
+      return _objectSpread({}, _admin_inertia_modules_routes__WEBPACK_IMPORTED_MODULE_0__.routeNames);
     }
   }
 });
-
-/***/ }),
-
-/***/ "./resources/js/admin/inertia/shared/ziggyRoutes.js":
-/*!**********************************************************!*\
-  !*** ./resources/js/admin/inertia/shared/ziggyRoutes.js ***!
-  \**********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "routeNames": () => (/* binding */ routeNames),
-/* harmony export */   "routeTypes": () => (/* binding */ routeTypes)
-/* harmony export */ });
-var routeNames = {
-  ROUTE_ADMIN_HOME: "admin.home",
-  ROUTE_ADMIN_MEDIA: "admin.media",
-  ROUTE_ADMIN_PRODUCTS_INDEX: "admin.products.index",
-  ROUTE_ADMIN_PRODUCTS_CREATE: "admin.products.create",
-  ROUTE_ADMIN_PRODUCTS_EDIT: "admin.products.edit",
-  ROUTE_ADMIN_PRODUCTS_TEMP_INDEX: "admin.products.temp.index",
-  ROUTE_ADMIN_PRODUCTS_TEMP_CREATE: "admin.products.temp.create",
-  ROUTE_ADMIN_PRODUCTS_TEMP_EDIT: "admin.products.temp.edit",
-  ROUTE_ADMIN_CATEGORIES_INDEX: "admin.categories.index",
-  ROUTE_ADMIN_CATEGORIES_CREATE: "admin.categories.create",
-  ROUTE_ADMIN_CATEGORIES_EDIT: "admin.categories.edit",
-  ROUTE_ADMIN_BRANDS_INDEX: "admin.brands.index",
-  ROUTE_ADMIN_BRANDS_CREATE: "admin.brands.create",
-  ROUTE_ADMIN_BRANDS_EDIT: "admin.brands.edit",
-  ROUTE_ADMIN_ORDERS_INDEX: "admin.orders.index",
-  ROUTE_ADMIN_ORDERS_CREATE: "admin.orders.create",
-  ROUTE_ADMIN_ORDERS_EDIT: "admin.orders.edit",
-  ROUTE_ADMIN_ARTICLES_INDEX: "admin.articles.index",
-  ROUTE_ADMIN_ARTICLES_CREATE: "admin.articles.create",
-  ROUTE_ADMIN_ARTICLES_EDIT: "admin.articles.edit",
-  ROUTE_ADMIN_SERVICES_INDEX: "admin.services.index",
-  ROUTE_ADMIN_SERVICES_CREATE: "admin.services.create",
-  ROUTE_ADMIN_SERVICES_EDIT: "admin.services.edit",
-  ROUTE_ADMIN_EXPORT_PRODUCTS_INDEX: "admin.export-products.index",
-  ROUTE_ADMIN_EXPORT_PRODUCTS_SHOW: "admin.export-products.show",
-  ROUTE_ADMIN_EXPORT_PRODUCTS_STORE: "admin.export-products.store",
-  ROUTE_ADMIN_EXPORT_PRODUCTS_DELETE: "admin.export-products.delete",
-  ROUTE_ADMIN_AJAX_SORT_COLUMNS: "admin-ajax.sort-columns"
-};
-var routeTypes = {
-  categoriesSub: 'categories-sub',
-  categories: 'categories',
-  reference: 'reference',
-  referenceBrands: 'reference-brands',
-  referenceArticles: 'reference-articles',
-  referenceServices: 'reference-services',
-  referenceFaq: 'reference-faq',
-  referenceContacts: 'reference-contacts'
-};
 
 /***/ }),
 
@@ -27398,726 +27661,6 @@ if (typeof window !== "undefined" && typeof window.Ziggy !== "undefined") {
 }
 
 
-
-/***/ }),
-
-/***/ "./vendor/tightenco/ziggy/dist/vue.js":
-/*!********************************************!*\
-  !*** ./vendor/tightenco/ziggy/dist/vue.js ***!
-  \********************************************/
-/***/ (function(module, exports) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-!function (t, r) {
-  "object" == ( false ? 0 : _typeof(exports)) && "undefined" != "object" ? r(exports) :  true ? !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (r),
-		__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-		(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)) : 0;
-}(this, function (t) {
-  function r(t, r) {
-    for (var n = 0; n < r.length; n++) {
-      var e = r[n];
-      e.enumerable = e.enumerable || !1, e.configurable = !0, "value" in e && (e.writable = !0), Object.defineProperty(t, e.key, e);
-    }
-  }
-
-  function n(t, n, e) {
-    return n && r(t.prototype, n), e && r(t, e), Object.defineProperty(t, "prototype", {
-      writable: !1
-    }), t;
-  }
-
-  function e() {
-    return e = Object.assign || function (t) {
-      for (var r = 1; r < arguments.length; r++) {
-        var n = arguments[r];
-
-        for (var e in n) {
-          Object.prototype.hasOwnProperty.call(n, e) && (t[e] = n[e]);
-        }
-      }
-
-      return t;
-    }, e.apply(this, arguments);
-  }
-
-  function o(t) {
-    return o = Object.setPrototypeOf ? Object.getPrototypeOf : function (t) {
-      return t.__proto__ || Object.getPrototypeOf(t);
-    }, o(t);
-  }
-
-  function i(t, r) {
-    return i = Object.setPrototypeOf || function (t, r) {
-      return t.__proto__ = r, t;
-    }, i(t, r);
-  }
-
-  function u() {
-    if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-    if (Reflect.construct.sham) return !1;
-    if ("function" == typeof Proxy) return !0;
-
-    try {
-      return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})), !0;
-    } catch (t) {
-      return !1;
-    }
-  }
-
-  function f(t, r, n) {
-    return f = u() ? Reflect.construct : function (t, r, n) {
-      var e = [null];
-      e.push.apply(e, r);
-      var o = new (Function.bind.apply(t, e))();
-      return n && i(o, n.prototype), o;
-    }, f.apply(null, arguments);
-  }
-
-  function a(t) {
-    var r = "function" == typeof Map ? new Map() : void 0;
-    return a = function a(t) {
-      if (null === t || -1 === Function.toString.call(t).indexOf("[native code]")) return t;
-      if ("function" != typeof t) throw new TypeError("Super expression must either be null or a function");
-
-      if (void 0 !== r) {
-        if (r.has(t)) return r.get(t);
-        r.set(t, n);
-      }
-
-      function n() {
-        return f(t, arguments, o(this).constructor);
-      }
-
-      return n.prototype = Object.create(t.prototype, {
-        constructor: {
-          value: n,
-          enumerable: !1,
-          writable: !0,
-          configurable: !0
-        }
-      }), i(n, t);
-    }, a(t);
-  }
-
-  var c = String.prototype.replace,
-      l = /%20/g,
-      s = "RFC3986",
-      p = {
-    "default": s,
-    formatters: {
-      RFC1738: function RFC1738(t) {
-        return c.call(t, l, "+");
-      },
-      RFC3986: function RFC3986(t) {
-        return String(t);
-      }
-    },
-    RFC1738: "RFC1738",
-    RFC3986: s
-  },
-      v = Object.prototype.hasOwnProperty,
-      y = Array.isArray,
-      d = function () {
-    for (var t = [], r = 0; r < 256; ++r) {
-      t.push("%" + ((r < 16 ? "0" : "") + r.toString(16)).toUpperCase());
-    }
-
-    return t;
-  }(),
-      b = function b(t, r) {
-    for (var n = r && r.plainObjects ? Object.create(null) : {}, e = 0; e < t.length; ++e) {
-      void 0 !== t[e] && (n[e] = t[e]);
-    }
-
-    return n;
-  },
-      h = {
-    arrayToObject: b,
-    assign: function assign(t, r) {
-      return Object.keys(r).reduce(function (t, n) {
-        return t[n] = r[n], t;
-      }, t);
-    },
-    combine: function combine(t, r) {
-      return [].concat(t, r);
-    },
-    compact: function compact(t) {
-      for (var r = [{
-        obj: {
-          o: t
-        },
-        prop: "o"
-      }], n = [], e = 0; e < r.length; ++e) {
-        for (var o = r[e], i = o.obj[o.prop], u = Object.keys(i), f = 0; f < u.length; ++f) {
-          var a = u[f],
-              c = i[a];
-          "object" == _typeof(c) && null !== c && -1 === n.indexOf(c) && (r.push({
-            obj: i,
-            prop: a
-          }), n.push(c));
-        }
-      }
-
-      return function (t) {
-        for (; t.length > 1;) {
-          var r = t.pop(),
-              n = r.obj[r.prop];
-
-          if (y(n)) {
-            for (var e = [], o = 0; o < n.length; ++o) {
-              void 0 !== n[o] && e.push(n[o]);
-            }
-
-            r.obj[r.prop] = e;
-          }
-        }
-      }(r), t;
-    },
-    decode: function decode(t, r, n) {
-      var e = t.replace(/\+/g, " ");
-      if ("iso-8859-1" === n) return e.replace(/%[0-9a-f]{2}/gi, unescape);
-
-      try {
-        return decodeURIComponent(e);
-      } catch (t) {
-        return e;
-      }
-    },
-    encode: function encode(t, r, n, e, o) {
-      if (0 === t.length) return t;
-      var i = t;
-      if ("symbol" == _typeof(t) ? i = Symbol.prototype.toString.call(t) : "string" != typeof t && (i = String(t)), "iso-8859-1" === n) return escape(i).replace(/%u[0-9a-f]{4}/gi, function (t) {
-        return "%26%23" + parseInt(t.slice(2), 16) + "%3B";
-      });
-
-      for (var u = "", f = 0; f < i.length; ++f) {
-        var a = i.charCodeAt(f);
-        45 === a || 46 === a || 95 === a || 126 === a || a >= 48 && a <= 57 || a >= 65 && a <= 90 || a >= 97 && a <= 122 || o === p.RFC1738 && (40 === a || 41 === a) ? u += i.charAt(f) : a < 128 ? u += d[a] : a < 2048 ? u += d[192 | a >> 6] + d[128 | 63 & a] : a < 55296 || a >= 57344 ? u += d[224 | a >> 12] + d[128 | a >> 6 & 63] + d[128 | 63 & a] : (a = 65536 + ((1023 & a) << 10 | 1023 & i.charCodeAt(f += 1)), u += d[240 | a >> 18] + d[128 | a >> 12 & 63] + d[128 | a >> 6 & 63] + d[128 | 63 & a]);
-      }
-
-      return u;
-    },
-    isBuffer: function isBuffer(t) {
-      return !(!t || "object" != _typeof(t) || !(t.constructor && t.constructor.isBuffer && t.constructor.isBuffer(t)));
-    },
-    isRegExp: function isRegExp(t) {
-      return "[object RegExp]" === Object.prototype.toString.call(t);
-    },
-    maybeMap: function maybeMap(t, r) {
-      if (y(t)) {
-        for (var n = [], e = 0; e < t.length; e += 1) {
-          n.push(r(t[e]));
-        }
-
-        return n;
-      }
-
-      return r(t);
-    },
-    merge: function t(r, n, e) {
-      if (!n) return r;
-
-      if ("object" != _typeof(n)) {
-        if (y(r)) r.push(n);else {
-          if (!r || "object" != _typeof(r)) return [r, n];
-          (e && (e.plainObjects || e.allowPrototypes) || !v.call(Object.prototype, n)) && (r[n] = !0);
-        }
-        return r;
-      }
-
-      if (!r || "object" != _typeof(r)) return [r].concat(n);
-      var o = r;
-      return y(r) && !y(n) && (o = b(r, e)), y(r) && y(n) ? (n.forEach(function (n, o) {
-        if (v.call(r, o)) {
-          var i = r[o];
-          i && "object" == _typeof(i) && n && "object" == _typeof(n) ? r[o] = t(i, n, e) : r.push(n);
-        } else r[o] = n;
-      }), r) : Object.keys(n).reduce(function (r, o) {
-        var i = n[o];
-        return r[o] = v.call(r, o) ? t(r[o], i, e) : i, r;
-      }, o);
-    }
-  },
-      m = Object.prototype.hasOwnProperty,
-      g = {
-    brackets: function brackets(t) {
-      return t + "[]";
-    },
-    comma: "comma",
-    indices: function indices(t, r) {
-      return t + "[" + r + "]";
-    },
-    repeat: function repeat(t) {
-      return t;
-    }
-  },
-      j = Array.isArray,
-      w = String.prototype.split,
-      O = Array.prototype.push,
-      E = function E(t, r) {
-    O.apply(t, j(r) ? r : [r]);
-  },
-      R = Date.prototype.toISOString,
-      S = p["default"],
-      x = {
-    addQueryPrefix: !1,
-    allowDots: !1,
-    charset: "utf-8",
-    charsetSentinel: !1,
-    delimiter: "&",
-    encode: !0,
-    encoder: h.encode,
-    encodeValuesOnly: !1,
-    format: S,
-    formatter: p.formatters[S],
-    indices: !1,
-    serializeDate: function serializeDate(t) {
-      return R.call(t);
-    },
-    skipNulls: !1,
-    strictNullHandling: !1
-  },
-      T = function t(r, n, e, o, i, u, f, a, c, l, s, p, v, y) {
-    var d,
-        b = r;
-
-    if ("function" == typeof f ? b = f(n, b) : b instanceof Date ? b = l(b) : "comma" === e && j(b) && (b = h.maybeMap(b, function (t) {
-      return t instanceof Date ? l(t) : t;
-    })), null === b) {
-      if (o) return u && !v ? u(n, x.encoder, y, "key", s) : n;
-      b = "";
-    }
-
-    if ("string" == typeof (d = b) || "number" == typeof d || "boolean" == typeof d || "symbol" == _typeof(d) || "bigint" == typeof d || h.isBuffer(b)) {
-      if (u) {
-        var m = v ? n : u(n, x.encoder, y, "key", s);
-
-        if ("comma" === e && v) {
-          for (var g = w.call(String(b), ","), O = "", R = 0; R < g.length; ++R) {
-            O += (0 === R ? "" : ",") + p(u(g[R], x.encoder, y, "value", s));
-          }
-
-          return [p(m) + "=" + O];
-        }
-
-        return [p(m) + "=" + p(u(b, x.encoder, y, "value", s))];
-      }
-
-      return [p(n) + "=" + p(String(b))];
-    }
-
-    var S,
-        T = [];
-    if (void 0 === b) return T;
-    if ("comma" === e && j(b)) S = [{
-      value: b.length > 0 ? b.join(",") || null : void 0
-    }];else if (j(f)) S = f;else {
-      var k = Object.keys(b);
-      S = a ? k.sort(a) : k;
-    }
-
-    for (var N = 0; N < S.length; ++N) {
-      var C = S[N],
-          D = "object" == _typeof(C) && void 0 !== C.value ? C.value : b[C];
-
-      if (!i || null !== D) {
-        var F = j(b) ? "function" == typeof e ? e(n, C) : n : n + (c ? "." + C : "[" + C + "]");
-        E(T, t(D, F, e, o, i, u, f, a, c, l, s, p, v, y));
-      }
-    }
-
-    return T;
-  },
-      k = Object.prototype.hasOwnProperty,
-      N = Array.isArray,
-      C = {
-    allowDots: !1,
-    allowPrototypes: !1,
-    arrayLimit: 20,
-    charset: "utf-8",
-    charsetSentinel: !1,
-    comma: !1,
-    decoder: h.decode,
-    delimiter: "&",
-    depth: 5,
-    ignoreQueryPrefix: !1,
-    interpretNumericEntities: !1,
-    parameterLimit: 1e3,
-    parseArrays: !0,
-    plainObjects: !1,
-    strictNullHandling: !1
-  },
-      D = function D(t) {
-    return t.replace(/&#(\d+);/g, function (t, r) {
-      return String.fromCharCode(parseInt(r, 10));
-    });
-  },
-      F = function F(t, r) {
-    return t && "string" == typeof t && r.comma && t.indexOf(",") > -1 ? t.split(",") : t;
-  },
-      $ = function $(t, r, n, e) {
-    if (t) {
-      var o = n.allowDots ? t.replace(/\.([^.[]+)/g, "[$1]") : t,
-          i = /(\[[^[\]]*])/g,
-          u = n.depth > 0 && /(\[[^[\]]*])/.exec(o),
-          f = u ? o.slice(0, u.index) : o,
-          a = [];
-
-      if (f) {
-        if (!n.plainObjects && k.call(Object.prototype, f) && !n.allowPrototypes) return;
-        a.push(f);
-      }
-
-      for (var c = 0; n.depth > 0 && null !== (u = i.exec(o)) && c < n.depth;) {
-        if (c += 1, !n.plainObjects && k.call(Object.prototype, u[1].slice(1, -1)) && !n.allowPrototypes) return;
-        a.push(u[1]);
-      }
-
-      return u && a.push("[" + o.slice(u.index) + "]"), function (t, r, n, e) {
-        for (var o = e ? r : F(r, n), i = t.length - 1; i >= 0; --i) {
-          var u,
-              f = t[i];
-          if ("[]" === f && n.parseArrays) u = [].concat(o);else {
-            u = n.plainObjects ? Object.create(null) : {};
-            var a = "[" === f.charAt(0) && "]" === f.charAt(f.length - 1) ? f.slice(1, -1) : f,
-                c = parseInt(a, 10);
-            n.parseArrays || "" !== a ? !isNaN(c) && f !== a && String(c) === a && c >= 0 && n.parseArrays && c <= n.arrayLimit ? (u = [])[c] = o : "__proto__" !== a && (u[a] = o) : u = {
-              0: o
-            };
-          }
-          o = u;
-        }
-
-        return o;
-      }(a, r, n, e);
-    }
-  },
-      A = function A(t, r) {
-    var n = function (t) {
-      if (!t) return C;
-      if (null != t.decoder && "function" != typeof t.decoder) throw new TypeError("Decoder has to be a function.");
-      if (void 0 !== t.charset && "utf-8" !== t.charset && "iso-8859-1" !== t.charset) throw new TypeError("The charset option must be either utf-8, iso-8859-1, or undefined");
-      return {
-        allowDots: void 0 === t.allowDots ? C.allowDots : !!t.allowDots,
-        allowPrototypes: "boolean" == typeof t.allowPrototypes ? t.allowPrototypes : C.allowPrototypes,
-        arrayLimit: "number" == typeof t.arrayLimit ? t.arrayLimit : C.arrayLimit,
-        charset: void 0 === t.charset ? C.charset : t.charset,
-        charsetSentinel: "boolean" == typeof t.charsetSentinel ? t.charsetSentinel : C.charsetSentinel,
-        comma: "boolean" == typeof t.comma ? t.comma : C.comma,
-        decoder: "function" == typeof t.decoder ? t.decoder : C.decoder,
-        delimiter: "string" == typeof t.delimiter || h.isRegExp(t.delimiter) ? t.delimiter : C.delimiter,
-        depth: "number" == typeof t.depth || !1 === t.depth ? +t.depth : C.depth,
-        ignoreQueryPrefix: !0 === t.ignoreQueryPrefix,
-        interpretNumericEntities: "boolean" == typeof t.interpretNumericEntities ? t.interpretNumericEntities : C.interpretNumericEntities,
-        parameterLimit: "number" == typeof t.parameterLimit ? t.parameterLimit : C.parameterLimit,
-        parseArrays: !1 !== t.parseArrays,
-        plainObjects: "boolean" == typeof t.plainObjects ? t.plainObjects : C.plainObjects,
-        strictNullHandling: "boolean" == typeof t.strictNullHandling ? t.strictNullHandling : C.strictNullHandling
-      };
-    }(r);
-
-    if ("" === t || null == t) return n.plainObjects ? Object.create(null) : {};
-
-    for (var e = "string" == typeof t ? function (t, r) {
-      var n,
-          e = {},
-          o = (r.ignoreQueryPrefix ? t.replace(/^\?/, "") : t).split(r.delimiter, Infinity === r.parameterLimit ? void 0 : r.parameterLimit),
-          i = -1,
-          u = r.charset;
-      if (r.charsetSentinel) for (n = 0; n < o.length; ++n) {
-        0 === o[n].indexOf("utf8=") && ("utf8=%E2%9C%93" === o[n] ? u = "utf-8" : "utf8=%26%2310003%3B" === o[n] && (u = "iso-8859-1"), i = n, n = o.length);
-      }
-
-      for (n = 0; n < o.length; ++n) {
-        if (n !== i) {
-          var f,
-              a,
-              c = o[n],
-              l = c.indexOf("]="),
-              s = -1 === l ? c.indexOf("=") : l + 1;
-          -1 === s ? (f = r.decoder(c, C.decoder, u, "key"), a = r.strictNullHandling ? null : "") : (f = r.decoder(c.slice(0, s), C.decoder, u, "key"), a = h.maybeMap(F(c.slice(s + 1), r), function (t) {
-            return r.decoder(t, C.decoder, u, "value");
-          })), a && r.interpretNumericEntities && "iso-8859-1" === u && (a = D(a)), c.indexOf("[]=") > -1 && (a = N(a) ? [a] : a), e[f] = k.call(e, f) ? h.combine(e[f], a) : a;
-        }
-      }
-
-      return e;
-    }(t, n) : t, o = n.plainObjects ? Object.create(null) : {}, i = Object.keys(e), u = 0; u < i.length; ++u) {
-      var f = i[u],
-          a = $(f, e[f], n, "string" == typeof t);
-      o = h.merge(o, a, n);
-    }
-
-    return h.compact(o);
-  },
-      I = /*#__PURE__*/function () {
-    function t(t, r, n) {
-      var e, o;
-      this.name = t, this.definition = r, this.bindings = null != (e = r.bindings) ? e : {}, this.wheres = null != (o = r.wheres) ? o : {}, this.config = n;
-    }
-
-    var r = t.prototype;
-    return r.matchesUrl = function (t) {
-      var r = this;
-      if (!this.definition.methods.includes("GET")) return !1;
-      var n = this.template.replace(/(\/?){([^}?]*)(\??)}/g, function (t, n, e, o) {
-        var i,
-            u = "(?<" + e + ">" + ((null == (i = r.wheres[e]) ? void 0 : i.replace(/(^\^)|(\$$)/g, "")) || "[^/?]+") + ")";
-        return o ? "(" + n + u + ")?" : "" + n + u;
-      }).replace(/^\w+:\/\//, ""),
-          e = t.replace(/^\w+:\/\//, "").split("?"),
-          o = e[0],
-          i = e[1],
-          u = new RegExp("^" + n + "/?$").exec(o);
-      return !!u && {
-        params: u.groups,
-        query: A(i)
-      };
-    }, r.compile = function (t) {
-      var r = this,
-          n = this.parameterSegments;
-      return n.length ? this.template.replace(/{([^}?]+)(\??)}/g, function (e, o, i) {
-        var u, f, a;
-        if (!i && [null, void 0].includes(t[o])) throw new Error("Ziggy error: '" + o + "' parameter is required for route '" + r.name + "'.");
-        if (n[n.length - 1].name === o && ".*" === r.wheres[o]) return encodeURIComponent(null != (a = t[o]) ? a : "").replace(/%2F/g, "/");
-        if (r.wheres[o] && !new RegExp("^" + (i ? "(" + r.wheres[o] + ")?" : r.wheres[o]) + "$").test(null != (u = t[o]) ? u : "")) throw new Error("Ziggy error: '" + o + "' parameter does not match required format '" + r.wheres[o] + "' for route '" + r.name + "'.");
-        return encodeURIComponent(null != (f = t[o]) ? f : "");
-      }).replace(/\/+$/, "") : this.template;
-    }, n(t, [{
-      key: "template",
-      get: function get() {
-        return ((this.config.absolute ? this.definition.domain ? "" + this.config.url.match(/^\w+:\/\//)[0] + this.definition.domain + (this.config.port ? ":" + this.config.port : "") : this.config.url : "") + "/" + this.definition.uri).replace(/\/+$/, "");
-      }
-    }, {
-      key: "parameterSegments",
-      get: function get() {
-        var t, r;
-        return null != (t = null == (r = this.template.match(/{[^}?]+\??}/g)) ? void 0 : r.map(function (t) {
-          return {
-            name: t.replace(/{|\??}/g, ""),
-            required: !/\?}$/.test(t)
-          };
-        })) ? t : [];
-      }
-    }]), t;
-  }(),
-      P = /*#__PURE__*/function (t) {
-    var r, o;
-
-    function u(r, n, o, i) {
-      var u;
-
-      if (void 0 === o && (o = !0), (u = t.call(this) || this).t = null != i ? i : "undefined" != typeof Ziggy ? Ziggy : null == globalThis ? void 0 : globalThis.Ziggy, u.t = e({}, u.t, {
-        absolute: o
-      }), r) {
-        if (!u.t.routes[r]) throw new Error("Ziggy error: route '" + r + "' is not in the route list.");
-        u.i = new I(r, u.t.routes[r], u.t), u.u = u.l(n);
-      }
-
-      return u;
-    }
-
-    o = t, (r = u).prototype = Object.create(o.prototype), r.prototype.constructor = r, i(r, o);
-    var f = u.prototype;
-    return f.toString = function () {
-      var t = this,
-          r = Object.keys(this.u).filter(function (r) {
-        return !t.i.parameterSegments.some(function (t) {
-          return t.name === r;
-        });
-      }).filter(function (t) {
-        return "_query" !== t;
-      }).reduce(function (r, n) {
-        var o;
-        return e({}, r, ((o = {})[n] = t.u[n], o));
-      }, {});
-      return this.i.compile(this.u) + function (t, r) {
-        var n,
-            e = t,
-            o = function (t) {
-          if (!t) return x;
-          if (null != t.encoder && "function" != typeof t.encoder) throw new TypeError("Encoder has to be a function.");
-          var r = t.charset || x.charset;
-          if (void 0 !== t.charset && "utf-8" !== t.charset && "iso-8859-1" !== t.charset) throw new TypeError("The charset option must be either utf-8, iso-8859-1, or undefined");
-          var n = p["default"];
-
-          if (void 0 !== t.format) {
-            if (!m.call(p.formatters, t.format)) throw new TypeError("Unknown format option provided.");
-            n = t.format;
-          }
-
-          var e = p.formatters[n],
-              o = x.filter;
-          return ("function" == typeof t.filter || j(t.filter)) && (o = t.filter), {
-            addQueryPrefix: "boolean" == typeof t.addQueryPrefix ? t.addQueryPrefix : x.addQueryPrefix,
-            allowDots: void 0 === t.allowDots ? x.allowDots : !!t.allowDots,
-            charset: r,
-            charsetSentinel: "boolean" == typeof t.charsetSentinel ? t.charsetSentinel : x.charsetSentinel,
-            delimiter: void 0 === t.delimiter ? x.delimiter : t.delimiter,
-            encode: "boolean" == typeof t.encode ? t.encode : x.encode,
-            encoder: "function" == typeof t.encoder ? t.encoder : x.encoder,
-            encodeValuesOnly: "boolean" == typeof t.encodeValuesOnly ? t.encodeValuesOnly : x.encodeValuesOnly,
-            filter: o,
-            format: n,
-            formatter: e,
-            serializeDate: "function" == typeof t.serializeDate ? t.serializeDate : x.serializeDate,
-            skipNulls: "boolean" == typeof t.skipNulls ? t.skipNulls : x.skipNulls,
-            sort: "function" == typeof t.sort ? t.sort : null,
-            strictNullHandling: "boolean" == typeof t.strictNullHandling ? t.strictNullHandling : x.strictNullHandling
-          };
-        }(r);
-
-        "function" == typeof o.filter ? e = (0, o.filter)("", e) : j(o.filter) && (n = o.filter);
-        var i = [];
-        if ("object" != _typeof(e) || null === e) return "";
-        var u = g[r && r.arrayFormat in g ? r.arrayFormat : r && "indices" in r ? r.indices ? "indices" : "repeat" : "indices"];
-        n || (n = Object.keys(e)), o.sort && n.sort(o.sort);
-
-        for (var f = 0; f < n.length; ++f) {
-          var a = n[f];
-          o.skipNulls && null === e[a] || E(i, T(e[a], a, u, o.strictNullHandling, o.skipNulls, o.encode ? o.encoder : null, o.filter, o.sort, o.allowDots, o.serializeDate, o.format, o.formatter, o.encodeValuesOnly, o.charset));
-        }
-
-        var c = i.join(o.delimiter),
-            l = !0 === o.addQueryPrefix ? "?" : "";
-        return o.charsetSentinel && (l += "iso-8859-1" === o.charset ? "utf8=%26%2310003%3B&" : "utf8=%E2%9C%93&"), c.length > 0 ? l + c : "";
-      }(e({}, r, this.u._query), {
-        addQueryPrefix: !0,
-        arrayFormat: "indices",
-        encodeValuesOnly: !0,
-        skipNulls: !0,
-        encoder: function encoder(t, r) {
-          return "boolean" == typeof t ? Number(t) : r(t);
-        }
-      });
-    }, f.p = function (t) {
-      var r = this;
-      t ? this.t.absolute && t.startsWith("/") && (t = this.v().host + t) : t = this.h();
-      var n = {},
-          o = Object.entries(this.t.routes).find(function (e) {
-        return n = new I(e[0], e[1], r.t).matchesUrl(t);
-      }) || [void 0, void 0];
-      return e({
-        name: o[0]
-      }, n, {
-        route: o[1]
-      });
-    }, f.h = function () {
-      var t = this.v(),
-          r = t.pathname,
-          n = t.search;
-      return (this.t.absolute ? t.host + r : r.replace(this.t.url.replace(/^\w*:\/\/[^/]+/, ""), "").replace(/^\/+/, "/")) + n;
-    }, f.current = function (t, r) {
-      var n = this.p(),
-          o = n.name,
-          i = n.params,
-          u = n.query,
-          f = n.route;
-      if (!t) return o;
-      var a = new RegExp("^" + t.replace(/\./g, "\\.").replace(/\*/g, ".*") + "$").test(o);
-      if ([null, void 0].includes(r) || !a) return a;
-      var c = new I(o, f, this.t);
-      r = this.l(r, c);
-      var l = e({}, i, u);
-      return !(!Object.values(r).every(function (t) {
-        return !t;
-      }) || Object.values(l).some(function (t) {
-        return void 0 !== t;
-      })) || Object.entries(r).every(function (t) {
-        return l[t[0]] == t[1];
-      });
-    }, f.v = function () {
-      var t,
-          r,
-          n,
-          e,
-          o,
-          i,
-          u = "undefined" != typeof window ? window.location : {},
-          f = u.host,
-          a = u.pathname,
-          c = u.search;
-      return {
-        host: null != (t = null == (r = this.t.location) ? void 0 : r.host) ? t : void 0 === f ? "" : f,
-        pathname: null != (n = null == (e = this.t.location) ? void 0 : e.pathname) ? n : void 0 === a ? "" : a,
-        search: null != (o = null == (i = this.t.location) ? void 0 : i.search) ? o : void 0 === c ? "" : c
-      };
-    }, f.has = function (t) {
-      return Object.keys(this.t.routes).includes(t);
-    }, f.l = function (t, r) {
-      var n = this;
-      void 0 === t && (t = {}), void 0 === r && (r = this.i), t = ["string", "number"].includes(_typeof(t)) ? [t] : t;
-      var o = r.parameterSegments.filter(function (t) {
-        return !n.t.defaults[t.name];
-      });
-      if (Array.isArray(t)) t = t.reduce(function (t, r, n) {
-        var i, u;
-        return e({}, t, o[n] ? ((i = {})[o[n].name] = r, i) : "object" == _typeof(r) ? r : ((u = {})[r] = "", u));
-      }, {});else if (1 === o.length && !t[o[0].name] && (t.hasOwnProperty(Object.values(r.bindings)[0]) || t.hasOwnProperty("id"))) {
-        var i;
-        (i = {})[o[0].name] = t, t = i;
-      }
-      return e({}, this.m(r), this.g(t, r));
-    }, f.m = function (t) {
-      var r = this;
-      return t.parameterSegments.filter(function (t) {
-        return r.t.defaults[t.name];
-      }).reduce(function (t, n, o) {
-        var i,
-            u = n.name;
-        return e({}, t, ((i = {})[u] = r.t.defaults[u], i));
-      }, {});
-    }, f.g = function (t, r) {
-      var n = r.bindings,
-          o = r.parameterSegments;
-      return Object.entries(t).reduce(function (t, r) {
-        var i,
-            u,
-            f = r[0],
-            a = r[1];
-        if (!a || "object" != _typeof(a) || Array.isArray(a) || !o.some(function (t) {
-          return t.name === f;
-        })) return e({}, t, ((u = {})[f] = a, u));
-
-        if (!a.hasOwnProperty(n[f])) {
-          if (!a.hasOwnProperty("id")) throw new Error("Ziggy error: object passed as '" + f + "' parameter is missing route model binding key '" + n[f] + "'.");
-          n[f] = "id";
-        }
-
-        return e({}, t, ((i = {})[f] = a[n[f]], i));
-      }, {});
-    }, f.valueOf = function () {
-      return this.toString();
-    }, f.check = function (t) {
-      return this.has(t);
-    }, n(u, [{
-      key: "params",
-      get: function get() {
-        var t = this.p();
-        return e({}, t.params, t.query);
-      }
-    }]), u;
-  }( /*#__PURE__*/a(String));
-
-  t.ZiggyVue = {
-    install: function install(t, r) {
-      var n = function n(t, _n, e, o) {
-        return void 0 === o && (o = r), function (t, r, n, e) {
-          var o = new P(t, r, n, e);
-          return t ? o.toString() : o;
-        }(t, _n, e, o);
-      };
-
-      t.mixin({
-        methods: {
-          route: n
-        }
-      }), parseInt(t.version) > 2 && t.provide("route", n);
-    }
-  };
-});
 
 /***/ }),
 
@@ -43233,6 +42776,1372 @@ function compileToFunction(template, options) {
 
 /***/ }),
 
+/***/ "./node_modules/ziggy-js/dist/index.js":
+/*!*********************************************!*\
+  !*** ./node_modules/ziggy-js/dist/index.js ***!
+  \*********************************************/
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+!function(n,t){ true?module.exports=t(__webpack_require__(/*! qs */ "./node_modules/ziggy-js/node_modules/qs/lib/index.js")):0}(this,function(n){function t(n,t){for(var r=0;r<t.length;r++){var e=t[r];e.enumerable=e.enumerable||!1,e.configurable=!0,"value"in e&&(e.writable=!0),Object.defineProperty(n,e.key,e)}}function r(n,r,e){return r&&t(n.prototype,r),e&&t(n,e),Object.defineProperty(n,"prototype",{writable:!1}),n}function e(){return e=Object.assign||function(n){for(var t=1;t<arguments.length;t++){var r=arguments[t];for(var e in r)Object.prototype.hasOwnProperty.call(r,e)&&(n[e]=r[e])}return n},e.apply(this,arguments)}function i(n){return i=Object.setPrototypeOf?Object.getPrototypeOf:function(n){return n.__proto__||Object.getPrototypeOf(n)},i(n)}function u(n,t){return u=Object.setPrototypeOf||function(n,t){return n.__proto__=t,n},u(n,t)}function o(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){})),!0}catch(n){return!1}}function f(n,t,r){return f=o()?Reflect.construct:function(n,t,r){var e=[null];e.push.apply(e,t);var i=new(Function.bind.apply(n,e));return r&&u(i,r.prototype),i},f.apply(null,arguments)}function c(n){var t="function"==typeof Map?new Map:void 0;return c=function(n){if(null===n||-1===Function.toString.call(n).indexOf("[native code]"))return n;if("function"!=typeof n)throw new TypeError("Super expression must either be null or a function");if(void 0!==t){if(t.has(n))return t.get(n);t.set(n,r)}function r(){return f(n,arguments,i(this).constructor)}return r.prototype=Object.create(n.prototype,{constructor:{value:r,enumerable:!1,writable:!0,configurable:!0}}),u(r,n)},c(n)}var a=/*#__PURE__*/function(){function t(n,t,r){var e,i;this.name=n,this.definition=t,this.bindings=null!=(e=t.bindings)?e:{},this.wheres=null!=(i=t.wheres)?i:{},this.config=r}var e=t.prototype;return e.matchesUrl=function(t){var r=this;if(!this.definition.methods.includes("GET"))return!1;var e=this.template.replace(/(\/?){([^}?]*)(\??)}/g,function(n,t,e,i){var u,o="(?<"+e+">"+((null==(u=r.wheres[e])?void 0:u.replace(/(^\^)|(\$$)/g,""))||"[^/?]+")+")";return i?"("+t+o+")?":""+t+o}).replace(/^\w+:\/\//,""),i=t.replace(/^\w+:\/\//,"").split("?"),u=i[0],o=i[1],f=new RegExp("^"+e+"/?$").exec(u);return!!f&&{params:f.groups,query:n.parse(o)}},e.compile=function(n){var t=this,r=this.parameterSegments;return r.length?this.template.replace(/{([^}?]+)(\??)}/g,function(e,i,u){var o,f,c;if(!u&&[null,void 0].includes(n[i]))throw new Error("Ziggy error: '"+i+"' parameter is required for route '"+t.name+"'.");if(r[r.length-1].name===i&&".*"===t.wheres[i])return encodeURIComponent(null!=(c=n[i])?c:"").replace(/%2F/g,"/");if(t.wheres[i]&&!new RegExp("^"+(u?"("+t.wheres[i]+")?":t.wheres[i])+"$").test(null!=(o=n[i])?o:""))throw new Error("Ziggy error: '"+i+"' parameter does not match required format '"+t.wheres[i]+"' for route '"+t.name+"'.");return encodeURIComponent(null!=(f=n[i])?f:"")}).replace(/\/+$/,""):this.template},r(t,[{key:"template",get:function(){return((this.config.absolute?this.definition.domain?""+this.config.url.match(/^\w+:\/\//)[0]+this.definition.domain+(this.config.port?":"+this.config.port:""):this.config.url:"")+"/"+this.definition.uri).replace(/\/+$/,"")}},{key:"parameterSegments",get:function(){var n,t;return null!=(n=null==(t=this.template.match(/{[^}?]+\??}/g))?void 0:t.map(function(n){return{name:n.replace(/{|\??}/g,""),required:!/\?}$/.test(n)}}))?n:[]}}]),t}(),s=/*#__PURE__*/function(t){var i,o;function f(n,r,i,u){var o;if(void 0===i&&(i=!0),(o=t.call(this)||this).t=null!=u?u:"undefined"!=typeof Ziggy?Ziggy:null==globalThis?void 0:globalThis.Ziggy,o.t=e({},o.t,{absolute:i}),n){if(!o.t.routes[n])throw new Error("Ziggy error: route '"+n+"' is not in the route list.");o.i=new a(n,o.t.routes[n],o.t),o.u=o.o(r)}return o}o=t,(i=f).prototype=Object.create(o.prototype),i.prototype.constructor=i,u(i,o);var c=f.prototype;return c.toString=function(){var t=this,r=Object.keys(this.u).filter(function(n){return!t.i.parameterSegments.some(function(t){return t.name===n})}).filter(function(n){return"_query"!==n}).reduce(function(n,r){var i;return e({},n,((i={})[r]=t.u[r],i))},{});return this.i.compile(this.u)+n.stringify(e({},r,this.u._query),{addQueryPrefix:!0,arrayFormat:"indices",encodeValuesOnly:!0,skipNulls:!0,encoder:function(n,t){return"boolean"==typeof n?Number(n):t(n)}})},c.l=function(n){var t=this;n?this.t.absolute&&n.startsWith("/")&&(n=this.h().host+n):n=this.v();var r={},i=Object.entries(this.t.routes).find(function(e){return r=new a(e[0],e[1],t.t).matchesUrl(n)})||[void 0,void 0];return e({name:i[0]},r,{route:i[1]})},c.v=function(){var n=this.h(),t=n.pathname,r=n.search;return(this.t.absolute?n.host+t:t.replace(this.t.url.replace(/^\w*:\/\/[^/]+/,""),"").replace(/^\/+/,"/"))+r},c.current=function(n,t){var r=this.l(),i=r.name,u=r.params,o=r.query,f=r.route;if(!n)return i;var c=new RegExp("^"+n.replace(/\./g,"\\.").replace(/\*/g,".*")+"$").test(i);if([null,void 0].includes(t)||!c)return c;var s=new a(i,f,this.t);t=this.o(t,s);var l=e({},u,o);return!(!Object.values(t).every(function(n){return!n})||Object.values(l).some(function(n){return void 0!==n}))||Object.entries(t).every(function(n){return l[n[0]]==n[1]})},c.h=function(){var n,t,r,e,i,u,o="undefined"!=typeof window?window.location:{},f=o.host,c=o.pathname,a=o.search;return{host:null!=(n=null==(t=this.t.location)?void 0:t.host)?n:void 0===f?"":f,pathname:null!=(r=null==(e=this.t.location)?void 0:e.pathname)?r:void 0===c?"":c,search:null!=(i=null==(u=this.t.location)?void 0:u.search)?i:void 0===a?"":a}},c.has=function(n){return Object.keys(this.t.routes).includes(n)},c.o=function(n,t){var r=this;void 0===n&&(n={}),void 0===t&&(t=this.i),n=["string","number"].includes(typeof n)?[n]:n;var i=t.parameterSegments.filter(function(n){return!r.t.defaults[n.name]});if(Array.isArray(n))n=n.reduce(function(n,t,r){var u,o;return e({},n,i[r]?((u={})[i[r].name]=t,u):"object"==typeof t?t:((o={})[t]="",o))},{});else if(1===i.length&&!n[i[0].name]&&(n.hasOwnProperty(Object.values(t.bindings)[0])||n.hasOwnProperty("id"))){var u;(u={})[i[0].name]=n,n=u}return e({},this.p(t),this.g(n,t))},c.p=function(n){var t=this;return n.parameterSegments.filter(function(n){return t.t.defaults[n.name]}).reduce(function(n,r,i){var u,o=r.name;return e({},n,((u={})[o]=t.t.defaults[o],u))},{})},c.g=function(n,t){var r=t.bindings,i=t.parameterSegments;return Object.entries(n).reduce(function(n,t){var u,o,f=t[0],c=t[1];if(!c||"object"!=typeof c||Array.isArray(c)||!i.some(function(n){return n.name===f}))return e({},n,((o={})[f]=c,o));if(!c.hasOwnProperty(r[f])){if(!c.hasOwnProperty("id"))throw new Error("Ziggy error: object passed as '"+f+"' parameter is missing route model binding key '"+r[f]+"'.");r[f]="id"}return e({},n,((u={})[f]=c[r[f]],u))},{})},c.valueOf=function(){return this.toString()},c.check=function(n){return this.has(n)},r(f,[{key:"params",get:function(){var n=this.l();return e({},n.params,n.query)}}]),f}(/*#__PURE__*/c(String));return function(n,t,r,e){var i=new s(n,t,r,e);return n?i.toString():i}});
+
+
+/***/ }),
+
+/***/ "./node_modules/ziggy-js/node_modules/qs/lib/formats.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/ziggy-js/node_modules/qs/lib/formats.js ***!
+  \**************************************************************/
+/***/ ((module) => {
+
+"use strict";
+
+
+var replace = String.prototype.replace;
+var percentTwenties = /%20/g;
+
+var Format = {
+    RFC1738: 'RFC1738',
+    RFC3986: 'RFC3986'
+};
+
+module.exports = {
+    'default': Format.RFC3986,
+    formatters: {
+        RFC1738: function (value) {
+            return replace.call(value, percentTwenties, '+');
+        },
+        RFC3986: function (value) {
+            return String(value);
+        }
+    },
+    RFC1738: Format.RFC1738,
+    RFC3986: Format.RFC3986
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/ziggy-js/node_modules/qs/lib/index.js":
+/*!************************************************************!*\
+  !*** ./node_modules/ziggy-js/node_modules/qs/lib/index.js ***!
+  \************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+var stringify = __webpack_require__(/*! ./stringify */ "./node_modules/ziggy-js/node_modules/qs/lib/stringify.js");
+var parse = __webpack_require__(/*! ./parse */ "./node_modules/ziggy-js/node_modules/qs/lib/parse.js");
+var formats = __webpack_require__(/*! ./formats */ "./node_modules/ziggy-js/node_modules/qs/lib/formats.js");
+
+module.exports = {
+    formats: formats,
+    parse: parse,
+    stringify: stringify
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/ziggy-js/node_modules/qs/lib/parse.js":
+/*!************************************************************!*\
+  !*** ./node_modules/ziggy-js/node_modules/qs/lib/parse.js ***!
+  \************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+var utils = __webpack_require__(/*! ./utils */ "./node_modules/ziggy-js/node_modules/qs/lib/utils.js");
+
+var has = Object.prototype.hasOwnProperty;
+var isArray = Array.isArray;
+
+var defaults = {
+    allowDots: false,
+    allowPrototypes: false,
+    arrayLimit: 20,
+    charset: 'utf-8',
+    charsetSentinel: false,
+    comma: false,
+    decoder: utils.decode,
+    delimiter: '&',
+    depth: 5,
+    ignoreQueryPrefix: false,
+    interpretNumericEntities: false,
+    parameterLimit: 1000,
+    parseArrays: true,
+    plainObjects: false,
+    strictNullHandling: false
+};
+
+var interpretNumericEntities = function (str) {
+    return str.replace(/&#(\d+);/g, function ($0, numberStr) {
+        return String.fromCharCode(parseInt(numberStr, 10));
+    });
+};
+
+var parseArrayValue = function (val, options) {
+    if (val && typeof val === 'string' && options.comma && val.indexOf(',') > -1) {
+        return val.split(',');
+    }
+
+    return val;
+};
+
+// This is what browsers will submit when the ✓ character occurs in an
+// application/x-www-form-urlencoded body and the encoding of the page containing
+// the form is iso-8859-1, or when the submitted form has an accept-charset
+// attribute of iso-8859-1. Presumably also with other charsets that do not contain
+// the ✓ character, such as us-ascii.
+var isoSentinel = 'utf8=%26%2310003%3B'; // encodeURIComponent('&#10003;')
+
+// These are the percent-encoded utf-8 octets representing a checkmark, indicating that the request actually is utf-8 encoded.
+var charsetSentinel = 'utf8=%E2%9C%93'; // encodeURIComponent('✓')
+
+var parseValues = function parseQueryStringValues(str, options) {
+    var obj = {};
+    var cleanStr = options.ignoreQueryPrefix ? str.replace(/^\?/, '') : str;
+    var limit = options.parameterLimit === Infinity ? undefined : options.parameterLimit;
+    var parts = cleanStr.split(options.delimiter, limit);
+    var skipIndex = -1; // Keep track of where the utf8 sentinel was found
+    var i;
+
+    var charset = options.charset;
+    if (options.charsetSentinel) {
+        for (i = 0; i < parts.length; ++i) {
+            if (parts[i].indexOf('utf8=') === 0) {
+                if (parts[i] === charsetSentinel) {
+                    charset = 'utf-8';
+                } else if (parts[i] === isoSentinel) {
+                    charset = 'iso-8859-1';
+                }
+                skipIndex = i;
+                i = parts.length; // The eslint settings do not allow break;
+            }
+        }
+    }
+
+    for (i = 0; i < parts.length; ++i) {
+        if (i === skipIndex) {
+            continue;
+        }
+        var part = parts[i];
+
+        var bracketEqualsPos = part.indexOf(']=');
+        var pos = bracketEqualsPos === -1 ? part.indexOf('=') : bracketEqualsPos + 1;
+
+        var key, val;
+        if (pos === -1) {
+            key = options.decoder(part, defaults.decoder, charset, 'key');
+            val = options.strictNullHandling ? null : '';
+        } else {
+            key = options.decoder(part.slice(0, pos), defaults.decoder, charset, 'key');
+            val = utils.maybeMap(
+                parseArrayValue(part.slice(pos + 1), options),
+                function (encodedVal) {
+                    return options.decoder(encodedVal, defaults.decoder, charset, 'value');
+                }
+            );
+        }
+
+        if (val && options.interpretNumericEntities && charset === 'iso-8859-1') {
+            val = interpretNumericEntities(val);
+        }
+
+        if (part.indexOf('[]=') > -1) {
+            val = isArray(val) ? [val] : val;
+        }
+
+        if (has.call(obj, key)) {
+            obj[key] = utils.combine(obj[key], val);
+        } else {
+            obj[key] = val;
+        }
+    }
+
+    return obj;
+};
+
+var parseObject = function (chain, val, options, valuesParsed) {
+    var leaf = valuesParsed ? val : parseArrayValue(val, options);
+
+    for (var i = chain.length - 1; i >= 0; --i) {
+        var obj;
+        var root = chain[i];
+
+        if (root === '[]' && options.parseArrays) {
+            obj = [].concat(leaf);
+        } else {
+            obj = options.plainObjects ? Object.create(null) : {};
+            var cleanRoot = root.charAt(0) === '[' && root.charAt(root.length - 1) === ']' ? root.slice(1, -1) : root;
+            var index = parseInt(cleanRoot, 10);
+            if (!options.parseArrays && cleanRoot === '') {
+                obj = { 0: leaf };
+            } else if (
+                !isNaN(index)
+                && root !== cleanRoot
+                && String(index) === cleanRoot
+                && index >= 0
+                && (options.parseArrays && index <= options.arrayLimit)
+            ) {
+                obj = [];
+                obj[index] = leaf;
+            } else if (cleanRoot !== '__proto__') {
+                obj[cleanRoot] = leaf;
+            }
+        }
+
+        leaf = obj;
+    }
+
+    return leaf;
+};
+
+var parseKeys = function parseQueryStringKeys(givenKey, val, options, valuesParsed) {
+    if (!givenKey) {
+        return;
+    }
+
+    // Transform dot notation to bracket notation
+    var key = options.allowDots ? givenKey.replace(/\.([^.[]+)/g, '[$1]') : givenKey;
+
+    // The regex chunks
+
+    var brackets = /(\[[^[\]]*])/;
+    var child = /(\[[^[\]]*])/g;
+
+    // Get the parent
+
+    var segment = options.depth > 0 && brackets.exec(key);
+    var parent = segment ? key.slice(0, segment.index) : key;
+
+    // Stash the parent if it exists
+
+    var keys = [];
+    if (parent) {
+        // If we aren't using plain objects, optionally prefix keys that would overwrite object prototype properties
+        if (!options.plainObjects && has.call(Object.prototype, parent)) {
+            if (!options.allowPrototypes) {
+                return;
+            }
+        }
+
+        keys.push(parent);
+    }
+
+    // Loop through children appending to the array until we hit depth
+
+    var i = 0;
+    while (options.depth > 0 && (segment = child.exec(key)) !== null && i < options.depth) {
+        i += 1;
+        if (!options.plainObjects && has.call(Object.prototype, segment[1].slice(1, -1))) {
+            if (!options.allowPrototypes) {
+                return;
+            }
+        }
+        keys.push(segment[1]);
+    }
+
+    // If there's a remainder, just add whatever is left
+
+    if (segment) {
+        keys.push('[' + key.slice(segment.index) + ']');
+    }
+
+    return parseObject(keys, val, options, valuesParsed);
+};
+
+var normalizeParseOptions = function normalizeParseOptions(opts) {
+    if (!opts) {
+        return defaults;
+    }
+
+    if (opts.decoder !== null && opts.decoder !== undefined && typeof opts.decoder !== 'function') {
+        throw new TypeError('Decoder has to be a function.');
+    }
+
+    if (typeof opts.charset !== 'undefined' && opts.charset !== 'utf-8' && opts.charset !== 'iso-8859-1') {
+        throw new TypeError('The charset option must be either utf-8, iso-8859-1, or undefined');
+    }
+    var charset = typeof opts.charset === 'undefined' ? defaults.charset : opts.charset;
+
+    return {
+        allowDots: typeof opts.allowDots === 'undefined' ? defaults.allowDots : !!opts.allowDots,
+        allowPrototypes: typeof opts.allowPrototypes === 'boolean' ? opts.allowPrototypes : defaults.allowPrototypes,
+        arrayLimit: typeof opts.arrayLimit === 'number' ? opts.arrayLimit : defaults.arrayLimit,
+        charset: charset,
+        charsetSentinel: typeof opts.charsetSentinel === 'boolean' ? opts.charsetSentinel : defaults.charsetSentinel,
+        comma: typeof opts.comma === 'boolean' ? opts.comma : defaults.comma,
+        decoder: typeof opts.decoder === 'function' ? opts.decoder : defaults.decoder,
+        delimiter: typeof opts.delimiter === 'string' || utils.isRegExp(opts.delimiter) ? opts.delimiter : defaults.delimiter,
+        // eslint-disable-next-line no-implicit-coercion, no-extra-parens
+        depth: (typeof opts.depth === 'number' || opts.depth === false) ? +opts.depth : defaults.depth,
+        ignoreQueryPrefix: opts.ignoreQueryPrefix === true,
+        interpretNumericEntities: typeof opts.interpretNumericEntities === 'boolean' ? opts.interpretNumericEntities : defaults.interpretNumericEntities,
+        parameterLimit: typeof opts.parameterLimit === 'number' ? opts.parameterLimit : defaults.parameterLimit,
+        parseArrays: opts.parseArrays !== false,
+        plainObjects: typeof opts.plainObjects === 'boolean' ? opts.plainObjects : defaults.plainObjects,
+        strictNullHandling: typeof opts.strictNullHandling === 'boolean' ? opts.strictNullHandling : defaults.strictNullHandling
+    };
+};
+
+module.exports = function (str, opts) {
+    var options = normalizeParseOptions(opts);
+
+    if (str === '' || str === null || typeof str === 'undefined') {
+        return options.plainObjects ? Object.create(null) : {};
+    }
+
+    var tempObj = typeof str === 'string' ? parseValues(str, options) : str;
+    var obj = options.plainObjects ? Object.create(null) : {};
+
+    // Iterate over the keys and setup the new object
+
+    var keys = Object.keys(tempObj);
+    for (var i = 0; i < keys.length; ++i) {
+        var key = keys[i];
+        var newObj = parseKeys(key, tempObj[key], options, typeof str === 'string');
+        obj = utils.merge(obj, newObj, options);
+    }
+
+    return utils.compact(obj);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/ziggy-js/node_modules/qs/lib/stringify.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/ziggy-js/node_modules/qs/lib/stringify.js ***!
+  \****************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+var utils = __webpack_require__(/*! ./utils */ "./node_modules/ziggy-js/node_modules/qs/lib/utils.js");
+var formats = __webpack_require__(/*! ./formats */ "./node_modules/ziggy-js/node_modules/qs/lib/formats.js");
+var has = Object.prototype.hasOwnProperty;
+
+var arrayPrefixGenerators = {
+    brackets: function brackets(prefix) {
+        return prefix + '[]';
+    },
+    comma: 'comma',
+    indices: function indices(prefix, key) {
+        return prefix + '[' + key + ']';
+    },
+    repeat: function repeat(prefix) {
+        return prefix;
+    }
+};
+
+var isArray = Array.isArray;
+var split = String.prototype.split;
+var push = Array.prototype.push;
+var pushToArray = function (arr, valueOrArray) {
+    push.apply(arr, isArray(valueOrArray) ? valueOrArray : [valueOrArray]);
+};
+
+var toISO = Date.prototype.toISOString;
+
+var defaultFormat = formats['default'];
+var defaults = {
+    addQueryPrefix: false,
+    allowDots: false,
+    charset: 'utf-8',
+    charsetSentinel: false,
+    delimiter: '&',
+    encode: true,
+    encoder: utils.encode,
+    encodeValuesOnly: false,
+    format: defaultFormat,
+    formatter: formats.formatters[defaultFormat],
+    // deprecated
+    indices: false,
+    serializeDate: function serializeDate(date) {
+        return toISO.call(date);
+    },
+    skipNulls: false,
+    strictNullHandling: false
+};
+
+var isNonNullishPrimitive = function isNonNullishPrimitive(v) {
+    return typeof v === 'string'
+        || typeof v === 'number'
+        || typeof v === 'boolean'
+        || typeof v === 'symbol'
+        || typeof v === 'bigint';
+};
+
+var stringify = function stringify(
+    object,
+    prefix,
+    generateArrayPrefix,
+    strictNullHandling,
+    skipNulls,
+    encoder,
+    filter,
+    sort,
+    allowDots,
+    serializeDate,
+    format,
+    formatter,
+    encodeValuesOnly,
+    charset
+) {
+    var obj = object;
+    if (typeof filter === 'function') {
+        obj = filter(prefix, obj);
+    } else if (obj instanceof Date) {
+        obj = serializeDate(obj);
+    } else if (generateArrayPrefix === 'comma' && isArray(obj)) {
+        obj = utils.maybeMap(obj, function (value) {
+            if (value instanceof Date) {
+                return serializeDate(value);
+            }
+            return value;
+        });
+    }
+
+    if (obj === null) {
+        if (strictNullHandling) {
+            return encoder && !encodeValuesOnly ? encoder(prefix, defaults.encoder, charset, 'key', format) : prefix;
+        }
+
+        obj = '';
+    }
+
+    if (isNonNullishPrimitive(obj) || utils.isBuffer(obj)) {
+        if (encoder) {
+            var keyValue = encodeValuesOnly ? prefix : encoder(prefix, defaults.encoder, charset, 'key', format);
+            if (generateArrayPrefix === 'comma' && encodeValuesOnly) {
+                var valuesArray = split.call(String(obj), ',');
+                var valuesJoined = '';
+                for (var i = 0; i < valuesArray.length; ++i) {
+                    valuesJoined += (i === 0 ? '' : ',') + formatter(encoder(valuesArray[i], defaults.encoder, charset, 'value', format));
+                }
+                return [formatter(keyValue) + '=' + valuesJoined];
+            }
+            return [formatter(keyValue) + '=' + formatter(encoder(obj, defaults.encoder, charset, 'value', format))];
+        }
+        return [formatter(prefix) + '=' + formatter(String(obj))];
+    }
+
+    var values = [];
+
+    if (typeof obj === 'undefined') {
+        return values;
+    }
+
+    var objKeys;
+    if (generateArrayPrefix === 'comma' && isArray(obj)) {
+        // we need to join elements in
+        objKeys = [{ value: obj.length > 0 ? obj.join(',') || null : void undefined }];
+    } else if (isArray(filter)) {
+        objKeys = filter;
+    } else {
+        var keys = Object.keys(obj);
+        objKeys = sort ? keys.sort(sort) : keys;
+    }
+
+    for (var j = 0; j < objKeys.length; ++j) {
+        var key = objKeys[j];
+        var value = typeof key === 'object' && typeof key.value !== 'undefined' ? key.value : obj[key];
+
+        if (skipNulls && value === null) {
+            continue;
+        }
+
+        var keyPrefix = isArray(obj)
+            ? typeof generateArrayPrefix === 'function' ? generateArrayPrefix(prefix, key) : prefix
+            : prefix + (allowDots ? '.' + key : '[' + key + ']');
+
+        pushToArray(values, stringify(
+            value,
+            keyPrefix,
+            generateArrayPrefix,
+            strictNullHandling,
+            skipNulls,
+            encoder,
+            filter,
+            sort,
+            allowDots,
+            serializeDate,
+            format,
+            formatter,
+            encodeValuesOnly,
+            charset
+        ));
+    }
+
+    return values;
+};
+
+var normalizeStringifyOptions = function normalizeStringifyOptions(opts) {
+    if (!opts) {
+        return defaults;
+    }
+
+    if (opts.encoder !== null && typeof opts.encoder !== 'undefined' && typeof opts.encoder !== 'function') {
+        throw new TypeError('Encoder has to be a function.');
+    }
+
+    var charset = opts.charset || defaults.charset;
+    if (typeof opts.charset !== 'undefined' && opts.charset !== 'utf-8' && opts.charset !== 'iso-8859-1') {
+        throw new TypeError('The charset option must be either utf-8, iso-8859-1, or undefined');
+    }
+
+    var format = formats['default'];
+    if (typeof opts.format !== 'undefined') {
+        if (!has.call(formats.formatters, opts.format)) {
+            throw new TypeError('Unknown format option provided.');
+        }
+        format = opts.format;
+    }
+    var formatter = formats.formatters[format];
+
+    var filter = defaults.filter;
+    if (typeof opts.filter === 'function' || isArray(opts.filter)) {
+        filter = opts.filter;
+    }
+
+    return {
+        addQueryPrefix: typeof opts.addQueryPrefix === 'boolean' ? opts.addQueryPrefix : defaults.addQueryPrefix,
+        allowDots: typeof opts.allowDots === 'undefined' ? defaults.allowDots : !!opts.allowDots,
+        charset: charset,
+        charsetSentinel: typeof opts.charsetSentinel === 'boolean' ? opts.charsetSentinel : defaults.charsetSentinel,
+        delimiter: typeof opts.delimiter === 'undefined' ? defaults.delimiter : opts.delimiter,
+        encode: typeof opts.encode === 'boolean' ? opts.encode : defaults.encode,
+        encoder: typeof opts.encoder === 'function' ? opts.encoder : defaults.encoder,
+        encodeValuesOnly: typeof opts.encodeValuesOnly === 'boolean' ? opts.encodeValuesOnly : defaults.encodeValuesOnly,
+        filter: filter,
+        format: format,
+        formatter: formatter,
+        serializeDate: typeof opts.serializeDate === 'function' ? opts.serializeDate : defaults.serializeDate,
+        skipNulls: typeof opts.skipNulls === 'boolean' ? opts.skipNulls : defaults.skipNulls,
+        sort: typeof opts.sort === 'function' ? opts.sort : null,
+        strictNullHandling: typeof opts.strictNullHandling === 'boolean' ? opts.strictNullHandling : defaults.strictNullHandling
+    };
+};
+
+module.exports = function (object, opts) {
+    var obj = object;
+    var options = normalizeStringifyOptions(opts);
+
+    var objKeys;
+    var filter;
+
+    if (typeof options.filter === 'function') {
+        filter = options.filter;
+        obj = filter('', obj);
+    } else if (isArray(options.filter)) {
+        filter = options.filter;
+        objKeys = filter;
+    }
+
+    var keys = [];
+
+    if (typeof obj !== 'object' || obj === null) {
+        return '';
+    }
+
+    var arrayFormat;
+    if (opts && opts.arrayFormat in arrayPrefixGenerators) {
+        arrayFormat = opts.arrayFormat;
+    } else if (opts && 'indices' in opts) {
+        arrayFormat = opts.indices ? 'indices' : 'repeat';
+    } else {
+        arrayFormat = 'indices';
+    }
+
+    var generateArrayPrefix = arrayPrefixGenerators[arrayFormat];
+
+    if (!objKeys) {
+        objKeys = Object.keys(obj);
+    }
+
+    if (options.sort) {
+        objKeys.sort(options.sort);
+    }
+
+    for (var i = 0; i < objKeys.length; ++i) {
+        var key = objKeys[i];
+
+        if (options.skipNulls && obj[key] === null) {
+            continue;
+        }
+        pushToArray(keys, stringify(
+            obj[key],
+            key,
+            generateArrayPrefix,
+            options.strictNullHandling,
+            options.skipNulls,
+            options.encode ? options.encoder : null,
+            options.filter,
+            options.sort,
+            options.allowDots,
+            options.serializeDate,
+            options.format,
+            options.formatter,
+            options.encodeValuesOnly,
+            options.charset
+        ));
+    }
+
+    var joined = keys.join(options.delimiter);
+    var prefix = options.addQueryPrefix === true ? '?' : '';
+
+    if (options.charsetSentinel) {
+        if (options.charset === 'iso-8859-1') {
+            // encodeURIComponent('&#10003;'), the "numeric entity" representation of a checkmark
+            prefix += 'utf8=%26%2310003%3B&';
+        } else {
+            // encodeURIComponent('✓')
+            prefix += 'utf8=%E2%9C%93&';
+        }
+    }
+
+    return joined.length > 0 ? prefix + joined : '';
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/ziggy-js/node_modules/qs/lib/utils.js":
+/*!************************************************************!*\
+  !*** ./node_modules/ziggy-js/node_modules/qs/lib/utils.js ***!
+  \************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+var formats = __webpack_require__(/*! ./formats */ "./node_modules/ziggy-js/node_modules/qs/lib/formats.js");
+
+var has = Object.prototype.hasOwnProperty;
+var isArray = Array.isArray;
+
+var hexTable = (function () {
+    var array = [];
+    for (var i = 0; i < 256; ++i) {
+        array.push('%' + ((i < 16 ? '0' : '') + i.toString(16)).toUpperCase());
+    }
+
+    return array;
+}());
+
+var compactQueue = function compactQueue(queue) {
+    while (queue.length > 1) {
+        var item = queue.pop();
+        var obj = item.obj[item.prop];
+
+        if (isArray(obj)) {
+            var compacted = [];
+
+            for (var j = 0; j < obj.length; ++j) {
+                if (typeof obj[j] !== 'undefined') {
+                    compacted.push(obj[j]);
+                }
+            }
+
+            item.obj[item.prop] = compacted;
+        }
+    }
+};
+
+var arrayToObject = function arrayToObject(source, options) {
+    var obj = options && options.plainObjects ? Object.create(null) : {};
+    for (var i = 0; i < source.length; ++i) {
+        if (typeof source[i] !== 'undefined') {
+            obj[i] = source[i];
+        }
+    }
+
+    return obj;
+};
+
+var merge = function merge(target, source, options) {
+    /* eslint no-param-reassign: 0 */
+    if (!source) {
+        return target;
+    }
+
+    if (typeof source !== 'object') {
+        if (isArray(target)) {
+            target.push(source);
+        } else if (target && typeof target === 'object') {
+            if ((options && (options.plainObjects || options.allowPrototypes)) || !has.call(Object.prototype, source)) {
+                target[source] = true;
+            }
+        } else {
+            return [target, source];
+        }
+
+        return target;
+    }
+
+    if (!target || typeof target !== 'object') {
+        return [target].concat(source);
+    }
+
+    var mergeTarget = target;
+    if (isArray(target) && !isArray(source)) {
+        mergeTarget = arrayToObject(target, options);
+    }
+
+    if (isArray(target) && isArray(source)) {
+        source.forEach(function (item, i) {
+            if (has.call(target, i)) {
+                var targetItem = target[i];
+                if (targetItem && typeof targetItem === 'object' && item && typeof item === 'object') {
+                    target[i] = merge(targetItem, item, options);
+                } else {
+                    target.push(item);
+                }
+            } else {
+                target[i] = item;
+            }
+        });
+        return target;
+    }
+
+    return Object.keys(source).reduce(function (acc, key) {
+        var value = source[key];
+
+        if (has.call(acc, key)) {
+            acc[key] = merge(acc[key], value, options);
+        } else {
+            acc[key] = value;
+        }
+        return acc;
+    }, mergeTarget);
+};
+
+var assign = function assignSingleSource(target, source) {
+    return Object.keys(source).reduce(function (acc, key) {
+        acc[key] = source[key];
+        return acc;
+    }, target);
+};
+
+var decode = function (str, decoder, charset) {
+    var strWithoutPlus = str.replace(/\+/g, ' ');
+    if (charset === 'iso-8859-1') {
+        // unescape never throws, no try...catch needed:
+        return strWithoutPlus.replace(/%[0-9a-f]{2}/gi, unescape);
+    }
+    // utf-8
+    try {
+        return decodeURIComponent(strWithoutPlus);
+    } catch (e) {
+        return strWithoutPlus;
+    }
+};
+
+var encode = function encode(str, defaultEncoder, charset, kind, format) {
+    // This code was originally written by Brian White (mscdex) for the io.js core querystring library.
+    // It has been adapted here for stricter adherence to RFC 3986
+    if (str.length === 0) {
+        return str;
+    }
+
+    var string = str;
+    if (typeof str === 'symbol') {
+        string = Symbol.prototype.toString.call(str);
+    } else if (typeof str !== 'string') {
+        string = String(str);
+    }
+
+    if (charset === 'iso-8859-1') {
+        return escape(string).replace(/%u[0-9a-f]{4}/gi, function ($0) {
+            return '%26%23' + parseInt($0.slice(2), 16) + '%3B';
+        });
+    }
+
+    var out = '';
+    for (var i = 0; i < string.length; ++i) {
+        var c = string.charCodeAt(i);
+
+        if (
+            c === 0x2D // -
+            || c === 0x2E // .
+            || c === 0x5F // _
+            || c === 0x7E // ~
+            || (c >= 0x30 && c <= 0x39) // 0-9
+            || (c >= 0x41 && c <= 0x5A) // a-z
+            || (c >= 0x61 && c <= 0x7A) // A-Z
+            || (format === formats.RFC1738 && (c === 0x28 || c === 0x29)) // ( )
+        ) {
+            out += string.charAt(i);
+            continue;
+        }
+
+        if (c < 0x80) {
+            out = out + hexTable[c];
+            continue;
+        }
+
+        if (c < 0x800) {
+            out = out + (hexTable[0xC0 | (c >> 6)] + hexTable[0x80 | (c & 0x3F)]);
+            continue;
+        }
+
+        if (c < 0xD800 || c >= 0xE000) {
+            out = out + (hexTable[0xE0 | (c >> 12)] + hexTable[0x80 | ((c >> 6) & 0x3F)] + hexTable[0x80 | (c & 0x3F)]);
+            continue;
+        }
+
+        i += 1;
+        c = 0x10000 + (((c & 0x3FF) << 10) | (string.charCodeAt(i) & 0x3FF));
+        /* eslint operator-linebreak: [2, "before"] */
+        out += hexTable[0xF0 | (c >> 18)]
+            + hexTable[0x80 | ((c >> 12) & 0x3F)]
+            + hexTable[0x80 | ((c >> 6) & 0x3F)]
+            + hexTable[0x80 | (c & 0x3F)];
+    }
+
+    return out;
+};
+
+var compact = function compact(value) {
+    var queue = [{ obj: { o: value }, prop: 'o' }];
+    var refs = [];
+
+    for (var i = 0; i < queue.length; ++i) {
+        var item = queue[i];
+        var obj = item.obj[item.prop];
+
+        var keys = Object.keys(obj);
+        for (var j = 0; j < keys.length; ++j) {
+            var key = keys[j];
+            var val = obj[key];
+            if (typeof val === 'object' && val !== null && refs.indexOf(val) === -1) {
+                queue.push({ obj: obj, prop: key });
+                refs.push(val);
+            }
+        }
+    }
+
+    compactQueue(queue);
+
+    return value;
+};
+
+var isRegExp = function isRegExp(obj) {
+    return Object.prototype.toString.call(obj) === '[object RegExp]';
+};
+
+var isBuffer = function isBuffer(obj) {
+    if (!obj || typeof obj !== 'object') {
+        return false;
+    }
+
+    return !!(obj.constructor && obj.constructor.isBuffer && obj.constructor.isBuffer(obj));
+};
+
+var combine = function combine(a, b) {
+    return [].concat(a, b);
+};
+
+var maybeMap = function maybeMap(val, fn) {
+    if (isArray(val)) {
+        var mapped = [];
+        for (var i = 0; i < val.length; i += 1) {
+            mapped.push(fn(val[i]));
+        }
+        return mapped;
+    }
+    return fn(val);
+};
+
+module.exports = {
+    arrayToObject: arrayToObject,
+    assign: assign,
+    combine: combine,
+    compact: compact,
+    decode: decode,
+    encode: encode,
+    isBuffer: isBuffer,
+    isRegExp: isRegExp,
+    maybeMap: maybeMap,
+    merge: merge
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/ziggy-js/src/js/Route.js":
+/*!***********************************************!*\
+  !*** ./node_modules/ziggy-js/src/js/Route.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Route)
+/* harmony export */ });
+/* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! qs */ "./node_modules/ziggy-js/node_modules/qs/lib/index.js");
+/* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(qs__WEBPACK_IMPORTED_MODULE_0__);
+
+
+/**
+ * A Laravel route. This class represents one route and its configuration and metadata.
+ */
+class Route {
+    /**
+     * @param {String} name - Route name.
+     * @param {Object} definition - Route definition.
+     * @param {Object} config - Ziggy configuration.
+     */
+    constructor(name, definition, config) {
+        this.name = name;
+        this.definition = definition;
+        this.bindings = definition.bindings ?? {};
+        this.wheres = definition.wheres ?? {};
+        this.config = config;
+    }
+
+    /**
+     * Get a 'template' of the complete URL for this route.
+     *
+     * @example
+     * https://{team}.ziggy.dev/user/{user}
+     *
+     * @return {String} Route template.
+     */
+    get template() {
+        // If  we're building just a path there's no origin, otherwise: if this route has a
+        // domain configured we construct the origin with that, if not we use the app URL
+        const origin = !this.config.absolute ? '' : this.definition.domain
+            ? `${this.config.url.match(/^\w+:\/\//)[0]}${this.definition.domain}${this.config.port ? `:${this.config.port}` : ''}`
+            : this.config.url;
+
+        return `${origin}/${this.definition.uri}`.replace(/\/+$/, '');
+    }
+
+    /**
+     * Get an array of objects representing the parameters that this route accepts.
+     *
+     * @example
+     * [{ name: 'team', required: true }, { name: 'user', required: false }]
+     *
+     * @return {Array} Parameter segments.
+     */
+    get parameterSegments() {
+        return this.template.match(/{[^}?]+\??}/g)?.map((segment) => ({
+            name: segment.replace(/{|\??}/g, ''),
+            required: !/\?}$/.test(segment),
+        })) ?? [];
+    }
+
+    /**
+     * Get whether this route's template matches the given URL.
+     *
+     * @param {String} url - URL to check.
+     * @return {Object|false} - If this route matches, returns the matched parameters.
+     */
+    matchesUrl(url) {
+        if (!this.definition.methods.includes('GET')) return false;
+
+        // Transform the route's template into a regex that will match a hydrated URL,
+        // by replacing its parameter segments with matchers for parameter values
+        const pattern = this.template
+            .replace(/(\/?){([^}?]*)(\??)}/g, (_, slash, segment, optional) => {
+                const regex = `(?<${segment}>${this.wheres[segment]?.replace(/(^\^)|(\$$)/g, '') || '[^/?]+'})`;
+                return optional ? `(${slash}${regex})?` : `${slash}${regex}`;
+            })
+            .replace(/^\w+:\/\//, '');
+
+        const [location, query] = url.replace(/^\w+:\/\//, '').split('?');
+
+        const matches = new RegExp(`^${pattern}/?$`).exec(location);
+
+        return matches ? { params: matches.groups, query: (0,qs__WEBPACK_IMPORTED_MODULE_0__.parse)(query) } : false;
+    }
+
+    /**
+     * Hydrate and return a complete URL for this route with the given parameters.
+     *
+     * @param {Object} params
+     * @return {String}
+     */
+    compile(params) {
+        const segments = this.parameterSegments;
+
+        if (!segments.length) return this.template;
+
+        return this.template.replace(/{([^}?]+)(\??)}/g, (_, segment, optional) => {
+            // If the parameter is missing but is not optional, throw an error
+            if (!optional && [null, undefined].includes(params[segment])) {
+                throw new Error(`Ziggy error: '${segment}' parameter is required for route '${this.name}'.`)
+            }
+
+            if (segments[segments.length - 1].name === segment && this.wheres[segment] === '.*') {
+                return encodeURIComponent(params[segment] ?? '').replace(/%2F/g, '/');
+            }
+
+            if (this.wheres[segment] && !new RegExp(`^${optional ? `(${this.wheres[segment]})?` : this.wheres[segment]}$`).test(params[segment] ?? '')) {
+                throw new Error(`Ziggy error: '${segment}' parameter does not match required format '${this.wheres[segment]}' for route '${this.name}'.`)
+            }
+
+            return encodeURIComponent(params[segment] ?? '');
+        }).replace(/\/+$/, '');
+    }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/ziggy-js/src/js/Router.js":
+/*!************************************************!*\
+  !*** ./node_modules/ziggy-js/src/js/Router.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Router)
+/* harmony export */ });
+/* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! qs */ "./node_modules/ziggy-js/node_modules/qs/lib/index.js");
+/* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(qs__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Route__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Route */ "./node_modules/ziggy-js/src/js/Route.js");
+
+
+
+/**
+ * A collection of Laravel routes. This class constitutes Ziggy's main API.
+ */
+class Router extends String {
+    /**
+     * @param {String} [name] - Route name.
+     * @param {(String|Number|Array|Object)} [params] - Route parameters.
+     * @param {Boolean} [absolute] - Whether to include the URL origin.
+     * @param {Object} [config] - Ziggy configuration.
+     */
+    constructor(name, params, absolute = true, config) {
+        super();
+
+        this._config = config ?? (typeof Ziggy !== 'undefined' ? Ziggy : globalThis?.Ziggy);
+        this._config = { ...this._config, absolute };
+
+        if (name) {
+            if (!this._config.routes[name]) {
+                throw new Error(`Ziggy error: route '${name}' is not in the route list.`);
+            }
+
+            this._route = new _Route__WEBPACK_IMPORTED_MODULE_1__["default"](name, this._config.routes[name], this._config);
+            this._params = this._parse(params);
+        }
+    }
+
+    /**
+     * Get the compiled URL string for the current route and parameters.
+     *
+     * @example
+     * // with 'posts.show' route 'posts/{post}'
+     * (new Router('posts.show', 1)).toString(); // 'https://ziggy.dev/posts/1'
+     *
+     * @return {String}
+     */
+    toString() {
+        // Get parameters that don't correspond to any route segments to append them to the query
+        const unhandled = Object.keys(this._params)
+            .filter((key) => !this._route.parameterSegments.some(({ name }) => name === key))
+            .filter((key) => key !== '_query')
+            .reduce((result, current) => ({ ...result, [current]: this._params[current] }), {});
+
+        return this._route.compile(this._params) + (0,qs__WEBPACK_IMPORTED_MODULE_0__.stringify)({ ...unhandled, ...this._params['_query'] }, {
+            addQueryPrefix: true,
+            arrayFormat: 'indices',
+            encodeValuesOnly: true,
+            skipNulls: true,
+            encoder: (value, encoder) => typeof value === 'boolean' ? Number(value) : encoder(value),
+        });
+    }
+
+    /**
+     * Get the parameters, values, and metadata from the given URL.
+     *
+     * @param {String} [url] - The URL to inspect, defaults to the current window URL.
+     * @return {{ name: string, params: Object, query: Object, route: Route }}
+     */
+    _unresolve(url) {
+        if (!url) {
+            url = this._currentUrl();
+        } else if (this._config.absolute && url.startsWith('/')) {
+            // If we are using absolute URLs and a relative URL
+            // is passed, prefix the host to make it absolute
+            url = this._location().host + url;
+        }
+
+        let matchedParams = {};
+        const [name, route] = Object.entries(this._config.routes).find(
+          ([name, route]) => (matchedParams = new _Route__WEBPACK_IMPORTED_MODULE_1__["default"](name, route, this._config).matchesUrl(url))
+        ) || [undefined, undefined];
+
+        return { name, ...matchedParams, route };
+    }
+
+    _currentUrl() {
+        const { host, pathname, search } = this._location();
+
+        return (
+            this._config.absolute
+                ? host + pathname
+                : pathname.replace(this._config.url.replace(/^\w*:\/\/[^/]+/, ''), '').replace(/^\/+/, '/')
+        ) + search;
+    }
+
+    /**
+     * Get the name of the route matching the current window URL, or, given a route name
+     * and parameters, check if the current window URL and parameters match that route.
+     *
+     * @example
+     * // at URL https://ziggy.dev/posts/4 with 'posts.show' route 'posts/{post}'
+     * route().current(); // 'posts.show'
+     * route().current('posts.index'); // false
+     * route().current('posts.show'); // true
+     * route().current('posts.show', { post: 1 }); // false
+     * route().current('posts.show', { post: 4 }); // true
+     *
+     * @param {String} [name] - Route name to check.
+     * @param {(String|Number|Array|Object)} [params] - Route parameters.
+     * @return {(Boolean|String|undefined)}
+     */
+    current(name, params) {
+        const { name: current, params: currentParams, query, route } = this._unresolve();
+
+        // If a name wasn't passed, return the name of the current route
+        if (!name) return current;
+
+        // Test the passed name against the current route, matching some
+        // basic wildcards, e.g. passing `events.*` matches `events.show`
+        const match = new RegExp(`^${name.replace(/\./g, '\\.').replace(/\*/g, '.*')}$`).test(current);
+
+        if ([null, undefined].includes(params) || !match) return match;
+
+        const routeObject = new _Route__WEBPACK_IMPORTED_MODULE_1__["default"](current, route, this._config);
+
+        params = this._parse(params, routeObject);
+        const routeParams = { ...currentParams, ...query };
+
+        // If the current window URL has no route parameters, and the passed parameters are empty, return true
+        if (Object.values(params).every(p => !p) && !Object.values(routeParams).some(v => v !== undefined)) return true;
+
+        // Check that all passed parameters match their values in the current window URL
+        // Use weak equality because all values in the current window URL will be strings
+        return Object.entries(params).every(([key, value]) => routeParams[key] == value);
+    }
+
+    /**
+     * Get an object representing the current location (by default this will be
+     * the JavaScript `window` global if it's available).
+     *
+     * @return {Object}
+     */
+    _location() {
+        const { host = '', pathname = '', search = '' } = typeof window !== 'undefined' ? window.location : {};
+
+        return {
+            host: this._config.location?.host ?? host,
+            pathname: this._config.location?.pathname ?? pathname,
+            search: this._config.location?.search ?? search,
+        };
+    }
+
+    /**
+     * Get all parameter values from the current window URL.
+     *
+     * @example
+     * // at URL https://tighten.ziggy.dev/posts/4?lang=en with 'posts.show' route 'posts/{post}' and domain '{team}.ziggy.dev'
+     * route().params; // { team: 'tighten', post: 4, lang: 'en' }
+     *
+     * @return {Object}
+     */
+    get params() {
+        const { params, query } = this._unresolve();
+
+        return { ...params, ...query };
+    }
+
+    /**
+     * Check whether the given route exists.
+     *
+     * @param {String} name
+     * @return {Boolean}
+     */
+    has(name) {
+        return Object.keys(this._config.routes).includes(name);
+    }
+
+    /**
+     * Parse Laravel-style route parameters of any type into a normalized object.
+     *
+     * @example
+     * // with route parameter names 'event' and 'venue'
+     * _parse(1); // { event: 1 }
+     * _parse({ event: 2, venue: 3 }); // { event: 2, venue: 3 }
+     * _parse(['Taylor', 'Matt']); // { event: 'Taylor', venue: 'Matt' }
+     * _parse([4, { uuid: 56789, name: 'Grand Canyon' }]); // { event: 4, venue: 56789 }
+     *
+     * @param {(String|Number|Array|Object)} params - Route parameters.
+     * @param {Route} route - Route instance.
+     * @return {Object} Normalized complete route parameters.
+     */
+    _parse(params = {}, route = this._route) {
+        // If `params` is a string or integer, wrap it in an array
+        params = ['string', 'number'].includes(typeof params) ? [params] : params;
+
+        // Separate segments with and without defaults, and fill in the default values
+        const segments = route.parameterSegments.filter(({ name }) => !this._config.defaults[name]);
+
+        if (Array.isArray(params)) {
+            // If the parameters are an array they have to be in order, so we can transform them into
+            // an object by keying them with the template segment names in the order they appear
+            params = params.reduce((result, current, i) => segments[i]
+                ? ({ ...result, [segments[i].name]: current })
+                : typeof current === 'object'
+                    ? ({ ...result, ...current })
+                    : ({ ...result, [current]: '' }), {});
+        } else if (
+            segments.length === 1
+            && !params[segments[0].name]
+            && (params.hasOwnProperty(Object.values(route.bindings)[0]) || params.hasOwnProperty('id'))
+        ) {
+            // If there is only one template segment and `params` is an object, that object is
+            // ambiguous—it could contain the parameter key and value, or it could be an object
+            // representing just the value (e.g. a model); we can inspect it to find out, and
+            // if it's just the parameter value, we can wrap it in an object with its key
+            params = { [segments[0].name]: params };
+        }
+
+        return {
+            ...this._defaults(route),
+            ...this._substituteBindings(params, route),
+        };
+    }
+
+    /**
+     * Populate default parameters for the given route.
+     *
+     * @example
+     * // with default parameters { locale: 'en', country: 'US' } and 'posts.show' route '{locale}/posts/{post}'
+     * defaults(...); // { locale: 'en' }
+     *
+     * @param {Route} route
+     * @return {Object} Default route parameters.
+     */
+    _defaults(route) {
+        return route.parameterSegments.filter(({ name }) => this._config.defaults[name])
+            .reduce((result, { name }, i) => ({ ...result, [name]: this._config.defaults[name] }), {});
+    }
+
+    /**
+     * Substitute Laravel route model bindings in the given parameters.
+     *
+     * @example
+     * _substituteBindings({ post: { id: 4, slug: 'hello-world', title: 'Hello, world!' } }, { bindings: { post: 'slug' } }); // { post: 'hello-world' }
+     *
+     * @param {Object} params - Route parameters.
+     * @param {Object} route - Route definition.
+     * @return {Object} Normalized route parameters.
+     */
+    _substituteBindings(params, { bindings, parameterSegments }) {
+        return Object.entries(params).reduce((result, [key, value]) => {
+            // If the value isn't an object, or if the key isn't a named route parameter,
+            // there's nothing to substitute so we return it as-is
+            if (!value || typeof value !== 'object' || Array.isArray(value) || !parameterSegments.some(({ name }) => name === key)) {
+                return { ...result, [key]: value };
+            }
+
+            if (!value.hasOwnProperty(bindings[key])) {
+                if (value.hasOwnProperty('id')) {
+                    // As a fallback, we still accept an 'id' key not explicitly registered as a binding
+                    bindings[key] = 'id';
+                } else {
+                    throw new Error(`Ziggy error: object passed as '${key}' parameter is missing route model binding key '${bindings[key]}'.`)
+                }
+            }
+
+            return { ...result, [key]: value[bindings[key]] };
+        }, {});
+    }
+
+    valueOf() {
+        return this.toString();
+    }
+
+    /**
+     * @deprecated since v1.0, use `has()` instead.
+     */
+    check(name) {
+        return this.has(name);
+    }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/ziggy-js/src/js/index.js":
+/*!***********************************************!*\
+  !*** ./node_modules/ziggy-js/src/js/index.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ route)
+/* harmony export */ });
+/* harmony import */ var _Router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Router */ "./node_modules/ziggy-js/src/js/Router.js");
+
+
+function route(name, params, absolute, config) {
+    const router = new _Router__WEBPACK_IMPORTED_MODULE_0__["default"](name, params, absolute, config);
+
+    return name ? router.toString() : router;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/ziggy-js/src/js/vue.js":
+/*!*********************************************!*\
+  !*** ./node_modules/ziggy-js/src/js/vue.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ZiggyVue": () => (/* binding */ ZiggyVue)
+/* harmony export */ });
+/* harmony import */ var _index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.js */ "./node_modules/ziggy-js/src/js/index.js");
+
+
+const ZiggyVue = {
+    install: (v, options) => {
+        const r = (name, params, absolute, config = options) => (0,_index_js__WEBPACK_IMPORTED_MODULE_0__["default"])(name, params, absolute, config);
+
+        v.mixin({
+            methods: {
+                route: r,
+            },
+        });
+
+        if (parseInt(v.version) > 2) {
+            v.provide('route', r);
+        }
+    },
+};
+
+
+/***/ }),
+
 /***/ "./resources/js/admin/inertia/Pages sync recursive ^\\.\\/.*$":
 /*!*********************************************************!*\
   !*** ./resources/js/admin/inertia/Pages/ sync ^\.\/.*$ ***!
@@ -43578,17 +44487,14 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
-/* harmony import */ var ziggy__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ziggy */ "./vendor/tightenco/ziggy/dist/vue.js");
-/* harmony import */ var ziggy__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(ziggy__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var ziggy_js_src_js_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ziggy-js/src/js/vue */ "./node_modules/ziggy-js/src/js/vue.js");
 /* harmony import */ var _helpers_ziggy__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/helpers/ziggy */ "./resources/js/helpers/ziggy.js");
 /* harmony import */ var _inertiajs_progress__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @inertiajs/progress */ "./node_modules/@inertiajs/progress/dist/index.js");
 /* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! pinia */ "./node_modules/pinia/dist/pinia.esm-browser.js");
-/* harmony import */ var _admin_inertia_store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/admin/inertia/store */ "./resources/js/admin/inertia/store/index.ts");
+/* harmony import */ var _admin_inertia_modules__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/admin/inertia/modules */ "./resources/js/admin/inertia/modules/index.ts");
 /* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
 
- // @ts-ignore
 
- // @ts-ignore
 
 
 
@@ -43615,11 +44521,11 @@ __webpack_require__.r(__webpack_exports__);
         render: function render() {
           return (0,vue__WEBPACK_IMPORTED_MODULE_0__.h)(App, props);
         }
-      }).use(plugin).use(ziggy__WEBPACK_IMPORTED_MODULE_2__.ZiggyVue, _helpers_ziggy__WEBPACK_IMPORTED_MODULE_3__.Ziggy).use(pinia).mount(el); // walkaround for passing page props to pinia
+      }).use(plugin).use(ziggy_js_src_js_vue__WEBPACK_IMPORTED_MODULE_2__.ZiggyVue, _helpers_ziggy__WEBPACK_IMPORTED_MODULE_3__.Ziggy).use(pinia).mount(el); // walkaround for passing page props to pinia
     } finally {
       var _props$initialPage;
 
-      (0,_admin_inertia_store__WEBPACK_IMPORTED_MODULE_5__.initFromPageProps)(pinia, props === null || props === void 0 ? void 0 : (_props$initialPage = props.initialPage) === null || _props$initialPage === void 0 ? void 0 : _props$initialPage.props);
+      (0,_admin_inertia_modules__WEBPACK_IMPORTED_MODULE_5__.initFromPageProps)(pinia, props === null || props === void 0 ? void 0 : (_props$initialPage = props.initialPage) === null || _props$initialPage === void 0 ? void 0 : _props$initialPage.props);
     }
   }
 });

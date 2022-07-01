@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import axios from 'axios'
-import {useAuthStore} from "@/admin/inertia/store/auth"
+import {useAuthStore} from "@/admin/inertia/modules/auth"
 
 
 const authStore = useAuthStore()

@@ -230,8 +230,8 @@
 
 <script>
 import { Link } from '@inertiajs/inertia-vue3'
-import routeNames from "@/admin/mixins/routeNames";
-import {routeTypes} from "@/admin/inertia/shared/ziggyRoutes"
+import routeNames from "@/admin/inertia/mixins/routeNames";
+import {routeTypes} from "@/admin/inertia/modules/routes";
 
 export default {
     components: {

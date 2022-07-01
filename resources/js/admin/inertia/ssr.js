@@ -2,10 +2,11 @@ import { createSSRApp, h } from "vue"
 import { renderToString } from "@vue/server-renderer"
 import { createInertiaApp } from "@inertiajs/inertia-vue3"
 import createServer from "@inertiajs/server"
-import { ZiggyVue } from "ziggy"
+import { ZiggyVue } from "ziggy-js/src/js/vue"
 import { Ziggy } from "@/helpers/ziggy"
 import { createPinia } from "pinia"
-import { initFromPageProps } from "@/admin/inertia/store"
+import { initFromPageProps } from "@/admin/inertia/modules"
+
 
 createServer((page) =>
     createInertiaApp({

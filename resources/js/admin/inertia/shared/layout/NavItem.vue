@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import {Link} from "@inertiajs/inertia-vue3"
 
+
 defineProps<{
     idOrHref: string
     isInertiaLink: boolean
@@ -8,7 +9,6 @@ defineProps<{
     iconClass: string
     isCollapse: boolean
     isActiveCollapse?: boolean
-    isArrow?: boolean
     isArrowSpace?: boolean
     navLinkClass?: string
 }>()
@@ -19,7 +19,7 @@ defineProps<{
         <component
             :is="isInertiaLink ? Link : 'a'"
             :href="idOrHref"
-            :class="['nav-link', navLinkClass || '', isActiveCollapse ? '' : 'collapsed']"
+            :class="['nav-link', navLinkClass || '', isCollapse && !isActiveCollapse ? 'collapsed' : '']"
             :data-bs-toggle="isCollapse ? 'collapse' : null"
             :data-bs-target="isCollapse ? `#${idOrHref}` : null"
             :aria-expanded="!isCollapse ? null : (isCollapse && isActiveCollapse ? 'true' : 'false')"

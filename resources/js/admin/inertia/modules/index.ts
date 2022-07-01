@@ -3,12 +3,12 @@ import Article from "@/admin/inertia/entities/Article"
 import Auth from "@/admin/inertia/entities/Auth"
 import Option from "@/admin/inertia/entities/Option"
 import CategoryTreeItem from "@/admin/inertia/entities/CategoryTreeItem"
-import { useAuthStore } from "@/admin/inertia/store/auth"
+import { useAuthStore } from "@/admin/inertia/modules/auth"
 import { Pinia } from "pinia"
-import { useArticlesStore } from "@/admin/inertia/store/articles"
+import { useArticlesStore } from "@/admin/inertia/modules/articles"
 import { Service } from "@/admin/inertia/entities/Service"
-import { useServicesStore } from "@/admin/inertia/store/services"
-import { useCategoriesTreeStore } from '@/admin/inertia/store/categoriesTree'
+import { useServicesStore } from "@/admin/inertia/modules/services"
+import { useCategoriesTreeStore } from '@/admin/inertia/modules/categoriesTree'
 
 // props on all page @see \App\Http\Middleware\HandleInertiaRequests::share()
 export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
