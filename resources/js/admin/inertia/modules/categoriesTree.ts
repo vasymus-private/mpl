@@ -24,7 +24,7 @@ export const useCategoriesTreeStore = defineStore(storeName, {
 
                 return getIdsCb([], categoryAndSubcategories)
             },
-        categories: (state) : Array<CategoryTreeItem> => state.entities
+        categories: (state): Array<CategoryTreeItem> => state.entities,
     },
     actions: {
         setEntities(entities: Array<CategoryTreeItem>): void {
