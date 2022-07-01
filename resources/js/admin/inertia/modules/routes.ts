@@ -7,6 +7,9 @@ export const storeName = "routes"
 
 const categoryAndSubtreeIdsCache = new Map()
 
+// @ts-ignore
+window.__categoryAndSubtreeIdsCache = categoryAndSubtreeIdsCache
+
 export const useRoutesStore = defineStore(storeName, {
     getters: {
         isActiveRoute:

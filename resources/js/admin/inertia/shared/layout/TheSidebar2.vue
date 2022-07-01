@@ -61,6 +61,7 @@ const categoriesTreeStore = useCategoriesTreeStore()
                                 :title="subcategory1.name"
                                 :is-inertia-link="false"
                                 :is-collapse="true"
+                                :is-active-collapse="routesStore.isActiveRoute(RouteTypeEnum.categories, subcategory1.id)"
                                 icon-class="adm-icon iblock_menu_icon_sections"
                                 nav-link-class="sub-level-3"
                             >
@@ -78,6 +79,7 @@ const categoriesTreeStore = useCategoriesTreeStore()
                                     :title="subcategory2.name"
                                     :is-inertia-link="false"
                                     :is-collapse="true"
+                                    :is-active-collapse="routesStore.isActiveRoute(RouteTypeEnum.categories, subcategory2.id)"
                                     icon-class="adm-icon iblock_menu_icon_sections"
                                     nav-link-class="sub-level-4"
                                 >
@@ -95,6 +97,7 @@ const categoriesTreeStore = useCategoriesTreeStore()
                                         :title="subcategory3.name"
                                         :is-inertia-link="false"
                                         :is-collapse="true"
+                                        :is-active-collapse="routesStore.isActiveRoute(RouteTypeEnum.categories, subcategory3.id)"
                                         icon-class="adm-icon iblock_menu_icon_sections"
                                         nav-link-class="sub-level-5"
                                     >

@@ -26076,6 +26076,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     title: subcategory1.name,
                     "is-inertia-link": false,
                     "is-collapse": true,
+                    "is-active-collapse": $setup.routesStore.isActiveRoute($setup.RouteTypeEnum.categories, subcategory1.id),
                     "icon-class": "adm-icon iblock_menu_icon_sections",
                     "nav-link-class": "sub-level-3"
                   }, {
@@ -26097,6 +26098,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                           title: subcategory2.name,
                           "is-inertia-link": false,
                           "is-collapse": true,
+                          "is-active-collapse": $setup.routesStore.isActiveRoute($setup.RouteTypeEnum.categories, subcategory2.id),
                           "icon-class": "adm-icon iblock_menu_icon_sections",
                           "nav-link-class": "sub-level-4"
                         }, {
@@ -26118,6 +26120,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 title: subcategory3.name,
                                 "is-inertia-link": false,
                                 "is-collapse": true,
+                                "is-active-collapse": $setup.routesStore.isActiveRoute($setup.RouteTypeEnum.categories, subcategory3.id),
                                 "icon-class": "adm-icon iblock_menu_icon_sections",
                                 "nav-link-class": "sub-level-5"
                               }, {
@@ -26140,7 +26143,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
                               }, 1032
                               /* PROPS, DYNAMIC_SLOTS */
-                              , ["id-or-href", "title"]);
+                              , ["id-or-href", "title", "is-active-collapse"]);
                             }), 256
                             /* UNKEYED_FRAGMENT */
                             ))];
@@ -26150,7 +26153,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
                         }, 1032
                         /* PROPS, DYNAMIC_SLOTS */
-                        , ["id-or-href", "title"]);
+                        , ["id-or-href", "title", "is-active-collapse"]);
                       }), 256
                       /* UNKEYED_FRAGMENT */
                       ))];
@@ -26160,7 +26163,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
                   }, 1032
                   /* PROPS, DYNAMIC_SLOTS */
-                  , ["id-or-href", "title"]);
+                  , ["id-or-href", "title", "is-active-collapse"]);
                 }), 256
                 /* UNKEYED_FRAGMENT */
                 ))];
@@ -26603,7 +26606,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var storeName = "routes";
-var categoryAndSubtreeIdsCache = new Map();
+var categoryAndSubtreeIdsCache = new Map(); // @ts-ignore
+
+window.__categoryAndSubtreeIdsCache = categoryAndSubtreeIdsCache;
 var useRoutesStore = (0,pinia__WEBPACK_IMPORTED_MODULE_3__.defineStore)(storeName, {
   getters: {
     isActiveRoute: function isActiveRoute() {
