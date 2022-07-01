@@ -25679,6 +25679,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var _admin_inertia_shared_layout_NavItem_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/admin/inertia/shared/layout/NavItem.vue */ "./resources/js/admin/inertia/shared/layout/NavItem.vue");
 /* harmony import */ var _admin_inertia_modules_routes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/admin/inertia/modules/routes */ "./resources/js/admin/inertia/modules/routes.ts");
+/* harmony import */ var _admin_inertia_modules_categoriesTree__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/admin/inertia/modules/categoriesTree */ "./resources/js/admin/inertia/modules/categoriesTree.ts");
+
 
 
 
@@ -25688,8 +25690,10 @@ __webpack_require__.r(__webpack_exports__);
     var expose = _ref.expose;
     expose();
     var routesStore = (0,_admin_inertia_modules_routes__WEBPACK_IMPORTED_MODULE_2__.useRoutesStore)();
+    var categoriesTreeStore = (0,_admin_inertia_modules_categoriesTree__WEBPACK_IMPORTED_MODULE_3__.useCategoriesTreeStore)();
     var __returned__ = {
       routesStore: routesStore,
+      categoriesTreeStore: categoriesTreeStore,
       NavItem: _admin_inertia_shared_layout_NavItem_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
       RouteTypeEnum: _admin_inertia_modules_routes__WEBPACK_IMPORTED_MODULE_2__.RouteTypeEnum,
       routeNames: _admin_inertia_modules_routes__WEBPACK_IMPORTED_MODULE_2__.routeNames
@@ -26017,6 +26021,173 @@ var _hoisted_2 = {
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("aside", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["NavItem"], {
+    "id-or-href": "categories",
+    "is-inertia-link": false,
+    title: "Каталог товаров",
+    "is-collapse": true,
+    "is-active-collapse": $setup.routesStore.isActiveRoute($setup.RouteTypeEnum.categories),
+    "icon-class": "adm-icon iblock_menu_icon_types"
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["NavItem"], {
+        "id-or-href": "categories-sub",
+        title: "Каталог товаров",
+        "is-inertia-link": false,
+        "is-collapse": true,
+        "is-active-collapse": $setup.routesStore.isActiveRoute($setup.RouteTypeEnum.categoriesSub),
+        "icon-class": "adm-icon iblock_menu_icon_iblocks",
+        "nav-link-class": "sub-level-1"
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["NavItem"], {
+            "id-or-href": _ctx.route($setup.routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX),
+            title: "Товары",
+            "is-inertia-link": true,
+            "is-collapse": false,
+            "icon-class": "adm-arrow-icon-dot",
+            "nav-link-class": "sub-level-2"
+          }, null, 8
+          /* PROPS */
+          , ["id-or-href"]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.categoriesTreeStore.categories, function (category) {
+            return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["NavItem"], {
+              "id-or-href": "categories-".concat(category.id),
+              title: category.name,
+              "is-inertia-link": false,
+              "is-collapse": true,
+              "is-active-collapse": $setup.routesStore.isActiveRoute($setup.RouteTypeEnum.categories, category.id),
+              "icon-class": "adm-icon iblock_menu_icon_sections",
+              "nav-link-class": "sub-level-2"
+            }, {
+              "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["NavItem"], {
+                  "id-or-href": _ctx.route($setup.routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {
+                    category_id: category.id
+                  }),
+                  title: "Товары",
+                  "is-inertia-link": true,
+                  "is-collapse": false,
+                  "icon-class": "adm-arrow-icon-dot",
+                  "nav-link-class": "sub-level-3"
+                }, null, 8
+                /* PROPS */
+                , ["id-or-href"]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(category.subcategories, function (subcategory1) {
+                  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["NavItem"], {
+                    "id-or-href": "categories-".concat(subcategory1.id),
+                    title: subcategory1.name,
+                    "is-inertia-link": false,
+                    "is-collapse": true,
+                    "icon-class": "adm-icon iblock_menu_icon_sections",
+                    "nav-link-class": "sub-level-3"
+                  }, {
+                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["NavItem"], {
+                        "id-or-href": _ctx.route($setup.routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {
+                          category_id: subcategory1.id
+                        }),
+                        title: "Товары",
+                        "is-inertia-link": true,
+                        "is-collapse": false,
+                        "icon-class": "adm-arrow-icon-dot",
+                        "nav-link-class": "sub-level-4"
+                      }, null, 8
+                      /* PROPS */
+                      , ["id-or-href"]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(subcategory1.subcategories, function (subcategory2) {
+                        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["NavItem"], {
+                          "id-or-href": "categories-".concat(subcategory2.id),
+                          title: subcategory2.name,
+                          "is-inertia-link": false,
+                          "is-collapse": true,
+                          "icon-class": "adm-icon iblock_menu_icon_sections",
+                          "nav-link-class": "sub-level-4"
+                        }, {
+                          "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                            return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["NavItem"], {
+                              "id-or-href": _ctx.route($setup.routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {
+                                category_id: subcategory2.id
+                              }),
+                              title: "Товары",
+                              "is-inertia-link": true,
+                              "is-collapse": false,
+                              "icon-class": "adm-arrow-icon-dot",
+                              "nav-link-class": "sub-level-5"
+                            }, null, 8
+                            /* PROPS */
+                            , ["id-or-href"]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(subcategory2.subcategories, function (subcategory3) {
+                              return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["NavItem"], {
+                                "id-or-href": "categories-".concat(subcategory3.id),
+                                title: subcategory3.name,
+                                "is-inertia-link": false,
+                                "is-collapse": true,
+                                "icon-class": "adm-icon iblock_menu_icon_sections",
+                                "nav-link-class": "sub-level-5"
+                              }, {
+                                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["NavItem"], {
+                                    "id-or-href": _ctx.route($setup.routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {
+                                      category_id: subcategory3.id
+                                    }),
+                                    title: "Товары",
+                                    "is-inertia-link": true,
+                                    "is-collapse": false,
+                                    "icon-class": "adm-arrow-icon-dot",
+                                    "nav-link-class": "sub-level-6"
+                                  }, null, 8
+                                  /* PROPS */
+                                  , ["id-or-href"])];
+                                }),
+                                _: 2
+                                /* DYNAMIC */
+
+                              }, 1032
+                              /* PROPS, DYNAMIC_SLOTS */
+                              , ["id-or-href", "title"]);
+                            }), 256
+                            /* UNKEYED_FRAGMENT */
+                            ))];
+                          }),
+                          _: 2
+                          /* DYNAMIC */
+
+                        }, 1032
+                        /* PROPS, DYNAMIC_SLOTS */
+                        , ["id-or-href", "title"]);
+                      }), 256
+                      /* UNKEYED_FRAGMENT */
+                      ))];
+                    }),
+                    _: 2
+                    /* DYNAMIC */
+
+                  }, 1032
+                  /* PROPS, DYNAMIC_SLOTS */
+                  , ["id-or-href", "title"]);
+                }), 256
+                /* UNKEYED_FRAGMENT */
+                ))];
+              }),
+              _: 2
+              /* DYNAMIC */
+
+            }, 1032
+            /* PROPS, DYNAMIC_SLOTS */
+            , ["id-or-href", "title", "is-active-collapse"]);
+          }), 256
+          /* UNKEYED_FRAGMENT */
+          ))];
+        }),
+        _: 1
+        /* STABLE */
+
+      }, 8
+      /* PROPS */
+      , ["is-active-collapse"])];
+    }),
+    _: 1
+    /* STABLE */
+
+  }, 8
+  /* PROPS */
+  , ["is-active-collapse"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["NavItem"], {
     "id-or-href": "reference",
     "is-inertia-link": false,
     title: "Справочники",
@@ -26301,7 +26472,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 
-var storeName = 'categoriesTree';
+var storeName = "categoriesTree";
 var useCategoriesTreeStore = (0,pinia__WEBPACK_IMPORTED_MODULE_0__.defineStore)(storeName, {
   state: function state() {
     return {
@@ -26319,6 +26490,9 @@ var useCategoriesTreeStore = (0,pinia__WEBPACK_IMPORTED_MODULE_0__.defineStore)(
 
         return getIdsCb([], categoryAndSubcategories);
       };
+    },
+    categories: function categories(state) {
+      return state.entities;
     }
   },
   actions: {
@@ -26428,7 +26602,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var storeName = 'routes';
+var storeName = "routes";
 var categoryAndSubtreeIdsCache = new Map();
 var useRoutesStore = (0,pinia__WEBPACK_IMPORTED_MODULE_3__.defineStore)(storeName, {
   getters: {
@@ -26569,14 +26743,14 @@ var RouteTypeEnum;
 
 
 var routeTypes = {
-  categoriesSub: 'categories-sub',
-  categories: 'categories',
-  reference: 'reference',
-  referenceBrands: 'reference-brands',
-  referenceArticles: 'reference-articles',
-  referenceServices: 'reference-services',
-  referenceFaq: 'reference-faq',
-  referenceContacts: 'reference-contacts'
+  categoriesSub: "categories-sub",
+  categories: "categories",
+  reference: "reference",
+  referenceBrands: "reference-brands",
+  referenceArticles: "reference-articles",
+  referenceServices: "reference-services",
+  referenceFaq: "reference-faq",
+  referenceContacts: "reference-contacts"
 };
 
 /***/ }),
