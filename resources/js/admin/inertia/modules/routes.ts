@@ -99,6 +99,9 @@ export const useRoutesStore = defineStore(storeName, {
 })
 
 export const routeNames = {
+    ROUTE_WEB_HOME: "home",
+    ROUTE_LOGOUT: "logout",
+
     ROUTE_ADMIN_HOME: "admin.home",
     ROUTE_ADMIN_MEDIA: "admin.media",
 

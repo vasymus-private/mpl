@@ -25599,6 +25599,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _admin_inertia_modules_auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/admin/inertia/modules/auth */ "./resources/js/admin/inertia/modules/auth.ts");
+/* harmony import */ var _admin_inertia_modules_routes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/admin/inertia/modules/routes */ "./resources/js/admin/inertia/modules/routes.ts");
+
 
 
 
@@ -25610,14 +25612,15 @@ __webpack_require__.r(__webpack_exports__);
     var authStore = (0,_admin_inertia_modules_auth__WEBPACK_IMPORTED_MODULE_2__.useAuthStore)();
 
     var logout = function logout() {
-      axios__WEBPACK_IMPORTED_MODULE_1___default().post(route('logout')).then(function () {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post(route(_admin_inertia_modules_routes__WEBPACK_IMPORTED_MODULE_3__.routeNames.ROUTE_LOGOUT)).then(function () {
         window.location.href = '/';
       });
     };
 
     var __returned__ = {
       authStore: authStore,
-      logout: logout
+      logout: logout,
+      routeNames: _admin_inertia_modules_routes__WEBPACK_IMPORTED_MODULE_3__.routeNames
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
       enumerable: false,
@@ -25934,12 +25937,12 @@ var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("header", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     "class": "navbar-brand",
-    href: _ctx.route('home')
+    href: _ctx.route($setup.routeNames.ROUTE_WEB_HOME)
   }, "Сайт", 8
   /* PROPS */
   , _hoisted_3), _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     "class": "header-link",
-    href: _ctx.route('admin.home')
+    href: _ctx.route($setup.routeNames.ROUTE_ADMIN_HOME)
   }, _hoisted_11, 8
   /* PROPS */
   , _hoisted_8)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.authStore.userName), 1
@@ -26689,6 +26692,8 @@ var useRoutesStore = (0,pinia__WEBPACK_IMPORTED_MODULE_3__.defineStore)(storeNam
   }
 });
 var routeNames = {
+  ROUTE_WEB_HOME: "home",
+  ROUTE_LOGOUT: "logout",
   ROUTE_ADMIN_HOME: "admin.home",
   ROUTE_ADMIN_MEDIA: "admin.media",
   ROUTE_ADMIN_PRODUCTS_INDEX: "admin.products.index",

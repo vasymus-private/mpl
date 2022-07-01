@@ -23,6 +23,9 @@ final class Constants
     public const MIME_XLS = "application/vnd.ms-excel";
     public const MIME_ZIP = 'application/zip';
 
+    public const ROUTE_WEB_HOME = 'home';
+    public const ROUTE_LOGOUT = 'logout';
+
     public const ROUTE_ADMIN_HOME = 'admin.home';
     public const ROUTE_ADMIN_MEDIA = 'admin.media';
 
