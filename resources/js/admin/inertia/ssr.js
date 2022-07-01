@@ -7,7 +7,6 @@ import { Ziggy } from "@/helpers/ziggy"
 import { createPinia } from "pinia"
 import { initFromPageProps } from "@/admin/inertia/modules"
 
-
 createServer((page) =>
     createInertiaApp({
         page,
