@@ -1,4 +1,4 @@
-import {routeNames} from "@/admin/inertia/modules/routes";
+import { routeNames } from "@/admin/inertia/modules/routes"
 
 export default {
     computed: {

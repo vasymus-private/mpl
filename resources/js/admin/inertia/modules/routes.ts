@@ -1,79 +1,98 @@
 import { defineStore } from "pinia"
-import {useCategoriesTreeStore} from "@/admin/inertia/modules/categoriesTree"
-import route, {Config, RouteParam} from "ziggy-js"
+import { useCategoriesTreeStore } from "@/admin/inertia/modules/categoriesTree"
+import route, { Config, RouteParam } from "ziggy-js"
 import { Ziggy } from "@/helpers/ziggy"
 
-
-export const storeName = 'routes'
+export const storeName = "routes"
 
 const categoryAndSubtreeIdsCache = new Map()
 
 export const useRoutesStore = defineStore(storeName, {
     getters: {
-        isActiveRoute: () => (type: RouteTypeEnum, id: number|string = null): boolean => {
-            const categoriesTreeStore = useCategoriesTreeStore()
+        isActiveRoute:
+            () =>
+            (type: RouteTypeEnum, id: number | string = null): boolean => {
+                const categoriesTreeStore = useCategoriesTreeStore()
 
-            let router = route(undefined, undefined, undefined, Ziggy as Config)
+                let router = route(
+                    undefined,
+                    undefined,
+                    undefined,
+                    Ziggy as Config
+                )
 
-            switch (type) {
-                case RouteTypeEnum.categoriesSub:
-                case RouteTypeEnum.categories: {
-                    if (!router.current(RouteNameGroupEnum.Products) && !router.current(RouteNameGroupEnum.Categories)) {
+                switch (type) {
+                    case RouteTypeEnum.categoriesSub:
+                    case RouteTypeEnum.categories: {
+                        if (
+                            !router.current(RouteNameGroupEnum.Products) &&
+                            !router.current(RouteNameGroupEnum.Categories)
+                        ) {
+                            return false
+                        }
+
+                        if (id === null) {
+                            return true
+                        }
+
+                        let categoryAndSubtreeIds
+
+                        if (categoryAndSubtreeIdsCache.has(id)) {
+                            categoryAndSubtreeIds =
+                                categoryAndSubtreeIdsCache.get(id)
+                        }
+                        if (!categoryAndSubtreeIdsCache.has(id)) {
+                            categoryAndSubtreeIdsCache.set(
+                                id,
+                                categoriesTreeStore.getCategoryAndSubtreeIds(id)
+                            )
+                            categoryAndSubtreeIds =
+                                categoryAndSubtreeIdsCache.get(id)
+                        }
+
+                        if (!categoryAndSubtreeIds) {
+                            return false
+                        }
+
+                        let routeParams = router.params as {
+                            [key: string]: RouteParam
+                        }
+
+                        let categoryIdParam =
+                            +(routeParams.category_id as string)
+
+                        return categoryAndSubtreeIds.includes(categoryIdParam)
+                    }
+                    case RouteTypeEnum.reference: {
+                        return (
+                            router.current(RouteNameGroupEnum.Brands) ||
+                            router.current(RouteNameGroupEnum.Articles) ||
+                            router.current(RouteNameGroupEnum.Services) ||
+                            router.current(RouteNameGroupEnum.Faq) ||
+                            router.current(RouteNameGroupEnum.Contacts)
+                        )
+                    }
+                    case RouteTypeEnum.referenceBrands: {
+                        return router.current(RouteNameGroupEnum.Brands)
+                    }
+                    case RouteTypeEnum.referenceArticles: {
+                        return router.current(RouteNameGroupEnum.Articles)
+                    }
+                    case RouteTypeEnum.referenceServices: {
+                        return router.current(RouteNameGroupEnum.Services)
+                    }
+                    case RouteTypeEnum.referenceFaq: {
+                        return router.current(RouteNameGroupEnum.Faq)
+                    }
+                    case RouteTypeEnum.referenceContacts: {
+                        return router.current(RouteNameGroupEnum.Contacts)
+                    }
+                    default: {
                         return false
                     }
-
-                    if (id === null) {
-                        return true;
-                    }
-
-                    let categoryAndSubtreeIds
-
-                    if (categoryAndSubtreeIdsCache.has(id)) {
-                        categoryAndSubtreeIds = categoryAndSubtreeIdsCache.get(id)
-                    }
-                    if (!categoryAndSubtreeIdsCache.has(id)) {
-                        categoryAndSubtreeIdsCache.set(id, categoriesTreeStore.getCategoryAndSubtreeIds(id))
-                        categoryAndSubtreeIds = categoryAndSubtreeIdsCache.get(id)
-                    }
-
-                    if (!categoryAndSubtreeIds) {
-                        return false
-                    }
-
-                    let routeParams = router.params as { [key: string]: RouteParam }
-
-                    let categoryIdParam = +(routeParams.category_id as string)
-
-                    return categoryAndSubtreeIds.includes(categoryIdParam)
                 }
-                case RouteTypeEnum.reference: {
-                    return router.current(RouteNameGroupEnum.Brands) ||
-                        router.current(RouteNameGroupEnum.Articles) ||
-                        router.current(RouteNameGroupEnum.Services) ||
-                        router.current(RouteNameGroupEnum.Faq) ||
-                        router.current(RouteNameGroupEnum.Contacts)
-                }
-                case RouteTypeEnum.referenceBrands: {
-                    return router.current(RouteNameGroupEnum.Brands)
-                }
-                case RouteTypeEnum.referenceArticles: {
-                    return router.current(RouteNameGroupEnum.Articles)
-                }
-                case RouteTypeEnum.referenceServices: {
-                    return router.current(RouteNameGroupEnum.Services)
-                }
-                case RouteTypeEnum.referenceFaq: {
-                    return router.current(RouteNameGroupEnum.Faq)
-                }
-                case RouteTypeEnum.referenceContacts: {
-                    return router.current(RouteNameGroupEnum.Contacts)
-                }
-                default: {
-                    return false
-                }
-            }
-        }
-    }
+            },
+    },
 })
 
 export const routeNames = {
@@ -117,36 +136,36 @@ export const routeNames = {
 }
 
 enum RouteNameGroupEnum {
-    Products = 'admin.products.*',
-    Categories = 'admin.categories.*',
-    Brands = 'admin.brands.*',
-    Articles = 'admin.articles.*',
-    Services = 'admin.services.*',
-    Faq = 'admin.faq.*',
-    Contacts = 'admin.contacts.*',
+    Products = "admin.products.*",
+    Categories = "admin.categories.*",
+    Brands = "admin.brands.*",
+    Articles = "admin.articles.*",
+    Services = "admin.services.*",
+    Faq = "admin.faq.*",
+    Contacts = "admin.contacts.*",
 }
 
 export enum RouteTypeEnum {
-    categoriesSub  = 'categories-sub',
-    categories = 'categories',
-    reference = 'reference',
-    referenceBrands = 'reference-brands',
-    referenceArticles = 'reference-articles',
-    referenceServices = 'reference-services',
-    referenceFaq = 'reference-faq',
-    referenceContacts = 'reference-contacts',
+    categoriesSub = "categories-sub",
+    categories = "categories",
+    reference = "reference",
+    referenceBrands = "reference-brands",
+    referenceArticles = "reference-articles",
+    referenceServices = "reference-services",
+    referenceFaq = "reference-faq",
+    referenceContacts = "reference-contacts",
 }
 
 /**
  * @deprecated use {@link RouteTypeEnum}
  */
 export const routeTypes = {
-    categoriesSub : 'categories-sub',
-    categories: 'categories',
-    reference: 'reference',
-    referenceBrands: 'reference-brands',
-    referenceArticles: 'reference-articles',
-    referenceServices: 'reference-services',
-    referenceFaq: 'reference-faq',
-    referenceContacts: 'reference-contacts',
+    categoriesSub: "categories-sub",
+    categories: "categories",
+    reference: "reference",
+    referenceBrands: "reference-brands",
+    referenceArticles: "reference-articles",
+    referenceServices: "reference-services",
+    referenceFaq: "reference-faq",
+    referenceContacts: "reference-contacts",
 }
