@@ -11595,6 +11595,9 @@ body {
 .admin-edit-variations td:nth-child(2) {
   width: 15px;
 }
+.admin-edit-variations td:nth-child(6) .form-control {
+  width: 50px;
+}
 .admin-edit-variations td .form-control {
   width: 130px;
   height: 27px;
@@ -11615,6 +11618,46 @@ body {
 }
 .admin-edit-variations tr:hover td {
   background-color: #e0e9ec;
+}
+.admin-edit-variations .table-products td:nth-child(3) {
+  width: 80px !important;
+}
+.admin-edit-variations .table-products td:nth-child(3) .form-control {
+  width: 41px;
+}
+.admin-edit-variations .table-products td:nth-child(4) {
+  width: 367px;
+}
+.admin-edit-variations .table-products td:nth-child(4) .form-control {
+  width: 367px;
+}
+.admin-edit-variations .table-products td:nth-child(7) .form-control, .admin-edit-variations .table-products td:nth-child(8) .form-control {
+  width: 70px;
+}
+.admin-edit-variations .table-products td select.form-control {
+  width: 84px;
+}
+.admin-edit-variations .table-products td textarea.form-control {
+  width: 100%;
+  height: 70px;
+}
+.admin-edit-variations .table-variants td:nth-child(3) {
+  width: 367px;
+}
+.admin-edit-variations .table-variants td:nth-child(3) .form-control {
+  width: 367px;
+}
+.admin-edit-variations .table-variants td:nth-child(7), .admin-edit-variations .table-variants td:nth-child(9) {
+  width: 80px;
+}
+.admin-edit-variations .table-variants td:nth-child(7) .form-control, .admin-edit-variations .table-variants td:nth-child(9) .form-control {
+  width: 41px;
+}
+.admin-edit-variations .table-variants td:nth-child(8) .form-control, .admin-edit-variations .table-variants td:nth-child(12) .form-control {
+  width: 70px;
+}
+.admin-edit-variations .table-variants td:nth-child(13) .form-control {
+  width: 84px;
 }
 
 .other-page {

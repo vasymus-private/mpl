@@ -53,7 +53,7 @@
             </div>
         </div>
 
-        <table class="table table-bordered table-hover" style="width: 1338px;">
+        <table class="table table-bordered table-hover table-products" style="width: 1338px;">
             <thead>
                 <tr>
                     <th wire:key="sortable-column-table-header-checkbox" scope="col">
