@@ -167,3 +167,5 @@ export const getColumn = (key: ColumnName): Column => {
 
     return obj[key]
 }
+
+export const isSortableColumn = (column: Column, name: ColumnName): boolean => column.value === getColumn(name).value

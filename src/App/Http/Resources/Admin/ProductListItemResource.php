@@ -31,11 +31,15 @@ class ProductListItemResource extends JsonResource
             'unit' => $this->resource->unit,
             'price_purchase' => $this->resource->price_purchase,
             'price_purchase_currency_id' => $this->resource->price_purchase_currency_id,
+            'price_purchase_formatted' => $this->resource->price_purchase_formatted,
             'price_retail' => $this->resource->price_retail,
             'price_retail_currency_id' => $this->resource->price_retail_currency_id,
+            'price_retail_formatted' => $this->resource->price_retail_formatted,
             'admin_comment' => $this->resource->admin_comment,
             'availability_status_id' => $this->resource->availability_status_id,
             'brand_id' => $this->resource->brand_id,
+            'availability_status_name' => $this->resource->availability_status_name,
+            'availability_status_name_short' => $this->resource->availability_status_name_short,
         ];
     }
 }
