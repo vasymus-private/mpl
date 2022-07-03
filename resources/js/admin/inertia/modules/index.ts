@@ -27,6 +27,8 @@ import OrderStatus from "@/admin/inertia/modules/orderStatuses/OrderStatus"
 import { useOrderStatusesStore } from "@/admin/inertia/modules/orderStatuses"
 import CharType from "@/admin/inertia/modules/chars/CharType"
 import { useCharsStore } from "@/admin/inertia/modules/chars"
+import Links from "@/admin/inertia/modules/common/Links";
+import Meta from "@/admin/inertia/modules/common/Meta";
 
 /**
  * props on all page + props specific for concrete controller
@@ -42,14 +44,14 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
         brandOptions = [],
         categoriesTree = [],
         services = [],
-        productListItems = [],
-        availabilityStatuses = [],
-        billStatuses = [],
-        currencies = [],
-        paymentMethods = [],
-        orderImportance = [],
-        orderStatuses = [],
-        charTypes = [],
+        productListItems : { data: productListItemsData = [], links: productListItemsLinks = null, meta: productListItemsMeta = null },
+        availabilityStatuses : { data : availabilityStatusesData = []},
+        billStatuses : { data : billStatusesData = [] },
+        currencies : { data: currenciesData = [] },
+        paymentMethods : { data: paymentMethodsData = [] },
+        orderImportance : { data : orderImportanceData = [] },
+        orderStatuses : { data: orderStatusesData = [] },
+        charTypes : { data: charTypesData = [] },
     }: {
         adminOrderColumns: Array<Column>
         adminProductColumns: Array<Column>
@@ -59,14 +61,14 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
         brandOptions: Array<Option>
         categoriesTree: Array<CategoryTreeItem>
         services: Array<Service>
-        productListItems: Array<ProductListItem>
-        availabilityStatuses: Array<AvailabilityStatus>
-        billStatuses: Array<BillStatus>
-        currencies: Array<Currency>
-        paymentMethods: Array<PaymentMethod>
-        orderImportance: Array<OrderImportance>
-        orderStatuses: Array<OrderStatus>
-        charTypes: Array<CharType>
+        productListItems: { data: Array<ProductListItem>, links: Links, meta: Meta }
+        availabilityStatuses: { data : Array<AvailabilityStatus> }
+        billStatuses: { data: Array<BillStatus> }
+        currencies: { data: Array<Currency> }
+        paymentMethods: { data: Array<PaymentMethod> }
+        orderImportance: { data: Array<OrderImportance> }
+        orderStatuses: { data: Array<OrderStatus> }
+        charTypes: { data: Array<CharType> }
     } = initialPageProps
 
     const authStore = useAuthStore(pinia)
@@ -90,26 +92,28 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
     brandsStore.setOptions(brandOptions)
 
     const productsStore = useProductsStore(pinia)
-    productsStore.setProductListItems(productListItems)
+    productsStore.setProductListItems(productListItemsData)
+    productsStore.setLinks(productListItemsLinks)
+    productsStore.setMeta(productListItemsMeta)
 
     const availabilityStatusesStore = useAvailabilityStatusesStore(pinia)
-    availabilityStatusesStore.setEntities(availabilityStatuses)
+    availabilityStatusesStore.setEntities(availabilityStatusesData)
 
     const billStatusesStore = useBillStatusesStore(pinia)
-    billStatusesStore.setEntities(billStatuses)
+    billStatusesStore.setEntities(billStatusesData)
 
     const currenciesStore = useCurrenciesStore(pinia)
-    currenciesStore.setEntities(currencies)
+    currenciesStore.setEntities(currenciesData)
 
     const paymentMethodsStore = usePaymentMethodsStore(pinia)
-    paymentMethodsStore.setEntities(paymentMethods)
+    paymentMethodsStore.setEntities(paymentMethodsData)
 
     const orderImportanceStore = useOrderImportanceStore(pinia)
-    orderImportanceStore.setEntities(orderImportance)
+    orderImportanceStore.setEntities(orderImportanceData)
 
     const orderStatusesStore = useOrderStatusesStore(pinia)
-    orderStatusesStore.setEntities(orderStatuses)
+    orderStatusesStore.setEntities(orderStatusesData)
 
     const charsStore = useCharsStore(pinia)
-    charsStore.setChartTypes(charTypes)
+    charsStore.setChartTypes(charTypesData)
 }
