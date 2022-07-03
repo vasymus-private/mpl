@@ -27,8 +27,8 @@ import OrderStatus from "@/admin/inertia/modules/orderStatuses/OrderStatus"
 import { useOrderStatusesStore } from "@/admin/inertia/modules/orderStatuses"
 import CharType from "@/admin/inertia/modules/chars/CharType"
 import { useCharsStore } from "@/admin/inertia/modules/chars"
-import Links from "@/admin/inertia/modules/common/Links";
-import Meta from "@/admin/inertia/modules/common/Meta";
+import Links from "@/admin/inertia/modules/common/Links"
+import Meta from "@/admin/inertia/modules/common/Meta"
 
 /**
  * props on all page + props specific for concrete controller
@@ -44,14 +44,18 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
         brandOptions = [],
         categoriesTree = [],
         services = [],
-        productListItems : { data: productListItemsData = [], links: productListItemsLinks = null, meta: productListItemsMeta = null },
-        availabilityStatuses : { data : availabilityStatusesData = []},
-        billStatuses : { data : billStatusesData = [] },
-        currencies : { data: currenciesData = [] },
-        paymentMethods : { data: paymentMethodsData = [] },
-        orderImportance : { data : orderImportanceData = [] },
-        orderStatuses : { data: orderStatusesData = [] },
-        charTypes : { data: charTypesData = [] },
+        productListItems: {
+            data: productListItemsData = [],
+            links: productListItemsLinks = null,
+            meta: productListItemsMeta = null,
+        },
+        availabilityStatuses: { data: availabilityStatusesData = [] },
+        billStatuses: { data: billStatusesData = [] },
+        currencies: { data: currenciesData = [] },
+        paymentMethods: { data: paymentMethodsData = [] },
+        orderImportance: { data: orderImportanceData = [] },
+        orderStatuses: { data: orderStatusesData = [] },
+        charTypes: { data: charTypesData = [] },
     }: {
         adminOrderColumns: Array<Column>
         adminProductColumns: Array<Column>
@@ -61,8 +65,12 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
         brandOptions: Array<Option>
         categoriesTree: Array<CategoryTreeItem>
         services: Array<Service>
-        productListItems: { data: Array<ProductListItem>, links: Links, meta: Meta }
-        availabilityStatuses: { data : Array<AvailabilityStatus> }
+        productListItems: {
+            data: Array<ProductListItem>
+            links: Links
+            meta: Meta
+        }
+        availabilityStatuses: { data: Array<AvailabilityStatus> }
         billStatuses: { data: Array<BillStatus> }
         currencies: { data: Array<Currency> }
         paymentMethods: { data: Array<PaymentMethod> }
