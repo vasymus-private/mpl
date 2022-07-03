@@ -71,6 +71,10 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
         charTypes: { data: Array<CharType> }
     } = initialPageProps
 
+    // todo dev only
+    // @ts-ignore
+    window.__initialPageProps = initialPageProps
+
     const authStore = useAuthStore(pinia)
     authStore.setAuthUser(auth.user)
 

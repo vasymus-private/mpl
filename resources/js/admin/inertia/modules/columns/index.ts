@@ -27,7 +27,7 @@ export const useColumnsStore = defineStore(storeName, {
             this._adminOrderColumns = columns
         },
         setAdminProductColumns(columns: Array<Column>): void {
-            this._adminOrderColumns = columns
+            this._adminProductColumns = columns
         },
         setAdminProductVariantColumns(columns: Array<Column>): void {
             this._adminProductVariantColumns = columns
