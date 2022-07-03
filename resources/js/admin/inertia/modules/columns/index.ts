@@ -1,7 +1,6 @@
 import { defineStore } from "pinia"
 import Column from "@/admin/inertia/modules/columns/Column"
 
-
 export const storeName = "columns"
 
 export const useColumnsStore = defineStore(storeName, {
@@ -18,8 +17,10 @@ export const useColumnsStore = defineStore(storeName, {
     },
     getters: {
         adminOrderColumns: (state): Array<Column> => state._adminOrderColumns,
-        adminProductColumns: (state): Array<Column> => state._adminProductColumns,
-        adminProductVariantColumns: (state): Array<Column> => state._adminProductVariantColumns,
+        adminProductColumns: (state): Array<Column> =>
+            state._adminProductColumns,
+        adminProductVariantColumns: (state): Array<Column> =>
+            state._adminProductVariantColumns,
     },
     actions: {
         setAdminOrderColumns(columns: Array<Column>): void {
@@ -31,7 +32,7 @@ export const useColumnsStore = defineStore(storeName, {
         setAdminProductVariantColumns(columns: Array<Column>): void {
             this._adminProductVariantColumns = columns
         },
-    }
+    },
 })
 
 export enum ColumnName {

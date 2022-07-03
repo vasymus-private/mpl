@@ -1,7 +1,6 @@
 import { defineStore } from "pinia"
 import Article from "@/admin/inertia/modules/articles/Article"
 
-
 export const storeName = "articles"
 
 export const useArticlesStore = defineStore(storeName, {
