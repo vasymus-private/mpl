@@ -9,11 +9,10 @@ import { useArticlesStore } from "@/admin/inertia/modules/articles"
 import { Service } from "@/admin/inertia/modules/services/Service"
 import { useServicesStore } from "@/admin/inertia/modules/services"
 import { useCategoriesTreeStore } from "@/admin/inertia/modules/categoriesTree"
-import {useColumnsStore} from "@/admin/inertia/modules/columns";
-import {useBrandsStore} from "@/admin/inertia/modules/brands";
-import ProductListItem from "@/admin/inertia/modules/products/ProductListItem";
-import {useProductsStore} from "@/admin/inertia/modules/products";
-
+import { useColumnsStore } from "@/admin/inertia/modules/columns"
+import { useBrandsStore } from "@/admin/inertia/modules/brands"
+import ProductListItem from "@/admin/inertia/modules/products/ProductListItem"
+import { useProductsStore } from "@/admin/inertia/modules/products"
 
 /**
  * props on all page + props specific for concrete controller

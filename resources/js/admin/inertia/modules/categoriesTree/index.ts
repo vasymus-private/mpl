@@ -1,7 +1,6 @@
 import { defineStore } from "pinia"
 import CategoryTreeItem from "@/admin/inertia/modules/categoriesTree/CategoryTreeItem"
 
-
 export const storeName = "categoriesTree"
 
 export const useCategoriesTreeStore = defineStore(storeName, {

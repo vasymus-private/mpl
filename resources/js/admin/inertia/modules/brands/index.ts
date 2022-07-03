@@ -1,7 +1,6 @@
 import { defineStore } from "pinia"
 import Option from "@/admin/inertia/modules/common/Option"
 
-
 export const storeName = "brands"
 
 export const useBrandsStore = defineStore(storeName, {
@@ -17,6 +16,5 @@ export const useBrandsStore = defineStore(storeName, {
         setOptions(options: Array<Option>): void {
             this._options = options
         },
-    }
+    },
 })
-
