@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
-import Auth from "@/admin/inertia/entities/Auth"
-import User from "@/admin/inertia/entities/User"
+import Auth from "@/admin/inertia/modules/auth/Auth"
+import User from "@/admin/inertia/modules/auth/User"
 
 export const storeName = "auth"
 

@@ -1,355 +1,253 @@
+<script lang="ts" setup>
+import NavItem from '@/admin/inertia/shared/layout/NavItem.vue'
+import {useRoutesStore, RouteTypeEnum, routeNames} from "@/admin/inertia/modules/routes"
+import {useCategoriesTreeStore} from "@/admin/inertia/modules/categoriesTree"
+
+
+const routesStore = useRoutesStore()
+const categoriesTreeStore = useCategoriesTreeStore()
+</script>
+
 <template>
     <aside id="aside" class="sidebar-left" style="flex-basis: 330px">
         <nav>
-            <ul is="b-nav" class="pt-3">
-                <li class="nav-item">
-                    <a href="#categories" v-b-toggle.categories class="nav-link">
-                        <span class="adm-arrow-icon"></span>
-                        <span class="adm-icon iblock_menu_icon_types"></span>
-                        <span class="nav-link-text">Каталог товаров</span>
-                    </a>
-                    <ul is="b-collapse" :visible="isActive(routeTypes.categories)" tag="ul" id="categories" class="nav">
-                        <li class="nav-item">
-                            <a href="#categories-sub" v-b-toggle.categories-sub class="nav-link sub-level-1">
-                                <span class="adm-arrow-icon"></span>
-                                <span class="d-flex align-items-center justify-content-center">
-                                    <span class="adm-icon iblock_menu_icon_iblocks"></span>
-                                    <span class="nav-link-text">Каталог товаров</span>
-                                </span>
-                            </a>
-                            <ul is="b-collapse" :visible="isActive(routeTypes.categoriesSub)" tag="ul" id="categories-sub" class="nav">
-                                <li class="nav-item">
-                                    <Link :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX)" class="nav-link sub-level-2">
-                                        <span class="adm-arrow-icon-dot"></span>
-                                        <span class="nav-link-text">Товары</span>
-                                    </Link>
-                                </li>
-                                <li v-for="category in categories" class="nav-item">
-                                    <a :href="`#categories-${category.id}`" v-b-toggle="`categories-${category.id}`" class="nav-link sub-level-2">
-                                        <span class="adm-arrow-icon"></span>
-                                        <span class="d-flex align-items-center justify-content-center">
-                                            <span class="adm-icon iblock_menu_icon_sections"></span>
-                                            <span class="nav-link-text">{{category.name}}</span>
-                                        </span>
-                                    </a>
-                                    <ul is="b-collapse" :visible="isActive(routeTypes.categories, category.id)" tag="ul" :id="`categories-${category.id}`" class="nav">
-                                        <li class="nav-item">
-                                            <Link :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id : category.id})" class="nav-link sub-level-3">
-                                                <span class="adm-arrow-icon-dot"></span>
-                                                <span class="nav-link-text">Товары</span>
-                                            </Link>
-                                        </li>
-                                        <li v-for="subcategory1 in category.subcategories" class="nav-item">
-                                            <a
-                                                :href="`#categories-${subcategory1.id}`"
-                                                v-b-toggle="`categories-${subcategory1.id}`"
-                                                class="nav-link sub-level-3"
-                                            >
-                                                <span class="adm-arrow-icon"></span>
-                                                <span class="d-flex align-items-center justify-content-center">
-                                                    <span class="adm-icon iblock_menu_icon_sections"></span>
-                                                    <span class="nav-link-text">{{subcategory1.name}}</span>
-                                                </span>
-                                            </a>
-                                            <ul is="b-collapse" :visible="isActive(routeTypes.categories, subcategory1.id)" tag="ul" :id="`categories-${subcategory1.id}`" class="nav">
-                                                <li class="nav-item">
-                                                    <Link :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id: subcategory1.id})" class="nav-link sub-level-4">
-                                                        <span class="adm-arrow-icon-dot"></span>
-                                                        <span class="nav-link-text">Товары</span>
-                                                    </Link>
-                                                </li>
-                                                <li v-for="subcategory2 in subcategory1.subcategories" class="nav-item">
-                                                    <a
-                                                        :href="`#categories-${subcategory2.id}`"
-                                                        v-b-toggle="`categories-${subcategory2.id}`"
-                                                        class="nav-link sub-level-4"
-                                                    >
-                                                        <span class="adm-arrow-icon"></span>
-                                                        <span class="d-flex align-items-center justify-content-center">
-                                                            <span class="adm-icon iblock_menu_icon_sections"></span>
-                                                            <span class="nav-link-text">{{subcategory2.name}}</span>
-                                                        </span>
-                                                    </a>
-                                                    <ul is="b-collapse" :visible="isActive(routeTypes.categories, subcategory2.id)" tag="ul" :id="`categories-${subcategory2.id}`" class="nav">
-                                                        <li class="nav-item">
-                                                            <Link :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id: subcategory2.id})" class="nav-link sub-level-5">
-                                                                <span class="adm-arrow-icon-dot"></span>
-                                                                <span class="nav-link-text">Товары</span>
-                                                            </Link>
-                                                        </li>
-                                                        <li v-for="subcategory3 in subcategory2.subcategories" class="nav-item">
-                                                            <a
-                                                                :href="`#categories-${subcategory3.id}`"
-                                                                v-b-toggle="`categories-${subcategory3.id}`"
-                                                                class="nav-link sub-level-5"
-                                                            >
-                                                                <span class="adm-arrow-icon"></span>
-                                                                <span class="adm-icon iblock_menu_icon_sections"></span>
-                                                                <span class="nav-link-text">{{subcategory3.name}}</span>
-                                                            </a>
-                                                            <ul is="b-collapse" :visible="isActive(routeTypes.categories, subcategory3.id)" tag="ul" :id="`categories-${subcategory3.id}`" class="nav">
-                                                                <li class="nav-item">
-                                                                    <Link :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id: subcategory3.id})" class="nav-link sub-level-6">
-                                                                        <span class="adm-arrow-icon-dot"></span>
-                                                                        <span class="nav-link-text">Товары</span>
-                                                                    </Link>
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="nav-item">
-                    <a href="#reference" v-b-toggle.reference class="nav-link">
-                        <span class="adm-arrow-icon"></span>
-                        <span class="adm-icon iblock_menu_icon_types"></span>
-                        <span class="nav-link-text">Справочники</span>
-                    </a>
-                    <ul is="b-collapse" :visible="isActive(routeTypes.reference)" tag="ul" id="reference" class="nav">
-                        <li class="nav-item">
-                            <a href="#reference-brands" v-b-toggle.reference-brands class="nav-link sub-level-1">
-                                <span class="adm-arrow-icon"></span>
-                                <span class="adm-icon iblock_menu_icon_iblocks"></span>
-                                <span class="nav-link-text">Производители</span>
-                            </a>
-                            <ul is="b-collapse" :visible="isActive(routeTypes.referenceBrands)" tag="ul" id="reference-brands" class="nav">
-                                <li class="nav-item">
-                                    <a :href="route(routeNames.ROUTE_ADMIN_BRANDS_INDEX)" class="nav-link sub-level-2">
-                                        <span class="adm-arrow-icon-dot"></span>
-                                        <span class="nav-link-text">Элементы</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#reference-articles" v-b-toggle.reference-articles class="nav-link sub-level-1">
-                                <span class="adm-arrow-icon"></span>
-                                <span class="adm-icon iblock_menu_icon_iblocks"></span>
-                                <span class="nav-link-text">Статьи</span>
-                            </a>
-                            <ul is="b-collapse" :visible="isActive(routeTypes.referenceArticles)" tag="ul" id="reference-articles" class="nav">
-                                <li class="nav-item">
-                                    <Link :href="route(routeNames.ROUTE_ADMIN_ARTICLES_INDEX)" class="nav-link sub-level-2">
-                                        <span class="adm-arrow-icon-dot"></span>
-                                        <span class="nav-link-text">Элементы</span>
-                                    </Link>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#reference-services" v-b-toggle.reference-services class="nav-link sub-level-1">
-                                <span class="adm-arrow-icon"></span>
-                                <span class="adm-icon iblock_menu_icon_iblocks"></span>
-                                <span class="nav-link-text">Услуги</span>
-                            </a>
-                            <ul is="b-collapse" :visible="isActive(routeTypes.referenceServices)" tag="ul" id="reference-services" class="nav">
-                                <li class="nav-item">
-                                    <Link :href="route(routeNames.ROUTE_ADMIN_SERVICES_INDEX)" class="nav-link sub-level-2">
-                                        <span class="adm-arrow-icon-dot"></span>
-                                        <span class="nav-link-text">Элементы</span>
-                                    </Link>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#reference-faq" v-b-toggle.reference-faq class="nav-link sub-level-1">
-                                <span class="adm-arrow-icon"></span>
-                                <span class="adm-icon iblock_menu_icon_iblocks"></span>
-                                <span class="nav-link-text">Вопрос-ответ</span>
-                            </a>
-                            <ul is="b-collapse" :visible="isActive(routeTypes.referenceFaq)" tag="ul" id="reference-faq" class="nav">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link sub-level-2">
-                                        <span class="adm-arrow-icon-dot"></span>
-                                        <span class="nav-link-text">Элементы</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#reference-contacts" v-b-toggle.reference-contacts class="nav-link sub-level-1">
-                                <span class="adm-arrow-icon"></span>
-                                <span class="adm-icon iblock_menu_icon_iblocks"></span>
-                                <span class="nav-link-text">Контактные формы</span>
-                            </a>
-                            <ul is="b-collapse" :visible="isActive(routeTypes.referenceContacts)" tag="ul" id="reference-contacts" class="nav">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link sub-level-2">
-                                        <span class="adm-arrow-icon-dot"></span>
-                                        <span class="nav-link-text">Элементы</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="nav-item">
-                    <a href="#highload" v-b-toggle.highload class="nav-link collapsed">
-                        <span class="adm-arrow-icon"></span>
-                        <span class="adm-icon highloadblock_menu_icon"></span>
-                        <span class="nav-link-text">Highload-блоки</span>
-                    </a>
-                    <ul is="b-collapse" tag="ul" id="highload" class="nav">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link sub-level-1">
-                                <span class="adm-arrow-icon-dot"></span>
-                                <span class="nav-link-text">Blacklist</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="nav-item">
-                    <a :href="route(routeNames.ROUTE_ADMIN_ORDERS_INDEX)" class="nav-link">
-                        <span style="width: 20px;"></span>
-                        <span class="adm-icon iblock_menu_icon_types"></span>
-                        <span class="nav-link-text">Заказы</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a :href="route(routeNames.ROUTE_ADMIN_EXPORT_PRODUCTS_INDEX)" class="nav-link">
-                        <span style="width: 20px;"></span>
-                        <span class="adm-icon iblock_menu_icon_types"></span>
-                        <span class="nav-link-text">Экспорт</span>
-                    </a>
-                </li>
+            <ul class="nav pt-3">
+                <NavItem
+                    id-or-href="categories"
+                    :is-inertia-link="false"
+                    title="Каталог товаров"
+                    :is-collapse="true"
+                    :is-active-collapse="routesStore.isActiveRoute(RouteTypeEnum.categories)"
+                    icon-class="adm-icon iblock_menu_icon_types"
+                >
+                    <NavItem
+                        id-or-href="categories-sub"
+                        title="Каталог товаров"
+                        :is-inertia-link="false"
+                        :is-collapse="true"
+                        :is-active-collapse="routesStore.isActiveRoute(RouteTypeEnum.categoriesSub)"
+                        icon-class="adm-icon iblock_menu_icon_iblocks"
+                        nav-link-class="sub-level-1"
+                    >
+                        <NavItem
+                            :id-or-href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX)"
+                            title="Товары"
+                            :is-inertia-link="true"
+                            :is-collapse="false"
+                            icon-class="adm-arrow-icon-dot"
+                            nav-link-class="sub-level-2"
+                        />
+                        <NavItem
+                            v-for="category in categoriesTreeStore.categories"
+                            :id-or-href="`categories-${category.id}`"
+                            :title="category.name"
+                            :is-inertia-link="false"
+                            :is-collapse="true"
+                            :is-active-collapse="routesStore.isActiveRoute(RouteTypeEnum.categories, category.id)"
+                            icon-class="adm-icon iblock_menu_icon_sections"
+                            nav-link-class="sub-level-2"
+                        >
+                            <NavItem
+                                :id-or-href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id : category.id})"
+                                title="Товары"
+                                :is-inertia-link="true"
+                                :is-collapse="false"
+                                icon-class="adm-arrow-icon-dot"
+                                nav-link-class="sub-level-3"
+                            />
+                            <NavItem
+                                v-for="subcategory1 in category.subcategories"
+                                :id-or-href="`categories-${subcategory1.id}`"
+                                :title="subcategory1.name"
+                                :is-inertia-link="false"
+                                :is-collapse="true"
+                                :is-active-collapse="routesStore.isActiveRoute(RouteTypeEnum.categories, subcategory1.id)"
+                                icon-class="adm-icon iblock_menu_icon_sections"
+                                nav-link-class="sub-level-3"
+                            >
+                                <NavItem
+                                    :id-or-href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id : subcategory1.id})"
+                                    title="Товары"
+                                    :is-inertia-link="true"
+                                    :is-collapse="false"
+                                    icon-class="adm-arrow-icon-dot"
+                                    nav-link-class="sub-level-4"
+                                />
+                                <NavItem
+                                    v-for="subcategory2 in subcategory1.subcategories"
+                                    :id-or-href="`categories-${subcategory2.id}`"
+                                    :title="subcategory2.name"
+                                    :is-inertia-link="false"
+                                    :is-collapse="true"
+                                    :is-active-collapse="routesStore.isActiveRoute(RouteTypeEnum.categories, subcategory2.id)"
+                                    icon-class="adm-icon iblock_menu_icon_sections"
+                                    nav-link-class="sub-level-4"
+                                >
+                                    <NavItem
+                                        :id-or-href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id : subcategory2.id})"
+                                        title="Товары"
+                                        :is-inertia-link="true"
+                                        :is-collapse="false"
+                                        icon-class="adm-arrow-icon-dot"
+                                        nav-link-class="sub-level-5"
+                                    />
+                                    <NavItem
+                                        v-for="subcategory3 in subcategory2.subcategories"
+                                        :id-or-href="`categories-${subcategory3.id}`"
+                                        :title="subcategory3.name"
+                                        :is-inertia-link="false"
+                                        :is-collapse="true"
+                                        :is-active-collapse="routesStore.isActiveRoute(RouteTypeEnum.categories, subcategory3.id)"
+                                        icon-class="adm-icon iblock_menu_icon_sections"
+                                        nav-link-class="sub-level-5"
+                                    >
+                                        <NavItem
+                                            :id-or-href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id : subcategory3.id})"
+                                            title="Товары"
+                                            :is-inertia-link="true"
+                                            :is-collapse="false"
+                                            icon-class="adm-arrow-icon-dot"
+                                            nav-link-class="sub-level-6"
+                                        />
+                                    </NavItem>
+                                </NavItem>
+                            </NavItem>
+                        </NavItem>
+                    </NavItem>
+                </NavItem>
+                <NavItem
+                    id-or-href="reference"
+                    :is-inertia-link="false"
+                    title="Справочники"
+                    :is-collapse="true"
+                    :is-active-collapse="routesStore.isActiveRoute(RouteTypeEnum.reference)"
+                    icon-class="adm-icon iblock_menu_icon_types"
+                >
+                    <NavItem
+                        id-or-href="reference-brands"
+                        :is-inertia-link="false"
+                        title="Производители"
+                        :is-collapse="true"
+                        :is-active-collapse="routesStore.isActiveRoute(RouteTypeEnum.referenceBrands)"
+                        icon-class="adm-icon iblock_menu_icon_iblocks"
+                        nav-link-class="sub-level-1"
+                    >
+                        <NavItem
+                            :id-or-href="route(routeNames.ROUTE_ADMIN_BRANDS_INDEX)"
+                            :is-inertia-link="false"
+                            title="Элементы"
+                            :is-collapse="false"
+                            icon-class="adm-arrow-icon-dot"
+                            nav-link-class="sub-level-2"
+                        />
+                    </NavItem>
+                    <NavItem
+                        id-or-href="reference-articles"
+                        :is-inertia-link="false"
+                        title="Статьи"
+                        :is-collapse="true"
+                        :is-active-collapse="routesStore.isActiveRoute(RouteTypeEnum.referenceArticles)"
+                        icon-class="adm-icon iblock_menu_icon_iblocks"
+                        nav-link-class="sub-level-1"
+                    >
+                        <NavItem
+                            :id-or-href="route(routeNames.ROUTE_ADMIN_ARTICLES_INDEX)"
+                            :is-inertia-link="true"
+                            title="Элементы"
+                            :is-collapse="false"
+                            icon-class="adm-arrow-icon-dot"
+                            nav-link-class="sub-level-2"
+                        />
+                    </NavItem>
+                    <NavItem
+                        id-or-href="reference-services"
+                        :is-inertia-link="false"
+                        title="Услуги"
+                        :is-collapse="true"
+                        :is-active-collapse="routesStore.isActiveRoute(RouteTypeEnum.referenceServices)"
+                        icon-class="adm-icon iblock_menu_icon_iblocks"
+                        nav-link-class="sub-level-1"
+                    >
+                        <NavItem
+                            :id-or-href="route(routeNames.ROUTE_ADMIN_SERVICES_INDEX)"
+                            :is-inertia-link="true"
+                            title="Элементы"
+                            :is-collapse="false"
+                            icon-class="adm-arrow-icon-dot"
+                            nav-link-class="sub-level-2"
+                        />
+                    </NavItem>
+                    <NavItem
+                        id-or-href="reference-faq"
+                        :is-inertia-link="false"
+                        title="Вопрос-ответ"
+                        :is-collapse="true"
+                        :is-active-collapse="routesStore.isActiveRoute(RouteTypeEnum.referenceFaq)"
+                        icon-class="adm-icon iblock_menu_icon_iblocks"
+                        nav-link-class="sub-level-1"
+                    >
+                        <NavItem
+                            id-or-href="#"
+                            :is-inertia-link="false"
+                            title="Элементы"
+                            :is-collapse="false"
+                            icon-class="adm-arrow-icon-dot"
+                            nav-link-class="sub-level-2"
+                        />
+                    </NavItem>
+                    <NavItem
+                        id-or-href="reference-contacts"
+                        :is-inertia-link="false"
+                        title="Контактные формы"
+                        :is-collapse="true"
+                        :is-active-collapse="routesStore.isActiveRoute(RouteTypeEnum.referenceContacts)"
+                        icon-class="adm-icon iblock_menu_icon_iblocks"
+                        nav-link-class="sub-level-1"
+                    >
+                        <NavItem
+                            id-or-href="#"
+                            :is-inertia-link="false"
+                            title="Элементы"
+                            :is-collapse="false"
+                            icon-class="adm-arrow-icon-dot"
+                            nav-link-class="sub-level-2"
+                        />
+                    </NavItem>
+                </NavItem>
+                <NavItem
+                    id-or-href="highload"
+                    :is-inertia-link="false"
+                    title="Highload-блоки"
+                    :is-collapse="true"
+                    :is-active-collapse="false"
+                    icon-class="adm-icon iblock_menu_icon_types"
+                >
+                    <NavItem
+                        title="Blacklist"
+                        id-or-href="#"
+                        :is-inertia-link="false"
+                        :is-collapse="false"
+                        icon-class="adm-arrow-icon-dot"
+                        nav-link-class="sub-level-1"
+                    />
+                </NavItem>
+                <NavItem
+                    :id-or-href="route(routeNames.ROUTE_ADMIN_ORDERS_INDEX)"
+                    :is-inertia-link="false"
+                    title="Заказы"
+                    :is-collapse="false"
+                    icon-class="adm-icon iblock_menu_icon_types"
+                    :is-arrow-space="true"
+                />
+                <NavItem
+                    :id-or-href="route(routeNames.ROUTE_ADMIN_EXPORT_PRODUCTS_INDEX)"
+                    :is-inertia-link="false"
+                    title="Экспорт"
+                    :is-collapse="false"
+                    icon-class="adm-icon iblock_menu_icon_types"
+                    :is-arrow-space="true"
+                />
             </ul>
         </nav>
     </aside>
 </template>
-
-<script>
-import { Link } from '@inertiajs/inertia-vue3'
-import routeNames from "@/admin/inertia/mixins/routeNames";
-import {routeTypes} from "@/admin/inertia/modules/routes";
-
-export default {
-    components: {
-        Link
-    },
-    mixins: [
-        routeNames,
-    ],
-    computed: {
-        categories() {
-            return this.$page.props.categoriesTree
-        }
-    },
-    created() {
-        window._route = this.route
-        console.log('---', this.categories)
-        window._test = this.getCategoryAndSubtreeIds
-    },
-    data() {
-        return {
-            cache: new Map(),
-            routeTypes: {
-                ...routeTypes
-            },
-        }
-    },
-    methods: {
-        isActive(type, id = null) {
-            switch (type) {
-                case this.routeTypes.categoriesSub:
-                case this.routeTypes.categories: {
-                    if (!this.route().current('admin.products.*') && !this.route().current('admin.categories.*')) {
-                        return false
-                    }
-
-                    if (id === null) {
-                        return true;
-                    }
-
-                    let categoryAndSubtreeIds = this.getCategoryAndSubtreeIds(id)
-
-                    if (!categoryAndSubtreeIds) {
-                        return false
-                    }
-
-                    let categoryIdParam = +this.route().params.category_id
-
-                    return categoryAndSubtreeIds.includes(categoryIdParam)
-                }
-                case this.routeTypes.reference: {
-                    return this.route().current('admin.brands.*') ||
-                        this.route().current('admin.articles.*') ||
-                        this.route().current('admin.services.*') ||
-                        this.route().current('admin.faq.*') ||
-                        this.route().current('admin.contacts.*')
-                }
-                case this.routeTypes.referenceBrands: {
-                    return this.route().current('admin.brands.*')
-                }
-                case this.routeTypes.referenceArticles: {
-                    return this.route().current('admin.articles.*')
-                }
-                case this.routeTypes.referenceServices: {
-                    return this.route().current('admin.services.*')
-                }
-                case this.routeTypes.referenceFaq: {
-                    return this.route().current('admin.faq.*')
-                }
-                case this.routeTypes.referenceContacts: {
-                    return this.route().current('admin.contacts.*')
-                }
-                default: {
-                    return false
-                }
-            }
-        },
-        getCategoryAndSubtreeIds(id) {
-            if (this.cache.get(id)) {
-                return this.cache.get(id)
-            }
-
-            let getCategoryAndSubcategoryCb = (categories, _id) => {
-                for (let i = 0; i < categories.length; i++) {
-                    if (categories[i].id === _id) {
-                        return categories[i]
-                    }
-
-                    let res = getCategoryAndSubcategoryCb(categories[i].subcategories, _id)
-                    if (res) {
-                        return res
-                    }
-                }
-
-                return null
-            }
-
-            let categoryAndSubcategories = getCategoryAndSubcategoryCb(this.categories, id)
-
-            if (!categoryAndSubcategories) {
-                this.cache.set(id, null)
-                return this.cache.get(id)
-            }
-
-            let getIdsCb = (acc, category) => {
-                acc = [...acc, category.id]
-                for (let i = 0; i < category.subcategories.length; i++) {
-                    acc = getIdsCb(acc, category.subcategories[i])
-                }
-                return acc
-            }
-
-            this.cache.set(
-                id,
-                getIdsCb([], categoryAndSubcategories)
-            )
-
-            return this.cache.get(id)
-        }
-    }
-}
-</script>

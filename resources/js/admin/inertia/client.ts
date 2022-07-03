@@ -7,6 +7,7 @@ import { createPinia } from "pinia"
 import { initFromPageProps } from "@/admin/inertia/modules"
 import "bootstrap"
 
+
 createInertiaApp({
     resolve: (name) => require(`./Pages/${name}`),
     // @ts-ignore

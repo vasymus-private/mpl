@@ -1,5 +1,6 @@
 import { defineStore } from "pinia"
-import CategoryTreeItem from "@/admin/inertia/entities/CategoryTreeItem"
+import CategoryTreeItem from "@/admin/inertia/modules/categoriesTree/CategoryTreeItem"
+
 
 export const storeName = "categoriesTree"
 
