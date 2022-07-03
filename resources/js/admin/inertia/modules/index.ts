@@ -9,10 +9,24 @@ import { useArticlesStore } from "@/admin/inertia/modules/articles"
 import { Service } from "@/admin/inertia/modules/services/Service"
 import { useServicesStore } from "@/admin/inertia/modules/services"
 import { useCategoriesTreeStore } from "@/admin/inertia/modules/categoriesTree"
-import {useColumnsStore} from "@/admin/inertia/modules/columns";
-import {useBrandsStore} from "@/admin/inertia/modules/brands";
-import ProductListItem from "@/admin/inertia/modules/products/ProductListItem";
-import {useProductsStore} from "@/admin/inertia/modules/products";
+import {useColumnsStore} from "@/admin/inertia/modules/columns"
+import {useBrandsStore} from "@/admin/inertia/modules/brands"
+import ProductListItem from "@/admin/inertia/modules/products/ProductListItem"
+import {useProductsStore} from "@/admin/inertia/modules/products"
+import AvailabilityStatus from "@/admin/inertia/modules/availabilityStatuses/AvailabilityStatus"
+import {useAvailabilityStatusesStore} from "@/admin/inertia/modules/availabilityStatuses"
+import BillStatus from "@/admin/inertia/modules/billStatuses/BillStatus"
+import {useBillStatusesStore} from "@/admin/inertia/modules/billStatuses"
+import Currency from "@/admin/inertia/modules/currencies/Currency"
+import {useCurrenciesStore} from "@/admin/inertia/modules/currencies"
+import PaymentMethod from "@/admin/inertia/modules/paymentMethods/PaymentMethod"
+import {usePaymentMethodsStore} from "@/admin/inertia/modules/paymentMethods"
+import OrderImportance from "@/admin/inertia/modules/orderImportance/OrderImportance"
+import {useOrderImportanceStore} from "@/admin/inertia/modules/orderImportance"
+import OrderStatus from "@/admin/inertia/modules/orderStatuses/OrderStatus"
+import {useOrderStatusesStore} from "@/admin/inertia/modules/orderStatuses"
+import CharType from "@/admin/inertia/modules/chars/CharType"
+import {useCharsStore} from "@/admin/inertia/modules/chars"
 
 
 /**
@@ -30,6 +44,13 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
         categoriesTree = [],
         services = [],
         productListItems = [],
+        availabilityStatuses = [],
+        billStatuses = [],
+        currencies = [],
+        paymentMethods = [],
+        orderImportance = [],
+        orderStatuses = [],
+        charTypes = [],
     }: {
         adminOrderColumns: Array<Column>
         adminProductColumns: Array<Column>
@@ -40,6 +61,13 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
         categoriesTree: Array<CategoryTreeItem>
         services: Array<Service>
         productListItems: Array<ProductListItem>
+        availabilityStatuses: Array<AvailabilityStatus>
+        billStatuses: Array<BillStatus>
+        currencies: Array<Currency>
+        paymentMethods: Array<PaymentMethod>
+        orderImportance: Array<OrderImportance>
+        orderStatuses: Array<OrderStatus>
+        charTypes: Array<CharType>
     } = initialPageProps
 
     const authStore = useAuthStore(pinia)
@@ -64,4 +92,25 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
 
     const productsStore = useProductsStore(pinia)
     productsStore.setProductListItems(productListItems)
+
+    const availabilityStatusesStore = useAvailabilityStatusesStore(pinia)
+    availabilityStatusesStore.setEntities(availabilityStatuses)
+
+    const billStatusesStore = useBillStatusesStore(pinia)
+    billStatusesStore.setEntities(billStatuses)
+
+    const currenciesStore = useCurrenciesStore(pinia)
+    currenciesStore.setEntities(currencies)
+
+    const paymentMethodsStore = usePaymentMethodsStore(pinia)
+    paymentMethodsStore.setEntities(paymentMethods)
+
+    const orderImportanceStore = useOrderImportanceStore(pinia)
+    orderImportanceStore.setEntities(orderImportance)
+
+    const orderStatusesStore = useOrderStatusesStore(pinia)
+    orderStatusesStore.setEntities(orderStatuses)
+
+    const charsStore = useCharsStore(pinia)
+    charsStore.setChartTypes(charTypes)
 }

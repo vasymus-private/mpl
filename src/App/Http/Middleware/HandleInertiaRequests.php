@@ -2,11 +2,25 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Resources\Admin\AvailabilityStatusResource;
+use App\Http\Resources\Admin\BillStatusResource;
+use App\Http\Resources\Admin\CharTypeResource;
+use App\Http\Resources\Admin\CurrencyResource;
+use App\Http\Resources\Admin\OrderImportanceResource;
+use App\Http\Resources\Admin\OrderStatusResource;
+use App\Http\Resources\Admin\PaymentMethodResource;
 use Closure;
 use Domain\Common\Enums\Column;
+use Domain\Common\Models\Currency;
+use Domain\Orders\Models\BillStatus;
+use Domain\Orders\Models\OrderImportance;
+use Domain\Orders\Models\OrderStatus;
+use Domain\Orders\Models\PaymentMethod;
 use Domain\Products\DTOs\Admin\CategoryItemSidebarDTO;
+use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\Category;
+use Domain\Products\Models\CharType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Middleware;
@@ -57,16 +71,14 @@ class HandleInertiaRequests extends Middleware
                 $userOrAdmin = H::userOrAdmin();
 
                 return [
-                    'user' => $userOrAdmin
-                        ? array_merge($userOrAdmin->only([
-                            'id',
-                            'name',
-                            'email',
-                            'phone',
-                        ]), [
-                            'is_anonymous' => $userOrAdmin->is_anonymous2,
-                        ])
-                        : null,
+                    'user' => array_merge($userOrAdmin->only([
+                        'id',
+                        'name',
+                        'email',
+                        'phone',
+                    ]), [
+                        'is_anonymous' => $userOrAdmin->is_anonymous2,
+                    ]),
                 ];
             },
             'flash' => function () use ($request) {
@@ -83,6 +95,13 @@ class HandleInertiaRequests extends Middleware
             'adminOrderColumns' => H::admin()->admin_order_columns_arr,
             'adminProductColumns' => H::admin()->admin_product_columns_arr,
             'adminProductVariantColumns' => H::admin()->admin_product_variant_columns_arr,
+            'availabilityStatuses' => AvailabilityStatusResource::collection(AvailabilityStatus::cachedAll()),
+            'billStatuses' => BillStatusResource::collection(BillStatus::cachedAll()),
+            'currencies' => CurrencyResource::collection(Currency::cachedAll()),
+            'paymentMethods' => PaymentMethodResource::collection(PaymentMethod::cachedAll()),
+            'orderImportance' => OrderImportanceResource::collection(OrderImportance::cachedAll()),
+            'orderStatuses' => OrderStatusResource::collection(OrderStatus::cachedAll()),
+            'charTypes' => CharTypeResource::collection(CharType::cachedAll()),
         ]);
     }
 }

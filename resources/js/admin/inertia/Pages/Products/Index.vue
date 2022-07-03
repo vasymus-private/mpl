@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import {routeNames} from "@/admin/inertia/modules/routes"
 import {ref, watch} from "vue"
-import {useColumnsStore} from "@/admin/inertia/modules/columns"
+import {useColumnsStore, getColumn, ColumnName} from "@/admin/inertia/modules/columns"
 import {useProductsStore} from "@/admin/inertia/modules/products"
 
 
@@ -14,7 +14,6 @@ watch(selectAll, (newValue, oldValue) => {
 const columnsStore = useColumnsStore()
 const productStore = useProductsStore()
 const checkedProducts = ref([])
-
 </script>
 
 <template>
@@ -89,33 +88,33 @@ const checkedProducts = ref([])
                     </td>
 
                     <template v-for="sortableColumn in columnsStore.adminProductColumns">
-                        <td v-if="sortableColumn.value === columnNames.ordering.value" :key="sortableColumn.value">
-                            <!--                                <b-form-input v-if="editMode && product.is_checked" v-model="product.ordering"></b-form-input>-->
+                        <td v-if="sortableColumn.value === getColumn(ColumnName.ordering).value" :key="sortableColumn.value">
+                            <!--<b-form-input v-if="editMode && product.is_checked" v-model="product.ordering"></b-form-input>-->
                             <span class="main-grid-cell-content">{{product.ordering}}</span>
                         </td>
-                        <td v-if="sortableColumn.value === columnNames.name.value" :key="sortableColumn.value">
-                            <!--                                <b-form-input v-if="editMode && product.is_checked" v-model="product.name"></b-form-input>-->
+                        <td v-if="sortableColumn.value === getColumn(ColumnName.name).value" :key="sortableColumn.value">
+                            <!--<b-form-input v-if="editMode && product.is_checked" v-model="product.name"></b-form-input>-->
                             <span class="main-grid-cell-content">{{product.name}}</span>
                         </td>
-                        <td v-if="sortableColumn.value === columnNames.active.value" :key="sortableColumn.value">
+                        <td v-if="sortableColumn.value === getColumn(ColumnName.active).value" :key="sortableColumn.value">
                             <span class="main-grid-cell-content">{{product.is_active_name}}</span>
                         </td>
-                        <td v-if="sortableColumn.value === columnNames.unit.value" :key="sortableColumn.value">
+                        <td v-if="sortableColumn.value === getColumn(ColumnName.unit).value" :key="sortableColumn.value">
                             <span class="main-grid-cell-content">{{product.unit}}</span>
                         </td>
-                        <td v-if="sortableColumn.value === columnNames.price_purchase.value" :key="sortableColumn.value">
+                        <td v-if="sortableColumn.value === getColumn(ColumnName.price_purchase).value" :key="sortableColumn.value">
                             <span class="main-grid-cell-content">{{product.price_purchase_formatted}}</span>
                         </td>
-                        <td v-if="sortableColumn.value === columnNames.price_retail.value" :key="sortableColumn.value">
+                        <td v-if="sortableColumn.value === getColumn(ColumnName.price_retail).value" :key="sortableColumn.value">
                             <span class="main-grid-cell-content">{{product.price_retail_formatted}}</span>
                         </td>
-                        <td v-if="sortableColumn.value === columnNames.admin_comment.value" :key="sortableColumn.value">
+                        <td v-if="sortableColumn.value === getColumn(ColumnName.admin_comment).value" :key="sortableColumn.value">
                             <span class="main-grid-cell-content">{{product.admin_comment}}</span>
                         </td>
-                        <td v-if="sortableColumn.value === columnNames.availability.value" :key="sortableColumn.value">
+                        <td v-if="sortableColumn.value === getColumn(ColumnName.availability).value" :key="sortableColumn.value">
                             <span class="main-grid-cell-content">{{product.availability_status_name}}</span>
                         </td>
-                        <td v-if="sortableColumn.value === columnNames.id.value" :key="sortableColumn.value">
+                        <td v-if="sortableColumn.value === getColumn(ColumnName.id).value" :key="sortableColumn.value">
                             <span class="main-grid-cell-content">{{product.id}}</span>
                         </td>
                     </template>
