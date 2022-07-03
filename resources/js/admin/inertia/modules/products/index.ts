@@ -32,4 +32,5 @@ export const useProductsStore = defineStore(storeName, {
     },
 })
 
-export const getActiveName = (is_active: boolean|null) => is_active ? 'Да' : 'Нет'
+export const getActiveName = (is_active: boolean | null) =>
+    is_active ? "Да" : "Нет"
