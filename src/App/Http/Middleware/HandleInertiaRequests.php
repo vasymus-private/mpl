@@ -10,7 +10,6 @@ use App\Http\Resources\Admin\OrderImportanceResource;
 use App\Http\Resources\Admin\OrderStatusResource;
 use App\Http\Resources\Admin\PaymentMethodResource;
 use Closure;
-use Domain\Common\Enums\Column;
 use Domain\Common\Models\Currency;
 use Domain\Orders\Models\BillStatus;
 use Domain\Orders\Models\OrderImportance;
