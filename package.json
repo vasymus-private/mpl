@@ -41,7 +41,8 @@
         "vue-loader": "^17.0.0",
         "webpack-env": "^0.8.0",
         "webpack-node-externals": "^3.0.0",
-        "ziggy-js": "^1.4.6"
+        "ziggy-js": "^1.4.6",
+        "@vueuse/core": "^8.7.5"
     },
     "dependencies": {
         "@fancyapps/fancybox": "^3.5.7",

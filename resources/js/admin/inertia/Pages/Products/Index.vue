@@ -4,17 +4,22 @@ import {ref, watch} from "vue"
 import {useColumnsStore, ColumnName, isSortableColumn} from "@/admin/inertia/modules/columns"
 import {useProductsStore, getActiveName} from "@/admin/inertia/modules/products"
 import TheLayout from '@/admin/inertia/shared/layout/TheLayout.vue'
+import FormControlSelect from '@/admin/inertia/shared/forms/FormControlSelect.vue'
 
 
 const selectAll = ref(false)
 const editMode = ref(false)
 watch(selectAll, (newValue, oldValue) => {
-    console.log(newValue, oldValue)
+    console.log('watch select all', newValue, oldValue)
 })
 
 const columnsStore = useColumnsStore()
 const productStore = useProductsStore()
 const checkedProducts = ref([])
+const temp = ref('')
+watch(temp, (newValue, oldValue) => {
+    console.log('watch temp', newValue, oldValue)
+})
 </script>
 
 <template>
@@ -25,6 +30,8 @@ const checkedProducts = ref([])
                     <span class="breadcrumbs__text">Рабочий стол</span>
                 </a>
             </div>
+
+            <FormControlSelect v-model="temp" :options="[{value: 1, label: 'hello'}, {value: 2, label: 'world'}]" />
 
             <h1 class="adm-title">Каталог товаров <span class="adm-fav-link"></span></h1>
 
@@ -62,31 +69,7 @@ const checkedProducts = ref([])
                             </div>
                         </td>
                         <td>
-    <!--                            <b-dropdown-->
-    <!--                                :id="`actions-dropdown-${product.uuid}`"-->
-    <!--                                text=""-->
-    <!--                                toggle-class="btn btn__grid-row-action-button"-->
-    <!--                                menu-class="bx-core-popup-menu"-->
-    <!--                            >-->
-    <!--                                <b-dropdown-item :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_EDIT, product.id)" class="bx-core-popup-menu-item bx-core-popup-menu-item-default">-->
-    <!--                                    <span class="bx-core-popup-menu-item-icon adm-menu-edit"></span>-->
-    <!--                                    <span class="bx-core-popup-menu-item-text">Изменить</span>-->
-    <!--                                </b-dropdown-item>-->
-    <!--                                <b-dropdown-item-button @click="handleActivation(id)" class="x-core-popup-menu-item">-->
-    <!--                                    <span class="bx-core-popup-menu-item-icon"></span>-->
-    <!--                                    <span class="bx-core-popup-menu-item-text">{{product.is_active ? 'Деактивировать' : 'Активировать'}}</span>-->
-    <!--                                </b-dropdown-item-button>-->
-    <!--                                <b-dropdown-divider class="bx-core-popup-menu-separator"></b-dropdown-divider>-->
-    <!--                                <b-dropdown-item :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_CREATE, {copy_id : product.id})" class="bx-core-popup-menu-item">-->
-    <!--                                    <span class="bx-core-popup-menu-item-icon adm-menu-copy"></span>-->
-    <!--                                    <span class="bx-core-popup-menu-item-text">Копировать</span>-->
-    <!--                                </b-dropdown-item>-->
-    <!--                                <b-dropdown-divider class="bx-core-popup-menu-separator"></b-dropdown-divider>-->
-    <!--                                <b-dropdown-item-button @click="handleDelete(product.id)" class="x-core-popup-menu-item">-->
-    <!--                                    <span class="bx-core-popup-menu-item-icon"></span>-->
-    <!--                                    <span class="bx-core-popup-menu-item-text">Удалить</span>-->
-    <!--                                </b-dropdown-item-button>-->
-    <!--                            </b-dropdown>-->
+
                         </td>
 
                         <template v-for="sortableColumn in columnsStore.adminProductColumns" :key="sortableColumn.value">
@@ -124,6 +107,8 @@ const checkedProducts = ref([])
                     </tbody>
                 </table>
             </div>
+
+
         </div>
     </TheLayout>
 </template>
