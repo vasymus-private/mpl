@@ -2,9 +2,8 @@
 import {routeNames} from "@/admin/inertia/modules/routes"
 import {ref, watch} from "vue"
 import {useColumnsStore, ColumnName, isSortableColumn} from "@/admin/inertia/modules/columns"
-import {useProductsStore, getActiveName} from "@/admin/inertia/modules/products"
+import {useProductsStore, getActiveName, getPerPageOptions} from "@/admin/inertia/modules/products"
 import TheLayout from '@/admin/inertia/shared/layout/TheLayout.vue'
-import FormControlSelect from '@/admin/inertia/shared/forms/FormControlSelect.vue'
 
 
 const selectAll = ref(false)
@@ -16,10 +15,6 @@ watch(selectAll, (newValue, oldValue) => {
 const columnsStore = useColumnsStore()
 const productStore = useProductsStore()
 const checkedProducts = ref([])
-const temp = ref('')
-watch(temp, (newValue, oldValue) => {
-    console.log('watch temp', newValue, oldValue)
-})
 </script>
 
 <template>
@@ -30,8 +25,6 @@ watch(temp, (newValue, oldValue) => {
                     <span class="breadcrumbs__text">Рабочий стол</span>
                 </a>
             </div>
-
-            <FormControlSelect v-model="temp" :options="[{value: 1, label: 'hello'}, {value: 2, label: 'world'}]" />
 
             <h1 class="adm-title">Каталог товаров <span class="adm-fav-link"></span></h1>
 

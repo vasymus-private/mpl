@@ -33,13 +33,12 @@ const hasErrors = computed(() => props.errors && props.errors.length)
                 disabled
                 value=""
             >{{ props.placeholder || '(не установлено)' }}</option>
-            <option v-for="option in props.options" :key="option.value" :value="option.value">{{option.label}}</option>
+            <option v-for="option in props.options" :key="option.value" :value="option">{{option.label}}</option>
         </select>
         <template v-if="hasErrors">
             <div v-for="error in props.errors" :key="error" class="invalid-feedback">
                 {{ error }}
             </div>
         </template>
-
     </div>
 </template>

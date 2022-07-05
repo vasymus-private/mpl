@@ -13,4 +13,9 @@ export interface MetaLink {
     active: boolean
     label: string
     url: string | null
+    URL: URL | null
+    isPrev?: boolean
+    isNext?: boolean
+    isSeparator?: boolean
+    page?: number
 }

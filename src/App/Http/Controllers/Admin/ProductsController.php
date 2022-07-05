@@ -26,7 +26,7 @@ class ProductsController extends BaseAdminController
             ->when($request->category_id, fn (ProductQueryBuilder $query, int $categoryId) => $query->forMainAndRelatedCategories([$categoryId]))
             ->when($request->brand_id, fn (ProductQueryBuilder $query, int $brandId) => $query->whereBrandId($brandId))
             ->when($request->search, fn (ProductQueryBuilder $query, string $search) => $query->whereNameOrSlugLike($search))
-            ->paginate();
+            ->paginate($request->per_page);
 
         return $inertia->render('Products/Index', [
             'productListItems' => ProductListItemResource::collection($productListItems),
