@@ -4,6 +4,7 @@ import {ref, watch} from "vue"
 import {useColumnsStore, ColumnName, isSortableColumn} from "@/admin/inertia/modules/columns"
 import {useProductsStore, getActiveName, getPerPageOptions} from "@/admin/inertia/modules/products"
 import TheLayout from '@/admin/inertia/shared/layout/TheLayout.vue'
+import Pagination from "@/admin/inertia/shared/layout/Pagination.vue";
 
 
 const selectAll = ref(false)
@@ -15,6 +16,7 @@ watch(selectAll, (newValue, oldValue) => {
 const columnsStore = useColumnsStore()
 const productStore = useProductsStore()
 const checkedProducts = ref([])
+const perPageOptions = getPerPageOptions()
 </script>
 
 <template>
@@ -101,7 +103,14 @@ const checkedProducts = ref([])
                 </table>
             </div>
 
-
+            <Pagination
+                v-if="productStore.meta"
+                :total="productStore.meta.total"
+                :current-page="productStore.meta.current_page"
+                :per-page="productStore.getPerPageOption"
+                :per-page-options="perPageOptions"
+                :links="productStore.meta.links"
+            />
         </div>
     </TheLayout>
 </template>

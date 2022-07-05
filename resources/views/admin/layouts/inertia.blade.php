@@ -8,7 +8,7 @@
     <link href="{{ mix('_admin/css/app.css') }}" rel="stylesheet" />
 
     {{-- Inertia --}}
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=smoothscroll,NodeList.prototype.forEach,Promise,Object.values,Object.assign" defer></script>
+{{--    <script src="https://polyfill.io/v3/polyfill.min.js?features=smoothscroll,NodeList.prototype.forEach,Promise,Object.values,Object.assign" defer></script>--}}
     <script src="{{ mix('_admin/js/client.js') }}" defer></script>
     @inertiaHead
 </head>

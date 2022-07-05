@@ -3,12 +3,8 @@ import { useCategoriesTreeStore } from "@/admin/inertia/modules/categoriesTree"
 import route, { Config, RouteParam } from "ziggy-js"
 import { Ziggy } from "@/helpers/ziggy"
 
+
 export const storeName = "routes"
-
-const categoryAndSubtreeIdsCache = new Map()
-
-// @ts-ignore
-window.__categoryAndSubtreeIdsCache = categoryAndSubtreeIdsCache
 
 export const useRoutesStore = defineStore(storeName, {
     getters: {
@@ -38,20 +34,7 @@ export const useRoutesStore = defineStore(storeName, {
                             return true
                         }
 
-                        let categoryAndSubtreeIds
-
-                        if (categoryAndSubtreeIdsCache.has(id)) {
-                            categoryAndSubtreeIds =
-                                categoryAndSubtreeIdsCache.get(id)
-                        }
-                        if (!categoryAndSubtreeIdsCache.has(id)) {
-                            categoryAndSubtreeIdsCache.set(
-                                id,
-                                categoriesTreeStore.getCategoryAndSubtreeIds(id)
-                            )
-                            categoryAndSubtreeIds =
-                                categoryAndSubtreeIdsCache.get(id)
-                        }
+                        let categoryAndSubtreeIds = categoriesTreeStore.getCategoryAndSubtreeIds(id)
 
                         if (!categoryAndSubtreeIds) {
                             return false

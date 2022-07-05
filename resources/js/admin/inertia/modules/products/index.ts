@@ -35,7 +35,7 @@ export const useProductsStore = defineStore(storeName, {
             this._links = links
         },
         setMeta(meta: Meta | null): void {
-            this._meta = extendMetaLinksWithComputedData(meta)
+            this._meta = meta ? extendMetaLinksWithComputedData(meta) : null
         },
     },
 })

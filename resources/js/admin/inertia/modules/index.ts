@@ -30,25 +30,42 @@ import { useCharsStore } from "@/admin/inertia/modules/chars"
 import Links from "@/admin/inertia/modules/common/Links"
 import Meta from "@/admin/inertia/modules/common/Meta"
 
+interface InitialPageProps {
+    auth: Auth
+    categoriesTree: Array<CategoryTreeItem>
+    brandOptions: Array<Option>
+    adminOrderColumns: Array<Column>
+    adminProductColumns: Array<Column>
+    adminProductVariantColumns: Array<Column>
+    availabilityStatuses: { data: Array<AvailabilityStatus> }
+    billStatuses: { data: Array<BillStatus> }
+    currencies: { data: Array<Currency> }
+    paymentMethods: { data: Array<PaymentMethod> }
+    orderImportance: { data: Array<OrderImportance> }
+    orderStatuses: { data: Array<OrderStatus> }
+    charTypes: { data: Array<CharType> }
+
+    articles?: Array<Article>
+    services?: Array<Service>
+    productListItems?: {
+        data: Array<ProductListItem>
+        links: Links
+        meta: Meta
+    }
+}
+
 /**
  * props on all page + props specific for concrete controller
  * @see \App\Http\Middleware\HandleInertiaRequests::share()
  */
 export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
     let {
+        auth,
+        categoriesTree = [],
+        brandOptions = [],
         adminOrderColumns = [],
         adminProductColumns = [],
         adminProductVariantColumns = [],
-        articles = [],
-        auth,
-        brandOptions = [],
-        categoriesTree = [],
-        services = [],
-        productListItems: {
-            data: productListItemsData = [],
-            links: productListItemsLinks = null,
-            meta: productListItemsMeta = null,
-        },
         availabilityStatuses: { data: availabilityStatusesData = [] },
         billStatuses: { data: billStatusesData = [] },
         currencies: { data: currenciesData = [] },
@@ -56,28 +73,15 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
         orderImportance: { data: orderImportanceData = [] },
         orderStatuses: { data: orderStatusesData = [] },
         charTypes: { data: charTypesData = [] },
-    }: {
-        adminOrderColumns: Array<Column>
-        adminProductColumns: Array<Column>
-        adminProductVariantColumns: Array<Column>
-        articles: Array<Article>
-        auth: Auth
-        brandOptions: Array<Option>
-        categoriesTree: Array<CategoryTreeItem>
-        services: Array<Service>
+
+        articles = [],
+        services = [],
         productListItems: {
-            data: Array<ProductListItem>
-            links: Links
-            meta: Meta
-        }
-        availabilityStatuses: { data: Array<AvailabilityStatus> }
-        billStatuses: { data: Array<BillStatus> }
-        currencies: { data: Array<Currency> }
-        paymentMethods: { data: Array<PaymentMethod> }
-        orderImportance: { data: Array<OrderImportance> }
-        orderStatuses: { data: Array<OrderStatus> }
-        charTypes: { data: Array<CharType> }
-    } = initialPageProps
+            data: productListItemsData = [],
+            links: productListItemsLinks = null,
+            meta: productListItemsMeta = null,
+        } = {},
+    } = initialPageProps as InitialPageProps
 
     // todo dev only
     // @ts-ignore

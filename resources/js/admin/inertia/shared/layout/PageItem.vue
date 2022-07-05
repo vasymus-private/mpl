@@ -10,7 +10,7 @@ const props = defineProps<{
     lastPage: number
     emitOnPage?: boolean
 }>()
-const classObj = computed(() => ({'page-item': true, 'disabled': !props.link.URL}))
+const classObj = computed(() => ({'page-item': true, 'disabled': !props.link.url}))
 const onFirstPage = computed(() => props.currentPage === 1)
 const hasMorePages = computed(() => props.currentPage < props.lastPage)
 
@@ -87,24 +87,11 @@ const isNotLink = computed((): boolean => (props.link.isPrev && onFirstPage.valu
 const linkLikeAttrs = computed((): {
     'aria-hidden': string|null
     'aria-label': string|null
-    'type': string|null
-    'href': string|null
 } => {
     return {
         'aria-hidden': ariaHiddenLinkLike.value,
         'aria-label': ariaLabelLinkLike.value,
-        'type': props.emitOnPage ? 'button' : null,
-        'href': props.emitOnPage || isNotLink.value ? null : props.link.url
     }
-})
-const linkLikeComponent = computed((): string|typeof Link => {
-    return props.emitOnPage
-        ? 'button'
-        : (
-            isNotLink.value
-                ? 'span'
-                : Link
-        )
 })
 const linkContent = computed((): string|number => {
     if (props.link.isPrev) {
@@ -123,10 +110,8 @@ const linkContent = computed((): string|number => {
 
 <template>
     <li :class="classObj" v-bind="listItemAttrs">
-        <component :is="linkLikeComponent" v-bind="linkLikeAttrs" v-html="linkContent" />
-        <span class="page-link" aria-hidden="true">&lsaquo;</span>
-        <span class="page-link" aria-hidden="true">&rsaquo;</span>
-        <Link :href="props.link.url" class="page-link" aria-label="Предыдущая">&lsaquo;</Link>
-        <Link :href="props.link.url" class="page-link" aria-label="Следующая">&rsaquo;</Link>
+        <span v-if="isNotLink" v-bind="linkLikeAttrs" v-html="linkContent" />
+        <button v-else-if="!isNotLink && props.emitOnPage" v-bind="linkLikeAttrs" type="button" @click="$emit('onPage', props.link.page)" v-html="linkContent" />
+        <Link v-else :href="props.link.url" v-bind="linkLikeAttrs" v-html="linkContent" />
     </li>
 </template>

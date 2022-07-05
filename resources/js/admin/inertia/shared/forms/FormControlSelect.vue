@@ -5,7 +5,7 @@ import { useVModel } from '@vueuse/core'
 
 
 const props = defineProps<{
-    modelValue: string|number
+    modelValue: Option
     class?: string
     label?: string
     id?: string

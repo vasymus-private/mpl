@@ -2,22 +2,8 @@ import Meta, {MetaLink} from "@/admin/inertia/modules/common/Meta"
 import {isNumeric} from "@/admin/inertia/utils";
 
 
-export const rawLinkToURL = (link: string|null): URL|null => {
-    if (!link) {
-        return null
-    }
-    try {
-        return new URL(link)
-    } catch (e) {
-        return null
-    }
-}
-
 export const extendMetaLinksWithComputedData = (meta: Meta): Meta => {
     meta.links.forEach((metaLink: MetaLink, index: number) => {
-        if (!metaLink.URL) {
-            metaLink.URL = rawLinkToURL(metaLink.url)
-        }
         const labelIsNumeric = isNumeric(metaLink.label)
 
         metaLink.isSeparator = metaLink.label !== '...'

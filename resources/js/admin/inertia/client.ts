@@ -6,16 +6,19 @@ import { InertiaProgress } from "@inertiajs/progress"
 import { createPinia } from "pinia"
 import { initFromPageProps } from "@/admin/inertia/modules"
 import "bootstrap"
+import {Inertia} from "@inertiajs/inertia"
+
+
+const pinia = createPinia()
+Inertia.on('navigate', (event) => {
+    initFromPageProps(pinia, event.detail.page.props)
+})
 
 createInertiaApp({
     resolve: (name) => require(`./Pages/${name}`),
     // @ts-ignore
     setup({ el, App, props, plugin }) {
-        const pinia = createPinia()
         try {
-            // console.log("--- base setup ---")
-            // console.log('--- App ---', App)
-            // console.log('--- props ---', props)
             return createApp({ render: () => h(App, props) })
                 .use(plugin)
                 .use(ZiggyVue, Ziggy)
