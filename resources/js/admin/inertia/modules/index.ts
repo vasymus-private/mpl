@@ -29,7 +29,7 @@ import CharType from "@/admin/inertia/modules/chars/CharType"
 import { useCharsStore } from "@/admin/inertia/modules/chars"
 import Links from "@/admin/inertia/modules/common/Links"
 import Meta from "@/admin/inertia/modules/common/Meta"
-import {useRoutesStore} from "@/admin/inertia/modules/routes";
+import { useRoutesStore } from "@/admin/inertia/modules/routes"
 
 interface InitialPageProps {
     fullUrl: string
@@ -87,7 +87,7 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
     } = initialPageProps as InitialPageProps
 
     // todo dev only
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
         // @ts-ignore
         window.__initialPageProps = initialPageProps
     }
