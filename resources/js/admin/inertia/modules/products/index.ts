@@ -4,6 +4,7 @@ import Links from "@/admin/inertia/modules/common/Links"
 import Meta from "@/admin/inertia/modules/common/Meta"
 import Option from "@/admin/inertia/modules/common/Option"
 import { extendMetaLinksWithComputedData } from "@/admin/inertia/modules/common"
+import {useRoutesStore} from "@/admin/inertia/modules/routes"
 
 
 export const storeName = "products"
@@ -35,7 +36,8 @@ export const useProductsStore = defineStore(storeName, {
             this._links = links
         },
         setMeta(meta: Meta | null): void {
-            this._meta = meta ? extendMetaLinksWithComputedData(meta) : null
+            const routesStore = useRoutesStore()
+            this._meta = meta ? extendMetaLinksWithComputedData(meta, routesStore.fullUrl) : null
         },
     },
 })

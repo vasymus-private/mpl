@@ -7,7 +7,13 @@ import { Ziggy } from "@/helpers/ziggy"
 export const storeName = "routes"
 
 export const useRoutesStore = defineStore(storeName, {
+    state: (): { _fullUrl: string|null } => {
+        return {
+            _fullUrl: null
+        }
+    },
     getters: {
+        fullUrl: (state): string|null => state._fullUrl,
         isActiveRoute:
             () =>
             (type: RouteTypeEnum, id: number | string = null): boolean => {
@@ -79,6 +85,11 @@ export const useRoutesStore = defineStore(storeName, {
                 }
             },
     },
+    actions: {
+        setFullUrl(fullUrl: string|null): void {
+            this._fullUrl = fullUrl
+        }
+    }
 })
 
 export const routeNames = {

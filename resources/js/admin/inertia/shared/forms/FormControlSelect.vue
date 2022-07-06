@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {defineProps, defineEmits, computed} from "vue"
+import {computed} from "vue"
 import Option from "@/admin/inertia/modules/common/Option"
 import { useVModel } from '@vueuse/core'
 

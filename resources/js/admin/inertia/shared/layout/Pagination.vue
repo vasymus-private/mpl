@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {defineProps, defineEmits, computed} from 'vue'
+import {computed} from 'vue'
 import FormControlSelect from '@/admin/inertia/shared/forms/FormControlSelect.vue'
 import Option from "@/admin/inertia/modules/common/Option"
 import { useVModel } from '@vueuse/core'
@@ -36,6 +36,7 @@ const lastPage = computed((): number => Math.max(Math.ceil(props.total / +props.
                                 :last-page="lastPage"
                                 :current-page="props.currentPage"
                                 :emit-on-page="props.emitOnPage"
+                                @on-page="$emit('onPage')"
                             />
                         </ul>
                     </nav>

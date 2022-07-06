@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {defineProps, computed} from "vue"
+import {computed} from "vue"
 import {MetaLink} from "@/admin/inertia/modules/common/Meta"
 import {Link} from "@inertiajs/inertia-vue3"
 
@@ -10,7 +10,7 @@ const props = defineProps<{
     lastPage: number
     emitOnPage?: boolean
 }>()
-const classObj = computed(() => ({'page-item': true, 'disabled': !props.link.url}))
+
 const onFirstPage = computed(() => props.currentPage === 1)
 const hasMorePages = computed(() => props.currentPage < props.lastPage)
 
@@ -93,6 +93,11 @@ const linkLikeAttrs = computed((): {
         'aria-label': ariaLabelLinkLike.value,
     }
 })
+const classObj = computed(() => ({
+    'page-item': true,
+    'disabled': !props.link.url,
+    'active': props.link.page === props.currentPage,
+}))
 const linkContent = computed((): string|number => {
     if (props.link.isPrev) {
         return '&lsaquo;'
@@ -110,8 +115,26 @@ const linkContent = computed((): string|number => {
 
 <template>
     <li :class="classObj" v-bind="listItemAttrs">
-        <span v-if="isNotLink" v-bind="linkLikeAttrs" v-html="linkContent" />
-        <button v-else-if="!isNotLink && props.emitOnPage" v-bind="linkLikeAttrs" type="button" @click="$emit('onPage', props.link.page)" v-html="linkContent" />
-        <Link v-else :href="props.link.url" v-bind="linkLikeAttrs" v-html="linkContent" />
+        <span
+            v-if="isNotLink"
+            v-bind="linkLikeAttrs"
+            class="page-link"
+            v-html="linkContent"
+        />
+        <button
+            v-else-if="!isNotLink && props.emitOnPage"
+            v-bind="linkLikeAttrs"
+            class="page-link"
+            type="button"
+            @click="$emit('onPage', props.link.page)"
+            v-html="linkContent"
+        />
+        <Link
+            v-else
+            :href="props.link.url"
+            v-bind="linkLikeAttrs"
+            class="page-link"
+            v-html="linkContent"
+        />
     </li>
 </template>

@@ -18,6 +18,7 @@ createInertiaApp({
     resolve: (name) => require(`./Pages/${name}`),
     // @ts-ignore
     setup({ el, App, props, plugin }) {
+        console.log(el, App, props, plugin)
         try {
             return createApp({ render: () => h(App, props) })
                 .use(plugin)

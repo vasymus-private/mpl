@@ -66,6 +66,7 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         return array_merge(parent::share($request), [
+            'fullUrl' => $request->fullUrl(), // because of troubles of get full url on node js wrapper (for backend render via inertia)
             'auth' => function () {
                 $userOrAdmin = H::userOrAdmin();
 

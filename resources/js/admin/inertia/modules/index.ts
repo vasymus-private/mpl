@@ -29,8 +29,10 @@ import CharType from "@/admin/inertia/modules/chars/CharType"
 import { useCharsStore } from "@/admin/inertia/modules/chars"
 import Links from "@/admin/inertia/modules/common/Links"
 import Meta from "@/admin/inertia/modules/common/Meta"
+import {useRoutesStore} from "@/admin/inertia/modules/routes";
 
 interface InitialPageProps {
+    fullUrl: string
     auth: Auth
     categoriesTree: Array<CategoryTreeItem>
     brandOptions: Array<Option>
@@ -60,6 +62,7 @@ interface InitialPageProps {
  */
 export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
     let {
+        fullUrl,
         auth,
         categoriesTree = [],
         brandOptions = [],
@@ -84,8 +87,13 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
     } = initialPageProps as InitialPageProps
 
     // todo dev only
-    // @ts-ignore
-    window.__initialPageProps = initialPageProps
+    if (typeof window !== 'undefined') {
+        // @ts-ignore
+        window.__initialPageProps = initialPageProps
+    }
+
+    const routesStore = useRoutesStore(pinia)
+    routesStore.setFullUrl(fullUrl)
 
     const authStore = useAuthStore(pinia)
     authStore.setAuthUser(auth.user)

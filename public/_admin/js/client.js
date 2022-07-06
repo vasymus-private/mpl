@@ -25764,12 +25764,6 @@ __webpack_require__.r(__webpack_exports__);
     var expose = _ref.expose;
     expose();
     var props = __props;
-    var classObj = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
-      return {
-        'page-item': true,
-        'disabled': !props.link.url
-      };
-    });
     var onFirstPage = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
       return props.currentPage === 1;
     });
@@ -25850,6 +25844,13 @@ __webpack_require__.r(__webpack_exports__);
         'aria-label': ariaLabelLinkLike.value
       };
     });
+    var classObj = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
+      return {
+        'page-item': true,
+        'disabled': !props.link.url,
+        'active': props.link.page === props.currentPage
+      };
+    });
     var linkContent = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
       if (props.link.isPrev) {
         return '&lsaquo;';
@@ -25867,7 +25868,6 @@ __webpack_require__.r(__webpack_exports__);
     });
     var __returned__ = {
       props: props,
-      classObj: classObj,
       onFirstPage: onFirstPage,
       hasMorePages: hasMorePages,
       isPageNumber: isPageNumber,
@@ -25879,6 +25879,7 @@ __webpack_require__.r(__webpack_exports__);
       listItemAttrs: listItemAttrs,
       isNotLink: isNotLink,
       linkLikeAttrs: linkLikeAttrs,
+      classObj: classObj,
       linkContent: linkContent,
       Link: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.Link
     };
@@ -26549,12 +26550,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, $setup.listItemAttrs), [$setup.isNotLink ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({
     key: 0
   }, $setup.linkLikeAttrs, {
+    "class": "page-link",
     innerHTML: $setup.linkContent
   }), null, 16
   /* FULL_PROPS */
   , _hoisted_1)) : !$setup.isNotLink && $setup.props.emitOnPage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({
     key: 1
   }, $setup.linkLikeAttrs, {
+    "class": "page-link",
     type: "button",
     onClick: _cache[0] || (_cache[0] = function ($event) {
       return _ctx.$emit('onPage', $setup.props.link.page);
@@ -26566,6 +26569,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     key: 2,
     href: $setup.props.link.url
   }, $setup.linkLikeAttrs, {
+    "class": "page-link",
     innerHTML: $setup.linkContent
   }), null, 16
   /* FULL_PROPS */
@@ -26612,7 +26616,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       link: link,
       "last-page": $setup.lastPage,
       "current-page": $setup.props.currentPage,
-      "emit-on-page": $setup.props.emitOnPage
+      "emit-on-page": $setup.props.emitOnPage,
+      onOnPage: _cache[0] || (_cache[0] = function ($event) {
+        return _ctx.$emit('onPage');
+      })
     }, null, 8
     /* PROPS */
     , ["link", "last-page", "current-page", "emit-on-page"]);
@@ -26624,7 +26631,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)("col-sm-".concat($setup.props.sizes ? $setup.props.sizes[1] : 2))
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["FormControlSelect"], {
     modelValue: $setup.perPage,
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $setup.perPage = $event;
     }),
     "class": "form-group row",
@@ -27632,22 +27639,42 @@ var isSortableColumn = function isSortableColumn(column, name) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "extendMetaLinksWithComputedData": () => (/* binding */ extendMetaLinksWithComputedData),
+/* harmony export */   "extendUrlWithCurrentParams": () => (/* binding */ extendUrlWithCurrentParams),
 /* harmony export */   "extendUrlWithParams": () => (/* binding */ extendUrlWithParams)
 /* harmony export */ });
 /* harmony import */ var _admin_inertia_utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/admin/inertia/utils */ "./resources/js/admin/inertia/utils/index.ts");
 
-var extendMetaLinksWithComputedData = function extendMetaLinksWithComputedData(meta) {
+var extendMetaLinksWithComputedData = function extendMetaLinksWithComputedData(meta, fullUrl) {
   meta.links.forEach(function (metaLink, index) {
     var labelIsNumeric = (0,_admin_inertia_utils__WEBPACK_IMPORTED_MODULE_0__.isNumeric)(metaLink.label);
-    metaLink.isSeparator = metaLink.label !== '...';
+    metaLink.isSeparator = metaLink.label === '...';
     metaLink.isPrev = !labelIsNumeric && index === 0 && metaLink.label !== '...';
     metaLink.isNext = !labelIsNumeric && index !== 0 && metaLink.label !== '...';
 
     if (labelIsNumeric) {
       metaLink.page = +metaLink.label;
     }
+
+    metaLink.url = extendUrlWithCurrentParams(metaLink.url, fullUrl);
   });
   return meta;
+};
+var extendUrlWithCurrentParams = function extendUrlWithCurrentParams(url, fullUrl) {
+  if (!url) {
+    return null;
+  }
+
+  try {
+    var _url = new URL(url);
+
+    var _fullUrl = fullUrl ? fullUrl : typeof location !== 'undefined' ? location.href : null;
+
+    var currentUrl = new URL(_fullUrl);
+    currentUrl.searchParams.set('page', _url.searchParams.get('page'));
+    return currentUrl.toString();
+  } catch (e) {
+    return null;
+  }
 };
 var extendUrlWithParams = function extendUrlWithParams(url, _ref) {
   var page = _ref.page;
@@ -27721,6 +27748,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _admin_inertia_modules_orderImportance__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/admin/inertia/modules/orderImportance */ "./resources/js/admin/inertia/modules/orderImportance/index.ts");
 /* harmony import */ var _admin_inertia_modules_orderStatuses__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/admin/inertia/modules/orderStatuses */ "./resources/js/admin/inertia/modules/orderStatuses/index.ts");
 /* harmony import */ var _admin_inertia_modules_chars__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/admin/inertia/modules/chars */ "./resources/js/admin/inertia/modules/chars/index.ts");
+/* harmony import */ var _admin_inertia_modules_routes__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @/admin/inertia/modules/routes */ "./resources/js/admin/inertia/modules/routes/index.ts");
+
 
 
 
@@ -27741,7 +27770,8 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 var initFromPageProps = function initFromPageProps(pinia, initialPageProps) {
-  var auth = initialPageProps.auth,
+  var fullUrl = initialPageProps.fullUrl,
+      auth = initialPageProps.auth,
       _initialPageProps$cat = initialPageProps.categoriesTree,
       categoriesTree = _initialPageProps$cat === void 0 ? [] : _initialPageProps$cat,
       _initialPageProps$bra = initialPageProps.brandOptions,
@@ -27778,9 +27808,14 @@ var initFromPageProps = function initFromPageProps(pinia, initialPageProps) {
       productListItemsLinks = _initialPageProps$pro3 === void 0 ? null : _initialPageProps$pro3,
       _initialPageProps$pro4 = _initialPageProps$pro.meta,
       productListItemsMeta = _initialPageProps$pro4 === void 0 ? null : _initialPageProps$pro4; // todo dev only
-  // @ts-ignore
 
-  window.__initialPageProps = initialPageProps;
+  if (typeof window !== 'undefined') {
+    // @ts-ignore
+    window.__initialPageProps = initialPageProps;
+  }
+
+  var routesStore = (0,_admin_inertia_modules_routes__WEBPACK_IMPORTED_MODULE_14__.useRoutesStore)(pinia);
+  routesStore.setFullUrl(fullUrl);
   var authStore = (0,_admin_inertia_modules_auth__WEBPACK_IMPORTED_MODULE_0__.useAuthStore)(pinia);
   authStore.setAuthUser(auth.user);
   var articlesStore = (0,_admin_inertia_modules_articles__WEBPACK_IMPORTED_MODULE_1__.useArticlesStore)(pinia);
@@ -27936,12 +27971,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "getActiveName": () => (/* binding */ getActiveName),
 /* harmony export */   "getPerPageOptions": () => (/* binding */ getPerPageOptions)
 /* harmony export */ });
-/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! pinia */ "./node_modules/pinia/dist/pinia.esm-browser.js");
+/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! pinia */ "./node_modules/pinia/dist/pinia.esm-browser.js");
 /* harmony import */ var _admin_inertia_modules_common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/admin/inertia/modules/common */ "./resources/js/admin/inertia/modules/common/index.ts");
+/* harmony import */ var _admin_inertia_modules_routes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/admin/inertia/modules/routes */ "./resources/js/admin/inertia/modules/routes/index.ts");
+
 
 
 var storeName = "products";
-var useProductsStore = (0,pinia__WEBPACK_IMPORTED_MODULE_1__.defineStore)(storeName, {
+var useProductsStore = (0,pinia__WEBPACK_IMPORTED_MODULE_2__.defineStore)(storeName, {
   state: function state() {
     return {
       _productListItems: [],
@@ -27974,7 +28011,8 @@ var useProductsStore = (0,pinia__WEBPACK_IMPORTED_MODULE_1__.defineStore)(storeN
       this._links = links;
     },
     setMeta: function setMeta(meta) {
-      this._meta = meta ? (0,_admin_inertia_modules_common__WEBPACK_IMPORTED_MODULE_0__.extendMetaLinksWithComputedData)(meta) : null;
+      var routesStore = (0,_admin_inertia_modules_routes__WEBPACK_IMPORTED_MODULE_1__.useRoutesStore)();
+      this._meta = meta ? (0,_admin_inertia_modules_common__WEBPACK_IMPORTED_MODULE_0__.extendMetaLinksWithComputedData)(meta, routesStore.fullUrl) : null;
     }
   }
 });
@@ -28018,7 +28056,15 @@ __webpack_require__.r(__webpack_exports__);
 
 var storeName = "routes";
 var useRoutesStore = (0,pinia__WEBPACK_IMPORTED_MODULE_3__.defineStore)(storeName, {
+  state: function state() {
+    return {
+      _fullUrl: null
+    };
+  },
   getters: {
+    fullUrl: function fullUrl(state) {
+      return state._fullUrl;
+    },
     isActiveRoute: function isActiveRoute() {
       return function (type) {
         var id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
@@ -28084,6 +28130,11 @@ var useRoutesStore = (0,pinia__WEBPACK_IMPORTED_MODULE_3__.defineStore)(storeNam
             }
         }
       };
+    }
+  },
+  actions: {
+    setFullUrl: function setFullUrl(fullUrl) {
+      this._fullUrl = fullUrl;
     }
   }
 });
@@ -53951,6 +54002,7 @@ _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7__.Inertia.on('navigate', function 
         App = _ref.App,
         props = _ref.props,
         plugin = _ref.plugin;
+    console.log(el, App, props, plugin);
 
     try {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createApp)({
