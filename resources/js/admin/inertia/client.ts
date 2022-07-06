@@ -6,11 +6,10 @@ import { InertiaProgress } from "@inertiajs/progress"
 import { createPinia } from "pinia"
 import { initFromPageProps } from "@/admin/inertia/modules"
 import "bootstrap"
-import {Inertia} from "@inertiajs/inertia"
-
+import { Inertia } from "@inertiajs/inertia"
 
 const pinia = createPinia()
-Inertia.on('navigate', (event) => {
+Inertia.on("navigate", (event) => {
     initFromPageProps(pinia, event.detail.page.props)
 })
 

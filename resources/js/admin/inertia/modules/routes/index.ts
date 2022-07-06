@@ -3,17 +3,16 @@ import { useCategoriesTreeStore } from "@/admin/inertia/modules/categoriesTree"
 import route, { Config, RouteParam } from "ziggy-js"
 import { Ziggy } from "@/helpers/ziggy"
 
-
 export const storeName = "routes"
 
 export const useRoutesStore = defineStore(storeName, {
-    state: (): { _fullUrl: string|null } => {
+    state: (): { _fullUrl: string | null } => {
         return {
-            _fullUrl: null
+            _fullUrl: null,
         }
     },
     getters: {
-        fullUrl: (state): string|null => state._fullUrl,
+        fullUrl: (state): string | null => state._fullUrl,
         isActiveRoute:
             () =>
             (type: RouteTypeEnum, id: number | string = null): boolean => {
@@ -40,7 +39,8 @@ export const useRoutesStore = defineStore(storeName, {
                             return true
                         }
 
-                        let categoryAndSubtreeIds = categoriesTreeStore.getCategoryAndSubtreeIds(id)
+                        let categoryAndSubtreeIds =
+                            categoriesTreeStore.getCategoryAndSubtreeIds(id)
 
                         if (!categoryAndSubtreeIds) {
                             return false
@@ -86,10 +86,10 @@ export const useRoutesStore = defineStore(storeName, {
             },
     },
     actions: {
-        setFullUrl(fullUrl: string|null): void {
+        setFullUrl(fullUrl: string | null): void {
             this._fullUrl = fullUrl
-        }
-    }
+        },
+    },
 })
 
 export const routeNames = {
