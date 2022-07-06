@@ -6,7 +6,6 @@ import Option from "@/admin/inertia/modules/common/Option"
 import { extendMetaLinksWithComputedData } from "@/admin/inertia/modules/common"
 import {useRoutesStore} from "@/admin/inertia/modules/routes"
 
-
 export const storeName = "products"
 
 export const useProductsStore = defineStore(storeName, {
@@ -26,7 +25,13 @@ export const useProductsStore = defineStore(storeName, {
             state._productListItems,
         links: (state): Links | null => state._links,
         meta: (state): Meta | null => state._meta,
-        getPerPageOption: (state): Option|null => state._meta && state._meta.per_page ? {value: state._meta.per_page, label: `${state._meta.per_page}`} : null
+        getPerPageOption: (state): Option | null =>
+            state._meta && state._meta.per_page
+                ? {
+                      value: state._meta.per_page,
+                      label: `${state._meta.per_page}`,
+                  }
+                : null,
     },
     actions: {
         setProductListItems(productListItems: Array<ProductListItem>): void {
@@ -45,4 +50,8 @@ export const useProductsStore = defineStore(storeName, {
 export const getActiveName = (is_active: boolean | null) =>
     is_active ? "Да" : "Нет"
 
-export const getPerPageOptions = (): Array<Option> => [5, 10, 20, 50, 100, 200, 500].map(page => ({value: page, label: `${page}`}))
+export const getPerPageOptions = (): Array<Option> =>
+    [5, 10, 20, 50, 100, 200, 500].map((page) => ({
+        value: page,
+        label: `${page}`,
+    }))
