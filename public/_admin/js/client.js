@@ -27700,7 +27700,7 @@ var extractPageParamFromUrl = function extractPageParamFromUrl(url) {
   try {
     var _u = new URL(url);
 
-    var page = _u.searchParams.get('page');
+    var page = _u.searchParams.get("page");
 
     return page && (0,_admin_inertia_utils__WEBPACK_IMPORTED_MODULE_0__.isNumeric)(page) ? +page : null;
   } catch (e) {
