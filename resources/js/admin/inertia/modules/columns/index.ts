@@ -1,5 +1,7 @@
 import { defineStore } from "pinia"
 import Column from "@/admin/inertia/modules/columns/Column"
+import axios, {AxiosResponse} from "axios"
+import {routeNames} from "@/admin/inertia/modules/routes"
 
 export const storeName = "columns"
 
@@ -32,6 +34,27 @@ export const useColumnsStore = defineStore(storeName, {
         setAdminProductVariantColumns(columns: Array<Column>): void {
             this._adminProductVariantColumns = columns
         },
+        async handleUpdateAdminProductColumns() {
+            axios
+                .put(this.route(routeNames.ROUTE_ADMIN_AJAX_SORT_COLUMNS), {
+                    adminProductColumnsDefault: true
+                })
+                .then((axiosResponse: AxiosResponse) => {
+                    let {
+                        data: {
+                            data : {
+                                adminProductColumns = []
+                            }
+                        }
+                    } = axiosResponse
+                    this.sortableColumns = adminProductColumns
+                    this.tempSortableColumns = [] // Vue.util.extend([], adminProductColumns)
+                })
+                .finally(() => {
+                    this.sortColumnsEnabled = true
+                    this.modalShow = false
+                })
+        }
     },
 })
 
