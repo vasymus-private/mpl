@@ -126,7 +126,7 @@ const linkContent = computed((): string|number => {
             v-bind="linkLikeAttrs"
             class="page-link"
             type="button"
-            @click="$emit('onPage', props.link.page)"
+            @click="$emit('update:page', props.link.page)"
             v-html="linkContent"
         />
         <Link

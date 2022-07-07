@@ -4,7 +4,9 @@ import {ref, watch} from "vue"
 import {useColumnsStore, ColumnName, isSortableColumn} from "@/admin/inertia/modules/columns"
 import {useProductsStore, getActiveName, getPerPageOptions} from "@/admin/inertia/modules/products"
 import TheLayout from '@/admin/inertia/shared/layout/TheLayout.vue'
-import Pagination from "@/admin/inertia/shared/layout/Pagination.vue";
+import Pagination from "@/admin/inertia/shared/layout/Pagination.vue"
+import {Inertia} from "@inertiajs/inertia"
+import Option from "@/admin/inertia/modules/common/Option"
 
 
 const selectAll = ref(false)
@@ -17,6 +19,12 @@ const columnsStore = useColumnsStore()
 const productStore = useProductsStore()
 const checkedProducts = ref([])
 const perPageOptions = getPerPageOptions()
+
+const onPerPage = (perPage: Option) => {
+    const to = new URL(location.href)
+    to.searchParams.set('per_page', `${perPage.value}`)
+    Inertia.visit(to.toString())
+}
 </script>
 
 <template>
@@ -110,6 +118,7 @@ const perPageOptions = getPerPageOptions()
                 :per-page="productStore.getPerPageOption"
                 :per-page-options="perPageOptions"
                 :links="productStore.meta.links"
+                @update:perPage="onPerPage"
             />
         </div>
     </TheLayout>

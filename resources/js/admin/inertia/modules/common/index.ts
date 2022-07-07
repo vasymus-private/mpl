@@ -18,6 +18,10 @@ export const extendMetaLinksWithComputedData = (
             metaLink.page = +metaLink.label
         }
 
+        if (!labelIsNumeric && (metaLink.isPrev || metaLink.isNext)) {
+            metaLink.page = extractPageParamFromUrl(metaLink.url)
+        }
+
         metaLink.url = extendUrlWithCurrentParams(metaLink.url, fullUrl)
     })
 
@@ -44,6 +48,20 @@ export const extendUrlWithCurrentParams = (
         currentUrl.searchParams.set("page", _url.searchParams.get("page"))
 
         return currentUrl.toString()
+    } catch (e) {
+        return null
+    }
+}
+
+export const extractPageParamFromUrl = (url: string|null): number|null => {
+    if (!url) {
+        return null
+    }
+
+    try {
+        const _u = new URL(url)
+        const page = _u.searchParams.get('page')
+        return page && isNumeric(page) ? +page : null
     } catch (e) {
         return null
     }

@@ -25490,6 +25490,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _admin_inertia_modules_products__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/admin/inertia/modules/products */ "./resources/js/admin/inertia/modules/products/index.ts");
 /* harmony import */ var _admin_inertia_shared_layout_TheLayout_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/admin/inertia/shared/layout/TheLayout.vue */ "./resources/js/admin/inertia/shared/layout/TheLayout.vue");
 /* harmony import */ var _admin_inertia_shared_layout_Pagination_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/admin/inertia/shared/layout/Pagination.vue */ "./resources/js/admin/inertia/shared/layout/Pagination.vue");
+/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+
 
 
 
@@ -25511,6 +25513,13 @@ __webpack_require__.r(__webpack_exports__);
     var productStore = (0,_admin_inertia_modules_products__WEBPACK_IMPORTED_MODULE_3__.useProductsStore)();
     var checkedProducts = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([]);
     var perPageOptions = (0,_admin_inertia_modules_products__WEBPACK_IMPORTED_MODULE_3__.getPerPageOptions)();
+
+    var onPerPage = function onPerPage(perPage) {
+      var to = new URL(location.href);
+      to.searchParams.set('per_page', "".concat(perPage.value));
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_6__.Inertia.visit(to.toString());
+    };
+
     var __returned__ = {
       selectAll: selectAll,
       editMode: editMode,
@@ -25518,6 +25527,7 @@ __webpack_require__.r(__webpack_exports__);
       productStore: productStore,
       checkedProducts: checkedProducts,
       perPageOptions: perPageOptions,
+      onPerPage: onPerPage,
       routeNames: _admin_inertia_modules_routes__WEBPACK_IMPORTED_MODULE_1__.routeNames,
       ColumnName: _admin_inertia_modules_columns__WEBPACK_IMPORTED_MODULE_2__.ColumnName,
       isSortableColumn: _admin_inertia_modules_columns__WEBPACK_IMPORTED_MODULE_2__.isSortableColumn,
@@ -25951,15 +25961,15 @@ __webpack_require__.r(__webpack_exports__);
         emit = _ref.emit;
     expose();
     var props = __props;
-    var perPage = (0,_vueuse_core__WEBPACK_IMPORTED_MODULE_3__.useVModel)(props, 'perPage', emit);
     var lastPage = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
       return Math.max(Math.ceil(props.total / +props.perPage.value), 1);
     });
+    var perPageData = (0,_vueuse_core__WEBPACK_IMPORTED_MODULE_3__.useVModel)(props, 'perPage', emit);
     var __returned__ = {
       props: props,
-      emit: emit,
-      perPage: perPage,
       lastPage: lastPage,
+      emit: emit,
+      perPageData: perPageData,
       FormControlSelect: _admin_inertia_shared_forms_FormControlSelect_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
       PageItem: _admin_inertia_shared_layout_PageItem_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
     };
@@ -26351,7 +26361,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "current-page": $setup.productStore.meta.current_page,
         "per-page": $setup.productStore.getPerPageOption,
         "per-page-options": $setup.perPageOptions,
-        links: $setup.productStore.meta.links
+        links: $setup.productStore.meta.links,
+        "onUpdate:perPage": $setup.onPerPage
       }, null, 8
       /* PROPS */
       , ["total", "current-page", "per-page", "per-page-options", "links"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])];
@@ -26560,7 +26571,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "page-link",
     type: "button",
     onClick: _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.$emit('onPage', $setup.props.link.page);
+      return _ctx.$emit('update:page', $setup.props.link.page);
     }),
     innerHTML: $setup.linkContent
   }), null, 16
@@ -26617,8 +26628,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "last-page": $setup.lastPage,
       "current-page": $setup.props.currentPage,
       "emit-on-page": $setup.props.emitOnPage,
-      onOnPage: _cache[0] || (_cache[0] = function ($event) {
-        return _ctx.$emit('onPage');
+      "onUpdate:page": _cache[0] || (_cache[0] = function (p) {
+        return _ctx.$emit('update:page', p);
       })
     }, null, 8
     /* PROPS */
@@ -26630,9 +26641,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)("col-sm-".concat($setup.props.sizes ? $setup.props.sizes[1] : 2))
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["FormControlSelect"], {
-    modelValue: $setup.perPage,
+    modelValue: $setup.perPageData,
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-      return $setup.perPage = $event;
+      return $setup.perPageData = $event;
     }),
     "class": "form-group row",
     label: "На странице:",
@@ -27640,6 +27651,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "extendMetaLinksWithComputedData": () => (/* binding */ extendMetaLinksWithComputedData),
 /* harmony export */   "extendUrlWithCurrentParams": () => (/* binding */ extendUrlWithCurrentParams),
+/* harmony export */   "extractPageParamFromUrl": () => (/* binding */ extractPageParamFromUrl),
 /* harmony export */   "extendUrlWithParams": () => (/* binding */ extendUrlWithParams)
 /* harmony export */ });
 /* harmony import */ var _admin_inertia_utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/admin/inertia/utils */ "./resources/js/admin/inertia/utils/index.ts");
@@ -27647,12 +27659,16 @@ __webpack_require__.r(__webpack_exports__);
 var extendMetaLinksWithComputedData = function extendMetaLinksWithComputedData(meta, fullUrl) {
   meta.links.forEach(function (metaLink, index) {
     var labelIsNumeric = (0,_admin_inertia_utils__WEBPACK_IMPORTED_MODULE_0__.isNumeric)(metaLink.label);
-    metaLink.isSeparator = metaLink.label === '...';
-    metaLink.isPrev = !labelIsNumeric && index === 0 && metaLink.label !== '...';
-    metaLink.isNext = !labelIsNumeric && index !== 0 && metaLink.label !== '...';
+    metaLink.isSeparator = metaLink.label === "...";
+    metaLink.isPrev = !labelIsNumeric && index === 0 && metaLink.label !== "...";
+    metaLink.isNext = !labelIsNumeric && index !== 0 && metaLink.label !== "...";
 
     if (labelIsNumeric) {
       metaLink.page = +metaLink.label;
+    }
+
+    if (!labelIsNumeric && (metaLink.isPrev || metaLink.isNext)) {
+      metaLink.page = extractPageParamFromUrl(metaLink.url);
     }
 
     metaLink.url = extendUrlWithCurrentParams(metaLink.url, fullUrl);
@@ -27667,11 +27683,26 @@ var extendUrlWithCurrentParams = function extendUrlWithCurrentParams(url, fullUr
   try {
     var _url = new URL(url);
 
-    var _fullUrl = fullUrl ? fullUrl : typeof location !== 'undefined' ? location.href : null;
+    var _fullUrl = fullUrl ? fullUrl : typeof location !== "undefined" ? location.href : null;
 
     var currentUrl = new URL(_fullUrl);
-    currentUrl.searchParams.set('page', _url.searchParams.get('page'));
+    currentUrl.searchParams.set("page", _url.searchParams.get("page"));
     return currentUrl.toString();
+  } catch (e) {
+    return null;
+  }
+};
+var extractPageParamFromUrl = function extractPageParamFromUrl(url) {
+  if (!url) {
+    return null;
+  }
+
+  try {
+    var _u = new URL(url);
+
+    var page = _u.searchParams.get('page');
+
+    return page && (0,_admin_inertia_utils__WEBPACK_IMPORTED_MODULE_0__.isNumeric)(page) ? +page : null;
   } catch (e) {
     return null;
   }
@@ -27681,7 +27712,7 @@ var extendUrlWithParams = function extendUrlWithParams(url, _ref) {
 
   var _url = new URL(url);
 
-  _url.searchParams.set('page', "".concat(page));
+  _url.searchParams.set("page", "".concat(page));
 
   return _url.toString();
 };
@@ -27809,7 +27840,7 @@ var initFromPageProps = function initFromPageProps(pinia, initialPageProps) {
       _initialPageProps$pro4 = _initialPageProps$pro.meta,
       productListItemsMeta = _initialPageProps$pro4 === void 0 ? null : _initialPageProps$pro4; // todo dev only
 
-  if (typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     // @ts-ignore
     window.__initialPageProps = initialPageProps;
   }
@@ -53989,7 +54020,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var pinia = (0,pinia__WEBPACK_IMPORTED_MODULE_8__.createPinia)();
-_inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7__.Inertia.on('navigate', function (event) {
+_inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7__.Inertia.on("navigate", function (event) {
   (0,_admin_inertia_modules__WEBPACK_IMPORTED_MODULE_5__.initFromPageProps)(pinia, event.detail.page.props);
 });
 (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.createInertiaApp)({

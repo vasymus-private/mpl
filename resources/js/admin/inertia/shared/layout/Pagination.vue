@@ -16,9 +16,11 @@ const props = defineProps<{
     emitOnPage?: boolean
     sizes?: Array<number>
 }>()
-const emit = defineEmits(['update:perPage'])
-const perPage = useVModel(props, 'perPage', emit)
+
 const lastPage = computed((): number => Math.max(Math.ceil(props.total / +props.perPage.value), 1))
+
+const emit = defineEmits(['update:perPage'])
+const perPageData = useVModel(props, 'perPage', emit)
 </script>
 
 <template>
@@ -36,7 +38,7 @@ const lastPage = computed((): number => Math.max(Math.ceil(props.total / +props.
                                 :last-page="lastPage"
                                 :current-page="props.currentPage"
                                 :emit-on-page="props.emitOnPage"
-                                @on-page="$emit('onPage')"
+                                @update:page="(p) => $emit('update:page', p)"
                             />
                         </ul>
                     </nav>
@@ -44,7 +46,7 @@ const lastPage = computed((): number => Math.max(Math.ceil(props.total / +props.
             </div>
             <div :class="`col-sm-${props.sizes ? props.sizes[1] : 2}`">
                 <FormControlSelect
-                    v-model="perPage"
+                    v-model="perPageData"
                     class="form-group row"
                     label="На странице:"
                     :options="perPageOptions"
