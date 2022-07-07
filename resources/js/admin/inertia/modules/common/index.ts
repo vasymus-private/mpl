@@ -53,14 +53,14 @@ export const extendUrlWithCurrentParams = (
     }
 }
 
-export const extractPageParamFromUrl = (url: string|null): number|null => {
+export const extractPageParamFromUrl = (url: string | null): number | null => {
     if (!url) {
         return null
     }
 
     try {
         const _u = new URL(url)
-        const page = _u.searchParams.get('page')
+        const page = _u.searchParams.get("page")
         return page && isNumeric(page) ? +page : null
     } catch (e) {
         return null
