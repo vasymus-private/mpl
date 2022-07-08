@@ -47,8 +47,8 @@ export const useProductsStore = defineStore(storeName, {
                 : null
         },
         async handleDelete(selected: Array<number>): Promise<void> {
-            console.log('---', selected)
-        }
+            console.log("---", selected)
+        },
     },
 })
 
