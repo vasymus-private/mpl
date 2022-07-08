@@ -36,7 +36,9 @@ export const useColumnsStore = defineStore(storeName, {
         setAdminProductVariantColumns(columns: Array<Column>): void {
             this._adminProductVariantColumns = columns
         },
-        async handleSortColumns(requestParams: SortColumnsRequestParams): Promise<void> {
+        async handleSortColumns(
+            requestParams: SortColumnsRequestParams
+        ): Promise<void> {
             this._loading = true
             try {
                 const {
