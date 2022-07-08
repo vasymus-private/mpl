@@ -1,7 +1,10 @@
 <script lang="ts" setup>
 import TheHeader from "@/admin/inertia/shared/layout/TheHeader.vue"
 import TheSidebar from "@/admin/inertia/shared/layout/TheSidebar.vue"
+import {useModalsStore, Modals} from "@/admin/inertia/modules/modals"
 
+
+const modalsStore = useModalsStore()
 </script>
 
 <template>
@@ -16,5 +19,10 @@ import TheSidebar from "@/admin/inertia/shared/layout/TheSidebar.vue"
                 </div>
             </div>
         </main>
+        <component
+            v-for="modal in modalsStore.types"
+            :is="Modals[modal.type]"
+            :type="modal.type"
+        />
     </div>
 </template>

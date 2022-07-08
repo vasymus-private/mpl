@@ -18,12 +18,7 @@ export const useRoutesStore = defineStore(storeName, {
             (type: RouteTypeEnum, id: number | string = null): boolean => {
                 const categoriesTreeStore = useCategoriesTreeStore()
 
-                let router = route(
-                    undefined,
-                    undefined,
-                    undefined,
-                    Ziggy as Config
-                )
+                let router = getRouter()
 
                 switch (type) {
                     case RouteTypeEnum.categoriesSub:
@@ -91,6 +86,20 @@ export const useRoutesStore = defineStore(storeName, {
         },
     },
 })
+
+export const getRouter = () => route(
+    undefined,
+    undefined,
+    undefined,
+    Ziggy as Config
+)
+
+export const getRouteUrl = (name: string) => route(
+    name,
+    undefined,
+    undefined,
+    Ziggy as Config
+)
 
 export const routeNames = {
     ROUTE_WEB_HOME: "home",

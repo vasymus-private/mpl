@@ -1,16 +1,13 @@
 <script lang="ts" setup>
 import {routeNames} from "@/admin/inertia/modules/routes"
-import {computed, Ref, ref, toRaw, unref, watch} from "vue"
-import {useColumnsStore, ColumnName, isSortableColumn} from "@/admin/inertia/modules/columns"
-import {useProductsStore, getActiveName, getPerPageOptions} from "@/admin/inertia/modules/products"
+import {ref, watch} from "vue"
+import {ColumnName, isSortableColumn, useColumnsStore} from "@/admin/inertia/modules/columns"
+import {getActiveName, getPerPageOptions, useProductsStore} from "@/admin/inertia/modules/products"
 import TheLayout from '@/admin/inertia/shared/layout/TheLayout.vue'
 import Pagination from "@/admin/inertia/shared/layout/Pagination.vue"
 import {Inertia} from "@inertiajs/inertia"
 import Option from "@/admin/inertia/modules/common/Option"
-import Modal from "@/admin/inertia/components/modals/Modal.vue"
-import Draggable from 'vuedraggable'
-import Column from "@/admin/inertia/modules/columns/Column";
-import ModalCloseButton from "@/admin/inertia/components/modals/ModalCloseButton.vue";
+import {ModalType, useModalsStore} from "@/admin/inertia/modules/modals"
 
 
 const selectAll = ref(false)
@@ -29,17 +26,8 @@ const onPerPage = (perPage: Option) => {
     to.searchParams.set('per_page', `${perPage.value}`)
     Inertia.visit(to.toString())
 }
-const _columns: Ref<Array<Column>> = ref([])
-const columns = computed({
-    get(): Array<Column> {
-        return _columns.value.length ? _columns.value : columnsStore.adminProductColumns
-    },
-    set(columns: Array<Column>): void {
-        _columns.value = columns
-    }
-})
-const customizeListModalId = 'customize-list'
 
+const modalsStore = useModalsStore()
 </script>
 
 <template>
@@ -54,11 +42,7 @@ const customizeListModalId = 'customize-list'
             <h1 class="adm-title">Каталог товаров <span class="adm-fav-link"></span></h1>
 
             <div>
-                <button
-                    data-bs-toggle="modal"
-                    :data-bs-target="`#${customizeListModalId}`"
-                    type="button"
-                    class="btn btn-primary mb-2 mr-2"
+                <button type="button" @click="modalsStore.openModal(ModalType.SORT_PRODUCTS_COLUMNS)" class="btn btn-primary mb-2 mr-2"
                 >Настроить</button>
             </div>
 
@@ -140,29 +124,6 @@ const customizeListModalId = 'customize-list'
                 :links="productStore.meta.links"
                 @update:perPage="onPerPage"
             />
-
-            <Modal :id="customizeListModalId" title="Настройка списка">
-                <div class="card">
-                    <draggable
-                        v-model="columns"
-                        group="people"
-                        item-key="value">
-                        <template #item="{element}">
-                            <div class="list-group-item">{{element.label}}</div>
-                        </template>
-                    </draggable>
-                </div>
-                <template #footer>
-
-                    <ModalCloseButton label="Отменить" />
-                    <button
-                        type="button"
-                        class="btn btn-secondary"
-                        data-bs-dismiss="modal"
-                        @click="$emit('click')"
-                    >Сбросить</button>
-                </template>
-            </Modal>
         </div>
     </TheLayout>
 </template>

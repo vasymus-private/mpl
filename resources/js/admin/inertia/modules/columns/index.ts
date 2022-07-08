@@ -1,20 +1,23 @@
 import { defineStore } from "pinia"
 import Column from "@/admin/inertia/modules/columns/Column"
-import axios, {AxiosResponse} from "axios"
-import {routeNames} from "@/admin/inertia/modules/routes"
+import axios from "axios"
+import {getRouteUrl, routeNames} from "@/admin/inertia/modules/routes"
+
 
 export const storeName = "columns"
 
 export const useColumnsStore = defineStore(storeName, {
-    state: (): {
+    state: () : {
         _adminOrderColumns: Array<Column>
         _adminProductColumns: Array<Column>
         _adminProductVariantColumns: Array<Column>
-    } => {
+        _loading: boolean
+    }  => {
         return {
             _adminOrderColumns: [],
             _adminProductColumns: [],
             _adminProductVariantColumns: [],
+            _loading: false
         }
     },
     getters: {
@@ -34,29 +37,37 @@ export const useColumnsStore = defineStore(storeName, {
         setAdminProductVariantColumns(columns: Array<Column>): void {
             this._adminProductVariantColumns = columns
         },
-        async handleUpdateAdminProductColumns() {
-            axios
-                .put(this.route(routeNames.ROUTE_ADMIN_AJAX_SORT_COLUMNS), {
-                    adminProductColumnsDefault: true
-                })
-                .then((axiosResponse: AxiosResponse) => {
-                    let {
-                        data: {
-                            data : {
-                                adminProductColumns = []
-                            }
-                        }
-                    } = axiosResponse
-                    this.sortableColumns = adminProductColumns
-                    this.tempSortableColumns = [] // Vue.util.extend([], adminProductColumns)
-                })
-                .finally(() => {
-                    this.sortColumnsEnabled = true
-                    this.modalShow = false
-                })
+        async handleSortColumns(requestParams: SortColumnsRequestParams) {
+            this._loading = true
+            try {
+                const {data : { data : {adminOrderColumns, adminProductColumns, adminProductVariantColumns}}, status, statusText } = await axios.put<SortColumnsResponse>(
+                    getRouteUrl(routeNames.ROUTE_ADMIN_AJAX_SORT_COLUMNS),
+                    requestParams
+                )
+
+                if (status >= 400) {
+                    throw new Error(statusText)
+                }
+
+                this.setAdminOrderColumns(adminOrderColumns)
+                this.setAdminProductColumns(adminProductColumns)
+                this.setAdminProductVariantColumns(adminProductVariantColumns)
+            } catch (e) {
+                console.warn(e)
+            } finally {
+                this._loading = false
+            }
         }
     },
 })
+
+type SortColumnsResponse = {
+    data: {
+        adminOrderColumns: Array<Column>
+        adminProductColumns: Array<Column>
+        adminProductVariantColumns: Array<Column>
+    }
+}
 
 export enum ColumnName {
     id = "id",
@@ -193,3 +204,12 @@ export const getColumn = (key: ColumnName): Column => {
 
 export const isSortableColumn = (column: Column, name: ColumnName): boolean =>
     column.value === getColumn(name).value
+
+interface SortColumnsRequestParams {
+    adminOrderColumns?: Array<number>
+    adminOrderColumnsDefault?: boolean
+    adminProductColumns?: Array<number>
+    adminProductColumnsDefault?: boolean
+    adminProductVariantColumns?: Array<number>
+    adminProductVariantColumnsDefault?: boolean
+}
