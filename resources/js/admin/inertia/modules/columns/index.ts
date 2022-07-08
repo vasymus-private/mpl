@@ -1,23 +1,22 @@
 import { defineStore } from "pinia"
 import Column from "@/admin/inertia/modules/columns/Column"
 import axios from "axios"
-import {getRouteUrl, routeNames} from "@/admin/inertia/modules/routes"
-
+import { getRouteUrl, routeNames } from "@/admin/inertia/modules/routes"
 
 export const storeName = "columns"
 
 export const useColumnsStore = defineStore(storeName, {
-    state: () : {
+    state: (): {
         _adminOrderColumns: Array<Column>
         _adminProductColumns: Array<Column>
         _adminProductVariantColumns: Array<Column>
         _loading: boolean
-    }  => {
+    } => {
         return {
             _adminOrderColumns: [],
             _adminProductColumns: [],
             _adminProductVariantColumns: [],
-            _loading: false
+            _loading: false,
         }
     },
     getters: {
@@ -40,7 +39,17 @@ export const useColumnsStore = defineStore(storeName, {
         async handleSortColumns(requestParams: SortColumnsRequestParams): Promise<void> {
             this._loading = true
             try {
-                const {data : { data : {adminOrderColumns, adminProductColumns, adminProductVariantColumns}}, status, statusText } = await axios.put<SortColumnsResponse>(
+                const {
+                    data: {
+                        data: {
+                            adminOrderColumns,
+                            adminProductColumns,
+                            adminProductVariantColumns,
+                        },
+                    },
+                    status,
+                    statusText,
+                } = await axios.put<SortColumnsResponse>(
                     getRouteUrl(routeNames.ROUTE_ADMIN_AJAX_SORT_COLUMNS),
                     requestParams
                 )
@@ -57,7 +66,7 @@ export const useColumnsStore = defineStore(storeName, {
             } finally {
                 this._loading = false
             }
-        }
+        },
     },
 })
 
