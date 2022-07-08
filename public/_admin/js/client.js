@@ -29045,7 +29045,7 @@ var useProductsStore = (0,pinia__WEBPACK_IMPORTED_MODULE_3__.defineStore)(storeN
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                console.log('---', selected);
+                console.log("---", selected);
 
               case 1:
               case "end":

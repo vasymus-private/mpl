@@ -50,7 +50,6 @@ const deleteProduct = (product: ProductListItem) => {
 const toggleActive = (product: ProductListItem) => {
     console.log('---product', product)
 }
-
 </script>
 
 <template>
@@ -65,8 +64,7 @@ const toggleActive = (product: ProductListItem) => {
             <h1 class="adm-title">Каталог товаров <span class="adm-fav-link"></span></h1>
 
             <div>
-                <button type="button" @click="modalsStore.openModal(ModalType.SORT_PRODUCTS_COLUMNS)" class="btn btn-primary mb-2 mr-2"
-                >Настроить</button>
+                <button type="button" @click="modalsStore.openModal(ModalType.SORT_PRODUCTS_COLUMNS)" class="btn btn-primary mb-2 mr-2">Настроить</button>
             </div>
 
             <div class="admin-edit-variations table-responsive">
