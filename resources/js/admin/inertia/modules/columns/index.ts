@@ -37,7 +37,7 @@ export const useColumnsStore = defineStore(storeName, {
         setAdminProductVariantColumns(columns: Array<Column>): void {
             this._adminProductVariantColumns = columns
         },
-        async handleSortColumns(requestParams: SortColumnsRequestParams) {
+        async handleSortColumns(requestParams: SortColumnsRequestParams): Promise<void> {
             this._loading = true
             try {
                 const {data : { data : {adminOrderColumns, adminProductColumns, adminProductVariantColumns}}, status, statusText } = await axios.put<SortColumnsResponse>(

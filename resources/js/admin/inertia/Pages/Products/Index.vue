@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import {routeNames} from "@/admin/inertia/modules/routes"
-import {ref, watch} from "vue"
+import {Ref, ref, watch} from "vue"
 import {ColumnName, isSortableColumn, useColumnsStore} from "@/admin/inertia/modules/columns"
 import {getActiveName, getPerPageOptions, useProductsStore} from "@/admin/inertia/modules/products"
 import TheLayout from '@/admin/inertia/shared/layout/TheLayout.vue'
@@ -8,17 +8,24 @@ import Pagination from "@/admin/inertia/shared/layout/Pagination.vue"
 import {Inertia} from "@inertiajs/inertia"
 import Option from "@/admin/inertia/modules/common/Option"
 import {ModalType, useModalsStore} from "@/admin/inertia/modules/modals"
+import ProductListItem from "@/admin/inertia/modules/products/ProductListItem"
 
 
 const selectAll = ref(false)
 const editMode = ref(false)
-watch(selectAll, (newValue, oldValue) => {
-    console.log('watch select all', newValue, oldValue)
+watch(selectAll, (newValue) => {
+    if (newValue === true) {
+        checkedProducts.value = productStore.productListItems.map((item: ProductListItem) => item.id)
+    }
+
+    if (newValue === false) {
+        checkedProducts.value = []
+    }
 })
 
 const columnsStore = useColumnsStore()
 const productStore = useProductsStore()
-const checkedProducts = ref([])
+const checkedProducts: Ref<Array<number>> = ref([])
 const perPageOptions = getPerPageOptions()
 
 const onPerPage = (perPage: Option) => {
@@ -28,6 +35,12 @@ const onPerPage = (perPage: Option) => {
 }
 
 const modalsStore = useModalsStore()
+
+const deleteProducts = () => {
+    if (confirm('Вы уверены, что хотите удалить продукт выбранные продукты?')) { // todo temporary until modals simple confirm implementation
+        productStore.handleDelete(checkedProducts.value)
+    }
+}
 </script>
 
 <template>
@@ -124,6 +137,15 @@ const modalsStore = useModalsStore()
                 :links="productStore.meta.links"
                 @update:perPage="onPerPage"
             />
+
+            <footer key="edit-mode-on" v-if="editMode" class="footer edit-item-footer">
+                <button type="button" class="btn btn-info">Сохранить</button>
+                <button @click="editMode = false" type="button" class="btn btn-warning">Отменить</button>
+            </footer>
+            <footer key="edit-mode-off" v-else class="footer edit-item-footer">
+                <button @click="editMode = true" type="button" class="btn btn-primary mb-2 btn__save mr-2">Редактировать</button>
+                <button @click="deleteProducts" type="button" class="btn btn-info mb-2 btn__default">Удалить</button>
+            </footer>
         </div>
     </TheLayout>
 </template>

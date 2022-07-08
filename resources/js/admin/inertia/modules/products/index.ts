@@ -46,6 +46,9 @@ export const useProductsStore = defineStore(storeName, {
                 ? extendMetaLinksWithComputedData(meta, routesStore.fullUrl)
                 : null
         },
+        async handleDelete(selected: Array<number>): Promise<void> {
+            console.log('---', selected)
+        }
     },
 })
 
