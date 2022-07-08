@@ -156,17 +156,3 @@ export enum RouteTypeEnum {
     referenceFaq = "reference-faq",
     referenceContacts = "reference-contacts",
 }
-
-/**
- * @deprecated use {@link RouteTypeEnum}
- */
-export const routeTypes = {
-    categoriesSub: "categories-sub",
-    categories: "categories",
-    reference: "reference",
-    referenceBrands: "reference-brands",
-    referenceArticles: "reference-articles",
-    referenceServices: "reference-services",
-    referenceFaq: "reference-faq",
-    referenceContacts: "reference-contacts",
-}

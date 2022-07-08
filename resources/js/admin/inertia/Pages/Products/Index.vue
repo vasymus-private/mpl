@@ -9,6 +9,7 @@ import {Inertia} from "@inertiajs/inertia"
 import Option from "@/admin/inertia/modules/common/Option"
 import {ModalType, useModalsStore} from "@/admin/inertia/modules/modals"
 import ProductListItem from "@/admin/inertia/modules/products/ProductListItem"
+import {Link} from "@inertiajs/inertia-vue3"
 
 
 const selectAll = ref(false)
@@ -41,6 +42,15 @@ const deleteProducts = () => {
         productStore.handleDelete(checkedProducts.value)
     }
 }
+const deleteProduct = (product: ProductListItem) => {
+    if (confirm(`Вы уверены, что хотите удалить продукт '${product.id}' '${product.name}' ?`)) {
+        productStore.handleDelete([product.id])
+    }
+}
+const toggleActive = (product: ProductListItem) => {
+    console.log('---product', product)
+}
+
 </script>
 
 <template>
@@ -89,7 +99,36 @@ const deleteProducts = () => {
                             </div>
                         </td>
                         <td>
-
+                            <div class="dropdown">
+                                <button
+                                    class="btn btn__grid-row-action-button dropdown-toggle"
+                                    type="button"
+                                    :id="`actions-dropdown-${product.uuid}`"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                ></button>
+                                <div class="dropdown-menu bx-core-popup-menu" :aria-labelledby="`actions-dropdown-${product.uuid}`">
+                                    <div class="bx-core-popup-menu__arrow"></div>
+                                    <Link class="dropdown-item bx-core-popup-menu-item bx-core-popup-menu-item-default" :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_EDIT, {admin_product: product.id})">
+                                        <span class="bx-core-popup-menu-item-icon adm-menu-edit"></span>
+                                        <span class="bx-core-popup-menu-item-text">Изменить</span>
+                                    </Link>
+                                    <button @click="toggleActive(product)" type="button" class="bx-core-popup-menu-item">
+                                        <span class="bx-core-popup-menu-item-icon"></span>
+                                        <span class="bx-core-popup-menu-item-text"> {{ product.is_active ? 'Деактивировать' : 'Активировать' }}</span>
+                                    </button>
+                                    <span class="bx-core-popup-menu-separator"></span>
+                                    <Link class="bx-core-popup-menu-item" :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_CREATE, {copy_id : product.id})">
+                                        <span class="bx-core-popup-menu-item-icon adm-menu-copy"></span>
+                                        <span class="bx-core-popup-menu-item-text">Копировать</span>
+                                    </Link>
+                                    <span class="bx-core-popup-menu-separator"></span>
+                                    <button @click="deleteProduct(product)" type="button" class="bx-core-popup-menu-item">
+                                        <span class="bx-core-popup-menu-item-icon adm-menu-delete"></span>
+                                        <span class="bx-core-popup-menu-item-text">Удалить</span>
+                                    </button>
+                                </div>
+                            </div>
                         </td>
 
                         <template v-for="sortableColumn in columnsStore.adminProductColumns" :key="sortableColumn.value">

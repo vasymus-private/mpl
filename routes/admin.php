@@ -48,10 +48,24 @@ Route
 ;
 Route
     ::get(
+        "temp-products/create",
+        [ProductsController::class, "createTemp"]
+    )
+    ->name(Constants::ROUTE_ADMIN_PRODUCTS_TEMP_CREATE)
+;
+Route
+    ::get(
         "products/{admin_product}/edit",
         [ProductsController::class, "edit"]
     )
     ->name(Constants::ROUTE_ADMIN_PRODUCTS_EDIT)
+;
+Route
+    ::get(
+        "temp-products/{admin_product}/edit",
+        [ProductsController::class, "editTemp"]
+    )
+    ->name(Constants::ROUTE_ADMIN_PRODUCTS_TEMP_EDIT)
 ;
 
 Route

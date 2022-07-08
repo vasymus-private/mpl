@@ -40,6 +40,18 @@ class ProductsController extends BaseAdminController
         return view("admin.pages.products.product", compact("product"));
     }
 
+    public function createTemp(Request $request)
+    {
+        $inertia = inertia();
+        $inertia->setRootView('admin.layouts.inertia');
+
+        $copyProductFrom = $request->copy_id
+            ? Product::query()->notVariations()->findOrFail($request->copy_id)
+            : null;
+
+        return $inertia->render('Products/Create', compact('copyProductFrom'));
+    }
+
     public function edit(Request $request)
     {
         /** @var \Domain\Products\Models\Product\Product $product */
@@ -47,5 +59,16 @@ class ProductsController extends BaseAdminController
         $product->load(['infoPrices', 'media', 'accessory', 'similar', 'related', 'works', 'instruments']);
 
         return view("admin.pages.products.product", compact("product"));
+    }
+
+    public function editTemp(Request $request)
+    {
+        $inertia = inertia();
+        $inertia->setRootView('admin.layouts.inertia');
+
+        /** @var \Domain\Products\Models\Product\Product $product */
+        $product = $request->admin_product;
+
+        return $inertia->render('Products/Edit', compact('product'));
     }
 }
