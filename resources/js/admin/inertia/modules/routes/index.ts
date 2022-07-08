@@ -87,19 +87,11 @@ export const useRoutesStore = defineStore(storeName, {
     },
 })
 
-export const getRouter = () => route(
-    undefined,
-    undefined,
-    undefined,
-    Ziggy as Config
-)
+export const getRouter = () =>
+    route(undefined, undefined, undefined, Ziggy as Config)
 
-export const getRouteUrl = (name: string) => route(
-    name,
-    undefined,
-    undefined,
-    Ziggy as Config
-)
+export const getRouteUrl = (name: string) =>
+    route(name, undefined, undefined, Ziggy as Config)
 
 export const routeNames = {
     ROUTE_WEB_HOME: "home",
