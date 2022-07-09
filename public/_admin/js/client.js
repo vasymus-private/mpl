@@ -25516,8 +25516,10 @@ __webpack_require__.r(__webpack_exports__);
       return (0,_admin_inertia_modules_products__WEBPACK_IMPORTED_MODULE_3__.isCreatingProductRoute)();
     });
     var title = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
+      var _productsStore$produc;
+
       var base = 'Товары: элемент: ';
-      base += productsStore.isCreatingFromCopy ? 'добавление копированием' : isCreating.value ? 'добавление' : "".concat(productsStore.product.name, " - \u0440\u0435\u0434\u0430\u043A\u0442\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435");
+      base += productsStore.isCreatingFromCopy ? 'добавление копированием' : isCreating.value ? 'добавление' : "".concat((_productsStore$produc = productsStore.product) === null || _productsStore$produc === void 0 ? void 0 : _productsStore$produc.name, " - \u0440\u0435\u0434\u0430\u043A\u0442\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435");
       return base;
     });
 
@@ -26691,6 +26693,8 @@ var _hoisted_30 = [_hoisted_28, _hoisted_29];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["TheLayout"], null, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      var _$setup$productsStore, _$setup$productsStore2, _$setup$productsStore3, _$setup$productsStore4, _$setup$productsStore5, _$setup$productsStore6;
+
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
         href: _ctx.route($setup.routeNames.ROUTE_ADMIN_HOME),
         "class": "breadcrumbs__item"
@@ -26719,7 +26723,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       /* TEXT */
       ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
         href: _ctx.route($setup.routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {
-          'category_id': $setup.productsStore.product.category_id
+          'category_id': (_$setup$productsStore = $setup.productsStore.product) === null || _$setup$productsStore === void 0 ? void 0 : _$setup$productsStore.category_id
         }),
         "class": "detail-toolbar__btn"
       }, {
@@ -26731,16 +26735,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
       }, 8
       /* PROPS */
-      , ["href"]), $setup.productsStore.product.web_route ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
+      , ["href"]), (_$setup$productsStore2 = $setup.productsStore.product) !== null && _$setup$productsStore2 !== void 0 && _$setup$productsStore2.web_route ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
         key: 0,
         "class": "mx-2",
-        href: $setup.productsStore.product.web_route,
+        href: (_$setup$productsStore3 = $setup.productsStore.product) === null || _$setup$productsStore3 === void 0 ? void 0 : _$setup$productsStore3.web_route,
         target: "_blank"
       }, "В магазин", 8
       /* PROPS */
       , _hoisted_12)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), !$setup.isCreating ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
         href: _ctx.route($setup.routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_CREATE, {
-          'copy_id': $setup.productsStore.product.id
+          'copy_id': (_$setup$productsStore4 = $setup.productsStore.product) === null || _$setup$productsStore4 === void 0 ? void 0 : _$setup$productsStore4.id
         }),
         "class": "btn__copy"
       }, {
@@ -26758,13 +26762,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           return $setup.setWithVariations(false);
         }, ["prevent"])),
         href: "#"
-      }, [!$setup.productsStore.product.is_with_variations ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_18)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_19]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+      }, [!((_$setup$productsStore5 = $setup.productsStore.product) !== null && _$setup$productsStore5 !== void 0 && _$setup$productsStore5.is_with_variations) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_18)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_19]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
         "class": "dropdown-item",
         onClick: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
           return $setup.setWithVariations(true);
         }, ["prevent"])),
         href: "#"
-      }, [$setup.productsStore.product.is_with_variations ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_20)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_21])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
+      }, [(_$setup$productsStore6 = $setup.productsStore.product) !== null && _$setup$productsStore6 !== void 0 && _$setup$productsStore6.is_with_variations ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_20)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_21])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
         "class": "dropdown-item",
         href: _ctx.route($setup.routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_CREATE)
       }, {
@@ -29155,7 +29159,12 @@ var useProductsStore = (0,pinia__WEBPACK_IMPORTED_MODULE_4__.defineStore)(storeN
     },
     isCreatingFromCopy: function isCreatingFromCopy() {
       var routesStore = (0,_admin_inertia_modules_routes__WEBPACK_IMPORTED_MODULE_2__.useRoutesStore)();
-      return !!new URL(routesStore.fullUrl).searchParams.get('copy_id') && isCreatingProductRoute() && !!this.originProduct;
+
+      if (!routesStore.fullUrl) {
+        return false;
+      }
+
+      return !!new URL(routesStore.fullUrl).searchParams.get("copy_id") && isCreatingProductRoute() && !!this.originProduct;
     }
   },
   actions: {
@@ -29175,6 +29184,7 @@ var useProductsStore = (0,pinia__WEBPACK_IMPORTED_MODULE_4__.defineStore)(storeN
     updateProduct: function updateProduct(update) {
       for (var key in update) {
         this._product.entity[key] = update[key];
+        console.log(key, this._product.entity, this._product.entity[key], update[key]);
       }
     },
     setOriginProduct: function setOriginProduct(product) {
@@ -29206,11 +29216,13 @@ var useProductsStore = (0,pinia__WEBPACK_IMPORTED_MODULE_4__.defineStore)(storeN
                 _this._product.loading = true;
                 _context2.prev = 1;
                 _context2.next = 4;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default().put((0,_admin_inertia_modules_routes__WEBPACK_IMPORTED_MODULE_2__.getRouteUrl)(_admin_inertia_modules_routes__WEBPACK_IMPORTED_MODULE_2__.routeNames.ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE), productRequest);
+                return axios__WEBPACK_IMPORTED_MODULE_3___default().put((0,_admin_inertia_modules_routes__WEBPACK_IMPORTED_MODULE_2__.getRouteUrl)(_admin_inertia_modules_routes__WEBPACK_IMPORTED_MODULE_2__.routeNames.ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE, {
+                  admin_product: _this._product.entity.id
+                }), productRequest);
 
               case 4:
                 _yield$axios$put = _context2.sent;
-                productUpdate = _yield$axios$put.data;
+                productUpdate = _yield$axios$put.data.data;
 
                 _this.updateProduct(productUpdate);
 
@@ -29384,15 +29396,15 @@ var useRoutesStore = (0,pinia__WEBPACK_IMPORTED_MODULE_3__.defineStore)(storeNam
 var _router;
 
 var getRouter = function getRouter() {
-  if (typeof _router !== 'undefined') {
+  if (typeof _router !== "undefined") {
     return _router;
   }
 
   _router = ziggy_js__WEBPACK_IMPORTED_MODULE_1___default()(undefined, undefined, undefined, _helpers_ziggy__WEBPACK_IMPORTED_MODULE_2__.Ziggy);
   return _router;
 };
-var getRouteUrl = function getRouteUrl(name) {
-  return ziggy_js__WEBPACK_IMPORTED_MODULE_1___default()(name, undefined, undefined, _helpers_ziggy__WEBPACK_IMPORTED_MODULE_2__.Ziggy);
+var getRouteUrl = function getRouteUrl(name, params) {
+  return ziggy_js__WEBPACK_IMPORTED_MODULE_1___default()(name, params, undefined, _helpers_ziggy__WEBPACK_IMPORTED_MODULE_2__.Ziggy);
 };
 var routeNames = {
   ROUTE_WEB_HOME: "home",
@@ -29513,330 +29525,330 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Ziggy": () => (/* binding */ Ziggy)
 /* harmony export */ });
 var Ziggy = {
-  "url": "http:\/\/mpl.localhost",
-  "port": null,
-  "defaults": {},
-  "routes": {
+  url: "http://mpl.localhost",
+  port: null,
+  defaults: {},
+  routes: {
     "debugbar.openhandler": {
-      "uri": "_debugbar\/open",
-      "methods": ["GET", "HEAD"]
+      uri: "_debugbar/open",
+      methods: ["GET", "HEAD"]
     },
     "debugbar.clockwork": {
-      "uri": "_debugbar\/clockwork\/{id}",
-      "methods": ["GET", "HEAD"]
+      uri: "_debugbar/clockwork/{id}",
+      methods: ["GET", "HEAD"]
     },
     "debugbar.assets.css": {
-      "uri": "_debugbar\/assets\/stylesheets",
-      "methods": ["GET", "HEAD"]
+      uri: "_debugbar/assets/stylesheets",
+      methods: ["GET", "HEAD"]
     },
     "debugbar.assets.js": {
-      "uri": "_debugbar\/assets\/javascript",
-      "methods": ["GET", "HEAD"]
+      uri: "_debugbar/assets/javascript",
+      methods: ["GET", "HEAD"]
     },
     "debugbar.cache.delete": {
-      "uri": "_debugbar\/cache\/{key}\/{tags?}",
-      "methods": ["DELETE"]
+      uri: "_debugbar/cache/{key}/{tags?}",
+      methods: ["DELETE"]
     },
     "livewire.message": {
-      "uri": "livewire\/message\/{name}",
-      "methods": ["POST"]
+      uri: "livewire/message/{name}",
+      methods: ["POST"]
     },
     "livewire.upload-file": {
-      "uri": "livewire\/upload-file",
-      "methods": ["POST"]
+      uri: "livewire/upload-file",
+      methods: ["POST"]
     },
     "livewire.preview-file": {
-      "uri": "livewire\/preview-file\/{filename}",
-      "methods": ["GET", "HEAD"]
+      uri: "livewire/preview-file/{filename}",
+      methods: ["GET", "HEAD"]
     },
     "admin.home": {
-      "uri": "admin\/home",
-      "methods": ["GET", "HEAD"]
+      uri: "admin/home",
+      methods: ["GET", "HEAD"]
     },
     "admin.media": {
-      "uri": "admin\/media\/{id}\/{name?}",
-      "methods": ["GET", "HEAD"]
+      uri: "admin/media/{id}/{name?}",
+      methods: ["GET", "HEAD"]
     },
     "admin.products.index": {
-      "uri": "admin\/products",
-      "methods": ["GET", "HEAD"]
+      uri: "admin/products",
+      methods: ["GET", "HEAD"]
     },
     "admin.products.temp.index": {
-      "uri": "admin\/temp-products",
-      "methods": ["GET", "HEAD"]
+      uri: "admin/temp-products",
+      methods: ["GET", "HEAD"]
     },
     "admin.products.create": {
-      "uri": "admin\/products\/create",
-      "methods": ["GET", "HEAD"]
+      uri: "admin/products/create",
+      methods: ["GET", "HEAD"]
     },
     "admin.products.temp.create": {
-      "uri": "admin\/temp-products\/create",
-      "methods": ["GET", "HEAD"]
+      uri: "admin/temp-products/create",
+      methods: ["GET", "HEAD"]
     },
     "admin.products.edit": {
-      "uri": "admin\/products\/{admin_product}\/edit",
-      "methods": ["GET", "HEAD"]
+      uri: "admin/products/{admin_product}/edit",
+      methods: ["GET", "HEAD"]
     },
     "admin.products.temp.edit": {
-      "uri": "admin\/temp-products\/{admin_product}\/edit",
-      "methods": ["GET", "HEAD"]
+      uri: "admin/temp-products/{admin_product}/edit",
+      methods: ["GET", "HEAD"]
     },
     "admin.categories.index": {
-      "uri": "admin\/categories",
-      "methods": ["GET", "HEAD"]
+      uri: "admin/categories",
+      methods: ["GET", "HEAD"]
     },
     "admin.categories.create": {
-      "uri": "admin\/categories\/create",
-      "methods": ["GET", "HEAD"]
+      uri: "admin/categories/create",
+      methods: ["GET", "HEAD"]
     },
     "admin.categories.edit": {
-      "uri": "admin\/categories\/{admin_category}\/edit",
-      "methods": ["GET", "HEAD"]
+      uri: "admin/categories/{admin_category}/edit",
+      methods: ["GET", "HEAD"]
     },
     "admin.brands.index": {
-      "uri": "admin\/brands",
-      "methods": ["GET", "HEAD"]
+      uri: "admin/brands",
+      methods: ["GET", "HEAD"]
     },
     "admin.brands.create": {
-      "uri": "admin\/brands\/create",
-      "methods": ["GET", "HEAD"]
+      uri: "admin/brands/create",
+      methods: ["GET", "HEAD"]
     },
     "admin.brands.edit": {
-      "uri": "admin\/brands\/{admin_brand}\/edit",
-      "methods": ["GET", "HEAD"]
+      uri: "admin/brands/{admin_brand}/edit",
+      methods: ["GET", "HEAD"]
     },
     "admin.orders.index": {
-      "uri": "admin\/orders",
-      "methods": ["GET", "HEAD"]
+      uri: "admin/orders",
+      methods: ["GET", "HEAD"]
     },
     "admin.orders.create": {
-      "uri": "admin\/orders\/create",
-      "methods": ["GET", "HEAD"]
+      uri: "admin/orders/create",
+      methods: ["GET", "HEAD"]
     },
     "admin.orders.edit": {
-      "uri": "admin\/orders\/{admin_order}\/edit",
-      "methods": ["GET", "HEAD"]
+      uri: "admin/orders/{admin_order}/edit",
+      methods: ["GET", "HEAD"]
     },
     "admin.export-products.index": {
-      "uri": "admin\/export-products",
-      "methods": ["GET", "HEAD"]
+      uri: "admin/export-products",
+      methods: ["GET", "HEAD"]
     },
     "admin.export-products.show": {
-      "uri": "admin\/export-products\/{id}",
-      "methods": ["GET", "HEAD"]
+      uri: "admin/export-products/{id}",
+      methods: ["GET", "HEAD"]
     },
     "admin.export-products.store": {
-      "uri": "admin\/export-products",
-      "methods": ["POST"]
+      uri: "admin/export-products",
+      methods: ["POST"]
     },
     "admin.export-products.delete": {
-      "uri": "admin\/export-products\/{id}",
-      "methods": ["DELETE"]
+      uri: "admin/export-products/{id}",
+      methods: ["DELETE"]
     },
     "admin.articles.index": {
-      "uri": "admin\/articles",
-      "methods": ["GET", "HEAD"]
+      uri: "admin/articles",
+      methods: ["GET", "HEAD"]
     },
     "admin.services.index": {
-      "uri": "admin\/services",
-      "methods": ["GET", "HEAD"]
+      uri: "admin/services",
+      methods: ["GET", "HEAD"]
     },
     "admin-ajax.profile.update": {
-      "uri": "admin-ajax\/profiles\/{admin}",
-      "methods": ["PUT"]
+      uri: "admin-ajax/profiles/{admin}",
+      methods: ["PUT"]
     },
     "admin-ajax.show-order-busy": {
-      "uri": "admin-ajax\/show-order-busy",
-      "methods": ["POST"]
+      uri: "admin-ajax/show-order-busy",
+      methods: ["POST"]
     },
     "admin-ajax.ping-order-busy": {
-      "uri": "admin-ajax\/ping-order-busy\/{id}",
-      "methods": ["POST"]
+      uri: "admin-ajax/ping-order-busy/{id}",
+      methods: ["POST"]
     },
     "admin-ajax.products.update": {
-      "uri": "admin-ajax\/product\/{admin_product}",
-      "methods": ["PUT"]
+      uri: "admin-ajax/product/{admin_product}",
+      methods: ["PUT"]
     },
     "admin-ajax.sort-columns": {
-      "uri": "admin-ajax\/sort-columns",
-      "methods": ["PUT"]
+      uri: "admin-ajax/sort-columns",
+      methods: ["PUT"]
     },
-    "test": {
-      "uri": "---test\/{id?}\/{hash?}",
-      "methods": ["GET", "HEAD"]
+    test: {
+      uri: "---test/{id?}/{hash?}",
+      methods: ["GET", "HEAD"]
     },
-    "login": {
-      "uri": "login",
-      "methods": ["GET", "HEAD"]
+    login: {
+      uri: "login",
+      methods: ["GET", "HEAD"]
     },
-    "logout": {
-      "uri": "logout",
-      "methods": ["POST"]
+    logout: {
+      uri: "logout",
+      methods: ["POST"]
     },
     "password.request": {
-      "uri": "password\/reset",
-      "methods": ["GET", "HEAD"]
+      uri: "password/reset",
+      methods: ["GET", "HEAD"]
     },
     "password.email": {
-      "uri": "password\/email",
-      "methods": ["POST"]
+      uri: "password/email",
+      methods: ["POST"]
     },
     "password.reset": {
-      "uri": "password\/reset\/{token}",
-      "methods": ["GET", "HEAD"]
+      uri: "password/reset/{token}",
+      methods: ["GET", "HEAD"]
     },
     "password.update": {
-      "uri": "password\/reset",
-      "methods": ["POST"]
+      uri: "password/reset",
+      methods: ["POST"]
     },
     "product.show.1": {
-      "uri": "catalog\/{category_slug}\/{product_slug}.html",
-      "methods": ["GET", "HEAD"]
+      uri: "catalog/{category_slug}/{product_slug}.html",
+      methods: ["GET", "HEAD"]
     },
     "product.show.2": {
-      "uri": "catalog\/{category_slug}\/{subcategory1_slug}\/{product_slug}.html",
-      "methods": ["GET", "HEAD"]
+      uri: "catalog/{category_slug}/{subcategory1_slug}/{product_slug}.html",
+      methods: ["GET", "HEAD"]
     },
     "product.show.3": {
-      "uri": "catalog\/{category_slug}\/{subcategory1_slug}\/{subcategory2_slug}\/{product_slug}.html",
-      "methods": ["GET", "HEAD"]
+      uri: "catalog/{category_slug}/{subcategory1_slug}/{subcategory2_slug}/{product_slug}.html",
+      methods: ["GET", "HEAD"]
     },
     "product.show.4": {
-      "uri": "catalog\/{category_slug}\/{subcategory1_slug}\/{subcategory2_slug}\/{subcategory3_slug}\/{product_slug}.html",
-      "methods": ["GET", "HEAD"]
+      uri: "catalog/{category_slug}/{subcategory1_slug}/{subcategory2_slug}/{subcategory3_slug}/{product_slug}.html",
+      methods: ["GET", "HEAD"]
     },
     "products.index": {
-      "uri": "catalog\/{category_slug?}\/{subcategory1_slug?}\/{subcategory2_slug?}\/{subcategory3_slug?}",
-      "methods": ["GET", "HEAD"]
+      uri: "catalog/{category_slug?}/{subcategory1_slug?}/{subcategory2_slug?}/{subcategory3_slug?}",
+      methods: ["GET", "HEAD"]
     },
     "brands.index": {
-      "uri": "brands",
-      "methods": ["GET", "HEAD"]
+      uri: "brands",
+      methods: ["GET", "HEAD"]
     },
     "brands.show": {
-      "uri": "brands\/{brand_slug}.html",
-      "methods": ["GET", "HEAD"]
+      uri: "brands/{brand_slug}.html",
+      methods: ["GET", "HEAD"]
     },
     "gallery.items.index": {
-      "uri": "photos",
-      "methods": ["GET", "HEAD"]
+      uri: "photos",
+      methods: ["GET", "HEAD"]
     },
     "gallery.items.show": {
-      "uri": "photos\/{parentGalleryItemSlug}",
-      "methods": ["GET", "HEAD"]
+      uri: "photos/{parentGalleryItemSlug}",
+      methods: ["GET", "HEAD"]
     },
     "articles.show": {
-      "uri": "articles\/{article_slug}\/{subarticle_slug?}",
-      "methods": ["GET", "HEAD"]
+      uri: "articles/{article_slug}/{subarticle_slug?}",
+      methods: ["GET", "HEAD"]
     },
     "faq.index": {
-      "uri": "faq",
-      "methods": ["GET", "HEAD"]
+      uri: "faq",
+      methods: ["GET", "HEAD"]
     },
     "faq.show": {
-      "uri": "faq\/{faq_slug}",
-      "methods": ["GET", "HEAD"]
+      uri: "faq/{faq_slug}",
+      methods: ["GET", "HEAD"]
     },
-    "ask": {
-      "uri": "ask",
-      "methods": ["GET", "HEAD"]
+    ask: {
+      uri: "ask",
+      methods: ["GET", "HEAD"]
     },
     "videos.index": {
-      "uri": "videos",
-      "methods": ["GET", "HEAD"]
+      uri: "videos",
+      methods: ["GET", "HEAD"]
     },
-    "howto": {
-      "uri": "howto",
-      "methods": ["GET", "HEAD"]
+    howto: {
+      uri: "howto",
+      methods: ["GET", "HEAD"]
     },
-    "delivery": {
-      "uri": "delivery",
-      "methods": ["GET", "HEAD"]
+    delivery: {
+      uri: "delivery",
+      methods: ["GET", "HEAD"]
     },
     "return": {
-      "uri": "return",
-      "methods": ["GET", "HEAD"]
+      uri: "return",
+      methods: ["GET", "HEAD"]
     },
-    "contacts": {
-      "uri": "contacts",
-      "methods": ["GET", "HEAD"]
+    contacts: {
+      uri: "contacts",
+      methods: ["GET", "HEAD"]
     },
-    "viewed": {
-      "uri": "viewed",
-      "methods": ["GET", "HEAD"]
+    viewed: {
+      uri: "viewed",
+      methods: ["GET", "HEAD"]
     },
-    "aside": {
-      "uri": "aside",
-      "methods": ["GET", "HEAD"]
+    aside: {
+      uri: "aside",
+      methods: ["GET", "HEAD"]
     },
     "cart.show": {
-      "uri": "cart",
-      "methods": ["GET", "HEAD"]
+      uri: "cart",
+      methods: ["GET", "HEAD"]
     },
     "cart.success": {
-      "uri": "cart-success\/{order_id}",
-      "methods": ["GET", "HEAD"]
+      uri: "cart-success/{order_id}",
+      methods: ["GET", "HEAD"]
     },
     "cart.checkout": {
-      "uri": "cart-checkout",
-      "methods": ["POST"]
+      uri: "cart-checkout",
+      methods: ["POST"]
     },
-    "profile": {
-      "uri": "profile",
-      "methods": ["GET", "HEAD"]
+    profile: {
+      uri: "profile",
+      methods: ["GET", "HEAD"]
     },
     "orders.show": {
-      "uri": "orders\/{id}",
-      "methods": ["GET", "HEAD"]
+      uri: "orders/{id}",
+      methods: ["GET", "HEAD"]
     },
     "profile.identify": {
-      "uri": "profile-identify\/{id}\/{email}\/{hash}",
-      "methods": ["GET", "HEAD"]
+      uri: "profile-identify/{id}/{email}/{hash}",
+      methods: ["GET", "HEAD"]
     },
-    "media": {
-      "uri": "media\/{id}\/{name?}",
-      "methods": ["GET", "HEAD"]
+    media: {
+      uri: "media/{id}/{name?}",
+      methods: ["GET", "HEAD"]
     },
     "services.show": {
-      "uri": "{service_slug}",
-      "methods": ["GET", "HEAD"]
+      uri: "{service_slug}",
+      methods: ["GET", "HEAD"]
     },
-    "home": {
-      "uri": "\/",
-      "methods": ["GET", "HEAD"]
+    home: {
+      uri: "/",
+      methods: ["GET", "HEAD"]
     },
     "ajax.products.aside.store": {
-      "uri": "ajax\/products\/aside",
-      "methods": ["POST"]
+      uri: "ajax/products/aside",
+      methods: ["POST"]
     },
     "ajax.products.aside.delete": {
-      "uri": "ajax\/products\/aside",
-      "methods": ["DELETE"]
+      uri: "ajax/products/aside",
+      methods: ["DELETE"]
     },
     "ajax.products.cart.index": {
-      "uri": "ajax\/products\/cart",
-      "methods": ["GET", "HEAD"]
+      uri: "ajax/products/cart",
+      methods: ["GET", "HEAD"]
     },
     "ajax.products.cart.store": {
-      "uri": "ajax\/products\/cart",
-      "methods": ["POST"]
+      uri: "ajax/products/cart",
+      methods: ["POST"]
     },
     "ajax.products.cart.update": {
-      "uri": "ajax\/products\/cart",
-      "methods": ["PUT"]
+      uri: "ajax/products/cart",
+      methods: ["PUT"]
     },
     "ajax.products.cart.delete": {
-      "uri": "ajax\/products\/cart",
-      "methods": ["DELETE"]
+      uri: "ajax/products/cart",
+      methods: ["DELETE"]
     },
     "ajax.orders.update": {
-      "uri": "ajax\/orders\/{id}",
-      "methods": ["POST"]
+      uri: "ajax/orders/{id}",
+      methods: ["POST"]
     }
   }
 };
 
-if (typeof window !== 'undefined' && typeof window.Ziggy !== 'undefined') {
+if (typeof window !== "undefined" && typeof window.Ziggy !== "undefined") {
   Object.assign(Ziggy.routes, window.Ziggy.routes);
 }
 

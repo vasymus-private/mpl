@@ -51,6 +51,9 @@ export const useProductsStore = defineStore(storeName, {
         originProduct: (state): Product | null => state._originProduct,
         isCreatingFromCopy(): boolean {
             const routesStore = useRoutesStore()
+            if (!routesStore.fullUrl) {
+                return false
+            }
 
             return (
                 !!new URL(routesStore.fullUrl).searchParams.get("copy_id") &&
@@ -78,6 +81,7 @@ export const useProductsStore = defineStore(storeName, {
         updateProduct(update: ProductUpdate): void {
             for (let key in update) {
                 this._product.entity[key] = update[key]
+                console.log(key, this._product.entity, this._product.entity[key], update[key])
             }
         },
         setOriginProduct(product: Product | null): void {
@@ -91,10 +95,11 @@ export const useProductsStore = defineStore(storeName, {
         ): Promise<void> {
             this._product.loading = true
             try {
-                const { data: productUpdate } =
+                const { data: {data: productUpdate} } =
                     await axios.put<ProductUpdateResponse>(
                         getRouteUrl(
-                            routeNames.ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE
+                            routeNames.ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE,
+                            {admin_product: this._product.entity.id}
                         ),
                         productRequest
                     )

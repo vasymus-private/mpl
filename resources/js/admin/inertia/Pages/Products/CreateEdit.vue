@@ -16,7 +16,7 @@ const title = computed(() => {
             ? 'добавление копированием'
             : (isCreating.value
                 ? 'добавление'
-                : `${productsStore.product.name} - редактирование`)
+                : `${productsStore.product?.name} - редактирование`)
     )
 
     return base
@@ -53,17 +53,17 @@ const setWithVariations = (is_with_variations: boolean) => {
             <div class="detail-toolbar">
                 <div class="row d-flex align-items-center">
                     <div class="d-flex align-items-center col-sm-5">
-                        <Link :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {'category_id' : productsStore.product.category_id})" class="detail-toolbar__btn">
+                        <Link :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {'category_id' : productsStore.product?.category_id})" class="detail-toolbar__btn">
                             <span class="detail-toolbar__btn-l"></span>
                             <span class="detail-toolbar__btn-text">Товары</span>
                             <span class="detail-toolbar__btn-r"></span>
                         </Link>
 
-                        <a v-if="productsStore.product.web_route" class="mx-2" :href="productsStore.product.web_route" target="_blank">В магазин</a>
+                        <a v-if="productsStore.product?.web_route" class="mx-2" :href="productsStore.product?.web_route" target="_blank">В магазин</a>
                     </div>
 
                     <div v-if="!isCreating" class="col-sm-7 d-flex align-items-center justify-content-end">
-                        <Link :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_CREATE, {'copy_id' : productsStore.product.id})" class="btn__copy">Копировать</Link>
+                        <Link :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_CREATE, {'copy_id' : productsStore.product?.id})" class="btn__copy">Копировать</Link>
                         <div class="dropdown">
                             <button
                                 class="btn btn-secondary dropdown-toggle btn__dropdown"
@@ -74,11 +74,11 @@ const setWithVariations = (is_with_variations: boolean) => {
                             >Параметры товара</button>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="actions-dropdown-variations">
                                 <a class="dropdown-item" @click.prevent="setWithVariations(false)" href="#">
-                                    <i v-if="!productsStore.product.is_with_variations" class="fa fa-check" aria-hidden="true"></i>
+                                    <i v-if="!productsStore.product?.is_with_variations" class="fa fa-check" aria-hidden="true"></i>
                                     Товар без вариантов
                                 </a>
                                 <a class="dropdown-item" @click.prevent="setWithVariations(true)" href="#">
-                                    <i v-if="productsStore.product.is_with_variations" class="fa fa-check" aria-hidden="true"></i>
+                                    <i v-if="productsStore.product?.is_with_variations" class="fa fa-check" aria-hidden="true"></i>
                                     Товар с вариантами
                                 </a>
                             </div>

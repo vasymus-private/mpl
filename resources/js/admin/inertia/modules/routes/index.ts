@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 import { useCategoriesTreeStore } from "@/admin/inertia/modules/categoriesTree"
-import route, { Config, RouteParam, Router } from "ziggy-js"
+import route, {Config, RouteParam, RouteParamsWithQueryOverload, Router} from "ziggy-js"
 import { Ziggy } from "@/helpers/ziggy"
 
 export const storeName = "routes"
@@ -98,8 +98,8 @@ export const getRouter = () => {
     return _router
 }
 
-export const getRouteUrl = (name: string) =>
-    route(name, undefined, undefined, Ziggy as Config)
+export const getRouteUrl = (name: string, params?: RouteParamsWithQueryOverload | RouteParam) =>
+    route(name, params, undefined, Ziggy as Config)
 
 export const routeNames = {
     ROUTE_WEB_HOME: "home",
