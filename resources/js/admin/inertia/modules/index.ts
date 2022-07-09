@@ -30,7 +30,7 @@ import { useCharsStore } from "@/admin/inertia/modules/chars"
 import Links from "@/admin/inertia/modules/common/Links"
 import Meta from "@/admin/inertia/modules/common/Meta"
 import { useRoutesStore } from "@/admin/inertia/modules/routes"
-import Product from "@/admin/inertia/modules/products/Product";
+import Product from "@/admin/inertia/modules/products/Product"
 
 interface InitialPageProps {
     fullUrl: string
