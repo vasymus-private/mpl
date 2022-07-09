@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 import { useCategoriesTreeStore } from "@/admin/inertia/modules/categoriesTree"
-import route, {Config, RouteParam, Router} from "ziggy-js"
+import route, { Config, RouteParam, Router } from "ziggy-js"
 import { Ziggy } from "@/helpers/ziggy"
 
 export const storeName = "routes"
@@ -78,7 +78,7 @@ export const useRoutesStore = defineStore(storeName, {
                         return false
                     }
                 }
-            }
+            },
     },
     actions: {
         setFullUrl(fullUrl: string | null): void {
@@ -89,7 +89,7 @@ export const useRoutesStore = defineStore(storeName, {
 
 let _router: Router
 export const getRouter = () => {
-    if (typeof _router !== 'undefined') {
+    if (typeof _router !== "undefined") {
         return _router
     }
 
@@ -97,7 +97,6 @@ export const getRouter = () => {
 
     return _router
 }
-
 
 export const getRouteUrl = (name: string) =>
     route(name, undefined, undefined, Ziggy as Config)

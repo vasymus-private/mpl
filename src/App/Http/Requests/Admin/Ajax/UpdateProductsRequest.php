@@ -8,7 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * @property string|null $name
  * @property string|null $slug
  * @property number|null $ordering
- * @property boolean|null $is_active
+ * @property bool|null $is_active
  * @property string|null $unit
  * @property number|null $price_purchase
  * @property number|null $price_purchase_currency_id
@@ -19,10 +19,10 @@ use Illuminate\Foundation\Http\FormRequest;
  * @property number|null $parent_id
  * @property number|null $brand_id
  * @property number|null $category_id
- * @property boolean|null $is_with_variations
+ * @property bool|null $is_with_variations
  * @property number|null $coefficient
  * @property string|null $coefficient_description
- * @property boolean|null $coefficient_description_show
+ * @property bool|null $coefficient_description_show
  * @property string|null $coefficient_variation_description
  * @property string|null $price_name
  * @property string|null $preview

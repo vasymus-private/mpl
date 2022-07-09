@@ -8,7 +8,6 @@ import { initFromPageProps } from "@/admin/inertia/modules"
 import "bootstrap"
 import { Inertia } from "@inertiajs/inertia"
 
-
 const pinia = createPinia()
 Inertia.on("navigate", (event) => {
     initFromPageProps(pinia, event.detail.page.props)
