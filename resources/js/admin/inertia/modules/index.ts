@@ -30,6 +30,7 @@ import { useCharsStore } from "@/admin/inertia/modules/chars"
 import Links from "@/admin/inertia/modules/common/Links"
 import Meta from "@/admin/inertia/modules/common/Meta"
 import { useRoutesStore } from "@/admin/inertia/modules/routes"
+import Product from "@/admin/inertia/modules/products/Product";
 
 interface InitialPageProps {
     fullUrl: string
@@ -54,6 +55,8 @@ interface InitialPageProps {
         links: Links
         meta: Meta
     }
+    product?: Product
+    originProduct?: Product
 }
 
 /**
@@ -84,6 +87,8 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
             links: productListItemsLinks = null,
             meta: productListItemsMeta = null,
         } = {},
+        product = null,
+        originProduct = null,
     } = initialPageProps as InitialPageProps
 
     // todo dev only
@@ -119,6 +124,8 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
     productsStore.setProductListItems(productListItemsData)
     productsStore.setLinks(productListItemsLinks)
     productsStore.setMeta(productListItemsMeta)
+    productsStore.setProduct(product)
+    productsStore.setOriginProduct(originProduct)
 
     const availabilityStatusesStore = useAvailabilityStatusesStore(pinia)
     availabilityStatusesStore.setEntities(availabilityStatusesData)

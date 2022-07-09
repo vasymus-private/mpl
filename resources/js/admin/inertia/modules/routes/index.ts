@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 import { useCategoriesTreeStore } from "@/admin/inertia/modules/categoriesTree"
-import route, { Config, RouteParam } from "ziggy-js"
+import route, {Config, RouteParam, Router} from "ziggy-js"
 import { Ziggy } from "@/helpers/ziggy"
 
 export const storeName = "routes"
@@ -78,7 +78,7 @@ export const useRoutesStore = defineStore(storeName, {
                         return false
                     }
                 }
-            },
+            }
     },
     actions: {
         setFullUrl(fullUrl: string | null): void {
@@ -87,8 +87,17 @@ export const useRoutesStore = defineStore(storeName, {
     },
 })
 
-export const getRouter = () =>
-    route(undefined, undefined, undefined, Ziggy as Config)
+let _router: Router
+export const getRouter = () => {
+    if (typeof _router !== 'undefined') {
+        return _router
+    }
+
+    _router = route(undefined, undefined, undefined, Ziggy as Config)
+
+    return _router
+}
+
 
 export const getRouteUrl = (name: string) =>
     route(name, undefined, undefined, Ziggy as Config)
@@ -133,6 +142,7 @@ export const routeNames = {
     ROUTE_ADMIN_EXPORT_PRODUCTS_STORE: "admin.export-products.store",
     ROUTE_ADMIN_EXPORT_PRODUCTS_DELETE: "admin.export-products.delete",
 
+    ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE: "admin-ajax.products.update",
     ROUTE_ADMIN_AJAX_SORT_COLUMNS: "admin-ajax.sort-columns",
 }
 

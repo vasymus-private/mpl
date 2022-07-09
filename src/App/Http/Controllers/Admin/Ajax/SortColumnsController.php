@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Ajax\Product;
+namespace App\Http\Controllers\Admin\Ajax;
 
 use App\Http\Controllers\Admin\BaseAdminController;
 use Domain\Common\Enums\Column;

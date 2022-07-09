@@ -4,7 +4,11 @@ import Links from "@/admin/inertia/modules/common/Links"
 import Meta from "@/admin/inertia/modules/common/Meta"
 import Option from "@/admin/inertia/modules/common/Option"
 import { extendMetaLinksWithComputedData } from "@/admin/inertia/modules/common"
-import { useRoutesStore } from "@/admin/inertia/modules/routes"
+import {getRouter, getRouteUrl, routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
+import Product from "@/admin/inertia/modules/products/Product"
+import StoreOrUpdateProductRequest from "@/admin/inertia/modules/products/StoreOrUpdateProductRequest"
+import axios from "axios"
+import ProductUpdateResponse, {ProductUpdate} from "@/admin/inertia/modules/products/ProductUpdateResponse"
 
 export const storeName = "products"
 
@@ -13,11 +17,15 @@ export const useProductsStore = defineStore(storeName, {
         _productListItems: Array<ProductListItem>
         _links: Links | null
         _meta: Meta | null
+        _product: {entity: Product | null, loading: boolean}
+        _originProduct: Product | null
     } => {
         return {
             _productListItems: [],
             _links: null,
             _meta: null,
+            _product: { entity: null, loading: false },
+            _originProduct: null,
         }
     },
     getters: {
@@ -32,6 +40,13 @@ export const useProductsStore = defineStore(storeName, {
                       label: `${state._meta.per_page}`,
                   }
                 : null,
+        product: (state): Product|null => state._product.entity,
+        originProduct: (state): Product|null => state._originProduct,
+        isCreatingFromCopy (): boolean {
+            const routesStore = useRoutesStore()
+
+            return !!(new URL(routesStore.fullUrl).searchParams.get('copy_id')) && isCreatingProductRoute() && !!this.originProduct
+        },
     },
     actions: {
         setProductListItems(productListItems: Array<ProductListItem>): void {
@@ -45,6 +60,35 @@ export const useProductsStore = defineStore(storeName, {
             this._meta = meta
                 ? extendMetaLinksWithComputedData(meta, routesStore.fullUrl)
                 : null
+        },
+        setProduct(product: Product|null): void {
+            this._product.entity = product
+        },
+        updateProduct(update: ProductUpdate): void {
+            for (let key in update) {
+                this._product.entity[key] = update[key]
+            }
+        },
+        setOriginProduct(product: Product|null): void {
+           this._originProduct = product
+        },
+        async handleCreate(productRequest: StoreOrUpdateProductRequest): Promise<void> {
+
+        },
+        async handleUpdate(productRequest: StoreOrUpdateProductRequest): Promise<void> {
+            this._product.loading = true
+            try {
+                const {data: productUpdate} = await axios.put<ProductUpdateResponse>(
+                    getRouteUrl(routeNames.ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE),
+                    productRequest
+                )
+
+                this.updateProduct(productUpdate)
+            } catch (e) {
+                console.warn(e)
+            } finally {
+                this._product.loading = false
+            }
         },
         async handleDelete(selected: Array<number>): Promise<void> {
             console.log("---", selected)
@@ -60,3 +104,9 @@ export const getPerPageOptions = (): Array<Option> =>
         value: page,
         label: `${page}`,
     }))
+
+export const isCreatingProductRoute = (): boolean => {
+    const router = getRouter()
+
+    return [routeNames.ROUTE_ADMIN_PRODUCTS_CREATE, routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_CREATE].includes(router.current())
+}

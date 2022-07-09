@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Resources\Admin\ProductListItemResource;
+use App\Http\Resources\Admin\ProductResource;
 use Domain\Products\Models\Product\Product;
 use Domain\Products\QueryBuilders\ProductQueryBuilder;
 use Illuminate\Http\Request;
@@ -45,11 +46,11 @@ class ProductsController extends BaseAdminController
         $inertia = inertia();
         $inertia->setRootView('admin.layouts.inertia');
 
-        $copyProductFrom = $request->copy_id
+        $originProduct = $request->copy_id
             ? Product::query()->notVariations()->findOrFail($request->copy_id)
             : null;
 
-        return $inertia->render('Products/Create', compact('copyProductFrom'));
+        return $inertia->render('Products/CreateEdit', compact('originProduct'));
     }
 
     public function edit(Request $request)
@@ -69,6 +70,8 @@ class ProductsController extends BaseAdminController
         /** @var \Domain\Products\Models\Product\Product $product */
         $product = $request->admin_product;
 
-        return $inertia->render('Products/Edit', compact('product'));
+        return $inertia->render('Products/CreateEdit', [
+            'product' => (new ProductResource($product))->toArray($request),
+        ]);
     }
 }
