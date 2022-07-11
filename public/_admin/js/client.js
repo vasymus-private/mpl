@@ -25500,6 +25500,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _admin_inertia_modules_routes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/admin/inertia/modules/routes */ "./resources/js/admin/inertia/modules/routes/index.ts");
 /* harmony import */ var _admin_inertia_modules_products__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/admin/inertia/modules/products */ "./resources/js/admin/inertia/modules/products/index.ts");
 /* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
+/* harmony import */ var _admin_inertia_modules_products_Tabs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/admin/inertia/modules/products/Tabs */ "./resources/js/admin/inertia/modules/products/Tabs.ts");
+
 
 
 
@@ -25543,7 +25545,8 @@ __webpack_require__.r(__webpack_exports__);
       setWithVariations: setWithVariations,
       TheLayout: _admin_inertia_shared_layout_TheLayout_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
       routeNames: _admin_inertia_modules_routes__WEBPACK_IMPORTED_MODULE_2__.routeNames,
-      Link: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_4__.Link
+      Link: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_4__.Link,
+      TabEnum: _admin_inertia_modules_products_Tabs__WEBPACK_IMPORTED_MODULE_5__.TabEnum
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
       enumerable: false,
@@ -26690,10 +26693,55 @@ var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 var _hoisted_29 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Удалить элемент ");
 
 var _hoisted_30 = [_hoisted_28, _hoisted_29];
+var _hoisted_31 = {
+  "class": "js-nav-tabs-wrapper"
+};
+
+var _hoisted_32 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "js-nav-tabs-marker"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_33 = {
+  "class": "nav nav-tabs js-nav-tabs item-tabs",
+  role: "tablist"
+};
+var _hoisted_34 = ["id", "data-bs-target", "aria-controls"];
+var _hoisted_35 = {
+  "class": "position-relative"
+};
+var _hoisted_36 = {
+  "class": "tab-content"
+};
+var _hoisted_37 = ["id", "aria-labelledby"];
+var _hoisted_38 = {
+  "class": "js-edit-footer-wrapper"
+};
+var _hoisted_39 = {
+  "class": "edit-item-footer js-edit-item-footer"
+};
+
+var _hoisted_40 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  type: "submit",
+  "class": "btn btn-primary mb-2 btn__save mr-2"
+}, "Сохранить", -1
+/* HOISTED */
+);
+
+var _hoisted_41 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Отменить");
+
+var _hoisted_42 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  type: "button",
+  "class": "btn btn-info js-pin-btn pin-btn"
+}, null, -1
+/* HOISTED */
+);
+
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["TheLayout"], null, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      var _$setup$productsStore, _$setup$productsStore2, _$setup$productsStore3, _$setup$productsStore4, _$setup$productsStore5, _$setup$productsStore6;
+      var _$setup$productsStore, _$setup$productsStore2, _$setup$productsStore3, _$setup$productsStore4, _$setup$productsStore5, _$setup$productsStore6, _$setup$productsStore7;
 
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
         href: _ctx.route($setup.routeNames.ROUTE_ADMIN_HOME),
@@ -26786,7 +26834,53 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         href: "#"
       }, _hoisted_30, 8
       /* PROPS */
-      , _hoisted_27)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])];
+      , _hoisted_27)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [_hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_33, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.productsStore.getAdminTabs, function (tab) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+          key: "".concat(tab.value, "-tab"),
+          "class": "nav-item",
+          role: "presentation"
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+          "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['nav-link', tab.value === $setup.TabEnum.elements ? 'active' : '']),
+          id: "".concat(tab.value, "-tab"),
+          "data-bs-toggle": "tab",
+          "data-bs-target": "#".concat(tab.value, "-content"),
+          type: "button",
+          role: "tab",
+          "aria-controls": "".concat(tab.value, "-content"),
+          "aria-selected": "true"
+        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tab.label), 11
+        /* TEXT, CLASS, PROPS */
+        , _hoisted_34)]);
+      }), 128
+      /* KEYED_FRAGMENT */
+      ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.productsStore.getAdminTabs, function (tab) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+          key: "".concat(tab.value, "-content"),
+          "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['tab-pane', 'p-3', 'fade', tab.value === $setup.TabEnum.elements ? 'show active' : '']),
+          id: "".concat(tab.value, "-content"),
+          role: "tabpanel",
+          "aria-labelledby": "".concat(tab.value, "-tab")
+        }, " content " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tab.label), 11
+        /* TEXT, CLASS, PROPS */
+        , _hoisted_37);
+      }), 128
+      /* KEYED_FRAGMENT */
+      ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [_hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
+        href: _ctx.route($setup.routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {
+          category_id: (_$setup$productsStore7 = $setup.productsStore.product) === null || _$setup$productsStore7 === void 0 ? void 0 : _$setup$productsStore7.category_id
+        }),
+        type: "button",
+        "class": "btn btn-info mb-2 btn__default"
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [_hoisted_41];
+        }),
+        _: 1
+        /* STABLE */
+
+      }, 8
+      /* PROPS */
+      , ["href"]), _hoisted_42])])])])];
     }),
     _: 1
     /* STABLE */
@@ -29089,6 +29183,36 @@ var usePaymentMethodsStore = (0,pinia__WEBPACK_IMPORTED_MODULE_0__.defineStore)(
 
 /***/ }),
 
+/***/ "./resources/js/admin/inertia/modules/products/Tabs.ts":
+/*!*************************************************************!*\
+  !*** ./resources/js/admin/inertia/modules/products/Tabs.ts ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "TabEnum": () => (/* binding */ TabEnum)
+/* harmony export */ });
+var TabEnum;
+
+(function (TabEnum) {
+  TabEnum["elements"] = "elements";
+  TabEnum["description"] = "description";
+  TabEnum["photo"] = "photo";
+  TabEnum["characteristics"] = "characteristics";
+  TabEnum["seo"] = "seo";
+  TabEnum["accessories"] = "accessories";
+  TabEnum["similar"] = "similar";
+  TabEnum["related"] = "related";
+  TabEnum["works"] = "works";
+  TabEnum["instruments"] = "instruments";
+  TabEnum["variations"] = "variations";
+  TabEnum["other"] = "other";
+})(TabEnum || (TabEnum = {}));
+
+/***/ }),
+
 /***/ "./resources/js/admin/inertia/modules/products/index.ts":
 /*!**************************************************************!*\
   !*** ./resources/js/admin/inertia/modules/products/index.ts ***!
@@ -29106,11 +29230,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! pinia */ "./node_modules/pinia/dist/pinia.esm-browser.js");
+/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! pinia */ "./node_modules/pinia/dist/pinia.esm-browser.js");
 /* harmony import */ var _admin_inertia_modules_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/admin/inertia/modules/common */ "./resources/js/admin/inertia/modules/common/index.ts");
 /* harmony import */ var _admin_inertia_modules_routes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/admin/inertia/modules/routes */ "./resources/js/admin/inertia/modules/routes/index.ts");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _admin_inertia_modules_products_Tabs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/admin/inertia/modules/products/Tabs */ "./resources/js/admin/inertia/modules/products/Tabs.ts");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -29121,8 +29246,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 var storeName = "products";
-var useProductsStore = (0,pinia__WEBPACK_IMPORTED_MODULE_4__.defineStore)(storeName, {
+var useProductsStore = (0,pinia__WEBPACK_IMPORTED_MODULE_5__.defineStore)(storeName, {
   state: function state() {
     return {
       _productListItems: [],
@@ -29165,6 +29291,56 @@ var useProductsStore = (0,pinia__WEBPACK_IMPORTED_MODULE_4__.defineStore)(storeN
       }
 
       return !!new URL(routesStore.fullUrl).searchParams.get("copy_id") && isCreatingProductRoute() && !!this.originProduct;
+    },
+    getAllAdminTabs: function getAllAdminTabs() {
+      return [{
+        value: _admin_inertia_modules_products_Tabs__WEBPACK_IMPORTED_MODULE_4__.TabEnum.elements,
+        label: 'Элемент'
+      }, {
+        value: _admin_inertia_modules_products_Tabs__WEBPACK_IMPORTED_MODULE_4__.TabEnum.description,
+        label: 'Описание'
+      }, {
+        value: _admin_inertia_modules_products_Tabs__WEBPACK_IMPORTED_MODULE_4__.TabEnum.photo,
+        label: 'Фото'
+      }, {
+        value: _admin_inertia_modules_products_Tabs__WEBPACK_IMPORTED_MODULE_4__.TabEnum.characteristics,
+        label: 'Характеристики'
+      }, {
+        value: _admin_inertia_modules_products_Tabs__WEBPACK_IMPORTED_MODULE_4__.TabEnum.seo,
+        label: 'SEO'
+      }, {
+        value: _admin_inertia_modules_products_Tabs__WEBPACK_IMPORTED_MODULE_4__.TabEnum.accessories,
+        label: 'Аксессуары'
+      }, {
+        value: _admin_inertia_modules_products_Tabs__WEBPACK_IMPORTED_MODULE_4__.TabEnum.similar,
+        label: 'Похожие'
+      }, {
+        value: _admin_inertia_modules_products_Tabs__WEBPACK_IMPORTED_MODULE_4__.TabEnum.related,
+        label: 'Сопряжённые'
+      }, {
+        value: _admin_inertia_modules_products_Tabs__WEBPACK_IMPORTED_MODULE_4__.TabEnum.works,
+        label: 'Работы'
+      }, {
+        value: _admin_inertia_modules_products_Tabs__WEBPACK_IMPORTED_MODULE_4__.TabEnum.instruments,
+        label: 'Инструменты'
+      }, {
+        value: _admin_inertia_modules_products_Tabs__WEBPACK_IMPORTED_MODULE_4__.TabEnum.variations,
+        label: 'Варианты'
+      }, {
+        value: _admin_inertia_modules_products_Tabs__WEBPACK_IMPORTED_MODULE_4__.TabEnum.other,
+        label: 'Прочее'
+      }];
+    },
+    getAdminTabs: function getAdminTabs(state) {
+      var _state$_product, _state$_product$entit;
+
+      if ((_state$_product = state._product) !== null && _state$_product !== void 0 && (_state$_product$entit = _state$_product.entity) !== null && _state$_product$entit !== void 0 && _state$_product$entit.is_with_variations) {
+        return this.getAllAdminTabs;
+      }
+
+      return this.getAllAdminTabs.filter(function (tab) {
+        return tab.value !== _admin_inertia_modules_products_Tabs__WEBPACK_IMPORTED_MODULE_4__.TabEnum.variations;
+      });
     }
   },
   actions: {
@@ -64421,9 +64597,9 @@ _inertiajs_progress__WEBPACK_IMPORTED_MODULE_4__.InertiaProgress.init({
   // The color of the progress bar.
   color: "#f00",
   // Whether to include the default NProgress styles.
-  includeCSS: true,
+  includeCSS: false,
   // Whether the NProgress spinner will be shown.
-  showSpinner: false
+  showSpinner: true
 });
 })();
 

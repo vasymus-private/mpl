@@ -1,21 +1,15 @@
-import { defineStore } from "pinia"
+import {defineStore} from "pinia"
 import ProductListItem from "@/admin/inertia/modules/products/ProductListItem"
 import Links from "@/admin/inertia/modules/common/Links"
 import Meta from "@/admin/inertia/modules/common/Meta"
 import Option from "@/admin/inertia/modules/common/Option"
-import { extendMetaLinksWithComputedData } from "@/admin/inertia/modules/common"
-import {
-    getRouter,
-    getRouteUrl,
-    routeNames,
-    useRoutesStore,
-} from "@/admin/inertia/modules/routes"
+import {extendMetaLinksWithComputedData} from "@/admin/inertia/modules/common"
+import {getRouter, getRouteUrl, routeNames, useRoutesStore,} from "@/admin/inertia/modules/routes"
 import Product from "@/admin/inertia/modules/products/Product"
 import StoreOrUpdateProductRequest from "@/admin/inertia/modules/products/StoreOrUpdateProductRequest"
 import axios from "axios"
-import ProductUpdateResponse, {
-    ProductUpdate,
-} from "@/admin/inertia/modules/products/ProductUpdateResponse"
+import ProductUpdateResponse, {ProductUpdate,} from "@/admin/inertia/modules/products/ProductUpdateResponse"
+import {AdminTab, TabEnum} from "@/admin/inertia/modules/products/Tabs";
 
 export const storeName = "products"
 
@@ -60,6 +54,65 @@ export const useProductsStore = defineStore(storeName, {
                 isCreatingProductRoute() &&
                 !!this.originProduct
             )
+        },
+        getAllAdminTabs: (): Array<AdminTab> => {
+            return [
+                {
+                    value: TabEnum.elements,
+                    label : 'Элемент',
+                },
+                {
+                    value: TabEnum.description,
+                    label: 'Описание',
+                },
+                {
+                    value: TabEnum.photo,
+                    label: 'Фото',
+                },
+                {
+                    value: TabEnum.characteristics,
+                    label: 'Характеристики',
+                },
+                {
+                    value: TabEnum.seo,
+                    label: 'SEO',
+                },
+                {
+                    value: TabEnum.accessories,
+                    label: 'Аксессуары',
+                },
+                {
+                    value: TabEnum.similar,
+                    label: 'Похожие',
+                },
+                {
+                    value: TabEnum.related,
+                    label: 'Сопряжённые',
+                },
+                {
+                    value: TabEnum.works,
+                    label: 'Работы',
+                },
+                {
+                    value: TabEnum.instruments,
+                    label: 'Инструменты',
+                },
+                {
+                    value: TabEnum.variations,
+                    label: 'Варианты',
+                },
+                {
+                    value: TabEnum.other,
+                    label: 'Прочее',
+                }
+            ]
+        },
+        getAdminTabs(state): Array<AdminTab> {
+            if (state._product?.entity?.is_with_variations) {
+                return this.getAllAdminTabs
+            }
+
+            return this.getAllAdminTabs.filter((tab: AdminTab) => tab.value !== TabEnum.variations)
         },
     },
     actions: {
