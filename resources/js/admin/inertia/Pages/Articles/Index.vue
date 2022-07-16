@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { Head } from '@inertiajs/inertia-vue3'
-import TheLayout from "@/admin/inertia/shared/layout/TheLayout.vue"
+import TheLayout from "@/admin/inertia/components/layout/TheLayout.vue"
 import {onMounted} from 'vue'
 import {useArticlesStore} from "@/admin/inertia/modules/articles"
 

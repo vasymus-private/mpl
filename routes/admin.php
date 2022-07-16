@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\ServicesController;
+use App\Http\Controllers\Admin\TestInertiaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get("home", [HomeController::class, "index"])->name(Constants::ROUTE_ADMIN_HOME);
@@ -172,9 +173,11 @@ Route::
 ;
 
 Route::
-get(
-    'services',
-    [ServicesController::class, 'index']
-)
+    get(
+        'services',
+        [ServicesController::class, 'index']
+    )
     ->name(Constants::ROUTE_ADMIN_SERVICES_INDEX)
 ;
+
+Route::get('---test-inertia', [TestInertiaController::class, 'index'])->name('admin.test.inertia');

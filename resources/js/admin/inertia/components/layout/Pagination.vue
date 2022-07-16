@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import {computed} from 'vue'
-import FormControlSelect from '@/admin/inertia/shared/forms/FormControlSelect.vue'
+import FormControlSelect from '@/admin/inertia/components/forms/FormControlSelect.vue'
 import Option from "@/admin/inertia/modules/common/Option"
 import { useVModel } from '@vueuse/core'
 import {MetaLink} from "@/admin/inertia/modules/common/Meta"
-import PageItem from "@/admin/inertia/shared/layout/PageItem.vue"
+import PageItem from "@/admin/inertia/components/layout/PageItem.vue"
 
 
 const props = defineProps<{

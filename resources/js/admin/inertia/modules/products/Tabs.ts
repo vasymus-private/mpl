@@ -1,6 +1,10 @@
+import { DefineComponent } from "@vue/runtime-core"
+
+
 export interface AdminTab {
     value: TabEnum,
     label: string,
+    is: DefineComponent
 }
 
 export enum TabEnum {

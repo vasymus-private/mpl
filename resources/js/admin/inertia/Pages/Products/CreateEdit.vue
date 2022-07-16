@@ -1,10 +1,14 @@
 <script lang="ts" setup>
-import TheLayout from '@/admin/inertia/shared/layout/TheLayout.vue'
+import TheLayout from '@/admin/inertia/components/layout/TheLayout.vue'
 import {routeNames} from "@/admin/inertia/modules/routes"
 import {useProductsStore, isCreatingProductRoute} from "@/admin/inertia/modules/products"
-import {computed} from "vue"
+import {computed, watch} from "vue"
 import {Link} from "@inertiajs/inertia-vue3"
 import {TabEnum} from "@/admin/inertia/modules/products/Tabs"
+import { useForm } from 'vee-validate'
+import * as yup from 'yup'
+import Product from "@/admin/inertia/modules/products/Product"
+import {storeToRefs} from "pinia";
 
 
 const productsStore = useProductsStore()
@@ -22,15 +26,39 @@ const title = computed(() => {
 
     return base
 })
+
 const deleteItem = () => {
     if (confirm('Уверены, что хотите удалить товар?')) {
         productsStore.handleDelete([productsStore.product.id])
 
     }
 }
+
 const setWithVariations = (is_with_variations: boolean) => {
     productsStore.handleUpdate({is_with_variations})
 }
+
+const {product} = storeToRefs(productsStore)
+const {errors, handleSubmit, resetForm} = useForm({
+    validationSchema: yup.object({
+        is_active: yup.boolean(),
+        name: yup.string().required().max(250)
+    })
+})
+
+watch(product, (newValue: Product) => {
+    resetForm({
+        values: {
+            is_active: newValue.is_active,
+            name: newValue.name,
+        }
+    })
+})
+
+const onSubmit = handleSubmit((values, actions) => {
+    console.log('--- values', values)
+    console.log('--- actions', actions)
+})
 </script>
 
 <template>
@@ -128,7 +156,7 @@ const setWithVariations = (is_with_variations: boolean) => {
                 </ul>
             </div>
 
-            <form class="position-relative">
+            <form class="position-relative" @submit="onSubmit">
                 <div class="tab-content">
                     <div
                         v-for="tab in productsStore.getAdminTabs"
@@ -138,7 +166,7 @@ const setWithVariations = (is_with_variations: boolean) => {
                         role="tabpanel"
                         :aria-labelledby="`${tab.value}-tab`"
                     >
-                        content {{ tab.label }}
+                        <component :is="tab.is" />
                     </div>
                 </div>
 
@@ -151,7 +179,6 @@ const setWithVariations = (is_with_variations: boolean) => {
                         <button type="button" class="btn btn-info js-pin-btn pin-btn"></button>
                     </div>
                 </div>
-
             </form>
         </div>
     </TheLayout>

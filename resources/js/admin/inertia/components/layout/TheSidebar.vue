@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import NavItem from '@/admin/inertia/shared/layout/NavItem.vue'
+import NavItem from '@/admin/inertia/components/layout/NavItem.vue'
 import {useRoutesStore, RouteTypeEnum, routeNames} from "@/admin/inertia/modules/routes"
 import {useCategoriesTreeStore} from "@/admin/inertia/modules/categoriesTree"
 

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import TheHeader from "@/admin/inertia/shared/layout/TheHeader.vue"
-import TheSidebar from "@/admin/inertia/shared/layout/TheSidebar.vue"
+import TheHeader from "@/admin/inertia/components/layout/TheHeader.vue"
+import TheSidebar from "@/admin/inertia/components/layout/TheSidebar.vue"
 import {useModalsStore, Modals} from "@/admin/inertia/modules/modals"
 
 

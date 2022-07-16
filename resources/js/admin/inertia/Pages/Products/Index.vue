@@ -3,8 +3,8 @@ import {routeNames} from "@/admin/inertia/modules/routes"
 import {Ref, ref, watch} from "vue"
 import {ColumnName, isSortableColumn, useColumnsStore} from "@/admin/inertia/modules/columns"
 import {getActiveName, getPerPageOptions, useProductsStore} from "@/admin/inertia/modules/products"
-import TheLayout from '@/admin/inertia/shared/layout/TheLayout.vue'
-import Pagination from "@/admin/inertia/shared/layout/Pagination.vue"
+import TheLayout from '@/admin/inertia/components/layout/TheLayout.vue'
+import Pagination from "@/admin/inertia/components/layout/Pagination.vue"
 import {Inertia} from "@inertiajs/inertia"
 import Option from "@/admin/inertia/modules/common/Option"
 import {ModalType, useModalsStore} from "@/admin/inertia/modules/modals"
