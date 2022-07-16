@@ -1,28 +1,34 @@
-import {defineStore} from "pinia"
+import { defineStore } from "pinia"
 import ProductListItem from "@/admin/inertia/modules/products/ProductListItem"
 import Links from "@/admin/inertia/modules/common/Links"
 import Meta from "@/admin/inertia/modules/common/Meta"
 import Option from "@/admin/inertia/modules/common/Option"
-import {extendMetaLinksWithComputedData} from "@/admin/inertia/modules/common"
-import {getRouter, getRouteUrl, routeNames, useRoutesStore,} from "@/admin/inertia/modules/routes"
+import { extendMetaLinksWithComputedData } from "@/admin/inertia/modules/common"
+import {
+    getRouter,
+    getRouteUrl,
+    routeNames,
+    useRoutesStore,
+} from "@/admin/inertia/modules/routes"
 import Product from "@/admin/inertia/modules/products/Product"
 import StoreOrUpdateProductRequest from "@/admin/inertia/modules/products/StoreOrUpdateProductRequest"
 import axios from "axios"
-import ProductUpdateResponse, {ProductUpdate} from "@/admin/inertia/modules/products/ProductUpdateResponse"
-import {AdminTab, TabEnum} from "@/admin/inertia/modules/products/Tabs"
-import ElementsTab from '@/admin/inertia/components/products/tabs/ElementsTab.vue'
-import DescriptionTab from '@/admin/inertia/components/products/tabs/DescriptionTab.vue'
-import PhotoTab from '@/admin/inertia/components/products/tabs/PhotoTab.vue'
-import CharacteristicsTab from '@/admin/inertia/components/products/tabs/CharacteristicsTab.vue'
-import SeoTab from '@/admin/inertia/components/products/tabs/SeoTab.vue'
-import AccessoriesTab from '@/admin/inertia/components/products/tabs/AccessoriesTab.vue'
-import SimilarTab from '@/admin/inertia/components/products/tabs/SimilarTab.vue'
-import RelatedTab from '@/admin/inertia/components/products/tabs/RelatedTab.vue'
-import WorksTab from '@/admin/inertia/components/products/tabs/WorksTab.vue'
-import InstrumentsTab from '@/admin/inertia/components/products/tabs/InstrumentsTab.vue'
-import VariationsTab from '@/admin/inertia/components/products/tabs/VariationsTab.vue'
-import OtherTab from '@/admin/inertia/components/products/tabs/OtherTab.vue'
-
+import ProductUpdateResponse, {
+    ProductUpdate,
+} from "@/admin/inertia/modules/products/ProductUpdateResponse"
+import { AdminTab, TabEnum } from "@/admin/inertia/modules/products/Tabs"
+import ElementsTab from "@/admin/inertia/components/products/tabs/ElementsTab.vue"
+import DescriptionTab from "@/admin/inertia/components/products/tabs/DescriptionTab.vue"
+import PhotoTab from "@/admin/inertia/components/products/tabs/PhotoTab.vue"
+import CharacteristicsTab from "@/admin/inertia/components/products/tabs/CharacteristicsTab.vue"
+import SeoTab from "@/admin/inertia/components/products/tabs/SeoTab.vue"
+import AccessoriesTab from "@/admin/inertia/components/products/tabs/AccessoriesTab.vue"
+import SimilarTab from "@/admin/inertia/components/products/tabs/SimilarTab.vue"
+import RelatedTab from "@/admin/inertia/components/products/tabs/RelatedTab.vue"
+import WorksTab from "@/admin/inertia/components/products/tabs/WorksTab.vue"
+import InstrumentsTab from "@/admin/inertia/components/products/tabs/InstrumentsTab.vue"
+import VariationsTab from "@/admin/inertia/components/products/tabs/VariationsTab.vue"
+import OtherTab from "@/admin/inertia/components/products/tabs/OtherTab.vue"
 
 export const storeName = "products"
 
@@ -72,64 +78,64 @@ export const useProductsStore = defineStore(storeName, {
             return [
                 {
                     value: TabEnum.elements,
-                    label : 'Элемент',
+                    label: "Элемент",
                     is: ElementsTab,
                 },
                 {
                     value: TabEnum.description,
-                    label: 'Описание',
+                    label: "Описание",
                     is: DescriptionTab,
                 },
                 {
                     value: TabEnum.photo,
-                    label: 'Фото',
+                    label: "Фото",
                     is: PhotoTab,
                 },
                 {
                     value: TabEnum.characteristics,
-                    label: 'Характеристики',
+                    label: "Характеристики",
                     is: CharacteristicsTab,
                 },
                 {
                     value: TabEnum.seo,
-                    label: 'SEO',
+                    label: "SEO",
                     is: SeoTab,
                 },
                 {
                     value: TabEnum.accessories,
-                    label: 'Аксессуары',
+                    label: "Аксессуары",
                     is: AccessoriesTab,
                 },
                 {
                     value: TabEnum.similar,
-                    label: 'Похожие',
+                    label: "Похожие",
                     is: SimilarTab,
                 },
                 {
                     value: TabEnum.related,
-                    label: 'Сопряжённые',
+                    label: "Сопряжённые",
                     is: RelatedTab,
                 },
                 {
                     value: TabEnum.works,
-                    label: 'Работы',
+                    label: "Работы",
                     is: WorksTab,
                 },
                 {
                     value: TabEnum.instruments,
-                    label: 'Инструменты',
+                    label: "Инструменты",
                     is: InstrumentsTab,
                 },
                 {
                     value: TabEnum.variations,
-                    label: 'Варианты',
+                    label: "Варианты",
                     is: VariationsTab,
                 },
                 {
                     value: TabEnum.other,
-                    label: 'Прочее',
+                    label: "Прочее",
                     is: OtherTab,
-                }
+                },
             ]
         },
         getAdminTabs(state): Array<AdminTab> {
@@ -137,7 +143,9 @@ export const useProductsStore = defineStore(storeName, {
                 return this.getAllAdminTabs
             }
 
-            return this.getAllAdminTabs.filter((tab: AdminTab) => tab.value !== TabEnum.variations)
+            return this.getAllAdminTabs.filter(
+                (tab: AdminTab) => tab.value !== TabEnum.variations
+            )
         },
     },
     actions: {
