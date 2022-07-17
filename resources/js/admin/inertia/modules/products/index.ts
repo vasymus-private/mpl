@@ -165,6 +165,9 @@ export const useProductsStore = defineStore(storeName, {
             this._product.entity = product
         },
         updateProduct(update: ProductUpdate): void {
+            if (!this._product.entity) {
+                this._product.entity = {}
+            }
             for (let key in update) {
                 this._product.entity[key] = update[key]
                 console.log(

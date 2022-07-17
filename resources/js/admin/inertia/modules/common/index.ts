@@ -1,5 +1,7 @@
 import Meta, { MetaLink } from "@/admin/inertia/modules/common/Meta"
 import { isNumeric } from "@/admin/inertia/utils"
+import axios from "axios"
+import {getRouteUrl, routeNames} from "@/admin/inertia/modules/routes";
 
 export const extendMetaLinksWithComputedData = (
     meta: Meta,
@@ -75,4 +77,22 @@ export const extendUrlWithParams = (
     _url.searchParams.set("page", `${page}`)
 
     return _url.toString()
+}
+
+interface SlugifyResponse {
+    data : string
+}
+
+export const slugify = async (title: string, separator?: string, language?: string): Promise<string> => {
+    const {
+        data: { data: slug },
+    } = await axios.post<SlugifyResponse>(
+        getRouteUrl(routeNames.ROUTE_ADMIN_AJAX_HELPER, {
+            title,
+            separator,
+            language
+        })
+    )
+
+    return slug
 }

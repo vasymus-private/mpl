@@ -1,36 +1,26 @@
 <script lang="ts" setup>
 import TheLayout from '@/admin/inertia/components/layout/TheLayout.vue'
-import {routeNames} from "@/admin/inertia/modules/routes"
+import {getRouteUrl, routeNames} from "@/admin/inertia/modules/routes"
 import {useProductsStore, isCreatingProductRoute} from "@/admin/inertia/modules/products"
-import {computed, watch} from "vue"
+import {computed, onUnmounted, watch} from "vue"
 import {Link} from "@inertiajs/inertia-vue3"
 import {TabEnum} from "@/admin/inertia/modules/products/Tabs"
 import { useForm } from 'vee-validate'
 import * as yup from 'yup'
-import Product from "@/admin/inertia/modules/products/Product"
-import {storeToRefs} from "pinia";
+import {useFormsStore} from "@/admin/inertia/modules/forms"
+import {ProductForm} from "@/admin/inertia/modules/forms/ProductForm"
+import {Inertia} from "@inertiajs/inertia"
 
 
 const productsStore = useProductsStore()
+const formsStore = useFormsStore()
+
 const isCreating = computed(() => isCreatingProductRoute())
-const title = computed(() => {
-    let base = 'Товары: элемент: '
 
-    base += (
-        productsStore.isCreatingFromCopy
-            ? 'добавление копированием'
-            : (isCreating.value
-                ? 'добавление'
-                : `${productsStore.product?.name} - редактирование`)
-    )
-
-    return base
-})
-
-const deleteItem = () => {
+const deleteItem = async () => {
     if (confirm('Уверены, что хотите удалить товар?')) {
-        productsStore.handleDelete([productsStore.product.id])
-
+        await productsStore.handleDelete([productsStore.product.id])
+        Inertia.visit(getRouteUrl(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX))
     }
 }
 
@@ -38,26 +28,40 @@ const setWithVariations = (is_with_variations: boolean) => {
     productsStore.handleUpdate({is_with_variations})
 }
 
-const {product} = storeToRefs(productsStore)
-const {errors, handleSubmit, resetForm} = useForm({
+const {errors, handleSubmit, setFieldValue, values} = useForm({
     validationSchema: yup.object({
         is_active: yup.boolean(),
-        name: yup.string().required().max(250)
+        name: yup.string().required().max(250),
+        slug: yup.string().required().max(250),
+        ordering: yup.number().integer(),
     })
 })
 
-watch(product, (newValue: Product) => {
-    resetForm({
-        values: {
-            is_active: newValue.is_active,
-            name: newValue.name,
-        }
+watch(values, (newValues) => {
+    formsStore.setProductForm(newValues)
+})
+
+let keys : Array<keyof ProductForm> = [
+    'is_active',
+    'name',
+    'slug',
+    'ordering',
+]
+
+keys.forEach(key => {
+    watch(() => productsStore.product?.[key], (value) => {
+        console.log('--- watch product in form', key, value)
+        setFieldValue(key, value)
     })
 })
 
 const onSubmit = handleSubmit((values, actions) => {
     console.log('--- values', values)
     console.log('--- actions', actions)
+})
+
+onUnmounted(() => {
+    formsStore.setProductForm({})
 })
 </script>
 
@@ -76,7 +80,7 @@ const onSubmit = handleSubmit((values, actions) => {
                 </Link>
             </div>
             <h1 class="h2 adm-title">
-                {{ title }}
+                {{ formsStore.productFormTitle }}
             </h1>
 
             <div class="detail-toolbar">
