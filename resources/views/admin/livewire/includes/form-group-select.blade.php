@@ -24,7 +24,7 @@
     </div>
 @else
     <div class="form-group">
-        <label class="col-sm-5 col-form-label" for="{{$field}}">{{$label}}:</label>
+        <label for="{{$field}}" class="col-sm-5 col-form-label">{{$label}}:</label>
         <div class="col-sm-7 d-flex align-items-center">
             @include('admin.livewire.includes.form-control-select', [
                 'field' => $field,

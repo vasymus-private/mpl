@@ -136,7 +136,9 @@ const toggleActive = (product: ProductListItem) => {
                             </td>
                             <td v-if="isSortableColumn(sortableColumn, ColumnName.name)">
                                 <!--<b-form-input v-if="editMode && product.is_checked" v-model="product.name"></b-form-input>-->
-                                <span class="main-grid-cell-content">{{product.name}}</span>
+                                <span class="main-grid-cell-content">
+                                    <Link :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_EDIT, {admin_product: product.id})">{{product.name}}</Link>
+                                </span>
                             </td>
                             <td v-if="isSortableColumn(sortableColumn, ColumnName.active)">
                                 <span class="main-grid-cell-content">{{getActiveName(product.is_active)}}</span>

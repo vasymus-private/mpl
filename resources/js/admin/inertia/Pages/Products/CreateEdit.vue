@@ -33,11 +33,15 @@ const {errors, handleSubmit, setFieldValue, values} = useForm({
         is_active: yup.boolean(),
         name: yup.string().required().max(250),
         slug: yup.string().required().max(250),
-        ordering: yup.number().integer(),
+        ordering: yup.number().truncate(),
+        brand_id: yup.number().integer(),
+        coefficient: yup.number().truncate(),
+        coefficient_description: yup.string().max(250),
+        coefficient_description_show: yup.boolean(),
     })
 })
 
-watch(values, (newValues) => {
+watch(values, newValues => {
     formsStore.setProductForm(newValues)
 })
 
@@ -46,6 +50,10 @@ let keys : Array<keyof ProductForm> = [
     'name',
     'slug',
     'ordering',
+    'brand_id',
+    'coefficient',
+    'coefficient_description',
+    'coefficient_description_show',
 ]
 
 keys.forEach(key => {
@@ -184,6 +192,10 @@ onUnmounted(() => {
                     </div>
                 </div>
             </form>
+
+            <div v-for="error in errors" :key="error" class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ error }}
+            </div>
         </div>
     </TheLayout>
 </template>

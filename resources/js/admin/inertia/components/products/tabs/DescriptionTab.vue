@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 
+// https://github.com/vueup/vue-quill
 </script>
 
 <template>

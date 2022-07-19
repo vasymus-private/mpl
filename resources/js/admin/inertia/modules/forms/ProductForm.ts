@@ -3,4 +3,8 @@ export interface ProductForm {
     name?: string
     slug?: string
     ordering?: number
+    brand_id?: number
+    coefficient?: number
+    coefficient_description?: string
+    coefficient_description_show?: boolean
 }
