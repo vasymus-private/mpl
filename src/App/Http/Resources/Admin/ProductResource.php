@@ -63,7 +63,7 @@ class ProductResource extends JsonResource
             'infoPrices' => $this->resource->infoPrices,
             'instructions' => $this->resource
                 ->getMedia(Product::MC_FILES)
-                ->map(function(CustomMedia $media) {
+                ->map(function (CustomMedia $media) {
                     return [
                         'id' => $media->id,
                         'url' => $media->getFullUrl(),
@@ -73,7 +73,7 @@ class ProductResource extends JsonResource
                     ];
                 })
                 ->sortByDesc('order_column')
-                ->values()
+                ->values(),
         ];
     }
 }

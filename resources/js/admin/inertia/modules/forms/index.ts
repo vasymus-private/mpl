@@ -1,11 +1,13 @@
 import { defineStore } from "pinia"
-import {Instruction, ProductForm} from "@/admin/inertia/modules/forms/ProductForm"
+import {
+    Instruction,
+    ProductForm,
+} from "@/admin/inertia/modules/forms/ProductForm"
 import {
     isCreatingProductRoute,
     useProductsStore,
 } from "@/admin/inertia/modules/products"
-import {maxBy} from 'lodash'
-
+import { maxBy } from "lodash"
 
 export const storeName = "forms"
 
@@ -17,10 +19,17 @@ export const useFormsStore = defineStore(storeName, {
     },
     getters: {
         product: (state): ProductForm => state._product,
-        maxInstructionsColumn: function (): number|undefined {
-            const maxInstructionByColumn: Instruction|undefined = maxBy(this.product.instructions, (item: Instruction) => item.order_column)
+        maxInstructionsColumn: function (): number | undefined {
+            const maxInstructionByColumn: Instruction | undefined = maxBy(
+                this.product.instructions,
+                (item: Instruction) => item.order_column
+            )
 
-            return maxInstructionByColumn && maxInstructionByColumn.order_column || undefined
+            return (
+                (maxInstructionByColumn &&
+                    maxInstructionByColumn.order_column) ||
+                undefined
+            )
         },
         productFormTitle: (): string => {
             let base = "Товары: элемент: "
