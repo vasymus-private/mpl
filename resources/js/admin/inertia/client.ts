@@ -7,8 +7,7 @@ import { createPinia } from "pinia"
 import { initFromPageProps } from "@/admin/inertia/modules"
 import "bootstrap"
 import { Inertia } from "@inertiajs/inertia"
-import lodash from 'lodash'
-
+import lodash from "lodash"
 
 // @ts-ignore
 window.___lodash = lodash
