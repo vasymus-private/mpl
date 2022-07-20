@@ -30,6 +30,7 @@ export default interface Product {
     instruments_name: string | null
     web_route: string | null
     seo: Seo | null
+    infoPrices: Array<InfoPrice> | null
 }
 
 export interface Seo {
@@ -37,4 +38,11 @@ export interface Seo {
     h1: string | null
     keywords: string | null
     description: string | null
+}
+
+export interface InfoPrice {
+    id: number | null
+    name: string | null
+    price: number | null
+    product_id: number | null
 }

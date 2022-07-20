@@ -7,4 +7,13 @@ export interface ProductForm {
     coefficient?: number
     coefficient_description?: string
     coefficient_description_show?: boolean
+    coefficient_variation_description?: string
+    price_name?: string
+    infoPrices?: Array<InfoPrice>
+}
+
+interface InfoPrice {
+    id?: number
+    name?: string
+    price?: number
 }

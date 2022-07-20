@@ -8,7 +8,6 @@ import {TabEnum} from "@/admin/inertia/modules/products/Tabs"
 import { useForm } from 'vee-validate'
 import * as yup from 'yup'
 import {useFormsStore} from "@/admin/inertia/modules/forms"
-import {ProductForm} from "@/admin/inertia/modules/forms/ProductForm"
 import {Inertia} from "@inertiajs/inertia"
 
 
@@ -28,7 +27,7 @@ const setWithVariations = (is_with_variations: boolean) => {
     productsStore.handleUpdate({is_with_variations})
 }
 
-const {errors, handleSubmit, setFieldValue, values} = useForm({
+const {errors, handleSubmit, setFieldValue, values, setValues} = useForm({
     validationSchema: yup.object({
         is_active: yup.boolean(),
         name: yup.string().required().max(250),
@@ -38,28 +37,38 @@ const {errors, handleSubmit, setFieldValue, values} = useForm({
         coefficient: yup.number().truncate(),
         coefficient_description: yup.string().max(250),
         coefficient_description_show: yup.boolean(),
+        coefficient_variation_description: yup.string().max(250),
+        price_name: yup.string().max(250),
+        infoPrices: yup.array().of(
+            yup.object({
+                id: yup.number().integer().truncate(),
+                name: yup.string().required().max(250),
+                price: yup.number().required().truncate(),
+            })
+        ).nullable(),
+        admin_comment: yup.string().max(250),
     })
 })
 
 watch(values, newValues => {
+    console.log('--- values', newValues)
     formsStore.setProductForm(newValues)
 })
 
-let keys : Array<keyof ProductForm> = [
-    'is_active',
-    'name',
-    'slug',
-    'ordering',
-    'brand_id',
-    'coefficient',
-    'coefficient_description',
-    'coefficient_description_show',
-]
-
-keys.forEach(key => {
-    watch(() => productsStore.product?.[key], (value) => {
-        console.log('--- watch product in form', key, value)
-        setFieldValue(key, value)
+watch(() => productsStore.product, ({is_active, name, slug, ordering, brand_id, coefficient, coefficient_description, coefficient_description_show, coefficient_variation_description, price_name, infoPrices, admin_comment}) => {
+    setValues({
+        is_active,
+        name,
+        slug,
+        ordering,
+        brand_id,
+        coefficient,
+        coefficient_description,
+        coefficient_description_show,
+        coefficient_variation_description,
+        price_name,
+        infoPrices,
+        admin_comment,
     })
 })
 

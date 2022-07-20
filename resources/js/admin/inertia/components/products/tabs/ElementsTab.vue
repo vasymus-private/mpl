@@ -5,6 +5,11 @@ import {slugify} from "@/admin/inertia/modules/common"
 import {useFormsStore} from "@/admin/inertia/modules/forms"
 import {useBrandsStore} from "@/admin/inertia/modules/brands"
 import { Field } from 'vee-validate'
+import InfoPrices from "@/admin/inertia/components/products/tabs/forms/InfoPrices.vue"
+import RowCheckbox from '@/admin/inertia/components/forms/vee-validate/RowCheckbox.vue'
+import RowInput from '@/admin/inertia/components/forms/vee-validate/RowInput.vue'
+import RowSelect from '@/admin/inertia/components/forms/vee-validate/RowSelect.vue'
+import RowTextarea from '@/admin/inertia/components/forms/vee-validate/RowTextarea.vue'
 
 
 const productsStore = useProductsStore()
@@ -45,28 +50,7 @@ const handleSyncNameAndSlug = async () => {
             </div>
         </div>
 
-        <div class="row mb-3">
-            <div class="col-sm-5 text-end">
-                <label for="is_active">Активность:</label>
-            </div>
-            <div class="col-sm-7">
-                <Field
-                    v-slot="{ field, meta }"
-                    name="is_active"
-                    type="checkbox"
-                    :value="true"
-                >
-                    <input
-                        v-bind="field"
-                        name="is_active"
-                        type="checkbox"
-                        :value="true"
-                        id="is_active"
-                        :class="['form-check-input', !meta.valid ? 'is-invalid' : '']"
-                    />
-                </Field>
-            </div>
-        </div>
+        <RowCheckbox name="is_active" label="Активность" />
 
         <div class="row mb-3">
             <div class="col-sm-5 text-end">
@@ -125,50 +109,9 @@ const handleSyncNameAndSlug = async () => {
             </div>
         </div>
 
-        <div class="row mb-3">
-            <div class="col-sm-5 text-end">
-                <label for="ordering">Сортировка:</label>
-            </div>
-            <div class="col-sm-7">
-                <Field
-                    v-slot="{field, meta}"
-                    name="ordering"
-                >
-                    <input
-                        v-bind="field"
-                        :class="['form-control', 'width-27', !meta.valid ? 'is-invalid' : '']"
-                        type="number"
-                        id="ordering"
-                    />
-                </Field>
-            </div>
-        </div>
+        <RowInput name="ordering" label="Сортировка" type="number" />
 
-        <div class="row mb-3">
-            <div class="col-sm-5 text-end">
-                <label for="brand_id">Производитель:</label>
-            </div>
-            <div class="col-sm-7">
-                <Field
-                    v-slot="{field, meta}"
-                    name="brand_id"
-                >
-                    <select
-                        :class="['form-control', !meta.valid ? 'is-invalid' : '' ]"
-                        id="brand_id"
-                        v-bind="field"
-                    >
-                        <option :value="undefined">(не установлено)</option>
-                        <option
-                            v-for="option in brandsStore.options"
-                            :key="option.value"
-                            :value="option.value"
-                            :disabled="option.disabled"
-                        >{{option.label}}</option>
-                    </select>
-                </Field>
-            </div>
-        </div>
+        <RowSelect name="brand_id" label="Производитель" :options="brandsStore.options" />
 
         <div class="row mb-3">
             <div class="col-sm-5 text-end">
@@ -205,28 +148,14 @@ const handleSyncNameAndSlug = async () => {
             </div>
         </div>
 
-        <div class="row mb-3">
-            <div class="col-sm-5 text-end">
-                <label for="coefficient_description_show">Показывать описание коэффициента:</label>
-            </div>
-            <div class="col-sm-7">
-                <Field
-                    v-slot="{ field, meta }"
-                    name="coefficient_description_show"
-                    type="checkbox"
-                    :value="true"
-                >
-                    <input
-                        v-bind="field"
-                        name="coefficient_description_show"
-                        type="checkbox"
-                        :value="true"
-                        id="coefficient_description_show"
-                        :class="['form-check-input', !meta.valid ? 'is-invalid' : '']"
-                    />
-                </Field>
-            </div>
-        </div>
+        <RowCheckbox name="coefficient_description_show" label="Показывать описание коэффициента" />
 
+        <RowInput name="coefficient_variation_description" label="Описание столбца коэффициента вариантов" />
+
+        <RowInput name="price_name" label="Наименование цены" />
+
+        <InfoPrices />
+
+        <RowTextarea name="admin_comment" label="Служебная информация" />
     </div>
 </template>

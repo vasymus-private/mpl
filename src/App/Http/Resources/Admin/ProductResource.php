@@ -58,6 +58,7 @@ class ProductResource extends JsonResource
             'work_name' => $this->resource->work_name,
             'instruments_name' => $this->resource->instruments_name,
             'seo' => $this->resource->seo,
+            'infoPrices' => $this->resource->infoPrices,
         ];
     }
 }
