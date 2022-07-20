@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 import AvailabilityStatus from "@/admin/inertia/modules/availabilityStatuses/AvailabilityStatus"
-import Option from "@/admin/inertia/modules/common/Option";
+import Option from "@/admin/inertia/modules/common/Option"
 
 export const storeName = "availabilityStatuses"
 
@@ -13,7 +13,13 @@ export const useAvailabilityStatusesStore = defineStore(storeName, {
     getters: {
         entities: (state): Array<AvailabilityStatus> => state._entities,
         options: function (): Array<Option> {
-            return this.entities.map((availabilityStatus: AvailabilityStatus): Option => ({value: availabilityStatus.id, label: availabilityStatus.name, disabled: false}))
+            return this.entities.map(
+                (availabilityStatus: AvailabilityStatus): Option => ({
+                    value: availabilityStatus.id,
+                    label: availabilityStatus.name,
+                    disabled: false,
+                })
+            )
         },
     },
     actions: {
