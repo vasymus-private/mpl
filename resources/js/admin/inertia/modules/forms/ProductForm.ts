@@ -12,6 +12,12 @@ export interface ProductForm {
     infoPrices?: Array<InfoPrice>
     admin_comment?: string
     instructions?: Array<Instruction>
+    price_purchase?: number
+    price_purchase_currency_id?: number
+    price_retail?: number
+    price_retail_currency_id?: number
+    unit?: string
+    availability_status_id?: number
 }
 
 interface InfoPrice {

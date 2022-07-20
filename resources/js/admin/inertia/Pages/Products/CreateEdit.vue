@@ -56,7 +56,13 @@ const {errors, handleSubmit, values, setValues} = useForm({
                 order_column: yup.number(),
                 file: yup.mixed(),
             })
-        )
+        ),
+        price_purchase: yup.number(),
+        price_purchase_currency_id: yup.number().integer(),
+        price_retail: yup.number(),
+        price_retail_currency_id: yup.number().integer(),
+        unit: yup.string().max(250),
+        availability_status_id: yup.number().integer(),
     })
 })
 
@@ -65,7 +71,7 @@ watch(values, newValues => {
     formsStore.setProductForm(newValues)
 })
 
-watch(() => productsStore.product, ({is_active, name, slug, ordering, brand_id, coefficient, coefficient_description, coefficient_description_show, coefficient_variation_description, price_name, infoPrices, admin_comment, instructions}) => {
+watch(() => productsStore.product, ({is_active, name, slug, ordering, brand_id, coefficient, coefficient_description, coefficient_description_show, coefficient_variation_description, price_name, infoPrices, admin_comment, instructions, price_purchase, price_purchase_currency_id, price_retail, price_retail_currency_id, unit, availability_status_id}) => {
     setValues({
         is_active,
         name,
@@ -80,6 +86,12 @@ watch(() => productsStore.product, ({is_active, name, slug, ordering, brand_id, 
         infoPrices,
         admin_comment,
         instructions,
+        price_purchase,
+        price_purchase_currency_id,
+        price_retail,
+        price_retail_currency_id,
+        unit,
+        availability_status_id,
     })
 })
 

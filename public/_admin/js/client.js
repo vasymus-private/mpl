@@ -25596,7 +25596,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           url: yup__WEBPACK_IMPORTED_MODULE_7__.string(),
           order_column: yup__WEBPACK_IMPORTED_MODULE_7__.number(),
           file: yup__WEBPACK_IMPORTED_MODULE_7__.mixed()
-        }))
+        })),
+        price_purchase: yup__WEBPACK_IMPORTED_MODULE_7__.number(),
+        price_purchase_currency_id: yup__WEBPACK_IMPORTED_MODULE_7__.number().integer(),
+        price_retail: yup__WEBPACK_IMPORTED_MODULE_7__.number(),
+        price_retail_currency_id: yup__WEBPACK_IMPORTED_MODULE_7__.number().integer(),
+        unit: yup__WEBPACK_IMPORTED_MODULE_7__.string().max(250),
+        availability_status_id: yup__WEBPACK_IMPORTED_MODULE_7__.number().integer()
       })
     }),
         errors = _useForm.errors,
@@ -25623,7 +25629,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           price_name = _ref3.price_name,
           infoPrices = _ref3.infoPrices,
           admin_comment = _ref3.admin_comment,
-          instructions = _ref3.instructions;
+          instructions = _ref3.instructions,
+          price_purchase = _ref3.price_purchase,
+          price_purchase_currency_id = _ref3.price_purchase_currency_id,
+          price_retail = _ref3.price_retail,
+          price_retail_currency_id = _ref3.price_retail_currency_id,
+          unit = _ref3.unit,
+          availability_status_id = _ref3.availability_status_id;
       setValues({
         is_active: is_active,
         name: name,
@@ -25637,7 +25649,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         price_name: price_name,
         infoPrices: infoPrices,
         admin_comment: admin_comment,
-        instructions: instructions
+        instructions: instructions,
+        price_purchase: price_purchase,
+        price_purchase_currency_id: price_purchase_currency_id,
+        price_retail: price_retail,
+        price_retail_currency_id: price_retail_currency_id,
+        unit: unit,
+        availability_status_id: availability_status_id
       });
     });
     var onSubmit = handleSubmit(function (values, actions) {
@@ -26911,18 +26929,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _admin_inertia_modules_common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/admin/inertia/modules/common */ "./resources/js/admin/inertia/modules/common/index.ts");
 /* harmony import */ var _admin_inertia_modules_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/admin/inertia/modules/forms */ "./resources/js/admin/inertia/modules/forms/index.ts");
 /* harmony import */ var _admin_inertia_modules_brands__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/admin/inertia/modules/brands */ "./resources/js/admin/inertia/modules/brands/index.ts");
-/* harmony import */ var vee_validate__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vee-validate */ "./node_modules/vee-validate/dist/vee-validate.esm.js");
+/* harmony import */ var vee_validate__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vee-validate */ "./node_modules/vee-validate/dist/vee-validate.esm.js");
 /* harmony import */ var _admin_inertia_components_products_tabs_forms_InfoPrices_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/admin/inertia/components/products/tabs/forms/InfoPrices.vue */ "./resources/js/admin/inertia/components/products/tabs/forms/InfoPrices.vue");
 /* harmony import */ var _admin_inertia_components_forms_vee_validate_RowCheckbox_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/admin/inertia/components/forms/vee-validate/RowCheckbox.vue */ "./resources/js/admin/inertia/components/forms/vee-validate/RowCheckbox.vue");
 /* harmony import */ var _admin_inertia_components_forms_vee_validate_RowInput_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/admin/inertia/components/forms/vee-validate/RowInput.vue */ "./resources/js/admin/inertia/components/forms/vee-validate/RowInput.vue");
 /* harmony import */ var _admin_inertia_components_forms_vee_validate_RowSelect_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/admin/inertia/components/forms/vee-validate/RowSelect.vue */ "./resources/js/admin/inertia/components/forms/vee-validate/RowSelect.vue");
 /* harmony import */ var _admin_inertia_components_forms_vee_validate_RowTextarea_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/admin/inertia/components/forms/vee-validate/RowTextarea.vue */ "./resources/js/admin/inertia/components/forms/vee-validate/RowTextarea.vue");
 /* harmony import */ var _admin_inertia_components_products_tabs_forms_Instructions_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/admin/inertia/components/products/tabs/forms/Instructions.vue */ "./resources/js/admin/inertia/components/products/tabs/forms/Instructions.vue");
+/* harmony import */ var _admin_inertia_modules_currencies__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/admin/inertia/modules/currencies */ "./resources/js/admin/inertia/modules/currencies/index.ts");
+/* harmony import */ var _admin_inertia_modules_availabilityStatuses__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/admin/inertia/modules/availabilityStatuses */ "./resources/js/admin/inertia/modules/availabilityStatuses/index.ts");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
 
 
 
@@ -26945,6 +26967,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var productsStore = (0,_admin_inertia_modules_products__WEBPACK_IMPORTED_MODULE_2__.useProductsStore)();
     var formsStore = (0,_admin_inertia_modules_forms__WEBPACK_IMPORTED_MODULE_4__.useFormsStore)();
     var brandsStore = (0,_admin_inertia_modules_brands__WEBPACK_IMPORTED_MODULE_5__.useBrandsStore)();
+    var currenciesStore = (0,_admin_inertia_modules_currencies__WEBPACK_IMPORTED_MODULE_12__.useCurrenciesStore)();
+    var availabilityStatusesStore = (0,_admin_inertia_modules_availabilityStatuses__WEBPACK_IMPORTED_MODULE_13__.useAvailabilityStatusesStore)();
     var isCreating = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
       return (0,_admin_inertia_modules_products__WEBPACK_IMPORTED_MODULE_2__.isCreatingProductRoute)();
     });
@@ -27006,10 +27030,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       productsStore: productsStore,
       formsStore: formsStore,
       brandsStore: brandsStore,
+      currenciesStore: currenciesStore,
+      availabilityStatusesStore: availabilityStatusesStore,
       isCreating: isCreating,
       generateSlugSyncMode: generateSlugSyncMode,
       handleSyncNameAndSlug: handleSyncNameAndSlug,
-      Field: vee_validate__WEBPACK_IMPORTED_MODULE_12__.Field,
+      Field: vee_validate__WEBPACK_IMPORTED_MODULE_14__.Field,
       InfoPrices: _admin_inertia_components_products_tabs_forms_InfoPrices_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
       RowCheckbox: _admin_inertia_components_forms_vee_validate_RowCheckbox_vue__WEBPACK_IMPORTED_MODULE_7__["default"],
       RowInput: _admin_inertia_components_forms_vee_validate_RowInput_vue__WEBPACK_IMPORTED_MODULE_8__["default"],
@@ -29304,6 +29330,78 @@ var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 var _hoisted_17 = {
   "class": "col-sm-3"
 };
+var _hoisted_18 = {
+  "class": "row mb-3"
+};
+
+var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "col-sm-5 text-end"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "price_purchase",
+  "class": "fw-bold"
+}, "Закупочная цена:")], -1
+/* HOISTED */
+);
+
+var _hoisted_20 = {
+  "class": "col-sm-2"
+};
+
+var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "col-sm-3 text-end"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "price_purchase_currency_id"
+}, "Валюта:")], -1
+/* HOISTED */
+);
+
+var _hoisted_22 = {
+  "class": "col-sm-2"
+};
+
+var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  value: undefined
+}, "(не установлено)", -1
+/* HOISTED */
+);
+
+var _hoisted_24 = ["value", "disabled"];
+var _hoisted_25 = {
+  "class": "row mb-3"
+};
+
+var _hoisted_26 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "col-sm-5 text-end"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "price_retail",
+  "class": "fw-bold"
+}, "Розничная цена:")], -1
+/* HOISTED */
+);
+
+var _hoisted_27 = {
+  "class": "col-sm-2"
+};
+
+var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "col-sm-3 text-end"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "price_retail_currency_id"
+}, "Валюта:")], -1
+/* HOISTED */
+);
+
+var _hoisted_29 = {
+  "class": "col-sm-2"
+};
+
+var _hoisted_30 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  value: undefined
+}, "(не установлено)", -1
+/* HOISTED */
+);
+
+var _hoisted_31 = ["value", "disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _$setup$productsStore;
 
@@ -29433,7 +29531,102 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["InfoPrices"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["RowTextarea"], {
     name: "admin_comment",
     label: "Служебная информация"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Instructions"])]);
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Instructions"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [_hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Field"], {
+    name: "price_purchase"
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref5) {
+      var field = _ref5.field,
+          meta = _ref5.meta;
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)(field, {
+        "class": ['form-control', !meta.valid ? 'is-invalid' : ''],
+        type: "number",
+        id: "price_purchase"
+      }), null, 16
+      /* FULL_PROPS */
+      )];
+    }),
+    _: 1
+    /* STABLE */
+
+  })]), _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Field"], {
+    name: "price_purchase_currency_id"
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref6) {
+      var field = _ref6.field,
+          meta = _ref6.meta;
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({
+        "class": ['form-control', !meta.valid ? 'is-invalid' : ''],
+        id: "price_purchase_currency_id"
+      }, field), [_hoisted_23, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.currenciesStore.options, function (option) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+          key: option.value,
+          value: option.value,
+          disabled: option.disabled
+        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9
+        /* TEXT, PROPS */
+        , _hoisted_24);
+      }), 128
+      /* KEYED_FRAGMENT */
+      ))], 16
+      /* FULL_PROPS */
+      )];
+    }),
+    _: 1
+    /* STABLE */
+
+  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [_hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Field"], {
+    name: "price_retail"
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref7) {
+      var field = _ref7.field,
+          meta = _ref7.meta;
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)(field, {
+        "class": ['form-control', !meta.valid ? 'is-invalid' : ''],
+        type: "number",
+        id: "price_retail"
+      }), null, 16
+      /* FULL_PROPS */
+      )];
+    }),
+    _: 1
+    /* STABLE */
+
+  })]), _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Field"], {
+    name: "price_retail_currency_id"
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref8) {
+      var field = _ref8.field,
+          meta = _ref8.meta;
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({
+        "class": ['form-control', !meta.valid ? 'is-invalid' : ''],
+        id: "price_retail_currency_id"
+      }, field), [_hoisted_30, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.currenciesStore.options, function (option) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+          key: option.value,
+          value: option.value,
+          disabled: option.disabled
+        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9
+        /* TEXT, PROPS */
+        , _hoisted_31);
+      }), 128
+      /* KEYED_FRAGMENT */
+      ))], 16
+      /* FULL_PROPS */
+      )];
+    }),
+    _: 1
+    /* STABLE */
+
+  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["RowInput"], {
+    name: "unit",
+    label: "Упаковка / Единица"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["RowSelect"], {
+    name: "availability_status_id",
+    label: "Наличие",
+    options: $setup.availabilityStatusesStore.options
+  }, null, 8
+  /* PROPS */
+  , ["options"])]);
 }
 
 /***/ }),
@@ -29769,6 +29962,15 @@ var useAvailabilityStatusesStore = (0,pinia__WEBPACK_IMPORTED_MODULE_0__.defineS
   getters: {
     entities: function entities(state) {
       return state._entities;
+    },
+    options: function options() {
+      return this.entities.map(function (availabilityStatus) {
+        return {
+          value: availabilityStatus.id,
+          label: availabilityStatus.name,
+          disabled: false
+        };
+      });
     }
   },
   actions: {
@@ -30359,6 +30561,15 @@ var useCurrenciesStore = (0,pinia__WEBPACK_IMPORTED_MODULE_0__.defineStore)(stor
   getters: {
     entities: function entities(state) {
       return state._entities;
+    },
+    options: function options() {
+      return this.entities.map(function (currency) {
+        return {
+          value: currency.id,
+          label: currency.name,
+          disabled: false
+        };
+      });
     }
   },
   actions: {
