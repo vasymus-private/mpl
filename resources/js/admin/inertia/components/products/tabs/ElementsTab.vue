@@ -10,6 +10,7 @@ import RowCheckbox from '@/admin/inertia/components/forms/vee-validate/RowCheckb
 import RowInput from '@/admin/inertia/components/forms/vee-validate/RowInput.vue'
 import RowSelect from '@/admin/inertia/components/forms/vee-validate/RowSelect.vue'
 import RowTextarea from '@/admin/inertia/components/forms/vee-validate/RowTextarea.vue'
+import Instructions from "@/admin/inertia/components/products/tabs/forms/Instructions.vue"
 
 
 const productsStore = useProductsStore()
@@ -157,5 +158,7 @@ const handleSyncNameAndSlug = async () => {
         <InfoPrices />
 
         <RowTextarea name="admin_comment" label="Служебная информация" />
+
+        <Instructions />
     </div>
 </template>

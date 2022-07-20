@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources\Admin;
 
+use Domain\Common\Models\CustomMedia;
+use Domain\Products\Models\Product\Product;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductResource extends JsonResource
@@ -59,6 +61,19 @@ class ProductResource extends JsonResource
             'instruments_name' => $this->resource->instruments_name,
             'seo' => $this->resource->seo,
             'infoPrices' => $this->resource->infoPrices,
+            'instructions' => $this->resource
+                ->getMedia(Product::MC_FILES)
+                ->map(function(CustomMedia $media) {
+                    return [
+                        'id' => $media->id,
+                        'url' => $media->getFullUrl(),
+                        'name' => $media->name,
+                        'file_name' => $media->file_name,
+                        'order_column' => $media->order_column,
+                    ];
+                })
+                ->sortByDesc('order_column')
+                ->values()
         ];
     }
 }

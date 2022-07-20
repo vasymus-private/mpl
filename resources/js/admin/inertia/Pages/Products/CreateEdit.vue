@@ -27,7 +27,7 @@ const setWithVariations = (is_with_variations: boolean) => {
     productsStore.handleUpdate({is_with_variations})
 }
 
-const {errors, handleSubmit, setFieldValue, values, setValues} = useForm({
+const {errors, handleSubmit, values, setValues} = useForm({
     validationSchema: yup.object({
         is_active: yup.boolean(),
         name: yup.string().required().max(250),
@@ -47,6 +47,16 @@ const {errors, handleSubmit, setFieldValue, values, setValues} = useForm({
             })
         ).nullable(),
         admin_comment: yup.string().max(250),
+        instructions: yup.array().of(
+            yup.object({
+                id: yup.number().integer().truncate(),
+                name: yup.string().required().max(250),
+                file_name: yup.string().required().max(250),
+                url: yup.string(),
+                order_column: yup.number(),
+                file: yup.mixed(),
+            })
+        )
     })
 })
 
@@ -55,7 +65,7 @@ watch(values, newValues => {
     formsStore.setProductForm(newValues)
 })
 
-watch(() => productsStore.product, ({is_active, name, slug, ordering, brand_id, coefficient, coefficient_description, coefficient_description_show, coefficient_variation_description, price_name, infoPrices, admin_comment}) => {
+watch(() => productsStore.product, ({is_active, name, slug, ordering, brand_id, coefficient, coefficient_description, coefficient_description_show, coefficient_variation_description, price_name, infoPrices, admin_comment, instructions}) => {
     setValues({
         is_active,
         name,
@@ -69,6 +79,7 @@ watch(() => productsStore.product, ({is_active, name, slug, ordering, brand_id, 
         price_name,
         infoPrices,
         admin_comment,
+        instructions,
     })
 })
 

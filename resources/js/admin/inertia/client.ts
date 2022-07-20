@@ -7,7 +7,11 @@ import { createPinia } from "pinia"
 import { initFromPageProps } from "@/admin/inertia/modules"
 import "bootstrap"
 import { Inertia } from "@inertiajs/inertia"
+import lodash from 'lodash'
 
+
+// @ts-ignore
+window.___lodash = lodash
 const pinia = createPinia()
 Inertia.on("navigate", (event) => {
     initFromPageProps(pinia, event.detail.page.props)
