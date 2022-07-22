@@ -5,6 +5,10 @@ declare global {
     interface Window {
         _: Lodash
         axios: AxiosInstance
+        /**
+         * @see /resources/vendor/ckeditor5
+         * */
+        ClassicEditor: {}
     }
 
     declare function route(): Router

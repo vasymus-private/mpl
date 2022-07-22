@@ -9,6 +9,7 @@ import { useForm } from 'vee-validate'
 import * as yup from 'yup'
 import {useFormsStore} from "@/admin/inertia/modules/forms"
 import {Inertia} from "@inertiajs/inertia"
+import Product from "@/admin/inertia/modules/products/Product";
 
 
 const productsStore = useProductsStore()
@@ -63,15 +64,19 @@ const {errors, handleSubmit, values, setValues} = useForm({
         price_retail_currency_id: yup.number().integer(),
         unit: yup.string().max(250),
         availability_status_id: yup.number().integer(),
+        preview: yup.string().max(65000),
+        description: yup.string().max(65000),
     })
 })
 
 watch(values, newValues => {
-    console.log('--- values', newValues)
+    // console.log('--- values', newValues)
     formsStore.setProductForm(newValues)
 })
 
-watch(() => productsStore.product, ({is_active, name, slug, ordering, brand_id, coefficient, coefficient_description, coefficient_description_show, coefficient_variation_description, price_name, infoPrices, admin_comment, instructions, price_purchase, price_purchase_currency_id, price_retail, price_retail_currency_id, unit, availability_status_id}) => {
+watch(() => productsStore.product, (product: Product|null) => {
+    const {is_active, name, slug, ordering, brand_id, coefficient, coefficient_description, coefficient_description_show, coefficient_variation_description, price_name, infoPrices = [], admin_comment, instructions = [], price_purchase, price_purchase_currency_id, price_retail, price_retail_currency_id, unit, availability_status_id, preview, description} = product || {}
+    // console.log('---- preview', preview)
     setValues({
         is_active,
         name,
@@ -92,6 +97,8 @@ watch(() => productsStore.product, ({is_active, name, slug, ordering, brand_id, 
         price_retail_currency_id,
         unit,
         availability_status_id,
+        preview,
+        description,
     })
 })
 

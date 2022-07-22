@@ -106,7 +106,7 @@ export const getRouter = () => {
 export const getRouteUrl = (
     name: string,
     params?: RouteParamsWithQueryOverload | RouteParam
-) => route(name, params, undefined, Ziggy as Config)
+): string => route(name, params, undefined, Ziggy as Config)
 
 export const routeNames = {
     ROUTE_WEB_HOME: "home",
@@ -151,6 +151,7 @@ export const routeNames = {
     ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE: "admin-ajax.products.update",
     ROUTE_ADMIN_AJAX_SORT_COLUMNS: "admin-ajax.sort-columns",
     ROUTE_ADMIN_AJAX_HELPER: "admin-ajax.helper",
+    ROUTE_ADMIN_PRODUCT_IMAGE_UPLOAD: 'admin-ajax.product-image-upload',
 }
 
 enum RouteNameGroupEnum {

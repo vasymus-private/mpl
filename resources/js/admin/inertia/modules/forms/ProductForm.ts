@@ -18,6 +18,8 @@ export interface ProductForm {
     price_retail_currency_id?: number
     unit?: string
     availability_status_id?: number
+    preview?: string
+    description?: string
 }
 
 interface InfoPrice {

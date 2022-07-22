@@ -107,6 +107,7 @@ class Product extends BaseModel implements HasMedia
     public const MC_MAIN_IMAGE = "main";
     public const MC_ADDITIONAL_IMAGES = "images";
     public const MC_FILES = "files";
+    public const MC_DESCRIPTION_FILES = 'description-files';
 
     public const MCONV_XS_THUMB = "xs-thumb"; // 40x40
     public const MCONV_XS_THUMB_SIZE = 40;
@@ -254,6 +255,8 @@ class Product extends BaseModel implements HasMedia
         $this->addMediaCollection(static::MC_ADDITIONAL_IMAGES);
 
         $this->addMediaCollection(static::MC_FILES);
+
+        $this->addMediaCollection(static::MC_DESCRIPTION_FILES);
     }
 
     public function registerMediaConversions(Media $media = null): void

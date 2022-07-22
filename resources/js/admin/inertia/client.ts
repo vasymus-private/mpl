@@ -7,10 +7,9 @@ import { createPinia } from "pinia"
 import { initFromPageProps } from "@/admin/inertia/modules"
 import "bootstrap"
 import { Inertia } from "@inertiajs/inertia"
-import lodash from "lodash"
+import 'ckeditor5-custom-build/build/ckeditor'
 
-// @ts-ignore
-window.___lodash = lodash
+
 const pinia = createPinia()
 Inertia.on("navigate", (event) => {
     initFromPageProps(pinia, event.detail.page.props)
@@ -20,7 +19,7 @@ createInertiaApp({
     resolve: (name) => require(`./Pages/${name}`),
     // @ts-ignore
     setup({ el, App, props, plugin }) {
-        console.log(el, App, props, plugin)
+        // console.log(el, App, props, plugin)
         try {
             return createApp({ render: () => h(App, props) })
                 .use(plugin)

@@ -28,3 +28,5 @@ Route::put('product/{admin_product}', [\App\Http\Controllers\Admin\Ajax\Products
 Route::put('sort-columns', \App\Http\Controllers\Admin\Ajax\SortColumnsController::class)->name(Constants::ROUTE_ADMIN_AJAX_SORT_COLUMNS);
 
 Route::post('helper/slug', [\App\Http\Controllers\Admin\Ajax\HelperController::class, 'slug'])->name(Constants::ROUTE_ADMIN_AJAX_HELPER);
+
+Route::post('product-image-upload/{admin_product}', [\App\Http\Controllers\Admin\Ajax\ProductImageUploadController::class, 'store'])->name(Constants::ROUTE_ADMIN_PRODUCT_IMAGE_UPLOAD);
