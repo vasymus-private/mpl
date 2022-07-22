@@ -32,5 +32,6 @@ yarn-error.log
 .php-cs-fixer.cache
 
 build
+!resources/js/vendor/ckeditor5/build
 
 /node
