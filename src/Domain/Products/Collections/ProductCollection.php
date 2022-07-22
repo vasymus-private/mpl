@@ -22,7 +22,7 @@ class ProductCollection extends Collection
 
                     return $acc + $priceRub;
                 }, 0.0)
-            ;
+        ;
     }
 
     public function cartProductsNotTrashed(): self
