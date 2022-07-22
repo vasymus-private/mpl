@@ -13,10 +13,11 @@ class ProductImageUploadController extends BaseAdminController
         /** @var \Domain\Products\Models\Product\Product $product */
         $product = $request->admin_product;
         $request->validate([
-            'upload' => 'required|file'
+            'upload' => 'required|file',
         ]);
 
         $media = $product->addMedia($request->file('upload'))->toMediaCollection(Product::MC_DESCRIPTION_FILES);
+
         return [
             'url' => $media->getFullUrl(),
         ];
