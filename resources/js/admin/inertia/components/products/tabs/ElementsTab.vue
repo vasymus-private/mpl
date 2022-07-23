@@ -66,10 +66,10 @@ const handleSyncNameAndSlug = async () => {
                     v-slot="{ field, meta }"
                     name="name"
                 >
-                    <div :class="['input-group', !meta.valid ? 'has-validation' : '']">
+                    <div :class="['input-group', !meta.valid && meta.touched ? 'has-validation' : '']">
                         <input
                             v-bind="field"
-                            :class="['form-control', !meta.valid ? 'is-invalid' : '']"
+                            :class="['form-control', !meta.valid && meta.touched ? 'is-invalid' : '']"
                             type="text"
                             id="name"
                             @blur="handleSyncNameAndSlug"
@@ -95,10 +95,10 @@ const handleSyncNameAndSlug = async () => {
                     v-slot="{ field, meta }"
                     name="slug"
                 >
-                    <div :class="['input-group', !meta.valid ? 'has-validation' : '']">
+                    <div :class="['input-group', !meta.valid && meta.touched ? 'has-validation' : '']">
                         <input
                             v-bind="field"
-                            :class="['form-control', !meta.valid ? 'is-invalid' : '']"
+                            :class="['form-control', !meta.valid && meta.touched ? 'is-invalid' : '']"
                             type="text"
                             id="slug"
                         />

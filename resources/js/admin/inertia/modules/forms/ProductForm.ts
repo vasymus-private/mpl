@@ -20,6 +20,8 @@ export interface ProductForm {
     availability_status_id?: number
     preview?: string
     description?: string
+    mainImage?: MainImage
+    additionalImages?: Array<AdditionalImage>
 }
 
 interface InfoPrice {
@@ -29,6 +31,23 @@ interface InfoPrice {
 }
 
 export interface Instruction {
+    id: number | null
+    url: string | null
+    name: string | null
+    file_name: string | null
+    order_column: number | null
+    file: File | null
+}
+
+interface MainImage {
+    id: number | null
+    url: string | null
+    name: string | null
+    file_name: string | null
+    file: File | null
+}
+
+export interface AdditionalImage {
     id: number | null
     url: string | null
     name: string | null

@@ -32,6 +32,8 @@ export default interface Product {
     seo: Seo | null
     infoPrices: Array<InfoPrice> | null
     instructions: Array<Instruction> | null
+    mainImage: ProductImage | null
+    additionalImages: Array<ProductImage>
 }
 
 export interface Seo {
@@ -54,5 +56,14 @@ export interface Instruction {
     name: string | null
     file_name: string | null
     order_column: number | null
-    file: any
+    file: File | null
+}
+
+interface ProductImage {
+    id: number | null
+    url: string | null
+    name: string | null
+    file_name: string | null
+    order_column: number | null
+    file: File | null
 }

@@ -1,5 +1,6 @@
 import { defineStore } from "pinia"
 import {
+    AdditionalImage,
     Instruction,
     ProductForm,
 } from "@/admin/inertia/modules/forms/ProductForm"
@@ -28,6 +29,18 @@ export const useFormsStore = defineStore(storeName, {
             return (
                 (maxInstructionByColumn &&
                     maxInstructionByColumn.order_column) ||
+                undefined
+            )
+        },
+        maxAdditionalImagesColumn: function (): number | undefined {
+            const maxAdditionalByColumn: AdditionalImage | undefined = maxBy(
+                this.product.additionalImages,
+                (item: AdditionalImage) => item.order_column
+            )
+
+            return (
+                (maxAdditionalByColumn &&
+                    maxAdditionalByColumn.order_column) ||
                 undefined
             )
         },

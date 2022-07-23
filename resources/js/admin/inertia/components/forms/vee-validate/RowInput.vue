@@ -21,7 +21,7 @@ const props = defineProps<{
             >
                 <input
                     v-bind="field"
-                    :class="['form-control', !meta.valid ? 'is-invalid' : '']"
+                    :class="['form-control', !meta.valid && meta.touched ? 'is-invalid' : '']"
                     :type="props.type || 'text'"
                     :id="props.name"
                 />

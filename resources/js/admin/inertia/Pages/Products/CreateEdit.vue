@@ -36,10 +36,10 @@ const {errors, handleSubmit, values, setValues} = useForm({
         ordering: yup.number().truncate(),
         brand_id: yup.number().integer(),
         coefficient: yup.number().truncate(),
-        coefficient_description: yup.string().max(250),
+        coefficient_description: yup.string().max(250).nullable(),
         coefficient_description_show: yup.boolean(),
-        coefficient_variation_description: yup.string().max(250),
-        price_name: yup.string().max(250),
+        coefficient_variation_description: yup.string().max(250).nullable(),
+        price_name: yup.string().max(250).nullable(),
         infoPrices: yup.array().of(
             yup.object({
                 id: yup.number().integer().truncate(),
@@ -47,7 +47,7 @@ const {errors, handleSubmit, values, setValues} = useForm({
                 price: yup.number().required().truncate(),
             })
         ).nullable(),
-        admin_comment: yup.string().max(250),
+        admin_comment: yup.string().max(250).nullable(),
         instructions: yup.array().of(
             yup.object({
                 id: yup.number().integer().truncate(),
@@ -62,10 +62,27 @@ const {errors, handleSubmit, values, setValues} = useForm({
         price_purchase_currency_id: yup.number().integer(),
         price_retail: yup.number(),
         price_retail_currency_id: yup.number().integer(),
-        unit: yup.string().max(250),
+        unit: yup.string().max(250).nullable(),
         availability_status_id: yup.number().integer(),
-        preview: yup.string().max(65000),
-        description: yup.string().max(65000),
+        preview: yup.string().max(65000).nullable(),
+        description: yup.string().max(65000).nullable(),
+        mainImage: yup.object({
+            id: yup.number().integer().truncate(),
+            name: yup.string().required().max(250),
+            file_name: yup.string().required().max(250),
+            url: yup.string(),
+            file: yup.mixed(),
+        }).nullable(),
+        additionalImages: yup.array().of(
+            yup.object({
+                id: yup.number().integer().truncate(),
+                name: yup.string().required().max(250),
+                file_name: yup.string().required().max(250),
+                url: yup.string(),
+                order_column: yup.number(),
+                file: yup.mixed(),
+            })
+        ),
     })
 })
 
@@ -75,7 +92,7 @@ watch(values, newValues => {
 })
 
 watch(() => productsStore.product, (product: Product|null) => {
-    const {is_active, name, slug, ordering, brand_id, coefficient, coefficient_description, coefficient_description_show, coefficient_variation_description, price_name, infoPrices = [], admin_comment, instructions = [], price_purchase, price_purchase_currency_id, price_retail, price_retail_currency_id, unit, availability_status_id, preview, description} = product || {}
+    const {is_active, name, slug, ordering, brand_id, coefficient, coefficient_description, coefficient_description_show, coefficient_variation_description, price_name, infoPrices = [], admin_comment, instructions = [], price_purchase, price_purchase_currency_id, price_retail, price_retail_currency_id, unit, availability_status_id, preview, description, mainImage, additionalImages = []} = product || {}
     // console.log('---- preview', preview)
     setValues({
         is_active,
@@ -99,6 +116,8 @@ watch(() => productsStore.product, (product: Product|null) => {
         availability_status_id,
         preview,
         description,
+        mainImage,
+        additionalImages
     })
 })
 

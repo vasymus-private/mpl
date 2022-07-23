@@ -21,7 +21,7 @@ const props = defineProps<{
             >
                 <textarea
                     v-bind="field"
-                    :class="['form-control', !meta.valid ? 'is-invalid' : '']"
+                    :class="['form-control', !meta.valid && meta.touched ? 'is-invalid' : '']"
                     :id="props.name"
                     :rows="props.rows || 3"
                 />

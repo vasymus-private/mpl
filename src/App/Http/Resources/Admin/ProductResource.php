@@ -24,6 +24,8 @@ class ProductResource extends JsonResource
      */
     public function toArray($request)
     {
+        /** @var \Domain\Common\Models\CustomMedia $mainImage */
+        $mainImage = $this->resource->getFirstMedia(Product::MC_MAIN_IMAGE);
         return [
             'id' => $this->resource->id,
             'uuid' => $this->resource->uuid,
@@ -74,6 +76,25 @@ class ProductResource extends JsonResource
                 })
                 ->sortByDesc('order_column')
                 ->values(),
+            'mainImage' => $mainImage
+                ? [
+                    'id' => $mainImage->id,
+                    'url' => $mainImage->getFullUrl(),
+                    'name' => $mainImage->name,
+                    'file_name' => $mainImage->file_name,
+                ]
+                : null,
+            'additionalImages' => $this->resource
+                ->getMedia(Product::MC_ADDITIONAL_IMAGES)
+                ->map(function (CustomMedia $media) {
+                    return [
+                        'id' => $media->id,
+                        'url' => $media->getFullUrl(),
+                        'name' => $media->name,
+                        'file_name' => $media->file_name,
+                        'order_column' => $media->order_column,
+                    ];
+                })
         ];
     }
 }

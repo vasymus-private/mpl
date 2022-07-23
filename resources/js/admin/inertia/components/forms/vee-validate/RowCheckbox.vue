@@ -26,7 +26,7 @@ const props = defineProps<{
                     type="checkbox"
                     :value="true"
                     :id="props.name"
-                    :class="['form-check-input', !meta.valid ? 'is-invalid' : '']"
+                    :class="['form-check-input', !meta.valid && meta.touched ? 'is-invalid' : '']"
                 />
             </Field>
         </div>
