@@ -9,7 +9,6 @@ import "bootstrap"
 import { Inertia } from "@inertiajs/inertia"
 import "ckeditor5-custom-build/build/ckeditor"
 
-
 const pinia = createPinia()
 Inertia.on("navigate", (event) => {
     initFromPageProps(pinia, event.detail.page.props)
