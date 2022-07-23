@@ -26,6 +26,7 @@ class ProductResource extends JsonResource
     {
         /** @var \Domain\Common\Models\CustomMedia $mainImage */
         $mainImage = $this->resource->getFirstMedia(Product::MC_MAIN_IMAGE);
+
         return [
             'id' => $this->resource->id,
             'uuid' => $this->resource->uuid,
@@ -94,7 +95,7 @@ class ProductResource extends JsonResource
                         'file_name' => $media->file_name,
                         'order_column' => $media->order_column,
                     ];
-                })
+                }),
         ];
     }
 }
