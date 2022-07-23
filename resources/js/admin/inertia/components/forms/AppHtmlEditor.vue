@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-import {component as CKEditor} from '@ckeditor/ckeditor5-vue'
 import {itemsWithImageUpload, itemsWithoutImageUpload} from '@/vendor/ckeditor5/src/defaultConfig'
 import {getXsrfToken} from '@/admin/inertia/utils'
-import {computed} from "vue";
+import {computed} from "vue"
 
 
 const props = defineProps<{
@@ -36,11 +35,17 @@ let configWithoutUpload: {toolbar: object, simpleUpload: object} = {
         uploadUrl: 'https://example.com',
     },
 }
-const editor = window.ClassicEditor
+let editor
+let CKEditor
+if (typeof window !== "undefined") {
+    editor = window.ClassicEditor
+    let { component } = require('@ckeditor/ckeditor5-vue')
+    CKEditor = component
+}
 </script>
 
 <template>
-    <div>
+    <div v-if="CKEditor && editor">
         <div v-if="props.uploadUrl">
             <CKEditor
                 :editor="editor"
