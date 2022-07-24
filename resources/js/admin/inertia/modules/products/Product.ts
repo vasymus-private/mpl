@@ -1,3 +1,5 @@
+import {CharCategory} from "@/admin/inertia/modules/products/Char"
+
 export default interface Product {
     id: number | null
     uuid: string | null
@@ -34,6 +36,7 @@ export default interface Product {
     instructions: Array<Instruction> | null
     mainImage: ProductImage | null
     additionalImages: Array<ProductImage>
+    charCategories: Array<CharCategory>
 }
 
 export interface Seo {

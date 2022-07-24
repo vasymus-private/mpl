@@ -11,3 +11,5 @@ export const cookieRead = (name: string): string | null => {
     )
     return match ? decodeURIComponent(match[3]) : null
 }
+
+export const randomId = (): string => `id${Math.random().toString(16).slice(2)}`

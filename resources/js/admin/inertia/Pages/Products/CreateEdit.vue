@@ -9,7 +9,8 @@ import { useForm } from 'vee-validate'
 import * as yup from 'yup'
 import {useFormsStore} from "@/admin/inertia/modules/forms"
 import {Inertia} from "@inertiajs/inertia"
-import Product from "@/admin/inertia/modules/products/Product";
+import Product from "@/admin/inertia/modules/products/Product"
+import {randomId} from "@/admin/inertia/utils"
 
 
 const productsStore = useProductsStore()
@@ -83,17 +84,46 @@ const {errors, handleSubmit, values, setValues} = useForm({
                 file: yup.mixed(),
             })
         ),
+        charCategories: yup.array().of(
+            yup.object({
+                id: yup.number().integer().truncate(),
+                uuid: yup.string().required(),
+                name: yup.string().required().max(250),
+                product_id: yup.number().integer().truncate(),
+                ordering: yup.number(),
+            })
+        ),
+        chars: yup.array().of(
+            yup.object({
+                id: yup.number().integer().truncate(),
+                name: yup.string().required().max(250),
+                value: yup.string().required().max(250),
+                product_id: yup.number().integer().truncate(),
+                type_id: yup.number().integer().truncate(),
+                category_id: yup.number().integer().truncate(),
+                category_uuid: yup.string().required(),
+                ordering: yup.number(),
+            })
+        )
     })
 })
 
 watch(values, newValues => {
-    // console.log('--- values', newValues)
     formsStore.setProductForm(newValues)
 })
 
 watch(() => productsStore.product, (product: Product|null) => {
-    const {is_active, name, slug, ordering, brand_id, coefficient, coefficient_description, coefficient_description_show, coefficient_variation_description, price_name, infoPrices = [], admin_comment, instructions = [], price_purchase, price_purchase_currency_id, price_retail, price_retail_currency_id, unit, availability_status_id, preview, description, mainImage, additionalImages = []} = product || {}
-    // console.log('---- preview', preview)
+    const {is_active, name, slug, ordering, brand_id, coefficient, coefficient_description, coefficient_description_show, coefficient_variation_description, price_name, infoPrices = [], admin_comment, instructions = [], price_purchase, price_purchase_currency_id, price_retail, price_retail_currency_id, unit, availability_status_id, preview, description, mainImage, additionalImages = [], charCategories = []} = product || {}
+    const _charCategories = charCategories.map(({id, name, product_id, ordering, chars}) => ({id, name, product_id, ordering, uuid: randomId(), chars}))
+    const chars = _charCategories.reduce((acc, {chars, uuid}) => {
+        return [
+            ...acc,
+            ...chars.map(char => ({
+                ...char,
+                category_uuid: uuid,
+            }))
+        ]
+    }, [])
     setValues({
         is_active,
         name,
@@ -117,7 +147,9 @@ watch(() => productsStore.product, (product: Product|null) => {
         preview,
         description,
         mainImage,
-        additionalImages
+        additionalImages,
+        charCategories: _charCategories,
+        chars,
     })
 })
 

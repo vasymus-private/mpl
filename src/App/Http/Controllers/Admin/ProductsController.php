@@ -70,6 +70,8 @@ class ProductsController extends BaseAdminController
         /** @var \Domain\Products\Models\Product\Product $product */
         $product = $request->admin_product;
 
+        $product->load('charCategories.chars');
+
         return $inertia->render('Products/CreateEdit', [
             'product' => (new ProductResource($product))->toArray($request),
         ]);

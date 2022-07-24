@@ -55,3 +55,22 @@ export interface AdditionalImage {
     order_column: number | null
     file: File | null
 }
+
+export interface CharCategory {
+    id: number|string
+    uuid: string
+    name: string|null
+    product_id: number|null
+    ordering: number
+}
+
+export interface Char {
+    id: number|null
+    name: string|null
+    value: string | number | null
+    product_id: number|null
+    type_id: number
+    category_id: number|string
+    category_uuid: string
+    ordering: number
+}

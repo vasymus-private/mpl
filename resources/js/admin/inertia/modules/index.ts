@@ -25,8 +25,8 @@ import OrderImportance from "@/admin/inertia/modules/orderImportance/OrderImport
 import { useOrderImportanceStore } from "@/admin/inertia/modules/orderImportance"
 import OrderStatus from "@/admin/inertia/modules/orderStatuses/OrderStatus"
 import { useOrderStatusesStore } from "@/admin/inertia/modules/orderStatuses"
-import CharType from "@/admin/inertia/modules/chars/CharType"
-import { useCharsStore } from "@/admin/inertia/modules/chars"
+import CharType from "@/admin/inertia/modules/charTypes/CharType"
+import { useCharTypesStore } from "@/admin/inertia/modules/charTypes"
 import Links from "@/admin/inertia/modules/common/Links"
 import Meta from "@/admin/inertia/modules/common/Meta"
 import { useRoutesStore } from "@/admin/inertia/modules/routes"
@@ -145,6 +145,6 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
     const orderStatusesStore = useOrderStatusesStore(pinia)
     orderStatusesStore.setEntities(orderStatusesData)
 
-    const charsStore = useCharsStore(pinia)
+    const charsStore = useCharTypesStore(pinia)
     charsStore.setChartTypes(charTypesData)
 }

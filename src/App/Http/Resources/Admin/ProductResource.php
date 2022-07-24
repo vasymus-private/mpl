@@ -3,6 +3,8 @@
 namespace App\Http\Resources\Admin;
 
 use Domain\Common\Models\CustomMedia;
+use Domain\Products\Models\Char;
+use Domain\Products\Models\CharCategory;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -94,7 +96,28 @@ class ProductResource extends JsonResource
                         'file_name' => $media->file_name,
                         'order_column' => $media->order_column,
                     ];
-                })
+                }),
+            'charCategories' => $this->resource
+                ->charCategories
+                ->map(
+                    fn(CharCategory $charCategory) => [
+                        'id' => $charCategory->id,
+                        'name' => $charCategory->name,
+                        'product_id' => $charCategory->product_id,
+                        'ordering' => $charCategory->ordering,
+                        'chars' => $charCategory->chars->map(
+                            fn(Char $char) => [
+                                'id' => $char->id,
+                                'name' => $char->name,
+                                'value' => $char->value,
+                                'product_id' => $char->product_id,
+                                'type_id' => $char->type_id,
+                                'category_id' => $char->category_id,
+                                'ordering' => $char->ordering,
+                            ]
+                        )
+                    ]
+                )
         ];
     }
 }
