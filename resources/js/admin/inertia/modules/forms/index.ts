@@ -39,8 +39,7 @@ export const useFormsStore = defineStore(storeName, {
             )
 
             return (
-                (maxAdditionalByColumn &&
-                    maxAdditionalByColumn.order_column) ||
+                (maxAdditionalByColumn && maxAdditionalByColumn.order_column) ||
                 undefined
             )
         },
