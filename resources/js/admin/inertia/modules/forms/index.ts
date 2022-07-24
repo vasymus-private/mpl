@@ -1,6 +1,8 @@
 import { defineStore } from "pinia"
 import {
-    AdditionalImage, Char, CharCategory,
+    AdditionalImage,
+    Char,
+    CharCategory,
     Instruction,
     ProductForm,
 } from "@/admin/inertia/modules/forms/ProductForm"
@@ -26,11 +28,7 @@ export const useFormsStore = defineStore(storeName, {
                 (item: Instruction) => item.order_column
             )
 
-            return (
-                (max &&
-                    max.order_column) ||
-                undefined
-            )
+            return (max && max.order_column) || undefined
         },
         maxAdditionalImagesOrderColumn: function (): number | undefined {
             const max: AdditionalImage | undefined = maxBy(
@@ -38,35 +36,26 @@ export const useFormsStore = defineStore(storeName, {
                 (item: AdditionalImage) => item.order_column
             )
 
-            return (
-                (max && max.order_column) ||
-                undefined
-            )
+            return (max && max.order_column) || undefined
         },
-        maxCharCategoriesOrdering: function(): number|undefined {
+        maxCharCategoriesOrdering: function (): number | undefined {
             const max: CharCategory | undefined = maxBy(
                 this.product.charCategories,
                 (item: CharCategory) => item.ordering
             )
 
-            return (
-                (max &&
-                    max.ordering) ||
-                undefined
-            )
+            return (max && max.ordering) || undefined
         },
-        maxCharsOrdering: function (): (a: string) => number|undefined{
-            return (category_uuid: string): number|undefined => {
+        maxCharsOrdering: function (): (a: string) => number | undefined {
+            return (category_uuid: string): number | undefined => {
                 const max: Char | undefined = maxBy(
-                    this.product.chars.filter((item: Char) => item.category_uuid === category_uuid),
+                    this.product.chars.filter(
+                        (item: Char) => item.category_uuid === category_uuid
+                    ),
                     (item: Char) => item.ordering
                 )
 
-                return (
-                    (max &&
-                        max.ordering) ||
-                    undefined
-                )
+                return (max && max.ordering) || undefined
             }
         },
         productFormTitle: (): string => {
