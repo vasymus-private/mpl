@@ -80,6 +80,6 @@ interface ProductImage {
 interface OtherProduct {
     id: number
     name: string
-    image: string|null
-    price_rub_formatted: string|null
+    image: string | null
+    price_rub_formatted: string | null
 }
