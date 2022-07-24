@@ -57,22 +57,22 @@ export interface AdditionalImage {
 }
 
 export interface CharCategory {
-    id: number|string
+    id: number | string
     uuid: string
-    name: string|null
-    product_id: number|null
+    name: string | null
+    product_id: number | null
     ordering: number
 }
 
 export interface Char {
-    id: number|null
+    id: number | null
     uuid: string
-    name: string|null
+    name: string | null
     value: string | number | null
-    product_id: number|null
+    product_id: number | null
     type_id: number
     is_rate: boolean
-    category_id: number|string
+    category_id: number | string
     category_uuid: string
     ordering: number
 }
