@@ -11,6 +11,7 @@ import {useFormsStore} from "@/admin/inertia/modules/forms"
 import {Inertia} from "@inertiajs/inertia"
 import Product from "@/admin/inertia/modules/products/Product"
 import {randomId} from "@/admin/inertia/utils"
+import {CharTypeEnum} from "@/admin/inertia/modules/charTypes/CharType"
 
 
 const productsStore = useProductsStore()
@@ -96,6 +97,7 @@ const {errors, handleSubmit, values, setValues} = useForm({
         chars: yup.array().of(
             yup.object({
                 id: yup.number().integer().truncate(),
+                uuid: yup.string().required(),
                 name: yup.string().required().max(250),
                 value: yup.string().required().max(250),
                 product_id: yup.number().integer().truncate(),
@@ -104,7 +106,13 @@ const {errors, handleSubmit, values, setValues} = useForm({
                 category_uuid: yup.string().required(),
                 ordering: yup.number(),
             })
-        )
+        ),
+        tempCharCategoryName: yup.string().max(250).nullable(),
+        tempChar: yup.object({
+            name: yup.string().max(250).nullable(),
+            type_id: yup.number().integer().truncate(),
+            category_uuid: yup.string().nullable(),
+        }).nullable(),
     })
 })
 
@@ -120,7 +128,9 @@ watch(() => productsStore.product, (product: Product|null) => {
             ...acc,
             ...chars.map(char => ({
                 ...char,
+                uuid: randomId(),
                 category_uuid: uuid,
+                is_rate: char.type_id === CharTypeEnum.rate,
             }))
         ]
     }, [])

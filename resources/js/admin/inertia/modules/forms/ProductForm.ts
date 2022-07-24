@@ -66,10 +66,12 @@ export interface CharCategory {
 
 export interface Char {
     id: number|null
+    uuid: string
     name: string|null
     value: string | number | null
     product_id: number|null
     type_id: number
+    is_rate: boolean
     category_id: number|string
     category_uuid: string
     ordering: number

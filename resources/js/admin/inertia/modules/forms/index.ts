@@ -55,7 +55,7 @@ export const useFormsStore = defineStore(storeName, {
                 : `${productsStore.product?.name} - редактирование`
 
             return base
-        },
+        }
     },
     actions: {
         setProductForm(product: ProductForm) {
