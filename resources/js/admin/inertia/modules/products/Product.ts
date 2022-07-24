@@ -38,6 +38,11 @@ export default interface Product {
     mainImage: ProductImage | null
     additionalImages: Array<ProductImage>
     charCategories: Array<CharCategory>
+    accessories: Array<OtherProduct>
+    similar: Array<OtherProduct>
+    related: Array<OtherProduct>
+    works: Array<OtherProduct>
+    instruments: Array<OtherProduct>
 }
 
 export interface Seo {
@@ -70,4 +75,11 @@ interface ProductImage {
     file_name: string | null
     order_column: number | null
     file: File | null
+}
+
+interface OtherProduct {
+    id: number
+    name: string
+    image: string|null
+    price_rub_formatted: string|null
 }

@@ -29,6 +29,12 @@ class ProductResource extends JsonResource
     {
         /** @var \Domain\Common\Models\CustomMedia $mainImage */
         $mainImage = $this->resource->getFirstMedia(Product::MC_MAIN_IMAGE);
+        $relatedMapCB = fn(Product $product) => [
+            'id' => $product->id,
+            'name' => $product->name,
+            'image' => $product->main_image_md_thumb_url,
+            'price_rub_formatted' => $product->price_retail_rub_formatted,
+        ];
 
         return [
             'id' => $this->resource->id,
@@ -121,6 +127,21 @@ class ProductResource extends JsonResource
                         ),
                     ]
                 ),
+            'accessories' => $this->resource
+                ->accessory
+                ->map($relatedMapCB),
+            'similar' => $this->resource
+                ->similar
+                ->map($relatedMapCB),
+            'related' => $this->resource
+                ->related
+                ->map($relatedMapCB),
+            'works' => $this->resource
+                ->works
+                ->map($relatedMapCB),
+            'instruments' => $this->resource
+                ->instruments
+                ->map($relatedMapCB),
         ];
     }
 }

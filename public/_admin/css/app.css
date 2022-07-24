@@ -1463,7 +1463,7 @@ body {
 }
 
 .form-check-inline {
-  margin: -7px ​-7px 8px 0;
+  margin: -7px -7px 8px 0;
 }
 
 .adm-s-result-container-itog-table {
@@ -1613,9 +1613,6 @@ body {
 .other-page .column {
   width: 50%;
   padding: 5px 10px 7px;
-}
-.other-page .form-check-input {
-  margin-top: -5px;
 }
 .other-page .label span {
   display: inline-block;
