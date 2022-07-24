@@ -339,7 +339,7 @@ class Order extends BaseModel implements HasMedia
             : (
                 $this->request["phone"] ?? ""
             )
-            ;
+        ;
     }
 
     public function getIsIndividualAttribute(): bool
