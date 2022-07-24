@@ -1,4 +1,4 @@
-import {CharCategory} from "@/admin/inertia/modules/products/Char"
+import { CharCategory } from "@/admin/inertia/modules/products/Char"
 
 export default interface Product {
     id: number | null

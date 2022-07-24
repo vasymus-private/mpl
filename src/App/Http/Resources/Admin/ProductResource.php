@@ -28,6 +28,7 @@ class ProductResource extends JsonResource
     {
         /** @var \Domain\Common\Models\CustomMedia $mainImage */
         $mainImage = $this->resource->getFirstMedia(Product::MC_MAIN_IMAGE);
+
         return [
             'id' => $this->resource->id,
             'uuid' => $this->resource->uuid,
@@ -100,13 +101,13 @@ class ProductResource extends JsonResource
             'charCategories' => $this->resource
                 ->charCategories
                 ->map(
-                    fn(CharCategory $charCategory) => [
+                    fn (CharCategory $charCategory) => [
                         'id' => $charCategory->id,
                         'name' => $charCategory->name,
                         'product_id' => $charCategory->product_id,
                         'ordering' => $charCategory->ordering,
                         'chars' => $charCategory->chars->map(
-                            fn(Char $char) => [
+                            fn (Char $char) => [
                                 'id' => $char->id,
                                 'name' => $char->name,
                                 'value' => $char->value,
@@ -115,9 +116,9 @@ class ProductResource extends JsonResource
                                 'category_id' => $char->category_id,
                                 'ordering' => $char->ordering,
                             ]
-                        )
+                        ),
                     ]
-                )
+                ),
         ];
     }
 }
