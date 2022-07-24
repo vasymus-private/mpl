@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 import CharType from "@/admin/inertia/modules/charTypes/CharType"
-import Option from "@/admin/inertia/modules/common/Option";
+import Option from "@/admin/inertia/modules/common/Option"
 
 export const storeName = "charTypes"
 
@@ -11,7 +11,11 @@ export const useCharTypesStore = defineStore(storeName, {
         }
     },
     getters: {
-        options: (state): Array<Option> => state._entities.map((item: CharType) => ({value: item.id, label: item.name})),
+        options: (state): Array<Option> =>
+            state._entities.map((item: CharType) => ({
+                value: item.id,
+                label: item.name,
+            })),
     },
     actions: {
         setChartTypes(types: Array<CharType>): void {
