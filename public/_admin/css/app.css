@@ -11619,19 +11619,19 @@ body {
 .admin-edit-variations tr:hover td {
   background-color: #e0e9ec;
 }
-.admin-edit-variations .table-products td:nth-child(3) {
+.admin-edit-variations .table-products td.sortable-column-22 {
   width: 80px !important;
 }
-.admin-edit-variations .table-products td:nth-child(3) .form-control {
+.admin-edit-variations .table-products td.sortable-column-22 .form-control {
   width: 41px;
 }
-.admin-edit-variations .table-products td:nth-child(4) {
+.admin-edit-variations .table-products td.sortable-column-2 {
   width: 367px;
 }
-.admin-edit-variations .table-products td:nth-child(4) .form-control {
+.admin-edit-variations .table-products td.sortable-column-2 .form-control {
   width: 367px;
 }
-.admin-edit-variations .table-products td:nth-child(7) .form-control, .admin-edit-variations .table-products td:nth-child(8) .form-control {
+.admin-edit-variations .table-products td.sortable-column-15 .form-control, .admin-edit-variations .table-products td.sortable-column-16 .form-control {
   width: 70px;
 }
 .admin-edit-variations .table-products td select.form-control {
@@ -11641,22 +11641,22 @@ body {
   width: 100%;
   height: 70px;
 }
-.admin-edit-variations .table-variants td:nth-child(3) {
+.admin-edit-variations .table-variants td.sortable-column-2 {
   width: 367px;
 }
-.admin-edit-variations .table-variants td:nth-child(3) .form-control {
+.admin-edit-variations .table-variants td.sortable-column-2 .form-control {
   width: 367px;
 }
-.admin-edit-variations .table-variants td:nth-child(7), .admin-edit-variations .table-variants td:nth-child(9) {
+.admin-edit-variations .table-variants td.sortable-column-22, .admin-edit-variations .table-variants td.sortable-column-14 {
   width: 80px;
 }
-.admin-edit-variations .table-variants td:nth-child(7) .form-control, .admin-edit-variations .table-variants td:nth-child(9) .form-control {
+.admin-edit-variations .table-variants td.sortable-column-22 .form-control, .admin-edit-variations .table-variants td.sortable-column-14 .form-control {
   width: 41px;
 }
-.admin-edit-variations .table-variants td:nth-child(8) .form-control, .admin-edit-variations .table-variants td:nth-child(12) .form-control {
+.admin-edit-variations .table-variants td.sortable-column-15 .form-control, .admin-edit-variations .table-variants td.sortable-column-16 .form-control {
   width: 70px;
 }
-.admin-edit-variations .table-variants td:nth-child(13) .form-control {
+.admin-edit-variations .table-variants td.sortable-column-18 .form-control {
   width: 84px;
 }
 
