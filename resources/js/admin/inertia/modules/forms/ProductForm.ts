@@ -1,4 +1,5 @@
 export interface ProductForm {
+    id?: number
     is_active?: boolean
     name?: string
     slug?: string

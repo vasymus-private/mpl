@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 import {
-    AdditionalImage,
+    AdditionalImage, Char, CharCategory,
     Instruction,
     ProductForm,
 } from "@/admin/inertia/modules/forms/ProductForm"
@@ -20,28 +20,54 @@ export const useFormsStore = defineStore(storeName, {
     },
     getters: {
         product: (state): ProductForm => state._product,
-        maxInstructionsColumn: function (): number | undefined {
-            const maxInstructionByColumn: Instruction | undefined = maxBy(
+        maxInstructionsOrderColumn: function (): number | undefined {
+            const max: Instruction | undefined = maxBy(
                 this.product.instructions,
                 (item: Instruction) => item.order_column
             )
 
             return (
-                (maxInstructionByColumn &&
-                    maxInstructionByColumn.order_column) ||
+                (max &&
+                    max.order_column) ||
                 undefined
             )
         },
-        maxAdditionalImagesColumn: function (): number | undefined {
-            const maxAdditionalByColumn: AdditionalImage | undefined = maxBy(
+        maxAdditionalImagesOrderColumn: function (): number | undefined {
+            const max: AdditionalImage | undefined = maxBy(
                 this.product.additionalImages,
                 (item: AdditionalImage) => item.order_column
             )
 
             return (
-                (maxAdditionalByColumn && maxAdditionalByColumn.order_column) ||
+                (max && max.order_column) ||
                 undefined
             )
+        },
+        maxCharCategoriesOrdering: function(): number|undefined {
+            const max: CharCategory | undefined = maxBy(
+                this.product.charCategories,
+                (item: CharCategory) => item.ordering
+            )
+
+            return (
+                (max &&
+                    max.ordering) ||
+                undefined
+            )
+        },
+        maxCharsOrdering: function (): (a: string) => number|undefined{
+            return (category_uuid: string): number|undefined => {
+                const max: Char | undefined = maxBy(
+                    this.product.chars.filter((item: Char) => item.category_uuid === category_uuid),
+                    (item: Char) => item.ordering
+                )
+
+                return (
+                    (max &&
+                        max.ordering) ||
+                    undefined
+                )
+            }
         },
         productFormTitle: (): string => {
             let base = "Товары: элемент: "

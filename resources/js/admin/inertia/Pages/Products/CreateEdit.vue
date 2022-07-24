@@ -32,6 +32,7 @@ const setWithVariations = (is_with_variations: boolean) => {
 
 const {errors, handleSubmit, values, setValues} = useForm({
     validationSchema: yup.object({
+        id: yup.number().integer().truncate(),
         is_active: yup.boolean(),
         name: yup.string().required().max(250),
         slug: yup.string().required().max(250),
@@ -121,7 +122,7 @@ watch(values, newValues => {
 })
 
 watch(() => productsStore.product, (product: Product|null) => {
-    const {is_active, name, slug, ordering, brand_id, coefficient, coefficient_description, coefficient_description_show, coefficient_variation_description, price_name, infoPrices = [], admin_comment, instructions = [], price_purchase, price_purchase_currency_id, price_retail, price_retail_currency_id, unit, availability_status_id, preview, description, mainImage, additionalImages = [], charCategories = []} = product || {}
+    const {id, is_active, name, slug, ordering, brand_id, coefficient, coefficient_description, coefficient_description_show, coefficient_variation_description, price_name, infoPrices = [], admin_comment, instructions = [], price_purchase, price_purchase_currency_id, price_retail, price_retail_currency_id, unit, availability_status_id, preview, description, mainImage, additionalImages = [], charCategories = []} = product || {}
     const _charCategories = charCategories.map(({id, name, product_id, ordering, chars}) => ({id, name, product_id, ordering, uuid: randomId(), chars}))
     const chars = _charCategories.reduce((acc, {chars, uuid}) => {
         return [
@@ -135,6 +136,7 @@ watch(() => productsStore.product, (product: Product|null) => {
         ]
     }, [])
     setValues({
+        id,
         is_active,
         name,
         slug,

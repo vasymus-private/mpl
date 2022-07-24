@@ -23,7 +23,7 @@ const {fields, push, remove, swap} = useFieldArray('additionalImages')
 const additionalImagesRef = ref(null)
 const onAdditionalImagesChange = event => {
     event.target.files.forEach(file => {
-        const maxColumn = formsStore.maxAdditionalImagesColumn
+        const maxColumn = formsStore.maxAdditionalImagesOrderColumn
         push({
             id: null,
             name: file.name,

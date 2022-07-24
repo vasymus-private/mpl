@@ -10,7 +10,7 @@ const formsStore = useFormsStore()
 
 const onChange = (event) => {
     event.target.files.forEach(file => {
-        const maxColumn = formsStore.maxInstructionsColumn
+        const maxColumn = formsStore.maxInstructionsOrderColumn
         push({
             id: null,
             name: file.name,
