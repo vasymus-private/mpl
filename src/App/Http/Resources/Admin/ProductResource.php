@@ -3,7 +3,6 @@
 namespace App\Http\Resources\Admin;
 
 use Domain\Common\Models\CustomMedia;
-use Domain\Products\Models\Category;
 use Domain\Products\Models\Char;
 use Domain\Products\Models\CharCategory;
 use Domain\Products\Models\Product\Product;
