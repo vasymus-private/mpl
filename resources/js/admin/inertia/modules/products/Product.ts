@@ -17,6 +17,7 @@ export default interface Product {
     parent_id: number | null
     brand_id: number | null
     category_id: number | null
+    relatedCategoriesIds: Array<number>
     is_with_variations: boolean | null
     coefficient: number | null
     coefficient_description: string | null

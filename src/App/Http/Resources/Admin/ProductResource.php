@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Admin;
 
 use Domain\Common\Models\CustomMedia;
+use Domain\Products\Models\Category;
 use Domain\Products\Models\Char;
 use Domain\Products\Models\CharCategory;
 use Domain\Products\Models\Product\Product;
@@ -50,6 +51,7 @@ class ProductResource extends JsonResource
             'parent_id' => $this->resource->parent_id,
             'brand_id' => $this->resource->brand_id,
             'category_id' => $this->resource->category_id,
+            'relatedCategoriesIds' => $this->resource->relatedCategories->pluck('id'),
             'web_route' => $this->resource->web_route,
             'is_with_variations' => $this->resource->is_with_variations,
             'coefficient' => $this->resource->coefficient,

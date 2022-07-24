@@ -114,6 +114,14 @@ const {errors, handleSubmit, values, setValues} = useForm({
             type_id: yup.number().integer().truncate(),
             category_uuid: yup.string().nullable(),
         }).nullable(),
+        seo: yup.object({
+            title: yup.string().max(250).nullable(),
+            h1: yup.string().max(250).nullable(),
+            keywords: yup.string().max(65000).nullable(),
+            description: yup.string().max(65000).nullable(),
+        }).nullable(),
+        category_id: yup.number().integer().truncate(),
+        relatedCategoriesIds: yup.array().of(yup.number().integer()),
     })
 })
 
@@ -122,7 +130,7 @@ watch(values, newValues => {
 })
 
 watch(() => productsStore.product, (product: Product|null) => {
-    const {id, is_active, name, slug, ordering, brand_id, coefficient, coefficient_description, coefficient_description_show, coefficient_variation_description, price_name, infoPrices = [], admin_comment, instructions = [], price_purchase, price_purchase_currency_id, price_retail, price_retail_currency_id, unit, availability_status_id, preview, description, mainImage, additionalImages = [], charCategories = []} = product || {}
+    const {id, is_active, name, slug, ordering, brand_id, coefficient, coefficient_description, coefficient_description_show, coefficient_variation_description, price_name, infoPrices = [], admin_comment, instructions = [], price_purchase, price_purchase_currency_id, price_retail, price_retail_currency_id, unit, availability_status_id, preview, description, mainImage, additionalImages = [], charCategories = [], seo, category_id, relatedCategoriesIds} = product || {}
     const _charCategories = charCategories.map(({id, name, product_id, ordering, chars}) => ({id, name, product_id, ordering, uuid: randomId(), chars}))
     const chars = _charCategories.reduce((acc, {chars, uuid}) => {
         return [
@@ -162,6 +170,9 @@ watch(() => productsStore.product, (product: Product|null) => {
         additionalImages,
         charCategories: _charCategories,
         chars,
+        seo,
+        category_id,
+        relatedCategoriesIds,
     })
 })
 

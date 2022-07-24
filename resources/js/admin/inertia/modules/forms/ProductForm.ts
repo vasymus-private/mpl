@@ -23,6 +23,9 @@ export interface ProductForm {
     description?: string
     mainImage?: MainImage
     additionalImages?: Array<AdditionalImage>
+    seo?: Seo
+    category_id?: number
+    relatedCategoriesIds?: Array<number>
 }
 
 interface InfoPrice {
@@ -76,4 +79,11 @@ export interface Char {
     category_id: number | string
     category_uuid: string
     ordering: number
+}
+
+interface Seo {
+    title: string | null
+    h1: string | null
+    keywords: string | null
+    description: string | null
 }
