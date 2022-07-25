@@ -1,5 +1,5 @@
 import { CharCategory } from "@/admin/inertia/modules/products/Char"
-import Meta from "@/admin/inertia/modules/common/Meta";
+import Meta from "@/admin/inertia/modules/common/Meta"
 
 export default interface Product {
     id: number | null
@@ -95,17 +95,17 @@ export enum ProductProductType {
 
 export interface SearchProductRequest {
     category_id: number
-    search?: string|null
-    page?: number|null
-    per_page?: number|null
+    search?: string | null
+    page?: number | null
+    per_page?: number | null
 }
 
 export interface SearchProduct {
     id: number
     uuid: string
     name: string
-    image: string|null
-    price_rub_formatted: string|null
+    image: string | null
+    price_rub_formatted: string | null
 }
 
 export interface SearchProductResponse {
