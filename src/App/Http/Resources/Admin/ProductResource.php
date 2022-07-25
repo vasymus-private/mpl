@@ -20,7 +20,7 @@ class ProductResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return array
      */
@@ -30,6 +30,7 @@ class ProductResource extends JsonResource
         $mainImage = $this->resource->getFirstMedia(Product::MC_MAIN_IMAGE);
         $relatedMapCB = fn(Product $product) => [
             'id' => $product->id,
+            'uuid' => $product->uuid,
             'name' => $product->name,
             'image' => $product->main_image_md_thumb_url,
             'price_rub_formatted' => $product->price_retail_rub_formatted,

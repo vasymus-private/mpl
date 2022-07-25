@@ -66,6 +66,7 @@ final class Constants
     public const ROUTE_ADMIN_AJAX_SORT_COLUMNS = 'admin-ajax.sort-columns';
     public const ROUTE_ADMIN_AJAX_HELPER = 'admin-ajax.helper';
     public const ROUTE_ADMIN_PRODUCT_IMAGE_UPLOAD = 'admin-ajax.product-image-upload';
+    public const ROUTE_ADMIN_PRODUCT_SEARCH = 'admin-ajax.product-search';
 
     public const MEDIA_DISK_PUBLIC = 'public';
     public const MEDIA_DISK_PRIVATE = 'private-media';

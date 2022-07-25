@@ -151,7 +151,8 @@ export const routeNames = {
     ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE: "admin-ajax.products.update",
     ROUTE_ADMIN_AJAX_SORT_COLUMNS: "admin-ajax.sort-columns",
     ROUTE_ADMIN_AJAX_HELPER: "admin-ajax.helper",
-    ROUTE_ADMIN_PRODUCT_IMAGE_UPLOAD: "admin-ajax.product-image-upload",
+    ROUTE_ADMIN_AJAX_PRODUCT_IMAGE_UPLOAD: "admin-ajax.product-image-upload",
+    ROUTE_ADMIN_AJAX_PRODUCT_SEARCH: 'admin-ajax.product-search',
 }
 
 enum RouteNameGroupEnum {

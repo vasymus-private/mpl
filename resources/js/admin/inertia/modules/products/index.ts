@@ -10,7 +10,11 @@ import {
     routeNames,
     useRoutesStore,
 } from "@/admin/inertia/modules/routes"
-import Product from "@/admin/inertia/modules/products/Product"
+import Product, {
+    SearchProduct,
+    SearchProductRequest,
+    SearchProductResponse
+} from "@/admin/inertia/modules/products/Product"
 import StoreOrUpdateProductRequest from "@/admin/inertia/modules/products/StoreOrUpdateProductRequest"
 import axios from "axios"
 import ProductUpdateResponse, {
@@ -208,6 +212,26 @@ export const useProductsStore = defineStore(storeName, {
         async handleDelete(selected: Array<number>): Promise<void> {
             console.log("---", selected)
         },
+        async searchProducts(request: SearchProductRequest): Promise<{ entities: Array<SearchProduct>, meta: Meta|null }> {
+            try {
+                const {
+                    data: { data: searchProducts, meta }
+                } = await axios.get<SearchProductResponse>(
+                    getRouteUrl(routeNames.ROUTE_ADMIN_AJAX_PRODUCT_SEARCH, {...request})
+                )
+
+                return {
+                    entities: searchProducts,
+                    meta,
+                }
+            } catch (e) {
+                console.warn(e)
+                return {
+                    entities: [],
+                    meta: null
+                }
+            }
+        }
     },
 })
 
