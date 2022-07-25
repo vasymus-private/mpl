@@ -28,7 +28,7 @@ class ProductResource extends JsonResource
     {
         /** @var \Domain\Common\Models\CustomMedia $mainImage */
         $mainImage = $this->resource->getFirstMedia(Product::MC_MAIN_IMAGE);
-        $relatedMapCB = fn(Product $product) => [
+        $relatedMapCB = fn (Product $product) => [
             'id' => $product->id,
             'uuid' => $product->uuid,
             'name' => $product->name,
