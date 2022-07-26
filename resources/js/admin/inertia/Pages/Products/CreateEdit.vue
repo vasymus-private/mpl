@@ -127,6 +127,15 @@ const {errors, handleSubmit, values, setValues} = useForm({
         related_name: yup.string().max(250).nullable(),
         work_name: yup.string().max(250).nullable(),
         instruments_name: yup.string().max(250).nullable(),
+        accessories: yup.array().of(
+            yup.object({
+                id: yup.number().integer().required(),
+                uuid: yup.string().nullable(),
+                name: yup.string().nullable(),
+                image: yup.string().nullable(),
+                price_rub_formatted: yup.string().nullable(),
+            })
+        ).nullable()
     })
 })
 
@@ -135,7 +144,7 @@ watch(values, newValues => {
 })
 
 watch(() => productsStore.product, (product: Product|null) => {
-    const {id, is_active, name, slug, ordering, brand_id, coefficient, coefficient_description, coefficient_description_show, coefficient_variation_description, price_name, infoPrices = [], admin_comment, instructions = [], price_purchase, price_purchase_currency_id, price_retail, price_retail_currency_id, unit, availability_status_id, preview, description, mainImage, additionalImages = [], charCategories = [], seo, category_id, relatedCategoriesIds, accessory_name, similar_name, related_name, work_name, instruments_name} = product || {}
+    const {id, is_active, name, slug, ordering, brand_id, coefficient, coefficient_description, coefficient_description_show, coefficient_variation_description, price_name, infoPrices = [], admin_comment, instructions = [], price_purchase, price_purchase_currency_id, price_retail, price_retail_currency_id, unit, availability_status_id, preview, description, mainImage, additionalImages = [], charCategories = [], seo, category_id, relatedCategoriesIds, accessory_name, similar_name, related_name, work_name, instruments_name, accessories} = product || {}
     const _charCategories = charCategories.map(({id, name, product_id, ordering, chars}) => ({id, name, product_id, ordering, uuid: randomId(), chars}))
     const chars = _charCategories.reduce((acc, {chars, uuid}) => {
         return [
@@ -183,6 +192,7 @@ watch(() => productsStore.product, (product: Product|null) => {
         related_name,
         work_name,
         instruments_name,
+        accessories,
     })
 })
 

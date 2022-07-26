@@ -1,5 +1,6 @@
 import { defineStore } from "pinia"
 import CategoryTreeItem from "@/admin/inertia/modules/categoriesTree/CategoryTreeItem"
+import Option from "@/admin/inertia/modules/common/Option";
 
 export const storeName = "categoriesTree"
 
@@ -25,6 +26,29 @@ export const useCategoriesTreeStore = defineStore(storeName, {
                 return getIdsCb([], categoryAndSubcategories)
             },
         categories: (state): Array<CategoryTreeItem> => state.entities,
+        options(): Array<Option> {
+            const getReduceCB = (labelPrefix: string) => (acc: Array<Option>, item: CategoryTreeItem): Array<Option> => {
+                let option: Option = {
+                    value: item.id,
+                    label: `${labelPrefix}${item.name}`
+                }
+                acc = [
+                    ...acc,
+                    option
+                ]
+
+                acc = [
+                    ...acc,
+                    ...item.subcategories.reduce(getReduceCB(`${labelPrefix}.`), [])
+                ]
+
+                return acc
+            }
+            return this.categories.reduce(
+                getReduceCB(''),
+                []
+            )
+        },
     },
     actions: {
         setEntities(entities: Array<CategoryTreeItem>): void {

@@ -8,6 +8,7 @@ import { initFromPageProps } from "@/admin/inertia/modules"
 import "bootstrap"
 import { Inertia } from "@inertiajs/inertia"
 import "ckeditor5-custom-build/build/ckeditor"
+import 'vue-multiselect/dist/vue-multiselect.css'
 
 const pinia = createPinia()
 Inertia.on("navigate", (event) => {

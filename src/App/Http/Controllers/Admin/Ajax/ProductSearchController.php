@@ -17,16 +17,25 @@ class ProductSearchController extends BaseAdminController
      */
     public function index(Request $request, GetCategoryAndSubtreeIdsAction $getCategoryAndSubtreeIdsAction)
     {
+        $validated = $request->validate([
+            'category_ids' => 'array|nullable',
+            'category_ids.*' => 'integer',
+            'search' => 'string|nullable',
+        ]);
         $productQuery = Product::query()->notVariations();
 
-        if ($request->category_id) {
-            $categoryAndSubtreeIds = $getCategoryAndSubtreeIdsAction->execute($request->category_id);
+        if (!empty($validated['category_ids'])) {
+            $categoriesAndSubtreeIds = $getCategoryAndSubtreeIdsAction->execute($validated['category_ids']);
 
-            $productQuery->forMainAndRelatedCategories($categoryAndSubtreeIds);
+            $productQuery->forMainAndRelatedCategories($categoriesAndSubtreeIds);
         }
 
-        if ($request->search) {
-            $productQuery->where(Product::TABLE . ".name", "like", "%{$request->search}%");
+        if (!empty($validated['search'])) {
+            $productQuery->where(
+                sprintf('%s.name', Product::TABLE),
+                'like',
+                sprintf('%%%s%%', $validated['search'])
+            );
         }
 
         return ProductSearchResource::collection(

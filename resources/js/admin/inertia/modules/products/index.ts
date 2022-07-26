@@ -12,7 +12,7 @@ import {
 } from "@/admin/inertia/modules/routes"
 import Product, {
     SearchProduct,
-    SearchProductRequest,
+    SearchProductRequest, searchProductRequestToUrlSearchParams,
     SearchProductResponse
 } from "@/admin/inertia/modules/products/Product"
 import StoreOrUpdateProductRequest from "@/admin/inertia/modules/products/StoreOrUpdateProductRequest"
@@ -214,11 +214,11 @@ export const useProductsStore = defineStore(storeName, {
         },
         async searchProducts(request: SearchProductRequest): Promise<{ entities: Array<SearchProduct>, meta: Meta|null }> {
             try {
+                let url = new URL(getRouteUrl(routeNames.ROUTE_ADMIN_AJAX_PRODUCT_SEARCH))
+                url.search = searchProductRequestToUrlSearchParams(request).toString()
                 const {
                     data: { data: searchProducts, meta }
-                } = await axios.get<SearchProductResponse>(
-                    getRouteUrl(routeNames.ROUTE_ADMIN_AJAX_PRODUCT_SEARCH, {...request})
-                )
+                } = await axios.get<SearchProductResponse>(url.toString())
 
                 return {
                     entities: searchProducts,

@@ -26,6 +26,11 @@ export interface ProductForm {
     seo?: Seo
     category_id?: number
     relatedCategoriesIds?: Array<number>
+    accessories?: Array<OtherProduct>
+    similar?: Array<OtherProduct>
+    related?: Array<OtherProduct>
+    works?: Array<OtherProduct>
+    instruments?: Array<OtherProduct>
 }
 
 interface InfoPrice {
@@ -86,4 +91,12 @@ interface Seo {
     h1: string | null
     keywords: string | null
     description: string | null
+}
+
+interface OtherProduct {
+    id: number
+    uuid: string
+    name: string
+    image: string | null
+    price_rub_formatted: string | null
 }

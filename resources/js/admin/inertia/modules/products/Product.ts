@@ -80,6 +80,7 @@ interface ProductImage {
 
 interface OtherProduct {
     id: number
+    uuid: string
     name: string
     image: string | null
     price_rub_formatted: string | null
@@ -94,10 +95,30 @@ export enum ProductProductType {
 }
 
 export interface SearchProductRequest {
-    category_id: number
+    category_ids?: Array<number|string>
     search?: string|null
     page?: number|null
     per_page?: number|null
+}
+
+export const searchProductRequestToUrlSearchParams = (request: SearchProductRequest) : URLSearchParams => {
+    const res = new URLSearchParams()
+    if (request.category_ids) {
+        request.category_ids.forEach((item: number|string) => res.append('category_ids[]', `${item}`))
+    }
+    if (request.search) {
+        res.append('search', request.search)
+    }
+    if (request.page) {
+        res.append('page', `${request.page}`)
+    }
+    if (request.per_page) {
+        res.append('per_page', `${request.per_page}`)
+    }
+
+    console.log('----', res.toString())
+
+    return res
 }
 
 export interface SearchProduct {
