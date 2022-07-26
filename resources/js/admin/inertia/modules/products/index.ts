@@ -12,8 +12,9 @@ import {
 } from "@/admin/inertia/modules/routes"
 import Product, {
     SearchProduct,
-    SearchProductRequest, searchProductRequestToUrlSearchParams,
-    SearchProductResponse
+    SearchProductRequest,
+    searchProductRequestToUrlSearchParams,
+    SearchProductResponse,
 } from "@/admin/inertia/modules/products/Product"
 import StoreOrUpdateProductRequest from "@/admin/inertia/modules/products/StoreOrUpdateProductRequest"
 import axios from "axios"
@@ -212,12 +213,17 @@ export const useProductsStore = defineStore(storeName, {
         async handleDelete(selected: Array<number>): Promise<void> {
             console.log("---", selected)
         },
-        async searchProducts(request: SearchProductRequest): Promise<{ entities: Array<SearchProduct>, meta: Meta|null }> {
+        async searchProducts(
+            request: SearchProductRequest
+        ): Promise<{ entities: Array<SearchProduct>; meta: Meta | null }> {
             try {
-                let url = new URL(getRouteUrl(routeNames.ROUTE_ADMIN_AJAX_PRODUCT_SEARCH))
-                url.search = searchProductRequestToUrlSearchParams(request).toString()
+                let url = new URL(
+                    getRouteUrl(routeNames.ROUTE_ADMIN_AJAX_PRODUCT_SEARCH)
+                )
+                url.search =
+                    searchProductRequestToUrlSearchParams(request).toString()
                 const {
-                    data: { data: searchProducts, meta }
+                    data: { data: searchProducts, meta },
                 } = await axios.get<SearchProductResponse>(url.toString())
 
                 return {
@@ -228,10 +234,10 @@ export const useProductsStore = defineStore(storeName, {
                 console.warn(e)
                 return {
                     entities: [],
-                    meta: null
+                    meta: null,
                 }
             }
-        }
+        },
     },
 })
 
