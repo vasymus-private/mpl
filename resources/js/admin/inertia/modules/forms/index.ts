@@ -11,7 +11,11 @@ import {
     useProductsStore,
 } from "@/admin/inertia/modules/products"
 import { maxBy } from "lodash"
-import {ProductProductType, SearchProduct, SearchProductRequest} from "@/admin/inertia/modules/products/Product"
+import {
+    ProductProductType,
+    SearchProduct,
+    SearchProductRequest,
+} from "@/admin/inertia/modules/products/Product"
 import Meta from "@/admin/inertia/modules/common/Meta"
 
 export const storeName = "forms"
@@ -19,32 +23,38 @@ export const storeName = "forms"
 export const useFormsStore = defineStore(storeName, {
     state: (): {
         _product: ProductForm
-        _searchProduct: { [key in ProductProductType]: {entities: Array<SearchProduct>, meta: Meta | null, loading: boolean} }
+        _searchProduct: {
+            [key in ProductProductType]: {
+                entities: Array<SearchProduct>
+                meta: Meta | null
+                loading: boolean
+            }
+        }
     } => {
         return {
             _product: {},
             _searchProduct: {
-                [ProductProductType.TYPE_ACCESSORY] : {
+                [ProductProductType.TYPE_ACCESSORY]: {
                     entities: [],
                     meta: null,
                     loading: false,
                 },
-                [ProductProductType.TYPE_SIMILAR] : {
+                [ProductProductType.TYPE_SIMILAR]: {
                     entities: [],
                     meta: null,
                     loading: false,
                 },
-                [ProductProductType.TYPE_RELATED] : {
+                [ProductProductType.TYPE_RELATED]: {
                     entities: [],
                     meta: null,
                     loading: false,
                 },
-                [ProductProductType.TYPE_WORK] : {
+                [ProductProductType.TYPE_WORK]: {
                     entities: [],
                     meta: null,
                     loading: false,
                 },
-                [ProductProductType.TYPE_INSTRUMENT] : {
+                [ProductProductType.TYPE_INSTRUMENT]: {
                     entities: [],
                     meta: null,
                     loading: false,
@@ -103,25 +113,35 @@ export const useFormsStore = defineStore(storeName, {
 
             return base
         },
-        searchProducts: state => (type: ProductProductType): Array<SearchProduct> => state._searchProduct[type].entities,
-        searchProductsLoading: state => (type: ProductProductType): boolean => state._searchProduct[type].loading,
+        searchProducts:
+            (state) =>
+            (type: ProductProductType): Array<SearchProduct> =>
+                state._searchProduct[type].entities,
+        searchProductsLoading:
+            (state) =>
+            (type: ProductProductType): boolean =>
+                state._searchProduct[type].loading,
     },
     actions: {
         setProductForm(product: ProductForm) {
             this._product = product
         },
-        async fetchSearchProducts(request: SearchProductRequest, type: ProductProductType): Promise<void> {
+        async fetchSearchProducts(
+            request: SearchProductRequest,
+            type: ProductProductType
+        ): Promise<void> {
             const productsStore = useProductsStore()
 
             try {
                 this._searchProduct[type].loading = true
-                const {entities: products, meta} = await productsStore.searchProducts(request)
+                const { entities: products, meta } =
+                    await productsStore.searchProducts(request)
 
                 this._searchProduct[type].entities = products
                 this._searchProduct[type].meta = meta
             } finally {
                 this._searchProduct[type].loading = false
             }
-        }
+        },
     },
 })

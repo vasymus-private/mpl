@@ -1,5 +1,5 @@
 import { CharCategory } from "@/admin/inertia/modules/products/Char"
-import Meta from "@/admin/inertia/modules/common/Meta";
+import Meta from "@/admin/inertia/modules/common/Meta"
 
 export default interface Product {
     id: number | null
@@ -95,28 +95,32 @@ export enum ProductProductType {
 }
 
 export interface SearchProductRequest {
-    category_ids?: Array<number|string>
-    search?: string|null
-    page?: number|null
-    per_page?: number|null
+    category_ids?: Array<number | string>
+    search?: string | null
+    page?: number | null
+    per_page?: number | null
 }
 
-export const searchProductRequestToUrlSearchParams = (request: SearchProductRequest) : URLSearchParams => {
+export const searchProductRequestToUrlSearchParams = (
+    request: SearchProductRequest
+): URLSearchParams => {
     const res = new URLSearchParams()
     if (request.category_ids) {
-        request.category_ids.forEach((item: number|string) => res.append('category_ids[]', `${item}`))
+        request.category_ids.forEach((item: number | string) =>
+            res.append("category_ids[]", `${item}`)
+        )
     }
     if (request.search) {
-        res.append('search', request.search)
+        res.append("search", request.search)
     }
     if (request.page) {
-        res.append('page', `${request.page}`)
+        res.append("page", `${request.page}`)
     }
     if (request.per_page) {
-        res.append('per_page', `${request.per_page}`)
+        res.append("per_page", `${request.per_page}`)
     }
 
-    console.log('----', res.toString())
+    console.log("----", res.toString())
 
     return res
 }
@@ -125,8 +129,8 @@ export interface SearchProduct {
     id: number
     uuid: string
     name: string
-    image: string|null
-    price_rub_formatted: string|null
+    image: string | null
+    price_rub_formatted: string | null
 }
 
 export interface SearchProductResponse {

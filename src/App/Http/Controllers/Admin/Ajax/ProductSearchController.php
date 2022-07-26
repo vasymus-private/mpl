@@ -24,13 +24,13 @@ class ProductSearchController extends BaseAdminController
         ]);
         $productQuery = Product::query()->notVariations();
 
-        if (!empty($validated['category_ids'])) {
+        if (! empty($validated['category_ids'])) {
             $categoriesAndSubtreeIds = $getCategoryAndSubtreeIdsAction->execute($validated['category_ids']);
 
             $productQuery->forMainAndRelatedCategories($categoriesAndSubtreeIds);
         }
 
-        if (!empty($validated['search'])) {
+        if (! empty($validated['search'])) {
             $productQuery->where(
                 sprintf('%s.name', Product::TABLE),
                 'like',
