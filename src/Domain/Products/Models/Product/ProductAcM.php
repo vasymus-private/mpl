@@ -346,7 +346,7 @@ trait ProductAcM
      */
     public function getMainImageMediaAttribute(): ?CustomMedia
     {
-        return H::runtimeCache(sprintf('%s-%s', 'product-main-image-media', $this->uuid), fn() => $this->getFirstMedia(static::MC_MAIN_IMAGE));
+        return H::runtimeCache(sprintf('%s-%s', 'product-main-image-media', $this->uuid), fn () => $this->getFirstMedia(static::MC_MAIN_IMAGE));
     }
 
     public function getMainImageUrlAttribute(): string

@@ -1,7 +1,7 @@
 import { defineStore } from "pinia"
 import { DefineComponent } from "@vue/runtime-core"
 import SortColumnsModal from "@/admin/inertia/components/modals/SortColumnsModal.vue"
-import CreateEditVariation from '@/admin/inertia/components/products/tabs/modals/CreateEditVariation.vue'
+import CreateEditVariation from "@/admin/inertia/components/products/tabs/modals/CreateEditVariation.vue"
 
 export const storeName = "modals"
 

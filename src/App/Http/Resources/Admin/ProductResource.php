@@ -142,7 +142,7 @@ class ProductResource extends JsonResource
             'instruments' => $this->resource
                 ->instruments
                 ->map($relatedMapCB),
-            'variations' => $this->resource->variations->map(fn(Product $variation) => [
+            'variations' => $this->resource->variations->map(fn (Product $variation) => [
                 'id' => $variation->id,
                 'uuid' => $variation->uuid,
                 'is_active' => $variation->is_active,
@@ -178,7 +178,7 @@ class ProductResource extends JsonResource
                             'order_column' => $media->order_column,
                         ];
                     }),
-            ])
+            ]),
         ];
     }
 }
