@@ -1,9 +1,13 @@
 <script lang="ts" setup>
-import RowInput from '@/admin/inertia/components/forms/vee-validate/RowInput.vue'
+import ProductProduct from "@/admin/inertia/components/products/tabs/ProductProduct.vue"
+import {ProductProductType} from "@/admin/inertia/modules/products/Product"
 </script>
 
 <template>
-    <div class="item-edit product-edit">
-        <RowInput name="related_name" label="Переименовать 'Сопряженные'" />
-    </div>
+    <ProductProduct
+        name="related"
+        label="Сопряженные"
+        :type="ProductProductType.TYPE_RELATED"
+        label-name="related_name"
+    />
 </template>
