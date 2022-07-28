@@ -11,7 +11,7 @@ const onAddVariation = () => {
         id: null,
         uuid: randomId(),
         is_active: false,
-        name: null,
+        name: '',
         ordering: 500,
         coefficient: null,
         coefficient_description: null,

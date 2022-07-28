@@ -54,7 +54,7 @@ const setWithVariations = (is_with_variations: boolean) => {
     productsStore.handleUpdate({is_with_variations})
 }
 
-const {errors, handleSubmit, values, setValues} = useForm({
+const {errors, handleSubmit, values, setValues, submitCount} = useForm({
     validationSchema: yup.object({
         id: yup.number().integer().truncate(),
         uuid: yup.string().nullable(),
@@ -208,12 +208,12 @@ const {errors, handleSubmit, values, setValues} = useForm({
                 ordering: yup.number().truncate(),
                 coefficient: yup.number().truncate(),
                 coefficient_description: yup.string().max(250).nullable(),
-                price_purchase: yup.number(),
+                price_purchase: yup.number().truncate(),
                 price_purchase_currency_id: yup.number().integer().truncate(),
-                price_retail: yup.number(),
+                price_retail: yup.number().truncate(),
                 price_retail_currency_id: yup.number().integer().truncate(),
                 unit: yup.string().max(250).nullable(),
-                availability_status_id: yup.number().integer(),
+                availability_status_id: yup.number().integer().truncate(),
                 preview: yup.string().max(65000).nullable(),
                 mainImage: yup.object({
                     id: yup.number().integer().truncate(),
@@ -430,7 +430,7 @@ onUnmounted(() => {
 
             <div class="js-nav-tabs-wrapper">
                 <div class="js-nav-tabs-marker"></div>
-                <ul class="nav nav-tabs js-nav-tabs item-tabs" role="tablist">
+                <ul class="nav nav-tabs item-tabs" role="tablist">
                     <li v-for="tab in productsStore.getAdminTabs" :key="`${tab.value}-tab`" class="nav-item" role="presentation">
                         <button
                             :class="['nav-link', tab.value === getActiveTab() ? 'active' : '']"
@@ -472,9 +472,11 @@ onUnmounted(() => {
                 </div>
             </form>
 
-            <div v-for="error in errors" :key="error" class="alert alert-danger alert-dismissible fade show" role="alert">
-                {{ error }}
-            </div>
+            <template v-if="submitCount > 0">
+                <div v-for="error in errors" :key="error" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ error }}
+                </div>
+            </template>
         </div>
     </TheLayout>
 </template>

@@ -31,7 +31,7 @@ defineExpose({
 <template>
     <Teleport to="body">
         <div ref="modal" class="modal fade" :id="props.type" tabindex="-1" :aria-labelledby="`label-${props.type}`" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog" :class="$attrs.class">
                 <div class="modal-content">
                     <div class="modal-header">
                         <slot name="title">
