@@ -57,6 +57,7 @@ const setWithVariations = (is_with_variations: boolean) => {
 const {errors, handleSubmit, values, setValues} = useForm({
     validationSchema: yup.object({
         id: yup.number().integer().truncate(),
+        uuid: yup.string().nullable(),
         is_active: yup.boolean(),
         name: yup.string().required().max(250),
         slug: yup.string().required().max(250),
@@ -95,6 +96,7 @@ const {errors, handleSubmit, values, setValues} = useForm({
         description: yup.string().max(65000).nullable(),
         mainImage: yup.object({
             id: yup.number().integer().truncate(),
+            uuid: yup.string().nullable(),
             name: yup.string().required().max(250),
             file_name: yup.string().required().max(250),
             url: yup.string(),
@@ -104,6 +106,7 @@ const {errors, handleSubmit, values, setValues} = useForm({
             yup.object({
                 id: yup.number().integer().truncate(),
                 name: yup.string().required().max(250),
+                uuid: yup.string().nullable(),
                 file_name: yup.string().required().max(250),
                 url: yup.string(),
                 order_column: yup.number(),
@@ -196,6 +199,43 @@ const {errors, handleSubmit, values, setValues} = useForm({
                 price_rub_formatted: yup.string().nullable(),
             })
         ).nullable(),
+        variations: yup.array().of(
+            yup.object({
+                id: yup.number().integer().truncate(),
+                uuid: yup.string().nullable(),
+                is_active: yup.boolean(),
+                name: yup.string().required().max(250),
+                ordering: yup.number().truncate(),
+                coefficient: yup.number().truncate(),
+                coefficient_description: yup.string().max(250).nullable(),
+                price_purchase: yup.number(),
+                price_purchase_currency_id: yup.number().integer().truncate(),
+                price_retail: yup.number(),
+                price_retail_currency_id: yup.number().integer().truncate(),
+                unit: yup.string().max(250).nullable(),
+                availability_status_id: yup.number().integer(),
+                preview: yup.string().max(65000).nullable(),
+                mainImage: yup.object({
+                    id: yup.number().integer().truncate(),
+                    uuid: yup.string().nullable(),
+                    name: yup.string().max(250),
+                    file_name: yup.string().max(250),
+                    url: yup.string(),
+                    file: yup.mixed(),
+                }).nullable(),
+                additionalImages: yup.array().of(
+                    yup.object({
+                        id: yup.number().integer().truncate(),
+                        name: yup.string().max(250),
+                        uuid: yup.string().nullable(),
+                        file_name: yup.string().max(250),
+                        url: yup.string(),
+                        order_column: yup.number(),
+                        file: yup.mixed(),
+                    })
+                ),
+            })
+        )
     })
 })
 
@@ -243,6 +283,7 @@ watch(() => productsStore.product, (product: Product|null) => {
         related,
         works,
         instruments,
+        variations,
     } = product || {}
     const _charCategories = charCategories.map(({id, name, product_id, ordering, chars}) => ({id, name, product_id, ordering, uuid: randomId(), chars}))
     const chars = _charCategories.reduce((acc, {chars, uuid}) => {
@@ -296,6 +337,7 @@ watch(() => productsStore.product, (product: Product|null) => {
         related,
         works,
         instruments,
+        variations,
     })
 })
 

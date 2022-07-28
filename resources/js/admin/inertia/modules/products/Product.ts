@@ -44,6 +44,7 @@ export default interface Product {
     related: Array<OtherProduct>
     works: Array<OtherProduct>
     instruments: Array<OtherProduct>
+    variations: Array<Variation>
 }
 
 export interface Seo {
@@ -62,6 +63,7 @@ export interface InfoPrice {
 
 export interface Instruction {
     id: number | null
+    uuid: string | null
     url: string | null
     name: string | null
     file_name: string | null
@@ -71,6 +73,7 @@ export interface Instruction {
 
 interface ProductImage {
     id: number | null
+    uuid: string | null
     url: string | null
     name: string | null
     file_name: string | null
@@ -136,4 +139,23 @@ export interface SearchProduct {
 export interface SearchProductResponse {
     data: Array<SearchProduct>
     meta: Meta
+}
+
+export interface Variation {
+    id: number | null
+    uuid: string | null
+    name: string | null
+    is_active: boolean | null
+    ordering: number | null
+    coefficient: number | null
+    coefficient_description: string | null
+    unit: string | null
+    availability_status_id: number | null
+    price_purchase: number | null
+    price_purchase_currency_id: number | null
+    price_retail: number | null
+    price_retail_currency_id: number | null
+    preview: string | null
+    mainImage: ProductImage | null
+    additionalImages: Array<ProductImage>
 }

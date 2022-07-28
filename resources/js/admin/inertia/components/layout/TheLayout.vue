@@ -23,6 +23,7 @@ const modalsStore = useModalsStore()
             v-for="modal in modalsStore.types"
             :is="Modals[modal.type]"
             :type="modal.type"
+            :modal-props="modal.props || {}"
         />
     </div>
 </template>

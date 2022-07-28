@@ -10,6 +10,7 @@ import Option from "@/admin/inertia/modules/common/Option"
 import {ModalType, useModalsStore} from "@/admin/inertia/modules/modals"
 import ProductListItem from "@/admin/inertia/modules/products/ProductListItem"
 import {Link} from "@inertiajs/inertia-vue3"
+import {ColumnType} from "@/admin/inertia/modules/columns/Column"
 
 
 const selectAll = ref(false)
@@ -64,7 +65,7 @@ const toggleActive = (product: ProductListItem) => {
             <h1 class="adm-title">Каталог товаров <span class="adm-fav-link"></span></h1>
 
             <div>
-                <button type="button" @click="modalsStore.openModal(ModalType.SORT_PRODUCTS_COLUMNS)" class="btn btn-primary mb-2 mr-2">Настроить</button>
+                <button type="button" @click="modalsStore.openModal(ModalType.SORT_ADMIN_COLUMNS, {type: ColumnType.adminProductColumns})" class="btn btn-primary mb-2 mr-2">Настроить</button>
             </div>
 
             <div class="admin-edit-variations table-responsive">

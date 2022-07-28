@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {Teleport, ref, onMounted, onUnmounted} from "vue"
+import {Teleport, ref, onMounted, onBeforeUnmount, defineExpose} from "vue"
 import {Modal} from 'bootstrap'
 import ModalCloseButton from "@/admin/inertia/components/modals/ModalCloseButton.vue"
 import {ModalType, useModalsStore} from "@/admin/inertia/modules/modals"
@@ -11,17 +11,20 @@ const props = defineProps<{
 }>()
 const modalsStore = useModalsStore()
 const modal = ref(null)
-let bootstrapModal
+let bootstrapModal = ref<Modal>(null)
 onMounted(() => {
-    bootstrapModal = new Modal(modal.value)
-    modal.value.addEventListener('hide.bs.modal', () => {
+    bootstrapModal.value = new Modal(modal.value)
+    modal.value.addEventListener('hidden.bs.modal', () => {
         modalsStore.closeModal(props.type)
+        bootstrapModal.value.dispose()
     })
-    bootstrapModal.show()
+    bootstrapModal.value.show()
 })
-onUnmounted(() => {
-    bootstrapModal.hide()
-    bootstrapModal.dispose()
+onBeforeUnmount(() => {
+    bootstrapModal.value.hide()
+})
+defineExpose({
+    bootstrapModal
 })
 </script>
 

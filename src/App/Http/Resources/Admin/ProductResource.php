@@ -26,8 +26,6 @@ class ProductResource extends JsonResource
      */
     public function toArray($request)
     {
-        /** @var \Domain\Common\Models\CustomMedia $mainImage */
-        $mainImage = $this->resource->getFirstMedia(Product::MC_MAIN_IMAGE);
         $relatedMapCB = fn (Product $product) => [
             'id' => $product->id,
             'uuid' => $product->uuid,
@@ -87,12 +85,13 @@ class ProductResource extends JsonResource
                 })
                 ->sortByDesc('order_column')
                 ->values(),
-            'mainImage' => $mainImage
+            'mainImage' => $this->resource->main_image_media
                 ? [
-                    'id' => $mainImage->id,
-                    'url' => $mainImage->getFullUrl(),
-                    'name' => $mainImage->name,
-                    'file_name' => $mainImage->file_name,
+                    'id' => $this->resource->main_image_media->id,
+                    'uuid' => $this->resource->main_image_media->uuid,
+                    'url' => $this->resource->main_image_media->getFullUrl(),
+                    'name' => $this->resource->main_image_media->name,
+                    'file_name' => $this->resource->main_image_media->file_name,
                 ]
                 : null,
             'additionalImages' => $this->resource
@@ -100,6 +99,7 @@ class ProductResource extends JsonResource
                 ->map(function (CustomMedia $media) {
                     return [
                         'id' => $media->id,
+                        'uuid' => $media->uuid,
                         'url' => $media->getFullUrl(),
                         'name' => $media->name,
                         'file_name' => $media->file_name,
@@ -142,6 +142,43 @@ class ProductResource extends JsonResource
             'instruments' => $this->resource
                 ->instruments
                 ->map($relatedMapCB),
+            'variations' => $this->resource->variations->map(fn(Product $variation) => [
+                'id' => $variation->id,
+                'uuid' => $variation->uuid,
+                'is_active' => $variation->is_active,
+                'name' => $variation->name,
+                'availability_status_id' => $variation->availability_status_id,
+                'ordering' => $variation->ordering,
+                'coefficient' => $variation->coefficient,
+                'coefficient_description' => $variation->coefficient_description,
+                'unit' => $variation->unit,
+                'price_purchase' => $variation->price_purchase,
+                'price_purchase_currency_id' => $variation->price_purchase_currency_id,
+                'price_retail' => $variation->price_retail,
+                'price_retail_currency_id' => $variation->price_retail_currency_id,
+                'preview' => $variation->preview,
+                'mainImage' => $variation->main_image_media
+                    ? [
+                        'id' => $variation->main_image_media->id,
+                        'uuid' => $variation->main_image_media->uuid,
+                        'url' => $variation->main_image_media->getFullUrl(),
+                        'name' => $variation->main_image_media->name,
+                        'file_name' => $variation->main_image_media->file_name,
+                    ]
+                    : null,
+                'additionalImages' => $variation
+                    ->getMedia(Product::MC_ADDITIONAL_IMAGES)
+                    ->map(function (CustomMedia $media) {
+                        return [
+                            'id' => $media->id,
+                            'uuid' => $media->uuid,
+                            'url' => $media->getFullUrl(),
+                            'name' => $media->name,
+                            'file_name' => $media->file_name,
+                            'order_column' => $media->order_column,
+                        ];
+                    }),
+            ])
         ];
     }
 }

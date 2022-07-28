@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import Modal from '@/admin/inertia/components/modals/Modal.vue'
 import {computed, ref, Ref} from "vue"
-import Column from "@/admin/inertia/modules/columns/Column"
+import Column, {ColumnType} from "@/admin/inertia/modules/columns/Column"
 import {useColumnsStore} from "@/admin/inertia/modules/columns"
 import Draggable from 'vuedraggable'
 import {ModalType, useModalsStore} from "@/admin/inertia/modules/modals"
@@ -10,26 +10,84 @@ import ModalCloseButton from '@/admin/inertia/components/modals/ModalCloseButton
 
 const props = defineProps<{
     type: ModalType
+    modalProps: {
+        type: ColumnType
+    }
 }>()
 const columnsStore = useColumnsStore()
 const _columns: Ref<Array<Column>> = ref([])
 const columns = computed({
     get(): Array<Column> {
-        return _columns.value.length ? _columns.value : columnsStore.adminProductColumns
+        if (_columns.value.length) {
+            return _columns.value
+        }
+        return getFromStore()
     },
     set(columns: Array<Column>): void {
         _columns.value = columns
     }
 })
+const getFromStore = () => {
+    switch (props.modalProps.type) {
+        case ColumnType.adminProductColumns: {
+            return columnsStore.adminProductColumns
+        }
+        case ColumnType.adminOrderColumns: {
+            return columnsStore.adminOrderColumns
+        }
+        case ColumnType.adminProductVariantColumns: {
+            return columnsStore.adminProductVariantColumns
+        }
+        default: {
+            return []
+        }
+    }
+}
 const modalsStore = useModalsStore()
 const handleSet = async () => {
-    await columnsStore.handleSortColumns({adminProductColumns: _columns.value.map((column: Column) => column.value)})
-    _columns.value = columnsStore.adminProductColumns
+    let payload
+    switch (props.modalProps.type) {
+        case ColumnType.adminProductColumns: {
+            payload = {adminProductColumns: _columns.value.map((column: Column) => column.value)}
+            break
+        }
+        case ColumnType.adminOrderColumns: {
+            payload = {adminOrderColumns: _columns.value.map((column: Column) => column.value)}
+            break
+        }
+        case ColumnType.adminProductVariantColumns: {
+            payload = {adminProductVariantColumns: _columns.value.map((column: Column) => column.value)}
+            break
+        }
+        default: {
+            return
+        }
+    }
+    await columnsStore.handleSortColumns(payload)
+    _columns.value = getFromStore()
     modalsStore.closeModal(props.type)
 }
 const handleDefault = async () => {
-    await columnsStore.handleSortColumns({adminProductColumnsDefault: true})
-    _columns.value = columnsStore.adminProductColumns
+    let payload
+    switch (props.modalProps.type) {
+        case ColumnType.adminOrderColumns: {
+            payload = {adminOrderColumnsDefault: true}
+            break
+        }
+        case ColumnType.adminProductColumns: {
+            payload = {adminProductColumnsDefault: true}
+            break
+        }
+        case ColumnType.adminProductVariantColumns: {
+            payload = {adminProductVariantColumnsDefault: true}
+            break
+        }
+        default: {
+            return
+        }
+    }
+    await columnsStore.handleSortColumns(payload)
+    _columns.value = getFromStore()
     modalsStore.closeModal(props.type)
 }
 </script>

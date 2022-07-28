@@ -1,5 +1,6 @@
 export interface ProductForm {
     id?: number
+    uuid?: string
     is_active?: boolean
     name?: string
     slug?: string
@@ -31,6 +32,7 @@ export interface ProductForm {
     related?: Array<OtherProduct>
     works?: Array<OtherProduct>
     instruments?: Array<OtherProduct>
+    variations?: Array<Variation>
 }
 
 interface InfoPrice {
@@ -50,6 +52,7 @@ export interface Instruction {
 
 interface MainImage {
     id: number | null
+    uuid: string | null
     url: string | null
     name: string | null
     file_name: string | null
@@ -58,6 +61,7 @@ interface MainImage {
 
 export interface AdditionalImage {
     id: number | null
+    uuid: string | null
     url: string | null
     name: string | null
     file_name: string | null
@@ -99,4 +103,23 @@ interface OtherProduct {
     name: string
     image: string | null
     price_rub_formatted: string | null
+}
+
+export interface Variation {
+    id: number | null
+    uuid: string | null
+    is_active?: boolean
+    name: string | null
+    ordering: number | null
+    coefficient: number | null
+    coefficient_description: string | null
+    unit: string | null
+    availability_status_id?: number
+    price_purchase: number | null
+    price_purchase_currency_id: number | null
+    price_retail: number | null
+    price_retail_currency_id: number | null
+    preview: string | null
+    mainImage: MainImage | null
+    additionalImages: Array<AdditionalImage>
 }
