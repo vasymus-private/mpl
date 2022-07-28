@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import TheLayout from '@/admin/inertia/components/layout/TheLayout.vue'
-import {getRouteUrl, routeNames} from "@/admin/inertia/modules/routes"
+import {getRouteUrl, routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
 import {useProductsStore, isCreatingProductRoute} from "@/admin/inertia/modules/products"
 import {computed, onUnmounted, watch} from "vue"
 import {Link} from "@inertiajs/inertia-vue3"
-import {TabEnum} from "@/admin/inertia/modules/products/Tabs"
+import {AdminTab, TabEnum} from "@/admin/inertia/modules/products/Tabs"
 import { useForm } from 'vee-validate'
 import * as yup from 'yup'
 import {useFormsStore} from "@/admin/inertia/modules/forms"
@@ -16,6 +16,7 @@ import {CharTypeEnum} from "@/admin/inertia/modules/charTypes/CharType"
 
 const productsStore = useProductsStore()
 const formsStore = useFormsStore()
+const routesStore = useRoutesStore()
 
 const isCreating = computed(() => isCreatingProductRoute())
 
@@ -24,6 +25,29 @@ const deleteItem = async () => {
         await productsStore.handleDelete([productsStore.product.id])
         Inertia.visit(getRouteUrl(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX))
     }
+}
+
+const activeTab = 'activeTab'
+const onTabClick = (tab: AdminTab) => {
+    let u = new URL(location.href)
+    let s = new URLSearchParams(u.search)
+    s.set(activeTab, tab.value)
+    u.search = s.toString()
+    history.replaceState(history.state, '', u.toString())
+}
+
+const getActiveTab = (): string => {
+    let url
+    if (typeof window !== "undefined") {
+        url = window.location.href
+    }
+    if (!url) {
+        url = routesStore.fullUrl
+    }
+    if (!url) {
+        return TabEnum.elements
+    }
+    return new URL(url).searchParams.get(activeTab) || TabEnum.elements
 }
 
 const setWithVariations = (is_with_variations: boolean) => {
@@ -367,7 +391,7 @@ onUnmounted(() => {
                 <ul class="nav nav-tabs js-nav-tabs item-tabs" role="tablist">
                     <li v-for="tab in productsStore.getAdminTabs" :key="`${tab.value}-tab`" class="nav-item" role="presentation">
                         <button
-                            :class="['nav-link', tab.value === TabEnum.elements ? 'active' : '']"
+                            :class="['nav-link', tab.value === getActiveTab() ? 'active' : '']"
                             :id="`${tab.value}-tab`"
                             data-bs-toggle="tab"
                             :data-bs-target="`#${tab.value}-content`"
@@ -375,6 +399,7 @@ onUnmounted(() => {
                             role="tab"
                             :aria-controls="`${tab.value}-content`"
                             aria-selected="true"
+                            @click="onTabClick(tab)"
                         >{{ tab.label }}</button>
                     </li>
                 </ul>
@@ -385,7 +410,7 @@ onUnmounted(() => {
                     <div
                         v-for="tab in productsStore.getAdminTabs"
                         :key="`${tab.value}-content`"
-                        :class="['tab-pane', 'p-3', 'fade', tab.value === TabEnum.elements ? 'show active' : '']"
+                        :class="['tab-pane', 'p-3', 'fade', tab.value === getActiveTab() ? 'show active' : '']"
                         :id="`${tab.value}-content`"
                         role="tabpanel"
                         :aria-labelledby="`${tab.value}-tab`"
