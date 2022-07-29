@@ -29,7 +29,7 @@ export const useAvailabilityStatusesStore = defineStore(storeName, {
                     disabled: false,
                 })
             )
-        }
+        },
     },
     actions: {
         setEntities(entities: Array<AvailabilityStatus>): void {
