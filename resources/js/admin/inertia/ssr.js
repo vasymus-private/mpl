@@ -6,7 +6,7 @@ import { ZiggyVue } from "ziggy-js/dist/vue"
 import { Ziggy } from "@/helpers/ziggy"
 import { createPinia } from "pinia"
 import { initFromPageProps } from "@/admin/inertia/modules"
-import '@/admin/inertia/settings/vee-validate'
+import "@/admin/inertia/settings/vee-validate"
 
 createServer((page) =>
     createInertiaApp({
