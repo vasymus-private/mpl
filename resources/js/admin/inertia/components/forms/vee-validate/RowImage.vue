@@ -2,6 +2,7 @@
 import {useField} from "vee-validate"
 import {ref} from "vue"
 import {randomId} from "@/admin/inertia/utils"
+import {toRef} from 'vue'
 
 
 const props = defineProps<{
@@ -9,7 +10,8 @@ const props = defineProps<{
     label: string
     keepValue?: boolean
 }>()
-const {value, setValue, meta} = useField(props.name, {}, {keepValueOnUnmount: props.keepValue})
+const name = toRef(props, 'name')
+const {value, setValue, meta} = useField(name, undefined, {keepValueOnUnmount: props.keepValue})
 const imageRef = ref(null)
 const onImageChange = event => {
     event.target.files.forEach(file => {
@@ -31,7 +33,7 @@ const onImageChange = event => {
             <label
                 class="w-100 text-end"
                 style="cursor: pointer"
-                :for="props.name"
+                :for="name"
             >{{ props.label }}:</label>
         </div>
         <div class="col-sm-6">
@@ -54,7 +56,7 @@ const onImageChange = event => {
                     @change="onImageChange"
                     type="file"
                     class="form-control-file"
-                    :id="props.name"
+                    :id="name"
                 />
             </div>
         </div>

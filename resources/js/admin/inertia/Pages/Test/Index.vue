@@ -2,14 +2,10 @@
 import TheLayout from '@/admin/inertia/components/layout/TheLayout.vue'
 import { Head } from '@inertiajs/inertia-vue3'
 import { useForm } from 'vee-validate'
-import * as yup from "yup"
 
 
 const {errors, handleSubmit} = useForm({
-    validationSchema: yup.object({
-        is_active: yup.boolean().required().oneOf([true], 'Field must be checked'),
-        ordering: yup.number().integer(),
-    }),
+    validationSchema: {},
     initialValues: {
         is_active: false,
         ordering: 500

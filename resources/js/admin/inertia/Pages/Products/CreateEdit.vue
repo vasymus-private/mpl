@@ -59,48 +59,70 @@ const getActiveTab = (): string => {
     return paramActiveTab
 }
 
-const {errors, handleSubmit, values, setValues, submitCount} = useForm({
-    validationSchema: yup.object({
+const validationSchema = {
+    id: 'integer',
+    uuid: 'alpha_dash',
+    is_active: {
+        one_of: [true, false],
+    },
+    is_with_variations: {
+        one_of: [true, false],
+    },
+    name: 'required|max:250',
+    slug: 'required|max:250',
+}
+
+const yupSchema = yup.object({
+    id: yup.number().integer().truncate(),
+    uuid: yup.string().nullable(),
+    is_active: yup.boolean(),
+    is_with_variations: yup.boolean(),
+    name: yup.string().required().max(250),
+    slug: yup.string().required().max(250),
+    ordering: yup.number().truncate(),
+    brand_id: yup.number().integer(),
+    coefficient: yup.number().truncate(),
+    coefficient_description: yup.string().max(250).nullable(),
+    coefficient_description_show: yup.boolean(),
+    coefficient_variation_description: yup.string().max(250).nullable(),
+    price_name: yup.string().max(250).nullable(),
+    infoPrices: yup.array().of(
+        yup.object({
+            id: yup.number().integer().truncate(),
+            name: yup.string().required().max(250),
+            price: yup.number().required().truncate(),
+        })
+    ).nullable(),
+    admin_comment: yup.string().max(250).nullable(),
+    instructions: yup.array().of(
+        yup.object({
+            id: yup.number().integer().truncate(),
+            name: yup.string().required().max(250),
+            file_name: yup.string().required().max(250),
+            url: yup.string(),
+            order_column: yup.number(),
+            file: yup.mixed(),
+        })
+    ),
+    price_purchase: yup.number(),
+    price_purchase_currency_id: yup.number().integer(),
+    price_retail: yup.number(),
+    price_retail_currency_id: yup.number().integer(),
+    unit: yup.string().max(250).nullable(),
+    availability_status_id: yup.number().integer(),
+    preview: yup.string().max(65000).nullable(),
+    description: yup.string().max(65000).nullable(),
+    mainImage: yup.object({
         id: yup.number().integer().truncate(),
         uuid: yup.string().nullable(),
-        is_active: yup.boolean(),
-        is_with_variations: yup.boolean(),
-        name: yup.string().required().max(250),
-        slug: yup.string().required().max(250),
-        ordering: yup.number().truncate(),
-        brand_id: yup.number().integer(),
-        coefficient: yup.number().truncate(),
-        coefficient_description: yup.string().max(250).nullable(),
-        coefficient_description_show: yup.boolean(),
-        coefficient_variation_description: yup.string().max(250).nullable(),
-        price_name: yup.string().max(250).nullable(),
-        infoPrices: yup.array().of(
-            yup.object({
-                id: yup.number().integer().truncate(),
-                name: yup.string().required().max(250),
-                price: yup.number().required().truncate(),
-            })
-        ).nullable(),
-        admin_comment: yup.string().max(250).nullable(),
-        instructions: yup.array().of(
-            yup.object({
-                id: yup.number().integer().truncate(),
-                name: yup.string().required().max(250),
-                file_name: yup.string().required().max(250),
-                url: yup.string(),
-                order_column: yup.number(),
-                file: yup.mixed(),
-            })
-        ),
-        price_purchase: yup.number(),
-        price_purchase_currency_id: yup.number().integer(),
-        price_retail: yup.number(),
-        price_retail_currency_id: yup.number().integer(),
-        unit: yup.string().max(250).nullable(),
-        availability_status_id: yup.number().integer(),
-        preview: yup.string().max(65000).nullable(),
-        description: yup.string().max(65000).nullable(),
-        mainImage: yup.object({
+        url: yup.string(),
+        name: yup.string().max(250).nullable(),
+        file_name: yup.string().max(250).nullable(),
+        order_column: yup.number().nullable(),
+        file: yup.mixed(),
+    }).nullable(),
+    additionalImages: yup.array().of(
+        yup.object({
             id: yup.number().integer().truncate(),
             uuid: yup.string().nullable(),
             url: yup.string(),
@@ -108,9 +130,111 @@ const {errors, handleSubmit, values, setValues, submitCount} = useForm({
             file_name: yup.string().max(250).nullable(),
             order_column: yup.number().nullable(),
             file: yup.mixed(),
-        }).nullable(),
-        additionalImages: yup.array().of(
-            yup.object({
+        })
+    ),
+    charCategories: yup.array().of(
+        yup.object({
+            id: yup.number().integer().truncate(),
+            uuid: yup.string().required(),
+            name: yup.string().required().max(250),
+            product_id: yup.number().integer().truncate(),
+            ordering: yup.number(),
+        })
+    ),
+    chars: yup.array().of(
+        yup.object({
+            id: yup.number().integer().truncate(),
+            uuid: yup.string().required(),
+            name: yup.string().required().max(250),
+            value: yup.string().required().max(250),
+            product_id: yup.number().integer().truncate(),
+            type_id: yup.number().integer().truncate(),
+            category_id: yup.number().integer().truncate(),
+            category_uuid: yup.string().required(),
+            ordering: yup.number(),
+        })
+    ),
+    tempCharCategoryName: yup.string().max(250).nullable(),
+    tempChar: yup.object({
+        name: yup.string().max(250).nullable(),
+        type_id: yup.number().integer().truncate(),
+        category_uuid: yup.string().nullable(),
+    }).nullable(),
+    seo: yup.object({
+        title: yup.string().max(250).nullable(),
+        h1: yup.string().max(250).nullable(),
+        keywords: yup.string().max(65000).nullable(),
+        description: yup.string().max(65000).nullable(),
+    }).nullable(),
+    category_id: yup.number().integer().truncate(),
+    relatedCategoriesIds: yup.array().of(yup.number().integer()),
+    accessory_name: yup.string().max(250).nullable(),
+    similar_name: yup.string().max(250).nullable(),
+    related_name: yup.string().max(250).nullable(),
+    work_name: yup.string().max(250).nullable(),
+    instruments_name: yup.string().max(250).nullable(),
+    accessories: yup.array().of(
+        yup.object({
+            id: yup.number().integer().required(),
+            uuid: yup.string().nullable(),
+            name: yup.string().nullable(),
+            image: yup.string().nullable(),
+            price_rub_formatted: yup.string().nullable(),
+        })
+    ).nullable(),
+    similar: yup.array().of(
+        yup.object({
+            id: yup.number().integer().required(),
+            uuid: yup.string().nullable(),
+            name: yup.string().nullable(),
+            image: yup.string().nullable(),
+            price_rub_formatted: yup.string().nullable(),
+        })
+    ).nullable(),
+    related: yup.array().of(
+        yup.object({
+            id: yup.number().integer().required(),
+            uuid: yup.string().nullable(),
+            name: yup.string().nullable(),
+            image: yup.string().nullable(),
+            price_rub_formatted: yup.string().nullable(),
+        })
+    ).nullable(),
+    works: yup.array().of(
+        yup.object({
+            id: yup.number().integer().required(),
+            uuid: yup.string().nullable(),
+            name: yup.string().nullable(),
+            image: yup.string().nullable(),
+            price_rub_formatted: yup.string().nullable(),
+        })
+    ).nullable(),
+    instruments: yup.array().of(
+        yup.object({
+            id: yup.number().integer().required(),
+            uuid: yup.string().nullable(),
+            name: yup.string().nullable(),
+            image: yup.string().nullable(),
+            price_rub_formatted: yup.string().nullable(),
+        })
+    ).nullable(),
+    variations: yup.array().of(
+        yup.object({
+            id: yup.number().integer().truncate(),
+            uuid: yup.string().nullable(),
+            is_active: yup.boolean(),
+            name: yup.string().required().max(250),
+            ordering: yup.number().truncate(),
+            coefficient: yup.number().truncate(),
+            coefficient_description: yup.string().max(250).nullable(),
+            price_purchase: yup.number().truncate(),
+            price_purchase_currency_id: yup.number().integer().truncate(),
+            price_retail: yup.number().truncate(),
+            price_retail_currency_id: yup.number().integer().truncate(),
+            unit: yup.string().max(250).nullable(),
+            availability_status_id: yup.number().integer().truncate(),
+            preview: yup.string().max(65000).nullable(),
+            mainImage: yup.object({
                 id: yup.number().integer().truncate(),
                 uuid: yup.string().nullable(),
                 url: yup.string(),
@@ -118,111 +242,9 @@ const {errors, handleSubmit, values, setValues, submitCount} = useForm({
                 file_name: yup.string().max(250).nullable(),
                 order_column: yup.number().nullable(),
                 file: yup.mixed(),
-            })
-        ),
-        charCategories: yup.array().of(
-            yup.object({
-                id: yup.number().integer().truncate(),
-                uuid: yup.string().required(),
-                name: yup.string().required().max(250),
-                product_id: yup.number().integer().truncate(),
-                ordering: yup.number(),
-            })
-        ),
-        chars: yup.array().of(
-            yup.object({
-                id: yup.number().integer().truncate(),
-                uuid: yup.string().required(),
-                name: yup.string().required().max(250),
-                value: yup.string().required().max(250),
-                product_id: yup.number().integer().truncate(),
-                type_id: yup.number().integer().truncate(),
-                category_id: yup.number().integer().truncate(),
-                category_uuid: yup.string().required(),
-                ordering: yup.number(),
-            })
-        ),
-        tempCharCategoryName: yup.string().max(250).nullable(),
-        tempChar: yup.object({
-            name: yup.string().max(250).nullable(),
-            type_id: yup.number().integer().truncate(),
-            category_uuid: yup.string().nullable(),
-        }).nullable(),
-        seo: yup.object({
-            title: yup.string().max(250).nullable(),
-            h1: yup.string().max(250).nullable(),
-            keywords: yup.string().max(65000).nullable(),
-            description: yup.string().max(65000).nullable(),
-        }).nullable(),
-        category_id: yup.number().integer().truncate(),
-        relatedCategoriesIds: yup.array().of(yup.number().integer()),
-        accessory_name: yup.string().max(250).nullable(),
-        similar_name: yup.string().max(250).nullable(),
-        related_name: yup.string().max(250).nullable(),
-        work_name: yup.string().max(250).nullable(),
-        instruments_name: yup.string().max(250).nullable(),
-        accessories: yup.array().of(
-            yup.object({
-                id: yup.number().integer().required(),
-                uuid: yup.string().nullable(),
-                name: yup.string().nullable(),
-                image: yup.string().nullable(),
-                price_rub_formatted: yup.string().nullable(),
-            })
-        ).nullable(),
-        similar: yup.array().of(
-            yup.object({
-                id: yup.number().integer().required(),
-                uuid: yup.string().nullable(),
-                name: yup.string().nullable(),
-                image: yup.string().nullable(),
-                price_rub_formatted: yup.string().nullable(),
-            })
-        ).nullable(),
-        related: yup.array().of(
-            yup.object({
-                id: yup.number().integer().required(),
-                uuid: yup.string().nullable(),
-                name: yup.string().nullable(),
-                image: yup.string().nullable(),
-                price_rub_formatted: yup.string().nullable(),
-            })
-        ).nullable(),
-        works: yup.array().of(
-            yup.object({
-                id: yup.number().integer().required(),
-                uuid: yup.string().nullable(),
-                name: yup.string().nullable(),
-                image: yup.string().nullable(),
-                price_rub_formatted: yup.string().nullable(),
-            })
-        ).nullable(),
-        instruments: yup.array().of(
-            yup.object({
-                id: yup.number().integer().required(),
-                uuid: yup.string().nullable(),
-                name: yup.string().nullable(),
-                image: yup.string().nullable(),
-                price_rub_formatted: yup.string().nullable(),
-            })
-        ).nullable(),
-        variations: yup.array().of(
-            yup.object({
-                id: yup.number().integer().truncate(),
-                uuid: yup.string().nullable(),
-                is_active: yup.boolean(),
-                name: yup.string().required().max(250),
-                ordering: yup.number().truncate(),
-                coefficient: yup.number().truncate(),
-                coefficient_description: yup.string().max(250).nullable(),
-                price_purchase: yup.number().truncate(),
-                price_purchase_currency_id: yup.number().integer().truncate(),
-                price_retail: yup.number().truncate(),
-                price_retail_currency_id: yup.number().integer().truncate(),
-                unit: yup.string().max(250).nullable(),
-                availability_status_id: yup.number().integer().truncate(),
-                preview: yup.string().max(65000).nullable(),
-                mainImage: yup.object({
+            }).nullable(),
+            additionalImages: yup.array().of(
+                yup.object({
                     id: yup.number().integer().truncate(),
                     uuid: yup.string().nullable(),
                     url: yup.string(),
@@ -230,21 +252,14 @@ const {errors, handleSubmit, values, setValues, submitCount} = useForm({
                     file_name: yup.string().max(250).nullable(),
                     order_column: yup.number().nullable(),
                     file: yup.mixed(),
-                }).nullable(),
-                additionalImages: yup.array().of(
-                    yup.object({
-                        id: yup.number().integer().truncate(),
-                        uuid: yup.string().nullable(),
-                        url: yup.string(),
-                        name: yup.string().max(250).nullable(),
-                        file_name: yup.string().max(250).nullable(),
-                        order_column: yup.number().nullable(),
-                        file: yup.mixed(),
-                    })
-                ),
-            })
-        )
-    })
+                })
+            ),
+        })
+    )
+})
+
+const {errors, handleSubmit, values, setValues, submitCount} = useForm({
+    validationSchema,
 })
 
 watch(values, newValues => {

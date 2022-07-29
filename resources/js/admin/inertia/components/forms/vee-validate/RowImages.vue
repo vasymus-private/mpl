@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {useFieldArray, Field} from "vee-validate"
 import Image from "@/admin/inertia/modules/common/Image"
-import {ref} from "vue"
+import {ref, toRef} from "vue"
 import {maxBy} from "lodash"
 import {randomId} from "@/admin/inertia/utils"
 
@@ -11,7 +11,8 @@ const props = defineProps<{
     label: string
     keepValue?: boolean
 }>()
-const {fields, push, remove, swap} = useFieldArray<Image>(props.name)
+const name = toRef(props, 'name')
+const {fields, push, remove, swap} = useFieldArray<Image>(name)
 const imagesRef = ref(null)
 const onImagesChange = event => {
     event.target.files.forEach(file => {
@@ -37,7 +38,7 @@ const onImagesChange = event => {
 <template>
     <div class="row">
         <div class="col-sm-6 d-flex align-items-center">
-            <label class="w-100 text-end" style="cursor: pointer" :for="props.name">{{ props.label }}:</label>
+            <label class="w-100 text-end" style="cursor: pointer" :for="name">{{ props.label }}:</label>
         </div>
         <div class="col-sm-6">
             <div class="add-file d-flex justify-content-center flex-wrap" @click="imagesRef.click()">
@@ -46,7 +47,7 @@ const onImagesChange = event => {
                     <div class="form-group">
                         <Field
                             v-slot="{field, meta}"
-                            :name="`${props.name}[${idx}].name`"
+                            :name="`${name}[${idx}].name`"
                             :keep-value="props.keepValue"
                         >
                             <input
@@ -82,7 +83,7 @@ const onImagesChange = event => {
                     @change="onImagesChange"
                     type="file"
                     class="form-control-file"
-                    :id="props.name"
+                    :id="name"
                 />
             </div>
         </div>
