@@ -5,14 +5,15 @@ import { Field } from 'vee-validate'
 const props = defineProps<{
     name: string
     label: string
-    type?: string
+    labelClass?: string|object|Array<string>
+    type?: 'text' | 'number'
 }>()
 </script>
 
 <template>
     <div class="row mb-3">
         <div class="col-sm-5 text-end">
-            <label :for="props.name">{{ props.label }}:</label>
+            <label :for="props.name" :class="props.labelClass">{{ props.label }}:</label>
         </div>
         <div class="col-sm-7">
             <Field

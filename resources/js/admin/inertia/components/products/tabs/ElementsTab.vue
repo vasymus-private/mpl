@@ -9,6 +9,7 @@ import InfoPrices from "@/admin/inertia/components/products/tabs/forms/InfoPrice
 import RowCheckbox from '@/admin/inertia/components/forms/vee-validate/RowCheckbox.vue'
 import RowInput from '@/admin/inertia/components/forms/vee-validate/RowInput.vue'
 import RowSelect from '@/admin/inertia/components/forms/vee-validate/RowSelect.vue'
+import RowInputSelect from '@/admin/inertia/components/forms/vee-validate/RowInputSelect.vue'
 import RowTextarea from '@/admin/inertia/components/forms/vee-validate/RowTextarea.vue'
 import Instructions from "@/admin/inertia/components/products/tabs/forms/Instructions.vue"
 import {useCurrenciesStore} from "@/admin/inertia/modules/currencies"
@@ -165,92 +166,30 @@ const handleSyncNameAndSlug = async () => {
 
         <Instructions />
 
-        <div class="row mb-3">
-            <div class="col-sm-5 text-end">
-                <label for="price_purchase" class="fw-bold">Закупочная цена:</label>
-            </div>
-            <div class="col-sm-2">
-                <Field
-                    v-slot="{field, meta}"
-                    name="price_purchase"
-                >
-                    <input
-                        v-bind="field"
-                        :class="['form-control', !meta.valid ? 'is-invalid' : '']"
-                        type="number"
-                        id="price_purchase"
-                    />
-                </Field>
-            </div>
-            <div class="col-sm-3 text-end">
-                <label for="price_purchase_currency_id">Валюта:</label>
-            </div>
-            <div class="col-sm-2">
-                <Field
-                    v-slot="{field, meta}"
-                    name="price_purchase_currency_id"
-                >
-                    <select
-                        :class="['form-control', !meta.valid ? 'is-invalid' : '' ]"
-                        id="price_purchase_currency_id"
-                        v-bind="field"
-                    >
-                        <option :value="undefined">(не установлено)</option>
-                        <option
-                            v-for="option in currenciesStore.options"
-                            :key="option.value"
-                            :value="option.value"
-                            :disabled="option.disabled"
-                        >{{option.label}}</option>
-                    </select>
-                </Field>
-            </div>
-        </div>
+        <RowInputSelect
+            label-input="Закупочная цена"
+            name-input="price_purchase"
+            label-input-class="fw-bold"
+            type-input="number"
+            label-select="Валюта"
+            name-select="price_purchase_currency_id"
+            label-select-class="fw-bold"
+            :options="currenciesStore.options"
+        />
 
-        <div class="row mb-3">
-            <div class="col-sm-5 text-end">
-                <label for="price_retail" class="fw-bold">Розничная цена:</label>
-            </div>
-            <div class="col-sm-2">
-                <Field
-                    v-slot="{field, meta}"
-                    name="price_retail"
-                >
-                    <input
-                        v-bind="field"
-                        :class="['form-control', !meta.valid ? 'is-invalid' : '']"
-                        type="number"
-                        id="price_retail"
-                    />
-                </Field>
-            </div>
-            <div class="col-sm-3 text-end">
-                <label for="price_retail_currency_id">Валюта:</label>
-            </div>
-            <div class="col-sm-2">
-                <Field
-                    v-slot="{field, meta}"
-                    name="price_retail_currency_id"
-                >
-                    <select
-                        :class="['form-control', !meta.valid ? 'is-invalid' : '' ]"
-                        id="price_retail_currency_id"
-                        v-bind="field"
-                    >
-                        <option :value="undefined">(не установлено)</option>
-                        <option
-                            v-for="option in currenciesStore.options"
-                            :key="option.value"
-                            :value="option.value"
-                            :disabled="option.disabled"
-                        >{{option.label}}</option>
-                    </select>
-                </Field>
-            </div>
-        </div>
+        <RowInputSelect
+            label-input="Розничная цена"
+            name-input="price_retail"
+            label-input-class="fw-bold"
+            type-input="number"
+            label-select="Валюта"
+            name-select="price_retail_currency_id"
+            label-select-class="fw-bold"
+            :options="currenciesStore.options"
+        />
 
         <RowInput name="unit" label="Упаковка / Единица" />
 
-        <RowSelect name="availability_status_id" label="Наличие" :options="availabilityStatusesStore.options" />
+        <RowSelect name="availability_status_id" label="Наличие" :options="availabilityStatusesStore.optionsFormatted" />
     </div>
 </template>

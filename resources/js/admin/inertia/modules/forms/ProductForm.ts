@@ -108,7 +108,7 @@ interface OtherProduct {
 export interface Variation {
     id: number | null
     uuid: string | null
-    is_active?: boolean
+    is_active: boolean
     name: string | null
     ordering: number | null
     coefficient: number | null

@@ -21,6 +21,15 @@ export const useAvailabilityStatusesStore = defineStore(storeName, {
                 })
             )
         },
+        optionsFormatted: function (): Array<Option> {
+            return this.entities.map(
+                (availabilityStatus: AvailabilityStatus): Option => ({
+                    value: availabilityStatus.id,
+                    label: availabilityStatus.formatted_short_name,
+                    disabled: false,
+                })
+            )
+        }
     },
     actions: {
         setEntities(entities: Array<AvailabilityStatus>): void {

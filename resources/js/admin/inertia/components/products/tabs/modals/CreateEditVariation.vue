@@ -6,12 +6,19 @@ import {isCreatingProductRoute} from "@/admin/inertia/modules/products"
 import ModalCloseButton from '@/admin/inertia/components/modals/ModalCloseButton.vue'
 import {useFieldArray} from "vee-validate"
 import RowCheckbox from '@/admin/inertia/components/forms/vee-validate/RowCheckbox.vue'
+import RowInput from '@/admin/inertia/components/forms/vee-validate/RowInput.vue'
+import RowSelect from '@/admin/inertia/components/forms/vee-validate/RowSelect.vue'
+import RowInputSelect from '@/admin/inertia/components/forms/vee-validate/RowInputSelect.vue'
+import {useAvailabilityStatusesStore} from "@/admin/inertia/modules/availabilityStatuses"
+import {useCurrenciesStore} from "@/admin/inertia/modules/currencies"
 
 
 const props = defineProps<{
     type: ModalType
     modalProps?: object
 }>()
+const availabilityStatusesStore = useAvailabilityStatusesStore()
+const currenciesStore = useCurrenciesStore()
 const toSave = ref<boolean>(false)
 const isCreating = computed(() => isCreatingProductRoute())
 const {fields, remove} = useFieldArray('variations')
@@ -66,15 +73,42 @@ onBeforeUnmount(() => {
                 </ul>
                 <div class="tab-content">
                     <div
-                        class="tab-pane p-3 fade show active"
+                        class="tab-pane p-3 item-edit product-edit fade show active"
                         id="create-variation-element-content"
                         role="tabpanel"
                         aria-labelledby="create-variation-element-tab"
                     >
                         <RowCheckbox :name="`variations[${lastIndex}].is_active`" label="Активность" />
+
+                        <RowInput :name="`variations[${lastIndex}].name`" label="Название" label-class="fw-bold" />
+
+                        <RowInput :name="`variations[${lastIndex}].ordering`" label="Сортировка" type="number" />
+
+                        <RowInput :name="`variations[${lastIndex}].coefficient`" label="Коэффициент на единицу расхода и единица расхода" type="number" />
+
+                        <RowInput :name="`variations[${lastIndex}].coefficient_description`" label="Описание коэффициента" />
+
+                        <RowInput :name="`variations[${lastIndex}].unit`" label="Упаковка / Единица" />
+
+                        <RowSelect
+                            :name="`variations[${lastIndex}].availability_status_id`"
+                            label="Наличие"
+                            :options="availabilityStatusesStore.optionsFormatted"
+                        />
+
+                        <RowInputSelect
+                            label-input="Закупочная цена"
+                            name-input="price_purchase"
+                            label-input-class="fw-bold"
+                            type-input="number"
+                            label-select="Валюта"
+                            name-select="price_purchase_currency_id"
+                            label-select-class="fw-bold"
+                            :options="currenciesStore.options"
+                        />
                     </div>
                     <div
-                        class="tab-pane p-3 fade"
+                        class="tab-pane item-edit product-edit p-3 fade"
                         id="create-variation-photo-content"
                         role="tabpanel"
                         aria-labelledby="create-variation-photo-tab"
