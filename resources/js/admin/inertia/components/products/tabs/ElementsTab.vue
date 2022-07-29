@@ -4,7 +4,7 @@ import {computed, ref, watch} from "vue"
 import {slugify} from "@/admin/inertia/modules/common"
 import {useFormsStore} from "@/admin/inertia/modules/forms"
 import {useBrandsStore} from "@/admin/inertia/modules/brands"
-import { Field } from 'vee-validate'
+import {Field, useField} from 'vee-validate'
 import InfoPrices from "@/admin/inertia/components/products/tabs/forms/InfoPrices.vue"
 import RowCheckbox from '@/admin/inertia/components/forms/vee-validate/RowCheckbox.vue'
 import RowInput from '@/admin/inertia/components/forms/vee-validate/RowInput.vue'
@@ -25,6 +25,8 @@ const availabilityStatusesStore = useAvailabilityStatusesStore()
 const isCreating = computed(() => isCreatingProductRoute())
 const generateSlugSyncMode = ref(false)
 
+const {setValue} = useField<string|null>('slug')
+
 watch(generateSlugSyncMode, newV => {
     if (newV) {
         handleSyncNameAndSlug()
@@ -39,9 +41,9 @@ const handleSyncNameAndSlug = async () => {
         return
     }
 
-    productsStore.updateProduct({
-        slug: await slugify(formsStore.product.name)
-    })
+    const slug = await slugify(formsStore.product.name)
+
+    setValue(slug)
 }
 </script>
 

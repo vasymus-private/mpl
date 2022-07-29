@@ -1,3 +1,5 @@
+import Image from "@/admin/inertia/modules/common/Image"
+
 export interface ProductForm {
     id?: number
     uuid?: string
@@ -22,8 +24,8 @@ export interface ProductForm {
     availability_status_id?: number
     preview?: string
     description?: string
-    mainImage?: MainImage
-    additionalImages?: Array<AdditionalImage>
+    mainImage?: Image
+    additionalImages?: Array<Image>
     seo?: Seo
     category_id?: number
     relatedCategoriesIds?: Array<number>
@@ -43,25 +45,6 @@ interface InfoPrice {
 
 export interface Instruction {
     id: number | null
-    url: string | null
-    name: string | null
-    file_name: string | null
-    order_column: number | null
-    file: File | null
-}
-
-interface MainImage {
-    id: number | null
-    uuid: string | null
-    url: string | null
-    name: string | null
-    file_name: string | null
-    file: File | null
-}
-
-export interface AdditionalImage {
-    id: number | null
-    uuid: string | null
     url: string | null
     name: string | null
     file_name: string | null
@@ -120,6 +103,6 @@ export interface Variation {
     price_retail: number | null
     price_retail_currency_id: number | null
     preview: string | null
-    mainImage: MainImage | null
-    additionalImages: Array<AdditionalImage>
+    mainImage: Image | null
+    additionalImages: Array<Image>
 }

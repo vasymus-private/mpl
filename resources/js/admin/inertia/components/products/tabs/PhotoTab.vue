@@ -1,31 +1,25 @@
 <script lang="ts" setup>
-import {useField, useFieldArray, Field} from 'vee-validate'
+import {useFieldArray, Field} from 'vee-validate'
 import {ref} from 'vue'
-import {useFormsStore} from "@/admin/inertia/modules/forms"
+import RowImage from '@/admin/inertia/components/forms/vee-validate/RowImage.vue'
+import Image from "@/admin/inertia/modules/common/Image"
+import {maxBy} from "lodash"
+import {randomId} from "@/admin/inertia/utils"
 
 
-const formsStore = useFormsStore()
-const {value : mainImageValue, setValue : setMainImageValue, meta : mainImageMeta} = useField('mainImage')
-const mainImageRef = ref(null)
-const onMainImageChange = event => {
-    event.target.files.forEach(file => {
-        setMainImageValue({
-            id: null,
-            name: file.name,
-            file_name: file.name,
-            url: URL.createObjectURL(file),
-            file
-        })
-    })
-}
-
-const {fields, push, remove, swap} = useFieldArray('additionalImages')
+const {fields, push, remove, swap} = useFieldArray<Image>('additionalImages')
 const additionalImagesRef = ref(null)
 const onAdditionalImagesChange = event => {
     event.target.files.forEach(file => {
-        const maxColumn = formsStore.maxAdditionalImagesOrderColumn
+        const max = maxBy(
+            fields.value,
+            (item) => item.value.order_column
+        )
+
+        const maxColumn = (max && max.value.order_column) || undefined
         push({
             id: null,
+            uuid: randomId(),
             name: file.name,
             file_name: file.name,
             url: URL.createObjectURL(file),
@@ -38,36 +32,7 @@ const onAdditionalImagesChange = event => {
 
 <template>
     <div class="item-edit product-edit">
-        <div class="row">
-            <div class="col-sm-6 d-flex align-items-center">
-                <label class="w-100 text-end" style="cursor: pointer" for="mainImage">Основное фото:</label>
-            </div>
-            <div class="col-sm-6">
-                <div class="add-file d-flex justify-content-center" @click="mainImageRef.click()">
-                    <div v-if="mainImageValue" @click.stop="" class="card text-center">
-                        <a :href="mainImageValue.url" target="_blank"><img class="img-thumbnail" :src="mainImageValue.url" alt=""></a>
-                        <div class="form-group">
-                            <input
-                                v-model="mainImageValue.name"
-                                :class="['form-control', !mainImageMeta.valid ? 'is-invalid' : '']"
-                                type="text"
-                                placeholder="Имя файла"
-                            />
-                        </div>
-                        <button type="button" @click.stop="setMainImageValue(null)" class="adm-fileinput-item-preview__remove">x</button>
-                    </div>
-                    <input
-                        v-show="false"
-                        ref="mainImageRef"
-                        @change="onMainImageChange"
-                        type="file"
-                        class="form-control-file"
-                        id="mainImage"
-                        name="mainImage"
-                    />
-                </div>
-            </div>
-        </div>
+        <RowImage name="mainImage" label="Основное фото" />
 
         <div class="row">
             <div class="col-sm-6 d-flex align-items-center">

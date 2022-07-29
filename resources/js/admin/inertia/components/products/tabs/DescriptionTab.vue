@@ -26,7 +26,7 @@ const description = computed({
     }
 })
 const uploadUrl = computed(() => {
-    return productsStore.product?.id ? getRouteUrl(routeNames.ROUTE_ADMIN_AJAX_PRODUCT_IMAGE_UPLOAD, productsStore.product?.id) : null
+    return productsStore.product?.id ? getRouteUrl(routeNames.ROUTE_ADMIN_AJAX_PRODUCT_IMAGE_UPLOAD, {admin_product: productsStore.product?.id}) : null
 })
 </script>
 
