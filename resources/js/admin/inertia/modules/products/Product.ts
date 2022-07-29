@@ -2,7 +2,6 @@ import { CharCategory } from "@/admin/inertia/modules/products/Char"
 import Meta from "@/admin/inertia/modules/common/Meta"
 import Image from "@/admin/inertia/modules/common/Image"
 
-
 export default interface Product {
     id: number | null
     uuid: string | null
