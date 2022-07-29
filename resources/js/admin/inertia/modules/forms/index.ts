@@ -16,7 +16,7 @@ import {
     SearchProductRequest,
 } from "@/admin/inertia/modules/products/Product"
 import Meta from "@/admin/inertia/modules/common/Meta"
-import {AdminTab, TabEnum} from "@/admin/inertia/modules/forms/Tabs"
+import { AdminTab, TabEnum } from "@/admin/inertia/modules/forms/Tabs"
 import ElementsTab from "@/admin/inertia/components/products/tabs/ElementsTab.vue"
 import DescriptionTab from "@/admin/inertia/components/products/tabs/DescriptionTab.vue"
 import PhotoTab from "@/admin/inertia/components/products/tabs/PhotoTab.vue"
