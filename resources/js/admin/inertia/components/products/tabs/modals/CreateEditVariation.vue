@@ -12,6 +12,8 @@ import {useAvailabilityStatusesStore} from "@/admin/inertia/modules/availability
 import {useCurrenciesStore} from "@/admin/inertia/modules/currencies"
 import {getRouteUrl, routeNames} from "@/admin/inertia/modules/routes"
 import AppHtmlEditor from '@/admin/inertia/components/forms/AppHtmlEditor.vue'
+import RowImage from '@/admin/inertia/components/forms/vee-validate/RowImage.vue'
+import RowImages from '@/admin/inertia/components/forms/vee-validate/RowImages.vue'
 
 
 const props = defineProps<{
@@ -114,22 +116,50 @@ onBeforeUnmount(() => {
                         role="tabpanel"
                         aria-labelledby="create-variation-element-tab"
                     >
-                        <RowCheckbox :name="`variations[${index}].is_active`" label="Активность" />
+                        <RowCheckbox
+                            :name="`variations[${index}].is_active`"
+                            label="Активность"
+                            :keep-value="true"
+                        />
 
-                        <RowInput :name="`variations[${index}].name`" label="Название" label-class="fw-bold" />
+                        <RowInput
+                            :name="`variations[${index}].name`"
+                            label="Название"
+                            label-class="fw-bold"
+                            :keep-value="true"
+                        />
 
-                        <RowInput :name="`variations[${index}].ordering`" label="Сортировка" type="number" />
+                        <RowInput
+                            :name="`variations[${index}].ordering`"
+                            label="Сортировка"
+                            type="number"
+                            :keep-value="true"
+                        />
 
-                        <RowInput :name="`variations[${index}].coefficient`" label="Коэффициент на единицу расхода и единица расхода" type="number" />
+                        <RowInput
+                            :name="`variations[${index}].coefficient`"
+                            label="Коэффициент на единицу расхода и единица расхода"
+                            type="number"
+                            :keep-value="true"
+                        />
 
-                        <RowInput :name="`variations[${index}].coefficient_description`" label="Описание коэффициента" />
+                        <RowInput
+                            :name="`variations[${index}].coefficient_description`"
+                            label="Описание коэффициента"
+                            :keep-value="true"
+                        />
 
-                        <RowInput :name="`variations[${index}].unit`" label="Упаковка / Единица" />
+                        <RowInput
+                            :name="`variations[${index}].unit`"
+                            label="Упаковка / Единица"
+                            :keep-value="true"
+                        />
 
                         <RowSelect
                             :name="`variations[${index}].availability_status_id`"
                             label="Наличие"
                             :options="availabilityStatusesStore.optionsFormatted"
+                            :keep-value="true"
                         />
 
                         <RowInputSelect
@@ -141,6 +171,7 @@ onBeforeUnmount(() => {
                             :name-select="`variations[${index}].price_purchase_currency_id`"
                             label-select-class="fw-bold"
                             :options="currenciesStore.options"
+                            :keep-value="true"
                         />
 
                         <RowInputSelect
@@ -152,6 +183,7 @@ onBeforeUnmount(() => {
                             :name-select="`variations[${index}].price_retail_currency_id`"
                             label-select-class="fw-bold"
                             :options="currenciesStore.options"
+                            :keep-value="true"
                         />
 
                         <div class="h6">Описание для анонса</div>
@@ -192,6 +224,7 @@ onBeforeUnmount(() => {
                                 <Field
                                     v-slot="{field, meta}"
                                     :name="`variations[${index}].preview`"
+                                    :keep-value="true"
                                 >
                                     <textarea
                                         v-bind="field"
@@ -220,7 +253,17 @@ onBeforeUnmount(() => {
                         role="tabpanel"
                         aria-labelledby="create-variation-photo-tab"
                     >
-                        фото
+                        <RowImage
+                            :name="`variations[${index}].mainImage`"
+                            label="Основное фото"
+                            :keep-value="true"
+                        />
+
+                        <RowImages
+                            :name="`variations[${index}].additionalImages`"
+                            label="Дополнительные фото"
+                            :keep-value="true"
+                        />
                     </div>
                 </div>
             </div>

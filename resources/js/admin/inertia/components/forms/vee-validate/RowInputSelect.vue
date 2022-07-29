@@ -11,6 +11,7 @@ const props = defineProps<{
     nameSelect: string
     labelSelectClass?: string|object|Array<string>
     options: Array<Option>
+    keepValue?: boolean
 }>()
 </script>
 
@@ -23,6 +24,7 @@ const props = defineProps<{
             <Field
                 v-slot="{field, meta}"
                 :name="props.nameInput"
+                :keep-value="props.keepValue"
             >
                 <input
                     v-bind="field"
@@ -39,6 +41,7 @@ const props = defineProps<{
             <Field
                 v-slot="{field, meta}"
                 :name="props.nameSelect"
+                :keep-value="props.keepValue"
             >
                 <select
                     :class="['form-control', !meta.valid ? 'is-invalid' : '' ]"

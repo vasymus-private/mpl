@@ -5,6 +5,7 @@ import { Field } from 'vee-validate'
 const props = defineProps<{
     name: string
     label: string
+    keepValue?: boolean
 }>()
 </script>
 
@@ -19,6 +20,7 @@ const props = defineProps<{
                 :name="props.name"
                 type="checkbox"
                 :value="true"
+                :keep-value="props.keepValue"
             >
                 <input
                     v-bind="field"

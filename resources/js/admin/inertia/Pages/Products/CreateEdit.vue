@@ -4,8 +4,8 @@ import {getRouteUrl, routeNames, useRoutesStore} from "@/admin/inertia/modules/r
 import {useProductsStore, isCreatingProductRoute} from "@/admin/inertia/modules/products"
 import {computed, onUnmounted, watch} from "vue"
 import {Link} from "@inertiajs/inertia-vue3"
-import {AdminTab, TabEnum} from "@/admin/inertia/modules/products/Tabs"
-import { useForm } from 'vee-validate'
+import {AdminTab, TabEnum} from "@/admin/inertia/modules/forms/Tabs"
+import {useField, useForm} from 'vee-validate'
 import * as yup from 'yup'
 import {useFormsStore} from "@/admin/inertia/modules/forms"
 import {Inertia} from "@inertiajs/inertia"
@@ -47,11 +47,16 @@ const getActiveTab = (): string => {
     if (!url) {
         return TabEnum.elements
     }
-    return new URL(url).searchParams.get(activeTab) || TabEnum.elements
-}
+    let paramActiveTab = new URL(url).searchParams.get(activeTab)
+    if (!paramActiveTab) {
+        return TabEnum.elements
+    }
 
-const setWithVariations = (is_with_variations: boolean) => {
-    productsStore.handleUpdate({is_with_variations})
+    if (!formsStore.getAdminTabs.map(at => at.value.toString()).includes(paramActiveTab)) {
+        return TabEnum.elements
+    }
+
+    return paramActiveTab
 }
 
 const {errors, handleSubmit, values, setValues, submitCount} = useForm({
@@ -59,6 +64,7 @@ const {errors, handleSubmit, values, setValues, submitCount} = useForm({
         id: yup.number().integer().truncate(),
         uuid: yup.string().nullable(),
         is_active: yup.boolean(),
+        is_with_variations: yup.boolean(),
         name: yup.string().required().max(250),
         slug: yup.string().required().max(250),
         ordering: yup.number().truncate(),
@@ -108,8 +114,8 @@ const {errors, handleSubmit, values, setValues, submitCount} = useForm({
                 id: yup.number().integer().truncate(),
                 uuid: yup.string().nullable(),
                 url: yup.string(),
-                name: yup.string().max(250),
-                file_name: yup.string().max(250),
+                name: yup.string().max(250).nullable(),
+                file_name: yup.string().max(250).nullable(),
                 order_column: yup.number().nullable(),
                 file: yup.mixed(),
             })
@@ -249,6 +255,7 @@ watch(() => productsStore.product, (product: Product|null) => {
     const {
         id,
         is_active,
+        is_with_variations,
         name,
         slug,
         ordering,
@@ -302,6 +309,7 @@ watch(() => productsStore.product, (product: Product|null) => {
     setValues({
         id,
         is_active,
+        is_with_variations,
         name,
         slug,
         ordering,
@@ -343,6 +351,8 @@ watch(() => productsStore.product, (product: Product|null) => {
     })
 })
 
+const {value: is_with_variations, setValue: setWithVariations} = useField<boolean>('is_with_variations')
+
 const onSubmit = handleSubmit((values, actions) => {
     console.log('--- values', values)
     console.log('--- actions', actions)
@@ -383,8 +393,8 @@ onUnmounted(() => {
                         <a v-if="productsStore.product?.web_route" class="mx-2" :href="productsStore.product?.web_route" target="_blank">В магазин</a>
                     </div>
 
-                    <div v-if="!isCreating" class="col-sm-7 d-flex align-items-center justify-content-end">
-                        <Link :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_CREATE, {'copy_id' : productsStore.product?.id})" class="btn__copy">Копировать</Link>
+                    <div class="col-sm-7 d-flex align-items-center justify-content-end">
+                        <Link v-if="!isCreating" :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_CREATE, {'copy_id' : productsStore.product?.id})" class="btn__copy">Копировать</Link>
                         <div class="dropdown">
                             <button
                                 class="btn btn-secondary dropdown-toggle btn__dropdown"
@@ -395,16 +405,16 @@ onUnmounted(() => {
                             >Параметры товара</button>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="actions-dropdown-variations">
                                 <a class="dropdown-item" @click.prevent="setWithVariations(false)" href="#">
-                                    <i v-if="!productsStore.product?.is_with_variations" class="fa fa-check" aria-hidden="true"></i>
+                                    <i v-if="!is_with_variations" class="fa fa-check" aria-hidden="true"></i>
                                     Товар без вариантов
                                 </a>
                                 <a class="dropdown-item" @click.prevent="setWithVariations(true)" href="#">
-                                    <i v-if="productsStore.product?.is_with_variations" class="fa fa-check" aria-hidden="true"></i>
+                                    <i v-if="is_with_variations" class="fa fa-check" aria-hidden="true"></i>
                                     Товар с вариантами
                                 </a>
                             </div>
                         </div>
-                        <div class="dropdown actions">
+                        <div v-if="!isCreating" class="dropdown actions">
                             <button
                                 class="btn btn-secondary dropdown-toggle btn__dropdown"
                                 type="button"
@@ -433,7 +443,7 @@ onUnmounted(() => {
             <div class="js-nav-tabs-wrapper">
                 <div class="js-nav-tabs-marker"></div>
                 <ul class="nav nav-tabs item-tabs" role="tablist">
-                    <li v-for="tab in productsStore.getAdminTabs" :key="`${tab.value}-tab`" class="nav-item" role="presentation">
+                    <li v-for="tab in formsStore.getAdminTabs" :key="`${tab.value}-tab`" class="nav-item" role="presentation">
                         <button
                             :class="['nav-link', tab.value === getActiveTab() ? 'active' : '']"
                             :id="`${tab.value}-tab`"
@@ -452,7 +462,7 @@ onUnmounted(() => {
             <form class="position-relative" @submit="onSubmit">
                 <div class="tab-content">
                     <div
-                        v-for="tab in productsStore.getAdminTabs"
+                        v-for="tab in formsStore.getAdminTabs"
                         :key="`${tab.value}-content`"
                         :class="['tab-pane', 'p-3', 'fade', tab.value === getActiveTab() ? 'show active' : '']"
                         :id="`${tab.value}-content`"

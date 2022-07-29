@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {useFieldArray} from "vee-validate"
+import {useFieldArray, Field} from "vee-validate"
 import Image from "@/admin/inertia/modules/common/Image"
 import {ref} from "vue"
 import {maxBy} from "lodash"
@@ -9,10 +9,11 @@ import {randomId} from "@/admin/inertia/utils"
 const props = defineProps<{
     name: string
     label: string
+    keepValue?: boolean
 }>()
 const {fields, push, remove, swap} = useFieldArray<Image>(props.name)
-const additionalImagesRef = ref(null)
-const onAdditionalImagesChange = event => {
+const imagesRef = ref(null)
+const onImagesChange = event => {
     event.target.files.forEach(file => {
         const max = maxBy(
             fields.value,
@@ -36,16 +37,17 @@ const onAdditionalImagesChange = event => {
 <template>
     <div class="row">
         <div class="col-sm-6 d-flex align-items-center">
-            <label class="w-100 text-end" style="cursor: pointer" for="additionalImages">{{ props.label }}:</label>
+            <label class="w-100 text-end" style="cursor: pointer" :for="props.name">{{ props.label }}:</label>
         </div>
         <div class="col-sm-6">
-            <div class="add-file d-flex justify-content-center flex-wrap" @click="additionalImagesRef.click()">
+            <div class="add-file d-flex justify-content-center flex-wrap" @click="imagesRef.click()">
                 <div v-for="(field, idx) in fields" @click.stop="" class="card text-center">
                     <a :href="field.value.url" target="_blank"><img class="img-thumbnail" :src="field.value.url" alt=""></a>
                     <div class="form-group">
                         <Field
                             v-slot="{field, meta}"
-                            :name="`additionalImages[${idx}].name`"
+                            :name="`${props.name}[${idx}].name`"
+                            :keep-value="props.keepValue"
                         >
                             <input
                                 v-bind="field"
@@ -75,13 +77,12 @@ const onAdditionalImagesChange = event => {
                 </div>
                 <input
                     v-show="false"
-                    ref="additionalImagesRef"
+                    ref="imagesRef"
                     multiple
-                    @change="onAdditionalImagesChange"
+                    @change="onImagesChange"
                     type="file"
                     class="form-control-file"
-                    id="additionalImages"
-                    name="additionalImages"
+                    :id="props.name"
                 />
             </div>
         </div>

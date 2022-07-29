@@ -4,6 +4,7 @@ export interface ProductForm {
     id?: number
     uuid?: string
     is_active?: boolean
+    is_with_variations?: boolean
     name?: string
     slug?: string
     ordering?: number

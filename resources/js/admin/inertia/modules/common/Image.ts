@@ -4,6 +4,6 @@ export default interface Image {
     url: string | null
     name: string | null
     file_name: string | null
-    order_column?: number | null
+    order_column: number | null
     file: File | null
 }

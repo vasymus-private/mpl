@@ -7,6 +7,7 @@ const props = defineProps<{
     label: string
     labelClass?: string|object|Array<string>
     type?: 'text' | 'number'
+    keepValue?: boolean
 }>()
 </script>
 
@@ -19,6 +20,7 @@ const props = defineProps<{
             <Field
                 v-slot="{field, meta}"
                 :name="props.name"
+                :keep-value="props.keepValue"
             >
                 <input
                     v-bind="field"

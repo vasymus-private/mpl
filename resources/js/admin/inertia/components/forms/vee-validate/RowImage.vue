@@ -7,8 +7,9 @@ import {randomId} from "@/admin/inertia/utils"
 const props = defineProps<{
     name: string
     label: string
+    keepValue?: boolean
 }>()
-const {value, setValue, meta} = useField(props.name)
+const {value, setValue, meta} = useField(props.name, {}, {keepValueOnUnmount: props.keepValue})
 const imageRef = ref(null)
 const onImageChange = event => {
     event.target.files.forEach(file => {
@@ -54,7 +55,6 @@ const onImageChange = event => {
                     type="file"
                     class="form-control-file"
                     :id="props.name"
-                    :name="props.name"
                 />
             </div>
         </div>

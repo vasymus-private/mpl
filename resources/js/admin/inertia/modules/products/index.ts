@@ -21,19 +21,6 @@ import axios from "axios"
 import ProductUpdateResponse, {
     ProductUpdate,
 } from "@/admin/inertia/modules/products/ProductUpdateResponse"
-import { AdminTab, TabEnum } from "@/admin/inertia/modules/products/Tabs"
-import ElementsTab from "@/admin/inertia/components/products/tabs/ElementsTab.vue"
-import DescriptionTab from "@/admin/inertia/components/products/tabs/DescriptionTab.vue"
-import PhotoTab from "@/admin/inertia/components/products/tabs/PhotoTab.vue"
-import CharacteristicsTab from "@/admin/inertia/components/products/tabs/CharacteristicsTab.vue"
-import SeoTab from "@/admin/inertia/components/products/tabs/SeoTab.vue"
-import AccessoriesTab from "@/admin/inertia/components/products/tabs/AccessoriesTab.vue"
-import SimilarTab from "@/admin/inertia/components/products/tabs/SimilarTab.vue"
-import RelatedTab from "@/admin/inertia/components/products/tabs/RelatedTab.vue"
-import WorksTab from "@/admin/inertia/components/products/tabs/WorksTab.vue"
-import InstrumentsTab from "@/admin/inertia/components/products/tabs/InstrumentsTab.vue"
-import VariationsTab from "@/admin/inertia/components/products/tabs/VariationsTab.vue"
-import OtherTab from "@/admin/inertia/components/products/tabs/OtherTab.vue"
 
 export const storeName = "products"
 
@@ -77,79 +64,6 @@ export const useProductsStore = defineStore(storeName, {
                 !!new URL(routesStore.fullUrl).searchParams.get("copy_id") &&
                 isCreatingProductRoute() &&
                 !!this.originProduct
-            )
-        },
-        getAllAdminTabs: (): Array<AdminTab> => {
-            return [
-                {
-                    value: TabEnum.elements,
-                    label: "Элемент",
-                    is: ElementsTab,
-                },
-                {
-                    value: TabEnum.description,
-                    label: "Описание",
-                    is: DescriptionTab,
-                },
-                {
-                    value: TabEnum.photo,
-                    label: "Фото",
-                    is: PhotoTab,
-                },
-                {
-                    value: TabEnum.characteristics,
-                    label: "Характеристики",
-                    is: CharacteristicsTab,
-                },
-                {
-                    value: TabEnum.seo,
-                    label: "SEO",
-                    is: SeoTab,
-                },
-                {
-                    value: TabEnum.accessories,
-                    label: "Аксессуары",
-                    is: AccessoriesTab,
-                },
-                {
-                    value: TabEnum.similar,
-                    label: "Похожие",
-                    is: SimilarTab,
-                },
-                {
-                    value: TabEnum.related,
-                    label: "Сопряжённые",
-                    is: RelatedTab,
-                },
-                {
-                    value: TabEnum.works,
-                    label: "Работы",
-                    is: WorksTab,
-                },
-                {
-                    value: TabEnum.instruments,
-                    label: "Инструменты",
-                    is: InstrumentsTab,
-                },
-                {
-                    value: TabEnum.variations,
-                    label: "Варианты",
-                    is: VariationsTab,
-                },
-                {
-                    value: TabEnum.other,
-                    label: "Прочее",
-                    is: OtherTab,
-                },
-            ]
-        },
-        getAdminTabs(state): Array<AdminTab> {
-            if (state._product?.entity?.is_with_variations) {
-                return this.getAllAdminTabs
-            }
-
-            return this.getAllAdminTabs.filter(
-                (tab: AdminTab) => tab.value !== TabEnum.variations
             )
         },
     },
