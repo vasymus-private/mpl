@@ -1,4 +1,4 @@
-export default interface Image {
+export default interface Media {
     id: number | null
     uuid: string | null
     url: string | null

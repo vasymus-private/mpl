@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import ProductProduct from "@/admin/inertia/components/products/tabs/ProductProduct.vue"
+import ProductProduct from "@/admin/inertia/components/products/createEdit/tabs/ProductProduct.vue"
 import {ProductProductType} from "@/admin/inertia/modules/products/Product"
 </script>
 

@@ -1,23 +1,35 @@
 <script lang="ts" setup>
 import {Field, useFieldArray} from "vee-validate"
-import {ref} from 'vue'
+import {ref, toRef} from 'vue'
 import {maxBy} from "lodash"
-import {Instruction} from "@/admin/inertia/modules/products/Product"
+import Media from "@/admin/inertia/modules/common/Media"
 import {randomId} from "@/admin/inertia/utils"
+import { useDropZone } from '@vueuse/core'
 
 
-const { remove, push, swap, fields } = useFieldArray<Instruction>('instructions')
-const files = ref([])
+const props = defineProps<{
+    name: string
+    label: string
+    keepValue?: boolean
+}>()
 
-const onChange = (event) => {
-    event.target.files.forEach(file => {
+const name = toRef(props, 'name')
+const {fields, remove, push, swap} = useFieldArray<Media>(name)
+const dropZoneRef = ref<HTMLDivElement>(null)
+const inputFileRef = ref<HTMLInputElement>(null)
+
+const save = (files: File[] | null) => {
+    if (!files) {
+        return
+    }
+
+    files.forEach(file => {
         const max = maxBy(
             fields.value,
             (item) => item.value.order_column
         )
 
         const maxColumn =  (max && max.value.order_column) || undefined
-
         push({
             id: null,
             uuid: randomId(),
@@ -29,24 +41,38 @@ const onChange = (event) => {
         })
     })
 }
+const onChange = (event) => {
+    save(event.target.files)
+}
+const { isOverDropZone } = useDropZone(dropZoneRef, save)
 </script>
 
 <template>
     <div class="row mb-3">
         <div class="col-sm-5 text-end">
-            <label for="name" class="fw-bold">Дополнительные файлы (инструкции):</label>
+            <label
+                :for="props.name"
+                style="cursor: pointer"
+                class="fw-bold"
+            >{{ props.label }}:</label>
         </div>
         <div class="col-sm-7">
-            <div class="add-file">
+            <div
+                class="add-file"
+                :style="isOverDropZone ? {borderStyle: 'solid'} : {}"
+                @click="inputFileRef.click()"
+                ref="dropZoneRef"
+            >
                 <div class="row">
-                    <div v-for="(field, idx) in fields" class="card text-center">
+                    <div v-for="(field, idx) in fields" class="card text-center" @click.stop="">
                         <div class="adm-fileinput-item-preview">
                             <h5 class="card-title"><a :href="field.value.url" target="_blank">{{field.value.file_name}}</a></h5>
                         </div>
                         <div class="form-group">
                             <Field
                                 v-slot="{field, meta}"
-                                :name="`instructions[${idx}].name`"
+                                :name="`${name}[${idx}].name`"
+                                :keep-value="props.keepValue"
                             >
                                 <input
                                     v-bind="field"
@@ -76,16 +102,16 @@ const onChange = (event) => {
                     </div>
                 </div>
                 <div class="form-group">
-                    <div>
-                        <span class="add-file__text">Перетащите файлы в эту область (Drag&Drop)</span>
-                        <input
-                            type="file"
-                            @change="onChange"
-                            multiple
-                            class="form-control-file"
-                            id="tempInstructions"
-                        />
-                    </div>
+                    <span class="add-file__text">Перетащите файлы в эту область (Drag&Drop)</span>
+                    <input
+                        v-show="false"
+                        type="file"
+                        ref="inputFileRef"
+                        multiple
+                        @change="onChange"
+                        class="form-control-file"
+                        :id="props.name"
+                    />
                 </div>
             </div>
         </div>

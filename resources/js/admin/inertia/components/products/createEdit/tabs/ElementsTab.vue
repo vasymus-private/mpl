@@ -5,13 +5,13 @@ import {slugify} from "@/admin/inertia/modules/common"
 import {useCreateEditProductFormsStore} from "@/admin/inertia/modules/forms/createEditProduct"
 import {useBrandsStore} from "@/admin/inertia/modules/brands"
 import {Field, useField} from 'vee-validate'
-import InfoPrices from "@/admin/inertia/components/products/tabs/forms/InfoPrices.vue"
+import InfoPrices from "@/admin/inertia/components/products/createEdit/tabs/forms/InfoPrices.vue"
 import RowCheckbox from '@/admin/inertia/components/forms/vee-validate/RowCheckbox.vue'
 import RowInput from '@/admin/inertia/components/forms/vee-validate/RowInput.vue'
 import RowSelect from '@/admin/inertia/components/forms/vee-validate/RowSelect.vue'
 import RowInputSelect from '@/admin/inertia/components/forms/vee-validate/RowInputSelect.vue'
 import RowTextarea from '@/admin/inertia/components/forms/vee-validate/RowTextarea.vue'
-import Instructions from "@/admin/inertia/components/products/tabs/forms/Instructions.vue"
+import RowMedias from '@/admin/inertia/components/forms/vee-validate/RowMedias.vue'
 import {useCurrenciesStore} from "@/admin/inertia/modules/currencies"
 import {useAvailabilityStatusesStore} from "@/admin/inertia/modules/availabilityStatuses"
 
@@ -166,7 +166,7 @@ const handleSyncNameAndSlug = async () => {
 
         <RowTextarea name="admin_comment" label="Служебная информация" />
 
-        <Instructions />
+        <RowMedias name="instructions" label="Дополнительные файлы (инструкции)" />
 
         <RowInputSelect
             label-input="Закупочная цена"

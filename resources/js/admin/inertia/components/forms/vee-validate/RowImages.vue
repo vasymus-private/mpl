@@ -13,8 +13,8 @@ const props = defineProps<{
 }>()
 const name = toRef(props, 'name')
 const {fields, push, remove, swap} = useFieldArray<Image>(name)
-const imagesRef = ref(null)
-const onImagesChange = event => {
+const inputFileRef = ref(null)
+const onChange = event => {
     event.target.files.forEach(file => {
         const max = maxBy(
             fields.value,
@@ -41,7 +41,7 @@ const onImagesChange = event => {
             <label class="w-100 text-end" style="cursor: pointer" :for="name">{{ props.label }}:</label>
         </div>
         <div class="col-sm-6">
-            <div class="add-file d-flex justify-content-center flex-wrap" @click="imagesRef.click()">
+            <div class="add-file d-flex justify-content-center flex-wrap" @click="inputFileRef.click()">
                 <div v-for="(field, idx) in fields" @click.stop="" class="card text-center">
                     <a :href="field.value.url" target="_blank"><img class="img-thumbnail" :src="field.value.url" alt=""></a>
                     <div class="form-group">
@@ -78,9 +78,9 @@ const onImagesChange = event => {
                 </div>
                 <input
                     v-show="false"
-                    ref="imagesRef"
+                    ref="inputFileRef"
                     multiple
-                    @change="onImagesChange"
+                    @change="onChange"
                     type="file"
                     class="form-control-file"
                     :id="name"
