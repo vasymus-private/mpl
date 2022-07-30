@@ -5,7 +5,7 @@ import {slugify} from "@/admin/inertia/modules/common"
 import {useCreateEditProductFormsStore} from "@/admin/inertia/modules/forms/createEditProduct"
 import {useBrandsStore} from "@/admin/inertia/modules/brands"
 import {Field, useField} from 'vee-validate'
-import InfoPrices from "@/admin/inertia/components/products/createEdit/tabs/forms/InfoPrices.vue"
+import InfoPrices from "@/admin/inertia/components/products/createEdit/parts/InfoPrices.vue"
 import RowCheckbox from '@/admin/inertia/components/forms/vee-validate/RowCheckbox.vue'
 import RowInput from '@/admin/inertia/components/forms/vee-validate/RowInput.vue'
 import RowSelect from '@/admin/inertia/components/forms/vee-validate/RowSelect.vue'
@@ -14,6 +14,7 @@ import RowTextarea from '@/admin/inertia/components/forms/vee-validate/RowTextar
 import RowMedias from '@/admin/inertia/components/forms/vee-validate/RowMedias.vue'
 import {useCurrenciesStore} from "@/admin/inertia/modules/currencies"
 import {useAvailabilityStatusesStore} from "@/admin/inertia/modules/availabilityStatuses"
+import RowInputInput from "@/admin/inertia/components/forms/vee-validate/RowInputInput.vue"
 
 
 const productsStore = useProductsStore()
@@ -121,40 +122,13 @@ const handleSyncNameAndSlug = async () => {
 
         <RowSelect name="brand_id" label="Производитель" :options="brandsStore.options" />
 
-        <div class="row mb-3">
-            <div class="col-sm-5 text-end">
-                <label for="coefficient">Коэффициент на единицу расхода:</label>
-            </div>
-            <div class="col-sm-1">
-                <Field
-                    v-slot="{field, meta}"
-                    name="coefficient"
-                >
-                    <input
-                        v-bind="field"
-                        :class="['form-control', !meta.valid ? 'is-invalid' : '']"
-                        type="number"
-                        id="coefficient"
-                    />
-                </Field>
-            </div>
-            <div class="col-sm-3 text-end">
-                <label for="coefficient_description">Описание коэффициента:</label>
-            </div>
-            <div class="col-sm-3">
-                <Field
-                    v-slot="{field, meta}"
-                    name="coefficient_description"
-                >
-                    <input
-                        v-bind="field"
-                        :class="['form-control', !meta.valid ? 'is-invalid' : '']"
-                        type="text"
-                        id="coefficient_description"
-                    />
-                </Field>
-            </div>
-        </div>
+        <RowInputInput
+            label1="Коэффициент на единицу расхода"
+            name1="coefficient"
+            type1="number"
+            label2="Описание коэффициента"
+            name2="coefficient_description"
+        />
 
         <RowCheckbox name="coefficient_description_show" label="Показывать описание коэффициента" />
 
