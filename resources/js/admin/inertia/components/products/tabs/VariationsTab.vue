@@ -2,29 +2,14 @@
 import {useModalsStore, ModalType} from "@/admin/inertia/modules/modals"
 import {ColumnType} from "@/admin/inertia/modules/columns/Column"
 import {useFieldArray} from "vee-validate"
-import {randomId} from "@/admin/inertia/utils"
+import {getEmptyVariation} from "@/admin/inertia/modules/forms/createEditProduct"
+import {Variation} from "@/admin/inertia/modules/products/Product"
+
 
 const modalsStore = useModalsStore()
-const {push} = useFieldArray('variations')
+const {push} = useFieldArray<Variation>('variations')
 const onAddVariation = () => {
-    push({
-        id: null,
-        uuid: randomId(),
-        is_active: false,
-        name: '',
-        ordering: 500,
-        coefficient: null,
-        coefficient_description: null,
-        price_purchase: null,
-        price_purchase_currency_id: null,
-        price_retail: null,
-        price_retail_currency_id: null,
-        unit: null,
-        availability_status_id: null,
-        preview: null,
-        mainImage: null,
-        additionalImages: [],
-    })
+    push(getEmptyVariation())
     modalsStore.openModal(ModalType.CREATE_EDIT_VARIATION, {})
 }
 </script>

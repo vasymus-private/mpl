@@ -2,7 +2,7 @@
 import {isCreatingProductRoute, useProductsStore} from "@/admin/inertia/modules/products"
 import {computed, ref, watch} from "vue"
 import {slugify} from "@/admin/inertia/modules/common"
-import {useFormsStore} from "@/admin/inertia/modules/forms"
+import {useCreateEditProductFormsStore} from "@/admin/inertia/modules/forms/createEditProduct"
 import {useBrandsStore} from "@/admin/inertia/modules/brands"
 import {Field, useField} from 'vee-validate'
 import InfoPrices from "@/admin/inertia/components/products/tabs/forms/InfoPrices.vue"
@@ -17,7 +17,7 @@ import {useAvailabilityStatusesStore} from "@/admin/inertia/modules/availability
 
 
 const productsStore = useProductsStore()
-const formsStore = useFormsStore()
+const formsStore = useCreateEditProductFormsStore()
 const brandsStore = useBrandsStore()
 const currenciesStore = useCurrenciesStore()
 const availabilityStatusesStore = useAvailabilityStatusesStore()

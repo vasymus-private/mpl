@@ -1,22 +1,15 @@
 import { defineStore } from "pinia"
 import {
-    Char,
-    CharCategory,
-    Instruction,
-    ProductForm,
-} from "@/admin/inertia/modules/forms/ProductForm"
-import {
     isCreatingProductRoute,
     useProductsStore,
 } from "@/admin/inertia/modules/products"
-import { maxBy } from "lodash"
-import {
+import Product, {
     ProductProductType,
     SearchProduct,
-    SearchProductRequest,
+    SearchProductRequest, Variation,
 } from "@/admin/inertia/modules/products/Product"
 import Meta from "@/admin/inertia/modules/common/Meta"
-import { AdminTab, TabEnum } from "@/admin/inertia/modules/forms/Tabs"
+import { AdminTab, TabEnum } from "@/admin/inertia/modules/common/Tabs"
 import ElementsTab from "@/admin/inertia/components/products/tabs/ElementsTab.vue"
 import DescriptionTab from "@/admin/inertia/components/products/tabs/DescriptionTab.vue"
 import PhotoTab from "@/admin/inertia/components/products/tabs/PhotoTab.vue"
@@ -29,11 +22,12 @@ import WorksTab from "@/admin/inertia/components/products/tabs/WorksTab.vue"
 import InstrumentsTab from "@/admin/inertia/components/products/tabs/InstrumentsTab.vue"
 import VariationsTab from "@/admin/inertia/components/products/tabs/VariationsTab.vue"
 import OtherTab from "@/admin/inertia/components/products/tabs/OtherTab.vue"
+import {randomId} from "@/admin/inertia/utils";
 
 export const storeName = "forms"
 
 interface State {
-    _product: ProductForm
+    _product: Partial<Product>
     _searchProduct: {
         [key in ProductProductType]: {
             entities: Array<SearchProduct>
@@ -43,7 +37,7 @@ interface State {
     }
 }
 
-export const useFormsStore = defineStore(storeName, {
+export const useCreateEditProductFormsStore = defineStore(storeName, {
     state: (): State => {
         return {
             _product: {},
@@ -77,35 +71,7 @@ export const useFormsStore = defineStore(storeName, {
         }
     },
     getters: {
-        product: (state: State): ProductForm => state._product,
-        maxInstructionsOrderColumn: function (): number | undefined {
-            const max: Instruction | undefined = maxBy(
-                this.product.instructions,
-                (item: Instruction) => item.order_column
-            )
-
-            return (max && max.order_column) || undefined
-        },
-        maxCharCategoriesOrdering: function (): number | undefined {
-            const max: CharCategory | undefined = maxBy(
-                this.product.charCategories,
-                (item: CharCategory) => item.ordering
-            )
-
-            return (max && max.ordering) || undefined
-        },
-        maxCharsOrdering: function (): (a: string) => number | undefined {
-            return (category_uuid: string): number | undefined => {
-                const max: Char | undefined = maxBy(
-                    this.product.chars.filter(
-                        (item: Char) => item.category_uuid === category_uuid
-                    ),
-                    (item: Char) => item.ordering
-                )
-
-                return (max && max.ordering) || undefined
-            }
-        },
+        product: (state: State): Partial<Product> => state._product,
         productFormTitle: (): string => {
             let base = "Товары: элемент: "
             const productsStore = useProductsStore()
@@ -202,7 +168,7 @@ export const useFormsStore = defineStore(storeName, {
         },
     },
     actions: {
-        setProductForm(product: ProductForm) {
+        setProductForm(product: Partial<Product>) {
             this._product = product
         },
         async fetchSearchProducts(
@@ -223,4 +189,23 @@ export const useFormsStore = defineStore(storeName, {
             }
         },
     },
+})
+
+export const getEmptyVariation = (): Variation => ({
+    id: null,
+    uuid: randomId(),
+    is_active: false,
+    name: '',
+    ordering: 500,
+    coefficient: null,
+    coefficient_description: null,
+    price_purchase: null,
+    price_purchase_currency_id: null,
+    price_retail: null,
+    price_retail_currency_id: null,
+    unit: null,
+    availability_status_id: null,
+    preview: null,
+    mainImage: null,
+    additionalImages: [],
 })

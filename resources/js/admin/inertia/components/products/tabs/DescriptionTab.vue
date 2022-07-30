@@ -7,8 +7,8 @@ import {getRouteUrl, routeNames} from "@/admin/inertia/modules/routes"
 
 
 const productsStore = useProductsStore()
-const {setValue : setPreviewValue, value : previewValue} = useField('preview')
-const {setValue : setDescriptionValue, value : descriptionValue} = useField('description')
+const {setValue : setPreviewValue, value : previewValue} = useField<string|null>('preview')
+const {setValue : setDescriptionValue, value : descriptionValue} = useField<string|null>('description')
 const preview = computed({
     get() {
         return previewValue.value || null

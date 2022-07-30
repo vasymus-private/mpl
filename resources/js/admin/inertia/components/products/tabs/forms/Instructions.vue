@@ -1,18 +1,26 @@
 <script lang="ts" setup>
 import {Field, useFieldArray} from "vee-validate"
 import {ref} from 'vue'
-import {useFormsStore} from "@/admin/inertia/modules/forms"
+import {maxBy} from "lodash"
+import {Instruction} from "@/admin/inertia/modules/products/Product"
+import {randomId} from "@/admin/inertia/utils"
 
 
-const { remove, push, swap, fields } = useFieldArray('instructions')
+const { remove, push, swap, fields } = useFieldArray<Instruction>('instructions')
 const files = ref([])
-const formsStore = useFormsStore()
 
 const onChange = (event) => {
     event.target.files.forEach(file => {
-        const maxColumn = formsStore.maxInstructionsOrderColumn
+        const max = maxBy(
+            fields.value,
+            (item) => item.value.order_column
+        )
+
+        const maxColumn =  (max && max.value.order_column) || undefined
+
         push({
             id: null,
+            uuid: randomId(),
             name: file.name,
             file_name: file.name,
             url: URL.createObjectURL(file),

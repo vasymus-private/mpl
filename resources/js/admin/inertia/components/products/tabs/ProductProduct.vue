@@ -6,7 +6,7 @@ import Option from "@/admin/inertia/modules/common/Option"
 // @ts-ignore
 import Multiselect from 'vue-multiselect'
 import {useCategoriesTreeStore} from "@/admin/inertia/modules/categoriesTree"
-import {useFormsStore} from "@/admin/inertia/modules/forms"
+import {useCreateEditProductFormsStore} from "@/admin/inertia/modules/forms/createEditProduct"
 import {ProductProductType, SearchProduct} from "@/admin/inertia/modules/products/Product"
 import {chunk} from 'lodash'
 import {useFieldArray} from "vee-validate"
@@ -14,7 +14,7 @@ import {routeNames} from "@/admin/inertia/modules/routes"
 
 
 const categoriesTreeStore = useCategoriesTreeStore()
-const formsStore = useFormsStore()
+const formsStore = useCreateEditProductFormsStore()
 const search = ref<string>(null)
 const categories = ref<Array<Option>>(null)
 

@@ -1,19 +1,30 @@
 <script lang="ts" setup>
-import {useFieldArray, Field, useField} from "vee-validate"
+import {useFieldArray, Field, useField, useFieldValue} from "vee-validate"
 import RowInput from "@/admin/inertia/components/forms/vee-validate/RowInput.vue"
 import RowSelect from "@/admin/inertia/components/forms/vee-validate/RowSelect.vue"
 import {useCharTypesStore} from "@/admin/inertia/modules/charTypes"
 import {computed} from "vue"
 import Option from "@/admin/inertia/modules/common/Option"
 import {randomId} from "@/admin/inertia/utils"
-import {useFormsStore} from "@/admin/inertia/modules/forms"
 import {CharTypeEnum} from "@/admin/inertia/modules/charTypes/CharType"
+import {maxBy} from "lodash"
+import {Char, CharCategory} from "@/admin/inertia/modules/products/Char"
 
 
 const charTypesStore = useCharTypesStore()
-const formsStore = useFormsStore()
-const {fields: charCategoriesFields, push: charCategoriesPush, remove: charCategoriesRemove, swap: charCategoriesSwap} = useFieldArray<{uuid: string, name: string, product_id: number, ordering: number}>('charCategories')
-const {fields: charsFields, push: charsPush, remove: charsRemove, swap: charsSwap} = useFieldArray<{uuid: string, name: string, value?: string, product_id: number, type_id: number, is_rate: boolean, category_uuid: string, ordering: number}>('chars')
+const {
+    fields: charCategoriesFields,
+    push: charCategoriesPush,
+    remove: charCategoriesRemove,
+    swap: charCategoriesSwap
+} = useFieldArray<Partial<CharCategory>>('charCategories')
+const productId = useFieldValue<number|undefined>('id')
+const {
+    fields: charsFields,
+    push: charsPush,
+    remove: charsRemove,
+    swap: charsSwap
+} = useFieldArray<Partial<Char>>('chars')
 const onRemoveCharCategory = (charCategoryField, idx) => {
     if(confirm('Удалить заголовок и все его характеристики?')) {
         charCategoriesRemove(idx)
@@ -39,23 +50,36 @@ const {value: tempCharTypeIdValue, setValue: tempCharTypeIdSetValue} = useField<
 const {value: tempCharCategoryUuidValue, setValue: tempCharCategoryUuidSetValue} = useField<string>('tempChar.category_uuid')
 
 const onAddCharCategory = () => {
-    const maxColumn = formsStore.maxCharCategoriesOrdering
+    const max = maxBy(
+        charCategoriesFields.value,
+        (item) => item.value.ordering
+    )
+
+    const maxColumn = (max && max.value.ordering) || undefined
     charCategoriesPush({
         uuid: randomId(),
         name: tempCharCategoryNameValue.value,
-        product_id: formsStore.product.id,
+        product_id: productId.value,
         ordering: maxColumn ? maxColumn + 100 : 100,
     })
     tempCharCategoryNameSetValue(null)
 }
 const onAddChar = () => {
-    const maxOrdering = formsStore.maxCharsOrdering(tempCharCategoryUuidValue.value)
+    const max = maxBy(
+        charsFields.value.filter(
+            (item) => item.value.category_uuid === tempCharCategoryUuidValue.value
+        ),
+        (item) => item.value.ordering
+    )
+
+    const maxOrdering = (max && max.value.ordering) || undefined
+
     charsPush({
         name: tempCharNameValue.value,
         type_id: tempCharTypeIdValue.value,
         is_rate: tempCharTypeIdValue.value === CharTypeEnum.rate,
         uuid: randomId(),
-        product_id: formsStore.product.id,
+        product_id: productId.value,
         category_uuid: tempCharCategoryUuidValue.value,
         ordering: maxOrdering ? maxOrdering + 100 : 100,
     })

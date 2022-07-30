@@ -4,10 +4,10 @@ import {getRouteUrl, routeNames, useRoutesStore} from "@/admin/inertia/modules/r
 import {useProductsStore, isCreatingProductRoute} from "@/admin/inertia/modules/products"
 import {computed, onUnmounted, watch} from "vue"
 import {Link} from "@inertiajs/inertia-vue3"
-import {AdminTab, TabEnum} from "@/admin/inertia/modules/forms/Tabs"
+import {AdminTab, TabEnum} from "@/admin/inertia/modules/common/Tabs"
 import {useField, useForm} from 'vee-validate'
 import * as yup from 'yup'
-import {useFormsStore} from "@/admin/inertia/modules/forms"
+import {useCreateEditProductFormsStore} from "@/admin/inertia/modules/forms/createEditProduct"
 import {Inertia} from "@inertiajs/inertia"
 import Product from "@/admin/inertia/modules/products/Product"
 import {randomId} from "@/admin/inertia/utils"
@@ -15,7 +15,7 @@ import {CharTypeEnum} from "@/admin/inertia/modules/charTypes/CharType"
 
 
 const productsStore = useProductsStore()
-const formsStore = useFormsStore()
+const formsStore = useCreateEditProductFormsStore()
 const routesStore = useRoutesStore()
 
 const isCreating = computed(() => isCreatingProductRoute())
