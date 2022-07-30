@@ -4,6 +4,7 @@ import Image from "@/admin/inertia/modules/common/Image"
 import {ref, toRef} from "vue"
 import {maxBy} from "lodash"
 import {randomId} from "@/admin/inertia/utils"
+import { useDropZone } from '@vueuse/core'
 
 
 const props = defineProps<{
@@ -13,15 +14,21 @@ const props = defineProps<{
 }>()
 const name = toRef(props, 'name')
 const {fields, push, remove, swap} = useFieldArray<Image>(name)
-const inputFileRef = ref(null)
-const onChange = event => {
-    event.target.files.forEach(file => {
+const inputFileRef = ref<HTMLInputElement>(null)
+const dropZoneRef = ref<HTMLDivElement>(null)
+
+const save = (files: File[] | null) => {
+    if (!files) {
+        return
+    }
+
+    files.forEach(file => {
         const max = maxBy(
             fields.value,
             (item) => item.value.order_column
         )
 
-        const maxColumn = (max && max.value.order_column) || undefined
+        const maxColumn =  (max && max.value.order_column) || undefined
         push({
             id: null,
             uuid: randomId(),
@@ -29,19 +36,32 @@ const onChange = event => {
             file_name: file.name,
             url: URL.createObjectURL(file),
             order_column: maxColumn ? maxColumn + 100 : 100,
-            file
+            file,
         })
     })
 }
+const onChange = (event) => {
+    save(event.target.files)
+}
+const { isOverDropZone } = useDropZone(dropZoneRef, save)
 </script>
 
 <template>
     <div class="row">
         <div class="col-sm-6 d-flex align-items-center">
-            <label class="w-100 text-end" style="cursor: pointer" :for="name">{{ props.label }}:</label>
+            <label
+                class="w-100 text-end"
+                style="cursor: pointer"
+                :for="name"
+            >{{ props.label }}:</label>
         </div>
         <div class="col-sm-6">
-            <div class="add-file d-flex justify-content-center flex-wrap" @click="inputFileRef.click()">
+            <div
+                class="add-file d-flex justify-content-center flex-wrap"
+                :style="isOverDropZone ? {borderStyle: 'solid'} : {}"
+                @click="inputFileRef.click()"
+                ref="dropZoneRef"
+            >
                 <div v-for="(field, idx) in fields" @click.stop="" class="card text-center">
                     <a :href="field.value.url" target="_blank"><img class="img-thumbnail" :src="field.value.url" alt=""></a>
                     <div class="form-group">
