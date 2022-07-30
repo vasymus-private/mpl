@@ -6,7 +6,8 @@ import {
 import Product, {
     ProductProductType,
     SearchProduct,
-    SearchProductRequest, Variation,
+    SearchProductRequest,
+    Variation,
 } from "@/admin/inertia/modules/products/Product"
 import Meta from "@/admin/inertia/modules/common/Meta"
 import { AdminTab, TabEnum } from "@/admin/inertia/modules/common/Tabs"
@@ -22,7 +23,7 @@ import WorksTab from "@/admin/inertia/components/products/tabs/WorksTab.vue"
 import InstrumentsTab from "@/admin/inertia/components/products/tabs/InstrumentsTab.vue"
 import VariationsTab from "@/admin/inertia/components/products/tabs/VariationsTab.vue"
 import OtherTab from "@/admin/inertia/components/products/tabs/OtherTab.vue"
-import {randomId} from "@/admin/inertia/utils";
+import { randomId } from "@/admin/inertia/utils"
 
 export const storeName = "forms"
 
@@ -195,7 +196,7 @@ export const getEmptyVariation = (): Variation => ({
     id: null,
     uuid: randomId(),
     is_active: false,
-    name: '',
+    name: "",
     ordering: 500,
     coefficient: null,
     coefficient_description: null,
