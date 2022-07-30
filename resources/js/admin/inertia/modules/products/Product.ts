@@ -3,7 +3,6 @@ import Meta from "@/admin/inertia/modules/common/Meta"
 import Image from "@/admin/inertia/modules/common/Image"
 import Media from "@/admin/inertia/modules/common/Media"
 
-
 export default interface Product {
     id: number | null
     uuid: string | null
