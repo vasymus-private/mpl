@@ -3,7 +3,7 @@ import {
     isCreatingProductRoute,
     useProductsStore,
 } from "@/admin/inertia/modules/products"
-import Product, {Variation} from "@/admin/inertia/modules/products/Product"
+import Product, { Variation } from "@/admin/inertia/modules/products/Product"
 import { AdminTab, TabEnum } from "@/admin/inertia/modules/common/Tabs"
 import ElementsTab from "@/admin/inertia/components/products/createEdit/tabs/ElementsTab.vue"
 import DescriptionTab from "@/admin/inertia/components/products/createEdit/tabs/DescriptionTab.vue"
@@ -19,8 +19,8 @@ import VariationsTab from "@/admin/inertia/components/products/createEdit/tabs/V
 import OtherTab from "@/admin/inertia/components/products/createEdit/tabs/OtherTab.vue"
 import { randomId } from "@/admin/inertia/utils"
 import * as yup from "yup"
-import {CharTypeEnum} from "@/admin/inertia/modules/charTypes/CharType"
-import {RouteParams, useRoutesStore} from "@/admin/inertia/modules/routes"
+import { CharTypeEnum } from "@/admin/inertia/modules/charTypes/CharType"
+import { RouteParams, useRoutesStore } from "@/admin/inertia/modules/routes"
 
 export const storeName = "forms"
 
@@ -134,12 +134,18 @@ export const useCreateEditProductFormsStore = defineStore(storeName, {
             if (!url) {
                 return TabEnum.elements
             }
-            let paramActiveTab = new URL(url).searchParams.get(RouteParams.activeTab)
+            let paramActiveTab = new URL(url).searchParams.get(
+                RouteParams.activeTab
+            )
             if (!paramActiveTab) {
                 return TabEnum.elements
             }
 
-            if (!this.adminTabs.map(at => at.value.toString()).includes(paramActiveTab)) {
+            if (
+                !this.adminTabs
+                    .map((at) => at.value.toString())
+                    .includes(paramActiveTab)
+            ) {
                 return TabEnum.elements
             }
 
@@ -187,13 +193,16 @@ export const getFormSchema = () => {
         coefficient_description_show: yup.boolean(),
         coefficient_variation_description: yup.string().max(250).nullable(),
         price_name: yup.string().max(250).nullable(),
-        infoPrices: yup.array().of(
-            yup.object({
-                id: yup.number().integer().truncate(),
-                name: yup.string().required().max(250),
-                price: yup.number().required().truncate(),
-            })
-        ).nullable(),
+        infoPrices: yup
+            .array()
+            .of(
+                yup.object({
+                    id: yup.number().integer().truncate(),
+                    name: yup.string().required().max(250),
+                    price: yup.number().required().truncate(),
+                })
+            )
+            .nullable(),
         admin_comment: yup.string().max(250).nullable(),
         instructions: yup.array().of(
             yup.object({
@@ -214,9 +223,7 @@ export const getFormSchema = () => {
         preview: yup.string().max(65000).nullable(),
         description: yup.string().max(65000).nullable(),
         mainImage: getImageSchema().nullable(),
-        additionalImages: yup.array().of(
-            getImageSchema()
-        ),
+        additionalImages: yup.array().of(getImageSchema()),
         charCategories: yup.array().of(
             yup.object({
                 id: yup.number().integer().truncate(),
@@ -240,17 +247,21 @@ export const getFormSchema = () => {
             })
         ),
         tempCharCategoryName: yup.string().max(250).nullable(),
-        tempChar: yup.object({
-            name: yup.string().max(250).nullable(),
-            type_id: yup.number().integer().truncate(),
-            category_uuid: yup.string().nullable(),
-        }).nullable(),
-        seo: yup.object({
-            title: yup.string().max(250).nullable(),
-            h1: yup.string().max(250).nullable(),
-            keywords: yup.string().max(65000).nullable(),
-            description: yup.string().max(65000).nullable(),
-        }).nullable(),
+        tempChar: yup
+            .object({
+                name: yup.string().max(250).nullable(),
+                type_id: yup.number().integer().truncate(),
+                category_uuid: yup.string().nullable(),
+            })
+            .nullable(),
+        seo: yup
+            .object({
+                title: yup.string().max(250).nullable(),
+                h1: yup.string().max(250).nullable(),
+                keywords: yup.string().max(65000).nullable(),
+                description: yup.string().max(65000).nullable(),
+            })
+            .nullable(),
         category_id: yup.number().integer().truncate(),
         relatedCategoriesIds: yup.array().of(yup.number().integer()),
         accessory_name: yup.string().max(250).nullable(),
@@ -258,51 +269,66 @@ export const getFormSchema = () => {
         related_name: yup.string().max(250).nullable(),
         work_name: yup.string().max(250).nullable(),
         instruments_name: yup.string().max(250).nullable(),
-        accessories: yup.array().of(
-            yup.object({
-                id: yup.number().integer().required(),
-                uuid: yup.string().nullable(),
-                name: yup.string().nullable(),
-                image: yup.string().nullable(),
-                price_rub_formatted: yup.string().nullable(),
-            })
-        ).nullable(),
-        similar: yup.array().of(
-            yup.object({
-                id: yup.number().integer().required(),
-                uuid: yup.string().nullable(),
-                name: yup.string().nullable(),
-                image: yup.string().nullable(),
-                price_rub_formatted: yup.string().nullable(),
-            })
-        ).nullable(),
-        related: yup.array().of(
-            yup.object({
-                id: yup.number().integer().required(),
-                uuid: yup.string().nullable(),
-                name: yup.string().nullable(),
-                image: yup.string().nullable(),
-                price_rub_formatted: yup.string().nullable(),
-            })
-        ).nullable(),
-        works: yup.array().of(
-            yup.object({
-                id: yup.number().integer().required(),
-                uuid: yup.string().nullable(),
-                name: yup.string().nullable(),
-                image: yup.string().nullable(),
-                price_rub_formatted: yup.string().nullable(),
-            })
-        ).nullable(),
-        instruments: yup.array().of(
-            yup.object({
-                id: yup.number().integer().required(),
-                uuid: yup.string().nullable(),
-                name: yup.string().nullable(),
-                image: yup.string().nullable(),
-                price_rub_formatted: yup.string().nullable(),
-            })
-        ).nullable(),
+        accessories: yup
+            .array()
+            .of(
+                yup.object({
+                    id: yup.number().integer().required(),
+                    uuid: yup.string().nullable(),
+                    name: yup.string().nullable(),
+                    image: yup.string().nullable(),
+                    price_rub_formatted: yup.string().nullable(),
+                })
+            )
+            .nullable(),
+        similar: yup
+            .array()
+            .of(
+                yup.object({
+                    id: yup.number().integer().required(),
+                    uuid: yup.string().nullable(),
+                    name: yup.string().nullable(),
+                    image: yup.string().nullable(),
+                    price_rub_formatted: yup.string().nullable(),
+                })
+            )
+            .nullable(),
+        related: yup
+            .array()
+            .of(
+                yup.object({
+                    id: yup.number().integer().required(),
+                    uuid: yup.string().nullable(),
+                    name: yup.string().nullable(),
+                    image: yup.string().nullable(),
+                    price_rub_formatted: yup.string().nullable(),
+                })
+            )
+            .nullable(),
+        works: yup
+            .array()
+            .of(
+                yup.object({
+                    id: yup.number().integer().required(),
+                    uuid: yup.string().nullable(),
+                    name: yup.string().nullable(),
+                    image: yup.string().nullable(),
+                    price_rub_formatted: yup.string().nullable(),
+                })
+            )
+            .nullable(),
+        instruments: yup
+            .array()
+            .of(
+                yup.object({
+                    id: yup.number().integer().required(),
+                    uuid: yup.string().nullable(),
+                    name: yup.string().nullable(),
+                    image: yup.string().nullable(),
+                    price_rub_formatted: yup.string().nullable(),
+                })
+            )
+            .nullable(),
         variations: yup.array().of(
             yup.object({
                 id: yup.number().integer().truncate(),
@@ -320,120 +346,129 @@ export const getFormSchema = () => {
                 availability_status_id: yup.number().integer().truncate(),
                 preview: yup.string().max(65000).nullable(),
                 mainImage: getImageSchema().nullable(),
-                additionalImages: yup.array().of(
-                    getImageSchema()
-                ),
+                additionalImages: yup.array().of(getImageSchema()),
+            })
+        ),
+    })
+}
+
+export const getImageSchema = () =>
+    yup.object({
+        id: yup.number().integer().truncate(),
+        uuid: yup.string().nullable(),
+        url: yup.string(),
+        name: yup.string().max(250).nullable(),
+        file_name: yup.string().max(250).nullable(),
+        order_column: yup.number().nullable(),
+        file: yup.mixed(),
+    })
+
+export const getWatchProductToFormCb =
+    (setValues: (a: object) => any) => (product: Product | null) => {
+        const {
+            id,
+            is_active,
+            is_with_variations,
+            name,
+            slug,
+            ordering,
+            brand_id,
+            coefficient,
+            coefficient_description,
+            coefficient_description_show,
+            coefficient_variation_description,
+            price_name,
+            infoPrices = [],
+            admin_comment,
+            instructions = [],
+            price_purchase,
+            price_purchase_currency_id,
+            price_retail,
+            price_retail_currency_id,
+            unit,
+            availability_status_id,
+            preview,
+            description,
+            mainImage,
+            additionalImages = [],
+            charCategories = [],
+            seo,
+            category_id,
+            relatedCategoriesIds = [],
+            accessory_name,
+            similar_name,
+            related_name,
+            work_name,
+            instruments_name,
+            accessories = [],
+            similar = [],
+            related = [],
+            works = [],
+            instruments = [],
+            variations = [],
+        } = product || {}
+        const _charCategories = charCategories.map(
+            ({ id, name, product_id, ordering, chars }) => ({
+                id,
+                name,
+                product_id,
+                ordering,
+                uuid: randomId(),
+                chars,
             })
         )
-    })
-}
-
-export const getImageSchema = () => yup.object({
-    id: yup.number().integer().truncate(),
-    uuid: yup.string().nullable(),
-    url: yup.string(),
-    name: yup.string().max(250).nullable(),
-    file_name: yup.string().max(250).nullable(),
-    order_column: yup.number().nullable(),
-    file: yup.mixed(),
-})
-
-export const getWatchProductToFormCb = (setValues: (a: object) => any) => (product: Product|null) => {
-    const {
-        id,
-        is_active,
-        is_with_variations,
-        name,
-        slug,
-        ordering,
-        brand_id,
-        coefficient,
-        coefficient_description,
-        coefficient_description_show,
-        coefficient_variation_description,
-        price_name,
-        infoPrices = [],
-        admin_comment,
-        instructions = [],
-        price_purchase,
-        price_purchase_currency_id,
-        price_retail,
-        price_retail_currency_id,
-        unit,
-        availability_status_id,
-        preview,
-        description,
-        mainImage,
-        additionalImages = [],
-        charCategories = [],
-        seo,
-        category_id,
-        relatedCategoriesIds = [],
-        accessory_name,
-        similar_name,
-        related_name,
-        work_name,
-        instruments_name,
-        accessories = [],
-        similar = [],
-        related = [],
-        works = [],
-        instruments = [],
-        variations = [],
-    } = product || {}
-    const _charCategories = charCategories.map(({id, name, product_id, ordering, chars}) => ({id, name, product_id, ordering, uuid: randomId(), chars}))
-    const chars = _charCategories.reduce((acc, {chars, uuid}) => {
-        return [
-            ...acc,
-            ...chars.map(char => ({
-                ...char,
-                uuid: randomId(),
-                category_uuid: uuid,
-                is_rate: char.type_id === CharTypeEnum.rate,
-            }))
-        ]
-    }, [])
-    setValues({
-        id,
-        is_active,
-        is_with_variations,
-        name,
-        slug,
-        ordering,
-        brand_id,
-        coefficient,
-        coefficient_description,
-        coefficient_description_show,
-        coefficient_variation_description,
-        price_name,
-        infoPrices,
-        admin_comment,
-        instructions,
-        price_purchase,
-        price_purchase_currency_id,
-        price_retail,
-        price_retail_currency_id,
-        unit,
-        availability_status_id,
-        preview,
-        description,
-        mainImage,
-        additionalImages,
-        charCategories: _charCategories,
-        chars,
-        seo,
-        category_id,
-        relatedCategoriesIds,
-        accessory_name,
-        similar_name,
-        related_name,
-        work_name,
-        instruments_name,
-        accessories,
-        similar,
-        related,
-        works,
-        instruments,
-        variations,
-    })
-}
+        const chars = _charCategories.reduce((acc, { chars, uuid }) => {
+            return [
+                ...acc,
+                ...chars.map((char) => ({
+                    ...char,
+                    uuid: randomId(),
+                    category_uuid: uuid,
+                    is_rate: char.type_id === CharTypeEnum.rate,
+                })),
+            ]
+        }, [])
+        setValues({
+            id,
+            is_active,
+            is_with_variations,
+            name,
+            slug,
+            ordering,
+            brand_id,
+            coefficient,
+            coefficient_description,
+            coefficient_description_show,
+            coefficient_variation_description,
+            price_name,
+            infoPrices,
+            admin_comment,
+            instructions,
+            price_purchase,
+            price_purchase_currency_id,
+            price_retail,
+            price_retail_currency_id,
+            unit,
+            availability_status_id,
+            preview,
+            description,
+            mainImage,
+            additionalImages,
+            charCategories: _charCategories,
+            chars,
+            seo,
+            category_id,
+            relatedCategoriesIds,
+            accessory_name,
+            similar_name,
+            related_name,
+            work_name,
+            instruments_name,
+            accessories,
+            similar,
+            related,
+            works,
+            instruments,
+            variations,
+        })
+    }

@@ -105,12 +105,12 @@ export const useProductsStore = defineStore(storeName, {
         },
         searchProducts:
             (state: State) =>
-                (type: ProductProductType): Array<SearchProduct> =>
-                    state._searchProduct[type].entities,
+            (type: ProductProductType): Array<SearchProduct> =>
+                state._searchProduct[type].entities,
         searchProductsLoading:
             (state: State) =>
-                (type: ProductProductType): boolean =>
-                    state._searchProduct[type].loading,
+            (type: ProductProductType): boolean =>
+                state._searchProduct[type].loading,
     },
     actions: {
         setProductListItems(productListItems: Array<ProductListItem>): void {
