@@ -6,7 +6,7 @@ import {
     integer,
     max,
     min,
-    numeric
+    numeric,
 } from "@vee-validate/rules"
 import { localize, setLocale } from "@vee-validate/i18n"
 // @ts-ignore

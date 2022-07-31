@@ -177,5 +177,5 @@ export enum RouteTypeEnum {
 }
 
 export enum RouteParams {
-    activeTab = 'activeTab'
+    activeTab = "activeTab",
 }
