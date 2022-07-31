@@ -2,7 +2,6 @@
 import {isCreatingProductRoute, useProductsStore} from "@/admin/inertia/modules/products"
 import {computed, ref, watch} from "vue"
 import {slugify} from "@/admin/inertia/modules/common"
-import {useCreateEditProductFormsStore} from "@/admin/inertia/modules/forms/createEditProduct"
 import {useBrandsStore} from "@/admin/inertia/modules/brands"
 import {Field, useField} from 'vee-validate'
 import InfoPrices from "@/admin/inertia/components/products/createEdit/parts/InfoPrices.vue"
@@ -18,7 +17,6 @@ import RowInputInput from "@/admin/inertia/components/forms/vee-validate/RowInpu
 
 
 const productsStore = useProductsStore()
-const formsStore = useCreateEditProductFormsStore()
 const brandsStore = useBrandsStore()
 const currenciesStore = useCurrenciesStore()
 const availabilityStatusesStore = useAvailabilityStatusesStore()
@@ -26,7 +24,8 @@ const availabilityStatusesStore = useAvailabilityStatusesStore()
 const isCreating = computed(() => isCreatingProductRoute())
 const generateSlugSyncMode = ref(false)
 
-const {setValue} = useField<string|null>('slug')
+const {value: name} = useField<string|null>('name')
+const {value: slug, setValue} = useField<string|null>('slug')
 
 watch(generateSlugSyncMode, newV => {
     if (newV) {
@@ -38,11 +37,11 @@ const handleSyncNameAndSlug = async () => {
         return
     }
 
-    if (!formsStore.product.name) {
+    if (!name.value) {
         return
     }
 
-    const slug = await slugify(formsStore.product.name)
+    const slug = await slugify(name.value)
 
     setValue(slug)
 }

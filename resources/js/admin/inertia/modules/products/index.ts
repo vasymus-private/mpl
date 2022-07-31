@@ -11,6 +11,7 @@ import {
     useRoutesStore,
 } from "@/admin/inertia/modules/routes"
 import Product, {
+    ProductProductType,
     SearchProduct,
     SearchProductRequest,
     searchProductRequestToUrlSearchParams,
@@ -24,36 +25,72 @@ import ProductUpdateResponse, {
 
 export const storeName = "products"
 
+interface State {
+    _productListItems: Array<ProductListItem>
+    _links: Links | null
+    _meta: Meta | null
+    _product: { entity: Product | null; loading: boolean }
+    _originProduct: Product | null
+    _searchProduct: {
+        [key in ProductProductType]: {
+            entities: Array<SearchProduct>
+            meta: Meta | null
+            loading: boolean
+        }
+    }
+}
+
 export const useProductsStore = defineStore(storeName, {
-    state: (): {
-        _productListItems: Array<ProductListItem>
-        _links: Links | null
-        _meta: Meta | null
-        _product: { entity: Product | null; loading: boolean }
-        _originProduct: Product | null
-    } => {
+    state: (): State => {
         return {
             _productListItems: [],
             _links: null,
             _meta: null,
             _product: { entity: null, loading: false },
             _originProduct: null,
+            _searchProduct: {
+                [ProductProductType.TYPE_ACCESSORY]: {
+                    entities: [],
+                    meta: null,
+                    loading: false,
+                },
+                [ProductProductType.TYPE_SIMILAR]: {
+                    entities: [],
+                    meta: null,
+                    loading: false,
+                },
+                [ProductProductType.TYPE_RELATED]: {
+                    entities: [],
+                    meta: null,
+                    loading: false,
+                },
+                [ProductProductType.TYPE_WORK]: {
+                    entities: [],
+                    meta: null,
+                    loading: false,
+                },
+                [ProductProductType.TYPE_INSTRUMENT]: {
+                    entities: [],
+                    meta: null,
+                    loading: false,
+                },
+            },
         }
     },
     getters: {
-        productListItems: (state): Array<ProductListItem> =>
+        productListItems: (state: State): Array<ProductListItem> =>
             state._productListItems,
-        links: (state): Links | null => state._links,
-        meta: (state): Meta | null => state._meta,
-        getPerPageOption: (state): Option | null =>
+        links: (state: State): Links | null => state._links,
+        meta: (state: State): Meta | null => state._meta,
+        getPerPageOption: (state: State): Option | null =>
             state._meta && state._meta.per_page
                 ? {
                       value: state._meta.per_page,
                       label: `${state._meta.per_page}`,
                   }
                 : null,
-        product: (state): Product | null => state._product.entity,
-        originProduct: (state): Product | null => state._originProduct,
+        product: (state: State): Product | null => state._product.entity,
+        originProduct: (state: State): Product | null => state._originProduct,
         isCreatingFromCopy(): boolean {
             const routesStore = useRoutesStore()
             if (!routesStore.fullUrl) {
@@ -66,6 +103,14 @@ export const useProductsStore = defineStore(storeName, {
                 !!this.originProduct
             )
         },
+        searchProducts:
+            (state: State) =>
+                (type: ProductProductType): Array<SearchProduct> =>
+                    state._searchProduct[type].entities,
+        searchProductsLoading:
+            (state: State) =>
+                (type: ProductProductType): boolean =>
+                    state._searchProduct[type].loading,
     },
     actions: {
         setProductListItems(productListItems: Array<ProductListItem>): void {
@@ -150,6 +195,23 @@ export const useProductsStore = defineStore(storeName, {
                     entities: [],
                     meta: null,
                 }
+            }
+        },
+        async fetchSearchProducts(
+            request: SearchProductRequest,
+            type: ProductProductType
+        ): Promise<void> {
+            const productsStore = useProductsStore()
+
+            try {
+                this._searchProduct[type].loading = true
+                const { entities: products, meta } =
+                    await productsStore.searchProducts(request)
+
+                this._searchProduct[type].entities = products
+                this._searchProduct[type].meta = meta
+            } finally {
+                this._searchProduct[type].loading = false
             }
         },
     },

@@ -1,22 +1,21 @@
 <script lang="ts" setup>
 import TheLayout from '@/admin/inertia/components/layout/TheLayout.vue'
-import {getRouteUrl, routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
+import {getRouteUrl, routeNames, RouteParams} from "@/admin/inertia/modules/routes"
 import {useProductsStore, isCreatingProductRoute} from "@/admin/inertia/modules/products"
 import {computed, onUnmounted, watch} from "vue"
 import {Link} from "@inertiajs/inertia-vue3"
-import {AdminTab, TabEnum} from "@/admin/inertia/modules/common/Tabs"
+import {AdminTab} from "@/admin/inertia/modules/common/Tabs"
 import {useField, useForm} from 'vee-validate'
-import * as yup from 'yup'
-import {useCreateEditProductFormsStore} from "@/admin/inertia/modules/forms/createEditProduct"
+import {
+    getFormSchema,
+    getWatchProductToFormCb,
+    useCreateEditProductFormsStore
+} from "@/admin/inertia/modules/forms/createEditProduct"
 import {Inertia} from "@inertiajs/inertia"
-import Product from "@/admin/inertia/modules/products/Product"
-import {randomId} from "@/admin/inertia/utils"
-import {CharTypeEnum} from "@/admin/inertia/modules/charTypes/CharType"
 
 
 const productsStore = useProductsStore()
 const formsStore = useCreateEditProductFormsStore()
-const routesStore = useRoutesStore()
 
 const isCreating = computed(() => isCreatingProductRoute())
 
@@ -27,344 +26,23 @@ const deleteItem = async () => {
     }
 }
 
-const activeTab = 'activeTab'
 const onTabClick = (tab: AdminTab) => {
     let u = new URL(location.href)
     let s = new URLSearchParams(u.search)
-    s.set(activeTab, tab.value)
+    s.set(RouteParams.activeTab, tab.value)
     u.search = s.toString()
     history.replaceState(history.state, '', u.toString())
 }
 
-const getActiveTab = (): string => {
-    let url
-    if (typeof window !== "undefined") {
-        url = window.location.href
-    }
-    if (!url) {
-        url = routesStore.fullUrl
-    }
-    if (!url) {
-        return TabEnum.elements
-    }
-    let paramActiveTab = new URL(url).searchParams.get(activeTab)
-    if (!paramActiveTab) {
-        return TabEnum.elements
-    }
-
-    if (!formsStore.getAdminTabs.map(at => at.value.toString()).includes(paramActiveTab)) {
-        return TabEnum.elements
-    }
-
-    return paramActiveTab
-}
-
-const validationSchema = {
-    id: 'integer',
-    uuid: 'alpha_dash',
-    is_active: {
-        one_of: [true, false],
-    },
-    is_with_variations: {
-        one_of: [true, false],
-    },
-    name: 'required|max:250',
-    slug: 'required|max:250',
-}
-
-const yupSchema = yup.object({
-    id: yup.number().integer().truncate(),
-    uuid: yup.string().nullable(),
-    is_active: yup.boolean(),
-    is_with_variations: yup.boolean(),
-    name: yup.string().required().max(250),
-    slug: yup.string().required().max(250),
-    ordering: yup.number().truncate(),
-    brand_id: yup.number().integer(),
-    coefficient: yup.number().truncate(),
-    coefficient_description: yup.string().max(250).nullable(),
-    coefficient_description_show: yup.boolean(),
-    coefficient_variation_description: yup.string().max(250).nullable(),
-    price_name: yup.string().max(250).nullable(),
-    infoPrices: yup.array().of(
-        yup.object({
-            id: yup.number().integer().truncate(),
-            name: yup.string().required().max(250),
-            price: yup.number().required().truncate(),
-        })
-    ).nullable(),
-    admin_comment: yup.string().max(250).nullable(),
-    instructions: yup.array().of(
-        yup.object({
-            id: yup.number().integer().truncate(),
-            name: yup.string().required().max(250),
-            file_name: yup.string().required().max(250),
-            url: yup.string(),
-            order_column: yup.number(),
-            file: yup.mixed(),
-        })
-    ),
-    price_purchase: yup.number(),
-    price_purchase_currency_id: yup.number().integer(),
-    price_retail: yup.number(),
-    price_retail_currency_id: yup.number().integer(),
-    unit: yup.string().max(250).nullable(),
-    availability_status_id: yup.number().integer(),
-    preview: yup.string().max(65000).nullable(),
-    description: yup.string().max(65000).nullable(),
-    mainImage: yup.object({
-        id: yup.number().integer().truncate(),
-        uuid: yup.string().nullable(),
-        url: yup.string(),
-        name: yup.string().max(250).nullable(),
-        file_name: yup.string().max(250).nullable(),
-        order_column: yup.number().nullable(),
-        file: yup.mixed(),
-    }).nullable(),
-    additionalImages: yup.array().of(
-        yup.object({
-            id: yup.number().integer().truncate(),
-            uuid: yup.string().nullable(),
-            url: yup.string(),
-            name: yup.string().max(250).nullable(),
-            file_name: yup.string().max(250).nullable(),
-            order_column: yup.number().nullable(),
-            file: yup.mixed(),
-        })
-    ),
-    charCategories: yup.array().of(
-        yup.object({
-            id: yup.number().integer().truncate(),
-            uuid: yup.string().required(),
-            name: yup.string().required().max(250),
-            product_id: yup.number().integer().truncate(),
-            ordering: yup.number(),
-        })
-    ),
-    chars: yup.array().of(
-        yup.object({
-            id: yup.number().integer().truncate(),
-            uuid: yup.string().required(),
-            name: yup.string().required().max(250),
-            value: yup.string().required().max(250),
-            product_id: yup.number().integer().truncate(),
-            type_id: yup.number().integer().truncate(),
-            category_id: yup.number().integer().truncate(),
-            category_uuid: yup.string().required(),
-            ordering: yup.number(),
-        })
-    ),
-    tempCharCategoryName: yup.string().max(250).nullable(),
-    tempChar: yup.object({
-        name: yup.string().max(250).nullable(),
-        type_id: yup.number().integer().truncate(),
-        category_uuid: yup.string().nullable(),
-    }).nullable(),
-    seo: yup.object({
-        title: yup.string().max(250).nullable(),
-        h1: yup.string().max(250).nullable(),
-        keywords: yup.string().max(65000).nullable(),
-        description: yup.string().max(65000).nullable(),
-    }).nullable(),
-    category_id: yup.number().integer().truncate(),
-    relatedCategoriesIds: yup.array().of(yup.number().integer()),
-    accessory_name: yup.string().max(250).nullable(),
-    similar_name: yup.string().max(250).nullable(),
-    related_name: yup.string().max(250).nullable(),
-    work_name: yup.string().max(250).nullable(),
-    instruments_name: yup.string().max(250).nullable(),
-    accessories: yup.array().of(
-        yup.object({
-            id: yup.number().integer().required(),
-            uuid: yup.string().nullable(),
-            name: yup.string().nullable(),
-            image: yup.string().nullable(),
-            price_rub_formatted: yup.string().nullable(),
-        })
-    ).nullable(),
-    similar: yup.array().of(
-        yup.object({
-            id: yup.number().integer().required(),
-            uuid: yup.string().nullable(),
-            name: yup.string().nullable(),
-            image: yup.string().nullable(),
-            price_rub_formatted: yup.string().nullable(),
-        })
-    ).nullable(),
-    related: yup.array().of(
-        yup.object({
-            id: yup.number().integer().required(),
-            uuid: yup.string().nullable(),
-            name: yup.string().nullable(),
-            image: yup.string().nullable(),
-            price_rub_formatted: yup.string().nullable(),
-        })
-    ).nullable(),
-    works: yup.array().of(
-        yup.object({
-            id: yup.number().integer().required(),
-            uuid: yup.string().nullable(),
-            name: yup.string().nullable(),
-            image: yup.string().nullable(),
-            price_rub_formatted: yup.string().nullable(),
-        })
-    ).nullable(),
-    instruments: yup.array().of(
-        yup.object({
-            id: yup.number().integer().required(),
-            uuid: yup.string().nullable(),
-            name: yup.string().nullable(),
-            image: yup.string().nullable(),
-            price_rub_formatted: yup.string().nullable(),
-        })
-    ).nullable(),
-    variations: yup.array().of(
-        yup.object({
-            id: yup.number().integer().truncate(),
-            uuid: yup.string().nullable(),
-            is_active: yup.boolean(),
-            name: yup.string().required().max(250),
-            ordering: yup.number().truncate(),
-            coefficient: yup.number().truncate(),
-            coefficient_description: yup.string().max(250).nullable(),
-            price_purchase: yup.number().truncate(),
-            price_purchase_currency_id: yup.number().integer().truncate(),
-            price_retail: yup.number().truncate(),
-            price_retail_currency_id: yup.number().integer().truncate(),
-            unit: yup.string().max(250).nullable(),
-            availability_status_id: yup.number().integer().truncate(),
-            preview: yup.string().max(65000).nullable(),
-            mainImage: yup.object({
-                id: yup.number().integer().truncate(),
-                uuid: yup.string().nullable(),
-                url: yup.string(),
-                name: yup.string().max(250).nullable(),
-                file_name: yup.string().max(250).nullable(),
-                order_column: yup.number().nullable(),
-                file: yup.mixed(),
-            }).nullable(),
-            additionalImages: yup.array().of(
-                yup.object({
-                    id: yup.number().integer().truncate(),
-                    uuid: yup.string().nullable(),
-                    url: yup.string(),
-                    name: yup.string().max(250).nullable(),
-                    file_name: yup.string().max(250).nullable(),
-                    order_column: yup.number().nullable(),
-                    file: yup.mixed(),
-                })
-            ),
-        })
-    )
-})
-
 const {errors, handleSubmit, values, setValues, submitCount} = useForm({
-    validationSchema,
+    validationSchema: getFormSchema(),
 })
 
 watch(values, newValues => {
     formsStore.setProductForm(newValues)
 })
 
-watch(() => productsStore.product, (product: Product|null) => {
-    const {
-        id,
-        is_active,
-        is_with_variations,
-        name,
-        slug,
-        ordering,
-        brand_id,
-        coefficient,
-        coefficient_description,
-        coefficient_description_show,
-        coefficient_variation_description,
-        price_name,
-        infoPrices = [],
-        admin_comment,
-        instructions = [],
-        price_purchase,
-        price_purchase_currency_id,
-        price_retail,
-        price_retail_currency_id,
-        unit,
-        availability_status_id,
-        preview,
-        description,
-        mainImage,
-        additionalImages = [],
-        charCategories = [],
-        seo,
-        category_id,
-        relatedCategoriesIds = [],
-        accessory_name,
-        similar_name,
-        related_name,
-        work_name,
-        instruments_name,
-        accessories = [],
-        similar = [],
-        related = [],
-        works = [],
-        instruments = [],
-        variations = [],
-    } = product || {}
-    const _charCategories = charCategories.map(({id, name, product_id, ordering, chars}) => ({id, name, product_id, ordering, uuid: randomId(), chars}))
-    const chars = _charCategories.reduce((acc, {chars, uuid}) => {
-        return [
-            ...acc,
-            ...chars.map(char => ({
-                ...char,
-                uuid: randomId(),
-                category_uuid: uuid,
-                is_rate: char.type_id === CharTypeEnum.rate,
-            }))
-        ]
-    }, [])
-    setValues({
-        id,
-        is_active,
-        is_with_variations,
-        name,
-        slug,
-        ordering,
-        brand_id,
-        coefficient,
-        coefficient_description,
-        coefficient_description_show,
-        coefficient_variation_description,
-        price_name,
-        infoPrices,
-        admin_comment,
-        instructions,
-        price_purchase,
-        price_purchase_currency_id,
-        price_retail,
-        price_retail_currency_id,
-        unit,
-        availability_status_id,
-        preview,
-        description,
-        mainImage,
-        additionalImages,
-        charCategories: _charCategories,
-        chars,
-        seo,
-        category_id,
-        relatedCategoriesIds,
-        accessory_name,
-        similar_name,
-        related_name,
-        work_name,
-        instruments_name,
-        accessories,
-        similar,
-        related,
-        works,
-        instruments,
-        variations,
-    })
-})
+watch(() => productsStore.product, getWatchProductToFormCb(setValues))
 
 const {value: is_with_variations, setValue: setWithVariations} = useField<boolean>('is_with_variations')
 
@@ -392,6 +70,7 @@ onUnmounted(() => {
                     <span class="breadcrumbs__text">Каталог товаров</span>
                 </Link>
             </div>
+
             <h1 class="h2 adm-title">
                 {{ formsStore.productFormTitle }}
             </h1>
@@ -458,9 +137,9 @@ onUnmounted(() => {
             <div class="js-nav-tabs-wrapper">
                 <div class="js-nav-tabs-marker"></div>
                 <ul class="nav nav-tabs item-tabs" role="tablist">
-                    <li v-for="tab in formsStore.getAdminTabs" :key="`${tab.value}-tab`" class="nav-item" role="presentation">
+                    <li v-for="tab in formsStore.adminTabs" :key="`${tab.value}-tab`" class="nav-item" role="presentation">
                         <button
-                            :class="['nav-link', tab.value === getActiveTab() ? 'active' : '']"
+                            :class="['nav-link', tab.value === formsStore.activeTab ? 'active' : '']"
                             :id="`${tab.value}-tab`"
                             data-bs-toggle="tab"
                             :data-bs-target="`#${tab.value}-content`"
@@ -477,9 +156,9 @@ onUnmounted(() => {
             <form class="position-relative" @submit="onSubmit">
                 <div class="tab-content">
                     <div
-                        v-for="tab in formsStore.getAdminTabs"
+                        v-for="tab in formsStore.adminTabs"
                         :key="`${tab.value}-content`"
-                        :class="['tab-pane', 'p-3', 'fade', tab.value === getActiveTab() ? 'show active' : '']"
+                        :class="['tab-pane', 'p-3', 'fade', tab.value === formsStore.activeTab ? 'show active' : '']"
                         :id="`${tab.value}-content`"
                         role="tabpanel"
                         :aria-labelledby="`${tab.value}-tab`"

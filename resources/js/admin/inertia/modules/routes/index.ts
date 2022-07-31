@@ -175,3 +175,7 @@ export enum RouteTypeEnum {
     referenceFaq = "reference-faq",
     referenceContacts = "reference-contacts",
 }
+
+export enum RouteParams {
+    activeTab = 'activeTab'
+}

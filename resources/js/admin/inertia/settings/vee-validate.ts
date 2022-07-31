@@ -6,6 +6,7 @@ import {
     integer,
     max,
     min,
+    numeric
 } from "@vee-validate/rules"
 import { localize, setLocale } from "@vee-validate/i18n"
 // @ts-ignore
@@ -17,6 +18,7 @@ defineRule("one_of", one_of)
 defineRule("integer", integer)
 defineRule("max", max)
 defineRule("min", min)
+defineRule("numeric", numeric)
 
 configure({
     generateMessage: localize({

@@ -6,15 +6,15 @@ import Option from "@/admin/inertia/modules/common/Option"
 // @ts-ignore
 import Multiselect from 'vue-multiselect'
 import {useCategoriesTreeStore} from "@/admin/inertia/modules/categoriesTree"
-import {useCreateEditProductFormsStore} from "@/admin/inertia/modules/forms/createEditProduct"
 import {ProductProductType, SearchProduct} from "@/admin/inertia/modules/products/Product"
 import {chunk} from 'lodash'
 import {useFieldArray} from "vee-validate"
 import {routeNames} from "@/admin/inertia/modules/routes"
+import {useProductsStore} from "@/admin/inertia/modules/products"
 
 
 const categoriesTreeStore = useCategoriesTreeStore()
-const formsStore = useCreateEditProductFormsStore()
+const productsStore = useProductsStore()
 const search = ref<string>(null)
 const categories = ref<Array<Option>>(null)
 
@@ -26,7 +26,7 @@ const props = defineProps<{
 }>()
 
 const fetchItems = () => {
-    formsStore.fetchSearchProducts({
+    productsStore.fetchSearchProducts({
         category_ids: categories.value ? categories.value.map((item: Option) => item.value) : [],
         search: search.value,
     }, props.type)
@@ -114,8 +114,8 @@ const onChange = (event, product: SearchProduct) => {
         </div>
 
         <table
-            v-if="formsStore.searchProducts(props.type).length"
-            :class="['table', formsStore.searchProductsLoading(props.type) ? 'loading' : '']"
+            v-if="productsStore.searchProducts(props.type).length"
+            :class="['table', productsStore.searchProductsLoading(props.type) ? 'loading' : '']"
         >
             <thead>
             <tr>
@@ -125,7 +125,7 @@ const onChange = (event, product: SearchProduct) => {
             </tr>
             </thead>
             <tbody>
-            <tr v-for="product in formsStore.searchProducts(props.type)">
+            <tr v-for="product in productsStore.searchProducts(props.type)">
                 <td>
                     <input :checked="isChecked(product.id)" @change="onChange($event, product)" :id="`${product.uuid}`" type="checkbox"/>
                 </td>
