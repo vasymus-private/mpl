@@ -12,6 +12,20 @@ export const useAvailabilityStatusesStore = defineStore(storeName, {
     },
     getters: {
         entities: (state): Array<AvailabilityStatus> => state._entities,
+        formattedName: function() {
+            return (id: number|null): string => {
+                if (id == null) {
+                    return ''
+                }
+
+                let entity: AvailabilityStatus|undefined = this.entities.find((e: AvailabilityStatus) => e.id === id)
+                if (!entity) {
+                    return ''
+                }
+
+                return entity.formatted_short_name
+            }
+        },
         options: function (): Array<Option> {
             return this.entities.map(
                 (availabilityStatus: AvailabilityStatus): Option => ({

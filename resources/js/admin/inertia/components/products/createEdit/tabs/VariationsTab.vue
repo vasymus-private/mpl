@@ -3,16 +3,21 @@ import {useModalsStore, ModalType} from "@/admin/inertia/modules/modals"
 import {ColumnType} from "@/admin/inertia/modules/columns/Column"
 import {useField, useFieldArray, Field, FieldEntry} from "vee-validate"
 import {getEmptyVariation} from "@/admin/inertia/modules/forms/createEditProduct"
-import {useColumnsStore} from "@/admin/inertia/modules/columns"
+import {useColumnsStore, isSortableColumn, ColumnName} from "@/admin/inertia/modules/columns"
 import {ref, watch} from "vue"
 import {VariationForm} from "@/admin/inertia/modules/forms/createEditProduct/interfaces"
 import {randomId} from "@/admin/inertia/utils"
 import Image from "@/admin/inertia/modules/common/Image"
 import {copyImage} from "@/admin/inertia/modules/common/utils"
+import {useCurrenciesStore} from "@/admin/inertia/modules/currencies"
+import {useAvailabilityStatusesStore} from "@/admin/inertia/modules/availabilityStatuses";
 
 
 const modalsStore = useModalsStore()
 const columnsStore = useColumnsStore()
+const currenciesStore = useCurrenciesStore()
+const availabilitiesStore = useAvailabilityStatusesStore()
+
 const {setValue} = useField<Array<VariationForm>>('variations')
 const {fields, push, update, remove} = useFieldArray<VariationForm>('variations')
 const selectAll = ref<boolean>(false)
@@ -20,6 +25,11 @@ const editMode = ref<boolean>(false)
 const onAddVariation = () => {
     push(getEmptyVariation())
     modalsStore.openModal(ModalType.CREATE_EDIT_VARIATION, {})
+}
+const onEditVariation = (idx: number) => {
+    modalsStore.openModal(ModalType.CREATE_EDIT_VARIATION, {
+        index: idx
+    })
 }
 watch(selectAll, (nv) => {
     let allVariations = fields.value.map(field => ({
@@ -114,7 +124,7 @@ const deleteProduct = (variation: FieldEntry<VariationForm>, idx: number) => {
                                 ></button>
                                 <div class="dropdown-menu bx-core-popup-menu" :aria-labelledby="`actions-dropdown-${product.value.uuid}`">
                                     <div class="bx-core-popup-menu__arrow"></div>
-                                    <button type="button" class="dropdown-item bx-core-popup-menu-item bx-core-popup-menu-item-default">
+                                    <button @click="onEditVariation(idx)" type="button" class="dropdown-item bx-core-popup-menu-item bx-core-popup-menu-item-default">
                                         <span class="bx-core-popup-menu-item-icon adm-menu-edit"></span>
                                         <span class="bx-core-popup-menu-item-text">Изменить</span>
                                     </button>
@@ -135,6 +145,57 @@ const deleteProduct = (variation: FieldEntry<VariationForm>, idx: number) => {
                                 </div>
                             </div>
                         </td>
+                        <template v-for="sortableColumn in columnsStore.adminProductVariantColumns" :key="sortableColumn.value">
+                            <td v-if="isSortableColumn(sortableColumn, ColumnName.id)">
+                                <span class="main-grid-cell-content">{{product.value.id}}</span>
+                            </td>
+                            <td v-if="isSortableColumn(sortableColumn, ColumnName.name)">
+                                <span class="main-grid-cell-content">{{product.value.name}}</span>
+                            </td>
+                            <td v-if="isSortableColumn(sortableColumn, ColumnName.active)">
+                                <span class="main-grid-cell-content">{{product.value.is_active ? 'Да' : 'Нет'}}</span>
+                            </td>
+                            <td v-if="isSortableColumn(sortableColumn, ColumnName.detailed_image)">
+                                <a v-if="product.value.mainImage" :href="product.value.mainImage.url" target="_blank">
+                                    <img class="img-fluid" :src="product.value.mainImage.url" alt="">
+                                </a>
+                                <template v-else>
+                                    &nbsp;
+                                </template>
+                            </td>
+                            <td v-if="isSortableColumn(sortableColumn, ColumnName.additional_images)">
+                                <div v-for="image in product.value.additionalImages" :key="image.uuid" class="mb-2" style="max-width: 40px">
+                                    <a :href="image.url" target="_blank">
+                                        <img class="img-fluid" :src="image.url" alt="">
+                                    </a>
+                                </div>
+                            </td>
+                            <td v-if="isSortableColumn(sortableColumn, ColumnName.ordering)">
+                                <span class="main-grid-cell-content">{{product.value.ordering}}</span>
+                            </td>
+                            <td v-if="isSortableColumn(sortableColumn, ColumnName.price_purchase)">
+                                <span class="main-grid-cell-content">
+                                    {{ currenciesStore.priceFormatted(product.value.price_purchase, product.value.price_purchase_currency_id) }}
+                                </span>
+                            </td>
+                            <td v-if="isSortableColumn(sortableColumn, ColumnName.price_retail)">
+                                <span class="main-grid-cell-content">
+                                    {{ currenciesStore.priceFormatted(product.value.price_retail, product.value.price_retail_currency_id) }}
+                                </span>
+                            </td>
+                            <td v-if="isSortableColumn(sortableColumn, ColumnName.unit)">
+                                <span class="main-grid-cell-content">{{product.value.unit}}</span>
+                            </td>
+                            <td v-if="isSortableColumn(sortableColumn, ColumnName.coefficient)">
+                                <span class="main-grid-cell-content">{{product.value.coefficient}}</span>
+                            </td>
+                            <td v-if="isSortableColumn(sortableColumn, ColumnName.coefficient_description)">
+                                <span class="main-grid-cell-content">{{product.value.coefficient_description}}</span>
+                            </td>
+                            <td v-if="isSortableColumn(sortableColumn, ColumnName.availability)">
+                                <span class="main-grid-cell-content">{{availabilitiesStore.formattedName(product.value.availability_status_id)}}</span>
+                            </td>
+                        </template>
                     </tr>
                 </tbody>
             </table>

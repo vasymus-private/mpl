@@ -17,7 +17,7 @@ import AvailabilityStatus from "@/admin/inertia/modules/availabilityStatuses/Ava
 import { useAvailabilityStatusesStore } from "@/admin/inertia/modules/availabilityStatuses"
 import BillStatus from "@/admin/inertia/modules/billStatuses/BillStatus"
 import { useBillStatusesStore } from "@/admin/inertia/modules/billStatuses"
-import Currency from "@/admin/inertia/modules/currencies/Currency"
+import Currency, {Rate} from "@/admin/inertia/modules/currencies/Currency"
 import { useCurrenciesStore } from "@/admin/inertia/modules/currencies"
 import PaymentMethod from "@/admin/inertia/modules/paymentMethods/PaymentMethod"
 import { usePaymentMethodsStore } from "@/admin/inertia/modules/paymentMethods"
@@ -43,6 +43,7 @@ interface InitialPageProps {
     availabilityStatuses: { data: Array<AvailabilityStatus> }
     billStatuses: { data: Array<BillStatus> }
     currencies: { data: Array<Currency> }
+    currencyTodayRate: Array<Rate>
     paymentMethods: { data: Array<PaymentMethod> }
     orderImportance: { data: Array<OrderImportance> }
     orderStatuses: { data: Array<OrderStatus> }
@@ -75,6 +76,7 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
         availabilityStatuses: { data: availabilityStatusesData = [] },
         billStatuses: { data: billStatusesData = [] },
         currencies: { data: currenciesData = [] },
+        currencyTodayRate = [],
         paymentMethods: { data: paymentMethodsData = [] },
         orderImportance: { data: orderImportanceData = [] },
         orderStatuses: { data: orderStatusesData = [] },
@@ -135,6 +137,7 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
 
     const currenciesStore = useCurrenciesStore(pinia)
     currenciesStore.setEntities(currenciesData)
+    currenciesStore.setRates(currencyTodayRate)
 
     const paymentMethodsStore = usePaymentMethodsStore(pinia)
     paymentMethodsStore.setEntities(paymentMethodsData)

@@ -1,5 +1,5 @@
 import Image from "@/admin/inertia/modules/common/Image"
-import axios from "axios";
+import axios from "axios"
 import {blobToFile, randomId} from "@/admin/inertia/utils"
 
 

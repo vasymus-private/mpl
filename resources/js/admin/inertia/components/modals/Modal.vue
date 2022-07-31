@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {Teleport, ref, onMounted, onBeforeUnmount, defineExpose} from "vue"
+import {Teleport, ref, onMounted, onBeforeUnmount} from "vue"
 import {Modal} from 'bootstrap'
 import ModalCloseButton from "@/admin/inertia/components/modals/ModalCloseButton.vue"
 import {ModalType, useModalsStore} from "@/admin/inertia/modules/modals"

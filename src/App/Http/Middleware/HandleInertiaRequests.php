@@ -10,6 +10,7 @@ use App\Http\Resources\Admin\OrderImportanceResource;
 use App\Http\Resources\Admin\OrderStatusResource;
 use App\Http\Resources\Admin\PaymentMethodResource;
 use Closure;
+use DateInterval;
 use Domain\Common\Models\Currency;
 use Domain\Orders\Models\BillStatus;
 use Domain\Orders\Models\OrderImportance;
@@ -21,8 +22,10 @@ use Domain\Products\Models\Brand;
 use Domain\Products\Models\Category;
 use Domain\Products\Models\CharType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Inertia\Middleware;
+use Support\CBRcurrencyConverter\CBRcurrencyConverter;
 use Support\H;
 
 class HandleInertiaRequests extends Middleware
@@ -87,6 +90,7 @@ class HandleInertiaRequests extends Middleware
                     'error' => $request->session()->get('error'),
                 ];
             },
+            'currencyTodayRate' => Cache::remember('currency-today-rate', new DateInterval('PT1H'), fn() => CBRcurrencyConverter::getTodayRates()),
             'categoriesTree' => function () {
                 return Category::getTreeRuntimeCached()->map(fn (Category $category) => CategoryItemSidebarDTO::fromModel($category))->all();
             },
