@@ -172,41 +172,21 @@ export const useProductsStore = defineStore(storeName, {
         async handleDelete(selected: Array<number>): Promise<void> {
             console.log("---", selected)
         },
-        async searchProducts(
-            request: SearchProductRequest
-        ): Promise<{ entities: Array<SearchProduct>; meta: Meta | null }> {
+        async fetchSearchProducts(
+            request: SearchProductRequest,
+            type: ProductProductType
+        ): Promise<void> {
             try {
+                this._searchProduct[type].loading = true
+
                 let url = new URL(
                     getRouteUrl(routeNames.ROUTE_ADMIN_AJAX_PRODUCT_SEARCH)
                 )
                 url.search =
                     searchProductRequestToUrlSearchParams(request).toString()
                 const {
-                    data: { data: searchProducts, meta },
+                    data: { data: products, meta },
                 } = await axios.get<SearchProductResponse>(url.toString())
-
-                return {
-                    entities: searchProducts,
-                    meta,
-                }
-            } catch (e) {
-                console.warn(e)
-                return {
-                    entities: [],
-                    meta: null,
-                }
-            }
-        },
-        async fetchSearchProducts(
-            request: SearchProductRequest,
-            type: ProductProductType
-        ): Promise<void> {
-            const productsStore = useProductsStore()
-
-            try {
-                this._searchProduct[type].loading = true
-                const { entities: products, meta } =
-                    await productsStore.searchProducts(request)
 
                 this._searchProduct[type].entities = products
                 this._searchProduct[type].meta = meta
