@@ -347,6 +347,7 @@ export const getFormSchema = () => {
                 preview: yup.string().max(65000).nullable(),
                 mainImage: getImageSchema().nullable(),
                 additionalImages: yup.array().of(getImageSchema()),
+                is_checked: yup.boolean(),
             })
         ),
     })
