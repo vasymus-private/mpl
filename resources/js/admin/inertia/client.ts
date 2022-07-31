@@ -10,6 +10,7 @@ import { Inertia } from "@inertiajs/inertia"
 import "ckeditor5-custom-build/build/ckeditor"
 import "vue-multiselect/dist/vue-multiselect.css"
 import "@/admin/inertia/settings/vee-validate"
+import axios from "axios";
 
 const pinia = createPinia()
 Inertia.on("navigate", (event) => {
@@ -48,3 +49,9 @@ InertiaProgress.init({
     // Whether the NProgress spinner will be shown.
     showSpinner: true,
 })
+
+
+if (typeof window !== 'undefined') {
+    // @ts-ignore
+    window.___axios = axios
+}

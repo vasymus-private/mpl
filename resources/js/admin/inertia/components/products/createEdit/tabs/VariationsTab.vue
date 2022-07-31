@@ -6,12 +6,15 @@ import {getEmptyVariation} from "@/admin/inertia/modules/forms/createEditProduct
 import {useColumnsStore} from "@/admin/inertia/modules/columns"
 import {ref, watch} from "vue"
 import {VariationForm} from "@/admin/inertia/modules/forms/createEditProduct/interfaces"
+import {randomId} from "@/admin/inertia/utils"
+import Image from "@/admin/inertia/modules/common/Image"
+import {copyImage} from "@/admin/inertia/modules/common/utils"
 
 
 const modalsStore = useModalsStore()
 const columnsStore = useColumnsStore()
 const {setValue} = useField<Array<VariationForm>>('variations')
-const {fields, push, } = useFieldArray<VariationForm>('variations')
+const {fields, push, update, remove} = useFieldArray<VariationForm>('variations')
 const selectAll = ref<boolean>(false)
 const editMode = ref<boolean>(false)
 const onAddVariation = () => {
@@ -26,14 +29,33 @@ watch(selectAll, (nv) => {
 
     setValue(allVariations)
 })
-const toggleActive = (variation: FieldEntry<VariationForm>) => {
-
+const toggleActive = (variation: FieldEntry<VariationForm>, idx: number) => {
+    update(idx, {
+        ...variation.value,
+        is_active: !variation.value.is_active,
+    })
 }
-const copyVariation = (variation: FieldEntry<VariationForm>) => {
-
+const copyVariation = async (variation: FieldEntry<VariationForm>) => {
+    let mainImage = await copyImage(variation.value.mainImage)
+    let additionalImages: Array<Image> = []
+    for (const image of variation.value.additionalImages) {
+        additionalImages = [
+            ...additionalImages,
+            await copyImage(image)
+        ]
+    }
+    push({
+        ...variation.value,
+        id: null,
+        uuid: randomId(),
+        mainImage,
+        additionalImages,
+    })
 }
-const deleteProduct = (variation: FieldEntry<VariationForm>) => {
-
+const deleteProduct = (variation: FieldEntry<VariationForm>, idx: number) => {
+    if (confirm(`Вы уверены, что хотите удалить вариант товара ${variation.value.id} ${variation.value.name} ?'`)) {
+        remove(idx)
+    }
 }
 </script>
 
@@ -96,7 +118,7 @@ const deleteProduct = (variation: FieldEntry<VariationForm>) => {
                                         <span class="bx-core-popup-menu-item-icon adm-menu-edit"></span>
                                         <span class="bx-core-popup-menu-item-text">Изменить</span>
                                     </button>
-                                    <button @click="toggleActive(product)" type="button" class="bx-core-popup-menu-item">
+                                    <button @click="toggleActive(product, idx)" type="button" class="bx-core-popup-menu-item">
                                         <span class="bx-core-popup-menu-item-icon"></span>
                                         <span class="bx-core-popup-menu-item-text"> {{ product.value.is_active ? 'Деактивировать' : 'Активировать' }}</span>
                                     </button>
@@ -106,7 +128,7 @@ const deleteProduct = (variation: FieldEntry<VariationForm>) => {
                                         <span class="bx-core-popup-menu-item-text">Копировать</span>
                                     </button>
                                     <span class="bx-core-popup-menu-separator"></span>
-                                    <button @click="deleteProduct(product)" type="button" class="bx-core-popup-menu-item">
+                                    <button @click="deleteProduct(product, idx)" type="button" class="bx-core-popup-menu-item">
                                         <span class="bx-core-popup-menu-item-icon adm-menu-delete"></span>
                                         <span class="bx-core-popup-menu-item-text">Удалить</span>
                                     </button>
