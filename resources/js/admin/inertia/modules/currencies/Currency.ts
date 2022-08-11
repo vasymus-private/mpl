@@ -12,4 +12,4 @@ export interface Rate {
     Value: number
 }
 
-export const CHAR_CODE_RUB = 'RUB'
+export const CHAR_CODE_RUB = "RUB"

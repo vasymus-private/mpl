@@ -90,7 +90,7 @@ class HandleInertiaRequests extends Middleware
                     'error' => $request->session()->get('error'),
                 ];
             },
-            'currencyTodayRate' => Cache::remember('currency-today-rate', new DateInterval('PT1H'), fn() => CBRcurrencyConverter::getTodayRates()),
+            'currencyTodayRate' => Cache::remember('currency-today-rate', new DateInterval('PT1H'), fn () => CBRcurrencyConverter::getTodayRates()),
             'categoriesTree' => function () {
                 return Category::getTreeRuntimeCached()->map(fn (Category $category) => CategoryItemSidebarDTO::fromModel($category))->all();
             },
