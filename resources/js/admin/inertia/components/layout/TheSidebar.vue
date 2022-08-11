@@ -2,14 +2,22 @@
 import NavItem from '@/admin/inertia/components/layout/NavItem.vue'
 import {useRoutesStore, RouteTypeEnum, routeNames} from "@/admin/inertia/modules/routes"
 import {useCategoriesTreeStore} from "@/admin/inertia/modules/categoriesTree"
+import {ref} from 'vue'
+import {useProfileStore} from "@/admin/inertia/modules/profile"
 
 
 const routesStore = useRoutesStore()
 const categoriesTreeStore = useCategoriesTreeStore()
+const profileStore = useProfileStore()
+
+const aside = ref(null)
+defineExpose({
+    element: aside,
+})
 </script>
 
 <template>
-    <aside id="aside" class="sidebar-left" style="flex-basis: 330px">
+    <aside ref="aside" id="aside" class="sidebar-left" :style="{flexBasis: `${profileStore.adminSidebarFlexBasis}px`}">
         <nav>
             <ul class="nav pt-3">
                 <NavItem

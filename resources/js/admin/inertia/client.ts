@@ -1,5 +1,5 @@
 import { createApp, h } from "vue"
-import { createInertiaApp } from "@inertiajs/inertia-vue3"
+import {createInertiaApp} from "@inertiajs/inertia-vue3"
 import { ZiggyVue } from "ziggy-js/src/js/vue"
 import { Ziggy } from "@/helpers/ziggy"
 import { InertiaProgress } from "@inertiajs/progress"
@@ -9,10 +9,38 @@ import "bootstrap"
 import { Inertia } from "@inertiajs/inertia"
 import "ckeditor5-custom-build/build/ckeditor"
 import "vue-multiselect/dist/vue-multiselect.css"
-import "@/admin/inertia/settings/vee-validate"
 import axios from "axios"
 
 const pinia = createPinia()
+//
+// Inertia.on('before', (event) => {
+//     console.log('--- before')
+// })
+//
+// Inertia.on('start', (event) => {
+//     console.log('--- start')
+// })
+//
+// Inertia.on('progress', (event) => {
+//     console.log('--- progress')
+// })
+//
+// Inertia.on('success', (event) => {
+//     console.log('--- success')
+// })
+//
+// Inertia.on('navigate', (event) => {
+//     console.log('--- navigate')
+// })
+//
+// Inertia.on('error', (event) => {
+//     console.log('--- error')
+// })
+//
+// Inertia.on('finish', (event) => {
+//     console.log('--- finish')
+// })
+
 Inertia.on("navigate", (event) => {
     initFromPageProps(pinia, event.detail.page.props)
 })

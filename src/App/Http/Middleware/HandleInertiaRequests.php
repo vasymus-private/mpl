@@ -98,6 +98,7 @@ class HandleInertiaRequests extends Middleware
             'adminOrderColumns' => H::admin()->admin_order_columns_arr,
             'adminProductColumns' => H::admin()->admin_product_columns_arr,
             'adminProductVariantColumns' => H::admin()->admin_product_variant_columns_arr,
+            'adminSidebarFlexBasis' => H::admin()->settings['adminSidebarFlexBasis'] ?? null,
             'availabilityStatuses' => AvailabilityStatusResource::collection(AvailabilityStatus::cachedAll()),
             'billStatuses' => BillStatusResource::collection(BillStatus::cachedAll()),
             'currencies' => CurrencyResource::collection(Currency::cachedAll()),
