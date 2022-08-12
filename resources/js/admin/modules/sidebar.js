@@ -27,6 +27,9 @@ import Rest from "../../helpers/Rest"
     document.addEventListener(
         "mouseup",
         () => {
+            if (!isClicked) {
+                return
+            }
             isClicked = false
             if (currentFlexBasis) {
                 Rest.PUT(`/admin-ajax/profiles/1`, {

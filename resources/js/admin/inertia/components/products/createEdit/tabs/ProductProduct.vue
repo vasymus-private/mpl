@@ -104,7 +104,7 @@ const onChange = (event, product: SearchProduct) => {
                     track-by="value"
                 >
                     <template #selection="{ values, isOpen }">
-                        <span class="multiselect__single" v-if="values.length && !isOpen">опций выбрано: {{ values.length }} шт.</span>
+                        <span class="multiselect__single" v-if="values.length && !isOpen">Опций выбрано: {{ values.length }} шт.</span>
                     </template>
                 </Multiselect>
             </div>

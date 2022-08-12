@@ -48,6 +48,12 @@ export const useCategoriesTreeStore = defineStore(storeName, {
                 }
             return this.categories.reduce(getReduceCB(""), [])
         },
+        option() {
+            return (id: string|number): Option|null => {
+                let option = this.options.find((o: Option) => `${o.value}` === `${id}`)
+                return option ? option : null
+            }
+        }
     },
     actions: {
         setEntities(entities: Array<CategoryTreeItem>): void {

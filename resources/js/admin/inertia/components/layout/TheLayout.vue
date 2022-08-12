@@ -40,6 +40,10 @@ const resize = (event) => {
     }
 }
 const onMouseUpCB = async () => {
+    if (!isClicked.value) {
+        return
+    }
+
     isClicked.value = false
 
     try {

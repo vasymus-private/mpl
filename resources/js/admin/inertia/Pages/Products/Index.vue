@@ -1,20 +1,74 @@
 <script lang="ts" setup>
-import {routeNames} from "@/admin/inertia/modules/routes"
-import {Ref, ref, watch} from "vue"
+// @ts-ignore
+import Multiselect from 'vue-multiselect'
+import {routeNames, UrlParams, useRoutesStore, visit} from "@/admin/inertia/modules/routes"
+import {computed, ref, Ref, watch} from "vue"
 import {ColumnName, isSortableColumn, useColumnsStore} from "@/admin/inertia/modules/columns"
 import {getActiveName, getPerPageOptions, useProductsStore} from "@/admin/inertia/modules/products"
 import TheLayout from '@/admin/inertia/components/layout/TheLayout.vue'
 import Pagination from "@/admin/inertia/components/layout/Pagination.vue"
-import {Inertia} from "@inertiajs/inertia"
-import Option from "@/admin/inertia/modules/common/Option"
+import Option, {OptionType} from "@/admin/inertia/modules/common/Option"
 import {ModalType, useModalsStore} from "@/admin/inertia/modules/modals"
 import ProductListItem from "@/admin/inertia/modules/products/ProductListItem"
 import {Link} from "@inertiajs/inertia-vue3"
 import {ColumnType} from "@/admin/inertia/modules/columns/Column"
+import {useBrandsStore} from "@/admin/inertia/modules/brands"
 
+
+const columnsStore = useColumnsStore()
+const productStore = useProductsStore()
+const brandsStore = useBrandsStore()
+const modalsStore = useModalsStore()
+const routesStore = useRoutesStore()
 
 const selectAll = ref(false)
 const editMode = ref(false)
+const brand = computed({
+    get() {
+        let brandId = routesStore.getUrlParam(UrlParams.brand_id)
+        if (!brandId) {
+            return null
+        }
+
+        return brandsStore.option(brandId)
+    },
+    set(brandOption: Option) {
+        visit({
+            [UrlParams.brand_id]: brandOption ? brandOption.value : null,
+        })
+    }
+})
+const _searchInput = ref<string|null>(null)
+const searchInput = computed<string|null>({
+    get() {
+        return _searchInput.value ? _searchInput.value : routesStore.getUrlParam(UrlParams.search)
+    },
+    set(v: string|null) {
+        _searchInput.value = v
+    }
+})
+const checkedProducts: Ref<Array<number>> = ref([])
+const perPageOptions = getPerPageOptions()
+
+const onPerPage = (perPage: Option) => {
+    visit({
+        [UrlParams.page]: 1,
+        [UrlParams.per_page]: perPage.value,
+    })
+}
+const handleSearch = () => {
+    visit({
+        [UrlParams.search]: searchInput.value,
+    })
+}
+const handleClear = () => {
+    visit({
+        [UrlParams.search]: null,
+        [UrlParams.brand_id]: null,
+        [UrlParams.category_id]: null,
+    })
+}
+
 watch(selectAll, (newValue) => {
     if (newValue === true) {
         checkedProducts.value = productStore.productListItems.map((item: ProductListItem) => item.id)
@@ -25,19 +79,23 @@ watch(selectAll, (newValue) => {
     }
 })
 
-const columnsStore = useColumnsStore()
-const productStore = useProductsStore()
-const checkedProducts: Ref<Array<number>> = ref([])
-const perPageOptions = getPerPageOptions()
 
-const onPerPage = (perPage: Option) => {
-    const to = new URL(location.href)
-    to.searchParams.set('per_page', `${perPage.value}`)
-    Inertia.visit(to.toString())
+const removePrepend = (type: OptionType) => {
+    switch (type) {
+        case OptionType.category: {
+            visit({
+                [UrlParams.category_id]: null,
+            })
+            break
+        }
+        case OptionType.brand: {
+            visit({
+                [UrlParams.brand_id]: null,
+            })
+            break
+        }
+    }
 }
-
-const modalsStore = useModalsStore()
-
 const deleteProducts = () => {
     if (confirm('Вы уверены, что хотите удалить продукт выбранные продукты?')) { // todo temporary until modals simple confirm implementation
         productStore.handleDelete(checkedProducts.value)
@@ -63,6 +121,50 @@ const toggleActive = (product: ProductListItem) => {
             </div>
 
             <h1 class="adm-title">Каталог товаров <span class="adm-fav-link"></span></h1>
+
+            <div class="search form-group row">
+                <div class="col-xs-12 col-sm-8">
+                    <div class="input-group mb-3">
+                        <template v-for="option in routesStore.urlParamOptions" :key="`${option.type}-${option.value}`">
+                            <span style="max-width: 200px;" class="input-group-text d-inline-block text-truncate">{{option.label}}</span>
+                            <button @click="removePrepend(option.type)" class="btn input-group-prepend__remove" type="button"></button>
+                        </template>
+                        <input
+                            v-model="searchInput"
+                            type="text"
+                            class="form-control"
+                            placeholder="Фильтр + поиск"
+                            aria-label="Фильтр + поиск"
+                            aria-describedby="search-button"
+                        />
+                        <button
+                            @click="handleClear"
+                            class="btn-outline-secondary"
+                            type="button"
+                        ><i class="fa fa-times" aria-hidden="true"></i></button>
+                        <button
+                            @click="handleSearch"
+                            class="btn-outline-secondary search-icon"
+                            type="button"
+                            id="search-button"
+                        ><i class="fa fa-search" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-2">
+                    <Multiselect
+                        v-model="brand"
+                        :options="brandsStore.nullableOptions"
+                        :close-on-select="true"
+                        placeholder="Производитель"
+                        :show-labels="false"
+                        label="label"
+                        track-by="value"
+                    />
+                </div>
+                <div class="col-xs-12 col-sm-2">
+                    <Link :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_CREATE)" class="btn btn-add btn-secondary">Создать</Link>
+                </div>
+            </div>
 
             <div>
                 <button type="button" @click="modalsStore.openModal(ModalType.SORT_ADMIN_COLUMNS, {type: ColumnType.adminProductColumns})" class="btn btn-primary mb-2 mr-2">Настроить</button>
