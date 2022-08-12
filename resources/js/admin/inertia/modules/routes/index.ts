@@ -7,9 +7,9 @@ import route, {
     Router,
 } from "ziggy-js"
 import { Ziggy } from "@/helpers/ziggy"
-import Option, {OptionType} from "@/admin/inertia/modules/common/Option";
-import {Inertia} from "@inertiajs/inertia";
-import {useBrandsStore} from "@/admin/inertia/modules/brands";
+import Option, { OptionType } from "@/admin/inertia/modules/common/Option"
+import { Inertia } from "@inertiajs/inertia"
+import { useBrandsStore } from "@/admin/inertia/modules/brands"
 
 export const storeName = "routes"
 
@@ -88,7 +88,7 @@ export const useRoutesStore = defineStore(storeName, {
                 }
             },
         getUrlParam() {
-            return (key: UrlParams): string|null => {
+            return (key: UrlParams): string | null => {
                 let fullUrl = this.fullUrl
                 if (!fullUrl) {
                     return null
@@ -112,13 +112,13 @@ export const useRoutesStore = defineStore(storeName, {
             if (categoryId) {
                 let categoriesStore = useCategoriesTreeStore()
                 let category = categoriesStore.option(categoryId)
-                if(category) {
+                if (category) {
                     result = [
                         ...result,
                         {
                             ...category,
                             type: OptionType.category,
-                        }
+                        },
                     ]
                 }
             }
@@ -132,13 +132,13 @@ export const useRoutesStore = defineStore(storeName, {
                         {
                             ...brand,
                             type: OptionType.brand,
-                        }
+                        },
                     ]
                 }
             }
 
             return result
-        }
+        },
     },
     actions: {
         setFullUrl(fullUrl: string | null): void {
@@ -236,13 +236,15 @@ export enum RouteParams {
 }
 
 export enum UrlParams {
-    brand_id = 'brand_id',
-    category_id = 'category_id',
-    page = 'page',
-    per_page = 'per_page',
-    search = 'search',
+    brand_id = "brand_id",
+    category_id = "category_id",
+    page = "page",
+    per_page = "per_page",
+    search = "search",
 }
-export const visit = (params: Partial<Record<UrlParams, string|number|null>>) => {
+export const visit = (
+    params: Partial<Record<UrlParams, string | number | null>>
+) => {
     const to = new URL(location.href)
 
     for (let key in params) {

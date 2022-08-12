@@ -31,7 +31,7 @@ import Links from "@/admin/inertia/modules/common/Links"
 import Meta from "@/admin/inertia/modules/common/Meta"
 import { useRoutesStore } from "@/admin/inertia/modules/routes"
 import Product from "@/admin/inertia/modules/products/Product"
-import {useProfileStore} from "@/admin/inertia/modules/profile"
+import { useProfileStore } from "@/admin/inertia/modules/profile"
 
 interface InitialPageProps {
     fullUrl: string
@@ -41,7 +41,7 @@ interface InitialPageProps {
     adminOrderColumns: Array<Column>
     adminProductColumns: Array<Column>
     adminProductVariantColumns: Array<Column>
-    adminSidebarFlexBasis: string|number|null
+    adminSidebarFlexBasis: string | number | null
     availabilityStatuses: { data: Array<AvailabilityStatus> }
     billStatuses: { data: Array<BillStatus> }
     currencies: { data: Array<Currency> }
