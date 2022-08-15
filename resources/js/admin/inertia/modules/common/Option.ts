@@ -6,6 +6,6 @@ export default interface Option {
 }
 
 export enum OptionType {
-    category = 'category',
-    brand = 'brand',
+    category = "category",
+    brand = "brand",
 }

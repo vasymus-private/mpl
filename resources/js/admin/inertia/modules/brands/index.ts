@@ -19,17 +19,19 @@ export const useBrandsStore = defineStore(storeName, {
             return [
                 {
                     value: null,
-                    label: 'Производитель',
+                    label: "Производитель",
                 },
                 ...this.options,
             ]
         },
         option() {
-            return (brandId: string|number): Option|null => {
-                let option = this.options.find((o:Option) => `${o.value}` === `${brandId}`)
+            return (brandId: string | number): Option | null => {
+                let option = this.options.find(
+                    (o: Option) => `${o.value}` === `${brandId}`
+                )
                 return option ? option : null
             }
-        }
+        },
     },
     actions: {
         setOptions(options: Array<Option>): void {

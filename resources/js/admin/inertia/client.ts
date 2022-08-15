@@ -1,5 +1,5 @@
 import { createApp, h } from "vue"
-import {createInertiaApp} from "@inertiajs/inertia-vue3"
+import { createInertiaApp } from "@inertiajs/inertia-vue3"
 import { ZiggyVue } from "ziggy-js/src/js/vue"
 import { Ziggy } from "@/helpers/ziggy"
 import { InertiaProgress } from "@inertiajs/progress"
