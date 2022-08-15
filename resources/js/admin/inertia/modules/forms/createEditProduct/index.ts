@@ -17,7 +17,11 @@ import WorksTab from "@/admin/inertia/components/products/createEdit/tabs/WorksT
 import InstrumentsTab from "@/admin/inertia/components/products/createEdit/tabs/InstrumentsTab.vue"
 import VariationsTab from "@/admin/inertia/components/products/createEdit/tabs/VariationsTab.vue"
 import OtherTab from "@/admin/inertia/components/products/createEdit/tabs/OtherTab.vue"
-import { randomId, yupNumberOrEmptyString, yupIntegerOrEmptyString } from "@/admin/inertia/utils"
+import {
+    randomId,
+    yupNumberOrEmptyString,
+    yupIntegerOrEmptyString,
+} from "@/admin/inertia/utils"
 import * as yup from "yup"
 import { CharTypeEnum } from "@/admin/inertia/modules/charTypes/CharType"
 import { RouteParams, useRoutesStore } from "@/admin/inertia/modules/routes"
@@ -269,36 +273,11 @@ export const getFormSchema = () => {
         related_name: yup.string().max(250).nullable(),
         work_name: yup.string().max(250).nullable(),
         instruments_name: yup.string().max(250).nullable(),
-        accessories: yup
-            .array()
-            .of(
-                getProductProductSchema()
-            )
-            .nullable(),
-        similar: yup
-            .array()
-            .of(
-                getProductProductSchema()
-            )
-            .nullable(),
-        related: yup
-            .array()
-            .of(
-                getProductProductSchema()
-            )
-            .nullable(),
-        works: yup
-            .array()
-            .of(
-                getProductProductSchema()
-            )
-            .nullable(),
-        instruments: yup
-            .array()
-            .of(
-                getProductProductSchema()
-            )
-            .nullable(),
+        accessories: yup.array().of(getProductProductSchema()).nullable(),
+        similar: yup.array().of(getProductProductSchema()).nullable(),
+        related: yup.array().of(getProductProductSchema()).nullable(),
+        works: yup.array().of(getProductProductSchema()).nullable(),
+        instruments: yup.array().of(getProductProductSchema()).nullable(),
         variations: yup.array().of(
             yup.object({
                 id: yupIntegerOrEmptyString(),
@@ -334,13 +313,14 @@ export const getImageSchema = () =>
         file: yup.mixed(),
     })
 
-export const getProductProductSchema = () => yup.object({
-    id: yup.number().integer().required(),
-    uuid: yup.string().nullable(),
-    name: yup.string().nullable(),
-    image: yup.string().nullable(),
-    price_rub_formatted: yup.string().nullable(),
-})
+export const getProductProductSchema = () =>
+    yup.object({
+        id: yup.number().integer().required(),
+        uuid: yup.string().nullable(),
+        name: yup.string().nullable(),
+        image: yup.string().nullable(),
+        price_rub_formatted: yup.string().nullable(),
+    })
 
 export const getWatchProductToFormCb =
     (setValues: (a: object) => any) => (product: Product | null) => {
