@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import Option from "@/admin/inertia/modules/common/Option"
 import { Field } from 'vee-validate'
+import {toRef} from "vue"
+
 
 const props = defineProps<{
     labelInput: string
@@ -13,39 +15,41 @@ const props = defineProps<{
     options: Array<Option>
     keepValue?: boolean
 }>()
+const nameInput = toRef(props, 'nameInput')
+const nameSelect = toRef(props, 'nameSelect')
 </script>
 
 <template>
     <div class="row mb-3">
         <div class="col-sm-5 text-end">
-            <label :for="props.nameInput" :class="props.labelInputClass">{{ props.labelInput }}:</label>
+            <label :for="nameInput" :class="props.labelInputClass">{{ props.labelInput }}:</label>
         </div>
         <div class="col-sm-2">
             <Field
                 v-slot="{field, meta}"
-                :name="props.nameInput"
+                :name="nameInput"
                 :keep-value="props.keepValue"
             >
                 <input
                     v-bind="field"
                     :class="['form-control', !meta.valid ? 'is-invalid' : '']"
                     :type="props.typeInput || 'text'"
-                    :id="props.nameInput"
+                    :id="nameInput"
                 />
             </Field>
         </div>
         <div class="col-sm-3 text-end">
-            <label :for="props.nameSelect" :class="props.labelSelectClass">{{ props.labelSelect }}:</label>
+            <label :for="nameSelect" :class="props.labelSelectClass">{{ props.labelSelect }}:</label>
         </div>
         <div class="col-sm-2">
             <Field
                 v-slot="{field, meta}"
-                :name="props.nameSelect"
+                :name="nameSelect"
                 :keep-value="props.keepValue"
             >
                 <select
                     :class="['form-control', !meta.valid ? 'is-invalid' : '' ]"
-                    :id="props.nameSelect"
+                    :id="nameSelect"
                     v-bind="field"
                 >
                     <option :value="undefined">(не установлено)</option>

@@ -1,6 +1,6 @@
 export default interface ProductListItem {
-    id: number | null
-    uuid: string | null
+    id: number
+    uuid: string
     name: string | null
     ordering: number | null
     is_active: boolean | null

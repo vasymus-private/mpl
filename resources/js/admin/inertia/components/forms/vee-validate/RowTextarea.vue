@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { Field } from 'vee-validate'
+import FormControlTextarea from '@/admin/inertia/components/forms/vee-validate/FormControlTextarea.vue'
+import {toRef} from "vue"
 
 
 const props = defineProps<{
@@ -8,26 +9,16 @@ const props = defineProps<{
     rows?: number
     keepValue?: boolean
 }>()
+const name = toRef(props, 'name')
 </script>
 
 <template>
     <div class="row mb-3">
         <div class="col-sm-5 text-end">
-            <label :for="props.name">{{ props.label }}:</label>
+            <label :for="name">{{ props.label }}:</label>
         </div>
         <div class="col-sm-7">
-            <Field
-                v-slot="{field, meta}"
-                :name="props.name"
-                :keep-value="props.keepValue"
-            >
-                <textarea
-                    v-bind="field"
-                    :class="['form-control', !meta.valid && meta.touched ? 'is-invalid' : '']"
-                    :id="props.name"
-                    :rows="props.rows || 3"
-                />
-            </Field>
+            <FormControlTextarea :name="name" :rows="rows" :keep-value="props.keepValue" />
         </div>
     </div>
 </template>

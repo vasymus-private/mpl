@@ -1,3 +1,6 @@
+import * as yup from "yup"
+
+
 export const isNumeric = (n: any): boolean =>
     !isNaN(parseFloat(n)) && isFinite(n)
 
@@ -26,3 +29,7 @@ export const blobToFile = (theBlob: Blob, fileName: string): File => {
     //Cast to a File() type
     return <File>theBlob
 }
+
+export const yupNumberOrEmptyString = () => yup.lazy(value => value === '' ? yup.string() : yup.number().nullable().optional())
+
+export const yupIntegerOrEmptyString = () => yup.lazy(value => value === '' ? yup.string() : yup.number().integer().nullable().optional())

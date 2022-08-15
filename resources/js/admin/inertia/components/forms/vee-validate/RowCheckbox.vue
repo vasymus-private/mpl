@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { Field } from 'vee-validate'
+import FormCheckInput from '@/admin/inertia/components/forms/vee-validate/FormCheckInput.vue'
+import {toRef} from "vue"
 
 
 const props = defineProps<{
@@ -7,30 +8,16 @@ const props = defineProps<{
     label: string
     keepValue?: boolean
 }>()
+const name = toRef(props, 'name')
 </script>
 
 <template>
     <div class="row mb-3">
         <div class="col-sm-5 text-end">
-            <label :for="props.name">{{ props.label }}:</label>
+            <label :for="name">{{ props.label }}:</label>
         </div>
         <div class="col-sm-7">
-            <Field
-                v-slot="{ field, meta }"
-                :name="props.name"
-                type="checkbox"
-                :value="true"
-                :keep-value="props.keepValue"
-            >
-                <input
-                    v-bind="field"
-                    :name="props.name"
-                    type="checkbox"
-                    :value="true"
-                    :id="props.name"
-                    :class="['form-check-input', !meta.valid && meta.touched ? 'is-invalid' : '']"
-                />
-            </Field>
+            <FormCheckInput :name="name" :keep-value="props.keepValue" />
         </div>
     </div>
 </template>

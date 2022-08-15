@@ -8509,6 +8509,10 @@ __webpack_require__.r(__webpack_exports__);
   });
   document.addEventListener("mousemove", resize, false);
   document.addEventListener("mouseup", function () {
+    if (!isClicked) {
+      return;
+    }
+
     isClicked = false;
 
     if (currentFlexBasis) {

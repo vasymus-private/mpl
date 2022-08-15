@@ -26,7 +26,7 @@ const onTabClick = (tab: AdminTab) => {
     history.replaceState(history.state, '', u.toString())
 }
 
-const {errors, handleSubmit, values, setValues, submitCount} = useForm({
+const {errors, handleSubmit, values, setValues, submitCount, isSubmitting} = useForm({
     validationSchema: getFormSchema(),
 })
 
@@ -76,7 +76,7 @@ onUnmounted(() => {
                 </ul>
             </div>
 
-            <form class="position-relative" @submit="onSubmit">
+            <form class="position-relative" @submit="onSubmit" novalidate>
                 <div class="tab-content">
                     <div
                         v-for="tab in formsStore.adminTabs"
@@ -92,7 +92,7 @@ onUnmounted(() => {
 
                 <div class="js-edit-footer-wrapper">
                     <div class="edit-item-footer js-edit-item-footer">
-                        <button type="submit" class="btn btn-primary mb-2 btn__save mr-2">Сохранить</button>
+                        <button type="submit" :disabled="isSubmitting" class="btn btn-primary mb-2 btn__save mr-2">Сохранить</button>
 
                         <Link :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id : productsStore.product?.category_id})" type="button" class="btn btn-info mb-2 btn__default">Отменить</Link>
 
