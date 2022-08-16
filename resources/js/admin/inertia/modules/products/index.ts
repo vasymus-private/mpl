@@ -22,7 +22,7 @@ import axios from "axios"
 import ProductUpdateResponse, {
     ProductUpdate,
 } from "@/admin/inertia/modules/products/ProductUpdateResponse"
-import {arrayToMap} from "@/admin/inertia/utils";
+import { arrayToMap } from "@/admin/inertia/utils"
 
 export const storeName = "products"
 
@@ -117,19 +117,26 @@ export const useProductsStore = defineStore(storeName, {
         setProductListItems(productListItems: Array<ProductListItem>): void {
             this._productListItems = productListItems
         },
-        addOrUpdateProductListItems(productListItems: Array<ProductListItem>): void {
-            let newProductListItemsById = arrayToMap<ProductListItem>(productListItems)
+        addOrUpdateProductListItems(
+            productListItems: Array<ProductListItem>
+        ): void {
+            let newProductListItemsById =
+                arrayToMap<ProductListItem>(productListItems)
 
-            this._productListItems = this._productListItems.map((item: ProductListItem) => {
-                let newProductListItem = newProductListItemsById[item.id]
+            this._productListItems = this._productListItems.map(
+                (item: ProductListItem) => {
+                    let newProductListItem = newProductListItemsById[item.id]
 
-                if (newProductListItem) {
-                    productListItems = productListItems.filter(it => it.id !== item.id)
-                    return newProductListItem
+                    if (newProductListItem) {
+                        productListItems = productListItems.filter(
+                            (it) => it.id !== item.id
+                        )
+                        return newProductListItem
+                    }
+
+                    return item
                 }
-
-                return item
-            })
+            )
 
             this._productListItems = [
                 ...this._productListItems,
