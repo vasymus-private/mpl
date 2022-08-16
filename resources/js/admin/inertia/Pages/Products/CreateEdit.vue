@@ -9,14 +9,14 @@ import {useForm} from 'vee-validate'
 import {
     getFormSchema,
     getWatchProductToFormCb,
-    useCreateEditProductFormsStore
+    useCreateEditProductFormStore
 } from "@/admin/inertia/modules/forms/createEditProduct"
 import Breadcrumbs from "@/admin/inertia/components/products/createEdit/parts/Breadcrumbs.vue"
 import Toolbar from "@/admin/inertia/components/products/createEdit/parts/Toolbar.vue"
 
 
 const productsStore = useProductsStore()
-const formsStore = useCreateEditProductFormsStore()
+const formsStore = useCreateEditProductFormStore()
 
 const onTabClick = (tab: AdminTab) => {
     let u = new URL(location.href)

@@ -22,6 +22,7 @@ import axios from "axios"
 import ProductUpdateResponse, {
     ProductUpdate,
 } from "@/admin/inertia/modules/products/ProductUpdateResponse"
+import {arrayToMap} from "@/admin/inertia/utils";
 
 export const storeName = "products"
 
@@ -115,6 +116,25 @@ export const useProductsStore = defineStore(storeName, {
     actions: {
         setProductListItems(productListItems: Array<ProductListItem>): void {
             this._productListItems = productListItems
+        },
+        addOrUpdateProductListItems(productListItems: Array<ProductListItem>): void {
+            let newProductListItemsById = arrayToMap<ProductListItem>(productListItems)
+
+            this._productListItems = this._productListItems.map((item: ProductListItem) => {
+                let newProductListItem = newProductListItemsById[item.id]
+
+                if (newProductListItem) {
+                    productListItems = productListItems.filter(it => it.id !== item.id)
+                    return newProductListItem
+                }
+
+                return item
+            })
+
+            this._productListItems = [
+                ...this._productListItems,
+                ...productListItems,
+            ]
         },
         setLinks(links: Links | null): void {
             this._links = links

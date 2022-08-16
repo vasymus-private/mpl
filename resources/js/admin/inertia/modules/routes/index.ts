@@ -203,6 +203,7 @@ export const routeNames = {
     ROUTE_ADMIN_EXPORT_PRODUCTS_STORE: "admin.export-products.store",
     ROUTE_ADMIN_EXPORT_PRODUCTS_DELETE: "admin.export-products.delete",
 
+    ROUTE_ADMIN_AJAX_PRODUCTS_BULK_UPDATE: 'admin-ajax.products.bulk.update',
     ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE: "admin-ajax.products.update",
     ROUTE_ADMIN_AJAX_SORT_COLUMNS: "admin-ajax.sort-columns",
     ROUTE_ADMIN_AJAX_HELPER: "admin-ajax.helper",

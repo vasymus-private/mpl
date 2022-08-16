@@ -24,6 +24,7 @@ Route::put('profiles/{admin}', [\App\Http\Controllers\Admin\Ajax\ProfileControll
 Route::post('show-order-busy', \App\Http\Controllers\Admin\Ajax\ShowOrderBusyController::class)->name('admin-ajax.show-order-busy');
 Route::post('ping-order-busy/{id}', \App\Http\Controllers\Admin\Ajax\PingOrderBusyController::class)->name('admin-ajax.ping-order-busy');
 
+Route::put('products-bulk', [\App\Http\Controllers\Admin\Ajax\ProductsBulkController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_PRODUCTS_BULK_UPDATE);
 Route::put('product/{admin_product}', [\App\Http\Controllers\Admin\Ajax\ProductsController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE);
 Route::put('sort-columns', \App\Http\Controllers\Admin\Ajax\SortColumnsController::class)->name(Constants::ROUTE_ADMIN_AJAX_SORT_COLUMNS);
 

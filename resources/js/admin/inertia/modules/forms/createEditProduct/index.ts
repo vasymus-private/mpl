@@ -26,13 +26,13 @@ import * as yup from "yup"
 import { CharTypeEnum } from "@/admin/inertia/modules/charTypes/CharType"
 import { RouteParams, useRoutesStore } from "@/admin/inertia/modules/routes"
 
-export const storeName = "forms"
+export const storeName = "createEditForm"
 
 interface State {
     _product: Partial<Product>
 }
 
-export const useCreateEditProductFormsStore = defineStore(storeName, {
+export const useCreateEditProductFormStore = defineStore(storeName, {
     state: (): State => {
         return {
             _product: {},

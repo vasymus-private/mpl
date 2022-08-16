@@ -14,14 +14,17 @@ import {Link} from "@inertiajs/inertia-vue3"
 import {ColumnType} from "@/admin/inertia/modules/columns/Column"
 import {useBrandsStore} from "@/admin/inertia/modules/brands"
 import {useForm} from 'vee-validate'
-import * as yup from "yup"
 import {useCurrenciesStore} from "@/admin/inertia/modules/currencies"
 import FormControlSelect from '@/admin/inertia/components/forms/vee-validate/FormControlSelect.vue'
 import FormControlInput from '@/admin/inertia/components/forms/vee-validate/FormControlInput.vue'
 import FormCheckInput from '@/admin/inertia/components/forms/vee-validate/FormCheckInput.vue'
 import FormControlTextarea from '@/admin/inertia/components/forms/vee-validate/FormControlTextarea.vue'
 import {useAvailabilityStatusesStore} from "@/admin/inertia/modules/availabilityStatuses"
-import { yupNumberOrEmptyString, yupIntegerOrEmptyString } from "@/admin/inertia/utils"
+import {
+    getValidationSchema,
+    getIndexForIdCb,
+    useIndexProductsFormStore
+} from "@/admin/inertia/modules/forms/indexProducts"
 
 
 const columnsStore = useColumnsStore()
@@ -31,6 +34,7 @@ const modalsStore = useModalsStore()
 const routesStore = useRoutesStore()
 const currenciesStore = useCurrenciesStore()
 const availabilitiesStore = useAvailabilityStatusesStore()
+const indexProductsForm = useIndexProductsFormStore()
 
 const selectAll = ref(false)
 const editMode = ref(false)
@@ -128,28 +132,12 @@ const toggleActive = (product: ProductListItem) => {
     console.log('---product', product)
 }
 
-const {errors, handleSubmit, values, setValues, submitCount, validate} = useForm<{products: Array<Partial<ProductListItem>>}>({
-    validationSchema: yup.object({
-        products: yup.array().of(
-            yup.object({
-                id: yup.number().required(),
-                ordering: yupIntegerOrEmptyString(),
-                name: yup.string().max(250).nullable(),
-                is_active: yup.boolean(),
-                unit: yup.string().max(250).nullable(),
-                price_purchase: yupNumberOrEmptyString(),
-                price_purchase_currency_id: yupIntegerOrEmptyString(),
-                price_retail: yupNumberOrEmptyString(),
-                price_retail_currency_id: yupIntegerOrEmptyString(),
-                availability_status_id: yupIntegerOrEmptyString(),
-                admin_comment: yup.string().max(250).nullable(),
-            })
-        )
-    }),
+const {errors, handleSubmit, values, setValues, validate, isSubmitting} = useForm<{products: Array<Partial<ProductListItem>>}>({
+    validationSchema: getValidationSchema(),
     keepValuesOnUnmount: true,
 })
 
-const indexForId = (id: number) => values.products.findIndex(item => item.id === id)
+const indexForId = getIndexForIdCb(values)
 
 watch(() => productStore.productListItems, (products: Array<ProductListItem> = []) => {
     setValues({
@@ -182,7 +170,7 @@ const manualCheck = (id: number) => {
     if (editMode.value) {
         return
     }
-    console.log('--- manual check', id)
+
     const isChecked = !!checkedProducts.value.find(_id => +id === +_id)
     if (isChecked) {
         checkedProducts.value = checkedProducts.value.filter(_id => +id !== id)
@@ -192,10 +180,7 @@ const manualCheck = (id: number) => {
     checkedProducts.value = [...checkedProducts.value, id]
 }
 
-const onSubmit = handleSubmit((values, actions) => {
-    console.log('--- values', values)
-    console.log('--- actions', actions)
-})
+const onSubmit = handleSubmit(indexProductsForm.getSubmitCb(checkedProducts))
 </script>
 
 <template>
@@ -429,7 +414,7 @@ const onSubmit = handleSubmit((values, actions) => {
             />
 
             <footer key="edit-mode-on" v-if="editMode" class="footer edit-item-footer">
-                <button form="form-products-list" type="submit" class="btn btn-info">Сохранить</button>
+                <button form="form-products-list" type="submit" :disabled="isSubmitting" class="btn btn-info">Сохранить</button>
                 <button @click="cancel" type="button" class="btn btn-warning">Отменить</button>
             </footer>
             <footer key="edit-mode-off" v-else class="footer edit-item-footer">
