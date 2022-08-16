@@ -13,13 +13,13 @@ class ProductsBulkController extends BaseAdminController
     public function update(ProductsBulkRequest $request)
     {
         $payload = $request->productsPayload();
-        $ids = collect($payload)->map(fn(ProductListUpdateDTO $item) => $item->id)->toArray();
+        $ids = collect($payload)->map(fn (ProductListUpdateDTO $item) => $item->id)->toArray();
 
         $productsToUpdate = Product::query()
             ->whereIn('id', $ids)
             ->get();
 
-        $productsToUpdate->each(function(Product $product) use($payload) {
+        $productsToUpdate->each(function (Product $product) use ($payload) {
             $toUpdate = $payload[$product->id];
             $product->name = $toUpdate->name;
             $product->save();

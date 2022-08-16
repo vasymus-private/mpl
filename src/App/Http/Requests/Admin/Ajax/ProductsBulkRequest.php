@@ -38,7 +38,7 @@ class ProductsBulkRequest extends FormRequest
      */
     public function productsPayload(): array
     {
-        return collect($this->products)->reduce(function(array $acc, array $item) {
+        return collect($this->products)->reduce(function (array $acc, array $item) {
             $dto = new ProductListUpdateDTO([
                 'id' => (int)$item['id'],
                 'name' => (string)$item['name'],

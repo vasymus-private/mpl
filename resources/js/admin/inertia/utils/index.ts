@@ -41,13 +41,19 @@ export const yupIntegerOrEmptyString = () =>
             : yup.number().integer().nullable().optional()
     )
 
-export const arrayToMap = <Obj extends Object = Object>(arr: Array<Obj>, key: string = 'id'): Partial<Record<string|number, Obj>> => {
-    return arr.reduce((acc: Partial<Record<string|number, Obj>>, item: Obj) => {
-        let k = item[key]
+export const arrayToMap = <Obj extends Object = Object>(
+    arr: Array<Obj>,
+    key: string = "id"
+): Partial<Record<string | number, Obj>> => {
+    return arr.reduce(
+        (acc: Partial<Record<string | number, Obj>>, item: Obj) => {
+            let k = item[key]
 
-        return {
-            ...acc,
-            [k]: item
-        }
-    }, {})
+            return {
+                ...acc,
+                [k]: item,
+            }
+        },
+        {}
+    )
 }
