@@ -13,7 +13,7 @@ export default interface ProductListItem {
     price_retail_formatted: string | null
     admin_comment: string | null
     availability_status_id: number | null
-    brand_id: number | null
     availability_status_name: string | null
     availability_status_name_short: string | null
+    brand_id: number | null
 }

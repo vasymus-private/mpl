@@ -10,6 +10,11 @@ use Domain\Products\Models\Product\Product;
 
 class ProductsBulkController extends BaseAdminController
 {
+    /**
+     * @param \App\Http\Requests\Admin\Ajax\ProductsBulkRequest $request
+     *
+     * @return \Illuminate\Contracts\Support\Responsable
+     */
     public function update(ProductsBulkRequest $request)
     {
         $payload = $request->productsPayload();
@@ -21,7 +26,11 @@ class ProductsBulkController extends BaseAdminController
 
         $productsToUpdate->each(function (Product $product) use ($payload) {
             $toUpdate = $payload[$product->id];
-            $product->name = $toUpdate->name;
+            $product->forceFill(
+                collect($toUpdate->all())
+                    ->except('id')
+                    ->all()
+            );
             $product->save();
         });
 

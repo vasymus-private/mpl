@@ -173,14 +173,17 @@ const manualCheck = (id: number) => {
 
     const isChecked = !!checkedProducts.value.find(_id => +id === +_id)
     if (isChecked) {
-        checkedProducts.value = checkedProducts.value.filter(_id => +id !== id)
+        checkedProducts.value = checkedProducts.value.filter(_id => +_id !== +id)
         return
     }
 
     checkedProducts.value = [...checkedProducts.value, id]
 }
 
-const onSubmit = handleSubmit(indexProductsForm.getSubmitCb(checkedProducts))
+const onSubmit = handleSubmit(async (values, ctx) => {
+    await indexProductsForm.submitIndexProducts(checkedProducts, values, ctx)
+    editMode.value = false
+})
 </script>
 
 <template>
