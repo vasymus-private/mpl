@@ -10,13 +10,22 @@ import { Ref } from "vue"
 import ProductListItem from "@/admin/inertia/modules/products/ProductListItem"
 import { defineStore } from "pinia"
 import { useProductsStore } from "@/admin/inertia/modules/products"
-import {ErrorResponse, Errors, ProductsResponse, Values} from "@/admin/inertia/modules/forms/indexProducts/types"
+import {
+    ErrorResponse,
+    Errors,
+    ProductsResponse,
+    Values,
+} from "@/admin/inertia/modules/forms/indexProducts/types"
 
 export const storeName = "indexProductsForm"
 
 export const useIndexProductsFormStore = defineStore(storeName, {
     actions: {
-        async submitIndexProducts(checkedProducts: Ref<Array<number>>, values: Values, { setErrors }): Promise<void> {
+        async submitIndexProducts(
+            checkedProducts: Ref<Array<number>>,
+            values: Values,
+            { setErrors }
+        ): Promise<void> {
             try {
                 let productsToUpdate = values.products.filter((item) =>
                     checkedProducts.value.includes(item.id)
@@ -31,7 +40,10 @@ export const useIndexProductsFormStore = defineStore(storeName, {
                         routeNames.ROUTE_ADMIN_AJAX_PRODUCTS_BULK_UPDATE
                     ),
                     {
-                        products: arrayToMap<Partial<ProductListItem>>(productsToUpdate),
+                        products:
+                            arrayToMap<Partial<ProductListItem>>(
+                                productsToUpdate
+                            ),
                     }
                 )
 
@@ -79,10 +91,15 @@ const parseIdErrorProductResponse = (key: string): number => +key.split(".")[1]
 const parseFieldErrorProductResponse = (key: string): string =>
     key.split(".")[2]
 
-export const getIndexForIdCb = (values: Values): (id: number) => number|-1 => (id: number) =>
-    values.products.findIndex((item) => item.id === id)
+export const getIndexForIdCb =
+    (values: Values): ((id: number) => number | -1) =>
+    (id: number) =>
+        values.products.findIndex((item) => item.id === id)
 
-const errorsToErrorFields = (errors: Errors, indexForId: (id: number) => number|-1) => {
+const errorsToErrorFields = (
+    errors: Errors,
+    indexForId: (id: number) => number | -1
+) => {
     let errorFields = {}
 
     for (let key in errors) {
@@ -92,8 +109,7 @@ const errorsToErrorFields = (errors: Errors, indexForId: (id: number) => number|
 
         errorFields = {
             ...errorFields,
-            [`products[${index}].${fieldName}`]:
-                errors[key].join(", "),
+            [`products[${index}].${fieldName}`]: errors[key].join(", "),
         }
     }
 
