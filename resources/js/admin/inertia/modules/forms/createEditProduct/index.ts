@@ -25,7 +25,7 @@ import {
 import * as yup from "yup"
 import { CharTypeEnum } from "@/admin/inertia/modules/charTypes/CharType"
 import { RouteParams, useRoutesStore } from "@/admin/inertia/modules/routes"
-import {Values} from "@/admin/inertia/modules/forms/createEditProduct/types"
+import { Values } from "@/admin/inertia/modules/forms/createEditProduct/types"
 
 export const storeName = "createEditForm"
 
@@ -161,9 +161,7 @@ export const useCreateEditProductFormStore = defineStore(storeName, {
         setProductForm(product: Partial<Product>) {
             this._product = product
         },
-        async submitCreateEditProduct(values: Values, { setErrors }) {
-
-        }
+        async submitCreateEditProduct(values: Values, { setErrors }) {},
     },
 })
 
