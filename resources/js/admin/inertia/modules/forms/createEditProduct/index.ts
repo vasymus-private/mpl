@@ -25,6 +25,7 @@ import {
 import * as yup from "yup"
 import { CharTypeEnum } from "@/admin/inertia/modules/charTypes/CharType"
 import { RouteParams, useRoutesStore } from "@/admin/inertia/modules/routes"
+import {Values} from "@/admin/inertia/modules/forms/createEditProduct/types"
 
 export const storeName = "createEditForm"
 
@@ -160,6 +161,9 @@ export const useCreateEditProductFormStore = defineStore(storeName, {
         setProductForm(product: Partial<Product>) {
             this._product = product
         },
+        async submitCreateEditProduct(values: Values, { setErrors }) {
+
+        }
     },
 })
 
@@ -182,82 +186,40 @@ export const getEmptyVariation = (): Variation => ({
     additionalImages: [],
 })
 
+/**
+ * @see Values
+ */
 export const getFormSchema = () => {
     return yup.object({
         id: yupIntegerOrEmptyString(),
         uuid: yup.string().nullable(),
-        is_active: yup.boolean(),
-        is_with_variations: yup.boolean(),
         name: yup.string().required().max(250),
         slug: yup.string().required().max(250),
         ordering: yupIntegerOrEmptyString(),
+        is_active: yup.boolean(),
+        unit: yup.string().max(250).nullable(),
+        price_purchase: yupNumberOrEmptyString(),
+        price_purchase_currency_id: yupIntegerOrEmptyString(),
+        price_retail: yupNumberOrEmptyString(),
+        price_retail_currency_id: yupIntegerOrEmptyString(),
+        admin_comment: yup.string().max(250).nullable(),
+        availability_status_id: yupIntegerOrEmptyString(),
         brand_id: yupIntegerOrEmptyString(),
+        category_id: yupIntegerOrEmptyString(),
+        relatedCategoriesIds: yup.array().of(yup.number().integer()).nullable(),
+        is_with_variations: yup.boolean(),
         coefficient: yupNumberOrEmptyString(),
         coefficient_description: yup.string().max(250).nullable(),
         coefficient_description_show: yup.boolean(),
         coefficient_variation_description: yup.string().max(250).nullable(),
         price_name: yup.string().max(250).nullable(),
-        infoPrices: yup
-            .array()
-            .of(
-                yup.object({
-                    id: yupIntegerOrEmptyString(),
-                    name: yup.string().required().max(250),
-                    price: yupNumberOrEmptyString(),
-                })
-            )
-            .nullable(),
-        admin_comment: yup.string().max(250).nullable(),
-        instructions: yup.array().of(
-            yup.object({
-                id: yupIntegerOrEmptyString(),
-                name: yup.string().required().max(250),
-                file_name: yup.string().required().max(250),
-                url: yup.string(),
-                order_column: yupIntegerOrEmptyString(),
-                file: yup.mixed(),
-            })
-        ),
-        price_purchase: yupNumberOrEmptyString(),
-        price_purchase_currency_id: yupIntegerOrEmptyString(),
-        price_retail: yupNumberOrEmptyString(),
-        price_retail_currency_id: yupIntegerOrEmptyString(),
-        unit: yup.string().max(250).nullable(),
-        availability_status_id: yupIntegerOrEmptyString(),
         preview: yup.string().max(65000).nullable(),
         description: yup.string().max(65000).nullable(),
-        mainImage: getImageSchema().nullable(),
-        additionalImages: yup.array().of(getImageSchema()),
-        charCategories: yup.array().of(
-            yup.object({
-                id: yupIntegerOrEmptyString(),
-                uuid: yup.string().required(),
-                name: yup.string().required().max(250),
-                product_id: yup.number().integer().truncate(),
-                ordering: yupIntegerOrEmptyString(),
-            })
-        ),
-        chars: yup.array().of(
-            yup.object({
-                id: yupIntegerOrEmptyString(),
-                uuid: yup.string().required(),
-                name: yup.string().required().max(250),
-                value: yup.string().required().max(250),
-                product_id: yupIntegerOrEmptyString(),
-                type_id: yup.number().integer().truncate(),
-                category_id: yupIntegerOrEmptyString(),
-                category_uuid: yup.string().required(),
-                ordering: yupIntegerOrEmptyString(),
-            })
-        ),
-        tempCharCategoryName: yup.string().max(250).nullable(),
-        tempChar: yup
-            .object({
-                name: yup.string().max(250).nullable(),
-                type_id: yupIntegerOrEmptyString(),
-                category_uuid: yup.string().nullable(),
-            })
-            .nullable(),
+        accessory_name: yup.string().max(250).nullable(),
+        similar_name: yup.string().max(250).nullable(),
+        related_name: yup.string().max(250).nullable(),
+        work_name: yup.string().max(250).nullable(),
+        instruments_name: yup.string().max(250).nullable(),
         seo: yup
             .object({
                 title: yup.string().max(250).nullable(),
@@ -266,39 +228,26 @@ export const getFormSchema = () => {
                 description: yup.string().max(65000).nullable(),
             })
             .nullable(),
-        category_id: yupIntegerOrEmptyString(),
-        relatedCategoriesIds: yup.array().of(yup.number().integer()),
-        accessory_name: yup.string().max(250).nullable(),
-        similar_name: yup.string().max(250).nullable(),
-        related_name: yup.string().max(250).nullable(),
-        work_name: yup.string().max(250).nullable(),
-        instruments_name: yup.string().max(250).nullable(),
+        infoPrices: yup.array().of(getInfoPriceSchema()).nullable(),
+        instructions: yup.array().of(getInstructionSchema()).nullable(),
+        mainImage: getImageSchema().nullable(),
+        additionalImages: yup.array().of(getImageSchema()).nullable(),
+        charCategories: yup.array().of(getCharCategorySchema()).nullable(),
         accessories: yup.array().of(getProductProductSchema()).nullable(),
         similar: yup.array().of(getProductProductSchema()).nullable(),
         related: yup.array().of(getProductProductSchema()).nullable(),
         works: yup.array().of(getProductProductSchema()).nullable(),
         instruments: yup.array().of(getProductProductSchema()).nullable(),
-        variations: yup.array().of(
-            yup.object({
-                id: yupIntegerOrEmptyString(),
-                uuid: yup.string().nullable(),
-                is_active: yup.boolean(),
-                name: yup.string().required().max(250),
-                ordering: yupIntegerOrEmptyString(),
-                coefficient: yupNumberOrEmptyString(),
-                coefficient_description: yup.string().max(250).nullable(),
-                price_purchase: yupNumberOrEmptyString(),
-                price_purchase_currency_id: yupIntegerOrEmptyString(),
-                price_retail: yupNumberOrEmptyString(),
-                price_retail_currency_id: yupIntegerOrEmptyString(),
-                unit: yup.string().max(250).nullable(),
-                availability_status_id: yupIntegerOrEmptyString(),
-                preview: yup.string().max(65000).nullable(),
-                mainImage: getImageSchema().nullable(),
-                additionalImages: yup.array().of(getImageSchema()),
-                is_checked: yup.boolean(),
+        variations: yup.array().of(getVariationSchema()).nullable(),
+        chars: yup.array().of(getCharSchema()).nullable(),
+        tempCharCategoryName: yup.string().max(250).nullable(),
+        tempChar: yup
+            .object({
+                name: yup.string().max(250).nullable(),
+                type_id: yupIntegerOrEmptyString(),
+                category_uuid: yup.string().nullable(),
             })
-        ),
+            .nullable(),
     })
 }
 
@@ -320,6 +269,66 @@ export const getProductProductSchema = () =>
         name: yup.string().nullable(),
         image: yup.string().nullable(),
         price_rub_formatted: yup.string().nullable(),
+    })
+
+export const getInfoPriceSchema = () =>
+    yup.object({
+        id: yupIntegerOrEmptyString(),
+        name: yup.string().required().max(250),
+        price: yupNumberOrEmptyString(),
+    })
+
+export const getInstructionSchema = () =>
+    yup.object({
+        id: yupIntegerOrEmptyString(),
+        name: yup.string().required().max(250),
+        file_name: yup.string().required().max(250),
+        url: yup.string(),
+        order_column: yupIntegerOrEmptyString(),
+        file: yup.mixed(),
+    })
+
+export const getVariationSchema = () =>
+    yup.object({
+        id: yupIntegerOrEmptyString(),
+        uuid: yup.string().nullable(),
+        is_active: yup.boolean(),
+        name: yup.string().required().max(250),
+        ordering: yupIntegerOrEmptyString(),
+        coefficient: yupNumberOrEmptyString(),
+        coefficient_description: yup.string().max(250).nullable(),
+        price_purchase: yupNumberOrEmptyString(),
+        price_purchase_currency_id: yupIntegerOrEmptyString(),
+        price_retail: yupNumberOrEmptyString(),
+        price_retail_currency_id: yupIntegerOrEmptyString(),
+        unit: yup.string().max(250).nullable(),
+        availability_status_id: yupIntegerOrEmptyString(),
+        preview: yup.string().max(65000).nullable(),
+        mainImage: getImageSchema().nullable(),
+        additionalImages: yup.array().of(getImageSchema()),
+        is_checked: yup.boolean(),
+    })
+
+export const getCharCategorySchema = () =>
+    yup.object({
+        id: yupIntegerOrEmptyString(),
+        uuid: yup.string().required(),
+        name: yup.string().required().max(250),
+        product_id: yup.number().integer().truncate(),
+        ordering: yupIntegerOrEmptyString(),
+    })
+
+export const getCharSchema = () =>
+    yup.object({
+        id: yupIntegerOrEmptyString(),
+        uuid: yup.string().required(),
+        name: yup.string().required().max(250),
+        value: yup.string().required().max(250),
+        product_id: yupIntegerOrEmptyString(),
+        type_id: yup.number().integer().truncate(),
+        category_id: yupIntegerOrEmptyString(),
+        category_uuid: yup.string().required(),
+        ordering: yupIntegerOrEmptyString(),
     })
 
 export const getWatchProductToFormCb =

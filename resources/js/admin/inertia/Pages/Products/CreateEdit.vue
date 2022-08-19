@@ -13,10 +13,11 @@ import {
 } from "@/admin/inertia/modules/forms/createEditProduct"
 import Breadcrumbs from "@/admin/inertia/components/products/createEdit/parts/Breadcrumbs.vue"
 import Toolbar from "@/admin/inertia/components/products/createEdit/parts/Toolbar.vue"
+import {Values} from "@/admin/inertia/modules/forms/createEditProduct/types"
 
 
 const productsStore = useProductsStore()
-const formsStore = useCreateEditProductFormStore()
+const createEditProductFormsStore = useCreateEditProductFormStore()
 
 const onTabClick = (tab: AdminTab) => {
     let u = new URL(location.href)
@@ -26,23 +27,24 @@ const onTabClick = (tab: AdminTab) => {
     history.replaceState(history.state, '', u.toString())
 }
 
-const {errors, handleSubmit, values, setValues, submitCount, isSubmitting} = useForm({
+const {errors, handleSubmit, values, setValues, submitCount, isSubmitting} = useForm<Values>({
     validationSchema: getFormSchema(),
 })
 
 watch(values, newValues => {
-    formsStore.setProductForm(newValues)
+    createEditProductFormsStore.setProductForm(newValues)
 })
 
 watch(() => productsStore.product, getWatchProductToFormCb(setValues))
 
-const onSubmit = handleSubmit((values, actions) => {
+const onSubmit = handleSubmit(async (values, actions) => {
+    await createEditProductFormsStore.submitCreateEditProduct(values, actions)
     console.log('--- values', values)
     console.log('--- actions', actions)
 })
 
 onUnmounted(() => {
-    formsStore.setProductForm({})
+    createEditProductFormsStore.setProductForm({})
 })
 </script>
 
@@ -52,7 +54,7 @@ onUnmounted(() => {
             <Breadcrumbs />
 
             <h1 class="h2 adm-title">
-                {{ formsStore.productFormTitle }}
+                {{ createEditProductFormsStore.productFormTitle }}
             </h1>
 
             <Toolbar />
@@ -60,9 +62,9 @@ onUnmounted(() => {
             <div class="js-nav-tabs-wrapper">
                 <div class="js-nav-tabs-marker"></div>
                 <ul class="nav nav-tabs item-tabs" role="tablist">
-                    <li v-for="tab in formsStore.adminTabs" :key="`${tab.value}-tab`" class="nav-item" role="presentation">
+                    <li v-for="tab in createEditProductFormsStore.adminTabs" :key="`${tab.value}-tab`" class="nav-item" role="presentation">
                         <button
-                            :class="['nav-link', tab.value === formsStore.activeTab ? 'active' : '']"
+                            :class="['nav-link', tab.value === createEditProductFormsStore.activeTab ? 'active' : '']"
                             :id="`${tab.value}-tab`"
                             data-bs-toggle="tab"
                             :data-bs-target="`#${tab.value}-content`"
@@ -79,9 +81,9 @@ onUnmounted(() => {
             <form class="position-relative" @submit="onSubmit" novalidate>
                 <div class="tab-content">
                     <div
-                        v-for="tab in formsStore.adminTabs"
+                        v-for="tab in createEditProductFormsStore.adminTabs"
                         :key="`${tab.value}-content`"
-                        :class="['tab-pane', 'p-3', 'fade', tab.value === formsStore.activeTab ? 'show active' : '']"
+                        :class="['tab-pane', 'p-3', 'fade', tab.value === createEditProductFormsStore.activeTab ? 'show active' : '']"
                         :id="`${tab.value}-content`"
                         role="tabpanel"
                         :aria-labelledby="`${tab.value}-tab`"
