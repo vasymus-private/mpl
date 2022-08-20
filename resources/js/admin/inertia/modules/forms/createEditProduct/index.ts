@@ -165,7 +165,6 @@ export const useCreateEditProductFormStore = defineStore(storeName, {
             const isCreating = isCreatingProductRoute()
 
             if (isCreating) {
-
             }
         },
     },
