@@ -161,7 +161,13 @@ export const useCreateEditProductFormStore = defineStore(storeName, {
         setProductForm(product: Partial<Product>) {
             this._product = product
         },
-        async submitCreateEditProduct(values: Values, { setErrors }) {},
+        async submitCreateEditProduct(values: Values, { setErrors }) {
+            const isCreating = isCreatingProductRoute()
+
+            if (isCreating) {
+
+            }
+        },
     },
 })
 

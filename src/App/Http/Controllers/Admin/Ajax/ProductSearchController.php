@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Ajax;
 
 use App\Http\Controllers\Admin\BaseAdminController;
-use App\Http\Resources\Admin\ProductSearchResource;
+use App\Http\Resources\Admin\Ajax\ProductSearchResource;
 use Domain\Products\Actions\GetCategoryAndSubtreeIdsAction;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Http\Request;

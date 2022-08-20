@@ -3,12 +3,34 @@
 namespace App\Http\Controllers\Admin\Ajax;
 
 use App\Http\Controllers\Admin\BaseAdminController;
-use App\Http\Requests\Admin\Ajax\UpdateProductsRequest;
-use App\Http\Resources\Admin\ProductUpdateResource;
+use App\Http\Requests\Admin\Ajax\CreateProductRequest;
+use App\Http\Requests\Admin\Ajax\UpdateProductRequest;
+use App\Http\Resources\Admin\ProductResource;
+use Domain\Products\Models\Product\Product;
 
 class ProductsController extends BaseAdminController
 {
-    public function update(UpdateProductsRequest $request)
+    /**
+     * @param \App\Http\Requests\Admin\Ajax\CreateProductRequest $request
+     *
+     * @return \Illuminate\Contracts\Support\Responsable
+     */
+    public function store(CreateProductRequest $request)
+    {
+        /** @var \Domain\Products\Models\Product\Product $product */
+        $product = $request->admin_product;
+
+        return new ProductResource(
+            Product::query()->findOrFail($product->id)
+        );
+    }
+
+    /**
+     * @param \App\Http\Requests\Admin\Ajax\UpdateProductRequest $request
+     *
+     * @return \Illuminate\Contracts\Support\Responsable
+     */
+    public function update(UpdateProductRequest $request)
     {
         /** @var \Domain\Products\Models\Product\Product $product */
         $product = $request->admin_product;
@@ -123,6 +145,8 @@ class ProductsController extends BaseAdminController
 
         $product->save();
 
-        return new ProductUpdateResource($product);
+        return new ProductResource(
+            Product::query()->findOrFail($product->id)
+        );
     }
 }

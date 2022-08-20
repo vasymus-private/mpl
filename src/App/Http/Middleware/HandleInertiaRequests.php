@@ -2,13 +2,13 @@
 
 namespace App\Http\Middleware;
 
-use App\Http\Resources\Admin\AvailabilityStatusResource;
-use App\Http\Resources\Admin\BillStatusResource;
-use App\Http\Resources\Admin\CharTypeResource;
-use App\Http\Resources\Admin\CurrencyResource;
-use App\Http\Resources\Admin\OrderImportanceResource;
-use App\Http\Resources\Admin\OrderStatusResource;
-use App\Http\Resources\Admin\PaymentMethodResource;
+use App\Http\Resources\Admin\Inertia\AvailabilityStatusResource;
+use App\Http\Resources\Admin\Inertia\BillStatusResource;
+use App\Http\Resources\Admin\Inertia\CharTypeResource;
+use App\Http\Resources\Admin\Inertia\CurrencyResource;
+use App\Http\Resources\Admin\Inertia\OrderImportanceResource;
+use App\Http\Resources\Admin\Inertia\OrderStatusResource;
+use App\Http\Resources\Admin\Inertia\PaymentMethodResource;
 use Closure;
 use DateInterval;
 use Domain\Common\Models\Currency;
