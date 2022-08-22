@@ -37,8 +37,8 @@ watch(values, newValues => {
 
 watch(() => productsStore.product, getWatchProductToFormCb(setValues))
 
-const onSubmit = handleSubmit(async (values, actions) => {
-    await createEditProductFormsStore.submitCreateEditProduct(values, actions)
+const onSubmit = handleSubmit((values, actions) => {
+    createEditProductFormsStore.submitCreateEditProduct(values, actions)
 })
 
 onUnmounted(() => {

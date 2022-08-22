@@ -7,8 +7,8 @@ import {useColumnsStore, isSortableColumn, ColumnName} from "@/admin/inertia/mod
 import {ref, watch} from "vue"
 import {VariationForm} from "@/admin/inertia/modules/forms/createEditProduct/types"
 import {randomId} from "@/admin/inertia/utils"
-import Image from "@/admin/inertia/modules/common/Image"
-import {copyImage} from "@/admin/inertia/modules/common/utils"
+import Media from "@/admin/inertia/modules/common/Media"
+import {copyMedia} from "@/admin/inertia/modules/common/utils"
 import {useCurrenciesStore} from "@/admin/inertia/modules/currencies"
 import {useAvailabilityStatusesStore} from "@/admin/inertia/modules/availabilityStatuses";
 
@@ -46,12 +46,12 @@ const toggleActive = (variation: FieldEntry<VariationForm>, idx: number) => {
     })
 }
 const copyVariation = async (variation: FieldEntry<VariationForm>) => {
-    let mainImage = await copyImage(variation.value.mainImage)
-    let additionalImages: Array<Image> = []
+    let mainImage = await copyMedia(variation.value.mainImage)
+    let additionalImages: Array<Media> = []
     for (const image of variation.value.additionalImages) {
         additionalImages = [
             ...additionalImages,
-            await copyImage(image)
+            await copyMedia(image)
         ]
     }
     push({

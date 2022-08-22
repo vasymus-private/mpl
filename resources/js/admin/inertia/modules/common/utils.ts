@@ -1,10 +1,10 @@
-import Image from "@/admin/inertia/modules/common/Image"
+import Media from "@/admin/inertia/modules/common/Media"
 import axios from "axios"
 import { blobToFile, randomId } from "@/admin/inertia/utils"
 
-export const copyImage = async (
-    original: Image | null
-): Promise<Image | null> => {
+export const copyMedia = async (
+    original: Media | null
+): Promise<Media | null> => {
     if (!original || !original.url) {
         return null
     }

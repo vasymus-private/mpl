@@ -1,6 +1,5 @@
 import { CharCategory } from "@/admin/inertia/modules/products/Char"
 import Meta from "@/admin/inertia/modules/common/Meta"
-import Image from "@/admin/inertia/modules/common/Image"
 import Media from "@/admin/inertia/modules/common/Media"
 
 export default interface Product {
@@ -38,8 +37,8 @@ export default interface Product {
     seo: Seo | null
     infoPrices: Array<InfoPrice> | null
     instructions: Array<Media> | null
-    mainImage: Image | null
-    additionalImages: Array<Image>
+    mainImage: Media | null
+    additionalImages: Array<Media>
     charCategories: Array<CharCategory>
     accessories: Array<OtherProduct>
     similar: Array<OtherProduct>
@@ -138,6 +137,6 @@ export interface Variation {
     price_retail: number | null
     price_retail_currency_id: number | null
     preview: string | null
-    mainImage: Image | null
-    additionalImages: Array<Image>
+    mainImage: Media | null
+    additionalImages: Array<Media>
 }

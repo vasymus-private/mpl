@@ -12,10 +12,10 @@ import { defineStore } from "pinia"
 import { useProductsStore } from "@/admin/inertia/modules/products"
 import {
     ErrorResponse,
-    Errors,
     ProductsResponse,
     Values,
 } from "@/admin/inertia/modules/forms/indexProducts/types"
+import {Errors} from "@/admin/inertia/modules/common/types";
 
 export const storeName = "indexProductsForm"
 
@@ -99,7 +99,7 @@ export const getIndexForIdCb =
 const errorsToErrorFields = (
     errors: Errors,
     indexForId: (id: number) => number | -1
-) => {
+): Record<string, string | undefined> => {
     let errorFields = {}
 
     for (let key in errors) {

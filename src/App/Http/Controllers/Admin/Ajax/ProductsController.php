@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\Ajax\CreateProductRequest;
 use App\Http\Requests\Admin\Ajax\UpdateProductRequest;
 use App\Http\Resources\Admin\ProductResource;
 use Domain\Products\Models\Product\Product;
+use Illuminate\Http\Request;
 
 class ProductsController extends BaseAdminController
 {
@@ -15,8 +16,10 @@ class ProductsController extends BaseAdminController
      *
      * @return \Illuminate\Contracts\Support\Responsable
      */
-    public function store(CreateProductRequest $request)
+    public function store(Request $request)
     {
+        dd($request->all());
+
         /** @var \Domain\Products\Models\Product\Product $product */
         $product = $request->admin_product;
 
@@ -30,8 +33,11 @@ class ProductsController extends BaseAdminController
      *
      * @return \Illuminate\Contracts\Support\Responsable
      */
-    public function update(UpdateProductRequest $request)
+    public function update(Request $request)
     {
+        dd($request->all());
+
+
         /** @var \Domain\Products\Models\Product\Product $product */
         $product = $request->admin_product;
 

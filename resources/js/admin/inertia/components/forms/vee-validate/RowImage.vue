@@ -3,7 +3,7 @@ import {useField} from "vee-validate"
 import {randomId} from "@/admin/inertia/utils"
 import {toRef, ref} from 'vue'
 import { useDropZone } from '@vueuse/core'
-import Image from "@/admin/inertia/modules/common/Image"
+import Media from "@/admin/inertia/modules/common/Media"
 
 
 const props = defineProps<{
@@ -13,7 +13,7 @@ const props = defineProps<{
 }>()
 
 const name = toRef(props, 'name')
-const {value, setValue, meta} = useField<Partial<Image>>(name, undefined, {keepValueOnUnmount: props.keepValue})
+const {value, setValue, meta} = useField<Partial<Media>>(name, undefined, {keepValueOnUnmount: props.keepValue})
 const dropZoneRef = ref<HTMLDivElement>(null)
 const inputFileRef = ref<HTMLInputElement>(null)
 

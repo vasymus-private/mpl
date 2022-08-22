@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {useFieldArray, Field} from "vee-validate"
-import Image from "@/admin/inertia/modules/common/Image"
+import Media from "@/admin/inertia/modules/common/Media"
 import {ref, toRef} from "vue"
 import {maxBy} from "lodash"
 import {randomId} from "@/admin/inertia/utils"
@@ -13,7 +13,7 @@ const props = defineProps<{
     keepValue?: boolean
 }>()
 const name = toRef(props, 'name')
-const {fields, push, remove, swap} = useFieldArray<Image>(name)
+const {fields, push, remove, swap} = useFieldArray<Media>(name)
 const inputFileRef = ref<HTMLInputElement>(null)
 const dropZoneRef = ref<HTMLDivElement>(null)
 

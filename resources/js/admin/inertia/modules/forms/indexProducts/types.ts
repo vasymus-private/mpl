@@ -1,4 +1,5 @@
 import ProductListItem from "@/admin/inertia/modules/products/ProductListItem"
+import {Errors} from "@/admin/inertia/modules/common/types";
 
 export interface ProductsResponse {
     data: Array<ProductListItem>
@@ -6,9 +7,7 @@ export interface ProductsResponse {
 export interface Values {
     products: Array<Partial<ProductListItem>>
 }
-export interface Errors {
-    [key: string]: Array<string>
-}
+
 
 export interface ErrorResponse {
     data: {

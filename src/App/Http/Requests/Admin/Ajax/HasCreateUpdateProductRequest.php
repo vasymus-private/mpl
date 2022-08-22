@@ -2,23 +2,28 @@
 
 namespace App\Http\Requests\Admin\Ajax;
 
+use Domain\Common\Models\Currency;
+use Domain\Products\Models\AvailabilityStatus;
+use Domain\Products\Models\Brand;
+use Domain\Products\Models\Category;
+
 /**
  * @property string|null $name
  * @property string|null $slug
- * @property number|null $ordering
+ * @property integer|null $ordering
  * @property bool|null $is_active
  * @property string|null $unit
- * @property number|null $price_purchase
- * @property number|null $price_purchase_currency_id
- * @property number|null $price_retail
- * @property number|null $price_retail_currency_id
+ * @property float|null $price_purchase
+ * @property integer|null $price_purchase_currency_id
+ * @property float|null $price_retail
+ * @property integer|null $price_retail_currency_id
  * @property string|null $admin_comment
- * @property number|null $availability_status_id
- * @property number|null $parent_id
- * @property number|null $brand_id
- * @property number|null $category_id
+ * @property integer|null $availability_status_id
+ * @property integer|null $parent_id
+ * @property integer|null $brand_id
+ * @property integer|null $category_id
  * @property bool|null $is_with_variations
- * @property number|null $coefficient
+ * @property float|null $coefficient
  * @property string|null $coefficient_description
  * @property bool|null $coefficient_description_show
  * @property string|null $coefficient_variation_description
@@ -52,38 +57,52 @@ trait HasCreateUpdateProductRequest
     public function rules()
     {
         return [
-            'name' => 'nullable|string',
-            'slug' => 'nullable|string',
-            'ordering' => 'nullable|number',
+            'name' => 'required|string|max:250',
+            'slug' => 'required|string|max:250',
+            'ordering' => 'nullable|integer',
             'is_active' => 'nullable|boolean',
-            'unit' => 'nullable|string',
-            'price_purchase' => 'nullable|number',
-            'price_purchase_currency_id' => 'nullable|number',
-            'price_retail' => 'nullable|number',
-            'price_retail_currency_id' => 'nullable|number',
-            'admin_comment' => 'nullable|string',
-            'availability_status_id' => 'nullable|number',
-            'parent_id' => 'nullable|number',
-            'brand_id' => 'nullable|number',
-            'category_id' => 'nullable|number',
+            'unit' => 'nullable|string|max:250',
+            'price_purchase' => 'nullable|numeric',
+            'price_purchase_currency_id' => sprintf('nullable|integer|in:%s', Currency::cachedAll()->implode('id', ',')),
+            'price_retail' => 'nullable|numeric',
+            'price_retail_currency_id' => sprintf('nullable|integer|in:%s', Currency::cachedAll()->implode('id', ',')),
+            'admin_comment' => 'nullable|string|max:250',
+            'availability_status_id' => sprintf('nullable|integer|in:%s', AvailabilityStatus::cachedAll()->implode('id', ',')),
+            'brand_id' => sprintf('nullable|integer|in:%s', Brand::cachedAll()->implode('id', '')),
+            'category_id' => sprintf('nullable|integer|in:%s', Category::cachedAll()->implode('id', '')),
             'is_with_variations' => 'nullable|boolean',
-            'coefficient' => 'nullable|number',
-            'coefficient_description' => 'nullable|string',
+            'coefficient' => 'nullable|numeric',
+            'coefficient_description' => 'nullable|string|max:250',
             'coefficient_description_show' => 'nullable|boolean',
-            'coefficient_variation_description' => 'nullable|string',
-            'price_name' => 'nullable|string',
-            'preview' => 'nullable|string',
-            'description' => 'nullable|string',
-            'accessory_name' => 'nullable|string',
-            'similar_name' => 'nullable|string',
-            'related_name' => 'nullable|string',
-            'work_name' => 'nullable|string',
-            'instruments_name' => 'nullable|string',
+            'coefficient_variation_description' => 'nullable|string|max:250',
+            'price_name' => 'nullable|string|max:250',
+
+            'preview' => 'nullable|string|max:65000',
+            'description' => 'nullable|string|max:65000',
+
+            'accessory_name' => 'nullable|string|max:250',
+            'similar_name' => 'nullable|string|max:250',
+            'related_name' => 'nullable|string|max:250',
+            'work_name' => 'nullable|string|max:250',
+            'instruments_name' => 'nullable|string|max:250',
+
             'seo' => 'nullable|array',
-            'seo.title' => 'nullable|string',
-            'seo.h1' => 'nullable|string',
-            'seo.keywords' => 'nullable|string',
-            'seo.description' => 'nullable|string',
+            'seo.title' => 'nullable|string|max:250',
+            'seo.h1' => 'nullable|string|max:250',
+            'seo.keywords' => 'nullable|string|max:65000',
+            'seo.description' => 'nullable|string|max:65000',
+
+            'infoPrices' => 'nullable|array',
+            'infoPrices.*.id' => 'nullable|integer',
+            'infoPrices.*.name' => 'nullable|string|max:250',
+            'infoPrices.*.price' => 'nullable|numeric',
+
+            'instructions' => 'nullable|array',
+            'instructions.*.id' => 'nullable|integer',
+            'instructions.*.uuid' => 'string',
+            'instructions.*.name' => 'nullable|string|max:250',
+            'instructions.*.file_name' => 'nullable|string|max:250',
+            'instructions.*.order_column' => 'nullable|integer',
         ];
     }
 }
