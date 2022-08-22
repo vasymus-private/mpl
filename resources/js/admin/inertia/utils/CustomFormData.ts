@@ -1,3 +1,1 @@
-export class CustomFormData extends FormData {
-
-}
+export class CustomFormData extends FormData {}

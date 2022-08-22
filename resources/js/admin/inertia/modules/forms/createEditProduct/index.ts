@@ -24,13 +24,18 @@ import {
 } from "@/admin/inertia/utils"
 import * as yup from "yup"
 import { CharTypeEnum } from "@/admin/inertia/modules/charTypes/CharType"
-import {getRouteUrl, routeNames, RouteParams, useRoutesStore} from "@/admin/inertia/modules/routes"
+import {
+    getRouteUrl,
+    routeNames,
+    RouteParams,
+    useRoutesStore,
+} from "@/admin/inertia/modules/routes"
 import { Values } from "@/admin/inertia/modules/forms/createEditProduct/types"
-import axios, {AxiosError} from "axios";
-import {ErrorResponse} from "@/admin/inertia/modules/forms/indexProducts/types";
-import {getIndexForIdCb} from "@/admin/inertia/modules/forms/indexProducts";
-import {Errors} from "@/admin/inertia/modules/common/types";
-import {CustomFormData} from "@/admin/inertia/utils/CustomFormData";
+import axios, { AxiosError } from "axios"
+import { ErrorResponse } from "@/admin/inertia/modules/forms/indexProducts/types"
+import { getIndexForIdCb } from "@/admin/inertia/modules/forms/indexProducts"
+import { Errors } from "@/admin/inertia/modules/common/types"
+import { CustomFormData } from "@/admin/inertia/utils/CustomFormData"
 
 export const storeName = "createEditForm"
 
@@ -166,7 +171,10 @@ export const useCreateEditProductFormStore = defineStore(storeName, {
         setProductForm(product: Partial<Product>) {
             this._product = product
         },
-        async submitCreateEditProduct(values: Values, { setErrors }): Promise<void> {
+        async submitCreateEditProduct(
+            values: Values,
+            { setErrors }
+        ): Promise<void> {
             const isCreating = isCreatingProductRoute()
 
             try {
@@ -175,27 +183,25 @@ export const useCreateEditProductFormStore = defineStore(storeName, {
                 const formData = valuesToFormData(values)
 
                 if (isCreating) {
-                    const response = await axios.post<{data: Product}>(
-                        getRouteUrl(
-                            routeNames.ROUTE_ADMIN_AJAX_PRODUCTS_STORE
-                        ),
+                    const response = await axios.post<{ data: Product }>(
+                        getRouteUrl(routeNames.ROUTE_ADMIN_AJAX_PRODUCTS_STORE),
                         formData,
                         {
-                            headers: { "Content-Type": "multipart/form-data" }
+                            headers: { "Content-Type": "multipart/form-data" },
                         }
                     )
                     product = response.data.data
                 }
                 if (!isCreating) {
-                    formData.append('_method', 'PUT')
-                    const response = await axios.post<{data: Product}>(
+                    formData.append("_method", "PUT")
+                    const response = await axios.post<{ data: Product }>(
                         getRouteUrl(
                             routeNames.ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE,
                             values.id
                         ),
                         formData,
                         {
-                            headers: { "Content-Type": "multipart/form-data" }
+                            headers: { "Content-Type": "multipart/form-data" },
                         }
                     )
                     product = response.data.data
@@ -205,7 +211,6 @@ export const useCreateEditProductFormStore = defineStore(storeName, {
                 productsStore.setProduct(product)
             } catch (e) {
                 if (e instanceof AxiosError) {
-
                     const {
                         data: { errors },
                     }: ErrorResponse = e.response
@@ -495,13 +500,15 @@ export const getWatchProductToFormCb =
         })
     }
 
-const errorsToErrorFields = (errors: Errors): Record<string, string | undefined> => {
+const errorsToErrorFields = (
+    errors: Errors
+): Record<string, string | undefined> => {
     let errorFields = {}
 
     for (let key in errors) {
         errorFields = {
             ...errorFields,
-            [key]: errors[key].join(' ')
+            [key]: errors[key].join(" "),
         }
     }
 
@@ -511,41 +518,80 @@ const errorsToErrorFields = (errors: Errors): Record<string, string | undefined>
 const valuesToFormData = (values: Values): FormData => {
     const formData = new CustomFormData()
 
-    let keys: Array<keyof Values> = ['name', 'slug', 'ordering', 'unit', 'price_purchase', 'price_purchase_currency_id', 'price_retail', 'price_retail_currency_id', 'admin_comment', 'availability_status_id', 'brand_id', 'category_id', 'coefficient', 'coefficient_description', 'coefficient_description_show', 'coefficient_variation_description', 'price_name', 'preview', 'description', 'accessory_name', 'similar_name', 'related_name', 'work_name', 'instruments_name']
+    let keys: Array<keyof Values> = [
+        "name",
+        "slug",
+        "ordering",
+        "unit",
+        "price_purchase",
+        "price_purchase_currency_id",
+        "price_retail",
+        "price_retail_currency_id",
+        "admin_comment",
+        "availability_status_id",
+        "brand_id",
+        "category_id",
+        "coefficient",
+        "coefficient_description",
+        "coefficient_description_show",
+        "coefficient_variation_description",
+        "price_name",
+        "preview",
+        "description",
+        "accessory_name",
+        "similar_name",
+        "related_name",
+        "work_name",
+        "instruments_name",
+    ]
 
-    keys.forEach(key => {
-        formData.set(key, values[key] ? `${values[key]}` : '')
+    keys.forEach((key) => {
+        formData.set(key, values[key] ? `${values[key]}` : "")
     })
 
     if (values.is_active != null) {
-        formData.set('is_active', `${+values.is_active}`)
+        formData.set("is_active", `${+values.is_active}`)
     }
 
-    values.relatedCategoriesIds.forEach(id => formData.append('relatedCategoriesIds', `${id}`))
+    values.relatedCategoriesIds.forEach((id) =>
+        formData.append("relatedCategoriesIds", `${id}`)
+    )
 
     if (values.is_with_variations != null) {
-        formData.set('is_with_variations', `${+values.is_with_variations}`)
+        formData.set("is_with_variations", `${+values.is_with_variations}`)
     }
 
     if (values.seo) {
-        formData.append('seo[title]', `${values.seo.title}`)
-        formData.append('seo[h1]', `${values.seo.h1}`)
-        formData.append('seo[keywords]', `${values.seo.keywords}`)
-        formData.append('seo[description]', `${values.seo.description}`)
+        formData.append("seo[title]", `${values.seo.title}`)
+        formData.append("seo[h1]", `${values.seo.h1}`)
+        formData.append("seo[keywords]", `${values.seo.keywords}`)
+        formData.append("seo[description]", `${values.seo.description}`)
     }
 
     values.infoPrices.forEach((infoPrice, index) => {
-        formData.append(`infoPrices[${index}][id]`, infoPrice.id ? `${infoPrice.id}` : '')
+        formData.append(
+            `infoPrices[${index}][id]`,
+            infoPrice.id ? `${infoPrice.id}` : ""
+        )
         formData.append(`infoPrices[${index}][name]`, `${infoPrice.name}`)
         formData.append(`infoPrices[${index}][price]`, `${infoPrice.price}`)
     })
 
     values.instructions.forEach((instruction, index) => {
-        formData.append(`instructions[${index}][id]`, instruction.id ? `${instruction.id}` : '')
+        formData.append(
+            `instructions[${index}][id]`,
+            instruction.id ? `${instruction.id}` : ""
+        )
         formData.append(`instructions[${index}][uuid]`, `${instruction.uuid}`)
         formData.append(`instructions[${index}][name]`, `${instruction.name}`)
-        formData.append(`instructions[${index}][file_name]`, `${instruction.file_name}`)
-        formData.append(`instructions[${index}][order_column]`, `${instruction.order_column}`)
+        formData.append(
+            `instructions[${index}][file_name]`,
+            `${instruction.file_name}`
+        )
+        formData.append(
+            `instructions[${index}][order_column]`,
+            `${instruction.order_column}`
+        )
 
         if (instruction.file) {
             formData.append(`instructions[${index}][file]`, instruction.file)
@@ -553,11 +599,17 @@ const valuesToFormData = (values: Values): FormData => {
     })
 
     if (values.mainImage) {
-        formData.append(`mainImage[id]`, values.mainImage.id ? `${values.mainImage.id}` : '')
+        formData.append(
+            `mainImage[id]`,
+            values.mainImage.id ? `${values.mainImage.id}` : ""
+        )
         formData.append(`mainImage[uuid]`, `${values.mainImage.uuid}`)
         formData.append(`mainImage[name]`, `${values.mainImage.name}`)
         formData.append(`mainImage[file_name]`, `${values.mainImage.file_name}`)
-        formData.append(`mainImage[order_column]`, `${values.mainImage.order_column}`)
+        formData.append(
+            `mainImage[order_column]`,
+            `${values.mainImage.order_column}`
+        )
 
         if (values.mainImage.file) {
             formData.append(`mainImage[file]`, values.mainImage.file)
@@ -565,11 +617,26 @@ const valuesToFormData = (values: Values): FormData => {
     }
 
     values.additionalImages.forEach((image, index) => {
-        formData.append(`additionalImages[${index}][id]`, image.id ? `${image.id}` : '')
-        formData.append(`additionalImages[${index}][uuid]`, image.uuid ? `${image.uuid}` : '')
-        formData.append(`additionalImages[${index}][name]`, image.name ? `${image.name}` : '')
-        formData.append(`additionalImages[${index}][file_name]`, image.file_name ? `${image.file_name}` : '')
-        formData.append(`additionalImages[${index}][order_column]`, image.order_column ? `${image.order_column}` : '')
+        formData.append(
+            `additionalImages[${index}][id]`,
+            image.id ? `${image.id}` : ""
+        )
+        formData.append(
+            `additionalImages[${index}][uuid]`,
+            image.uuid ? `${image.uuid}` : ""
+        )
+        formData.append(
+            `additionalImages[${index}][name]`,
+            image.name ? `${image.name}` : ""
+        )
+        formData.append(
+            `additionalImages[${index}][file_name]`,
+            image.file_name ? `${image.file_name}` : ""
+        )
+        formData.append(
+            `additionalImages[${index}][order_column]`,
+            image.order_column ? `${image.order_column}` : ""
+        )
 
         if (image.file) {
             formData.append(`additionalImages[${index}][file]`, image.file)
@@ -577,83 +644,203 @@ const valuesToFormData = (values: Values): FormData => {
     })
 
     values.charCategories.forEach((charCategory, index) => {
-        formData.append(`charCategories[${index}][id]`, charCategory.id ? `${charCategory.id}` : '')
-        formData.append(`charCategories[${index}][uuid]`, charCategory.uuid ? `${charCategory.uuid}` : '')
-        formData.append(`charCategories[${index}][name]`, charCategory.name ? `${charCategory.name}` : '')
-        formData.append(`charCategories[${index}][ordering]`, charCategory.ordering ? `${charCategory.ordering}` : '')
+        formData.append(
+            `charCategories[${index}][id]`,
+            charCategory.id ? `${charCategory.id}` : ""
+        )
+        formData.append(
+            `charCategories[${index}][uuid]`,
+            charCategory.uuid ? `${charCategory.uuid}` : ""
+        )
+        formData.append(
+            `charCategories[${index}][name]`,
+            charCategory.name ? `${charCategory.name}` : ""
+        )
+        formData.append(
+            `charCategories[${index}][ordering]`,
+            charCategory.ordering ? `${charCategory.ordering}` : ""
+        )
     })
 
     values.chars.forEach((char, index) => {
-        formData.append(`chars[${index}][id]`, char.id ? `${char.id}` : '')
-        formData.append(`chars[${index}][name]`, char.name ? `${char.name}` : '')
-        formData.append(`chars[${index}][value]`, char.value ? `${char.value}` : '')
-        formData.append(`chars[${index}][type_id]`, char.type_id ? `${char.type_id}` : '')
-        formData.append(`chars[${index}][ordering]`, char.ordering ? `${char.ordering}` : '')
-        formData.append(`chars[${index}][category_id]`, char.category_id ? `${char.category_id}` : '')
-        formData.append(`chars[${index}][category_uuid]`, char.category_uuid ? `${char.category_uuid}` : '')
+        formData.append(`chars[${index}][id]`, char.id ? `${char.id}` : "")
+        formData.append(
+            `chars[${index}][name]`,
+            char.name ? `${char.name}` : ""
+        )
+        formData.append(
+            `chars[${index}][value]`,
+            char.value ? `${char.value}` : ""
+        )
+        formData.append(
+            `chars[${index}][type_id]`,
+            char.type_id ? `${char.type_id}` : ""
+        )
+        formData.append(
+            `chars[${index}][ordering]`,
+            char.ordering ? `${char.ordering}` : ""
+        )
+        formData.append(
+            `chars[${index}][category_id]`,
+            char.category_id ? `${char.category_id}` : ""
+        )
+        formData.append(
+            `chars[${index}][category_uuid]`,
+            char.category_uuid ? `${char.category_uuid}` : ""
+        )
     })
 
-    values.accessories.forEach(otherProduct => {
+    values.accessories.forEach((otherProduct) => {
         formData.append(`accessories[]`, `${otherProduct.id}`)
     })
 
-    values.similar.forEach(otherProduct => {
+    values.similar.forEach((otherProduct) => {
         formData.append(`similar[]`, `${otherProduct.id}`)
     })
 
-    values.related.forEach(otherProduct => {
+    values.related.forEach((otherProduct) => {
         formData.append(`related[]`, `${otherProduct.id}`)
     })
 
-    values.works.forEach(otherProduct => {
+    values.works.forEach((otherProduct) => {
         formData.append(`works[]`, `${otherProduct.id}`)
     })
 
-    values.instruments.forEach(otherProduct => {
+    values.instruments.forEach((otherProduct) => {
         formData.append(`instruments[]`, `${otherProduct.id}`)
     })
 
     values.variations.forEach((variation, index) => {
-        formData.append(`variations[${index}][id]`, variation.id ? `${variation.id}` : '')
-        formData.append(`variations[${index}][uuid]`, variation.uuid ? `${variation.uuid}` : '')
-        formData.append(`variations[${index}][name]`, variation.name ? `${variation.name}` : '')
+        formData.append(
+            `variations[${index}][id]`,
+            variation.id ? `${variation.id}` : ""
+        )
+        formData.append(
+            `variations[${index}][uuid]`,
+            variation.uuid ? `${variation.uuid}` : ""
+        )
+        formData.append(
+            `variations[${index}][name]`,
+            variation.name ? `${variation.name}` : ""
+        )
 
         if (variation.is_active != null) {
-            formData.set(`variations[${index}][is_active]`, `${+variation.is_active}`)
+            formData.set(
+                `variations[${index}][is_active]`,
+                `${+variation.is_active}`
+            )
         }
 
-        formData.append(`variations[${index}][ordering]`, variation.ordering ? `${variation.ordering}` : '')
-        formData.append(`variations[${index}][coefficient]`, variation.coefficient ? `${variation.coefficient}` : '')
-        formData.append(`variations[${index}][coefficient_description]`, variation.coefficient_description ? `${variation.coefficient_description}` : '')
-        formData.append(`variations[${index}][unit]`, variation.unit ? `${variation.unit}` : '')
-        formData.append(`variations[${index}][availability_status_id]`, variation.availability_status_id ? `${variation.availability_status_id}` : '')
-        formData.append(`variations[${index}][price_purchase]`, variation.price_purchase ? `${variation.price_purchase}` : '')
-        formData.append(`variations[${index}][price_purchase_currency_id]`, variation.price_purchase_currency_id ? `${variation.price_purchase_currency_id}` : '')
-        formData.append(`variations[${index}][price_retail]`, variation.price_retail ? `${variation.price_retail}` : '')
-        formData.append(`variations[${index}][price_retail_currency_id]`, variation.price_retail_currency_id ? `${variation.price_retail_currency_id}` : '')
-        formData.append(`variations[${index}][preview]`, variation.preview ? `${variation.preview}` : '')
+        formData.append(
+            `variations[${index}][ordering]`,
+            variation.ordering ? `${variation.ordering}` : ""
+        )
+        formData.append(
+            `variations[${index}][coefficient]`,
+            variation.coefficient ? `${variation.coefficient}` : ""
+        )
+        formData.append(
+            `variations[${index}][coefficient_description]`,
+            variation.coefficient_description
+                ? `${variation.coefficient_description}`
+                : ""
+        )
+        formData.append(
+            `variations[${index}][unit]`,
+            variation.unit ? `${variation.unit}` : ""
+        )
+        formData.append(
+            `variations[${index}][availability_status_id]`,
+            variation.availability_status_id
+                ? `${variation.availability_status_id}`
+                : ""
+        )
+        formData.append(
+            `variations[${index}][price_purchase]`,
+            variation.price_purchase ? `${variation.price_purchase}` : ""
+        )
+        formData.append(
+            `variations[${index}][price_purchase_currency_id]`,
+            variation.price_purchase_currency_id
+                ? `${variation.price_purchase_currency_id}`
+                : ""
+        )
+        formData.append(
+            `variations[${index}][price_retail]`,
+            variation.price_retail ? `${variation.price_retail}` : ""
+        )
+        formData.append(
+            `variations[${index}][price_retail_currency_id]`,
+            variation.price_retail_currency_id
+                ? `${variation.price_retail_currency_id}`
+                : ""
+        )
+        formData.append(
+            `variations[${index}][preview]`,
+            variation.preview ? `${variation.preview}` : ""
+        )
 
         if (variation.mainImage) {
-            formData.append(`variations[${index}][mainImage][id]`, variation.mainImage.id ? `${variation.mainImage.id}` : '')
-            formData.append(`variations[${index}][mainImage][uuid]`, variation.mainImage.uuid ? `${variation.mainImage.uuid}` : '')
-            formData.append(`variations[${index}][mainImage][name]`, variation.mainImage.name ? `${variation.mainImage.name}` : '')
-            formData.append(`variations[${index}][mainImage][file_name]`, variation.mainImage.file_name ? `${variation.mainImage.file_name}` : '')
-            formData.append(`variations[${index}][mainImage][order_column]`, variation.mainImage.order_column ? `${variation.mainImage.order_column}` : '')
+            formData.append(
+                `variations[${index}][mainImage][id]`,
+                variation.mainImage.id ? `${variation.mainImage.id}` : ""
+            )
+            formData.append(
+                `variations[${index}][mainImage][uuid]`,
+                variation.mainImage.uuid ? `${variation.mainImage.uuid}` : ""
+            )
+            formData.append(
+                `variations[${index}][mainImage][name]`,
+                variation.mainImage.name ? `${variation.mainImage.name}` : ""
+            )
+            formData.append(
+                `variations[${index}][mainImage][file_name]`,
+                variation.mainImage.file_name
+                    ? `${variation.mainImage.file_name}`
+                    : ""
+            )
+            formData.append(
+                `variations[${index}][mainImage][order_column]`,
+                variation.mainImage.order_column
+                    ? `${variation.mainImage.order_column}`
+                    : ""
+            )
 
             if (variation.mainImage.file) {
-                formData.append(`variations[${index}][mainImage][file]`, variation.mainImage.file)
+                formData.append(
+                    `variations[${index}][mainImage][file]`,
+                    variation.mainImage.file
+                )
             }
         }
 
         variation.additionalImages.forEach((image, i) => {
-            formData.append(`variations[${index}][additionalImages][${i}][id]`, image.id ? `${image.id}` : '')
-            formData.append(`variations[${index}][additionalImages][${i}][uuid]`, image.uuid ? `${image.uuid}` : '')
-            formData.append(`variations[${index}][additionalImages][${i}][name]`, image.name ? `${image.name}` : '')
-            formData.append(`variations[${index}][additionalImages][${i}][file_name]`, image.file_name ? `${image.file_name}` : '')
-            formData.append(`variations[${index}][additionalImages][${i}][order_column]`, image.order_column ? `${image.order_column}` : '')
+            formData.append(
+                `variations[${index}][additionalImages][${i}][id]`,
+                image.id ? `${image.id}` : ""
+            )
+            formData.append(
+                `variations[${index}][additionalImages][${i}][uuid]`,
+                image.uuid ? `${image.uuid}` : ""
+            )
+            formData.append(
+                `variations[${index}][additionalImages][${i}][name]`,
+                image.name ? `${image.name}` : ""
+            )
+            formData.append(
+                `variations[${index}][additionalImages][${i}][file_name]`,
+                image.file_name ? `${image.file_name}` : ""
+            )
+            formData.append(
+                `variations[${index}][additionalImages][${i}][order_column]`,
+                image.order_column ? `${image.order_column}` : ""
+            )
 
             if (image.file) {
-                formData.append(`variations[${index}][additionalImages][${i}][file]`, image.file)
+                formData.append(
+                    `variations[${index}][additionalImages][${i}][file]`,
+                    image.file
+                )
             }
         })
     })
