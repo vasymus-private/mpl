@@ -511,45 +511,43 @@ const errorsToErrorFields = (errors: Errors): Record<string, string | undefined>
 const valuesToFormData = (values: Values): FormData => {
     const formData = new CustomFormData()
 
-    let keys: Array<keyof Values> = ['name', 'slug', 'ordering', 'unit', 'price_purchase', 'price_purchase_currency_id', 'price_retail', 'price_retail_currency_id', 'admin_comment', 'availability_status_id', 'brand_id', 'category_id', 'coefficient', 'coefficient_description', 'coefficient_description_show', 'coefficient_variation_description', 'price_name', 'preview', 'description', 'accessory_name', 'similar_name', 'related_name', 'work_name', 'instruments_name']
+    let stringOrNumberKeys: Array<keyof Values> = ['name', 'slug', 'ordering', 'unit', 'price_purchase', 'price_purchase_currency_id', 'price_retail', 'price_retail_currency_id', 'admin_comment', 'availability_status_id', 'brand_id', 'category_id', 'coefficient', 'coefficient_description', 'coefficient_variation_description', 'price_name', 'preview', 'description', 'accessory_name', 'similar_name', 'related_name', 'work_name', 'instruments_name']
 
-    keys.forEach(key => {
-        formData.set(key, values[key] ? `${values[key]}` : '')
+    stringOrNumberKeys.forEach(key => {
+        let value = values[key] as string|number|null|undefined
+        formData.setStringOrNumber(key, value)
     })
 
-    if (values.is_active != null) {
-        formData.set('is_active', `${+values.is_active}`)
-    }
+    let booleanKeys: Array<keyof Values> = ['is_active', 'is_with_variations', 'coefficient_description_show']
 
-    values.relatedCategoriesIds.forEach(id => formData.append('relatedCategoriesIds', `${id}`))
+    booleanKeys.forEach(key => {
+        let value = values[key] as boolean|null|undefined
+        formData.setBoolean(key, value)
+    })
 
-    if (values.is_with_variations != null) {
-        formData.set('is_with_variations', `${+values.is_with_variations}`)
-    }
+    formData.appendArray('relatedCategoriesIds', values.relatedCategoriesIds)
 
     if (values.seo) {
-        formData.append('seo[title]', `${values.seo.title}`)
-        formData.append('seo[h1]', `${values.seo.h1}`)
-        formData.append('seo[keywords]', `${values.seo.keywords}`)
-        formData.append('seo[description]', `${values.seo.description}`)
+        formData.appendStringOrNumber('seo[title]', values.seo.title)
+        formData.appendStringOrNumber('seo[h1]', values.seo.h1)
+        formData.appendStringOrNumber('seo[keywords]', values.seo.keywords)
+        formData.appendStringOrNumber('seo[description]', values.seo.description)
     }
 
     values.infoPrices.forEach((infoPrice, index) => {
-        formData.append(`infoPrices[${index}][id]`, infoPrice.id ? `${infoPrice.id}` : '')
-        formData.append(`infoPrices[${index}][name]`, `${infoPrice.name}`)
-        formData.append(`infoPrices[${index}][price]`, `${infoPrice.price}`)
+        formData.appendStringOrNumber(`infoPrices[${index}][id]`, infoPrice.id)
+        formData.appendStringOrNumber(`infoPrices[${index}][name]`, infoPrice.name)
+        formData.appendStringOrNumber(`infoPrices[${index}][price]`, infoPrice.price)
     })
 
     values.instructions.forEach((instruction, index) => {
-        formData.append(`instructions[${index}][id]`, instruction.id ? `${instruction.id}` : '')
-        formData.append(`instructions[${index}][uuid]`, `${instruction.uuid}`)
-        formData.append(`instructions[${index}][name]`, `${instruction.name}`)
-        formData.append(`instructions[${index}][file_name]`, `${instruction.file_name}`)
-        formData.append(`instructions[${index}][order_column]`, `${instruction.order_column}`)
+        formData.appendStringOrNumber(`instructions[${index}][id]`, instruction.id)
+        formData.appendStringOrNumber(`instructions[${index}][uuid]`, instruction.uuid)
+        formData.appendStringOrNumber(`instructions[${index}][name]`, instruction.name)
+        formData.appendStringOrNumber(`instructions[${index}][file_name]`, instruction.file_name)
+        formData.appendStringOrNumber(`instructions[${index}][order_column]`, instruction.order_column)
 
-        if (instruction.file) {
-            formData.append(`instructions[${index}][file]`, instruction.file)
-        }
+        formData.appendFile(`instructions[${index}][file]`, instruction.file)
     })
 
     if (values.mainImage) {
