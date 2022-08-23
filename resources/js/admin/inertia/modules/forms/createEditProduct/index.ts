@@ -551,65 +551,47 @@ const valuesToFormData = (values: Values): FormData => {
     })
 
     if (values.mainImage) {
-        formData.append(`mainImage[id]`, values.mainImage.id ? `${values.mainImage.id}` : '')
-        formData.append(`mainImage[uuid]`, `${values.mainImage.uuid}`)
-        formData.append(`mainImage[name]`, `${values.mainImage.name}`)
-        formData.append(`mainImage[file_name]`, `${values.mainImage.file_name}`)
-        formData.append(`mainImage[order_column]`, `${values.mainImage.order_column}`)
+        formData.appendStringOrNumber(`mainImage[id]`, values.mainImage.id)
+        formData.appendStringOrNumber(`mainImage[uuid]`, values.mainImage.uuid)
+        formData.appendStringOrNumber(`mainImage[name]`, values.mainImage.name)
+        formData.appendStringOrNumber(`mainImage[file_name]`, values.mainImage.file_name)
+        formData.appendStringOrNumber(`mainImage[order_column]`, values.mainImage.order_column)
 
-        if (values.mainImage.file) {
-            formData.append(`mainImage[file]`, values.mainImage.file)
-        }
+        formData.appendFile(`mainImage[file]`, values.mainImage.file)
     }
 
     values.additionalImages.forEach((image, index) => {
-        formData.append(`additionalImages[${index}][id]`, image.id ? `${image.id}` : '')
-        formData.append(`additionalImages[${index}][uuid]`, image.uuid ? `${image.uuid}` : '')
-        formData.append(`additionalImages[${index}][name]`, image.name ? `${image.name}` : '')
-        formData.append(`additionalImages[${index}][file_name]`, image.file_name ? `${image.file_name}` : '')
-        formData.append(`additionalImages[${index}][order_column]`, image.order_column ? `${image.order_column}` : '')
+        formData.appendStringOrNumber(`additionalImages[${index}][id]`, image.id)
+        formData.appendStringOrNumber(`additionalImages[${index}][uuid]`, image.uuid)
+        formData.appendStringOrNumber(`additionalImages[${index}][name]`, image.name)
+        formData.appendStringOrNumber(`additionalImages[${index}][file_name]`, image.file_name)
+        formData.appendStringOrNumber(`additionalImages[${index}][order_column]`, image.order_column)
 
-        if (image.file) {
-            formData.append(`additionalImages[${index}][file]`, image.file)
-        }
+        formData.appendFile(`additionalImages[${index}][file]`, image.file)
     })
 
     values.charCategories.forEach((charCategory, index) => {
-        formData.append(`charCategories[${index}][id]`, charCategory.id ? `${charCategory.id}` : '')
-        formData.append(`charCategories[${index}][uuid]`, charCategory.uuid ? `${charCategory.uuid}` : '')
-        formData.append(`charCategories[${index}][name]`, charCategory.name ? `${charCategory.name}` : '')
-        formData.append(`charCategories[${index}][ordering]`, charCategory.ordering ? `${charCategory.ordering}` : '')
+        formData.appendStringOrNumber(`charCategories[${index}][id]`, charCategory.id)
+        formData.appendStringOrNumber(`charCategories[${index}][uuid]`, charCategory.uuid)
+        formData.appendStringOrNumber(`charCategories[${index}][name]`, charCategory.name)
+        formData.appendStringOrNumber(`charCategories[${index}][ordering]`, charCategory.ordering)
     })
 
     values.chars.forEach((char, index) => {
-        formData.append(`chars[${index}][id]`, char.id ? `${char.id}` : '')
-        formData.append(`chars[${index}][name]`, char.name ? `${char.name}` : '')
-        formData.append(`chars[${index}][value]`, char.value ? `${char.value}` : '')
-        formData.append(`chars[${index}][type_id]`, char.type_id ? `${char.type_id}` : '')
-        formData.append(`chars[${index}][ordering]`, char.ordering ? `${char.ordering}` : '')
-        formData.append(`chars[${index}][category_id]`, char.category_id ? `${char.category_id}` : '')
-        formData.append(`chars[${index}][category_uuid]`, char.category_uuid ? `${char.category_uuid}` : '')
+        formData.appendStringOrNumber(`chars[${index}][id]`, char.id)
+        formData.appendStringOrNumber(`chars[${index}][name]`, char.name)
+        formData.appendStringOrNumber(`chars[${index}][value]`, char.value)
+        formData.appendStringOrNumber(`chars[${index}][type_id]`, char.type_id)
+        formData.appendStringOrNumber(`chars[${index}][ordering]`, char.ordering)
+        formData.appendStringOrNumber(`chars[${index}][category_id]`, char.category_id)
+        formData.appendStringOrNumber(`chars[${index}][category_uuid]`, char.category_uuid)
     })
 
-    values.accessories.forEach(otherProduct => {
-        formData.append(`accessories[]`, `${otherProduct.id}`)
-    })
-
-    values.similar.forEach(otherProduct => {
-        formData.append(`similar[]`, `${otherProduct.id}`)
-    })
-
-    values.related.forEach(otherProduct => {
-        formData.append(`related[]`, `${otherProduct.id}`)
-    })
-
-    values.works.forEach(otherProduct => {
-        formData.append(`works[]`, `${otherProduct.id}`)
-    })
-
-    values.instruments.forEach(otherProduct => {
-        formData.append(`instruments[]`, `${otherProduct.id}`)
-    })
+    formData.appendArray('accessories', values.accessories.map(it => it.id))
+    formData.appendArray('similar', values.similar.map(it => it.id))
+    formData.appendArray('related', values.related.map(it => it.id))
+    formData.appendArray('works', values.works.map(it => it.id))
+    formData.appendArray('instruments', values.instruments.map(it => it.id))
 
     values.variations.forEach((variation, index) => {
         formData.append(`variations[${index}][id]`, variation.id ? `${variation.id}` : '')
