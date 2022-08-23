@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Admin\Ajax;
 
 use App\Http\Controllers\Admin\BaseAdminController;
-use App\Http\Requests\Admin\Ajax\CreateProductRequest;
-use App\Http\Requests\Admin\Ajax\UpdateProductRequest;
 use App\Http\Resources\Admin\ProductResource;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Http\Request;

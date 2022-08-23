@@ -15,7 +15,7 @@ import {
     ProductsResponse,
     Values,
 } from "@/admin/inertia/modules/forms/indexProducts/types"
-import {Errors} from "@/admin/inertia/modules/common/types";
+import { Errors } from "@/admin/inertia/modules/common/types"
 
 export const storeName = "indexProductsForm"
 

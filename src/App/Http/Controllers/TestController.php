@@ -12,6 +12,7 @@ class TestController extends Controller
     public function test(Request $request)
     {
         dump(Currency::cachedAll()->implode('id', ','));
+
         return view('test');
     }
 

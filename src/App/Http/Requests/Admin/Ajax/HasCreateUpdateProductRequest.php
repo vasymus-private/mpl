@@ -10,18 +10,18 @@ use Domain\Products\Models\Category;
 /**
  * @property string|null $name
  * @property string|null $slug
- * @property integer|null $ordering
+ * @property int|null $ordering
  * @property bool|null $is_active
  * @property string|null $unit
  * @property float|null $price_purchase
- * @property integer|null $price_purchase_currency_id
+ * @property int|null $price_purchase_currency_id
  * @property float|null $price_retail
- * @property integer|null $price_retail_currency_id
+ * @property int|null $price_retail_currency_id
  * @property string|null $admin_comment
- * @property integer|null $availability_status_id
- * @property integer|null $parent_id
- * @property integer|null $brand_id
- * @property integer|null $category_id
+ * @property int|null $availability_status_id
+ * @property int|null $parent_id
+ * @property int|null $brand_id
+ * @property int|null $category_id
  * @property bool|null $is_with_variations
  * @property float|null $coefficient
  * @property string|null $coefficient_description
