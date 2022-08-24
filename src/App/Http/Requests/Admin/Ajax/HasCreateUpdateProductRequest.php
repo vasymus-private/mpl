@@ -3,10 +3,13 @@
 namespace App\Http\Requests\Admin\Ajax;
 
 use Domain\Common\Models\Currency;
+use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\CharCategoryDTO;
+use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\CharDTO;
 use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\InfoPriceDTO;
 use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO;
 use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\ProductDTO;
 use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\SeoDTO;
+use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\VariationDTO;
 use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\Category;
@@ -321,7 +324,7 @@ trait HasCreateUpdateProductRequest
                     'id' => isset($infoPrice['id']) ? (int)$infoPrice['id'] : null,
                     'name' => isset($infoPrice['name']) ? (string)$infoPrice['name'] : null,
                     'price' => isset($infoPrice['price']) ? (float)$infoPrice['price'] : null,
-                ]))
+                ]))->all()
                 : [],
             'instructions' => isset($payload['instructions'])
                 ? collect($payload['instructions'])->map($mediaCB)->all()
@@ -332,7 +335,114 @@ trait HasCreateUpdateProductRequest
             'additionalImages' => isset($payload['additionalImages'])
                 ? collect($payload['additionalImages'])->map($mediaCB)->all()
                 : [],
-// todo
+            'charCategories' => isset($payload['charCategories'])
+                ? collect($payload['charCategories'])->map(fn(array $charCategory) => new CharCategoryDTO([
+                    'id' => isset($charCategory['id'])
+                        ? (int)$charCategory['id']
+                        : null,
+                    'uuid' => isset($charCategory['uuid'])
+                        ? (string)$charCategory['uuid']
+                        : null,
+                    'name' => isset($charCategory['name'])
+                        ? (string)$charCategory['name']
+                        : null,
+                    'ordering' => isset($charCategory['ordering'])
+                        ? (int)$charCategory['ordering']
+                        : null,
+                ]))->all()
+                : [],
+            'chars' => isset($payload['chars'])
+                ? collect($payload['chars'])->map(fn(array $char) => new CharDTO([
+                    'id' => isset($char['id'])
+                        ? (int)$char['id']
+                        : null,
+                    'name' => isset($char['name'])
+                        ? (string)$char['name']
+                        : null,
+                    'value' => isset($char['value'])
+                        ? (string)$char['value']
+                        : null,
+                    'type_id' => isset($char['type_id'])
+                        ? (int)$char['type_id']
+                        : null,
+                    'ordering' => isset($char['ordering'])
+                        ? (int)$char['ordering']
+                        : null,
+                    'category_id' => isset($char['category_id'])
+                        ? (int)$char['category_id']
+                        : null,
+                    'category_uuid' => isset($char['category_uuid'])
+                        ? (string)$char['category_uuid']
+                        : null,
+                ]))->all()
+                : [],
+            'accessories' => isset($payload['accessories'])
+                ? collect($payload['accessories'])->map(fn($id) => (int)$id)->all()
+                : [],
+            'similar' => isset($payload['similar'])
+                ? collect($payload['similar'])->map(fn($id) => (int)$id)->all()
+                : [],
+            'related' => isset($payload['related'])
+                ? collect($payload['related'])->map(fn($id) => (int)$id)->all()
+                : [],
+            'works' => isset($payload['works'])
+                ? collect($payload['works'])->map(fn($id) => (int)$id)->all()
+                : [],
+            'instruments' => isset($payload['instruments'])
+                ? collect($payload['instruments'])->map(fn($id) => (int)$id)->all()
+                : [],
+            'variations' => isset($payload['variations'])
+                ? collect($payload['variations'])->map(fn(array $variation) => new VariationDTO([
+                    'id' => isset($variation['id'])
+                        ? (int)$variation['id']
+                        : null,
+                    'uuid' => isset($variation['uuid'])
+                        ? (string)$variation['uuid']
+                        : null,
+                    'name' => isset($variation['name'])
+                        ? (string)$variation['name']
+                        : null,
+                    'is_active' => isset($variation['is_active'])
+                        ? (bool)$variation['is_active']
+                        : null,
+                    'ordering' => isset($variation['ordering'])
+                        ? (int)$variation['ordering']
+                        : null,
+                    'coefficient' => isset($variation['coefficient'])
+                        ? (float)$variation['coefficient']
+                        : null,
+                    'coefficient_description' => isset($variation['coefficient_description'])
+                        ? (int)$variation['coefficient_description']
+                        : null,
+                    'unit' => isset($variation['unit'])
+                        ? (string)$variation['unit']
+                        : null,
+                    'availability_status_id' => isset($variation['availability_status_id'])
+                        ? (int)$variation['availability_status_id']
+                        : null,
+                    'price_purchase' => isset($variation['price_purchase'])
+                        ? (float)$variation['price_purchase']
+                        : null,
+                    'price_purchase_currency_id' => isset($variation['price_purchase_currency_id'])
+                        ? (int)$variation['price_purchase_currency_id']
+                        : null,
+                    'price_retail' => isset($variation['price_retail'])
+                        ? (float)$variation['price_retail']
+                        : null,
+                    'price_retail_currency_id' => isset($variation['price_retail_currency_id'])
+                        ? (int)$variation['price_retail_currency_id']
+                        : null,
+                    'preview' => isset($variation['preview'])
+                        ? (string)$variation['preview']
+                        : null,
+                    'mainImage' => isset($variation['mainImage'])
+                        ? $mediaCB($variation['mainImage'])
+                        : null,
+                    'additionalImages' => isset($variation['additionalImages'])
+                        ? collect($variation['additionalImages'])->map($mediaCB)->all()
+                        : [],
+                ]))->all()
+                : [],
         ]);
     }
 }

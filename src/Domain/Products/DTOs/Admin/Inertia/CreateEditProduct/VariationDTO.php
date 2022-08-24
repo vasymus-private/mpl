@@ -72,6 +72,11 @@ class VariationDTO extends DataTransferObject
     public ?int $price_retail_currency_id;
 
     /**
+     * @var string|null
+     */
+    public ?string $preview;
+
+    /**
      * @var \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO|null
      */
     public ?MediaDTO $mainImage;
