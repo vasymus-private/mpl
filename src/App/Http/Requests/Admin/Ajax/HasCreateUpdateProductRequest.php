@@ -3,7 +3,10 @@
 namespace App\Http\Requests\Admin\Ajax;
 
 use Domain\Common\Models\Currency;
+use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\InfoPriceDTO;
+use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO;
 use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\ProductDTO;
+use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\SeoDTO;
 use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\Category;
@@ -218,6 +221,118 @@ trait HasCreateUpdateProductRequest
      */
     public function prepare(): ProductDTO
     {
+        $payload = $this->all();
 
+        $mediaCB = fn(array $media) => new MediaDTO([
+            'id' => isset($media['id']) ? (int)$media['id'] : null,
+            'uuid' => isset($media['uuid']) ? (string)$media['uuid'] : null,
+            'name' => isset($media['name']) ? (string)$media['name'] : null,
+            'file_name' => isset($media['file_name']) ? (string)$media['file_name'] : null,
+            'order_column' => isset($media['order_column']) ? (int)$media['order_column'] : null,
+        ]);
+
+        return new ProductDTO([
+            'name' => isset($payload['name'])
+                ? (string)$payload['name']
+                : null,
+            'slug' => isset($payload['slug'])
+                ? (string)$payload['slug']
+                : null,
+            'ordering' => isset($payload['ordering'])
+                ? (int)$payload['ordering']
+                : null,
+            'is_active' => isset($payload['is_active'])
+                ? (bool)$payload['is_active']
+                : null,
+            'unit' => isset($payload['unit'])
+                ? (string)$payload['unit']
+                : null,
+            'price_purchase' => isset($payload['price_purchase'])
+                ? (float)$payload['price_purchase']
+                : null,
+            'price_purchase_currency_id' => isset($payload['price_purchase_currency_id'])
+                ? (int)$payload['price_purchase_currency_id']
+                : null,
+            'price_retail' => isset($payload['price_retail'])
+                ? (float)$payload['price_retail']
+                : null,
+            'price_retail_currency_id' => isset($payload['price_retail_currency_id'])
+                ? (int)$payload['price_retail_currency_id']
+                : null,
+            'admin_comment' => isset($payload['admin_comment'])
+                ? (string)$payload['admin_comment']
+                : null,
+            'availability_status_id' => isset($payload['availability_status_id'])
+                ? (int)$payload['availability_status_id']
+                : null,
+            'brand_id' => isset($payload['brand_id'])
+                ? (int)$payload['brand_id']
+                : null,
+            'category_id' => isset($payload['category_id'])
+                ? (int)$payload['category_id']
+                : null,
+            'is_with_variations' => isset($payload['is_with_variations'])
+                ? (bool)$payload['is_with_variations']
+                : null,
+            'coefficient' => isset($payload['coefficient'])
+                ? (float)$payload['coefficient']
+                : null,
+            'coefficient_description' => isset($payload['coefficient_description'])
+                ? (string)$payload['coefficient_description']
+                : null,
+            'coefficient_description_show' => isset($payload['coefficient_description_show'])
+                ? (bool)$payload['coefficient_description_show']
+                : null,
+            'coefficient_variation_description' => isset($payload['coefficient_variation_description'])
+                ? (string)$payload['coefficient_variation_description']
+                : null,
+            'price_name' => isset($payload['price_name'])
+                ? (string)$payload['price_name']
+                : null,
+            'preview' => isset($payload['preview'])
+                ? (string)$payload['preview']
+                : null,
+            'description' => isset($payload['description'])
+                ? (string)$payload['description']
+                : null,
+            'accessory_name' => isset($payload['accessory_name'])
+                ? (string)$payload['accessory_name']
+                : null,
+            'similar_name' => isset($payload['similar_name'])
+                ? (string)$payload['similar_name']
+                : null,
+            'related_name' => isset($payload['related_name'])
+                ? (string)$payload['related_name']
+                : null,
+            'work_name' => isset($payload['work_name'])
+                ? (string)$payload['work_name']
+                : null,
+            'instruments_name' => isset($payload['instruments_name'])
+                ? (string)$payload['instruments_name']
+                : null,
+            'relatedCategoriesIds' => isset($payload['relatedCategoriesIds'])
+                ? collect($payload['relatedCategoriesIds'])->map(fn($id) => (int)$id)->all()
+                : [],
+            'seo' => isset($payload['seo'])
+                ? new SeoDTO($payload['seo'])
+                : null,
+            'infoPrices' => isset($payload['infoPrices'])
+                ? collect($payload['infoPrices'])->map(fn(array $infoPrice) => new InfoPriceDTO([
+                    'id' => isset($infoPrice['id']) ? (int)$infoPrice['id'] : null,
+                    'name' => isset($infoPrice['name']) ? (string)$infoPrice['name'] : null,
+                    'price' => isset($infoPrice['price']) ? (float)$infoPrice['price'] : null,
+                ]))
+                : [],
+            'instructions' => isset($payload['instructions'])
+                ? collect($payload['instructions'])->map($mediaCB)->all()
+                : [],
+            'mainImage' => isset($payload['mainImage'])
+                ? $mediaCB($payload['mainImage'])
+                : null,
+            'additionalImages' => isset($payload['additionalImages'])
+                ? collect($payload['additionalImages'])->map($mediaCB)->all()
+                : [],
+// todo
+        ]);
     }
 }

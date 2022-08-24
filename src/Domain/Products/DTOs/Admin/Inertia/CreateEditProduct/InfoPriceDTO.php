@@ -2,7 +2,9 @@
 
 namespace Domain\Products\DTOs\Admin\Inertia\CreateEditProduct;
 
-class InfoPriceDTO
+use Spatie\DataTransferObject\DataTransferObject;
+
+class InfoPriceDTO extends DataTransferObject
 {
     /**
      * @var int|null

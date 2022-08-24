@@ -17,7 +17,7 @@ class ProductsController extends BaseAdminController
      */
     public function store(CreateProductRequest $request)
     {
-        dd($request->all());
+        dd($request->prepare());
 
         /** @var \Domain\Products\Models\Product\Product $product */
         $product = $request->admin_product;
@@ -34,7 +34,7 @@ class ProductsController extends BaseAdminController
      */
     public function update(UpdateProductRequest $request)
     {
-        dd($request->all());
+        dd($request->prepare());
 
 
         /** @var \Domain\Products\Models\Product\Product $product */
