@@ -16,6 +16,5 @@ class CreateOrUpdateProductAction extends BaseAction
      */
     public function execute(ProductDTO $productDTO, Product $target = null): Product
     {
-
     }
 }
