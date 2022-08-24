@@ -132,6 +132,5 @@ trait HasCreateUpdateProductRequest
      */
     public function prepare(): ProductDTO
     {
-
     }
 }
