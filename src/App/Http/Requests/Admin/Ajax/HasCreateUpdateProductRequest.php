@@ -336,7 +336,7 @@ trait HasCreateUpdateProductRequest
                 ? collect($payload['additionalImages'])->map($mediaCB)->all()
                 : [],
             'charCategories' => isset($payload['charCategories'])
-                ? collect($payload['charCategories'])->map(fn(array $charCategory) => new CharCategoryDTO([
+                ? collect($payload['charCategories'])->map(fn (array $charCategory) => new CharCategoryDTO([
                     'id' => isset($charCategory['id'])
                         ? (int)$charCategory['id']
                         : null,
@@ -352,7 +352,7 @@ trait HasCreateUpdateProductRequest
                 ]))->all()
                 : [],
             'chars' => isset($payload['chars'])
-                ? collect($payload['chars'])->map(fn(array $char) => new CharDTO([
+                ? collect($payload['chars'])->map(fn (array $char) => new CharDTO([
                     'id' => isset($char['id'])
                         ? (int)$char['id']
                         : null,
@@ -377,22 +377,22 @@ trait HasCreateUpdateProductRequest
                 ]))->all()
                 : [],
             'accessories' => isset($payload['accessories'])
-                ? collect($payload['accessories'])->map(fn($id) => (int)$id)->all()
+                ? collect($payload['accessories'])->map(fn ($id) => (int)$id)->all()
                 : [],
             'similar' => isset($payload['similar'])
-                ? collect($payload['similar'])->map(fn($id) => (int)$id)->all()
+                ? collect($payload['similar'])->map(fn ($id) => (int)$id)->all()
                 : [],
             'related' => isset($payload['related'])
-                ? collect($payload['related'])->map(fn($id) => (int)$id)->all()
+                ? collect($payload['related'])->map(fn ($id) => (int)$id)->all()
                 : [],
             'works' => isset($payload['works'])
-                ? collect($payload['works'])->map(fn($id) => (int)$id)->all()
+                ? collect($payload['works'])->map(fn ($id) => (int)$id)->all()
                 : [],
             'instruments' => isset($payload['instruments'])
-                ? collect($payload['instruments'])->map(fn($id) => (int)$id)->all()
+                ? collect($payload['instruments'])->map(fn ($id) => (int)$id)->all()
                 : [],
             'variations' => isset($payload['variations'])
-                ? collect($payload['variations'])->map(fn(array $variation) => new VariationDTO([
+                ? collect($payload['variations'])->map(fn (array $variation) => new VariationDTO([
                     'id' => isset($variation['id'])
                         ? (int)$variation['id']
                         : null,
