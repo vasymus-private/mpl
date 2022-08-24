@@ -1,4 +1,5 @@
 import * as yup from "yup"
+import {v4 as uuidv4} from 'uuid'
 
 export const isNumeric = (n: any): boolean =>
     !isNaN(parseFloat(n)) && isFinite(n)
@@ -14,7 +15,7 @@ export const cookieRead = (name: string): string | null => {
     return match ? decodeURIComponent(match[3]) : null
 }
 
-export const randomId = (): string => `id${Math.random().toString(16).slice(2)}`
+export const randomId = (): string => uuidv4()
 
 /**
  * @see https://stackoverflow.com/a/29390393

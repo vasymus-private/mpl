@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin\Ajax;
 
 use App\Http\Controllers\Admin\BaseAdminController;
+use App\Http\Requests\Admin\Ajax\CreateProductRequest;
+use App\Http\Requests\Admin\Ajax\UpdateProductRequest;
 use App\Http\Resources\Admin\ProductResource;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Http\Request;
@@ -14,7 +16,7 @@ class ProductsController extends BaseAdminController
      *
      * @return \Illuminate\Contracts\Support\Responsable
      */
-    public function store(Request $request)
+    public function store(CreateProductRequest $request)
     {
         dd($request->all());
 
@@ -31,7 +33,7 @@ class ProductsController extends BaseAdminController
      *
      * @return \Illuminate\Contracts\Support\Responsable
      */
-    public function update(Request $request)
+    public function update(UpdateProductRequest $request)
     {
         dd($request->all());
 

@@ -235,4 +235,14 @@ class H
                 : fn () => $value
         );
     }
+
+    /**
+     * @param float $mb
+     *
+     * @return float
+     */
+    public static function validatorMb(float $mb): float
+    {
+        return 1024 * $mb; // 1024 kb = 1 mb
+    }
 }

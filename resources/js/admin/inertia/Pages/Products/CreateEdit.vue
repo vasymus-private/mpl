@@ -76,7 +76,7 @@ onUnmounted(() => {
                 </ul>
             </div>
 
-            <form class="position-relative" @submit="onSubmit" novalidate>
+            <form class="position-relative" @submit.prevent="onSubmit" novalidate>
                 <div class="tab-content">
                     <div
                         v-for="tab in createEditProductFormsStore.adminTabs"

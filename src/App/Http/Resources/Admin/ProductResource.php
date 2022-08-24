@@ -77,6 +77,7 @@ class ProductResource extends JsonResource
                 ->map(function (CustomMedia $media) {
                     return [
                         'id' => $media->id,
+                        'uuid' => $media->uuid,
                         'url' => $media->getFullUrl(),
                         'name' => $media->name,
                         'file_name' => $media->file_name,

@@ -25,8 +25,10 @@ Route::post('show-order-busy', \App\Http\Controllers\Admin\Ajax\ShowOrderBusyCon
 Route::post('ping-order-busy/{id}', \App\Http\Controllers\Admin\Ajax\PingOrderBusyController::class)->name('admin-ajax.ping-order-busy');
 
 Route::put('products-bulk', [\App\Http\Controllers\Admin\Ajax\ProductsBulkController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_PRODUCTS_BULK_UPDATE);
+
 Route::post('product', [\App\Http\Controllers\Admin\Ajax\ProductsController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_PRODUCTS_STORE);
 Route::put('product/{admin_product}', [\App\Http\Controllers\Admin\Ajax\ProductsController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE);
+
 Route::put('sort-columns', \App\Http\Controllers\Admin\Ajax\SortColumnsController::class)->name(Constants::ROUTE_ADMIN_AJAX_SORT_COLUMNS);
 
 Route::post('helper/slug', [\App\Http\Controllers\Admin\Ajax\HelperController::class, 'slug'])->name(Constants::ROUTE_ADMIN_AJAX_HELPER);

@@ -47,7 +47,11 @@ export class CustomFormData extends FormData {
         this.append(key, value)
     }
 
-    appendArray(key: string, value: Array<string|number>): void {
+    appendArray(key: string, value: Array<string|number>|null|undefined): void {
+        if (value == null) {
+            return;
+        }
+
         key = key.replace('[]', '')
 
         value.forEach(v => this.appendStringOrNumber(`${key}[]`, v))

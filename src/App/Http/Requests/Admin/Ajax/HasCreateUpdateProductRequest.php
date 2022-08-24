@@ -3,9 +3,11 @@
 namespace App\Http\Requests\Admin\Ajax;
 
 use Domain\Common\Models\Currency;
+use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\ProductDTO;
 use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\Category;
+use Support\H;
 
 /**
  * @property string|null $name
@@ -68,8 +70,8 @@ trait HasCreateUpdateProductRequest
             'price_retail_currency_id' => sprintf('nullable|integer|in:%s', Currency::cachedAll()->implode('id', ',')),
             'admin_comment' => 'nullable|string|max:250',
             'availability_status_id' => sprintf('nullable|integer|in:%s', AvailabilityStatus::cachedAll()->implode('id', ',')),
-            'brand_id' => sprintf('nullable|integer|in:%s', Brand::cachedAll()->implode('id', '')),
-            'category_id' => sprintf('nullable|integer|in:%s', Category::cachedAll()->implode('id', '')),
+            'brand_id' => sprintf('nullable|integer|in:%s', Brand::cachedAll()->implode('id', ',')),
+            'category_id' => sprintf('nullable|integer|in:%s', Category::cachedAll()->implode('id', ',')),
             'is_with_variations' => 'nullable|boolean',
             'coefficient' => 'nullable|numeric',
             'coefficient_description' => 'nullable|string|max:250',
@@ -85,6 +87,9 @@ trait HasCreateUpdateProductRequest
             'related_name' => 'nullable|string|max:250',
             'work_name' => 'nullable|string|max:250',
             'instruments_name' => 'nullable|string|max:250',
+
+            'relatedCategoriesIds' => 'nullable|array',
+            'relatedCategoriesIds.*' => sprintf('nullable|integer|in:%s', Category::cachedAll()->implode('id', ',')),
 
             'seo' => 'nullable|array',
             'seo.title' => 'nullable|string|max:250',
@@ -103,6 +108,30 @@ trait HasCreateUpdateProductRequest
             'instructions.*.name' => 'nullable|string|max:250',
             'instructions.*.file_name' => 'nullable|string|max:250',
             'instructions.*.order_column' => 'nullable|integer',
+            'instructions.*.file' => sprintf('nullable|file|max:%s', H::validatorMb(95)),
+
+            'mainImage' => 'nullable|array',
+            'mainImage.id' => 'nullable|integer',
+            'mainImage.uuid' => 'string',
+            'mainImage.name' => 'nullable|string|max:250',
+            'mainImage.file_name' => 'nullable|string|max:250',
+            'mainImage.order_column' => 'nullable|integer',
+            'mainImage.file' => sprintf('nullable|file|max:%s', H::validatorMb(95)),
+
+            'additionalImages' => 'nullable|array',
+            'additionalImages.*.id' => 'nullable|integer',
+            'additionalImages.*.uuid' => 'string',
+            'additionalImages.*.name' => 'nullable|string|max:250',
+            'additionalImages.*.file_name' => 'nullable|string|max:250',
+            'additionalImages.*.order_column' => 'nullable|integer',
         ];
+    }
+
+    /**
+     * @return \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\ProductDTO
+     */
+    public function prepare(): ProductDTO
+    {
+
     }
 }
