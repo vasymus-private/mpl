@@ -226,7 +226,7 @@ trait HasCreateUpdateProductRequest
     {
         $payload = $this->all();
 
-        $mediaCB = fn(array $media) => new MediaDTO([
+        $mediaCB = fn (array $media) => new MediaDTO([
             'id' => isset($media['id']) ? (int)$media['id'] : null,
             'uuid' => isset($media['uuid']) ? (string)$media['uuid'] : null,
             'name' => isset($media['name']) ? (string)$media['name'] : null,
@@ -314,13 +314,13 @@ trait HasCreateUpdateProductRequest
                 ? (string)$payload['instruments_name']
                 : null,
             'relatedCategoriesIds' => isset($payload['relatedCategoriesIds'])
-                ? collect($payload['relatedCategoriesIds'])->map(fn($id) => (int)$id)->all()
+                ? collect($payload['relatedCategoriesIds'])->map(fn ($id) => (int)$id)->all()
                 : [],
             'seo' => isset($payload['seo'])
                 ? new SeoDTO($payload['seo'])
                 : null,
             'infoPrices' => isset($payload['infoPrices'])
-                ? collect($payload['infoPrices'])->map(fn(array $infoPrice) => new InfoPriceDTO([
+                ? collect($payload['infoPrices'])->map(fn (array $infoPrice) => new InfoPriceDTO([
                     'id' => isset($infoPrice['id']) ? (int)$infoPrice['id'] : null,
                     'name' => isset($infoPrice['name']) ? (string)$infoPrice['name'] : null,
                     'price' => isset($infoPrice['price']) ? (float)$infoPrice['price'] : null,
