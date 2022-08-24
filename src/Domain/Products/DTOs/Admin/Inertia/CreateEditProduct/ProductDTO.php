@@ -6,5 +6,4 @@ use Spatie\DataTransferObject\DataTransferObject;
 
 class ProductDTO extends DataTransferObject
 {
-
 }

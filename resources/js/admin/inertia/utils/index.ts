@@ -1,5 +1,5 @@
 import * as yup from "yup"
-import {v4 as uuidv4} from 'uuid'
+import { v4 as uuidv4 } from "uuid"
 
 export const isNumeric = (n: any): boolean =>
     !isNaN(parseFloat(n)) && isFinite(n)

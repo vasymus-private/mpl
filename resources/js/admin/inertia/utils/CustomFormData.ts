@@ -1,59 +1,68 @@
 export class CustomFormData extends FormData {
-    setStringOrNumber(key: string, value: string|number|null|undefined): void {
+    setStringOrNumber(
+        key: string,
+        value: string | number | null | undefined
+    ): void {
         if (value == null) {
-            return;
+            return
         }
 
         this.set(key, `${value}`)
     }
 
-    setBoolean(key: string, value: boolean|null|undefined): void {
+    setBoolean(key: string, value: boolean | null | undefined): void {
         if (value == null) {
-            return;
+            return
         }
 
         this.set(key, `${+value}`)
     }
 
-    setFile(key: string, value: File|null|undefined): void {
+    setFile(key: string, value: File | null | undefined): void {
         if (value == null) {
-            return;
+            return
         }
 
         this.set(key, value)
     }
 
-    appendStringOrNumber(key: string, value: string|number|null|undefined): void {
+    appendStringOrNumber(
+        key: string,
+        value: string | number | null | undefined
+    ): void {
         if (value == null) {
-            return;
+            return
         }
 
         this.append(key, `${value}`)
     }
 
-    appendBoolean(key: string, value: boolean|null|undefined): void {
+    appendBoolean(key: string, value: boolean | null | undefined): void {
         if (value == null) {
-            return;
+            return
         }
 
         this.append(key, `${+value}`)
     }
 
-    appendFile(key: string, value: File|null|undefined): void {
+    appendFile(key: string, value: File | null | undefined): void {
         if (value == null) {
-            return;
+            return
         }
 
         this.append(key, value)
     }
 
-    appendArray(key: string, value: Array<string|number>|null|undefined): void {
+    appendArray(
+        key: string,
+        value: Array<string | number> | null | undefined
+    ): void {
         if (value == null) {
-            return;
+            return
         }
 
-        key = key.replace('[]', '')
+        key = key.replace("[]", "")
 
-        value.forEach(v => this.appendStringOrNumber(`${key}[]`, v))
+        value.forEach((v) => this.appendStringOrNumber(`${key}[]`, v))
     }
 }
