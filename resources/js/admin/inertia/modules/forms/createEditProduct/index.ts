@@ -180,7 +180,10 @@ export const useCreateEditProductFormStore = defineStore(storeName, {
             try {
                 let product: Product
 
-                const formData = valuesToFormData(values, productsStore.isCreatingFromCopy)
+                const formData = valuesToFormData(
+                    values,
+                    productsStore.isCreatingFromCopy
+                )
 
                 if (isCreating) {
                     const response = await axios.post<{ data: Product }>(
@@ -514,7 +517,10 @@ const errorsToErrorFields = (
     return errorFields
 }
 
-const valuesToFormData = (values: Values, isCreatingFromCopy: boolean): FormData => {
+const valuesToFormData = (
+    values: Values,
+    isCreatingFromCopy: boolean
+): FormData => {
     const formData = new CustomFormData()
 
     let stringOrNumberKeys: Array<keyof Values> = [
