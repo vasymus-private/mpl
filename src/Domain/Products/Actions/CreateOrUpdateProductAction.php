@@ -124,7 +124,7 @@ class CreateOrUpdateProductAction extends BaseAction
             $target->instruments_name = $productDTO->instruments_name;
         }
 
-        if (!$target->id) {
+        if (! $target->id) {
             $target->save();
         }
 
@@ -165,7 +165,6 @@ class CreateOrUpdateProductAction extends BaseAction
      */
     private function saveInfoPrices(Product $target, ProductDTO $productDTO)
     {
-
     }
 
     /**
@@ -176,7 +175,6 @@ class CreateOrUpdateProductAction extends BaseAction
      */
     private function saveInstructions(Product $target, ProductDTO $productDTO)
     {
-
     }
 
     /**
@@ -187,7 +185,6 @@ class CreateOrUpdateProductAction extends BaseAction
      */
     private function saveMainImage(Product $target, ProductDTO $productDTO)
     {
-
     }
 
     /**
@@ -198,7 +195,6 @@ class CreateOrUpdateProductAction extends BaseAction
      */
     private function saveAdditionalImages(Product $target, ProductDTO $productDTO)
     {
-
     }
 
     /**
@@ -209,7 +205,6 @@ class CreateOrUpdateProductAction extends BaseAction
      */
     private function saveCharCategoriesAndChars(Product $target, ProductDTO $productDTO)
     {
-
     }
 
     /**
@@ -220,7 +215,6 @@ class CreateOrUpdateProductAction extends BaseAction
      */
     private function saveOtherProducts(Product $target, ProductDTO $productDTO)
     {
-
     }
 
     /**
@@ -231,6 +225,5 @@ class CreateOrUpdateProductAction extends BaseAction
      */
     private function saveVariations(Product $target, ProductDTO $productDTO)
     {
-
     }
 }
