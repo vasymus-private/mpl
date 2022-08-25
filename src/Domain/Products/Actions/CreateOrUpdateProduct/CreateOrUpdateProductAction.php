@@ -15,8 +15,7 @@ class CreateOrUpdateProductAction extends BaseAction
     public function __construct(
         SaveSeoAction $saveSeoAction,
         SyncAndSaveInfoPricesAction $syncAndSaveInfoPricesAction
-    )
-    {
+    ) {
         $this->saveSeoAction = $saveSeoAction;
         $this->syncAndSaveInfoPricesAction = $syncAndSaveInfoPricesAction;
     }
