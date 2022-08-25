@@ -6,14 +6,14 @@ use App\Http\Controllers\Admin\BaseAdminController;
 use App\Http\Requests\Admin\Ajax\CreateProductRequest;
 use App\Http\Requests\Admin\Ajax\UpdateProductRequest;
 use App\Http\Resources\Admin\ProductResource;
-use Domain\Products\Actions\CreateOrUpdateProductAction;
+use Domain\Products\Actions\CreateOrUpdateProduct\CreateOrUpdateProductAction;
 use Domain\Products\Models\Product\Product;
 
 class ProductsController extends BaseAdminController
 {
     /**
      * @param \App\Http\Requests\Admin\Ajax\CreateProductRequest $request
-     * @param \Domain\Products\Actions\CreateOrUpdateProductAction
+     * @param \Domain\Products\Actions\CreateOrUpdateProduct\CreateOrUpdateProductAction
      *
      * @return \Illuminate\Contracts\Support\Responsable
      */
@@ -28,7 +28,7 @@ class ProductsController extends BaseAdminController
 
     /**
      * @param \App\Http\Requests\Admin\Ajax\UpdateProductRequest $request
-     * @param \Domain\Products\Actions\CreateOrUpdateProductAction
+     * @param \Domain\Products\Actions\CreateOrUpdateProduct\CreateOrUpdateProductAction
      *
      * @return \Illuminate\Contracts\Support\Responsable
      */

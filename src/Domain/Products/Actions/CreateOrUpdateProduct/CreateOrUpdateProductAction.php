@@ -1,15 +1,26 @@
 <?php
 
-namespace Domain\Products\Actions;
+namespace Domain\Products\Actions\CreateOrUpdateProduct;
 
 use Domain\Common\Actions\BaseAction;
 use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\ProductDTO;
-use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\SeoDTO;
 use Domain\Products\Models\Product\Product;
-use Domain\Seo\Models\Seo;
 
 class CreateOrUpdateProductAction extends BaseAction
 {
+    private SaveSeoAction $saveSeoAction;
+
+    private SyncAndSaveInfoPricesAction $syncAndSaveInfoPricesAction;
+
+    public function __construct(
+        SaveSeoAction $saveSeoAction,
+        SyncAndSaveInfoPricesAction $syncAndSaveInfoPricesAction
+    )
+    {
+        $this->saveSeoAction = $saveSeoAction;
+        $this->syncAndSaveInfoPricesAction = $syncAndSaveInfoPricesAction;
+    }
+
     /**
      * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\ProductDTO $productDTO
      * @param \Domain\Products\Models\Product\Product|null $target
@@ -129,42 +140,16 @@ class CreateOrUpdateProductAction extends BaseAction
         }
 
         if ($productDTO->seo !== null) {
-            $this->saveSeo($target, $productDTO->seo);
+            $this->saveSeoAction->execute($target, $productDTO->seo);
         }
 
-        $this->saveInfoPrices($target, $productDTO);
+        $this->syncAndSaveInfoPricesAction->execute($target, $productDTO->infoPrices);
 
         // todo
 
         $target->save();
 
         return $target;
-    }
-
-    /**
-     * @param \Domain\Products\Models\Product\Product $target
-     * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\SeoDTO $seoDTO
-     *
-     * @return void
-     */
-    private function saveSeo(Product $target, SeoDTO $seoDTO)
-    {
-        $seo = $target->seo ?? new Seo();
-        $seo->title = $seoDTO->title;
-        $seo->h1 = $seoDTO->h1;
-        $seo->keywords = $seoDTO->keywords;
-        $seo->description = $seoDTO->description;
-        $target->seo()->save($seo);
-    }
-
-    /**
-     * @param \Domain\Products\Models\Product\Product $target
-     * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\ProductDTO $productDTO
-     *
-     * @return void
-     */
-    private function saveInfoPrices(Product $target, ProductDTO $productDTO)
-    {
     }
 
     /**
