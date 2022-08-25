@@ -32,7 +32,7 @@ class CreateOrUpdateProductAction extends BaseAction
      */
     public function execute(ProductDTO $productDTO, Product $target = null): Product
     {
-        return DB::transaction(function() use($productDTO, $target) {
+        return DB::transaction(function () use ($productDTO, $target) {
             $target = $target ?: new Product();
 
             if ($productDTO->name !== null) {
@@ -168,9 +168,10 @@ class CreateOrUpdateProductAction extends BaseAction
     private function saveInstructions(Product $target, array $mediaDTOs)
     {
         /** @var \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO[][] $sorted */
-        $sorted = collect($mediaDTOs)->reduce(function(array $acc, MediaDTO $item) {
-            if ($item->is_copy || !$item->id) {
+        $sorted = collect($mediaDTOs)->reduce(function (array $acc, MediaDTO $item) {
+            if ($item->is_copy || ! $item->id) {
                 $acc['new'][] = $item;
+
                 return $acc;
             }
 
@@ -182,7 +183,7 @@ class CreateOrUpdateProductAction extends BaseAction
             'exist' => [],
         ]);
 
-        $notDeleteIds = collect($sorted['exist'])->pluck('id')->filter(fn($id) => (bool)$id)->all();
+        $notDeleteIds = collect($sorted['exist'])->pluck('id')->filter(fn ($id) => (bool)$id)->all();
 
         $target->getMedia(Product::MC_FILES)->each(function (CustomMedia $customMedia) use ($notDeleteIds, $sorted) {
             if (in_array($customMedia->id, $notDeleteIds)) {
@@ -191,6 +192,7 @@ class CreateOrUpdateProductAction extends BaseAction
                 $customMedia->file_name = $updateMediaDTO->file_name;
                 $customMedia->order_column = $updateMediaDTO->order_column;
                 $customMedia->save();
+
                 return;
             }
 
@@ -204,16 +206,17 @@ class CreateOrUpdateProductAction extends BaseAction
                     ->usingFileName($mediaDTO->file_name)
                     ->usingName($mediaDTO->name ?? $mediaDTO->file_name)
                     ->toMediaCollection(Product::MC_FILES);
+
                 continue;
             }
 
-            if (!$mediaDTO->is_copy || !$mediaDTO->id) {
+            if (! $mediaDTO->is_copy || ! $mediaDTO->id) {
                 continue;
             }
 
             /** @var \Domain\Common\Models\CustomMedia|null $original */
             $original = CustomMedia::query()->find($mediaDTO->id);
-            if (!$original) {
+            if (! $original) {
                 continue;
             }
 
