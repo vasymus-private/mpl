@@ -33,7 +33,6 @@ import {
 import { Values } from "@/admin/inertia/modules/forms/createEditProduct/types"
 import axios, { AxiosError } from "axios"
 import { ErrorResponse } from "@/admin/inertia/modules/forms/indexProducts/types"
-import { getIndexForIdCb } from "@/admin/inertia/modules/forms/indexProducts"
 import { Errors } from "@/admin/inertia/modules/common/types"
 import { CustomFormData } from "@/admin/inertia/utils/CustomFormData"
 
@@ -176,11 +175,12 @@ export const useCreateEditProductFormStore = defineStore(storeName, {
             { setErrors }
         ): Promise<void> {
             const isCreating = isCreatingProductRoute()
+            const productsStore = useProductsStore()
 
             try {
                 let product: Product
 
-                const formData = valuesToFormData(values)
+                const formData = valuesToFormData(values, productsStore.isCreatingFromCopy)
 
                 if (isCreating) {
                     const response = await axios.post<{ data: Product }>(
@@ -207,7 +207,6 @@ export const useCreateEditProductFormStore = defineStore(storeName, {
                     product = response.data.data
                 }
 
-                const productsStore = useProductsStore()
                 productsStore.setProduct(product)
             } catch (e) {
                 if (e instanceof AxiosError) {
@@ -515,7 +514,7 @@ const errorsToErrorFields = (
     return errorFields
 }
 
-const valuesToFormData = (values: Values): FormData => {
+const valuesToFormData = (values: Values, isCreatingFromCopy: boolean): FormData => {
     const formData = new CustomFormData()
 
     let stringOrNumberKeys: Array<keyof Values> = [
@@ -595,6 +594,10 @@ const valuesToFormData = (values: Values): FormData => {
                 `instructions[${index}][id]`,
                 instruction.id
             )
+            formData.appendBoolean(
+                `instructions[${index}][id]`,
+                isCreatingFromCopy
+            )
             formData.appendStringOrNumber(
                 `instructions[${index}][uuid]`,
                 instruction.uuid
@@ -621,6 +624,7 @@ const valuesToFormData = (values: Values): FormData => {
 
     if (values.mainImage) {
         formData.appendStringOrNumber(`mainImage[id]`, values.mainImage.id)
+        formData.appendBoolean(`mainImage[is_copy]`, isCreatingFromCopy)
         formData.appendStringOrNumber(`mainImage[uuid]`, values.mainImage.uuid)
         formData.appendStringOrNumber(`mainImage[name]`, values.mainImage.name)
         formData.appendStringOrNumber(
@@ -640,6 +644,10 @@ const valuesToFormData = (values: Values): FormData => {
             formData.appendStringOrNumber(
                 `additionalImages[${index}][id]`,
                 image.id
+            )
+            formData.appendBoolean(
+                `additionalImages[${index}][is_copy]`,
+                isCreatingFromCopy
             )
             formData.appendStringOrNumber(
                 `additionalImages[${index}][uuid]`,
@@ -806,6 +814,10 @@ const valuesToFormData = (values: Values): FormData => {
                     `variations[${index}][mainImage][id]`,
                     variation.mainImage.id
                 )
+                formData.appendBoolean(
+                    `variations[${index}][mainImage][is_copy]`,
+                    isCreatingFromCopy
+                )
                 formData.appendStringOrNumber(
                     `variations[${index}][mainImage][uuid]`,
                     variation.mainImage.uuid
@@ -833,6 +845,10 @@ const valuesToFormData = (values: Values): FormData => {
                 formData.appendStringOrNumber(
                     `variations[${index}][additionalImages][${i}][id]`,
                     image.id
+                )
+                formData.appendBoolean(
+                    `variations[${index}][additionalImages][${i}][is_copy]`,
+                    isCreatingFromCopy
                 )
                 formData.appendStringOrNumber(
                     `variations[${index}][additionalImages][${i}][uuid]`,

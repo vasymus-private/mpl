@@ -93,6 +93,11 @@ export const useProductsStore = defineStore(storeName, {
         product: (state: State): Product | null => state._product.entity,
         originProduct: (state: State): Product | null => state._originProduct,
         isCreatingFromCopy(): boolean {
+            let isCreating = isCreatingProductRoute()
+            if (!isCreating) {
+                return false
+            }
+
             const routesStore = useRoutesStore()
             if (!routesStore.fullUrl) {
                 return false
