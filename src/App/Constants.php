@@ -75,6 +75,10 @@ final class Constants
     public const MEDIA_PREFIX = 'media';
     public const MEDIA_DISK_S3_PUBLIC = 's3';
     public const MEDIA_DISK_S3_PRIVATE = 's3-private';
+    public const MEDIA_CLOUD_DISKS = [
+        self::MEDIA_DISK_S3_PUBLIC,
+        self::MEDIA_DISK_S3_PRIVATE,
+    ];
 
     private function __construct()
     {
