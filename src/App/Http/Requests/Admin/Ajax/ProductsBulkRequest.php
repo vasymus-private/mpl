@@ -46,7 +46,7 @@ class ProductsBulkRequest extends FormRequest
 
     /**
      * @return \Domain\Products\DTOs\Admin\ProductListUpdateDTO[]
-     * @phpstan-return <int, \Domain\Products\DTOs\Admin\ProductListUpdateDTO>
+     * @phpstan-return array<int, \Domain\Products\DTOs\Admin\ProductListUpdateDTO>
      */
     public function productsPayload(): array
     {

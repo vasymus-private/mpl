@@ -16,12 +16,16 @@ class CreateOrUpdateProductAction extends BaseAction
 
     private SyncAndSaveInfoPricesAction $syncAndSaveInfoPricesAction;
 
+    private SaveMediasAction $saveMediasAction;
+
     public function __construct(
         SaveSeoAction $saveSeoAction,
-        SyncAndSaveInfoPricesAction $syncAndSaveInfoPricesAction
+        SyncAndSaveInfoPricesAction $syncAndSaveInfoPricesAction,
+        SaveMediasAction $saveMediasAction
     ) {
         $this->saveSeoAction = $saveSeoAction;
         $this->syncAndSaveInfoPricesAction = $syncAndSaveInfoPricesAction;
+        $this->saveMediasAction = $saveMediasAction;
     }
 
     /**
@@ -164,72 +168,14 @@ class CreateOrUpdateProductAction extends BaseAction
      * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO[] $mediaDTOs
      *
      * @return void
+     *
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
      */
     private function saveInstructions(Product $target, array $mediaDTOs)
     {
-        /** @var \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO[][] $sorted */
-        $sorted = collect($mediaDTOs)->reduce(function(array $acc, MediaDTO $item) {
-            if ($item->is_copy || !$item->id) {
-                $acc['new'][] = $item;
-                return $acc;
-            }
-
-            $acc['exist'][$item->id] = $item;
-
-            return $acc;
-        }, [
-            'new' => [],
-            'exist' => [],
-        ]);
-
-        $notDeleteIds = collect($sorted['exist'])->pluck('id')->filter(fn($id) => (bool)$id)->all();
-
-        $target->getMedia(Product::MC_FILES)->each(function (CustomMedia $customMedia) use ($notDeleteIds, $sorted) {
-            if (in_array($customMedia->id, $notDeleteIds)) {
-                $updateMediaDTO = $sorted['exist'][$customMedia->id];
-                $customMedia->name = $updateMediaDTO->name;
-                $customMedia->file_name = $updateMediaDTO->file_name;
-                $customMedia->order_column = $updateMediaDTO->order_column;
-                $customMedia->save();
-                return;
-            }
-
-            $customMedia->delete();
-        });
-
-        foreach ($sorted['new'] as $mediaDTO) {
-            if ($mediaDTO->file) {
-                $target
-                    ->addMedia($mediaDTO->file)
-                    ->usingFileName($mediaDTO->file_name)
-                    ->usingName($mediaDTO->name ?? $mediaDTO->file_name)
-                    ->toMediaCollection(Product::MC_FILES);
-                continue;
-            }
-
-            if (!$mediaDTO->is_copy || !$mediaDTO->id) {
-                continue;
-            }
-
-            /** @var \Domain\Common\Models\CustomMedia|null $original */
-            $original = CustomMedia::query()->find($mediaDTO->id);
-            if (!$original) {
-                continue;
-            }
-
-            if (in_array($original->disk, Constants::MEDIA_CLOUD_DISKS)) {
-                $remoteUrl = $original->getFullUrl();
-                $target
-                    ->addMediaFromUrl($remoteUrl)
-                    ->usingFileName($mediaDTO->file_name)
-                    ->usingName($mediaDTO->name ?? $mediaDTO->file_name)
-                    ->toMediaCollection(Product::MC_FILES);
-
-                continue;
-            }
-
-            // todo
-        }
+        $this->saveMediasAction->execute($target, $mediaDTOs, Product::MC_FILES);
     }
 
     /**
