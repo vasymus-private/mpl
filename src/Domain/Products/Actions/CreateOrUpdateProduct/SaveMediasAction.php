@@ -24,9 +24,10 @@ class SaveMediasAction extends BaseAction
     public function execute(Product $target, array $mediaDTOs, string $collectionName)
     {
         /** @var \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO[][] $sorted */
-        $sorted = collect($mediaDTOs)->reduce(function(array $acc, MediaDTO $item) {
-            if ($item->is_copy || !$item->id) {
+        $sorted = collect($mediaDTOs)->reduce(function (array $acc, MediaDTO $item) {
+            if ($item->is_copy || ! $item->id) {
                 $acc['new'][] = $item;
+
                 return $acc;
             }
 
@@ -38,7 +39,7 @@ class SaveMediasAction extends BaseAction
             'exist' => [],
         ]);
 
-        $notDeleteIds = collect($sorted['exist'])->pluck('id')->filter(fn($id) => (bool)$id)->all();
+        $notDeleteIds = collect($sorted['exist'])->pluck('id')->filter(fn ($id) => (bool)$id)->all();
 
         $this->delete($target, $collectionName, $notDeleteIds);
 
@@ -51,16 +52,17 @@ class SaveMediasAction extends BaseAction
                     ->usingFileName($mediaDTO->file_name)
                     ->usingName($mediaDTO->name ?? $mediaDTO->file_name)
                     ->toMediaCollection($collectionName);
+
                 continue;
             }
 
-            if (!$mediaDTO->is_copy || !$mediaDTO->id) {
+            if (! $mediaDTO->is_copy || ! $mediaDTO->id) {
                 continue;
             }
 
             /** @var \Domain\Common\Models\CustomMedia|null $original */
             $original = CustomMedia::query()->find($mediaDTO->id);
-            if (!$original) {
+            if (! $original) {
                 continue;
             }
 
@@ -94,7 +96,7 @@ class SaveMediasAction extends BaseAction
     {
         $target->getMedia($collectionName)->each(function (CustomMedia $customMedia) use ($mediaDTOsToUpdate) {
             $updateMediaDTO = $mediaDTOsToUpdate[$customMedia->id] ?? null;
-            if (!$updateMediaDTO) {
+            if (! $updateMediaDTO) {
                 return;
             }
             $customMedia->name = $updateMediaDTO->name;
