@@ -25,8 +25,13 @@ class SaveMediasAction extends BaseAction
     {
         /** @var \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO[][] $sorted */
         $sorted = collect($mediaDTOs)->reduce(function(array $acc, MediaDTO $item) {
-            if ($this->isForCopying($item) || $item->file) {
+            if ($item->file) {
                 $acc['new'][] = $item;
+                return $acc;
+            }
+
+            if ($this->isForCopying($item)) {
+                $acc['copy'][] = $item;
                 return $acc;
             }
 
@@ -39,6 +44,7 @@ class SaveMediasAction extends BaseAction
             return $acc;
         }, [
             'new' => [],
+            'copy' => [],
             'exist' => [],
         ]);
 
@@ -48,7 +54,9 @@ class SaveMediasAction extends BaseAction
 
         $this->update($target, $sorted['exist'], $collectionName);
 
-        $this->store($target, $sorted['new'], $collectionName);
+        $this->storeNew($target, $sorted['new'], $collectionName);
+
+        $this->storeCopy($target, $sorted['copy'], $collectionName);
     }
 
     /**
@@ -91,7 +99,7 @@ class SaveMediasAction extends BaseAction
 
     /**
      * @param \Domain\Products\Models\Product\Product $target
-     * @param array $mediaDTOsNew
+     * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO[] $mediaDTOsNew
      * @param string $collectionName
      *
      * @return void
@@ -100,18 +108,35 @@ class SaveMediasAction extends BaseAction
      * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
      * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
      */
-    private function store(Product $target, array $mediaDTOsNew, string $collectionName)
+    private function storeNew(Product $target, array $mediaDTOsNew, string $collectionName)
     {
         foreach ($mediaDTOsNew as $mediaDTO) {
-            if ($mediaDTO->file) {
-                $target
-                    ->addMedia($mediaDTO->file)
-                    ->usingFileName($mediaDTO->file_name)
-                    ->usingName($mediaDTO->name ?? $mediaDTO->file_name)
-                    ->toMediaCollection($collectionName);
+            if (!$mediaDTO->file) {
                 continue;
             }
 
+            $target
+                ->addMedia($mediaDTO->file)
+                ->usingFileName($mediaDTO->file_name)
+                ->usingName($mediaDTO->name ?? $mediaDTO->file_name)
+                ->toMediaCollection($collectionName);
+        }
+    }
+
+    /**
+     * @param \Domain\Products\Models\Product\Product $target
+     * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO[] $mediaDTOsCopy
+     * @param string $collectionName
+     *
+     * @return void
+     *
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
+     */
+    private function storeCopy(Product $target, array $mediaDTOsCopy, string $collectionName)
+    {
+        foreach ($mediaDTOsCopy as $mediaDTO) {
             if (!$this->isForCopying($mediaDTO)) {
                 continue;
             }
