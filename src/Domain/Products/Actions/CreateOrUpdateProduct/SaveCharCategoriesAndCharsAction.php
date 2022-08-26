@@ -16,6 +16,5 @@ class SaveCharCategoriesAndCharsAction extends BaseAction
      */
     public function execute(Product $target, array $charCategories, array $chars)
     {
-
     }
 }

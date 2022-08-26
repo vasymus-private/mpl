@@ -15,6 +15,5 @@ class SaveVariationsAction extends BaseAction
      */
     public function execute(Product $target, array $variations)
     {
-
     }
 }
