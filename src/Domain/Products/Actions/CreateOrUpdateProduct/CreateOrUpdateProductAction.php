@@ -2,10 +2,7 @@
 
 namespace Domain\Products\Actions\CreateOrUpdateProduct;
 
-use App\Constants;
 use Domain\Common\Actions\BaseAction;
-use Domain\Common\Models\CustomMedia;
-use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO;
 use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\ProductDTO;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Support\Facades\DB;
@@ -36,7 +33,7 @@ class CreateOrUpdateProductAction extends BaseAction
      */
     public function execute(ProductDTO $productDTO, Product $target = null): Product
     {
-        return DB::transaction(function() use($productDTO, $target) {
+        return DB::transaction(function () use ($productDTO, $target) {
             $target = $target ?: new Product();
 
             if ($productDTO->name !== null) {
