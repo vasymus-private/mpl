@@ -23,6 +23,10 @@ class SaveMediasAction extends BaseAction
      */
     public function execute(Product $target, array $mediaDTOs, string $collectionName)
     {
+        if (! $target->id) {
+            $target->save();
+        }
+
         /** @var \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO[][] $sorted */
         $sorted = collect($mediaDTOs)->reduce(function (array $acc, MediaDTO $item) {
             if ($item->file) {

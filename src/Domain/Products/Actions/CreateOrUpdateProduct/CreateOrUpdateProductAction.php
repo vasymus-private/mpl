@@ -3,6 +3,7 @@
 namespace Domain\Products\Actions\CreateOrUpdateProduct;
 
 use Domain\Common\Actions\BaseAction;
+use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO;
 use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\ProductDTO;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Support\Facades\DB;
@@ -152,6 +153,12 @@ class CreateOrUpdateProductAction extends BaseAction
 
             $this->saveInstructions($target, $productDTO->instructions);
 
+            if ($productDTO->mainImage) {
+                $this->saveMainImage($target, $productDTO->mainImage);
+            }
+
+            $this->saveAdditionalImages($target, $productDTO);
+
             // todo
 
             $target->save();
@@ -177,12 +184,17 @@ class CreateOrUpdateProductAction extends BaseAction
 
     /**
      * @param \Domain\Products\Models\Product\Product $target
-     * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\ProductDTO $productDTO
+     * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO $mediaDTO
      *
      * @return void
+     *
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
      */
-    private function saveMainImage(Product $target, ProductDTO $productDTO)
+    private function saveMainImage(Product $target, MediaDTO $mediaDTO)
     {
+        $this->saveMediasAction->execute($target, [ $mediaDTO ], Product::MC_MAIN_IMAGE);
     }
 
     /**
@@ -190,9 +202,14 @@ class CreateOrUpdateProductAction extends BaseAction
      * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\ProductDTO $productDTO
      *
      * @return void
+     *
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
      */
     private function saveAdditionalImages(Product $target, ProductDTO $productDTO)
     {
+        $this->saveMediasAction->execute($target, $productDTO->additionalImages, Product::MC_ADDITIONAL_IMAGES);
     }
 
     /**
