@@ -10,20 +10,50 @@ use Illuminate\Support\Facades\DB;
 
 class CreateOrUpdateProductAction extends BaseAction
 {
+    /**
+     * @var \Domain\Products\Actions\CreateOrUpdateProduct\SaveSeoAction
+     */
     private SaveSeoAction $saveSeoAction;
 
+    /**
+     * @var \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveInfoPricesAction
+     */
     private SyncAndSaveInfoPricesAction $syncAndSaveInfoPricesAction;
 
+    /**
+     * @var \Domain\Products\Actions\CreateOrUpdateProduct\SaveMediasAction
+     */
     private SaveMediasAction $saveMediasAction;
 
+    /**
+     * @var \Domain\Products\Actions\CreateOrUpdateProduct\SaveCharCategoriesAndCharsAction
+     */
+    private SaveCharCategoriesAndCharsAction $saveCharCategoriesAndCharsAction;
+
+    /**
+     * @var \Domain\Products\Actions\CreateOrUpdateProduct\SaveVariationsAction
+     */
+    private SaveVariationsAction $saveVariationsAction;
+
+    /**
+     * @param \Domain\Products\Actions\CreateOrUpdateProduct\SaveSeoAction $saveSeoAction
+     * @param \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveInfoPricesAction $syncAndSaveInfoPricesAction
+     * @param \Domain\Products\Actions\CreateOrUpdateProduct\SaveMediasAction $saveMediasAction
+     * @param \Domain\Products\Actions\CreateOrUpdateProduct\SaveCharCategoriesAndCharsAction $saveCharCategoriesAndCharsAction
+     * @param \Domain\Products\Actions\CreateOrUpdateProduct\SaveVariationsAction $saveVariationsAction
+     */
     public function __construct(
         SaveSeoAction $saveSeoAction,
         SyncAndSaveInfoPricesAction $syncAndSaveInfoPricesAction,
-        SaveMediasAction $saveMediasAction
+        SaveMediasAction $saveMediasAction,
+        SaveCharCategoriesAndCharsAction $saveCharCategoriesAndCharsAction,
+        SaveVariationsAction $saveVariationsAction
     ) {
         $this->saveSeoAction = $saveSeoAction;
         $this->syncAndSaveInfoPricesAction = $syncAndSaveInfoPricesAction;
         $this->saveMediasAction = $saveMediasAction;
+        $this->saveCharCategoriesAndCharsAction = $saveCharCategoriesAndCharsAction;
+        $this->saveVariationsAction = $saveVariationsAction;
     }
 
     /**
@@ -159,7 +189,11 @@ class CreateOrUpdateProductAction extends BaseAction
 
             $this->saveAdditionalImages($target, $productDTO);
 
-            // todo
+            $this->saveCharCategoriesAndCharsAction->execute($target, $productDTO->charCategories, $productDTO->chars);
+
+            $this->saveOtherProducts($target, $productDTO);
+
+            $this->saveVariationsAction->execute($target, $productDTO->variations);
 
             $target->save();
 
@@ -218,27 +252,7 @@ class CreateOrUpdateProductAction extends BaseAction
      *
      * @return void
      */
-    private function saveCharCategoriesAndChars(Product $target, ProductDTO $productDTO)
-    {
-    }
-
-    /**
-     * @param \Domain\Products\Models\Product\Product $target
-     * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\ProductDTO $productDTO
-     *
-     * @return void
-     */
     private function saveOtherProducts(Product $target, ProductDTO $productDTO)
-    {
-    }
-
-    /**
-     * @param \Domain\Products\Models\Product\Product $target
-     * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\ProductDTO $productDTO
-     *
-     * @return void
-     */
-    private function saveVariations(Product $target, ProductDTO $productDTO)
     {
     }
 }
