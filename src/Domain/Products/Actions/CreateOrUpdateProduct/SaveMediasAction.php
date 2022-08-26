@@ -25,8 +25,12 @@ class SaveMediasAction extends BaseAction
     {
         /** @var \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO[][] $sorted */
         $sorted = collect($mediaDTOs)->reduce(function(array $acc, MediaDTO $item) {
-            if ($item->is_copy || !$item->id) {
+            if ($this->isForCopying($item) || $item->file) {
                 $acc['new'][] = $item;
+                return $acc;
+            }
+
+            if (!$item->id) {
                 return $acc;
             }
 
@@ -44,43 +48,7 @@ class SaveMediasAction extends BaseAction
 
         $this->update($target, $sorted['exist'], $collectionName);
 
-        foreach ($sorted['new'] as $mediaDTO) {
-            if ($mediaDTO->file) {
-                $target
-                    ->addMedia($mediaDTO->file)
-                    ->usingFileName($mediaDTO->file_name)
-                    ->usingName($mediaDTO->name ?? $mediaDTO->file_name)
-                    ->toMediaCollection($collectionName);
-                continue;
-            }
-
-            if (!$mediaDTO->is_copy || !$mediaDTO->id) {
-                continue;
-            }
-
-            /** @var \Domain\Common\Models\CustomMedia|null $original */
-            $original = CustomMedia::query()->find($mediaDTO->id);
-            if (!$original) {
-                continue;
-            }
-
-            if (in_array($original->disk, Constants::MEDIA_CLOUD_DISKS)) {
-                $remoteUrl = $original->getFullUrl();
-                $target
-                    ->addMediaFromUrl($remoteUrl)
-                    ->usingFileName($mediaDTO->file_name)
-                    ->usingName($mediaDTO->name ?? $mediaDTO->file_name)
-                    ->toMediaCollection($collectionName);
-
-                continue;
-            }
-
-            $target
-                ->addMedia($original->getPath())
-                ->usingFileName($mediaDTO->file_name)
-                ->usingName($mediaDTO->name ?? $mediaDTO->file_name)
-                ->toMediaCollection($collectionName);
-        }
+        $this->store($target, $sorted['new'], $collectionName);
     }
 
     /**
@@ -119,5 +87,67 @@ class SaveMediasAction extends BaseAction
             }
             $customMedia->delete();
         });
+    }
+
+    /**
+     * @param \Domain\Products\Models\Product\Product $target
+     * @param array $mediaDTOsNew
+     * @param string $collectionName
+     *
+     * @return void
+     *
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
+     */
+    private function store(Product $target, array $mediaDTOsNew, string $collectionName)
+    {
+        foreach ($mediaDTOsNew as $mediaDTO) {
+            if ($mediaDTO->file) {
+                $target
+                    ->addMedia($mediaDTO->file)
+                    ->usingFileName($mediaDTO->file_name)
+                    ->usingName($mediaDTO->name ?? $mediaDTO->file_name)
+                    ->toMediaCollection($collectionName);
+                continue;
+            }
+
+            if (!$this->isForCopying($mediaDTO)) {
+                continue;
+            }
+
+            /** @var \Domain\Common\Models\CustomMedia|null $original */
+            $original = CustomMedia::query()->find($mediaDTO->id);
+            if (!$original) {
+                continue;
+            }
+
+            if (in_array($original->disk, Constants::MEDIA_CLOUD_DISKS)) {
+                $remoteUrl = $original->getFullUrl();
+                $target
+                    ->addMediaFromUrl($remoteUrl)
+                    ->usingFileName($mediaDTO->file_name)
+                    ->usingName($mediaDTO->name ?? $mediaDTO->file_name)
+                    ->toMediaCollection($collectionName);
+
+                continue;
+            }
+
+            $target
+                ->addMedia($original->getPath())
+                ->usingFileName($mediaDTO->file_name)
+                ->usingName($mediaDTO->name ?? $mediaDTO->file_name)
+                ->toMediaCollection($collectionName);
+        }
+    }
+
+    /**
+     * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO $mediaDTO
+     *
+     * @return bool
+     */
+    private function isForCopying(MediaDTO $mediaDTO): bool
+    {
+        return $mediaDTO->is_copy && $mediaDTO->id;
     }
 }
