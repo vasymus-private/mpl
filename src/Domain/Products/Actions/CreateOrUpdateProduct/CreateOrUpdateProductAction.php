@@ -254,5 +254,10 @@ class CreateOrUpdateProductAction extends BaseAction
      */
     private function saveOtherProducts(Product $target, ProductDTO $productDTO)
     {
+        $target->accessory()->sync($productDTO->accessories);
+        $target->similar()->sync($productDTO->similar);
+        $target->related()->sync($productDTO->related);
+        $target->works()->sync($productDTO->works);
+        $target->instruments()->sync($productDTO->instruments);
     }
 }
