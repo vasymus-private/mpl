@@ -32,8 +32,8 @@ class SyncAndSaveCharCategoriesAndCharsActionTest extends BaseActionTestCase
                 [
                     'name' => static::TEST_CHAR_NAME,
                     'value' => static::TEST_CHAR_VALUE,
-                ]
-            ]
+                ],
+            ],
         ]);
 
         SyncAndSaveCharCategoriesAndCharsAction::cached()->execute($product, [$charCategoryDTO]);
@@ -76,7 +76,7 @@ class SyncAndSaveCharCategoriesAndCharsActionTest extends BaseActionTestCase
                 'id' => $createdChar->id,
                 'name' => $createdChar->name,
                 'value' => static::TEST_CHAR_VALUE_2,
-            ])
+            ]),
         ];
         SyncAndSaveCharCategoriesAndCharsAction::cached()->execute($product, [$charCategoryDTO]);
 
@@ -116,7 +116,7 @@ class SyncAndSaveCharCategoriesAndCharsActionTest extends BaseActionTestCase
                 'id' => $createdChar->id,
                 'name' => $createdChar->name,
                 'value' => $createdChar->value,
-            ])
+            ]),
         ];
         SyncAndSaveCharCategoriesAndCharsAction::cached()->execute($newProduct, [$charCategoryDTO]);
         $product->load('charCategories.chars');
@@ -156,8 +156,8 @@ class SyncAndSaveCharCategoriesAndCharsActionTest extends BaseActionTestCase
                 new CharDTO([
                     'name' => $attributes['chars'][0]['name'] ?? 'bar',
                     'value' => $attributes['chars'][0]['value'] ?? 'baz',
-                ])
-            ]
+                ]),
+            ],
         ]);
     }
 }

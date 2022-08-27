@@ -39,7 +39,7 @@ class SyncAndSaveCharCategoriesAndCharsAction extends BaseAction
         $target->load('charCategories.chars');
 
         /** @var \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\CharCategoryDTO[][] $sorted */
-        $sorted = collect($charCategories)->reduce(function(array $acc, CharCategoryDTO $item) use($target) {
+        $sorted = collect($charCategories)->reduce(function (array $acc, CharCategoryDTO $item) use ($target) {
             if (! $item->id || $this->isForCopying($target, $item)) {
                 $acc['new'][] = $item;
 
@@ -130,12 +130,12 @@ class SyncAndSaveCharCategoriesAndCharsAction extends BaseAction
      */
     private function isForCopying(Product $target, CharCategoryDTO $charCategoryDTO): bool
     {
-        if (!$charCategoryDTO->id) {
+        if (! $charCategoryDTO->id) {
             return false;
         }
 
         $productCharCategoriesIds = $target->charCategories->pluck('id')->all();
 
-        return !in_array($charCategoryDTO->id, $productCharCategoriesIds);
+        return ! in_array($charCategoryDTO->id, $productCharCategoriesIds);
     }
 }
