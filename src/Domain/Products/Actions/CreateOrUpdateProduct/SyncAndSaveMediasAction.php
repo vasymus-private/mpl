@@ -29,7 +29,7 @@ class SyncAndSaveMediasAction extends BaseAction
         $target->load('media');
 
         /** @var \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO[][] $sorted */
-        $sorted = collect($mediaDTOs)->reduce(function(array $acc, MediaDTO $item) use ($target, $collectionName) {
+        $sorted = collect($mediaDTOs)->reduce(function (array $acc, MediaDTO $item) use ($target, $collectionName) {
             if ($item->file) {
                 $acc['file'][] = $item;
 
@@ -180,12 +180,12 @@ class SyncAndSaveMediasAction extends BaseAction
      */
     private function isForCopying(Product $target, string $collectionName, MediaDTO $mediaDTO): bool
     {
-        if (!$mediaDTO->id) {
+        if (! $mediaDTO->id) {
             return false;
         }
 
         $mediaIds = $target->getMedia($collectionName)->pluck('id')->all();
 
-        return !in_array($mediaDTO->id, $mediaIds);
+        return ! in_array($mediaDTO->id, $mediaIds);
     }
 }
