@@ -14,6 +14,9 @@ class SyncAndSaveVariationsAction extends BaseAction
      */
     private SyncAndSaveMediasAction $syncAndSaveMediasAction;
 
+    /**
+     * @param \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveMediasAction $syncAndSaveMediasAction
+     */
     public function __construct(SyncAndSaveMediasAction $syncAndSaveMediasAction)
     {
         $this->syncAndSaveMediasAction = $syncAndSaveMediasAction;
