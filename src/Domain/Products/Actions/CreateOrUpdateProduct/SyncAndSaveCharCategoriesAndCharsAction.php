@@ -35,8 +35,7 @@ class SyncAndSaveCharCategoriesAndCharsAction extends BaseAction
         SyncAndSaveCharsAction    $saveCharsAction,
         CheckIsForCopyingAction   $checkIsForCopyingAction,
         SortToNewCopyUpdateAction $sortToNewCopyUpdateAction
-    )
-    {
+    ) {
         $this->saveCharsAction = $saveCharsAction;
         $this->checkIsForCopyingAction = $checkIsForCopyingAction;
         $this->sortToNewCopyUpdateAction = $sortToNewCopyUpdateAction;
@@ -77,7 +76,7 @@ class SyncAndSaveCharCategoriesAndCharsAction extends BaseAction
             if (in_array($charCategory->id, $notDeleteIds)) {
                 return;
             }
-            $charCategory->chars->each(function(Char $char) {
+            $charCategory->chars->each(function (Char $char) {
                 $char->delete();
             });
             $charCategory->delete();
@@ -92,9 +91,9 @@ class SyncAndSaveCharCategoriesAndCharsAction extends BaseAction
      */
     private function update(Product $target, array $toUpdate)
     {
-        $target->charCategories->each(function(CharCategory $charCategory) use($target, $toUpdate) {
+        $target->charCategories->each(function (CharCategory $charCategory) use ($target, $toUpdate) {
             $charCategoryDto = $toUpdate[$charCategory->id] ?? null;
-            if (!$charCategoryDto) {
+            if (! $charCategoryDto) {
                 return;
             }
 
