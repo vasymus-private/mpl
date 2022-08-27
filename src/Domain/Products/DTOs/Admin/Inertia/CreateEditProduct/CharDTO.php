@@ -22,9 +22,9 @@ class CharDTO extends DataTransferObject
     public ?string $name;
 
     /**
-     * @var string|null
+     * @var string|int|float|null
      */
-    public ?string $value;
+    public $value;
 
     /**
      * @var int|null
@@ -35,14 +35,4 @@ class CharDTO extends DataTransferObject
      * @var int|null
      */
     public ?int $ordering;
-
-    /**
-     * @var int|null
-     */
-    public ?int $category_id;
-
-    /**
-     * @var string|null
-     */
-    public ?string $category_uuid;
 }

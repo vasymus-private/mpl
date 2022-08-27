@@ -23,37 +23,37 @@ class CreateOrUpdateProductAction extends BaseAction
     /**
      * @var \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveMediasAction
      */
-    private SyncAndSaveMediasAction $saveMediasAction;
+    private SyncAndSaveMediasAction $syncAndSaveMediasAction;
 
     /**
      * @var \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveCharCategoriesAndCharsAction
      */
-    private SyncAndSaveCharCategoriesAndCharsAction $saveCharCategoriesAndCharsAction;
+    private SyncAndSaveCharCategoriesAndCharsAction $syncAndSaveCharCategoriesAndCharsAction;
 
     /**
      * @var \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveVariationsAction
      */
-    private SyncAndSaveVariationsAction $saveVariationsAction;
+    private SyncAndSaveVariationsAction $syncAndSaveVariationsAction;
 
     /**
      * @param \Domain\Products\Actions\CreateOrUpdateProduct\SaveSeoAction $saveSeoAction
      * @param \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveInfoPricesAction $syncAndSaveInfoPricesAction
-     * @param \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveMediasAction $saveMediasAction
-     * @param \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveCharCategoriesAndCharsAction $saveCharCategoriesAndCharsAction
-     * @param \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveVariationsAction $saveVariationsAction
+     * @param \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveMediasAction $syncAndSaveMediasAction
+     * @param \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveCharCategoriesAndCharsAction $syncAndSaveCharCategoriesAndCharsAction
+     * @param \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveVariationsAction $syncAndSaveVariationsAction
      */
     public function __construct(
         SaveSeoAction                           $saveSeoAction,
         SyncAndSaveInfoPricesAction             $syncAndSaveInfoPricesAction,
-        SyncAndSaveMediasAction                 $saveMediasAction,
-        SyncAndSaveCharCategoriesAndCharsAction $saveCharCategoriesAndCharsAction,
-        SyncAndSaveVariationsAction             $saveVariationsAction
+        SyncAndSaveMediasAction                 $syncAndSaveMediasAction,
+        SyncAndSaveCharCategoriesAndCharsAction $syncAndSaveCharCategoriesAndCharsAction,
+        SyncAndSaveVariationsAction $syncAndSaveVariationsAction
     ) {
         $this->saveSeoAction = $saveSeoAction;
         $this->syncAndSaveInfoPricesAction = $syncAndSaveInfoPricesAction;
-        $this->saveMediasAction = $saveMediasAction;
-        $this->saveCharCategoriesAndCharsAction = $saveCharCategoriesAndCharsAction;
-        $this->saveVariationsAction = $saveVariationsAction;
+        $this->syncAndSaveMediasAction = $syncAndSaveMediasAction;
+        $this->syncAndSaveCharCategoriesAndCharsAction = $syncAndSaveCharCategoriesAndCharsAction;
+        $this->syncAndSaveVariationsAction = $syncAndSaveVariationsAction;
     }
 
     /**
@@ -189,11 +189,11 @@ class CreateOrUpdateProductAction extends BaseAction
 
             $this->saveAdditionalImages($target, $productDTO);
 
-            $this->saveCharCategoriesAndCharsAction->execute($target, $productDTO->charCategories);
+            $this->syncAndSaveCharCategoriesAndCharsAction->execute($target, $productDTO->charCategories);
 
             $this->saveOtherProducts($target, $productDTO);
 
-            $this->saveVariationsAction->execute($target, $productDTO->variations);
+            $this->syncAndSaveVariationsAction->execute($target, $productDTO->variations);
 
             $target->save();
 
@@ -213,7 +213,7 @@ class CreateOrUpdateProductAction extends BaseAction
      */
     private function saveInstructions(Product $target, array $mediaDTOs)
     {
-        $this->saveMediasAction->execute($target, $mediaDTOs, Product::MC_FILES);
+        $this->syncAndSaveMediasAction->execute($target, $mediaDTOs, Product::MC_FILES);
     }
 
     /**
@@ -228,7 +228,7 @@ class CreateOrUpdateProductAction extends BaseAction
      */
     private function saveMainImage(Product $target, MediaDTO $mediaDTO)
     {
-        $this->saveMediasAction->execute($target, [ $mediaDTO ], Product::MC_MAIN_IMAGE);
+        $this->syncAndSaveMediasAction->execute($target, [ $mediaDTO ], Product::MC_MAIN_IMAGE);
     }
 
     /**
@@ -243,7 +243,7 @@ class CreateOrUpdateProductAction extends BaseAction
      */
     private function saveAdditionalImages(Product $target, ProductDTO $productDTO)
     {
-        $this->saveMediasAction->execute($target, $productDTO->additionalImages, Product::MC_ADDITIONAL_IMAGES);
+        $this->syncAndSaveMediasAction->execute($target, $productDTO->additionalImages, Product::MC_ADDITIONAL_IMAGES);
     }
 
     /**

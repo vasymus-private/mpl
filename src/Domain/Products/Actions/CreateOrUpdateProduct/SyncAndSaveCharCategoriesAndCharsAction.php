@@ -3,8 +3,7 @@
 namespace Domain\Products\Actions\CreateOrUpdateProduct;
 
 use Domain\Common\Actions\BaseAction;
-use Domain\Products\Actions\Common\CheckIsForCopyingAction;
-use Domain\Products\Actions\Common\SortToNewCopyUpdateAction;
+use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\CharCategoryDTO;
 use Domain\Products\Models\Char;
 use Domain\Products\Models\CharCategory;
 use Domain\Products\Models\Product\Product;
@@ -17,28 +16,12 @@ class SyncAndSaveCharCategoriesAndCharsAction extends BaseAction
     private SyncAndSaveCharsAction $saveCharsAction;
 
     /**
-     * @var \Domain\Products\Actions\Common\CheckIsForCopyingAction
-     */
-    private CheckIsForCopyingAction $checkIsForCopyingAction;
-
-    /**
-     * @var \Domain\Products\Actions\Common\SortToNewCopyUpdateAction
-     */
-    private SortToNewCopyUpdateAction $sortToNewCopyUpdateAction;
-
-    /**
      * @param \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveCharsAction $saveCharsAction
-     * @param \Domain\Products\Actions\Common\CheckIsForCopyingAction $checkIsForCopyingAction
-     * @param \Domain\Products\Actions\Common\SortToNewCopyUpdateAction $sortToNewCopyUpdateAction
      */
     public function __construct(
-        SyncAndSaveCharsAction    $saveCharsAction,
-        CheckIsForCopyingAction   $checkIsForCopyingAction,
-        SortToNewCopyUpdateAction $sortToNewCopyUpdateAction
+        SyncAndSaveCharsAction    $saveCharsAction
     ) {
         $this->saveCharsAction = $saveCharsAction;
-        $this->checkIsForCopyingAction = $checkIsForCopyingAction;
-        $this->sortToNewCopyUpdateAction = $sortToNewCopyUpdateAction;
     }
 
     /**
@@ -53,15 +36,30 @@ class SyncAndSaveCharCategoriesAndCharsAction extends BaseAction
             $target->save();
         }
 
+        $target->load('charCategories.chars');
+
         /** @var \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\CharCategoryDTO[][] $sorted */
-        $sorted = $this->sortToNewCopyUpdateAction->execute($charCategories);
+        $sorted = collect($charCategories)->reduce(function(array $acc, CharCategoryDTO $item) use($target) {
+            if (! $item->id || $this->isForCopying($target, $item)) {
+                $acc['new'][] = $item;
+
+                return $acc;
+            }
+
+            $acc['update'][] = $item;
+
+            return $acc;
+        }, [
+            'new' => [],
+            'update' => [],
+        ]);
 
         $notDeleteIds = collect($sorted['update'])->pluck('id')->filter(fn ($id) => (bool)$id)->all();
         $this->delete($target, $notDeleteIds);
 
         $this->update($target, collect($sorted['update'])->keyBy('id')->all());
 
-        $this->storeNew($target, $sorted['new']);
+        $this->store($target, $sorted['new']);
     }
 
     /**
@@ -99,6 +97,7 @@ class SyncAndSaveCharCategoriesAndCharsAction extends BaseAction
 
             $charCategory->name = $charCategoryDto->name;
             $charCategory->ordering = $charCategoryDto->ordering;
+            $charCategory->save();
 
             $this->saveCharsAction->execute($charCategory, $charCategoryDto->chars);
         });
@@ -110,7 +109,7 @@ class SyncAndSaveCharCategoriesAndCharsAction extends BaseAction
      *
      * @return void
      */
-    private function storeNew(Product $target, array $toStore)
+    private function store(Product $target, array $toStore)
     {
         foreach ($toStore as $charCategoryDTO) {
             $charCategory = CharCategory::forceCreate([
@@ -121,5 +120,22 @@ class SyncAndSaveCharCategoriesAndCharsAction extends BaseAction
 
             $this->saveCharsAction->execute($charCategory, $charCategoryDTO->chars);
         }
+    }
+
+    /**
+     * @param \Domain\Products\Models\Product\Product $target
+     * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\CharCategoryDTO $charCategoryDTO
+     *
+     * @return bool
+     */
+    private function isForCopying(Product $target, CharCategoryDTO $charCategoryDTO): bool
+    {
+        if (!$charCategoryDTO->id) {
+            return false;
+        }
+
+        $productCharCategoriesIds = $target->charCategories->pluck('id')->all();
+
+        return !in_array($charCategoryDTO->id, $productCharCategoriesIds);
     }
 }
