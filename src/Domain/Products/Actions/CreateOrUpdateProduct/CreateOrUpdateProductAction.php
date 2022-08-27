@@ -175,19 +175,15 @@ class CreateOrUpdateProductAction extends BaseAction
                 $target->save();
             }
 
-            if ($productDTO->seo !== null) {
-                $this->saveSeoAction->execute($target, $productDTO->seo);
-            }
+            $this->saveSeoAction->execute($target, $productDTO->seo);
 
             $this->syncAndSaveInfoPricesAction->execute($target, $productDTO->infoPrices);
 
             $this->saveInstructions($target, $productDTO->instructions);
 
-            if ($productDTO->mainImage) {
-                $this->saveMainImage($target, $productDTO->mainImage);
-            }
+            $this->saveMainImage($target, $productDTO->mainImage);
 
-            $this->saveAdditionalImages($target, $productDTO);
+            $this->saveAdditionalImages($target, $productDTO->additionalImages);
 
             $this->syncAndSaveCharCategoriesAndCharsAction->execute($target, $productDTO->charCategories);
 
@@ -218,7 +214,7 @@ class CreateOrUpdateProductAction extends BaseAction
 
     /**
      * @param \Domain\Products\Models\Product\Product $target
-     * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO $mediaDTO
+     * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO|null $mediaDTO
      *
      * @return void
      *
@@ -226,14 +222,14 @@ class CreateOrUpdateProductAction extends BaseAction
      * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
      * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
      */
-    private function saveMainImage(Product $target, MediaDTO $mediaDTO)
+    private function saveMainImage(Product $target, MediaDTO $mediaDTO = null)
     {
-        $this->syncAndSaveMediasAction->execute($target, [ $mediaDTO ], Product::MC_MAIN_IMAGE);
+        $this->syncAndSaveMediasAction->execute($target, $mediaDTO ? [ $mediaDTO ] : [], Product::MC_MAIN_IMAGE);
     }
 
     /**
      * @param \Domain\Products\Models\Product\Product $target
-     * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\ProductDTO $productDTO
+     * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO[] $mediaDTOs
      *
      * @return void
      *
@@ -241,9 +237,9 @@ class CreateOrUpdateProductAction extends BaseAction
      * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
      * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
      */
-    private function saveAdditionalImages(Product $target, ProductDTO $productDTO)
+    private function saveAdditionalImages(Product $target, array $mediaDTOs)
     {
-        $this->syncAndSaveMediasAction->execute($target, $productDTO->additionalImages, Product::MC_ADDITIONAL_IMAGES);
+        $this->syncAndSaveMediasAction->execute($target, $mediaDTOs, Product::MC_ADDITIONAL_IMAGES);
     }
 
     /**

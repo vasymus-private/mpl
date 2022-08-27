@@ -11,17 +11,22 @@ class SaveSeoAction extends BaseAction
 {
     /**
      * @param \Domain\Products\Models\Product\Product $target
-     * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\SeoDTO $seoDTO
+     * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\SeoDTO|null $seoDTO
      *
      * @return void
      */
-    public function execute(Product $target, SeoDTO $seoDTO)
+    public function execute(Product $target, SeoDTO $seoDTO = null)
     {
         if (! $target->id) {
             $target->save();
         }
 
         $seo = $target->seo ?? new Seo();
+        if (!$seoDTO) {
+            $seo->delete();
+            return;
+        }
+
         $seo->title = $seoDTO->title;
         $seo->h1 = $seoDTO->h1;
         $seo->keywords = $seoDTO->keywords;
