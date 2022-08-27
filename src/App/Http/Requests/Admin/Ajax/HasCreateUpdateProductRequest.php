@@ -128,6 +128,7 @@ trait HasCreateUpdateProductRequest
 
             'infoPrices' => 'nullable|array',
             'infoPrices.*.id' => 'nullable|integer',
+            'infoPrices.*.is_copy' => 'nullable|boolean',
             'infoPrices.*.name' => 'nullable|string|max:250',
             'infoPrices.*.price' => 'nullable|numeric',
 
@@ -160,18 +161,16 @@ trait HasCreateUpdateProductRequest
 
             'charCategories' => 'nullable|array',
             'charCategories.*.id' => 'nullable|integer',
-            'charCategories.*.uuid' => 'string',
+            'charCategories.*.is_copy' => 'nullable|boolean',
             'charCategories.*.name' => 'nullable|string|max:250',
             'charCategories.*.ordering' => 'nullable|integer',
-
-            'chars' => 'nullable|array',
-            'chars.*.id' => 'nullable|integer',
-            'chars.*.name' => 'nullable|string|max:250',
-            'chars.*.value' => 'nullable|string|max:250',
-            'chars.*.type_id' => sprintf('nullable|integer|in:%s', $charTypeIds),
-            'chars.*.ordering' => 'nullable|integer',
-            'chars.*.category_id' => sprintf('nullable|integer|in:%s', $charCategoryIds),
-            'chars.*.category_uuid' => 'nullable|string',
+            'charCategories.*.chars' => 'nullable|array',
+            'charCategories.*.chars.*.id' => 'nullable|integer',
+            'charCategories.*.chars.*.is_copy' => 'nullable|boolean',
+            'charCategories.*.chars.*.name' => 'nullable|string|max:250',
+            'charCategories.*.chars.*.value' => 'nullable|string|max:250',
+            'charCategories.*.chars.*.type_id' => sprintf('nullable|integer|in:%s', $charTypeIds),
+            'charCategories.*.chars.*.ordering' => 'nullable|integer',
 
             'accessories' => 'nullable|array',
             'accessories.*' => sprintf('nullable|integer|in:%s', $productIds),
@@ -190,6 +189,7 @@ trait HasCreateUpdateProductRequest
 
             'variations' => 'nullable|array',
             'variations.*.id' => 'nullable|integer',
+            'variations.*.is_copy' => 'nullable|boolean',
             'variations.*.uuid' => 'string',
             'variations.*.name' => 'nullable|string|max:250',
             'variations.*.is_active' => 'nullable|boolean',
@@ -328,6 +328,7 @@ trait HasCreateUpdateProductRequest
             'infoPrices' => isset($payload['infoPrices'])
                 ? collect($payload['infoPrices'])->map(fn (array $infoPrice) => new InfoPriceDTO([
                     'id' => isset($infoPrice['id']) ? (int)$infoPrice['id'] : null,
+                    'is_copy' => isset($infoPrice['is_copy']) ? (bool)$infoPrice['is_copy'] : null,
                     'name' => isset($infoPrice['name']) ? (string)$infoPrice['name'] : null,
                     'price' => isset($infoPrice['price']) ? (float)$infoPrice['price'] : null,
                 ]))->all()
@@ -346,6 +347,9 @@ trait HasCreateUpdateProductRequest
                     'id' => isset($charCategory['id'])
                         ? (int)$charCategory['id']
                         : null,
+                    'is_copy' => isset($charCategory['is_copy'])
+                        ? (bool)$charCategory['is_copy']
+                        : null,
                     'uuid' => isset($charCategory['uuid'])
                         ? (string)$charCategory['uuid']
                         : null,
@@ -355,31 +359,28 @@ trait HasCreateUpdateProductRequest
                     'ordering' => isset($charCategory['ordering'])
                         ? (int)$charCategory['ordering']
                         : null,
-                ]))->all()
-                : [],
-            'chars' => isset($payload['chars'])
-                ? collect($payload['chars'])->map(fn (array $char) => new CharDTO([
-                    'id' => isset($char['id'])
-                        ? (int)$char['id']
-                        : null,
-                    'name' => isset($char['name'])
-                        ? (string)$char['name']
-                        : null,
-                    'value' => isset($char['value'])
-                        ? (string)$char['value']
-                        : null,
-                    'type_id' => isset($char['type_id'])
-                        ? (int)$char['type_id']
-                        : null,
-                    'ordering' => isset($char['ordering'])
-                        ? (int)$char['ordering']
-                        : null,
-                    'category_id' => isset($char['category_id'])
-                        ? (int)$char['category_id']
-                        : null,
-                    'category_uuid' => isset($char['category_uuid'])
-                        ? (string)$char['category_uuid']
-                        : null,
+                    'chars' => isset($charCategory['chars'])
+                        ? collect($charCategory['chars'])->map(fn (array $char) => new CharDTO([
+                            'id' => isset($char['id'])
+                                ? (int)$char['id']
+                                : null,
+                            'is_copy' => isset($char['is_copy'])
+                                ? (bool)$char['is_copy']
+                                : null,
+                            'name' => isset($char['name'])
+                                ? (string)$char['name']
+                                : null,
+                            'value' => isset($char['value'])
+                                ? (string)$char['value']
+                                : null,
+                            'type_id' => isset($char['type_id'])
+                                ? (int)$char['type_id']
+                                : null,
+                            'ordering' => isset($char['ordering'])
+                                ? (int)$char['ordering']
+                                : null,
+                        ]))->all()
+                        : [],
                 ]))->all()
                 : [],
             'accessories' => isset($payload['accessories'])
@@ -401,6 +402,9 @@ trait HasCreateUpdateProductRequest
                 ? collect($payload['variations'])->map(fn (array $variation) => new VariationDTO([
                     'id' => isset($variation['id'])
                         ? (int)$variation['id']
+                        : null,
+                    'is_copy' => isset($variation['is_copy'])
+                        ? (bool)$variation['is_copy']
                         : null,
                     'uuid' => isset($variation['uuid'])
                         ? (string)$variation['uuid']

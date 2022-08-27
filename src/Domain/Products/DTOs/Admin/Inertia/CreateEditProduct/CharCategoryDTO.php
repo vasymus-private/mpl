@@ -12,6 +12,11 @@ class CharCategoryDTO extends DataTransferObject
     public ?int $id;
 
     /**
+     * @var bool|null
+     */
+    public ?bool $is_copy;
+
+    /**
      * @var string|null
      */
     public ?string $uuid;
@@ -25,4 +30,9 @@ class CharCategoryDTO extends DataTransferObject
      * @var int|null
      */
     public ?int $ordering;
+
+    /**
+     * @var \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\CharDTO[]
+     */
+    public array $chars = [];
 }

@@ -172,11 +172,6 @@ class ProductDTO extends DataTransferObject
     public array $charCategories = [];
 
     /**
-     * @var \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\CharDTO[]
-     */
-    public array $chars = [];
-
-    /**
      * @var int[]
      */
     public array $accessories = [];

@@ -583,6 +583,10 @@ const valuesToFormData = (
                 `infoPrices[${index}][id]`,
                 infoPrice.id
             )
+            formData.appendBoolean(
+                `infoPrices[${index}][is_copy]`,
+                isCreatingFromCopy
+            )
             formData.appendStringOrNumber(
                 `infoPrices[${index}][name]`,
                 infoPrice.name
@@ -677,47 +681,40 @@ const valuesToFormData = (
     }
 
     if (values.charCategories) {
-        values.charCategories.forEach((charCategory, index) => {
+        values.charCategories.forEach((charCategory, charCategoryIndex) => {
             formData.appendStringOrNumber(
-                `charCategories[${index}][id]`,
+                `charCategories[${charCategoryIndex}][id]`,
                 charCategory.id
             )
-            formData.appendStringOrNumber(
-                `charCategories[${index}][uuid]`,
-                charCategory.uuid
+            formData.appendBoolean(
+                `charCategories[${charCategoryIndex}][is_copy]`,
+                isCreatingFromCopy
             )
             formData.appendStringOrNumber(
-                `charCategories[${index}][name]`,
+                `charCategories[${charCategoryIndex}][name]`,
                 charCategory.name
             )
             formData.appendStringOrNumber(
-                `charCategories[${index}][ordering]`,
+                `charCategories[${charCategoryIndex}][ordering]`,
                 charCategory.ordering
             )
-        })
-    }
-
-    if (values.chars) {
-        values.chars.forEach((char, index) => {
-            formData.appendStringOrNumber(`chars[${index}][id]`, char.id)
-            formData.appendStringOrNumber(`chars[${index}][name]`, char.name)
-            formData.appendStringOrNumber(`chars[${index}][value]`, char.value)
-            formData.appendStringOrNumber(
-                `chars[${index}][type_id]`,
-                char.type_id
-            )
-            formData.appendStringOrNumber(
-                `chars[${index}][ordering]`,
-                char.ordering
-            )
-            formData.appendStringOrNumber(
-                `chars[${index}][category_id]`,
-                char.category_id
-            )
-            formData.appendStringOrNumber(
-                `chars[${index}][category_uuid]`,
-                char.category_uuid
-            )
+            let chars = values.chars
+                ? values.chars.filter(char => char.category_uuid === charCategory.uuid)
+                : []
+            chars.forEach((char, charIndex) => {
+                formData.appendStringOrNumber(`charCategories[${charCategoryIndex}][chars][${charIndex}][id]`, char.id)
+                formData.appendBoolean(`charCategories[${charCategoryIndex}][chars][${charIndex}][is_copy]`, isCreatingFromCopy)
+                formData.appendStringOrNumber(`charCategories[${charCategoryIndex}][chars][${charIndex}][name]`, char.name)
+                formData.appendStringOrNumber(`charCategories[${charCategoryIndex}][chars][${charIndex}][value]`, char.value)
+                formData.appendStringOrNumber(
+                    `charCategories[${charCategoryIndex}][chars][${charIndex}][type_id]`,
+                    char.type_id
+                )
+                formData.appendStringOrNumber(
+                    `charCategories[${charCategoryIndex}][chars][${charIndex}][ordering]`,
+                    char.ordering
+                )
+            })
         })
     }
 
@@ -761,6 +758,10 @@ const valuesToFormData = (
             formData.appendStringOrNumber(
                 `variations[${index}][id]`,
                 variation.id
+            )
+            formData.appendBoolean(
+                `variations[${index}][is_copy]`,
+                isCreatingFromCopy
             )
             formData.appendStringOrNumber(
                 `variations[${index}][uuid]`,

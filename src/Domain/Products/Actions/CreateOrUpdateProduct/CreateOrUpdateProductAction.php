@@ -21,33 +21,33 @@ class CreateOrUpdateProductAction extends BaseAction
     private SyncAndSaveInfoPricesAction $syncAndSaveInfoPricesAction;
 
     /**
-     * @var \Domain\Products\Actions\CreateOrUpdateProduct\SaveMediasAction
+     * @var \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveMediasAction
      */
-    private SaveMediasAction $saveMediasAction;
+    private SyncAndSaveMediasAction $saveMediasAction;
 
     /**
-     * @var \Domain\Products\Actions\CreateOrUpdateProduct\SaveCharCategoriesAndCharsAction
+     * @var \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveCharCategoriesAndCharsAction
      */
-    private SaveCharCategoriesAndCharsAction $saveCharCategoriesAndCharsAction;
+    private SyncAndSaveCharCategoriesAndCharsAction $saveCharCategoriesAndCharsAction;
 
     /**
-     * @var \Domain\Products\Actions\CreateOrUpdateProduct\SaveVariationsAction
+     * @var \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveVariationsAction
      */
-    private SaveVariationsAction $saveVariationsAction;
+    private SyncAndSaveVariationsAction $saveVariationsAction;
 
     /**
      * @param \Domain\Products\Actions\CreateOrUpdateProduct\SaveSeoAction $saveSeoAction
      * @param \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveInfoPricesAction $syncAndSaveInfoPricesAction
-     * @param \Domain\Products\Actions\CreateOrUpdateProduct\SaveMediasAction $saveMediasAction
-     * @param \Domain\Products\Actions\CreateOrUpdateProduct\SaveCharCategoriesAndCharsAction $saveCharCategoriesAndCharsAction
-     * @param \Domain\Products\Actions\CreateOrUpdateProduct\SaveVariationsAction $saveVariationsAction
+     * @param \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveMediasAction $saveMediasAction
+     * @param \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveCharCategoriesAndCharsAction $saveCharCategoriesAndCharsAction
+     * @param \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveVariationsAction $saveVariationsAction
      */
     public function __construct(
-        SaveSeoAction $saveSeoAction,
-        SyncAndSaveInfoPricesAction $syncAndSaveInfoPricesAction,
-        SaveMediasAction $saveMediasAction,
-        SaveCharCategoriesAndCharsAction $saveCharCategoriesAndCharsAction,
-        SaveVariationsAction $saveVariationsAction
+        SaveSeoAction                           $saveSeoAction,
+        SyncAndSaveInfoPricesAction             $syncAndSaveInfoPricesAction,
+        SyncAndSaveMediasAction                 $saveMediasAction,
+        SyncAndSaveCharCategoriesAndCharsAction $saveCharCategoriesAndCharsAction,
+        SyncAndSaveVariationsAction             $saveVariationsAction
     ) {
         $this->saveSeoAction = $saveSeoAction;
         $this->syncAndSaveInfoPricesAction = $syncAndSaveInfoPricesAction;
@@ -189,7 +189,7 @@ class CreateOrUpdateProductAction extends BaseAction
 
             $this->saveAdditionalImages($target, $productDTO);
 
-            $this->saveCharCategoriesAndCharsAction->execute($target, $productDTO->charCategories, $productDTO->chars);
+            $this->saveCharCategoriesAndCharsAction->execute($target, $productDTO->charCategories);
 
             $this->saveOtherProducts($target, $productDTO);
 

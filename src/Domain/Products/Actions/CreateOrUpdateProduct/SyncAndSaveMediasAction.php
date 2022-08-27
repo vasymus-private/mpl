@@ -5,11 +5,32 @@ namespace Domain\Products\Actions\CreateOrUpdateProduct;
 use App\Constants;
 use Domain\Common\Actions\BaseAction;
 use Domain\Common\Models\CustomMedia;
-use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO;
+use Domain\Products\Actions\Common\CheckIsForCopyingAction;
+use Domain\Products\Actions\Common\SortToNewCopyUpdateAction;
 use Domain\Products\Models\Product\Product;
 
-class SaveMediasAction extends BaseAction
+class SyncAndSaveMediasAction extends BaseAction
 {
+    /**
+     * @var \Domain\Products\Actions\Common\CheckIsForCopyingAction
+     */
+    private CheckIsForCopyingAction $checkIsForCopyingAction;
+
+    /**
+     * @var \Domain\Products\Actions\Common\SortToNewCopyUpdateAction
+     */
+    private SortToNewCopyUpdateAction $sortToNewCopyUpdateAction;
+
+    /**
+     * @param \Domain\Products\Actions\Common\CheckIsForCopyingAction $checkIsForCopyingAction
+     * @param \Domain\Products\Actions\Common\SortToNewCopyUpdateAction $sortToNewCopyUpdateAction
+     */
+    public function __construct(CheckIsForCopyingAction $checkIsForCopyingAction, SortToNewCopyUpdateAction $sortToNewCopyUpdateAction)
+    {
+        $this->checkIsForCopyingAction = $checkIsForCopyingAction;
+        $this->sortToNewCopyUpdateAction = $sortToNewCopyUpdateAction;
+    }
+
     /**
      * @param \Domain\Products\Models\Product\Product $target
      * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO[] $mediaDTOs
@@ -28,37 +49,13 @@ class SaveMediasAction extends BaseAction
         }
 
         /** @var \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO[][] $sorted */
-        $sorted = collect($mediaDTOs)->reduce(function (array $acc, MediaDTO $item) {
-            if ($item->file) {
-                $acc['new'][] = $item;
+        $sorted = $this->sortToNewCopyUpdateAction->execute($mediaDTOs);
 
-                return $acc;
-            }
-
-            if ($this->isForCopying($item)) {
-                $acc['copy'][] = $item;
-
-                return $acc;
-            }
-
-            if (! $item->id) {
-                return $acc;
-            }
-
-            $acc['exist'][$item->id] = $item;
-
-            return $acc;
-        }, [
-            'new' => [],
-            'copy' => [],
-            'exist' => [],
-        ]);
-
-        $notDeleteIds = collect($sorted['exist'])->pluck('id')->filter(fn ($id) => (bool)$id)->all();
+        $notDeleteIds = collect($sorted['update'])->pluck('id')->filter(fn ($id) => (bool)$id)->all();
 
         $this->delete($target, $collectionName, $notDeleteIds);
 
-        $this->update($target, $sorted['exist'], $collectionName);
+        $this->update($target, collect($sorted['update'])->keyBy('id')->all(), $collectionName);
 
         $this->storeNew($target, $sorted['new'], $collectionName);
 
@@ -79,6 +76,7 @@ class SaveMediasAction extends BaseAction
             if (! $updateMediaDTO) {
                 return;
             }
+
             $customMedia->name = $updateMediaDTO->name;
             $customMedia->file_name = $updateMediaDTO->file_name;
             $customMedia->order_column = $updateMediaDTO->order_column;
@@ -99,6 +97,7 @@ class SaveMediasAction extends BaseAction
             if (in_array($customMedia->id, $notDeleteIds)) {
                 return;
             }
+
             $customMedia->delete();
         });
     }
@@ -143,7 +142,7 @@ class SaveMediasAction extends BaseAction
     private function storeCopy(Product $target, array $mediaDTOsCopy, string $collectionName)
     {
         foreach ($mediaDTOsCopy as $mediaDTO) {
-            if (! $this->isForCopying($mediaDTO)) {
+            if (! $this->checkIsForCopyingAction->execute($mediaDTO)) {
                 continue;
             }
 
@@ -170,15 +169,5 @@ class SaveMediasAction extends BaseAction
                 ->usingName($mediaDTO->name ?? $mediaDTO->file_name)
                 ->toMediaCollection($collectionName);
         }
-    }
-
-    /**
-     * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO $mediaDTO
-     *
-     * @return bool
-     */
-    private function isForCopying(MediaDTO $mediaDTO): bool
-    {
-        return $mediaDTO->is_copy && $mediaDTO->id;
     }
 }
