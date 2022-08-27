@@ -30,14 +30,14 @@ class SyncAndSaveCharsAction extends BaseAction
      */
     public function execute(CharCategory $charCategory, array $chars)
     {
-        if (!$charCategory->id) {
+        if (! $charCategory->id) {
             $charCategory->save();
         }
 
         /** @var \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\CharDTO[][] $sorted */
         $sorted = $this->sortToNewCopyUpdateAction->execute($chars);
 
-        $notDeleteIds = collect($sorted['update'])->pluck('id')->filter(fn($id) => (bool)$id)->all();
+        $notDeleteIds = collect($sorted['update'])->pluck('id')->filter(fn ($id) => (bool)$id)->all();
         $this->delete($charCategory, $notDeleteIds);
 
         $this->update($charCategory, collect($sorted['update'])->keyBy('id')->all());
@@ -54,7 +54,7 @@ class SyncAndSaveCharsAction extends BaseAction
      */
     private function delete(CharCategory $charCategory, array $notDeleteIds)
     {
-        $charCategory->chars->each(function(Char $char) use($notDeleteIds) {
+        $charCategory->chars->each(function (Char $char) use ($notDeleteIds) {
             if (in_array($char->id, $notDeleteIds)) {
                 return;
             }
@@ -71,9 +71,9 @@ class SyncAndSaveCharsAction extends BaseAction
      */
     private function update(CharCategory $charCategory, array $toUpdate)
     {
-        $charCategory->chars->each(function(Char $char) use ($toUpdate) {
+        $charCategory->chars->each(function (Char $char) use ($toUpdate) {
             $charDto = $toUpdate[$char->id] ?? null;
-            if (!$charDto) {
+            if (! $charDto) {
                 return;
             }
 

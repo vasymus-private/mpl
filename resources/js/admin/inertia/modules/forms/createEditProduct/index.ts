@@ -699,13 +699,27 @@ const valuesToFormData = (
                 charCategory.ordering
             )
             let chars = values.chars
-                ? values.chars.filter(char => char.category_uuid === charCategory.uuid)
+                ? values.chars.filter(
+                      (char) => char.category_uuid === charCategory.uuid
+                  )
                 : []
             chars.forEach((char, charIndex) => {
-                formData.appendStringOrNumber(`charCategories[${charCategoryIndex}][chars][${charIndex}][id]`, char.id)
-                formData.appendBoolean(`charCategories[${charCategoryIndex}][chars][${charIndex}][is_copy]`, isCreatingFromCopy)
-                formData.appendStringOrNumber(`charCategories[${charCategoryIndex}][chars][${charIndex}][name]`, char.name)
-                formData.appendStringOrNumber(`charCategories[${charCategoryIndex}][chars][${charIndex}][value]`, char.value)
+                formData.appendStringOrNumber(
+                    `charCategories[${charCategoryIndex}][chars][${charIndex}][id]`,
+                    char.id
+                )
+                formData.appendBoolean(
+                    `charCategories[${charCategoryIndex}][chars][${charIndex}][is_copy]`,
+                    isCreatingFromCopy
+                )
+                formData.appendStringOrNumber(
+                    `charCategories[${charCategoryIndex}][chars][${charIndex}][name]`,
+                    char.name
+                )
+                formData.appendStringOrNumber(
+                    `charCategories[${charCategoryIndex}][chars][${charIndex}][value]`,
+                    char.value
+                )
                 formData.appendStringOrNumber(
                     `charCategories[${charCategoryIndex}][chars][${charIndex}][type_id]`,
                     char.type_id
