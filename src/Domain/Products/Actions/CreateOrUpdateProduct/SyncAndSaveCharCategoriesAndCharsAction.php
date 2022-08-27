@@ -124,18 +124,18 @@ class SyncAndSaveCharCategoriesAndCharsAction extends BaseAction
 
     /**
      * @param \Domain\Products\Models\Product\Product $target
-     * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\CharCategoryDTO $charCategoryDTO
+     * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\CharCategoryDTO $item
      *
      * @return bool
      */
-    private function isForCopying(Product $target, CharCategoryDTO $charCategoryDTO): bool
+    private function isForCopying(Product $target, CharCategoryDTO $item): bool
     {
-        if (! $charCategoryDTO->id) {
+        if (! $item->id) {
             return false;
         }
 
-        $productCharCategoriesIds = $target->charCategories->pluck('id')->all();
+        $ids = $target->charCategories->pluck('id')->all();
 
-        return ! in_array($charCategoryDTO->id, $productCharCategoriesIds);
+        return ! in_array($item->id, $ids);
     }
 }
