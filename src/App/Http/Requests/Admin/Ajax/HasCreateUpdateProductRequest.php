@@ -128,13 +128,11 @@ trait HasCreateUpdateProductRequest
 
             'infoPrices' => 'nullable|array',
             'infoPrices.*.id' => 'nullable|integer',
-            'infoPrices.*.is_copy' => 'nullable|boolean',
             'infoPrices.*.name' => 'nullable|string|max:250',
             'infoPrices.*.price' => 'nullable|numeric',
 
             'instructions' => 'nullable|array',
             'instructions.*.id' => 'nullable|integer',
-            'instructions.*.is_copy' => 'nullable|boolean',
             'instructions.*.uuid' => 'string',
             'instructions.*.name' => 'nullable|string|max:250',
             'instructions.*.file_name' => 'nullable|string|max:250',
@@ -143,7 +141,6 @@ trait HasCreateUpdateProductRequest
 
             'mainImage' => 'nullable|array',
             'mainImage.id' => 'nullable|integer',
-            'mainImage.is_copy' => 'nullable|boolean',
             'mainImage.uuid' => 'string',
             'mainImage.name' => 'nullable|string|max:250',
             'mainImage.file_name' => 'nullable|string|max:250',
@@ -152,7 +149,6 @@ trait HasCreateUpdateProductRequest
 
             'additionalImages' => 'nullable|array',
             'additionalImages.*.id' => 'nullable|integer',
-            'additionalImages.*.is_copy' => 'nullable|boolean',
             'additionalImages.*.uuid' => 'string',
             'additionalImages.*.name' => 'nullable|string|max:250',
             'additionalImages.*.file_name' => 'nullable|string|max:250',
@@ -161,12 +157,10 @@ trait HasCreateUpdateProductRequest
 
             'charCategories' => 'nullable|array',
             'charCategories.*.id' => 'nullable|integer',
-            'charCategories.*.is_copy' => 'nullable|boolean',
             'charCategories.*.name' => 'nullable|string|max:250',
             'charCategories.*.ordering' => 'nullable|integer',
             'charCategories.*.chars' => 'nullable|array',
             'charCategories.*.chars.*.id' => 'nullable|integer',
-            'charCategories.*.chars.*.is_copy' => 'nullable|boolean',
             'charCategories.*.chars.*.name' => 'nullable|string|max:250',
             'charCategories.*.chars.*.value' => 'nullable|string|max:250',
             'charCategories.*.chars.*.type_id' => sprintf('nullable|integer|in:%s', $charTypeIds),
@@ -189,7 +183,6 @@ trait HasCreateUpdateProductRequest
 
             'variations' => 'nullable|array',
             'variations.*.id' => 'nullable|integer',
-            'variations.*.is_copy' => 'nullable|boolean',
             'variations.*.uuid' => 'string',
             'variations.*.name' => 'nullable|string|max:250',
             'variations.*.is_active' => 'nullable|boolean',
@@ -206,7 +199,6 @@ trait HasCreateUpdateProductRequest
 
             'variations.*.mainImage' => 'nullable|array',
             'variations.*.mainImage.id' => 'nullable|integer',
-            'variations.*.mainImage.is_copy' => 'nullable|boolean',
             'variations.*.mainImage.uuid' => 'string',
             'variations.*.mainImage.name' => 'nullable|string|max:250',
             'variations.*.mainImage.file_name' => 'nullable|string|max:250',
@@ -215,7 +207,6 @@ trait HasCreateUpdateProductRequest
 
             'variations.*.additionalImages' => 'nullable|array',
             'variations.*.additionalImages.*.id' => 'nullable|integer',
-            'variations.*.additionalImages.*.is_copy' => 'nullable|boolean',
             'variations.*.additionalImages.*.uuid' => 'string',
             'variations.*.additionalImages.*.name' => 'nullable|string|max:250',
             'variations.*.additionalImages.*.file_name' => 'nullable|string|max:250',
@@ -233,7 +224,6 @@ trait HasCreateUpdateProductRequest
 
         $mediaCB = fn (array $media) => new MediaDTO([
             'id' => isset($media['id']) ? (int)$media['id'] : null,
-            'is_copy' => isset($media['is_copy']) ? (bool)$media['is_copy'] : null,
             'uuid' => isset($media['uuid']) ? (string)$media['uuid'] : null,
             'name' => isset($media['name']) ? (string)$media['name'] : null,
             'file_name' => isset($media['file_name']) ? (string)$media['file_name'] : null,
@@ -328,7 +318,6 @@ trait HasCreateUpdateProductRequest
             'infoPrices' => isset($payload['infoPrices'])
                 ? collect($payload['infoPrices'])->map(fn (array $infoPrice) => new InfoPriceDTO([
                     'id' => isset($infoPrice['id']) ? (int)$infoPrice['id'] : null,
-                    'is_copy' => isset($infoPrice['is_copy']) ? (bool)$infoPrice['is_copy'] : null,
                     'name' => isset($infoPrice['name']) ? (string)$infoPrice['name'] : null,
                     'price' => isset($infoPrice['price']) ? (float)$infoPrice['price'] : null,
                 ]))->all()
@@ -347,9 +336,6 @@ trait HasCreateUpdateProductRequest
                     'id' => isset($charCategory['id'])
                         ? (int)$charCategory['id']
                         : null,
-                    'is_copy' => isset($charCategory['is_copy'])
-                        ? (bool)$charCategory['is_copy']
-                        : null,
                     'uuid' => isset($charCategory['uuid'])
                         ? (string)$charCategory['uuid']
                         : null,
@@ -363,9 +349,6 @@ trait HasCreateUpdateProductRequest
                         ? collect($charCategory['chars'])->map(fn (array $char) => new CharDTO([
                             'id' => isset($char['id'])
                                 ? (int)$char['id']
-                                : null,
-                            'is_copy' => isset($char['is_copy'])
-                                ? (bool)$char['is_copy']
                                 : null,
                             'name' => isset($char['name'])
                                 ? (string)$char['name']
@@ -402,9 +385,6 @@ trait HasCreateUpdateProductRequest
                 ? collect($payload['variations'])->map(fn (array $variation) => new VariationDTO([
                     'id' => isset($variation['id'])
                         ? (int)$variation['id']
-                        : null,
-                    'is_copy' => isset($variation['is_copy'])
-                        ? (bool)$variation['is_copy']
                         : null,
                     'uuid' => isset($variation['uuid'])
                         ? (string)$variation['uuid']

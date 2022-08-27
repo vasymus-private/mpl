@@ -583,10 +583,6 @@ const valuesToFormData = (
                 `infoPrices[${index}][id]`,
                 infoPrice.id
             )
-            formData.appendBoolean(
-                `infoPrices[${index}][is_copy]`,
-                isCreatingFromCopy
-            )
             formData.appendStringOrNumber(
                 `infoPrices[${index}][name]`,
                 infoPrice.name
@@ -634,7 +630,6 @@ const valuesToFormData = (
 
     if (values.mainImage) {
         formData.appendStringOrNumber(`mainImage[id]`, values.mainImage.id)
-        formData.appendBoolean(`mainImage[is_copy]`, isCreatingFromCopy)
         formData.appendStringOrNumber(`mainImage[uuid]`, values.mainImage.uuid)
         formData.appendStringOrNumber(`mainImage[name]`, values.mainImage.name)
         formData.appendStringOrNumber(
@@ -654,10 +649,6 @@ const valuesToFormData = (
             formData.appendStringOrNumber(
                 `additionalImages[${index}][id]`,
                 image.id
-            )
-            formData.appendBoolean(
-                `additionalImages[${index}][is_copy]`,
-                isCreatingFromCopy
             )
             formData.appendStringOrNumber(
                 `additionalImages[${index}][uuid]`,
@@ -686,10 +677,6 @@ const valuesToFormData = (
                 `charCategories[${charCategoryIndex}][id]`,
                 charCategory.id
             )
-            formData.appendBoolean(
-                `charCategories[${charCategoryIndex}][is_copy]`,
-                isCreatingFromCopy
-            )
             formData.appendStringOrNumber(
                 `charCategories[${charCategoryIndex}][name]`,
                 charCategory.name
@@ -707,10 +694,6 @@ const valuesToFormData = (
                 formData.appendStringOrNumber(
                     `charCategories[${charCategoryIndex}][chars][${charIndex}][id]`,
                     char.id
-                )
-                formData.appendBoolean(
-                    `charCategories[${charCategoryIndex}][chars][${charIndex}][is_copy]`,
-                    isCreatingFromCopy
                 )
                 formData.appendStringOrNumber(
                     `charCategories[${charCategoryIndex}][chars][${charIndex}][name]`,
@@ -773,10 +756,6 @@ const valuesToFormData = (
                 `variations[${index}][id]`,
                 variation.id
             )
-            formData.appendBoolean(
-                `variations[${index}][is_copy]`,
-                isCreatingFromCopy
-            )
             formData.appendStringOrNumber(
                 `variations[${index}][uuid]`,
                 variation.uuid
@@ -835,10 +814,6 @@ const valuesToFormData = (
                     `variations[${index}][mainImage][id]`,
                     variation.mainImage.id
                 )
-                formData.appendBoolean(
-                    `variations[${index}][mainImage][is_copy]`,
-                    isCreatingFromCopy
-                )
                 formData.appendStringOrNumber(
                     `variations[${index}][mainImage][uuid]`,
                     variation.mainImage.uuid
@@ -866,10 +841,6 @@ const valuesToFormData = (
                 formData.appendStringOrNumber(
                     `variations[${index}][additionalImages][${i}][id]`,
                     image.id
-                )
-                formData.appendBoolean(
-                    `variations[${index}][additionalImages][${i}][is_copy]`,
-                    isCreatingFromCopy
                 )
                 formData.appendStringOrNumber(
                     `variations[${index}][additionalImages][${i}][uuid]`,

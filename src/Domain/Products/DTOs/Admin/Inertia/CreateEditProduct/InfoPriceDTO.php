@@ -12,11 +12,6 @@ class InfoPriceDTO extends DataTransferObject
     public ?int $id;
 
     /**
-     * @var bool|null
-     */
-    public ?bool $is_copy;
-
-    /**
      * @var string|null
      */
     public ?string $name;
