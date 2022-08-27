@@ -35,7 +35,7 @@ import axios, { AxiosError } from "axios"
 import { ErrorResponse } from "@/admin/inertia/modules/forms/indexProducts/types"
 import { Errors } from "@/admin/inertia/modules/common/types"
 import { CustomFormData } from "@/admin/inertia/utils/CustomFormData"
-import {Inertia} from "@inertiajs/inertia";
+import { Inertia } from "@inertiajs/inertia"
 
 export const storeName = "createEditForm"
 
@@ -180,7 +180,11 @@ export const useCreateEditProductFormStore = defineStore(storeName, {
                         }
                     )
                     product = response.data.data
-                    Inertia.visit(getRouteUrl(routeNames.ROUTE_ADMIN_PRODUCTS_EDIT, {admin_product: product.id}))
+                    Inertia.visit(
+                        getRouteUrl(routeNames.ROUTE_ADMIN_PRODUCTS_EDIT, {
+                            admin_product: product.id,
+                        })
+                    )
                 } else {
                     formData.append("_method", "PUT")
                     const response = await axios.post<{ data: Product }>(
