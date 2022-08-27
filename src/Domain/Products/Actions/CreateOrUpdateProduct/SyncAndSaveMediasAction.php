@@ -125,7 +125,8 @@ class SyncAndSaveMediasAction extends BaseAction
                     ->usingFileName($mediaDTO->file_name)
                     ->usingName($mediaDTO->name ?? $mediaDTO->file_name)
                     ->toMediaCollection($collectionName);
-            } catch (FileDoesNotExist|FileIsTooBig $ignored) {}
+            } catch (FileDoesNotExist|FileIsTooBig $ignored) {
+            }
         }
     }
 
@@ -162,7 +163,8 @@ class SyncAndSaveMediasAction extends BaseAction
                     ->usingFileName($mediaDTO->file_name)
                     ->usingName($mediaDTO->name ?? $mediaDTO->file_name)
                     ->toMediaCollection($collectionName);
-            } catch (FileCannotBeAdded|FileDoesNotExist|FileIsTooBig $ignored) {}
+            } catch (FileCannotBeAdded|FileDoesNotExist|FileIsTooBig $ignored) {
+            }
         }
     }
 
