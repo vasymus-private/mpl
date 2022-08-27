@@ -1,6 +1,5 @@
 import { defineStore } from "pinia"
 import {
-    isCreatingProductRoute,
     useProductsStore,
 } from "@/admin/inertia/modules/products"
 import Product, { Variation } from "@/admin/inertia/modules/products/Product"
@@ -44,11 +43,10 @@ export const useCreateEditProductFormStore = defineStore(storeName, {
         productFormTitle: (): string => {
             let base = "Товары: элемент: "
             const productsStore = useProductsStore()
-            const isCreating = isCreatingProductRoute()
 
             base += productsStore.isCreatingFromCopy
                 ? "добавление копированием"
-                : isCreating
+                : productsStore.isCreatingProductRoute
                 ? "добавление"
                 : `${productsStore.product?.name} - редактирование`
 
@@ -163,7 +161,6 @@ export const useCreateEditProductFormStore = defineStore(storeName, {
             values: Values,
             { setErrors }
         ): Promise<void> {
-            const isCreating = isCreatingProductRoute()
             const productsStore = useProductsStore()
 
             try {
@@ -171,7 +168,7 @@ export const useCreateEditProductFormStore = defineStore(storeName, {
 
                 const formData = valuesToFormData(values)
 
-                if (isCreating) {
+                if (productsStore.isCreatingProductRoute) {
                     const response = await axios.post<{ data: Product }>(
                         getRouteUrl(routeNames.ROUTE_ADMIN_AJAX_PRODUCTS_STORE),
                         formData,
@@ -180,7 +177,7 @@ export const useCreateEditProductFormStore = defineStore(storeName, {
                         }
                     )
                     product = response.data.data
-                    Inertia.visit(getRouteUrl(routeNames.ROUTE_ADMIN_PRODUCTS_EDIT, {admin_product: product.id}))
+                    Inertia.get(getRouteUrl(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_EDIT, {admin_product: product.id}))
                 } else {
                     formData.append("_method", "PUT")
                     const response = await axios.post<{ data: Product }>(

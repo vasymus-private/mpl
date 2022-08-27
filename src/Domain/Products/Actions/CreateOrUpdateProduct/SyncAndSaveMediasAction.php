@@ -6,6 +6,9 @@ use Domain\Common\Actions\BaseAction;
 use Domain\Common\Models\CustomMedia;
 use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO;
 use Domain\Products\Models\Product\Product;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 
 class SyncAndSaveMediasAction extends BaseAction
 {
@@ -15,10 +18,6 @@ class SyncAndSaveMediasAction extends BaseAction
      * @param string $collectionName
      *
      * @return void
-     *
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
      */
     public function execute(Product $target, array $mediaDTOs, string $collectionName)
     {
@@ -112,10 +111,6 @@ class SyncAndSaveMediasAction extends BaseAction
      * @param string $collectionName
      *
      * @return void
-     *
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
      */
     private function storeFile(Product $target, array $mediaDTOsNew, string $collectionName)
     {
@@ -124,11 +119,13 @@ class SyncAndSaveMediasAction extends BaseAction
                 continue;
             }
 
-            $target
-                ->addMedia($mediaDTO->file)
-                ->usingFileName($mediaDTO->file_name)
-                ->usingName($mediaDTO->name ?? $mediaDTO->file_name)
-                ->toMediaCollection($collectionName);
+            try {
+                $target
+                    ->addMedia($mediaDTO->file)
+                    ->usingFileName($mediaDTO->file_name)
+                    ->usingName($mediaDTO->name ?? $mediaDTO->file_name)
+                    ->toMediaCollection($collectionName);
+            } catch (FileDoesNotExist|FileIsTooBig $ignored) {}
         }
     }
 
@@ -138,10 +135,6 @@ class SyncAndSaveMediasAction extends BaseAction
      * @param string $collectionName
      *
      * @return void
-     *
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
      */
     private function storeCopy(Product $target, array $mediaDTOsCopy, string $collectionName)
     {
@@ -152,22 +145,24 @@ class SyncAndSaveMediasAction extends BaseAction
                 continue;
             }
 
-            if ($original->is_on_cloud) {
-                $remoteUrl = $original->getFullUrl();
+            try {
+                if ($original->is_on_cloud) {
+                    $remoteUrl = $original->getFullUrl();
+                    $target
+                        ->addMediaFromUrl($remoteUrl)
+                        ->usingFileName($mediaDTO->file_name)
+                        ->usingName($mediaDTO->name ?? $mediaDTO->file_name)
+                        ->toMediaCollection($collectionName);
+
+                    continue;
+                }
+
                 $target
-                    ->addMediaFromUrl($remoteUrl)
+                    ->addMedia($original->getPath())
                     ->usingFileName($mediaDTO->file_name)
                     ->usingName($mediaDTO->name ?? $mediaDTO->file_name)
                     ->toMediaCollection($collectionName);
-
-                continue;
-            }
-
-            $target
-                ->addMedia($original->getPath())
-                ->usingFileName($mediaDTO->file_name)
-                ->usingName($mediaDTO->name ?? $mediaDTO->file_name)
-                ->toMediaCollection($collectionName);
+            } catch (FileCannotBeAdded|FileDoesNotExist|FileIsTooBig $ignored) {}
         }
     }
 

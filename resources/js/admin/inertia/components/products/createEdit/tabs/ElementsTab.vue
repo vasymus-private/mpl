@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import {isCreatingProductRoute, useProductsStore} from "@/admin/inertia/modules/products"
-import {computed, ref, watch} from "vue"
+import {useProductsStore} from "@/admin/inertia/modules/products"
+import {ref, watch} from "vue"
 import {slugify} from "@/admin/inertia/modules/common"
 import {useBrandsStore} from "@/admin/inertia/modules/brands"
 import {Field, useField} from 'vee-validate'
@@ -21,7 +21,6 @@ const brandsStore = useBrandsStore()
 const currenciesStore = useCurrenciesStore()
 const availabilityStatusesStore = useAvailabilityStatusesStore()
 
-const isCreating = computed(() => isCreatingProductRoute())
 const generateSlugSyncMode = ref(false)
 
 const {value: name} = useField<string|null>('name')
@@ -49,7 +48,7 @@ const handleSyncNameAndSlug = async () => {
 
 <template>
     <div class="item-edit product-edit">
-        <div v-if="!isCreating" class="row mb-3">
+        <div v-if="!productsStore.isCreatingProductRoute" class="row mb-3">
             <div class="col-sm-5 text-end">
                 ID:
             </div>

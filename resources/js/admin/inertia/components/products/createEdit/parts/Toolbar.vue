@@ -1,14 +1,12 @@
 <script lang="ts" setup>
 import {getRouteUrl, routeNames} from "@/admin/inertia/modules/routes"
-import {isCreatingProductRoute, useProductsStore} from "@/admin/inertia/modules/products"
-import {computed} from "vue"
+import {useProductsStore} from "@/admin/inertia/modules/products"
 import {Link} from "@inertiajs/inertia-vue3"
 import {useField} from "vee-validate"
 import {Inertia} from "@inertiajs/inertia"
 
 
 const productsStore = useProductsStore()
-const isCreating = computed(() => isCreatingProductRoute())
 const {value: is_with_variations, setValue: setWithVariations} = useField<boolean>('is_with_variations')
 const deleteItem = async () => {
     if (confirm('Уверены, что хотите удалить товар?')) {
@@ -32,7 +30,7 @@ const deleteItem = async () => {
             </div>
 
             <div class="col-sm-7 d-flex align-items-center justify-content-end">
-                <Link v-if="!isCreating" :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_CREATE, {'copy_id' : productsStore.product?.id})" class="btn__copy">Копировать</Link>
+                <Link v-if="!productsStore.isCreatingProductRoute" :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_CREATE, {'copy_id' : productsStore.product?.id})" class="btn__copy">Копировать</Link>
                 <div class="dropdown">
                     <button
                         class="btn btn-secondary dropdown-toggle btn__dropdown"
@@ -52,7 +50,7 @@ const deleteItem = async () => {
                         </a>
                     </div>
                 </div>
-                <div v-if="!isCreating" class="dropdown actions">
+                <div v-if="!productsStore.isCreatingProductRoute" class="dropdown actions">
                     <button
                         class="btn btn-secondary dropdown-toggle btn__dropdown"
                         type="button"

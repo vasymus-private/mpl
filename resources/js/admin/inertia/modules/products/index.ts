@@ -89,8 +89,16 @@ export const useProductsStore = defineStore(storeName, {
                   }
                 : null,
         product: (state: State): Product | null => state._product.entity,
+        isCreatingProductRoute() {
+            let routesStore = useRoutesStore()
+
+            return [
+                routeNames.ROUTE_ADMIN_PRODUCTS_CREATE,
+                routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_CREATE,
+            ].includes(routesStore.current)
+        },
         isCreatingFromCopy(): boolean {
-            let isCreating = isCreatingProductRoute()
+            let isCreating = this.isCreatingProductRoute
             if (!isCreating) {
                 return false
             }
@@ -227,12 +235,3 @@ export const getPerPageOptions = (): Array<Option> =>
         value: page,
         label: `${page}`,
     }))
-
-export const isCreatingProductRoute = (): boolean => {
-    const router = getRouter()
-
-    return [
-        routeNames.ROUTE_ADMIN_PRODUCTS_CREATE,
-        routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_CREATE,
-    ].includes(router.current())
-}

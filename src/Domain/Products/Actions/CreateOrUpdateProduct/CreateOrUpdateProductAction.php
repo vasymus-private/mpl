@@ -202,10 +202,6 @@ class CreateOrUpdateProductAction extends BaseAction
      * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO[] $mediaDTOs
      *
      * @return void
-     *
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
      */
     private function saveInstructions(Product $target, array $mediaDTOs)
     {
@@ -217,10 +213,6 @@ class CreateOrUpdateProductAction extends BaseAction
      * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO|null $mediaDTO
      *
      * @return void
-     *
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
      */
     private function saveMainImage(Product $target, MediaDTO $mediaDTO = null)
     {
@@ -232,10 +224,6 @@ class CreateOrUpdateProductAction extends BaseAction
      * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO[] $mediaDTOs
      *
      * @return void
-     *
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
      */
     private function saveAdditionalImages(Product $target, array $mediaDTOs)
     {

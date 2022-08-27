@@ -10,6 +10,7 @@ import { Ziggy } from "@/helpers/ziggy"
 import Option, { OptionType } from "@/admin/inertia/modules/common/Option"
 import { Inertia } from "@inertiajs/inertia"
 import { useBrandsStore } from "@/admin/inertia/modules/brands"
+import * as H from 'history'
 
 export const storeName = "routes"
 
@@ -139,6 +140,53 @@ export const useRoutesStore = defineStore(storeName, {
 
             return result
         },
+        route() {
+            return (
+                name: string,
+                params?: RouteParamsWithQueryOverload | RouteParam
+            ): string|null => {
+                if (!this.fullUrl) {
+                    return null
+                }
+                let u = new URL(this.fullUrl)
+                let location = {
+                    host: u.host,
+                    pathname: u.pathname,
+                    search: u.search,
+                    state: typeof history !== 'undefined' ? history.state : {},
+                    hash: u.hash
+                } as H.Location
+                let config = {
+                    ...Ziggy,
+                    location
+                } as Config
+
+                return route(name, params, undefined, config)
+            }
+        },
+        router(): Router|null {
+            if (!this.fullUrl) {
+                return null
+            }
+
+            let u = new URL(this.fullUrl)
+            let location = {
+                host: u.host,
+                pathname: u.pathname,
+                search: u.search,
+                state: typeof history !== 'undefined' ? history.state : {},
+                hash: u.hash
+            } as H.Location
+            let config = {
+                ...Ziggy,
+                location
+            } as Config
+
+            return route(undefined, undefined, undefined, config)
+        },
+        current(): string|null {
+            return this.router ? this.router.current() : null
+        }
     },
     actions: {
         setFullUrl(fullUrl: string | null): void {
