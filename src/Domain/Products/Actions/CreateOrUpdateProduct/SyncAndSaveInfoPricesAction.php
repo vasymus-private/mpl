@@ -24,7 +24,7 @@ class SyncAndSaveInfoPricesAction extends BaseAction
         $target->load('infoPrices');
 
         /** @var \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\InfoPriceDTO[][] $sorted */
-        $sorted = collect($infoPriceDTOs)->reduce(function(array $acc, InfoPriceDTO $item) use($target) {
+        $sorted = collect($infoPriceDTOs)->reduce(function (array $acc, InfoPriceDTO $item) use ($target) {
             if (! $item->id || $this->isForCopying($target, $item)) {
                 $acc['new'][] = $item;
 
@@ -55,7 +55,7 @@ class SyncAndSaveInfoPricesAction extends BaseAction
      */
     private function delete(Product $target, array $notDeleteIds)
     {
-        $target->infoPrices->each(function(InformationalPrice $informationalPrice) use ($notDeleteIds) {
+        $target->infoPrices->each(function (InformationalPrice $informationalPrice) use ($notDeleteIds) {
             if (in_array($informationalPrice->id, $notDeleteIds)) {
                 return;
             }
@@ -72,9 +72,9 @@ class SyncAndSaveInfoPricesAction extends BaseAction
      */
     private function update(Product $target, array $toUpdate)
     {
-        $target->infoPrices->each(function(InformationalPrice $informationalPrice) use($toUpdate) {
+        $target->infoPrices->each(function (InformationalPrice $informationalPrice) use ($toUpdate) {
             $infoPriceDTO = $toUpdate[$informationalPrice->id] ?? null;
-            if (!$infoPriceDTO) {
+            if (! $infoPriceDTO) {
                 return;
             }
 
@@ -110,12 +110,12 @@ class SyncAndSaveInfoPricesAction extends BaseAction
      */
     private function isForCopying(Product $target, InfoPriceDTO $item): bool
     {
-        if (!$item->id) {
+        if (! $item->id) {
             return false;
         }
 
         $ids = $target->infoPrices->pluck('id')->all();
 
-        return !in_array($item->id, $ids);
+        return ! in_array($item->id, $ids);
     }
 }
