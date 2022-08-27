@@ -22,8 +22,9 @@ class SaveSeoAction extends BaseAction
         }
 
         $seo = $target->seo ?? new Seo();
-        if (!$seoDTO) {
+        if (! $seoDTO) {
             $seo->delete();
+
             return;
         }
 
