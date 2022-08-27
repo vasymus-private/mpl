@@ -59,7 +59,6 @@ interface InitialPageProps {
         meta: Meta
     }
     product?: Product
-    originProduct?: Product
 }
 
 /**
@@ -93,7 +92,6 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
             meta: productListItemsMeta = null,
         } = {},
         product = null,
-        originProduct = null,
     } = initialPageProps as InitialPageProps
 
     // todo dev only
@@ -130,7 +128,6 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
     productsStore.setLinks(productListItemsLinks)
     productsStore.setMeta(productListItemsMeta)
     productsStore.setProduct(product)
-    productsStore.setOriginProduct(originProduct)
 
     const availabilityStatusesStore = useAvailabilityStatusesStore(pinia)
     availabilityStatusesStore.setEntities(availabilityStatusesData)

@@ -31,7 +31,6 @@ interface State {
     _links: Links | null
     _meta: Meta | null
     _product: { entity: Product | null; loading: boolean }
-    _originProduct: Product | null
     _searchProduct: {
         [key in ProductProductType]: {
             entities: Array<SearchProduct>
@@ -48,7 +47,6 @@ export const useProductsStore = defineStore(storeName, {
             _links: null,
             _meta: null,
             _product: { entity: null, loading: false },
-            _originProduct: null,
             _searchProduct: {
                 [ProductProductType.TYPE_ACCESSORY]: {
                     entities: [],
@@ -91,7 +89,6 @@ export const useProductsStore = defineStore(storeName, {
                   }
                 : null,
         product: (state: State): Product | null => state._product.entity,
-        originProduct: (state: State): Product | null => state._originProduct,
         isCreatingFromCopy(): boolean {
             let isCreating = isCreatingProductRoute()
             if (!isCreating) {
@@ -103,11 +100,7 @@ export const useProductsStore = defineStore(storeName, {
                 return false
             }
 
-            return (
-                !!new URL(routesStore.fullUrl).searchParams.get("copy_id") &&
-                isCreatingProductRoute() &&
-                !!this.originProduct
-            )
+            return !!new URL(routesStore.fullUrl).searchParams.get("copy_id")
         },
         searchProducts:
             (state: State) =>
@@ -173,9 +166,6 @@ export const useProductsStore = defineStore(storeName, {
                     update[key]
                 )
             }
-        },
-        setOriginProduct(product: Product | null): void {
-            this._originProduct = product
         },
         async handleCreate(
             productRequest: StoreOrUpdateProductRequest

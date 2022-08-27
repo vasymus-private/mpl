@@ -36,16 +36,7 @@ class ProductsController extends BaseAdminController
 
     public function create(Request $request)
     {
-        $product = null;
-
-        if ($request->has('copy_id')) {
-            $product = Product::query()->find((int)$request->copy_id);
-            if ($product) {
-                $product->load(['infoPrices', 'media', 'accessory', 'similar', 'related', 'works', 'instruments']);
-            }
-        }
-
-        $product = $product ?: new Product();
+        $product = new Product();
 
         return view("admin.pages.products.product", compact("product"));
     }
@@ -55,11 +46,15 @@ class ProductsController extends BaseAdminController
         $inertia = inertia();
         $inertia->setRootView('admin.layouts.inertia');
 
-        $originProduct = $request->copy_id
-            ? Product::query()->notVariations()->findOrFail($request->copy_id)
+        $product = $request->copy_id
+            ? Product::query()->notVariations()->find($request->copy_id)
             : null;
 
-        return $inertia->render('Products/CreateEdit', compact('originProduct'));
+        return $inertia->render('Products/CreateEdit', [
+            'product' => $product
+                ? (new ProductResource($product))->toArray($request)
+                : null,
+        ]);
     }
 
     public function edit(Request $request)
