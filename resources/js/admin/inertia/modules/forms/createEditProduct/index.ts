@@ -169,9 +169,7 @@ export const useCreateEditProductFormStore = defineStore(storeName, {
             try {
                 let product: Product
 
-                const formData = valuesToFormData(
-                    values
-                )
+                const formData = valuesToFormData(values)
 
                 if (isCreating) {
                     const response = await axios.post<{ data: Product }>(
@@ -477,7 +475,7 @@ export const getWatchProductToFormCb =
             instruments,
             variations,
         }
-        console.log('--- values', values)
+        console.log("--- values", values)
         setValues(values)
     }
 
@@ -496,12 +494,10 @@ const errorsToErrorFields = (
     return errorFields
 }
 
-const valuesToFormData = (
-    values: Values
-): FormData => {
+const valuesToFormData = (values: Values): FormData => {
     const formData = new CustomFormData()
 
-    console.log('--- submit values', values)
+    console.log("--- submit values", values)
 
     let stringOrNumberKeys: Array<keyof Values> = [
         "name",
