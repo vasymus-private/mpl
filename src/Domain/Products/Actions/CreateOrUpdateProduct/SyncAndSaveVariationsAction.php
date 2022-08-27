@@ -17,14 +17,14 @@ class SyncAndSaveVariationsAction extends BaseAction
      */
     public function execute(Product $target, array $variations)
     {
-        if (!$target->id) {
+        if (! $target->id) {
             $target->save();
         }
 
         $target->load('variations');
 
         /** @var \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\VariationDTO[][] $sorted */
-        $sorted = collect($variations)->reduce(function(array $acc, VariationDTO $item) use($target) {
+        $sorted = collect($variations)->reduce(function (array $acc, VariationDTO $item) use ($target) {
             if (! $item->id || $this->isForCopying($target, $item)) {
                 $acc['new'][] = $item;
 
@@ -39,7 +39,7 @@ class SyncAndSaveVariationsAction extends BaseAction
             'update' => [],
         ]);
 
-        $notDeleteIds = collect($sorted['update'])->pluck('id')->filter(fn($id) => (bool)$id)->all();
+        $notDeleteIds = collect($sorted['update'])->pluck('id')->filter(fn ($id) => (bool)$id)->all();
         $this->delete($target, $notDeleteIds);
 
         $this->update($target, collect($sorted['update'])->keyBy('id')->all());
@@ -53,7 +53,7 @@ class SyncAndSaveVariationsAction extends BaseAction
      */
     private function delete(Product $target, array $notDeleteIds)
     {
-        $target->variations->each(function(Product $variation) use ($notDeleteIds) {
+        $target->variations->each(function (Product $variation) use ($notDeleteIds) {
             if (in_array($variation->id, $notDeleteIds)) {
                 return;
             }
@@ -70,9 +70,9 @@ class SyncAndSaveVariationsAction extends BaseAction
      */
     private function update(Product $target, array $toUpdate)
     {
-        $target->variations->each(function(Product $variation) use ($toUpdate) {
+        $target->variations->each(function (Product $variation) use ($toUpdate) {
             $variationDto = $toUpdate[$variation->id] ?? null;
-            if (!$variationDto) {
+            if (! $variationDto) {
                 return;
             }
 
