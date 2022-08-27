@@ -10,10 +10,24 @@ use Domain\Products\Models\Product\Product;
 class SyncAndSaveVariationsAction extends BaseAction
 {
     /**
+     * @var \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveMediasAction
+     */
+    private SyncAndSaveMediasAction $syncAndSaveMediasAction;
+
+    public function __construct(SyncAndSaveMediasAction $syncAndSaveMediasAction)
+    {
+        $this->syncAndSaveMediasAction = $syncAndSaveMediasAction;
+    }
+
+    /**
      * @param \Domain\Products\Models\Product\Product $target
      * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\VariationDTO[] $variations
      *
      * @return void
+     *
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
      */
     public function execute(Product $target, array $variations)
     {
@@ -43,6 +57,8 @@ class SyncAndSaveVariationsAction extends BaseAction
         $this->delete($target, $notDeleteIds);
 
         $this->update($target, collect($sorted['update'])->keyBy('id')->all());
+
+        $this->store($target, $sorted['new']);
     }
 
     /**
@@ -67,18 +83,71 @@ class SyncAndSaveVariationsAction extends BaseAction
      * @phpstan-param array<int, \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\VariationDTO> $toUpdate
      *
      * @return void
+     *
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
      */
     private function update(Product $target, array $toUpdate)
     {
         $target->variations->each(function(Product $variation) use ($toUpdate) {
-            $variationDto = $toUpdate[$variation->id] ?? null;
-            if (!$variationDto) {
+            $variationDTO = $toUpdate[$variation->id] ?? null;
+            if (!$variationDTO) {
                 return;
             }
 
-            $variation->name = $variationDto->name;
-            // todo
+            $variation->name = $variationDTO->name;
+            $variation->is_active = $variationDTO->is_active;
+            $variation->ordering = $variationDTO->ordering;
+            $variation->coefficient = $variationDTO->coefficient;
+            $variation->coefficient_description = $variationDTO->coefficient_description;
+            $variation->unit = $variationDTO->unit;
+            $variation->availability_status_id = $variationDTO->availability_status_id;
+            $variation->price_purchase = $variationDTO->price_purchase;
+            $variation->price_purchase_currency_id = $variationDTO->price_purchase_currency_id;
+            $variation->price_retail = $variationDTO->price_retail;
+            $variation->price_retail_currency_id = $variationDTO->price_retail_currency_id;
+            $variation->preview = $variationDTO->preview;
+
+            $this->syncAndSaveMediasAction->execute($variation, $variationDTO->mainImage ? [$variationDTO->mainImage] : [], Product::MC_MAIN_IMAGE);
+
+            $this->syncAndSaveMediasAction->execute($variation, $variationDTO->additionalImages, Product::MC_ADDITIONAL_IMAGES);
         });
+    }
+
+    /**
+     * @param \Domain\Products\Models\Product\Product $target
+     * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\VariationDTO[] $toStore
+     *
+     * @return void
+     *
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
+     */
+    private function store(Product $target, array $toStore)
+    {
+        foreach ($toStore as $variationDTO) {
+            $variation = Product::forceCreate([
+                'parent_id' => $target->id,
+                'name' => $variationDTO->name,
+                'is_active' => $variationDTO->is_active,
+                'ordering' => $variationDTO->ordering,
+                'coefficient' => $variationDTO->coefficient,
+                'coefficient_description' => $variationDTO->coefficient_description,
+                'unit' => $variationDTO->unit,
+                'availability_status_id' => $variationDTO->availability_status_id,
+                'price_purchase' => $variationDTO->price_purchase,
+                'price_purchase_currency_id' => $variationDTO->price_purchase_currency_id,
+                'price_retail' => $variationDTO->price_retail,
+                'price_retail_currency_id' => $variationDTO->price_retail_currency_id,
+                'preview' => $variationDTO->preview,
+            ]);
+
+            $this->syncAndSaveMediasAction->execute($variation, $variationDTO->mainImage ? [$variationDTO->mainImage] : [], Product::MC_MAIN_IMAGE);
+
+            $this->syncAndSaveMediasAction->execute($variation, $variationDTO->additionalImages, Product::MC_ADDITIONAL_IMAGES);
+        }
     }
 
     /**
