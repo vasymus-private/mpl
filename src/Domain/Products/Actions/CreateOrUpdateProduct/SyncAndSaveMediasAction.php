@@ -2,35 +2,13 @@
 
 namespace Domain\Products\Actions\CreateOrUpdateProduct;
 
-use App\Constants;
 use Domain\Common\Actions\BaseAction;
 use Domain\Common\Models\CustomMedia;
-use Domain\Products\Actions\Common\CheckIsForCopyingAction;
-use Domain\Products\Actions\Common\SortToNewCopyUpdateAction;
+use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO;
 use Domain\Products\Models\Product\Product;
 
 class SyncAndSaveMediasAction extends BaseAction
 {
-    /**
-     * @var \Domain\Products\Actions\Common\CheckIsForCopyingAction
-     */
-    private CheckIsForCopyingAction $checkIsForCopyingAction;
-
-    /**
-     * @var \Domain\Products\Actions\Common\SortToNewCopyUpdateAction
-     */
-    private SortToNewCopyUpdateAction $sortToNewCopyUpdateAction;
-
-    /**
-     * @param \Domain\Products\Actions\Common\CheckIsForCopyingAction $checkIsForCopyingAction
-     * @param \Domain\Products\Actions\Common\SortToNewCopyUpdateAction $sortToNewCopyUpdateAction
-     */
-    public function __construct(CheckIsForCopyingAction $checkIsForCopyingAction, SortToNewCopyUpdateAction $sortToNewCopyUpdateAction)
-    {
-        $this->checkIsForCopyingAction = $checkIsForCopyingAction;
-        $this->sortToNewCopyUpdateAction = $sortToNewCopyUpdateAction;
-    }
-
     /**
      * @param \Domain\Products\Models\Product\Product $target
      * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO[] $mediaDTOs
@@ -48,8 +26,34 @@ class SyncAndSaveMediasAction extends BaseAction
             $target->save();
         }
 
+        $target->load('media');
+
         /** @var \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO[][] $sorted */
-        $sorted = $this->sortToNewCopyUpdateAction->execute($mediaDTOs);
+        $sorted = collect($mediaDTOs)->reduce(function(array $acc, MediaDTO $item) use ($target, $collectionName) {
+            if ($item->file) {
+                $acc['file'][] = $item;
+
+                return $acc;
+            }
+
+            if ($this->isForCopying($target, $collectionName, $item)) {
+                $acc['copy'][] = $item;
+
+                return $acc;
+            }
+
+            if ($item->id) {
+                $acc['update'][] = $item;
+
+                return $acc;
+            }
+
+            return $acc;
+        }, [
+            'file' => [],
+            'copy' => [],
+            'update' => [],
+        ]);
 
         $notDeleteIds = collect($sorted['update'])->pluck('id')->filter(fn ($id) => (bool)$id)->all();
 
@@ -57,9 +61,27 @@ class SyncAndSaveMediasAction extends BaseAction
 
         $this->update($target, collect($sorted['update'])->keyBy('id')->all(), $collectionName);
 
-        $this->storeNew($target, $sorted['new'], $collectionName);
+        $this->storeFile($target, $sorted['file'], $collectionName);
 
         $this->storeCopy($target, $sorted['copy'], $collectionName);
+    }
+
+    /**
+     * @param \Domain\Products\Models\Product\Product $target
+     * @param string $collectionName
+     * @param int[] $notDeleteIds
+     *
+     * @return void
+     */
+    private function delete(Product $target, string $collectionName, array $notDeleteIds)
+    {
+        $target->getMedia($collectionName)->each(function (CustomMedia $customMedia) use ($notDeleteIds) {
+            if (in_array($customMedia->id, $notDeleteIds)) {
+                return;
+            }
+
+            $customMedia->delete();
+        });
     }
 
     /**
@@ -86,24 +108,6 @@ class SyncAndSaveMediasAction extends BaseAction
 
     /**
      * @param \Domain\Products\Models\Product\Product $target
-     * @param string $collectionName
-     * @param int[] $notDeleteIds
-     *
-     * @return void
-     */
-    private function delete(Product $target, string $collectionName, array $notDeleteIds)
-    {
-        $target->getMedia($collectionName)->each(function (CustomMedia $customMedia) use ($notDeleteIds) {
-            if (in_array($customMedia->id, $notDeleteIds)) {
-                return;
-            }
-
-            $customMedia->delete();
-        });
-    }
-
-    /**
-     * @param \Domain\Products\Models\Product\Product $target
      * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO[] $mediaDTOsNew
      * @param string $collectionName
      *
@@ -113,7 +117,7 @@ class SyncAndSaveMediasAction extends BaseAction
      * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
      * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
      */
-    private function storeNew(Product $target, array $mediaDTOsNew, string $collectionName)
+    private function storeFile(Product $target, array $mediaDTOsNew, string $collectionName)
     {
         foreach ($mediaDTOsNew as $mediaDTO) {
             if (! $mediaDTO->file) {
@@ -142,17 +146,13 @@ class SyncAndSaveMediasAction extends BaseAction
     private function storeCopy(Product $target, array $mediaDTOsCopy, string $collectionName)
     {
         foreach ($mediaDTOsCopy as $mediaDTO) {
-            if (! $this->checkIsForCopyingAction->execute($mediaDTO)) {
-                continue;
-            }
-
             /** @var \Domain\Common\Models\CustomMedia|null $original */
             $original = CustomMedia::query()->find($mediaDTO->id);
             if (! $original) {
                 continue;
             }
 
-            if (in_array($original->disk, Constants::MEDIA_CLOUD_DISKS)) {
+            if ($original->is_on_cloud) {
                 $remoteUrl = $original->getFullUrl();
                 $target
                     ->addMediaFromUrl($remoteUrl)
@@ -169,5 +169,23 @@ class SyncAndSaveMediasAction extends BaseAction
                 ->usingName($mediaDTO->name ?? $mediaDTO->file_name)
                 ->toMediaCollection($collectionName);
         }
+    }
+
+    /**
+     * @param \Domain\Products\Models\Product\Product $target
+     * @param string $collectionName
+     * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO $mediaDTO
+     *
+     * @return bool
+     */
+    private function isForCopying(Product $target, string $collectionName, MediaDTO $mediaDTO): bool
+    {
+        if (!$mediaDTO->id) {
+            return false;
+        }
+
+        $mediaIds = $target->getMedia($collectionName)->pluck('id')->all();
+
+        return !in_array($mediaDTO->id, $mediaIds);
     }
 }
