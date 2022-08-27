@@ -36,7 +36,7 @@ export default interface Product {
     web_route: string | null
     seo: Seo | null
     infoPrices: Array<InfoPrice> | null
-    instructions: Array<Media> | null
+    instructions: Array<Media>
     mainImage: Media | null
     additionalImages: Array<Media>
     charCategories: Array<CharCategory>

@@ -12,7 +12,7 @@ export class CustomFormData extends FormData {
 
     setBoolean(key: string, value: boolean | null | undefined): void {
         if (value == null) {
-            return
+            value = !!value
         }
 
         this.set(key, `${+value}`)
@@ -39,7 +39,7 @@ export class CustomFormData extends FormData {
 
     appendBoolean(key: string, value: boolean | null | undefined): void {
         if (value == null) {
-            return
+            value = !!value
         }
 
         this.append(key, `${+value}`)

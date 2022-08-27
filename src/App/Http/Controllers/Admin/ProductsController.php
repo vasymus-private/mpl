@@ -36,7 +36,16 @@ class ProductsController extends BaseAdminController
 
     public function create(Request $request)
     {
-        $product = new Product();
+        $product = null;
+
+        if ($request->has('copy_id')) {
+            $product = Product::query()->find((int)$request->copy_id);
+            if ($product) {
+                $product->load(['infoPrices', 'media', 'accessory', 'similar', 'related', 'works', 'instruments']);
+            }
+        }
+
+        $product = $product ?: new Product();
 
         return view("admin.pages.products.product", compact("product"));
     }

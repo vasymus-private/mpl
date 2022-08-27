@@ -1,8 +1,8 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import {Field, useFieldArray} from "vee-validate"
-import {ref, toRef} from 'vue'
-import {maxBy} from "lodash"
 import Media from "@/admin/inertia/modules/common/Media"
+import {ref, toRef} from "vue"
+import {maxBy} from "lodash"
 import {randomId} from "@/admin/inertia/utils"
 import { useDropZone } from '@vueuse/core'
 
@@ -14,9 +14,9 @@ const props = defineProps<{
 }>()
 
 const name = toRef(props, 'name')
-const {fields, remove, push, swap} = useFieldArray<Media>(name)
-const dropZoneRef = ref<HTMLDivElement>(null)
+const {fields, push, remove, swap} = useFieldArray<Media>(name)
 const inputFileRef = ref<HTMLInputElement>(null)
+const dropZoneRef = ref<HTMLDivElement>(null)
 
 const save = (files: File[] | null) => {
     if (!files) {
@@ -51,9 +51,9 @@ const { isOverDropZone } = useDropZone(dropZoneRef, save)
     <div class="row mb-3">
         <div class="col-sm-5 text-end">
             <label
-                :for="props.name"
-                style="cursor: pointer"
+                :for="name"
                 class="fw-bold"
+                style="cursor: pointer"
             >{{ props.label }}:</label>
         </div>
         <div class="col-sm-7">
@@ -64,7 +64,7 @@ const { isOverDropZone } = useDropZone(dropZoneRef, save)
                 ref="dropZoneRef"
             >
                 <div class="row">
-                    <div v-for="(field, idx) in fields" class="card text-center" @click.stop="">
+                    <div v-for="(field, idx) in fields" @click.stop="" class="card text-center">
                         <div class="adm-fileinput-item-preview">
                             <h5 class="card-title"><a :href="field.value.url" target="_blank">{{field.value.file_name}}</a></h5>
                         </div>
@@ -110,7 +110,7 @@ const { isOverDropZone } = useDropZone(dropZoneRef, save)
                         multiple
                         @change="onChange"
                         class="form-control-file"
-                        :id="props.name"
+                        :id="name"
                     />
                 </div>
             </div>

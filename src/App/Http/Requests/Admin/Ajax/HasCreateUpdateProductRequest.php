@@ -228,6 +228,7 @@ trait HasCreateUpdateProductRequest
             'name' => isset($media['name']) ? (string)$media['name'] : null,
             'file_name' => isset($media['file_name']) ? (string)$media['file_name'] : null,
             'order_column' => isset($media['order_column']) ? (int)$media['order_column'] : null,
+            'file' => $media['file'] ?? null,
         ]);
 
         return new ProductDTO([

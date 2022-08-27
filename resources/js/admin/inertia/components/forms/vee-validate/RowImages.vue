@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {useFieldArray, Field} from "vee-validate"
+import {Field, useFieldArray} from "vee-validate"
 import Media from "@/admin/inertia/modules/common/Media"
 import {ref, toRef} from "vue"
 import {maxBy} from "lodash"
@@ -12,6 +12,7 @@ const props = defineProps<{
     label: string
     keepValue?: boolean
 }>()
+
 const name = toRef(props, 'name')
 const {fields, push, remove, swap} = useFieldArray<Media>(name)
 const inputFileRef = ref<HTMLInputElement>(null)
@@ -47,12 +48,12 @@ const { isOverDropZone } = useDropZone(dropZoneRef, save)
 </script>
 
 <template>
-    <div class="row">
+    <div class="row mb-3">
         <div class="col-sm-6 d-flex align-items-center">
             <label
+                :for="name"
                 class="w-100 text-end"
                 style="cursor: pointer"
-                :for="name"
             >{{ props.label }}:</label>
         </div>
         <div class="col-sm-6">
@@ -63,7 +64,9 @@ const { isOverDropZone } = useDropZone(dropZoneRef, save)
                 ref="dropZoneRef"
             >
                 <div v-for="(field, idx) in fields" @click.stop="" class="card text-center">
-                    <a :href="field.value.url" target="_blank"><img class="img-thumbnail" :src="field.value.url" alt=""></a>
+                    <a :href="field.value.url" target="_blank">
+                        <img class="img-thumbnail" :src="field.value.url" alt="" />
+                    </a>
                     <div class="form-group">
                         <Field
                             v-slot="{field, meta}"
@@ -98,10 +101,10 @@ const { isOverDropZone } = useDropZone(dropZoneRef, save)
                 </div>
                 <input
                     v-show="false"
+                    type="file"
                     ref="inputFileRef"
                     multiple
                     @change="onChange"
-                    type="file"
                     class="form-control-file"
                     :id="name"
                 />

@@ -2,7 +2,7 @@
 import TheLayout from '@/admin/inertia/components/layout/TheLayout.vue'
 import {routeNames, RouteParams} from "@/admin/inertia/modules/routes"
 import {useProductsStore} from "@/admin/inertia/modules/products"
-import {onUnmounted, watch} from "vue"
+import {watch} from "vue"
 import {Link} from "@inertiajs/inertia-vue3"
 import {AdminTab} from "@/admin/inertia/modules/common/Tabs"
 import {useForm} from 'vee-validate'
@@ -31,18 +31,10 @@ const {errors, handleSubmit, values, setValues, submitCount, isSubmitting} = use
     validationSchema: getFormSchema(),
 })
 
-watch(values, newValues => {
-    createEditProductFormsStore.setProductForm(newValues)
-})
-
 watch(() => productsStore.product, getWatchProductToFormCb(setValues))
 
 const onSubmit = handleSubmit((values, actions) => {
     createEditProductFormsStore.submitCreateEditProduct(values, actions)
-})
-
-onUnmounted(() => {
-    createEditProductFormsStore.setProductForm({})
 })
 </script>
 

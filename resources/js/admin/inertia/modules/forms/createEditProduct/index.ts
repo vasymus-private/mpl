@@ -38,18 +38,8 @@ import { CustomFormData } from "@/admin/inertia/utils/CustomFormData"
 
 export const storeName = "createEditForm"
 
-interface State {
-    _product: Partial<Product>
-}
-
 export const useCreateEditProductFormStore = defineStore(storeName, {
-    state: (): State => {
-        return {
-            _product: {},
-        }
-    },
     getters: {
-        product: (state: State): Partial<Product> => state._product,
         productFormTitle: (): string => {
             let base = "Товары: элемент: "
             const productsStore = useProductsStore()
@@ -127,8 +117,9 @@ export const useCreateEditProductFormStore = defineStore(storeName, {
                 },
             ]
         },
-        adminTabs(state: State): Array<AdminTab> {
-            if (state._product?.is_with_variations) {
+        adminTabs(): Array<AdminTab> {
+            const productsStore = useProductsStore()
+            if (productsStore.product?.is_with_variations) {
                 return this.allAdminTabs
             }
 
@@ -167,9 +158,6 @@ export const useCreateEditProductFormStore = defineStore(storeName, {
         },
     },
     actions: {
-        setProductForm(product: Partial<Product>) {
-            this._product = product
-        },
         async submitCreateEditProduct(
             values: Values,
             { setErrors }
@@ -181,8 +169,7 @@ export const useCreateEditProductFormStore = defineStore(storeName, {
                 let product: Product
 
                 const formData = valuesToFormData(
-                    values,
-                    productsStore.isCreatingFromCopy
+                    values
                 )
 
                 if (isCreating) {
@@ -290,7 +277,7 @@ export const getFormSchema = () => {
             })
             .nullable(),
         infoPrices: yup.array().of(getInfoPriceSchema()).nullable(),
-        instructions: yup.array().of(getInstructionSchema()).nullable(),
+        instructions: yup.array().of(getImageSchema()).nullable(),
         mainImage: getImageSchema().nullable(),
         additionalImages: yup.array().of(getImageSchema()).nullable(),
         charCategories: yup.array().of(getCharCategorySchema()).nullable(),
@@ -314,7 +301,7 @@ export const getFormSchema = () => {
 
 export const getImageSchema = () =>
     yup.object({
-        id: yup.number().integer().truncate(),
+        id: yupIntegerOrEmptyString(),
         uuid: yup.string().nullable(),
         url: yup.string(),
         name: yup.string().max(250).nullable(),
@@ -337,16 +324,6 @@ export const getInfoPriceSchema = () =>
         id: yupIntegerOrEmptyString(),
         name: yup.string().required().max(250),
         price: yupNumberOrEmptyString(),
-    })
-
-export const getInstructionSchema = () =>
-    yup.object({
-        id: yupIntegerOrEmptyString(),
-        name: yup.string().required().max(250),
-        file_name: yup.string().required().max(250),
-        url: yup.string(),
-        order_column: yupIntegerOrEmptyString(),
-        file: yup.mixed(),
     })
 
 export const getVariationSchema = () =>
@@ -457,7 +434,7 @@ export const getWatchProductToFormCb =
                 })),
             ]
         }, [])
-        setValues({
+        let values = {
             id,
             is_active,
             is_with_variations,
@@ -499,7 +476,9 @@ export const getWatchProductToFormCb =
             works,
             instruments,
             variations,
-        })
+        }
+        console.log('--- values', values)
+        setValues(values)
     }
 
 const errorsToErrorFields = (
@@ -518,10 +497,11 @@ const errorsToErrorFields = (
 }
 
 const valuesToFormData = (
-    values: Values,
-    isCreatingFromCopy: boolean
+    values: Values
 ): FormData => {
     const formData = new CustomFormData()
+
+    console.log('--- submit values', values)
 
     let stringOrNumberKeys: Array<keyof Values> = [
         "name",
@@ -599,10 +579,6 @@ const valuesToFormData = (
             formData.appendStringOrNumber(
                 `instructions[${index}][id]`,
                 instruction.id
-            )
-            formData.appendBoolean(
-                `instructions[${index}][id]`,
-                isCreatingFromCopy
             )
             formData.appendStringOrNumber(
                 `instructions[${index}][uuid]`,
