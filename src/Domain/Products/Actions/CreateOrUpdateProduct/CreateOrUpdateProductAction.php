@@ -241,7 +241,7 @@ class CreateOrUpdateProductAction extends BaseAction
      */
     private function saveOtherProducts(Product $target, ProductDTO $productDTO)
     {
-        $getReduceCB = fn(int $type) => function (array $acc, int $id) use ($type) {
+        $getReduceCB = fn (int $type) => function (array $acc, int $id) use ($type) {
             $acc[$id] = ["type" => $type];
 
             return $acc;
