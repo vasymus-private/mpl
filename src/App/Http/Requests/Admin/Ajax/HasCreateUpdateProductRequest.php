@@ -403,7 +403,7 @@ trait HasCreateUpdateProductRequest
                         ? (float)$variation['coefficient']
                         : null,
                     'coefficient_description' => isset($variation['coefficient_description'])
-                        ? (int)$variation['coefficient_description']
+                        ? (string)$variation['coefficient_description']
                         : null,
                     'unit' => isset($variation['unit'])
                         ? (string)$variation['unit']

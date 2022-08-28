@@ -200,5 +200,27 @@ const deleteProduct = (variation: FieldEntry<VariationForm>, idx: number) => {
                 </tbody>
             </table>
         </div>
+
+<!--        <div class="admin-edit-variations__footer">-->
+<!--            @if(!$editMode)-->
+<!--            <div class="variants-btn-group" role="group" aria-label="actions">-->
+<!--                <button-->
+<!--                    wire:click.prevent="handleSetVariationsEditMode"-->
+<!--                    x-bind:disabled="!Object.values(items).some(item => item.is_checked)"-->
+<!--                    aria-label="edit all mode"-->
+<!--                    type="button"-->
+<!--                    class="btn brn-edit"></button>-->
+<!--                <button-->
+<!--                    x-bind:disabled="!Object.values(items).some(item => item.is_checked)"-->
+<!--                    onclick="if (confirm('Вы уверены, что хотите удалить отмеченные записи?')) {@this.handleDeleteSelectedVariations();}"-->
+<!--                    aria-label="delete all"-->
+<!--                    type="button"-->
+<!--                    class="btn btn-delete"></button>-->
+<!--            </div>-->
+<!--            @else-->
+<!--            <button wire:click="saveVariations" type="button" class="btn btn-light">Сохранить</button>-->
+<!--            <button wire:click="handleCancelVariationsEditMode" type="button" class="btn btn-light">Отменить</button>-->
+<!--            @endif-->
+<!--        </div>-->
     </div>
 </template>
