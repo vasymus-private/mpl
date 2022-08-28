@@ -5,6 +5,7 @@ namespace Domain\Products\Actions\CreateOrUpdateProduct;
 use Domain\Common\Actions\BaseAction;
 use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO;
 use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\ProductDTO;
+use Domain\Products\Models\Pivots\ProductProduct;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Support\Facades\DB;
 
@@ -175,6 +176,8 @@ class CreateOrUpdateProductAction extends BaseAction
                 $target->save();
             }
 
+            $target->relatedCategories()->sync($productDTO->relatedCategoriesIds);
+
             $this->saveSeoAction->execute($target, $productDTO->seo);
 
             $this->syncAndSaveInfoPricesAction->execute($target, $productDTO->infoPrices);
@@ -238,10 +241,25 @@ class CreateOrUpdateProductAction extends BaseAction
      */
     private function saveOtherProducts(Product $target, ProductDTO $productDTO)
     {
-        $target->accessory()->sync($productDTO->accessories);
-        $target->similar()->sync($productDTO->similar);
-        $target->related()->sync($productDTO->related);
-        $target->works()->sync($productDTO->works);
-        $target->instruments()->sync($productDTO->instruments);
+        $getReduceCB = fn(int $type) => function (array $acc, int $id) use ($type) {
+            $acc[$id] = ["type" => $type];
+
+            return $acc;
+        };
+
+        $syncAccessory = collect($productDTO->accessories)->reduce($getReduceCB(ProductProduct::TYPE_ACCESSORY), []);
+        $target->accessory()->sync($syncAccessory);
+
+        $syncSimilar = collect($productDTO->similar)->reduce($getReduceCB(ProductProduct::TYPE_SIMILAR), []);
+        $target->similar()->sync($syncSimilar);
+
+        $syncRelated = collect($productDTO->related)->reduce($getReduceCB(ProductProduct::TYPE_RELATED), []);
+        $target->related()->sync($syncRelated);
+
+        $syncWorks = collect($productDTO->works)->reduce($getReduceCB(ProductProduct::TYPE_WORK), []);
+        $target->works()->sync($syncWorks);
+
+        $syncInstruments = collect($productDTO->instruments)->reduce($getReduceCB(ProductProduct::TYPE_INSTRUMENT), []);
+        $target->instruments()->sync($syncInstruments);
     }
 }
