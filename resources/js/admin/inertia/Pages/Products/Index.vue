@@ -25,6 +25,8 @@ import {
     getIndexForIdCb,
     useIndexProductsFormStore
 } from "@/admin/inertia/modules/forms/indexProducts"
+import useCheckedItems from "@/admin/inertia/components/composables/useCheckedItems"
+import {storeToRefs} from "pinia"
 
 
 const columnsStore = useColumnsStore()
@@ -35,6 +37,10 @@ const routesStore = useRoutesStore()
 const currenciesStore = useCurrenciesStore()
 const availabilitiesStore = useAvailabilityStatusesStore()
 const indexProductsForm = useIndexProductsFormStore()
+
+const {productListItems} = storeToRefs(productStore)
+
+const {checkedItems, check, checkAll, uncheckAll, isChecked} = useCheckedItems<ProductListItem>(productListItems)
 
 const selectAll = ref(false)
 const editMode = ref(false)
@@ -62,7 +68,7 @@ const searchInput = computed<string|null>({
         _searchInput.value = v
     }
 })
-const checkedProducts: Ref<Array<number>> = ref([])
+
 const perPageOptions = getPerPageOptions()
 
 const onPerPage = (perPage: Option) => {
@@ -94,14 +100,6 @@ watch(selectAll, (newValue) => {
     }
 })
 
-const checkAll = () => {
-    checkedProducts.value = productStore.productListItems.map((item: ProductListItem) => item.id)
-}
-
-const uncheckAll = () => {
-    checkedProducts.value = []
-}
-
 const removePrepend = (type: OptionType) => {
     switch (type) {
         case OptionType.category: {
@@ -120,7 +118,7 @@ const removePrepend = (type: OptionType) => {
 }
 const deleteProducts = () => {
     if (confirm('Вы уверены, что хотите удалить продукт выбранные продукты?')) { // todo temporary until modals simple confirm implementation
-        productStore.handleDelete(checkedProducts.value)
+        productStore.handleDelete(checkedItems.value)
     }
 }
 const deleteProduct = (product: ProductListItem) => {
@@ -139,9 +137,9 @@ const {errors, handleSubmit, values, setValues, validate, isSubmitting} = useFor
 
 const indexForId = getIndexForIdCb(values)
 
-watch(() => productStore.productListItems, (products: Array<ProductListItem> = []) => {
+watch(() => productListItems, (products: Ref<Array<ProductListItem>>) => {
     setValues({
-        products: products.map((product: ProductListItem) => {
+        products: products.value.map((product: ProductListItem) => {
             let {id, ordering, name, is_active, unit, price_purchase, price_purchase_currency_id, price_retail, price_retail_currency_id, availability_status_id, admin_comment} = product
 
             return {
@@ -171,17 +169,11 @@ const manualCheck = (id: number) => {
         return
     }
 
-    const isChecked = !!checkedProducts.value.find(_id => +id === +_id)
-    if (isChecked) {
-        checkedProducts.value = checkedProducts.value.filter(_id => +_id !== +id)
-        return
-    }
-
-    checkedProducts.value = [...checkedProducts.value, id]
+    check(id)
 }
 
 const onSubmit = handleSubmit(async (values, ctx) => {
-    await indexProductsForm.submitIndexProducts(checkedProducts, values, ctx)
+    await indexProductsForm.submitIndexProducts(checkedItems, values, ctx)
     editMode.value = false
 })
 </script>
@@ -264,12 +256,12 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="product in productStore.productListItems" :key="product.uuid" @click="manualCheck(product.id)">
+                        <tr v-for="product in productListItems" :key="product.uuid" @click="manualCheck(product.id)">
                             <td>
                                 <div class="form-check">
                                     <input
                                         :disabled="editMode"
-                                        v-model="checkedProducts"
+                                        v-model="checkedItems"
                                         :value="product.id"
                                         class="form-check-input position-static js-product-item-checkbox"
                                         type="checkbox"
@@ -313,7 +305,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                             <template v-for="sortableColumn in columnsStore.adminProductColumns" :key="sortableColumn.value">
                                 <td v-if="isSortableColumn(sortableColumn, ColumnName.ordering)" :class="`sortable-column-${sortableColumn.value}`">
                                     <FormControlInput
-                                        v-if="editMode && checkedProducts.includes(product.id)"
+                                        v-if="editMode && isChecked(product.id)"
                                         :name="`products[${indexForId(product.id)}].ordering`"
                                         type="number"
                                     />
@@ -321,7 +313,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                 </td>
                                 <td v-if="isSortableColumn(sortableColumn, ColumnName.name)" :class="`sortable-column-${sortableColumn.value}`" @click.stop="">
                                     <FormControlInput
-                                        v-if="editMode && checkedProducts.includes(product.id)"
+                                        v-if="editMode && isChecked(product.id)"
                                         :name="`products[${indexForId(product.id)}].name`"
                                         type="text"
                                     />
@@ -333,21 +325,21 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                 </td>
                                 <td v-if="isSortableColumn(sortableColumn, ColumnName.active)" :class="`sortable-column-${sortableColumn.value}`">
                                     <FormCheckInput
-                                        v-if="editMode && checkedProducts.includes(product.id)"
+                                        v-if="editMode && isChecked(product.id)"
                                         :name="`products[${indexForId(product.id)}].is_active`"
                                     />
                                     <span v-else class="main-grid-cell-content">{{getActiveName(product.is_active)}}</span>
                                 </td>
                                 <td v-if="isSortableColumn(sortableColumn, ColumnName.unit)" :class="`sortable-column-${sortableColumn.value}`">
                                     <FormControlInput
-                                        v-if="editMode && checkedProducts.includes(product.id)"
+                                        v-if="editMode && isChecked(product.id)"
                                         :name="`products[${indexForId(product.id)}].unit`"
                                         type="text"
                                     />
                                     <span v-else class="main-grid-cell-content">{{product.unit}}</span>
                                 </td>
                                 <td v-if="isSortableColumn(sortableColumn, ColumnName.price_purchase)" :class="`sortable-column-${sortableColumn.value}`">
-                                    <div v-if="editMode && checkedProducts.includes(product.id)" class="row">
+                                    <div v-if="editMode && isChecked(product.id)" class="row">
                                         <div class="col-auto">
                                             <FormControlInput
                                                 :name="`products[${indexForId(product.id)}].price_purchase`"
@@ -364,7 +356,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                     <span v-else class="main-grid-cell-content">{{product.price_purchase_formatted}}</span>
                                 </td>
                                 <td v-if="isSortableColumn(sortableColumn, ColumnName.price_retail)" :class="`sortable-column-${sortableColumn.value}`">
-                                    <div v-if="editMode && checkedProducts.includes(product.id)" class="row">
+                                    <div v-if="editMode && isChecked(product.id)" class="row">
                                         <div class="col-auto">
                                             <FormControlInput
                                                 :name="`products[${indexForId(product.id)}].price_retail`"
@@ -382,7 +374,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                 </td>
                                 <td v-if="isSortableColumn(sortableColumn, ColumnName.admin_comment)" :class="`sortable-column-${sortableColumn.value}`">
                                     <FormControlTextarea
-                                        v-if="editMode && checkedProducts.includes(product.id)"
+                                        v-if="editMode && isChecked(product.id)"
                                         :name="`products[${indexForId(product.id)}].admin_comment`"
                                         :rows="2"
                                     />
@@ -390,7 +382,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                 </td>
                                 <td :class="`sortable-column-${sortableColumn.value}`" v-if="isSortableColumn(sortableColumn, ColumnName.availability)">
                                     <FormControlSelect
-                                        v-if="editMode && checkedProducts.includes(product.id)"
+                                        v-if="editMode && isChecked(product.id)"
                                         :name="`products[${indexForId(product.id)}].availability_status_id`"
                                         :options="availabilitiesStore.options"
                                     />
@@ -421,8 +413,8 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                 <button @click="cancel" type="button" class="btn btn-warning">Отменить</button>
             </footer>
             <footer key="edit-mode-off" v-else class="footer edit-item-footer">
-                <button @click="editMode = true" :disabled="!checkedProducts.length" type="button" class="btn btn-primary mb-2 btn__save mr-2">Редактировать</button>
-                <button @click="deleteProducts" :disabled="!checkedProducts.length" type="button" class="btn btn-info mb-2 btn__default">Удалить</button>
+                <button @click="editMode = true" :disabled="!checkedItems.length" type="button" class="btn btn-primary mb-2 btn__save mr-2">Редактировать</button>
+                <button @click="deleteProducts" :disabled="!checkedItems.length" type="button" class="btn btn-info mb-2 btn__default">Удалить</button>
             </footer>
         </div>
     </TheLayout>

@@ -10,7 +10,7 @@ import {randomId} from "@/admin/inertia/utils"
 import Media from "@/admin/inertia/modules/common/Media"
 import {copyMedia} from "@/admin/inertia/modules/common/utils"
 import {useCurrenciesStore} from "@/admin/inertia/modules/currencies"
-import {useAvailabilityStatusesStore} from "@/admin/inertia/modules/availabilityStatuses";
+import {useAvailabilityStatusesStore} from "@/admin/inertia/modules/availabilityStatuses"
 
 
 const modalsStore = useModalsStore()
@@ -62,9 +62,21 @@ const copyVariation = async (variation: FieldEntry<VariationForm>) => {
         additionalImages,
     })
 }
+const saveVariations = () => {
+
+}
+const cancelVariations = () => {
+
+}
 const deleteProduct = (variation: FieldEntry<VariationForm>, idx: number) => {
     if (confirm(`Вы уверены, что хотите удалить вариант товара ${variation.value.id} ${variation.value.name} ?'`)) {
         remove(idx)
+    }
+}
+
+const deleteSelected = () => {
+    if (confirm('Вы уверены, что хотите удалить отмеченные записи?')) {
+
     }
 }
 </script>
@@ -201,26 +213,30 @@ const deleteProduct = (variation: FieldEntry<VariationForm>, idx: number) => {
             </table>
         </div>
 
-<!--        <div class="admin-edit-variations__footer">-->
-<!--            @if(!$editMode)-->
-<!--            <div class="variants-btn-group" role="group" aria-label="actions">-->
-<!--                <button-->
-<!--                    wire:click.prevent="handleSetVariationsEditMode"-->
-<!--                    x-bind:disabled="!Object.values(items).some(item => item.is_checked)"-->
-<!--                    aria-label="edit all mode"-->
-<!--                    type="button"-->
-<!--                    class="btn brn-edit"></button>-->
-<!--                <button-->
-<!--                    x-bind:disabled="!Object.values(items).some(item => item.is_checked)"-->
-<!--                    onclick="if (confirm('Вы уверены, что хотите удалить отмеченные записи?')) {@this.handleDeleteSelectedVariations();}"-->
-<!--                    aria-label="delete all"-->
-<!--                    type="button"-->
-<!--                    class="btn btn-delete"></button>-->
-<!--            </div>-->
-<!--            @else-->
-<!--            <button wire:click="saveVariations" type="button" class="btn btn-light">Сохранить</button>-->
-<!--            <button wire:click="handleCancelVariationsEditMode" type="button" class="btn btn-light">Отменить</button>-->
-<!--            @endif-->
-<!--        </div>-->
+        <div class="admin-edit-variations__footer">
+            <div v-if="editMode" class="variants-btn-group" role="group" aria-label="actions">
+                <button
+                    aria-label="edit all mode"
+                    type="button"
+                    class="btn brn-edit"></button>
+                <button
+                    @click="deleteSelected"
+                    aria-label="delete all"
+                    type="button"
+                    class="btn btn-delete"></button>
+            </div>
+            <template v-else>
+                <button
+                    @click="saveVariations"
+                    type="button"
+                    class="btn btn-light"
+                >Сохранить</button>
+                <button
+                    @click="cancelVariations"
+                    type="button"
+                    class="btn btn-light"
+                >Отменить</button>
+            </template>
+        </div>
     </div>
 </template>
