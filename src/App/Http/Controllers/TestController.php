@@ -90,12 +90,12 @@ class TestController extends Controller
         $fileName = 'hello.pdf';
 
         $streamedResponse = new StreamedResponse();
-        $streamedResponse->setCallback(function() {
+        $streamedResponse->setCallback(function () {
             $bufferSize = 1024;
             $tmpHandle = fopen(storage_path('app/tests/test.pdf'), 'r');
             $handle = fopen('php://output', 'w');
 
-            while (!feof($tmpHandle)) {
+            while (! feof($tmpHandle)) {
                 $data = fread($tmpHandle, $bufferSize);
                 dump($data);
                 fwrite($handle, $data);
@@ -114,7 +114,7 @@ class TestController extends Controller
     protected function getStreamedResponse(string $fileName, string $content = null)
     {
         $streamedResponse = new StreamedResponse();
-        $streamedResponse->setCallback(function() use($content) {
+        $streamedResponse->setCallback(function () use ($content) {
             file_put_contents('php://output', $content);
         });
 
