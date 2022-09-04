@@ -3,5 +3,5 @@ export interface Errors {
 }
 
 export interface WithId {
-    id: string|number
+    id: string | number
 }
