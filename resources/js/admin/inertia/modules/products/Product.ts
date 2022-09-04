@@ -1,7 +1,7 @@
 import { CharCategory } from "@/admin/inertia/modules/products/Char"
 import Meta from "@/admin/inertia/modules/common/Meta"
 import Media from "@/admin/inertia/modules/common/Media"
-import {Seo} from '@/admin/inertia/modules/common/types'
+import { Seo } from "@/admin/inertia/modules/common/types"
 
 export default interface Product {
     id: number | null
