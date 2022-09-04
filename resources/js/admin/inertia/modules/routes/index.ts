@@ -1,4 +1,4 @@
-import {defineStore, storeToRefs} from "pinia"
+import { defineStore, storeToRefs } from "pinia"
 import { useCategoriesTreeStore } from "@/admin/inertia/modules/categoriesTree"
 import route, {
     Config,
@@ -10,7 +10,9 @@ import { Ziggy } from "@/helpers/ziggy"
 import Option, { OptionType } from "@/admin/inertia/modules/common/Option"
 import { useBrandsStore } from "@/admin/inertia/modules/brands"
 import * as H from "history"
-import useRoute, {UrlParams} from "@/admin/inertia/components/composables/useRoute"
+import useRoute, {
+    UrlParams,
+} from "@/admin/inertia/components/composables/useRoute"
 
 export const storeName = "routes"
 
@@ -23,7 +25,10 @@ export const useRoutesStore = defineStore(storeName, {
     getters: {
         fullUrl: (state): string | null => state._fullUrl,
         isActiveRoute() {
-            return (type: RouteTypeEnum, id: number | string = null): boolean => {
+            return (
+                type: RouteTypeEnum,
+                id: number | string = null
+            ): boolean => {
                 const categoriesTreeStore = useCategoriesTreeStore()
 
                 let router = this.router
@@ -92,9 +97,9 @@ export const useRoutesStore = defineStore(storeName, {
             }
         },
         productsUrlParamOptions(): Array<Option> {
-            let {fullUrl} = storeToRefs(this)
+            let { fullUrl } = storeToRefs(this)
 
-            let {getUrlParam} = useRoute(fullUrl)
+            let { getUrlParam } = useRoute(fullUrl)
 
             let categoryId = getUrlParam(UrlParams.category_id)
             let brandId = getUrlParam(UrlParams.brand_id)
@@ -132,8 +137,8 @@ export const useRoutesStore = defineStore(storeName, {
             return result
         },
         categoriesUrlParamOptions(): Array<Option> {
-            let {fullUrl} = storeToRefs(this)
-            let {getUrlParam} = useRoute(fullUrl)
+            let { fullUrl } = storeToRefs(this)
+            let { getUrlParam } = useRoute(fullUrl)
             let categoryId = getUrlParam(UrlParams.category_id)
 
             let result = []
@@ -233,9 +238,9 @@ export const routeNames = {
     ROUTE_ADMIN_CATEGORIES_CREATE: "admin.categories.create",
     ROUTE_ADMIN_CATEGORIES_EDIT: "admin.categories.edit",
 
-    ROUTE_ADMIN_CATEGORIES_TEMP_INDEX: 'admin.categories.temp.index',
-    ROUTE_ADMIN_CATEGORIES_TEMP_CREATE: 'admin.categories.temp.create',
-    ROUTE_ADMIN_CATEGORIES_TEMP_EDIT: 'admin.categories.temp.edit',
+    ROUTE_ADMIN_CATEGORIES_TEMP_INDEX: "admin.categories.temp.index",
+    ROUTE_ADMIN_CATEGORIES_TEMP_CREATE: "admin.categories.temp.create",
+    ROUTE_ADMIN_CATEGORIES_TEMP_EDIT: "admin.categories.temp.edit",
 
     ROUTE_ADMIN_BRANDS_INDEX: "admin.brands.index",
     ROUTE_ADMIN_BRANDS_CREATE: "admin.brands.create",

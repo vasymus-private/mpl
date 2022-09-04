@@ -1,7 +1,6 @@
-import {Ref} from "vue"
-import {Inertia} from "@inertiajs/inertia"
-import {OptionType} from "@/admin/inertia/modules/common/Option"
-
+import { Ref } from "vue"
+import { Inertia } from "@inertiajs/inertia"
+import { OptionType } from "@/admin/inertia/modules/common/Option"
 
 export enum UrlParams {
     brand_id = "brand_id",
@@ -11,16 +10,14 @@ export enum UrlParams {
     search = "search",
 }
 
-export default (fullUrl?: Ref<string|null>) => {
-
-    const getUrlParam = (key: string): string|null => {
-        let url = typeof location !== 'undefined'
-            ? location.href
-            : (
-                fullUrl
-                    ? fullUrl.value
-                    : null
-            )
+export default (fullUrl?: Ref<string | null>) => {
+    const getUrlParam = (key: string): string | null => {
+        let url =
+            typeof location !== "undefined"
+                ? location.href
+                : fullUrl
+                ? fullUrl.value
+                : null
 
         if (!url) {
             return null
@@ -43,7 +40,7 @@ export default (fullUrl?: Ref<string|null>) => {
         for (let key in params) {
             if (params[key]) {
                 to.searchParams.set(key, `${params[key]}`)
-            }else {
+            } else {
                 to.searchParams.delete(key)
             }
         }
