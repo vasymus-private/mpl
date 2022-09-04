@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 // @ts-ignore
 import Multiselect from 'vue-multiselect'
-import {routeNames, UrlParams, useRoutesStore, visit} from "@/admin/inertia/modules/routes"
-import {computed, ref, Ref, watch} from "vue"
+import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
+import {computed, watch} from "vue"
 import {ColumnName, isSortableColumn, useColumnsStore} from "@/admin/inertia/modules/columns"
 import {getActiveName, getPerPageOptions, useProductsStore} from "@/admin/inertia/modules/products"
 import TheLayout from '@/admin/inertia/components/layout/TheLayout.vue'
 import Pagination from "@/admin/inertia/components/layout/Pagination.vue"
-import Option, {OptionType} from "@/admin/inertia/modules/common/Option"
+import Option from "@/admin/inertia/modules/common/Option"
 import {ModalType, useModalsStore} from "@/admin/inertia/modules/modals"
 import ProductListItem from "@/admin/inertia/modules/products/ProductListItem"
 import {Link} from "@inertiajs/inertia-vue3"
@@ -27,6 +27,8 @@ import {
 } from "@/admin/inertia/modules/forms/indexProducts"
 import useCheckedItems from "@/admin/inertia/components/composables/useCheckedItems"
 import {storeToRefs} from "pinia"
+import useRoute, {UrlParams} from "@/admin/inertia/components/composables/useRoute"
+import useSearchInput from "@/admin/inertia/components/composables/useSearchInput"
 
 
 const columnsStore = useColumnsStore()
@@ -39,14 +41,15 @@ const availabilitiesStore = useAvailabilityStatusesStore()
 const indexProductsForm = useIndexProductsFormStore()
 
 const {productListItems} = storeToRefs(productStore)
+const {fullUrl} = storeToRefs(routesStore)
 
-const {checkedItems, check, checkAll, uncheckAll, isChecked} = useCheckedItems<ProductListItem>(productListItems)
+const {selectAll, editMode, checkedItems, check, isChecked, watchSelectAll, manualCheck, cancel} = useCheckedItems<ProductListItem>(productListItems)
+const {getUrlParam, visit, removeUrlParam} = useRoute(fullUrl)
+const {searchInput, onPerPage, handleSearch, handleClear} = useSearchInput(fullUrl)
 
-const selectAll = ref(false)
-const editMode = ref(false)
 const brand = computed({
     get() {
-        let brandId = routesStore.getUrlParam(UrlParams.brand_id)
+        let brandId = getUrlParam(UrlParams.brand_id)
         if (!brandId) {
             return null
         }
@@ -59,63 +62,9 @@ const brand = computed({
         })
     }
 })
-const _searchInput = ref<string|null>(null)
-const searchInput = computed<string|null>({
-    get() {
-        return _searchInput.value ? _searchInput.value : routesStore.getUrlParam(UrlParams.search)
-    },
-    set(v: string|null) {
-        _searchInput.value = v
-    }
-})
 
 const perPageOptions = getPerPageOptions()
 
-const onPerPage = (perPage: Option) => {
-    visit({
-        [UrlParams.page]: 1,
-        [UrlParams.per_page]: perPage.value,
-    })
-}
-const handleSearch = () => {
-    visit({
-        [UrlParams.search]: searchInput.value,
-    })
-}
-const handleClear = () => {
-    visit({
-        [UrlParams.search]: null,
-        [UrlParams.brand_id]: null,
-        [UrlParams.category_id]: null,
-    })
-}
-
-watch(selectAll, (newValue) => {
-    if (newValue === true) {
-        checkAll()
-    }
-
-    if (newValue === false) {
-        uncheckAll()
-    }
-})
-
-const removePrepend = (type: OptionType) => {
-    switch (type) {
-        case OptionType.category: {
-            visit({
-                [UrlParams.category_id]: null,
-            })
-            break
-        }
-        case OptionType.brand: {
-            visit({
-                [UrlParams.brand_id]: null,
-            })
-            break
-        }
-    }
-}
 const deleteProducts = () => {
     if (confirm('Вы уверены, что хотите удалить продукт выбранные продукты?')) { // todo temporary until modals simple confirm implementation
         productStore.handleDelete(checkedItems.value)
@@ -137,9 +86,9 @@ const {errors, handleSubmit, values, setValues, validate, isSubmitting} = useFor
 
 const indexForId = getIndexForIdCb(values)
 
-watch(() => productListItems, (products: Ref<Array<ProductListItem>>) => {
+watch(productListItems, (products: Array<ProductListItem>) => {
     setValues({
-        products: products.value.map((product: ProductListItem) => {
+        products: products.map((product: ProductListItem) => {
             let {id, ordering, name, is_active, unit, price_purchase, price_purchase_currency_id, price_retail, price_retail_currency_id, availability_status_id, admin_comment} = product
 
             return {
@@ -159,18 +108,7 @@ watch(() => productListItems, (products: Ref<Array<ProductListItem>>) => {
     })
 })
 
-const cancel = () => {
-    editMode.value = false
-    uncheckAll()
-}
-
-const manualCheck = (id: number) => {
-    if (editMode.value) {
-        return
-    }
-
-    check(id)
-}
+watchSelectAll()
 
 const onSubmit = handleSubmit(async (values, ctx) => {
     await indexProductsForm.submitIndexProducts(checkedItems, values, ctx)
@@ -192,9 +130,9 @@ const onSubmit = handleSubmit(async (values, ctx) => {
             <div class="search form-group row">
                 <div class="col-xs-12 col-sm-8">
                     <div class="input-group mb-3">
-                        <template v-for="option in routesStore.urlParamOptions" :key="`${option.type}-${option.value}`">
+                        <template v-for="option in routesStore.productsUrlParamOptions" :key="`${option.type}-${option.value}`">
                             <span style="max-width: 200px;" class="input-group-text d-inline-block text-truncate">{{option.label}}</span>
-                            <button @click="removePrepend(option.type)" class="btn input-group-prepend__remove" type="button"></button>
+                            <button @click="removeUrlParam(option.type)" class="btn input-group-prepend__remove" type="button"></button>
                         </template>
                         <input
                             v-model="searchInput"

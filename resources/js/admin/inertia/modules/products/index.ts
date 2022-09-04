@@ -5,7 +5,6 @@ import Meta from "@/admin/inertia/modules/common/Meta"
 import Option from "@/admin/inertia/modules/common/Option"
 import { extendMetaLinksWithComputedData } from "@/admin/inertia/modules/common"
 import {
-    getRouter,
     getRouteUrl,
     routeNames,
     useRoutesStore,

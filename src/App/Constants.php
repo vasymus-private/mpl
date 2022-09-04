@@ -41,6 +41,10 @@ final class Constants
     public const ROUTE_ADMIN_CATEGORIES_CREATE = 'admin.categories.create';
     public const ROUTE_ADMIN_CATEGORIES_EDIT = 'admin.categories.edit';
 
+    public const ROUTE_ADMIN_CATEGORIES_TEMP_INDEX = 'admin.categories.temp.index';
+    public const ROUTE_ADMIN_CATEGORIES_TEMP_CREATE = 'admin.categories.temp.create';
+    public const ROUTE_ADMIN_CATEGORIES_TEMP_EDIT = 'admin.categories.temp.edit';
+
     public const ROUTE_ADMIN_BRANDS_INDEX = 'admin.brands.index';
     public const ROUTE_ADMIN_BRANDS_CREATE = 'admin.brands.create';
     public const ROUTE_ADMIN_BRANDS_EDIT = 'admin.brands.edit';

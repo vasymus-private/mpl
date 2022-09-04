@@ -1,4 +1,4 @@
-import { defineStore } from "pinia"
+import {defineStore, storeToRefs} from "pinia"
 import { useCategoriesTreeStore } from "@/admin/inertia/modules/categoriesTree"
 import route, {
     Config,
@@ -8,9 +8,9 @@ import route, {
 } from "ziggy-js"
 import { Ziggy } from "@/helpers/ziggy"
 import Option, { OptionType } from "@/admin/inertia/modules/common/Option"
-import { Inertia } from "@inertiajs/inertia"
 import { useBrandsStore } from "@/admin/inertia/modules/brands"
 import * as H from "history"
+import useRoute, {UrlParams} from "@/admin/inertia/components/composables/useRoute"
 
 export const storeName = "routes"
 
@@ -22,12 +22,14 @@ export const useRoutesStore = defineStore(storeName, {
     },
     getters: {
         fullUrl: (state): string | null => state._fullUrl,
-        isActiveRoute:
-            () =>
-            (type: RouteTypeEnum, id: number | string = null): boolean => {
+        isActiveRoute() {
+            return (type: RouteTypeEnum, id: number | string = null): boolean => {
                 const categoriesTreeStore = useCategoriesTreeStore()
 
-                let router = getRouter()
+                let router = this.router
+                if (!router) {
+                    return false
+                }
 
                 switch (type) {
                     case RouteTypeEnum.categoriesSub:
@@ -87,26 +89,15 @@ export const useRoutesStore = defineStore(storeName, {
                         return false
                     }
                 }
-            },
-        getUrlParam() {
-            return (key: UrlParams): string | null => {
-                let fullUrl = this.fullUrl
-                if (!fullUrl) {
-                    return null
-                }
-
-                try {
-                    let url = new URL(fullUrl)
-                    return url.searchParams.get(key)
-                } catch (e) {
-                    console.warn(e)
-                    return null
-                }
             }
         },
-        urlParamOptions(): Array<Option> {
-            let categoryId = this.getUrlParam(UrlParams.category_id)
-            let brandId = this.getUrlParam(UrlParams.brand_id)
+        productsUrlParamOptions(): Array<Option> {
+            let {fullUrl} = storeToRefs(this)
+
+            let {getUrlParam} = useRoute(fullUrl)
+
+            let categoryId = getUrlParam(UrlParams.category_id)
+            let brandId = getUrlParam(UrlParams.brand_id)
 
             let result = []
 
@@ -133,6 +124,29 @@ export const useRoutesStore = defineStore(storeName, {
                         {
                             ...brand,
                             type: OptionType.brand,
+                        },
+                    ]
+                }
+            }
+
+            return result
+        },
+        categoriesUrlParamOptions(): Array<Option> {
+            let {fullUrl} = storeToRefs(this)
+            let {getUrlParam} = useRoute(fullUrl)
+            let categoryId = getUrlParam(UrlParams.category_id)
+
+            let result = []
+
+            if (categoryId) {
+                let categoriesStore = useCategoriesTreeStore()
+                let category = categoriesStore.option(categoryId)
+                if (category) {
+                    result = [
+                        ...result,
+                        {
+                            ...category,
+                            type: OptionType.category,
                         },
                     ]
                 }
@@ -195,17 +209,6 @@ export const useRoutesStore = defineStore(storeName, {
     },
 })
 
-let _router: Router
-export const getRouter = () => {
-    if (typeof _router !== "undefined") {
-        return _router
-    }
-
-    _router = route(undefined, undefined, undefined, Ziggy as Config)
-
-    return _router
-}
-
 export const getRouteUrl = (
     name: string,
     params?: RouteParamsWithQueryOverload | RouteParam
@@ -229,6 +232,10 @@ export const routeNames = {
     ROUTE_ADMIN_CATEGORIES_INDEX: "admin.categories.index",
     ROUTE_ADMIN_CATEGORIES_CREATE: "admin.categories.create",
     ROUTE_ADMIN_CATEGORIES_EDIT: "admin.categories.edit",
+
+    ROUTE_ADMIN_CATEGORIES_TEMP_INDEX: 'admin.categories.temp.index',
+    ROUTE_ADMIN_CATEGORIES_TEMP_CREATE: 'admin.categories.temp.create',
+    ROUTE_ADMIN_CATEGORIES_TEMP_EDIT: 'admin.categories.temp.edit',
 
     ROUTE_ADMIN_BRANDS_INDEX: "admin.brands.index",
     ROUTE_ADMIN_BRANDS_CREATE: "admin.brands.create",
@@ -283,28 +290,4 @@ export enum RouteTypeEnum {
 
 export enum RouteParams {
     activeTab = "activeTab",
-}
-
-export enum UrlParams {
-    brand_id = "brand_id",
-    category_id = "category_id",
-    page = "page",
-    per_page = "per_page",
-    search = "search",
-}
-export const visit = (
-    params: Partial<Record<UrlParams, string | number | null>>
-) => {
-    const to = new URL(location.href)
-
-    for (let key in params) {
-        if (!params[key]) {
-            to.searchParams.delete(key)
-        }
-        if (params[key]) {
-            to.searchParams.set(key, `${params[key]}`)
-        }
-    }
-
-    Inertia.visit(to.toString())
 }

@@ -78,6 +78,13 @@ Route
 ;
 Route
     ::get(
+        "temp-categories",
+        [CategoriesController::class, 'indexTemp']
+    )
+    ->name(Constants::ROUTE_ADMIN_CATEGORIES_TEMP_INDEX)
+;
+Route
+    ::get(
         "categories/create",
         [CategoriesController::class, 'create']
     )
@@ -85,10 +92,24 @@ Route
 ;
 Route
     ::get(
+        "temp-categories/create",
+        [CategoriesController::class, 'createTemp']
+    )
+    ->name(Constants::ROUTE_ADMIN_CATEGORIES_TEMP_CREATE)
+;
+Route
+    ::get(
         "categories/{admin_category}/edit",
         [CategoriesController::class, "edit"]
     )
     ->name(Constants::ROUTE_ADMIN_CATEGORIES_EDIT)
+;
+Route
+    ::get(
+        "temp-categories/{admin_category}/edit",
+        [CategoriesController::class, "editTemp"]
+    )
+    ->name(Constants::ROUTE_ADMIN_CATEGORIES_TEMP_EDIT)
 ;
 
 Route
