@@ -16,11 +16,7 @@ import Product, {
     searchProductRequestToUrlSearchParams,
     SearchProductResponse,
 } from "@/admin/inertia/modules/products/Product"
-import StoreOrUpdateProductRequest from "@/admin/inertia/modules/products/StoreOrUpdateProductRequest"
 import axios from "axios"
-import ProductUpdateResponse, {
-    ProductUpdate,
-} from "@/admin/inertia/modules/products/ProductUpdateResponse"
 import { arrayToMap } from "@/admin/inertia/utils"
 
 export const storeName = "products"
@@ -160,44 +156,6 @@ export const useProductsStore = defineStore(storeName, {
         setProduct(product: Product | null): void {
             this._product.entity = product
         },
-        updateProduct(update: ProductUpdate): void {
-            if (!this._product.entity) {
-                this._product.entity = {}
-            }
-            for (let key in update) {
-                this._product.entity[key] = update[key]
-                console.log(
-                    key,
-                    this._product.entity,
-                    this._product.entity[key],
-                    update[key]
-                )
-            }
-        },
-        async handleCreate(
-            productRequest: StoreOrUpdateProductRequest
-        ): Promise<void> {},
-        async handleUpdate(
-            productRequest: StoreOrUpdateProductRequest
-        ): Promise<void> {
-            this._product.loading = true
-            try {
-                const {
-                    data: { data: productUpdate },
-                } = await axios.put<ProductUpdateResponse>(
-                    getRouteUrl(routeNames.ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE, {
-                        admin_product: this._product.entity.id,
-                    }),
-                    productRequest
-                )
-
-                this.updateProduct(productUpdate)
-            } catch (e) {
-                console.warn(e)
-            } finally {
-                this._product.loading = false
-            }
-        },
         async handleDelete(selected: Array<number>): Promise<void> {
             console.log("---", selected)
         },
@@ -226,8 +184,7 @@ export const useProductsStore = defineStore(storeName, {
     },
 })
 
-export const getActiveName = (is_active: boolean | null) =>
-    is_active ? "Да" : "Нет"
+
 
 export const getPerPageOptions = (): Array<Option> =>
     [5, 10, 20, 50, 100, 200, 500].map((page) => ({

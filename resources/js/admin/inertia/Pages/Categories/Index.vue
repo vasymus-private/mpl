@@ -5,12 +5,42 @@ import {Link} from "@inertiajs/inertia-vue3"
 import useRoute from "@/admin/inertia/components/composables/useRoute"
 import {storeToRefs} from "pinia"
 import useSearchInput from "@/admin/inertia/components/composables/useSearchInput"
+import useCheckedItems from "@/admin/inertia/components/composables/useCheckedItems"
+import {CategoryListItem} from "@/admin/inertia/modules/categoriesTree/types"
+import {useCategoriesTreeStore} from "@/admin/inertia/modules/categoriesTree"
+import {useForm} from "vee-validate"
+import FormControlInput from '@/admin/inertia/components/forms/vee-validate/FormControlInput.vue'
+import {useIndexCategoriesFormStore, getIndexForIdCb, getValidationSchema} from "@/admin/inertia/modules/forms/indexCategories"
+import {getActiveName} from '@/admin/inertia/modules/common'
+import FormCheckInput from '@/admin/inertia/components/forms/vee-validate/FormCheckInput.vue'
+
 
 const routesStore = useRoutesStore()
+const indexCategoriesFormStore = useIndexCategoriesFormStore()
+const categoriesTreeStore = useCategoriesTreeStore()
+const {listItems : categoryListItems} = storeToRefs(categoriesTreeStore)
 const {fullUrl} = storeToRefs(routesStore)
 const {visit, removeUrlParam} = useRoute(fullUrl)
 const {searchInput, handleSearch, handleClear} = useSearchInput(fullUrl)
+const {selectAll, editMode, checkedItems, check, isChecked, watchSelectAll, manualCheck, cancel} = useCheckedItems<CategoryListItem>(categoryListItems)
+const {errors, handleSubmit, values, setValues, validate, isSubmitting} = useForm<{categories: Array<Partial<CategoryListItem>>}>({
+    validationSchema: getValidationSchema(),
+    keepValuesOnUnmount: true,
+})
+const onSubmit = handleSubmit(async (values, ctx) => {
+    await indexCategoriesFormStore.submitIndexCategories(checkedItems, values, ctx)
+    editMode.value = false
+})
 
+const indexForId = getIndexForIdCb(values)
+
+const toggleActive = (category: CategoryListItem) => {
+    console.log('---category', category)
+}
+
+const deleteCategory = (category: CategoryListItem) => {
+    console.log('---category', category)
+}
 </script>
 
 <template>
@@ -56,6 +86,107 @@ const {searchInput, handleSearch, handleClear} = useSearchInput(fullUrl)
                     <Link :href="route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_CREATE)" class="btn btn-add btn-secondary">Создать</Link>
                 </div>
             </div>
+
+            <form id="form-categories-list" @submit="onSubmit" novalidate>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">
+                                <div class="form-check form-check-inline">
+                                    <input
+                                        :disabled="editMode"
+                                        v-model="selectAll"
+                                        class="form-check-input position-static"
+                                        type="checkbox">
+                                </div>
+                            </th>
+                            <th scope="col">&nbsp;</th>
+                            <th scope="col">ID</th>
+                            <th scope="col">Название</th>
+                            <th scope="col">Сортировка</th>
+                            <th scope="col">Активность</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="category in categoryListItems" :key="`category-${category.id}`">
+                                <td>
+                                    <div class="form-check">
+                                        <input
+                                            :disabled="editMode"
+                                            v-model="checkedItems"
+                                            :value="category.id"
+                                            class="form-check-input position-static js-product-item-checkbox"
+                                            type="checkbox"
+                                            @click.stop=""
+                                        />
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="dropdown" @click.stop="">
+                                        <button
+                                            class="btn btn__grid-row-action-button dropdown-toggle"
+                                            type="button"
+                                            :id="`actions-dropdown-${category.id}`"
+                                            data-bs-toggle="dropdown"
+                                            aria-expanded="false"
+                                        ></button>
+                                        <div class="dropdown-menu bx-core-popup-menu" :aria-labelledby="`actions-dropdown-${category.id}`">
+                                            <div class="bx-core-popup-menu__arrow"></div>
+                                            <Link class="dropdown-item bx-core-popup-menu-item bx-core-popup-menu-item-default" :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id: category.id})">
+                                                <span class="bx-core-popup-menu-item-icon adm-menu-edit"></span>
+                                                <span class="bx-core-popup-menu-item-text">Товары</span>
+                                            </Link>
+                                            <div class="bx-core-popup-menu__arrow"></div>
+                                            <Link class="dropdown-item bx-core-popup-menu-item bx-core-popup-menu-item-default" :href="route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_EDIT, {admin_category: category.id})">
+                                                <span class="bx-core-popup-menu-item-icon adm-menu-edit"></span>
+                                                <span class="bx-core-popup-menu-item-text">Изменить</span>
+                                            </Link>
+                                            <button @click="toggleActive(category)" type="button" class="bx-core-popup-menu-item">
+                                                <span class="bx-core-popup-menu-item-icon"></span>
+                                                <span class="bx-core-popup-menu-item-text"> {{ category.is_active ? 'Деактивировать' : 'Активировать' }}</span>
+                                            </button>
+                                            <span class="bx-core-popup-menu-separator"></span>
+                                            <button @click="deleteCategory(category)" type="button" class="bx-core-popup-menu-item">
+                                                <span class="bx-core-popup-menu-item-icon adm-menu-delete"></span>
+                                                <span class="bx-core-popup-menu-item-text">Удалить</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="main-grid-cell-content">{{category.id}}</span></td>
+                                <td>
+                                    <FormControlInput
+                                        v-if="editMode && isChecked(category.id)"
+                                        :name="`categories[${indexForId(category.id)}].name`"
+                                        type="text"
+                                    />
+                                    <span v-else class="main-grid-cell-content">
+                                        <Link
+                                            :href="route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_EDIT, {admin_category: category.id})"
+                                        >{{category.name}}</Link>
+                                    </span>
+                                </td>
+                                <td>
+                                    <FormControlInput
+                                        v-if="editMode && isChecked(category.id)"
+                                        :name="`categories[${indexForId(category.id)}].ordering`"
+                                        type="number"
+                                    />
+                                    <span v-else class="main-grid-cell-content">{{category.ordering}}</span>
+                                </td>
+                                <td>
+                                    <FormCheckInput
+                                        v-if="editMode && isChecked(category.id)"
+                                        :name="`categories[${indexForId(category.id)}].is_active`"
+                                    />
+                                    <span v-else class="main-grid-cell-content">{{getActiveName(category.is_active)}}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
         </div>
     </TheLayout>
 </template>

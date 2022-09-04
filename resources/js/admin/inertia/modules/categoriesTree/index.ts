@@ -1,13 +1,21 @@
 import { defineStore } from "pinia"
-import CategoryTreeItem from "@/admin/inertia/modules/categoriesTree/CategoryTreeItem"
+import {CategoriesTreeItem, Category, CategoryListItem} from "@/admin/inertia/modules/categoriesTree/types"
 import Option from "@/admin/inertia/modules/common/Option"
 
 export const storeName = "categoriesTree"
 
+interface State {
+    _entities: Array<CategoriesTreeItem>
+    _entity: Category|null
+    _listItems: Array<CategoryListItem>
+}
+
 export const useCategoriesTreeStore = defineStore(storeName, {
-    state: (): { entities: Array<CategoryTreeItem> } => {
+    state: (): State => {
         return {
-            entities: [],
+            _entities: [],
+            _entity: null,
+            _listItems: [],
         }
     },
     getters: {
@@ -15,7 +23,7 @@ export const useCategoriesTreeStore = defineStore(storeName, {
             (state) =>
             (id): Array<number> | null => {
                 let categoryAndSubcategories = getCategoryAndSubcategoryCb(
-                    state.entities,
+                    state._entities,
                     id
                 )
 
@@ -25,11 +33,13 @@ export const useCategoriesTreeStore = defineStore(storeName, {
 
                 return getIdsCb([], categoryAndSubcategories)
             },
-        categories: (state): Array<CategoryTreeItem> => state.entities,
+        categories: (state): Array<CategoriesTreeItem> => state._entities,
+        category: (state): Category|null => state._entity,
+        listItems: (state): Array<CategoryListItem> => state._listItems,
         options(): Array<Option> {
             const getReduceCB =
                 (labelPrefix: string) =>
-                (acc: Array<Option>, item: CategoryTreeItem): Array<Option> => {
+                (acc: Array<Option>, item: CategoriesTreeItem): Array<Option> => {
                     let option: Option = {
                         value: item.id,
                         label: `${labelPrefix}${item.name}`,
@@ -58,16 +68,19 @@ export const useCategoriesTreeStore = defineStore(storeName, {
         },
     },
     actions: {
-        setEntities(entities: Array<CategoryTreeItem>): void {
-            this.entities = entities
+        setEntities(entities: Array<CategoriesTreeItem>): void {
+            this._entities = entities
         },
+        setEntity(entity: Category|null) {
+            this._entity = entity
+        }
     },
 })
 
 let getCategoryAndSubcategoryCb = (
-    categories: Array<CategoryTreeItem>,
+    categories: Array<CategoriesTreeItem>,
     _id
-): CategoryTreeItem | null => {
+): CategoriesTreeItem | null => {
     for (let i = 0; i < categories.length; i++) {
         if (categories[i].id === _id) {
             return categories[i]
@@ -84,7 +97,7 @@ let getCategoryAndSubcategoryCb = (
 
 let getIdsCb = (
     acc: Array<number>,
-    category: CategoryTreeItem
+    category: CategoriesTreeItem
 ): Array<number> => {
     acc = [...acc, category.id]
     for (let i = 0; i < category.subcategories.length; i++) {

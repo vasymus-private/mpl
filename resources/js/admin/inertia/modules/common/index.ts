@@ -100,3 +100,6 @@ export const slugify = async (
 
     return slug
 }
+
+export const getActiveName = (is_active: boolean | null) =>
+    is_active ? "Да" : "Нет"

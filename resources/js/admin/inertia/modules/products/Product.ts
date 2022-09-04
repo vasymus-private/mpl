@@ -1,6 +1,7 @@
 import { CharCategory } from "@/admin/inertia/modules/products/Char"
 import Meta from "@/admin/inertia/modules/common/Meta"
 import Media from "@/admin/inertia/modules/common/Media"
+import {Seo} from '@/admin/inertia/modules/common/types'
 
 export default interface Product {
     id: number | null
@@ -46,13 +47,6 @@ export default interface Product {
     works: Array<OtherProduct>
     instruments: Array<OtherProduct>
     variations: Array<Variation>
-}
-
-export interface Seo {
-    title: string | null
-    h1: string | null
-    keywords: string | null
-    description: string | null
 }
 
 export interface InfoPrice {

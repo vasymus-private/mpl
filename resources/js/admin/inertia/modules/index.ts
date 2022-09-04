@@ -2,7 +2,7 @@ import Column from "@/admin/inertia/modules/columns/Column"
 import Article from "@/admin/inertia/modules/articles/Article"
 import Auth from "@/admin/inertia/modules/auth/Auth"
 import Option from "@/admin/inertia/modules/common/Option"
-import CategoryTreeItem from "@/admin/inertia/modules/categoriesTree/CategoryTreeItem"
+import {CategoriesTreeItem, Category, CategoryListItem} from "@/admin/inertia/modules/categoriesTree/types"
 import { useAuthStore } from "@/admin/inertia/modules/auth"
 import { Pinia } from "pinia"
 import { useArticlesStore } from "@/admin/inertia/modules/articles"
@@ -36,7 +36,7 @@ import { useProfileStore } from "@/admin/inertia/modules/profile"
 interface InitialPageProps {
     fullUrl: string
     auth: Auth
-    categoriesTree: Array<CategoryTreeItem>
+    categoriesTree: Array<CategoriesTreeItem>
     brandOptions: Array<Option>
     adminOrderColumns: Array<Column>
     adminProductColumns: Array<Column>
@@ -59,6 +59,10 @@ interface InitialPageProps {
         meta: Meta
     }
     product?: Product
+    categoryListItems?: {
+        data: Array<CategoryListItem>
+    }
+    category?: Category
 }
 
 /**
@@ -92,6 +96,8 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
             meta: productListItemsMeta = null,
         } = {},
         product = null,
+        categoryListItems = [],
+        category = null,
     } = initialPageProps as InitialPageProps
 
     // todo dev only
@@ -114,6 +120,7 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
 
     const categoriesTreeStore = useCategoriesTreeStore(pinia)
     categoriesTreeStore.setEntities(categoriesTree)
+    categoriesTreeStore.setEntity(category)
 
     const columnsStore = useColumnsStore(pinia)
     columnsStore.setAdminOrderColumns(adminOrderColumns)

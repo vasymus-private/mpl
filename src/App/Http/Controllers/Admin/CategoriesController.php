@@ -17,7 +17,23 @@ class CategoriesController extends BaseAdminController
         $inertia = inertia();
         $inertia->setRootView('admin.layouts.inertia');
 
-        return $inertia->render('Categories/Index');
+        $query = Category::query()->select(["*"])->with('subcategories');
+
+        if (!$request->category_id) {
+            $query->parents();
+        }
+
+        if ($request->category_id && $request->category_id !== 'all') {
+            $query->where(Category::TABLE . ".parent_id", $request->category_id);
+        }
+
+        if ($request->search) {
+            $query->where(Category::TABLE . ".name", "LIKE", "%{$request->search}%");
+        }
+
+        return $inertia->render('Categories/Index', [
+            ''
+        ]);
     }
 
     public function create()
