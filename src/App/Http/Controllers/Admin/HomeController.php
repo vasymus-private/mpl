@@ -9,7 +9,6 @@ class HomeController extends BaseAdminController
 {
     public function index(Request $request)
     {
-//        dump($request->user());
         return view("admin.pages.home.home");
     }
 

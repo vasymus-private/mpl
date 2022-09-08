@@ -7,6 +7,7 @@ use App\Http\Resources\Admin\ProductResource;
 use Domain\Products\Models\Product\Product;
 use Domain\Products\QueryBuilders\ProductQueryBuilder;
 use Illuminate\Http\Request;
+use Support\H;
 
 class ProductsController extends BaseAdminController
 {
@@ -17,8 +18,7 @@ class ProductsController extends BaseAdminController
 
     public function indexTemp(Request $request)
     {
-        $inertia = inertia();
-        $inertia->setRootView('admin.layouts.inertia');
+        $inertia = H::getAdminInertia();
 
         $productListItems = Product::query()
             ->select(["*"])
@@ -43,8 +43,7 @@ class ProductsController extends BaseAdminController
 
     public function createTemp(Request $request)
     {
-        $inertia = inertia();
-        $inertia->setRootView('admin.layouts.inertia');
+        $inertia = H::getAdminInertia();
 
         $product = $request->copy_id
             ? Product::query()->notVariations()->find($request->copy_id)
@@ -68,8 +67,7 @@ class ProductsController extends BaseAdminController
 
     public function editTemp(Request $request)
     {
-        $inertia = inertia();
-        $inertia->setRootView('admin.layouts.inertia');
+        $inertia = H::getAdminInertia();
 
         /** @var \Domain\Products\Models\Product\Product $product */
         $product = $request->admin_product;

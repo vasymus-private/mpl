@@ -73,6 +73,9 @@ export const useCategoriesTreeStore = defineStore(storeName, {
         },
         setEntity(entity: Category|null) {
             this._entity = entity
+        },
+        setListItems(listItems: Array<CategoryListItem>): void {
+            this._listItems = listItems
         }
     },
 })

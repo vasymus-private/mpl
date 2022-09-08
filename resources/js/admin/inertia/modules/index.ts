@@ -59,7 +59,7 @@ interface InitialPageProps {
         meta: Meta
     }
     product?: Product
-    categoryListItems?: {
+    categories?: {
         data: Array<CategoryListItem>
     }
     category?: Category
@@ -96,7 +96,9 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
             meta: productListItemsMeta = null,
         } = {},
         product = null,
-        categoryListItems = [],
+        categories: {
+            data: categoryListItems = [],
+        } = {},
         category = null,
     } = initialPageProps as InitialPageProps
 
@@ -121,6 +123,7 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
     const categoriesTreeStore = useCategoriesTreeStore(pinia)
     categoriesTreeStore.setEntities(categoriesTree)
     categoriesTreeStore.setEntity(category)
+    categoriesTreeStore.setListItems(categoryListItems)
 
     const columnsStore = useColumnsStore(pinia)
     columnsStore.setAdminOrderColumns(adminOrderColumns)

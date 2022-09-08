@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\HtmlString;
+use Inertia\ResponseFactory;
 use LogicException;
 use Support\CBRcurrencyConverter\CBRcurrencyConverter;
 
@@ -244,5 +245,16 @@ class H
     public static function validatorMb(float $mb): float
     {
         return 1024 * $mb; // 1024 kb = 1 mb
+    }
+
+    /**
+     * @return \Inertia\ResponseFactory
+     */
+    public static function getAdminInertia(): ResponseFactory
+    {
+        $inertia = inertia();
+        $inertia->setRootView('admin.layouts.inertia');
+
+        return $inertia;
     }
 }

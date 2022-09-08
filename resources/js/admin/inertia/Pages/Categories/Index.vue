@@ -88,8 +88,8 @@ const deleteCategory = (category: CategoryListItem) => {
             </div>
 
             <form id="form-categories-list" @submit="onSubmit" novalidate>
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover">
+                <div class="admin-edit-variations table-responsive">
+                    <table class="table table-hover table-products">
                         <thead>
                         <tr>
                             <th scope="col">
@@ -109,7 +109,7 @@ const deleteCategory = (category: CategoryListItem) => {
                         </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="category in categoryListItems" :key="`category-${category.id}`">
+                            <tr v-for="category in categoryListItems" :key="`category-${category.id}`" @click="manualCheck(category.id)">
                                 <td>
                                     <div class="form-check">
                                         <input
@@ -164,7 +164,11 @@ const deleteCategory = (category: CategoryListItem) => {
                                     <span v-else class="main-grid-cell-content">
                                         <Link
                                             :href="route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_EDIT, {admin_category: category.id})"
-                                        >{{category.name}}</Link>
+                                            class="table__column-name"
+                                        >
+                                            <span class="adm-submenu-item-link-icon adm-list-table-icon iblock-section-icon"></span>
+                                            {{category.name}}
+                                        </Link>
                                     </span>
                                 </td>
                                 <td>

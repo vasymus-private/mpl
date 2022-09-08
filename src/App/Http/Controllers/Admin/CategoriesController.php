@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Resources\Admin\Inertia\CategoryItemResource;
 use Domain\Products\Models\Category;
 use Illuminate\Http\Request;
+use Support\H;
 
 class CategoriesController extends BaseAdminController
 {
@@ -14,8 +16,7 @@ class CategoriesController extends BaseAdminController
 
     public function indexTemp(Request $request)
     {
-        $inertia = inertia();
-        $inertia->setRootView('admin.layouts.inertia');
+        $inertia = H::getAdminInertia();
 
         $query = Category::query()->select(["*"])->with('subcategories');
 
@@ -32,7 +33,7 @@ class CategoriesController extends BaseAdminController
         }
 
         return $inertia->render('Categories/Index', [
-            ''
+            'categories' => CategoryItemResource::collection($query->get()),
         ]);
     }
 
@@ -45,8 +46,7 @@ class CategoriesController extends BaseAdminController
 
     public function createTemp(Request $request)
     {
-        $inertia = inertia();
-        $inertia->setRootView('admin.layouts.inertia');
+        $inertia = H::getAdminInertia();
 
         return $inertia->render('Categories/CreateEdit');
     }
@@ -61,8 +61,7 @@ class CategoriesController extends BaseAdminController
 
     public function editTemp(Request $request)
     {
-        $inertia = inertia();
-        $inertia->setRootView('admin.layouts.inertia');
+        $inertia = H::getAdminInertia();
 
         /** @var \Domain\Products\Models\Category $category */
         $category = $request->admin_category;

@@ -91,9 +91,7 @@ class HandleInertiaRequests extends Middleware
                 ];
             },
             'currencyTodayRate' => Cache::remember('currency-today-rate', new DateInterval('PT1H'), fn () => CBRcurrencyConverter::getTodayRates()),
-            'categoriesTree' => function () {
-                return Category::getTreeRuntimeCached()->map(fn (Category $category) => CategoryItemSidebarDTO::fromModel($category))->all();
-            },
+            'categoriesTree' => Category::getTreeRuntimeCached()->map(fn (Category $category) => CategoryItemSidebarDTO::fromModel($category))->all(),
             'brandOptions' => Brand::getBrandOptions(),
             'adminOrderColumns' => H::admin()->admin_order_columns_arr,
             'adminProductColumns' => H::admin()->admin_product_columns_arr,

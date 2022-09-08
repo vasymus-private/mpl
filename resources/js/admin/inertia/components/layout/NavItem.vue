@@ -2,7 +2,7 @@
 import {Link} from "@inertiajs/inertia-vue3"
 
 
-defineProps<{
+const props = defineProps<{
     idOrHref: string
     isInertiaLink: boolean
     title: string
@@ -17,20 +17,20 @@ defineProps<{
 <template>
     <li class="nav-item">
         <component
-            :is="isInertiaLink ? Link : 'a'"
-            :href="idOrHref"
-            :class="['nav-link', navLinkClass || '', isCollapse && !isActiveCollapse ? 'collapsed' : '']"
-            :data-bs-toggle="isCollapse ? 'collapse' : null"
-            :data-bs-target="isCollapse ? `#${idOrHref}` : null"
-            :aria-expanded="!isCollapse ? null : (isCollapse && isActiveCollapse ? 'true' : 'false')"
-            :aria-controls="!isCollapse ? null : idOrHref"
+            :is="props.isInertiaLink ? Link : 'a'"
+            :href="props.idOrHref"
+            :class="['nav-link', props.navLinkClass || '', props.isCollapse && !props.isActiveCollapse ? 'collapsed' : '']"
+            :data-bs-toggle="props.isCollapse ? 'collapse' : null"
+            :data-bs-target="props.isCollapse ? `#${props.idOrHref}` : null"
+            :aria-expanded="!props.isCollapse ? null : (props.isCollapse && props.isActiveCollapse ? 'true' : 'false')"
+            :aria-controls="!props.isCollapse ? null : props.idOrHref"
         >
-            <span v-if="isCollapse" class="adm-arrow-icon"></span>
-            <span v-if="isArrowSpace" style="width: 20px;"></span>
-            <span :class="iconClass"></span>
+            <span v-if="props.isCollapse" class="adm-arrow-icon"></span>
+            <span v-if="props.isArrowSpace" style="width: 20px;"></span>
+            <span :class="props.iconClass"></span>
             <span class="nav-link-text">{{ title }}</span>
         </component>
-        <ul v-if="isCollapse" :id="idOrHref" :class="['nav', 'collapse', isActiveCollapse ? 'show' : '']">
+        <ul v-if="props.isCollapse" :id="props.idOrHref" :class="['nav', 'collapse', props.isActiveCollapse ? 'show' : '']">
             <slot />
         </ul>
     </li>
