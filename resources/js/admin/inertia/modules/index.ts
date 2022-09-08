@@ -2,7 +2,11 @@ import Column from "@/admin/inertia/modules/columns/Column"
 import Article from "@/admin/inertia/modules/articles/Article"
 import Auth from "@/admin/inertia/modules/auth/Auth"
 import Option from "@/admin/inertia/modules/common/Option"
-import {CategoriesTreeItem, Category, CategoryListItem} from "@/admin/inertia/modules/categoriesTree/types"
+import {
+    CategoriesTreeItem,
+    Category,
+    CategoryListItem,
+} from "@/admin/inertia/modules/categoriesTree/types"
 import { useAuthStore } from "@/admin/inertia/modules/auth"
 import { Pinia } from "pinia"
 import { useArticlesStore } from "@/admin/inertia/modules/articles"
