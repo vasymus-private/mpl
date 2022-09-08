@@ -1,12 +1,16 @@
 import { defineStore } from "pinia"
-import {CategoriesTreeItem, Category, CategoryListItem} from "@/admin/inertia/modules/categoriesTree/types"
+import {
+    CategoriesTreeItem,
+    Category,
+    CategoryListItem,
+} from "@/admin/inertia/modules/categoriesTree/types"
 import Option from "@/admin/inertia/modules/common/Option"
 
 export const storeName = "categoriesTree"
 
 interface State {
     _entities: Array<CategoriesTreeItem>
-    _entity: Category|null
+    _entity: Category | null
     _listItems: Array<CategoryListItem>
 }
 
@@ -34,12 +38,15 @@ export const useCategoriesTreeStore = defineStore(storeName, {
                 return getIdsCb([], categoryAndSubcategories)
             },
         categories: (state): Array<CategoriesTreeItem> => state._entities,
-        category: (state): Category|null => state._entity,
+        category: (state): Category | null => state._entity,
         listItems: (state): Array<CategoryListItem> => state._listItems,
         options(): Array<Option> {
             const getReduceCB =
                 (labelPrefix: string) =>
-                (acc: Array<Option>, item: CategoriesTreeItem): Array<Option> => {
+                (
+                    acc: Array<Option>,
+                    item: CategoriesTreeItem
+                ): Array<Option> => {
                     let option: Option = {
                         value: item.id,
                         label: `${labelPrefix}${item.name}`,
@@ -71,12 +78,12 @@ export const useCategoriesTreeStore = defineStore(storeName, {
         setEntities(entities: Array<CategoriesTreeItem>): void {
             this._entities = entities
         },
-        setEntity(entity: Category|null) {
+        setEntity(entity: Category | null) {
             this._entity = entity
         },
         setListItems(listItems: Array<CategoryListItem>): void {
             this._listItems = listItems
-        }
+        },
     },
 })
 
