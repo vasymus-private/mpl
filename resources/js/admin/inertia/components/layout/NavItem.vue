@@ -12,6 +12,8 @@ const props = defineProps<{
     isArrowSpace?: boolean
     navLinkClass?: string
 }>()
+
+
 </script>
 
 <template>
@@ -30,7 +32,11 @@ const props = defineProps<{
             <span :class="props.iconClass"></span>
             <span class="nav-link-text">{{ title }}</span>
         </component>
-        <ul v-if="props.isCollapse" :id="props.idOrHref" :class="['nav', 'collapse', props.isActiveCollapse ? 'show' : '']">
+        <ul
+            v-if="props.isCollapse"
+            :id="props.idOrHref"
+            :class="['nav', 'collapse', props.isActiveCollapse ? 'show' : '']"
+        >
             <slot />
         </ul>
     </li>
