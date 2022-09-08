@@ -20,7 +20,7 @@ class CategoriesController extends BaseAdminController
 
         $query = Category::query()->select(["*"])->with('subcategories');
 
-        if (!$request->category_id) {
+        if (! $request->category_id) {
             $query->parents();
         }
 
