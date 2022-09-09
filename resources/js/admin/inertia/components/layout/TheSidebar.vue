@@ -14,6 +14,10 @@ const aside = ref(null)
 defineExpose({
     element: aside,
 })
+
+const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean => {
+    return routesStore.isActiveRoute(type, id)
+}
 </script>
 
 <template>
@@ -25,7 +29,7 @@ defineExpose({
                     :is-inertia-link="false"
                     title="Каталог товаров"
                     :is-collapse="true"
-                    :is-active-collapse="routesStore.isActiveRoute(RouteTypeEnum.categories)"
+                    :is-active-collapse="isActiveRoute(RouteTypeEnum.categories)"
                     icon-class="adm-icon iblock_menu_icon_types"
                 >
                     <NavItem
@@ -33,7 +37,7 @@ defineExpose({
                         title="Каталог товаров"
                         :is-inertia-link="false"
                         :is-collapse="true"
-                        :is-active-collapse="routesStore.isActiveRoute(RouteTypeEnum.categoriesSub)"
+                        :is-active-collapse="isActiveRoute(RouteTypeEnum.categoriesSub)"
                         icon-class="adm-icon iblock_menu_icon_iblocks"
                         nav-link-class="sub-level-1"
                         :nav-link-text-href="route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX)"
@@ -52,7 +56,7 @@ defineExpose({
                             :title="category.name"
                             :is-inertia-link="false"
                             :is-collapse="true"
-                            :is-active-collapse="routesStore.isActiveRoute(RouteTypeEnum.categories, category.id)"
+                            :is-active-collapse="isActiveRoute(RouteTypeEnum.categories, category.id)"
                             icon-class="adm-icon iblock_menu_icon_sections"
                             nav-link-class="sub-level-2"
                             :nav-link-text-href="route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {category_id: category.id})"
@@ -71,7 +75,7 @@ defineExpose({
                                 :title="subcategory1.name"
                                 :is-inertia-link="false"
                                 :is-collapse="true"
-                                :is-active-collapse="routesStore.isActiveRoute(RouteTypeEnum.categories, subcategory1.id)"
+                                :is-active-collapse="isActiveRoute(RouteTypeEnum.categories, subcategory1.id)"
                                 icon-class="adm-icon iblock_menu_icon_sections"
                                 nav-link-class="sub-level-3"
                                 :nav-link-text-href="route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {category_id: subcategory1.id})"
@@ -90,7 +94,7 @@ defineExpose({
                                     :title="subcategory2.name"
                                     :is-inertia-link="false"
                                     :is-collapse="true"
-                                    :is-active-collapse="routesStore.isActiveRoute(RouteTypeEnum.categories, subcategory2.id)"
+                                    :is-active-collapse="isActiveRoute(RouteTypeEnum.categories, subcategory2.id)"
                                     icon-class="adm-icon iblock_menu_icon_sections"
                                     nav-link-class="sub-level-4"
                                     :nav-link-text-href="route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {category_id: subcategory2.id})"
@@ -109,7 +113,7 @@ defineExpose({
                                         :title="subcategory3.name"
                                         :is-inertia-link="false"
                                         :is-collapse="true"
-                                        :is-active-collapse="routesStore.isActiveRoute(RouteTypeEnum.categories, subcategory3.id)"
+                                        :is-active-collapse="isActiveRoute(RouteTypeEnum.categories, subcategory3.id)"
                                         icon-class="adm-icon iblock_menu_icon_sections"
                                         nav-link-class="sub-level-5"
                                         :nav-link-text-href="route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {category_id: subcategory3.id})"
@@ -133,7 +137,7 @@ defineExpose({
                     :is-inertia-link="false"
                     title="Справочники"
                     :is-collapse="true"
-                    :is-active-collapse="routesStore.isActiveRoute(RouteTypeEnum.reference)"
+                    :is-active-collapse="isActiveRoute(RouteTypeEnum.reference)"
                     icon-class="adm-icon iblock_menu_icon_types"
                 >
                     <NavItem
@@ -141,7 +145,7 @@ defineExpose({
                         :is-inertia-link="false"
                         title="Производители"
                         :is-collapse="true"
-                        :is-active-collapse="routesStore.isActiveRoute(RouteTypeEnum.referenceBrands)"
+                        :is-active-collapse="isActiveRoute(RouteTypeEnum.referenceBrands)"
                         icon-class="adm-icon iblock_menu_icon_iblocks"
                         nav-link-class="sub-level-1"
                     >
@@ -159,7 +163,7 @@ defineExpose({
                         :is-inertia-link="false"
                         title="Статьи"
                         :is-collapse="true"
-                        :is-active-collapse="routesStore.isActiveRoute(RouteTypeEnum.referenceArticles)"
+                        :is-active-collapse="isActiveRoute(RouteTypeEnum.referenceArticles)"
                         icon-class="adm-icon iblock_menu_icon_iblocks"
                         nav-link-class="sub-level-1"
                     >
@@ -177,7 +181,7 @@ defineExpose({
                         :is-inertia-link="false"
                         title="Услуги"
                         :is-collapse="true"
-                        :is-active-collapse="routesStore.isActiveRoute(RouteTypeEnum.referenceServices)"
+                        :is-active-collapse="isActiveRoute(RouteTypeEnum.referenceServices)"
                         icon-class="adm-icon iblock_menu_icon_iblocks"
                         nav-link-class="sub-level-1"
                     >
@@ -195,7 +199,7 @@ defineExpose({
                         :is-inertia-link="false"
                         title="Вопрос-ответ"
                         :is-collapse="true"
-                        :is-active-collapse="routesStore.isActiveRoute(RouteTypeEnum.referenceFaq)"
+                        :is-active-collapse="isActiveRoute(RouteTypeEnum.referenceFaq)"
                         icon-class="adm-icon iblock_menu_icon_iblocks"
                         nav-link-class="sub-level-1"
                     >
@@ -213,7 +217,7 @@ defineExpose({
                         :is-inertia-link="false"
                         title="Контактные формы"
                         :is-collapse="true"
-                        :is-active-collapse="routesStore.isActiveRoute(RouteTypeEnum.referenceContacts)"
+                        :is-active-collapse="isActiveRoute(RouteTypeEnum.referenceContacts)"
                         icon-class="adm-icon iblock_menu_icon_iblocks"
                         nav-link-class="sub-level-1"
                     >
