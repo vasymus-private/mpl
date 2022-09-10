@@ -67,6 +67,7 @@ final class Constants
     public const ROUTE_ADMIN_EXPORT_PRODUCTS_DELETE = 'admin.export-products.delete';
 
     public const ROUTE_ADMIN_AJAX_PRODUCTS_BULK_UPDATE = 'admin-ajax.products.bulk.update';
+    public const ROUTE_ADMIN_AJAX_CATEGORIES_BULK_UPDATE = 'admin-ajax.categories.bulk.update';
     public const ROUTE_ADMIN_AJAX_PRODUCTS_STORE = 'admin-ajax.products.store';
     public const ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE = 'admin-ajax.products.update';
     public const ROUTE_ADMIN_AJAX_SORT_COLUMNS = 'admin-ajax.sort-columns';

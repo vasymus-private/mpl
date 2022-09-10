@@ -98,7 +98,7 @@ const {errors, handleSubmit, values, setValues, validate, isSubmitting} = useFor
     }
 })
 
-const {indexForId} = useFormHelpers<{products: Array<Partial<ProductListItem>>}>('products', values)
+const {indexForId} = useFormHelpers<Values>('products', values)
 
 watchEffect(() => {
     setValues({

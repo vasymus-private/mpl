@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin\Ajax;
 use App\Http\Controllers\Admin\BaseAdminController;
 use App\Http\Requests\Admin\Ajax\ProductsBulkRequest;
 use App\Http\Resources\Admin\ProductListItemResource;
-use Domain\Products\DTOs\Admin\ProductListUpdateDTO;
 use Domain\Products\Models\Product\Product;
 
 class ProductsBulkController extends BaseAdminController
@@ -17,8 +16,8 @@ class ProductsBulkController extends BaseAdminController
      */
     public function update(ProductsBulkRequest $request)
     {
-        $payload = $request->productsPayload();
-        $ids = collect($payload)->map(fn (ProductListUpdateDTO $item) => $item->id)->toArray();
+        $payload = $request->payload();
+        $ids = collect($payload)->pluck('id')->toArray();
 
         $productsToUpdate = Product::query()
             ->whereIn('id', $ids)

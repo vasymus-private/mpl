@@ -26,6 +26,8 @@ Route::post('ping-order-busy/{id}', \App\Http\Controllers\Admin\Ajax\PingOrderBu
 
 Route::put('products-bulk', [\App\Http\Controllers\Admin\Ajax\ProductsBulkController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_PRODUCTS_BULK_UPDATE);
 
+Route::put('categories-bulk', [\App\Http\Controllers\Admin\Ajax\CategoriesBulkController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_CATEGORIES_BULK_UPDATE);
+
 Route::post('product', [\App\Http\Controllers\Admin\Ajax\ProductsController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_PRODUCTS_STORE);
 Route::put('product/{admin_product}', [\App\Http\Controllers\Admin\Ajax\ProductsController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE);
 

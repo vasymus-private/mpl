@@ -12,3 +12,9 @@ export interface Seo {
     keywords: string | null
     description: string | null
 }
+
+export interface ErrorResponse {
+    data: {
+        errors: Errors
+    }
+}

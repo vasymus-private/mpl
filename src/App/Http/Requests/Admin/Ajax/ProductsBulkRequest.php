@@ -3,7 +3,7 @@
 namespace App\Http\Requests\Admin\Ajax;
 
 use Domain\Common\Models\Currency;
-use Domain\Products\DTOs\Admin\ProductListUpdateDTO;
+use Domain\Products\DTOs\Admin\Inertia\ProductListUpdateDTO;
 use Domain\Products\Models\AvailabilityStatus;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -45,13 +45,13 @@ class ProductsBulkRequest extends FormRequest
     }
 
     /**
-     * @return \Domain\Products\DTOs\Admin\ProductListUpdateDTO[]
-     * @phpstan-return array<int, \Domain\Products\DTOs\Admin\ProductListUpdateDTO>
+     * @return \Domain\Products\DTOs\Admin\Inertia\ProductListUpdateDTO[]
+     * @phpstan-return array<int, \Domain\Products\DTOs\Admin\Inertia\ProductListUpdateDTO>
      */
-    public function productsPayload(): array
+    public function payload(): array
     {
-        return collect($this->products)->reduce(function (array $acc, array $item) {
-            $dto = new ProductListUpdateDTO([
+        return collect($this->products)
+            ->map(fn(array $item) => new ProductListUpdateDTO([
                 'id' => (int)$item['id'],
                 'name' => (string)$item['name'],
                 'ordering' => isset($item['ordering']) ? (int)$item['ordering'] : null,
@@ -63,11 +63,8 @@ class ProductsBulkRequest extends FormRequest
                 'price_retail_currency_id' => isset($item['price_retail_currency_id']) ? (int)$item['price_retail_currency_id'] : null,
                 'admin_comment' => isset($item['admin_comment']) ? (string)$item['admin_comment'] : null,
                 'availability_status_id' => isset($item['availability_status_id']) ? (int)$item['availability_status_id'] : null,
-            ]);
-
-            $acc[$dto->id] = $dto;
-
-            return $acc;
-        }, []);
+            ]))
+            ->keyBy('id')
+            ->all();
     }
 }

@@ -5,6 +5,7 @@ import {
     CategoryListItem,
 } from "@/admin/inertia/modules/categoriesTree/types"
 import Option from "@/admin/inertia/modules/common/Option"
+import {arrayToMap} from "@/admin/inertia/utils";
 
 export const storeName = "categoriesTree"
 
@@ -93,6 +94,32 @@ export const useCategoriesTreeStore = defineStore(storeName, {
         },
         setListItems(listItems: Array<CategoryListItem>): void {
             this._listItems = listItems
+        },
+        addOrUpdateCategoryListItems(
+            listItems: Array<CategoryListItem>
+        ): void {
+            let newCategoryListItemsById =
+                arrayToMap<CategoryListItem>(listItems)
+
+            this._listItems = this._listItems.map(
+                (item: CategoryListItem) => {
+                    let newCategoryListItem = newCategoryListItemsById[item.id]
+
+                    if (newCategoryListItem) {
+                        listItems = listItems.filter(
+                            (it) => it.id !== item.id
+                        )
+                        return newCategoryListItem
+                    }
+
+                    return item
+                }
+            )
+
+            this._listItems = [
+                ...this._listItems,
+                ...listItems,
+            ]
         },
     },
 })

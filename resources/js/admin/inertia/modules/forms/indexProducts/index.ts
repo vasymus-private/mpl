@@ -11,11 +11,11 @@ import ProductListItem from "@/admin/inertia/modules/products/ProductListItem"
 import { defineStore } from "pinia"
 import { useProductsStore } from "@/admin/inertia/modules/products"
 import {
-    ErrorResponse,
     ProductsResponse,
     Values,
 } from "@/admin/inertia/modules/forms/indexProducts/types"
 import useFormHelpers from "@/admin/inertia/composables/useFormHelpers"
+import {ErrorResponse} from "@/admin/inertia/modules/common/types"
 
 export const storeName = "indexProductsForm"
 

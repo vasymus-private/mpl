@@ -10,10 +10,12 @@ import {CategoryListItem} from "@/admin/inertia/modules/categoriesTree/types"
 import {useCategoriesTreeStore} from "@/admin/inertia/modules/categoriesTree"
 import {useForm} from "vee-validate"
 import FormControlInput from '@/admin/inertia/components/forms/vee-validate/FormControlInput.vue'
-import {useIndexCategoriesFormStore, getIndexForIdCb, getValidationSchema} from "@/admin/inertia/modules/forms/indexCategories"
+import {useIndexCategoriesFormStore, getValidationSchema} from "@/admin/inertia/modules/forms/indexCategories"
 import {getActiveName} from '@/admin/inertia/modules/common'
 import FormCheckInput from '@/admin/inertia/components/forms/vee-validate/FormCheckInput.vue'
 import {watch} from "vue"
+import useFormHelpers from "@/admin/inertia/composables/useFormHelpers"
+import {Values} from "@/admin/inertia/modules/forms/indexCategories/types"
 
 
 const routesStore = useRoutesStore()
@@ -37,13 +39,21 @@ const {
 const {visit, removeUrlParam} = useRoute(fullUrl)
 const {searchInput, handleSearch, handleClear} = useSearchInput(fullUrl)
 
-const {errors, handleSubmit, values, setValues, validate, isSubmitting} = useForm<{categories: Array<Partial<CategoryListItem>>}>({
+const {errors, handleSubmit, values, setValues, validate, isSubmitting} = useForm<Values>({
     validationSchema: getValidationSchema(),
     keepValuesOnUnmount: true,
+    initialValues: {
+        categories: []
+    }
 })
 
 const onSubmit = handleSubmit(async (values, ctx) => {
-    await indexCategoriesFormStore.submitIndexCategories(checkedItems, values, ctx)
+    const errorFields = await indexCategoriesFormStore.submitIndexCategories(checkedItems, values)
+    if (errorFields) {
+        ctx.setErrors(errorFields)
+        return
+    }
+    editMode.value = false
     editMode.value = false
 })
 
@@ -64,7 +74,7 @@ const deleteCategory = (category: CategoryListItem) => {
     console.log('---category', category)
 }
 
-const indexForId = getIndexForIdCb(values)
+const {indexForId} = useFormHelpers<Values>('categories', values)
 
 watch(categoryListItems, (categories: Array<CategoryListItem>) => {
     setValues({
@@ -197,6 +207,7 @@ watchSelectAll()
                                         v-if="editMode && isChecked(category.id)"
                                         :name="`categories[${indexForId(category.id)}].name`"
                                         type="text"
+                                        :keep-value="true"
                                     />
                                     <span v-else class="main-grid-cell-content">
                                         <Link
@@ -214,6 +225,7 @@ watchSelectAll()
                                         v-if="editMode && isChecked(category.id)"
                                         :name="`categories[${indexForId(category.id)}].ordering`"
                                         type="number"
+                                        :keep-value="true"
                                     />
                                     <span v-else class="main-grid-cell-content">{{category.ordering}}</span>
                                 </td>
@@ -221,6 +233,7 @@ watchSelectAll()
                                     <FormCheckInput
                                         v-if="editMode && isChecked(category.id)"
                                         :name="`categories[${indexForId(category.id)}].is_active`"
+                                        :keep-value="true"
                                     />
                                     <span v-else class="main-grid-cell-content">{{getActiveName(category.is_active)}}</span>
                                 </td>
@@ -230,8 +243,14 @@ watchSelectAll()
                 </div>
             </form>
 
+            <ul class="list-group" v-if="Object.values(errors).length">
+                <li v-for="(error, index) in errors" :key="`error-${error}-${index}`" class="list-group-item list-group-item-danger">
+                    {{ error }}
+                </li>
+            </ul>
+
             <footer key="edit-mode-on" v-if="editMode" class="footer edit-item-footer">
-                <button form="form-products-list" type="submit" :disabled="isSubmitting" class="btn btn-info">Сохранить</button>
+                <button form="form-categories-list" type="submit" :disabled="isSubmitting" class="btn btn-info">Сохранить</button>
                 <button @click="cancel" type="button" class="btn btn-warning">Отменить</button>
             </footer>
             <footer key="edit-mode-off" v-else class="footer edit-item-footer">

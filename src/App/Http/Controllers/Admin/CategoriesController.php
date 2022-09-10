@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Resources\Admin\Inertia\CategoryItemResource;
+use App\Http\Resources\Admin\CategoryItemResource;
 use Domain\Products\Models\Category;
 use Illuminate\Http\Request;
 use Support\H;
