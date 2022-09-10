@@ -37,6 +37,13 @@ export const useCategoriesTreeStore = defineStore(storeName, {
 
                 return getIdsCb([], categoryAndSubcategories)
             },
+        hasSubcategories() {
+            return (id): boolean => {
+                const categoryAndSubtreeIds = this.getCategoryAndSubtreeIds(id)
+
+                return Array.isArray(categoryAndSubtreeIds) && categoryAndSubtreeIds.length > 1
+            }
+        },
         categories: (state): Array<CategoriesTreeItem> => state._entities,
         category: (state): Category | null => state._entity,
         listItems: (state): Array<CategoryListItem> => state._listItems,

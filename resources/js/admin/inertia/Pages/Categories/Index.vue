@@ -34,6 +34,15 @@ const onSubmit = handleSubmit(async (values, ctx) => {
 
 const indexForId = getIndexForIdCb(values)
 
+const getLinkHref = (categoryId: number): string => {
+    const hasSubcategories = categoriesTreeStore.hasSubcategories(categoryId)
+    if (hasSubcategories) {
+        return routesStore.route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {category_id: categoryId})
+    }
+
+    return routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id: categoryId})
+}
+
 const toggleActive = (category: CategoryListItem) => {
     console.log('---category', category)
 }
@@ -163,8 +172,9 @@ const deleteCategory = (category: CategoryListItem) => {
                                     />
                                     <span v-else class="main-grid-cell-content">
                                         <Link
-                                            :href="route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_EDIT, {admin_category: category.id})"
+                                            :href="getLinkHref(category.id)"
                                             class="table__column-name"
+                                            @click.stop=""
                                         >
                                             <span class="adm-submenu-item-link-icon adm-list-table-icon iblock-section-icon"></span>
                                             {{category.name}}
