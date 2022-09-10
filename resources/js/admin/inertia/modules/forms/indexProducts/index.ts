@@ -15,7 +15,7 @@ import {
     Values,
 } from "@/admin/inertia/modules/forms/indexProducts/types"
 import useFormHelpers from "@/admin/inertia/composables/useFormHelpers"
-import {ErrorResponse} from "@/admin/inertia/modules/common/types"
+import { ErrorResponse } from "@/admin/inertia/modules/common/types"
 
 export const storeName = "indexProductsForm"
 

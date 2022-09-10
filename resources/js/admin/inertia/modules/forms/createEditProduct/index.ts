@@ -29,7 +29,7 @@ import {
 } from "@/admin/inertia/modules/routes"
 import { Values } from "@/admin/inertia/modules/forms/createEditProduct/types"
 import axios, { AxiosError } from "axios"
-import {ErrorResponse, Errors} from "@/admin/inertia/modules/common/types"
+import { ErrorResponse, Errors } from "@/admin/inertia/modules/common/types"
 import { CustomFormData } from "@/admin/inertia/utils/CustomFormData"
 import { Inertia } from "@inertiajs/inertia"
 

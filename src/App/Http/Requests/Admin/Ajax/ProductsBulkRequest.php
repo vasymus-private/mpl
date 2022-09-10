@@ -51,7 +51,7 @@ class ProductsBulkRequest extends FormRequest
     public function payload(): array
     {
         return collect($this->products)
-            ->map(fn(array $item) => new ProductListUpdateDTO([
+            ->map(fn (array $item) => new ProductListUpdateDTO([
                 'id' => (int)$item['id'],
                 'name' => (string)$item['name'],
                 'ordering' => isset($item['ordering']) ? (int)$item['ordering'] : null,
