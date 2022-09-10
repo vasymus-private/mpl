@@ -50,7 +50,10 @@ export const useIndexProductsFormStore = defineStore(storeName, {
                 productsStore.addOrUpdateProductListItems(productsResponse)
             } catch (e) {
                 if (e instanceof AxiosError) {
-                    const {errorsToErrorFields} = useFormHelpers<Values>('products', values)
+                    const { errorsToErrorFields } = useFormHelpers<Values>(
+                        "products",
+                        values
+                    )
 
                     const {
                         data: { errors },
