@@ -1,7 +1,12 @@
-import {Errors} from "@/admin/inertia/modules/common/types"
+import { Errors } from "@/admin/inertia/modules/common/types"
 
-export default <T extends { [K in keyof T] : Array<{id?: number|string}> }>(key: keyof T, values: T) => {
-    const getIndexForIdCb = function (values: T): ((id: number|string) => number | -1) {
+export default <T extends { [K in keyof T]: Array<{ id?: number | string }> }>(
+    key: keyof T,
+    values: T
+) => {
+    const getIndexForIdCb = function (
+        values: T
+    ): (id: number | string) => number | -1 {
         return (id: number) => values[key].findIndex((item) => item.id === id)
     }
 
@@ -26,7 +31,8 @@ export default <T extends { [K in keyof T] : Array<{id?: number|string}> }>(key:
         return errorFields
     }
 
-    const parseIdErrorProductResponse = (key: string): number => +key.split(".")[1]
+    const parseIdErrorProductResponse = (key: string): number =>
+        +key.split(".")[1]
     const parseFieldErrorProductResponse = (key: string): string =>
         key.split(".")[2]
 

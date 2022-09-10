@@ -1,7 +1,5 @@
 import { computed, Ref, ref } from "vue"
-import useRoute, {
-    UrlParams,
-} from "@/admin/inertia/composables/useRoute"
+import useRoute, { UrlParams } from "@/admin/inertia/composables/useRoute"
 import Option from "@/admin/inertia/modules/common/Option"
 
 export default (fullUrl?: Ref<string | null>) => {

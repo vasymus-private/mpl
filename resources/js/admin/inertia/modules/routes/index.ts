@@ -10,9 +10,7 @@ import { Ziggy } from "@/helpers/ziggy"
 import Option, { OptionType } from "@/admin/inertia/modules/common/Option"
 import { useBrandsStore } from "@/admin/inertia/modules/brands"
 import * as H from "history"
-import useRoute, {
-    UrlParams,
-} from "@/admin/inertia/composables/useRoute"
+import useRoute, { UrlParams } from "@/admin/inertia/composables/useRoute"
 
 export const storeName = "routes"
 
