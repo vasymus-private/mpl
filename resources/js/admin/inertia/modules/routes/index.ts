@@ -12,7 +12,7 @@ import { useBrandsStore } from "@/admin/inertia/modules/brands"
 import * as H from "history"
 import useRoute, {
     UrlParams,
-} from "@/admin/inertia/components/composables/useRoute"
+} from "@/admin/inertia/composables/useRoute"
 
 export const storeName = "routes"
 

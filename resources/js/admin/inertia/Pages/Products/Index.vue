@@ -2,7 +2,7 @@
 // @ts-ignore
 import Multiselect from 'vue-multiselect'
 import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
-import {computed, watch} from "vue"
+import {computed, watchEffect} from "vue"
 import {ColumnName, isSortableColumn, useColumnsStore} from "@/admin/inertia/modules/columns"
 import {getPerPageOptions, useProductsStore} from "@/admin/inertia/modules/products"
 import TheLayout from '@/admin/inertia/components/layout/TheLayout.vue'
@@ -23,13 +23,14 @@ import FormControlTextarea from '@/admin/inertia/components/forms/vee-validate/F
 import {useAvailabilityStatusesStore} from "@/admin/inertia/modules/availabilityStatuses"
 import {
     getValidationSchema,
-    getIndexForIdCb,
     useIndexProductsFormStore
 } from "@/admin/inertia/modules/forms/indexProducts"
-import useCheckedItems from "@/admin/inertia/components/composables/useCheckedItems"
+import {Values} from "@/admin/inertia/modules/forms/indexProducts/types"
+import useCheckedItems from "@/admin/inertia/composables/useCheckedItems"
 import {storeToRefs} from "pinia"
-import useRoute, {UrlParams} from "@/admin/inertia/components/composables/useRoute"
-import useSearchInput from "@/admin/inertia/components/composables/useSearchInput"
+import useRoute, {UrlParams} from "@/admin/inertia/composables/useRoute"
+import useSearchInput from "@/admin/inertia/composables/useSearchInput"
+import useFormHelpers from "@/admin/inertia/composables/useFormHelpers"
 
 
 const columnsStore = useColumnsStore()
@@ -44,7 +45,16 @@ const indexProductsForm = useIndexProductsFormStore()
 const {productListItems} = storeToRefs(productStore)
 const {fullUrl} = storeToRefs(routesStore)
 
-const {selectAll, editMode, checkedItems, check, isChecked, watchSelectAll, manualCheck, cancel} = useCheckedItems<ProductListItem>(productListItems)
+const {
+    selectAll,
+    editMode,
+    checkedItems,
+    check,
+    isChecked,
+    watchSelectAll,
+    manualCheck,
+    cancel,
+} = useCheckedItems<ProductListItem>(productListItems)
 const {getUrlParam, visit, removeUrlParam} = useRoute(fullUrl)
 const {searchInput, onPerPage, handleSearch, handleClear} = useSearchInput(fullUrl)
 
@@ -80,16 +90,19 @@ const toggleActive = (product: ProductListItem) => {
     console.log('---product', product)
 }
 
-const {errors, handleSubmit, values, setValues, validate, isSubmitting} = useForm<{products: Array<Partial<ProductListItem>>}>({
+const {errors, handleSubmit, values, setValues, validate, isSubmitting} = useForm<Values>({
     validationSchema: getValidationSchema(),
     keepValuesOnUnmount: true,
+    initialValues: {
+        products: []
+    }
 })
 
-const indexForId = getIndexForIdCb(values)
+const {indexForId} = useFormHelpers<{products: Array<Partial<ProductListItem>>}>('products', values)
 
-watch(productListItems, (products: Array<ProductListItem>) => {
+watchEffect(() => {
     setValues({
-        products: products.map((product: ProductListItem) => {
+        products: productListItems.value.map((product: ProductListItem) => {
             let {id, ordering, name, is_active, unit, price_purchase, price_purchase_currency_id, price_retail, price_retail_currency_id, availability_status_id, admin_comment} = product
 
             return {
@@ -112,7 +125,11 @@ watch(productListItems, (products: Array<ProductListItem>) => {
 watchSelectAll()
 
 const onSubmit = handleSubmit(async (values, ctx) => {
-    await indexProductsForm.submitIndexProducts(checkedItems, values, ctx)
+    const errorFields = await indexProductsForm.submitIndexProducts(checkedItems, values)
+    if (errorFields) {
+        ctx.setErrors(errorFields)
+        return
+    }
     editMode.value = false
 })
 </script>
@@ -247,6 +264,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                         v-if="editMode && isChecked(product.id)"
                                         :name="`products[${indexForId(product.id)}].ordering`"
                                         type="number"
+                                        :keep-value="true"
                                     />
                                     <span v-else class="main-grid-cell-content">{{product.ordering}}</span>
                                 </td>
@@ -255,6 +273,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                         v-if="editMode && isChecked(product.id)"
                                         :name="`products[${indexForId(product.id)}].name`"
                                         type="text"
+                                        :keep-value="true"
                                     />
                                     <span v-else class="main-grid-cell-content">
                                         <Link
@@ -266,6 +285,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                     <FormCheckInput
                                         v-if="editMode && isChecked(product.id)"
                                         :name="`products[${indexForId(product.id)}].is_active`"
+                                        :keep-value="true"
                                     />
                                     <span v-else class="main-grid-cell-content">{{getActiveName(product.is_active)}}</span>
                                 </td>
@@ -274,6 +294,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                         v-if="editMode && isChecked(product.id)"
                                         :name="`products[${indexForId(product.id)}].unit`"
                                         type="text"
+                                        :keep-value="true"
                                     />
                                     <span v-else class="main-grid-cell-content">{{product.unit}}</span>
                                 </td>
@@ -283,12 +304,14 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                             <FormControlInput
                                                 :name="`products[${indexForId(product.id)}].price_purchase`"
                                                 type="number"
+                                                :keep-value="true"
                                             />
                                         </div>
                                         <div class="col-auto">
                                             <FormControlSelect
                                                 :name="`products[${indexForId(product.id)}].price_purchase_currency_id`"
                                                 :options="currenciesStore.options"
+                                                :keep-value="true"
                                             />
                                         </div>
                                     </div>
@@ -300,12 +323,14 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                             <FormControlInput
                                                 :name="`products[${indexForId(product.id)}].price_retail`"
                                                 type="number"
+                                                :keep-value="true"
                                             />
                                         </div>
                                         <div class="col-auto">
                                             <FormControlSelect
                                                 :name="`products[${indexForId(product.id)}].price_retail_currency_id`"
                                                 :options="currenciesStore.options"
+                                                :keep-value="true"
                                             />
                                         </div>
                                     </div>
@@ -316,6 +341,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                         v-if="editMode && isChecked(product.id)"
                                         :name="`products[${indexForId(product.id)}].admin_comment`"
                                         :rows="2"
+                                        :keep-value="true"
                                     />
                                     <span v-else class="main-grid-cell-content">{{product.admin_comment}}</span>
                                 </td>
@@ -324,6 +350,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                         v-if="editMode && isChecked(product.id)"
                                         :name="`products[${indexForId(product.id)}].availability_status_id`"
                                         :options="availabilitiesStore.options"
+                                        :keep-value="true"
                                     />
                                     <span v-else class="main-grid-cell-content">{{product.availability_status_name_short}}</span>
                                 </td>
@@ -336,6 +363,12 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                     </table>
                 </div>
             </form>
+
+            <ul class="list-group" v-if="Object.values(errors).length">
+                <li v-for="(error, index) in errors" :key="`error-${error}-${index}`" class="list-group-item list-group-item-danger">
+                    {{ error }}
+                </li>
+            </ul>
 
             <Pagination
                 v-if="productStore.meta"

@@ -2,10 +2,10 @@
 import TheLayout from '@/admin/inertia/components/layout/TheLayout.vue'
 import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
 import {Link} from "@inertiajs/inertia-vue3"
-import useRoute from "@/admin/inertia/components/composables/useRoute"
+import useRoute from "@/admin/inertia/composables/useRoute"
 import {storeToRefs} from "pinia"
-import useSearchInput from "@/admin/inertia/components/composables/useSearchInput"
-import useCheckedItems from "@/admin/inertia/components/composables/useCheckedItems"
+import useSearchInput from "@/admin/inertia/composables/useSearchInput"
+import useCheckedItems from "@/admin/inertia/composables/useCheckedItems"
 import {CategoryListItem} from "@/admin/inertia/modules/categoriesTree/types"
 import {useCategoriesTreeStore} from "@/admin/inertia/modules/categoriesTree"
 import {useForm} from "vee-validate"
@@ -13,26 +13,39 @@ import FormControlInput from '@/admin/inertia/components/forms/vee-validate/Form
 import {useIndexCategoriesFormStore, getIndexForIdCb, getValidationSchema} from "@/admin/inertia/modules/forms/indexCategories"
 import {getActiveName} from '@/admin/inertia/modules/common'
 import FormCheckInput from '@/admin/inertia/components/forms/vee-validate/FormCheckInput.vue'
+import {watch} from "vue"
 
 
 const routesStore = useRoutesStore()
 const indexCategoriesFormStore = useIndexCategoriesFormStore()
 const categoriesTreeStore = useCategoriesTreeStore()
+
 const {listItems : categoryListItems} = storeToRefs(categoriesTreeStore)
 const {fullUrl} = storeToRefs(routesStore)
+
+
+const {
+    selectAll,
+    editMode,
+    checkedItems,
+    check,
+    isChecked,
+    watchSelectAll,
+    manualCheck,
+    cancel,
+} = useCheckedItems<CategoryListItem>(categoryListItems)
 const {visit, removeUrlParam} = useRoute(fullUrl)
 const {searchInput, handleSearch, handleClear} = useSearchInput(fullUrl)
-const {selectAll, editMode, checkedItems, check, isChecked, watchSelectAll, manualCheck, cancel} = useCheckedItems<CategoryListItem>(categoryListItems)
+
 const {errors, handleSubmit, values, setValues, validate, isSubmitting} = useForm<{categories: Array<Partial<CategoryListItem>>}>({
     validationSchema: getValidationSchema(),
     keepValuesOnUnmount: true,
 })
+
 const onSubmit = handleSubmit(async (values, ctx) => {
     await indexCategoriesFormStore.submitIndexCategories(checkedItems, values, ctx)
     editMode.value = false
 })
-
-const indexForId = getIndexForIdCb(values)
 
 const getLinkHref = (categoryId: number): string => {
     const hasSubcategories = categoriesTreeStore.hasSubcategories(categoryId)
@@ -50,6 +63,21 @@ const toggleActive = (category: CategoryListItem) => {
 const deleteCategory = (category: CategoryListItem) => {
     console.log('---category', category)
 }
+
+const indexForId = getIndexForIdCb(values)
+
+watch(categoryListItems, (categories: Array<CategoryListItem>) => {
+    setValues({
+        categories: categories.map(item => ({
+            id: item.id,
+            ordering: item.ordering,
+            name: item.name,
+            is_active: item.is_active,
+        }))
+    })
+})
+
+watchSelectAll()
 </script>
 
 <template>
@@ -143,7 +171,7 @@ const deleteCategory = (category: CategoryListItem) => {
                                         <div class="dropdown-menu bx-core-popup-menu" :aria-labelledby="`actions-dropdown-${category.id}`">
                                             <div class="bx-core-popup-menu__arrow"></div>
                                             <Link class="dropdown-item bx-core-popup-menu-item bx-core-popup-menu-item-default" :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id: category.id})">
-                                                <span class="bx-core-popup-menu-item-icon adm-menu-edit"></span>
+                                                <span class="bx-core-popup-menu-item-icon"></span>
                                                 <span class="bx-core-popup-menu-item-text">Товары</span>
                                             </Link>
                                             <div class="bx-core-popup-menu__arrow"></div>
@@ -201,6 +229,15 @@ const deleteCategory = (category: CategoryListItem) => {
                     </table>
                 </div>
             </form>
+
+            <footer key="edit-mode-on" v-if="editMode" class="footer edit-item-footer">
+                <button form="form-products-list" type="submit" :disabled="isSubmitting" class="btn btn-info">Сохранить</button>
+                <button @click="cancel" type="button" class="btn btn-warning">Отменить</button>
+            </footer>
+            <footer key="edit-mode-off" v-else class="footer edit-item-footer">
+                <button @click="editMode = true" :disabled="!checkedItems.length" type="button" class="btn btn-primary mb-2 btn__save mr-2">Редактировать</button>
+                <button @click="deleteCategory" :disabled="!checkedItems.length" type="button" class="btn btn-info mb-2 btn__default">Удалить</button>
+            </footer>
         </div>
     </TheLayout>
 </template>

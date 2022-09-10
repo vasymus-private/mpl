@@ -15,7 +15,7 @@ import {
     ProductsResponse,
     Values,
 } from "@/admin/inertia/modules/forms/indexProducts/types"
-import { Errors } from "@/admin/inertia/modules/common/types"
+import useFormHelpers from "@/admin/inertia/composables/useFormHelpers"
 
 export const storeName = "indexProductsForm"
 
@@ -23,9 +23,8 @@ export const useIndexProductsFormStore = defineStore(storeName, {
     actions: {
         async submitIndexProducts(
             checkedProducts: Ref<Array<number>>,
-            values: Values,
-            { setErrors }
-        ): Promise<void> {
+            values: Values
+        ): Promise<void | Record<string, string | undefined>> {
             try {
                 let productsToUpdate = values.products.filter((item) =>
                     checkedProducts.value.includes(item.id)
@@ -51,16 +50,13 @@ export const useIndexProductsFormStore = defineStore(storeName, {
                 productsStore.addOrUpdateProductListItems(productsResponse)
             } catch (e) {
                 if (e instanceof AxiosError) {
-                    const indexForId = getIndexForIdCb(values)
+                    const {errorsToErrorFields} = useFormHelpers<Values>('products', values)
 
                     const {
                         data: { errors },
                     }: ErrorResponse = e.response
 
-                    let errorFields = errorsToErrorFields(errors, indexForId)
-
-                    setErrors(errorFields)
-                    return
+                    return errorsToErrorFields(errors)
                 }
                 throw e
             }
@@ -86,32 +82,3 @@ export const getValidationSchema = () =>
             })
         ),
     })
-
-const parseIdErrorProductResponse = (key: string): number => +key.split(".")[1]
-const parseFieldErrorProductResponse = (key: string): string =>
-    key.split(".")[2]
-
-export const getIndexForIdCb =
-    (values: Values): ((id: number) => number | -1) =>
-    (id: number) =>
-        values.products.findIndex((item) => item.id === id)
-
-const errorsToErrorFields = (
-    errors: Errors,
-    indexForId: (id: number) => number | -1
-): Record<string, string | undefined> => {
-    let errorFields = {}
-
-    for (let key in errors) {
-        let id = parseIdErrorProductResponse(key)
-        let fieldName = parseFieldErrorProductResponse(key)
-        let index = indexForId(id)
-
-        errorFields = {
-            ...errorFields,
-            [`products[${index}].${fieldName}`]: errors[key].join(", "),
-        }
-    }
-
-    return errorFields
-}

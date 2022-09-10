@@ -13,7 +13,6 @@ use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\VariationDTO;
 use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\Category;
-use Domain\Products\Models\CharCategory;
 use Domain\Products\Models\CharType;
 use Domain\Products\Models\Product\Product;
 use Support\H;
@@ -84,7 +83,6 @@ trait HasCreateUpdateProductRequest
         $brandIdsStr = Brand::cachedAll()->implode('id', ',');
         $categoriesIdsStr = Category::cachedAll()->implode('id', ',');
         $charTypeIds = CharType::cachedAll()->implode('id', ',');
-        $charCategoryIds = CharCategory::cachedAll()->implode('id', ',');
         $productIds = Product::cachedAll()->implode('id', ',');
 
         return [
