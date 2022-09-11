@@ -206,8 +206,8 @@ export const useRoutesStore = defineStore(storeName, {
         current(): string | null {
             return this.router ? this.router.current() : null
         },
-        activeTab(): (tabs: Array<AdminTab>) => string {
-            return (tabs: Array<AdminTab>): string => {
+        activeTab(): (tabs: Array<AdminTab>, def?: TabEnum) => string {
+            return (tabs: Array<AdminTab>, def?: TabEnum): string => {
                 let url
                 if (typeof window !== "undefined") {
                     url = window.location.href
@@ -216,13 +216,13 @@ export const useRoutesStore = defineStore(storeName, {
                     url = this.fullUrl
                 }
                 if (!url) {
-                    return TabEnum.elements
+                    return def || TabEnum.elements
                 }
                 let paramActiveTab = new URL(url).searchParams.get(
                     RouteParams.activeTab
                 )
                 if (!paramActiveTab) {
-                    return TabEnum.elements
+                    return def || TabEnum.elements
                 }
 
                 if (
@@ -230,7 +230,7 @@ export const useRoutesStore = defineStore(storeName, {
                         .map((at) => at.value.toString())
                         .includes(paramActiveTab)
                 ) {
-                    return TabEnum.elements
+                    return def || TabEnum.elements
                 }
 
                 return paramActiveTab

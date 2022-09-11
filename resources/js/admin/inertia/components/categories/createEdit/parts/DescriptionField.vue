@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {useField} from "vee-validate"
+import {useField, Field} from "vee-validate"
 import {useCategoriesStore} from "@/admin/inertia/modules/categories"
 import {computed} from "vue"
 import {getRouteUrl, routeNames} from "@/admin/inertia/modules/routes"

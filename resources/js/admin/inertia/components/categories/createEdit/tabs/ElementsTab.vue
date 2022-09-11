@@ -5,7 +5,7 @@ import RowInput from '@/admin/inertia/components/forms/vee-validate/RowInput.vue
 import {useCreateEditCategoryFormStore} from "@/admin/inertia/modules/forms/createEditCategory"
 import DescriptionField from '@/admin/inertia/components/categories/createEdit/parts/DescriptionField.vue'
 import {ref, watch} from "vue"
-import {useField} from "vee-validate"
+import {useField, Field} from "vee-validate"
 import {slugify} from "@/admin/inertia/modules/common"
 
 
