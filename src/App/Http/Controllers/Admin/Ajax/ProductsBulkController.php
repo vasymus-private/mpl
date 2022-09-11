@@ -57,11 +57,11 @@ class ProductsBulkController extends BaseAdminController
         /** @var \Domain\Products\Collections\ProductCollection $products */
         $variations = Product::query()->variations()->whereIn('id', $request->ids)->get();
 
-        $products->each(function(Product $product) {
+        $products->each(function (Product $product) {
             DeleteProductAction::cached()->execute($product);
         });
 
-        $variations->each(function(Product $variation) {
+        $variations->each(function (Product $variation) {
             DeleteVariationAction::cached()->execute($variation);
         });
 

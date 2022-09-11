@@ -48,9 +48,9 @@ class CategoriesBulkDeleteRequest extends FormRequest
      */
     public function withValidator(Validator $validator)
     {
-        $validator->after(function(Validator $validator) {
-            $this->getCategories()->each(function(Category $category) use($validator) {
-                if (!$category->has_active_products) {
+        $validator->after(function (Validator $validator) {
+            $this->getCategories()->each(function (Category $category) use ($validator) {
+                if (! $category->has_active_products) {
                     return;
                 }
 

@@ -50,7 +50,7 @@ class CategoriesBulkController extends BaseAdminController
      */
     public function delete(CategoriesBulkDeleteRequest $request)
     {
-        $request->getCategories()->each(function(Category $category) {
+        $request->getCategories()->each(function (Category $category) {
             DeleteCategoryAction::cached()->execute($category);
         });
 
