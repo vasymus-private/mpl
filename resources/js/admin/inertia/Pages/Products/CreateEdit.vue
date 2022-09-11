@@ -1,10 +1,9 @@
 <script lang="ts" setup>
 import TheLayout from '@/admin/inertia/components/layout/TheLayout.vue'
-import {routeNames, RouteParams} from "@/admin/inertia/modules/routes"
+import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
 import {useProductsStore} from "@/admin/inertia/modules/products"
 import {watch} from "vue"
 import {Link} from "@inertiajs/inertia-vue3"
-import {AdminTab} from "@/admin/inertia/modules/common/Tabs"
 import {useForm} from 'vee-validate'
 import {
     getFormSchema,
@@ -14,18 +13,17 @@ import {
 import Breadcrumbs from "@/admin/inertia/components/products/createEdit/parts/Breadcrumbs.vue"
 import Toolbar from "@/admin/inertia/components/products/createEdit/parts/Toolbar.vue"
 import {Values} from "@/admin/inertia/modules/forms/createEditProduct/types"
+import {storeToRefs} from "pinia"
+import useRoute from "@/admin/inertia/composables/useRoute"
 
 
 const productsStore = useProductsStore()
 const createEditProductFormsStore = useCreateEditProductFormStore()
+const routesStore = useRoutesStore()
 
-const onTabClick = (tab: AdminTab) => {
-    let u = new URL(location.href)
-    let s = new URLSearchParams(u.search)
-    s.set(RouteParams.activeTab, tab.value)
-    u.search = s.toString()
-    history.replaceState(history.state, '', u.toString())
-}
+const {fullUrl} = storeToRefs(routesStore)
+
+const {onTabClick} = useRoute(fullUrl)
 
 const {errors, handleSubmit, values, setValues, submitCount, isSubmitting} = useForm<Values>({
     validationSchema: getFormSchema(),
@@ -54,7 +52,7 @@ const onSubmit = handleSubmit((values, actions) => {
                 <ul class="nav nav-tabs item-tabs" role="tablist">
                     <li v-for="tab in createEditProductFormsStore.adminTabs" :key="`${tab.value}-tab`" class="nav-item" role="presentation">
                         <button
-                            :class="['nav-link', tab.value === createEditProductFormsStore.activeTab ? 'active' : '']"
+                            :class="['nav-link', tab.value === routesStore.activeTab(createEditProductFormsStore.adminTabs) ? 'active' : '']"
                             :id="`${tab.value}-tab`"
                             data-bs-toggle="tab"
                             :data-bs-target="`#${tab.value}-content`"
@@ -73,7 +71,7 @@ const onSubmit = handleSubmit((values, actions) => {
                     <div
                         v-for="tab in createEditProductFormsStore.adminTabs"
                         :key="`${tab.value}-content`"
-                        :class="['tab-pane', 'p-3', 'fade', tab.value === createEditProductFormsStore.activeTab ? 'show active' : '']"
+                        :class="['tab-pane', 'p-3', 'fade', tab.value === routesStore.activeTab(createEditProductFormsStore.adminTabs) ? 'show active' : '']"
                         :id="`${tab.value}-content`"
                         role="tabpanel"
                         :aria-labelledby="`${tab.value}-tab`"

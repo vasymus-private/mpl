@@ -19,4 +19,6 @@ export enum TabEnum {
     instruments = "instruments",
     variations = "variations",
     other = "other",
+
+    products = "products",
 }

@@ -17,6 +17,8 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Cache;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property int $id
@@ -57,11 +59,12 @@ use Illuminate\Support\Facades\Cache;
  * @see \Domain\Products\Models\Category::getHasActiveProductsAttribute()
  * @property-read bool $has_active_products
  * */
-class Category extends BaseModel
+class Category extends BaseModel implements HasMedia
 {
     use SoftDeletes;
     use HasDeletedItemSlug;
     use HasFactory;
+    use InteractsWithMedia;
 
     public const TABLE = "categories";
 
@@ -78,6 +81,8 @@ class Category extends BaseModel
 
     public const DEFAULT_IS_ACTIVE = false;
     public const DEFAULT_ORDERING = 500;
+
+    public const MC_DESCRIPTION_FILES = 'description-files';
 
     /**
      * The table associated with the model.
@@ -260,5 +265,10 @@ class Category extends BaseModel
     public function getHasActiveProductsAttribute(): bool
     {
         return HasActiveProductsAction::cached()->execute($this->id);
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection(static::MC_DESCRIPTION_FILES);
     }
 }

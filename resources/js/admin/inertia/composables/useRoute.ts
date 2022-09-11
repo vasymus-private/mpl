@@ -1,6 +1,8 @@
 import { Ref } from "vue"
 import { Inertia } from "@inertiajs/inertia"
 import { OptionType } from "@/admin/inertia/modules/common/Option"
+import {AdminTab} from "@/admin/inertia/modules/common/Tabs"
+import {RouteParams} from "@/admin/inertia/modules/routes"
 
 export enum UrlParams {
     brand_id = "brand_id",
@@ -65,9 +67,18 @@ export default (fullUrl?: Ref<string | null>) => {
         }
     }
 
+    const onTabClick = (tab: AdminTab) => {
+        let u = new URL(location.href)
+        let s = new URLSearchParams(u.search)
+        s.set(RouteParams.activeTab, tab.value)
+        u.search = s.toString()
+        history.replaceState(history.state, '', u.toString())
+    }
+
     return {
         getUrlParam,
         visit,
         removeUrlParam,
+        onTabClick,
     }
 }

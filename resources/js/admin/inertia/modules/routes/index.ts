@@ -11,6 +11,8 @@ import Option, { OptionType } from "@/admin/inertia/modules/common/Option"
 import { useBrandsStore } from "@/admin/inertia/modules/brands"
 import * as H from "history"
 import useRoute, { UrlParams } from "@/admin/inertia/composables/useRoute"
+import {AdminTab, TabEnum} from "@/admin/inertia/modules/common/Tabs"
+
 
 export const storeName = "routes"
 
@@ -204,6 +206,36 @@ export const useRoutesStore = defineStore(storeName, {
         current(): string | null {
             return this.router ? this.router.current() : null
         },
+        activeTab(): (tabs: Array<AdminTab>) => string {
+            return (tabs: Array<AdminTab>): string => {
+                let url
+                if (typeof window !== "undefined") {
+                    url = window.location.href
+                }
+                if (!url) {
+                    url = this.fullUrl
+                }
+                if (!url) {
+                    return TabEnum.elements
+                }
+                let paramActiveTab = new URL(url).searchParams.get(
+                    RouteParams.activeTab
+                )
+                if (!paramActiveTab) {
+                    return TabEnum.elements
+                }
+
+                if (
+                    !tabs
+                        .map((at) => at.value.toString())
+                        .includes(paramActiveTab)
+                ) {
+                    return TabEnum.elements
+                }
+
+                return paramActiveTab
+            }
+        },
     },
     actions: {
         setFullUrl(fullUrl: string | null): void {
@@ -273,7 +305,10 @@ export const routeNames = {
 
     ROUTE_ADMIN_AJAX_SORT_COLUMNS: "admin-ajax.sort-columns",
     ROUTE_ADMIN_AJAX_HELPER: "admin-ajax.helper",
+
     ROUTE_ADMIN_AJAX_PRODUCT_IMAGE_UPLOAD: "admin-ajax.product-image-upload",
+    ROUTE_ADMIN_AJAX_CATEGORY_IMAGE_UPLOAD: 'admin-ajax.category-image-upload',
+
     ROUTE_ADMIN_AJAX_PRODUCT_SEARCH: "admin-ajax.product-search",
 }
 

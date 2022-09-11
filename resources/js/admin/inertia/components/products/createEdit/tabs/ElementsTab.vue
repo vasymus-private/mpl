@@ -21,7 +21,7 @@ const brandsStore = useBrandsStore()
 const currenciesStore = useCurrenciesStore()
 const availabilityStatusesStore = useAvailabilityStatusesStore()
 
-const generateSlugSyncMode = ref(false)
+const generateSlugSyncMode = ref<boolean>(false)
 
 const {value: name} = useField<string|null>('name')
 const {value: slug, setValue} = useField<string|null>('slug')

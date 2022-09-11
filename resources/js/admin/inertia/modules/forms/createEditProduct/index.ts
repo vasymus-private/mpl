@@ -21,17 +21,13 @@ import {
 } from "@/admin/inertia/utils"
 import * as yup from "yup"
 import { CharTypeEnum } from "@/admin/inertia/modules/charTypes/CharType"
-import {
-    getRouteUrl,
-    routeNames,
-    RouteParams,
-    useRoutesStore,
-} from "@/admin/inertia/modules/routes"
+import { getRouteUrl, routeNames } from "@/admin/inertia/modules/routes"
 import { Values } from "@/admin/inertia/modules/forms/createEditProduct/types"
 import axios, { AxiosError } from "axios"
 import { ErrorResponse, Errors } from "@/admin/inertia/modules/common/types"
 import { CustomFormData } from "@/admin/inertia/utils/CustomFormData"
 import { Inertia } from "@inertiajs/inertia"
+
 
 export const storeName = "createEditProductForm"
 
@@ -122,35 +118,6 @@ export const useCreateEditProductFormStore = defineStore(storeName, {
             return this.allAdminTabs.filter(
                 (tab: AdminTab) => tab.value !== TabEnum.variations
             )
-        },
-        activeTab(): string {
-            const routesStore = useRoutesStore()
-            let url
-            if (typeof window !== "undefined") {
-                url = window.location.href
-            }
-            if (!url) {
-                url = routesStore.fullUrl
-            }
-            if (!url) {
-                return TabEnum.elements
-            }
-            let paramActiveTab = new URL(url).searchParams.get(
-                RouteParams.activeTab
-            )
-            if (!paramActiveTab) {
-                return TabEnum.elements
-            }
-
-            if (
-                !this.adminTabs
-                    .map((at) => at.value.toString())
-                    .includes(paramActiveTab)
-            ) {
-                return TabEnum.elements
-            }
-
-            return paramActiveTab
         },
     },
     actions: {

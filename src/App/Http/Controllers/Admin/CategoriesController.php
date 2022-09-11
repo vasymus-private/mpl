@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Resources\Admin\CategoryItemResource;
+use App\Http\Resources\Admin\CategoryResource;
 use Domain\Products\Models\Category;
 use Illuminate\Http\Request;
 use Support\H;
@@ -66,6 +67,8 @@ class CategoriesController extends BaseAdminController
         /** @var \Domain\Products\Models\Category $category */
         $category = $request->admin_category;
 
-        return $inertia->render('Categories/CreateEdit', compact('category'));
+        return $inertia->render('Categories/CreateEdit', [
+            'category' => (new CategoryResource($category))->toArray($request),
+        ]);
     }
 }

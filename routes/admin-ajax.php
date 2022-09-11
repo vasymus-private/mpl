@@ -39,4 +39,6 @@ Route::post('helper/slug', [\App\Http\Controllers\Admin\Ajax\HelperController::c
 
 Route::post('product-image-upload/{admin_product}', [\App\Http\Controllers\Admin\Ajax\ProductImageUploadController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_PRODUCT_IMAGE_UPLOAD);
 
+Route::post('category-image-upload/{admin_category}', [\App\Http\Controllers\Admin\Ajax\CategoryImageUploadController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_CATEGORY_IMAGE_UPLOAD);
+
 Route::get('product-search', [\App\Http\Controllers\Admin\Ajax\ProductSearchController::class, 'index'])->name(Constants::ROUTE_ADMIN_AJAX_PRODUCT_SEARCH);
