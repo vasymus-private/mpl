@@ -42,7 +42,7 @@ class CategoriesBulkRequest extends FormRequest
     public function payload(): array
     {
         return collect($this->categories)
-            ->map(fn(array $item) => new CategoriesListUpdateDTO([
+            ->map(fn (array $item) => new CategoriesListUpdateDTO([
                 'id' => (int)$item['id'],
                 'name' => (string)$item['name'],
                 'ordering' => isset($item['ordering']) ? (int)$item['ordering'] : null,
