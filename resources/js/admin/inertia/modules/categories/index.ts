@@ -1,8 +1,12 @@
-import {defineStore} from "pinia"
-import {CategoriesTreeItem, Category, CategoryListItem,} from "@/admin/inertia/modules/categories/types"
-import Option, {OptionType} from "@/admin/inertia/modules/common/Option"
-import {arrayToMap} from "@/admin/inertia/utils"
-import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
+import { defineStore } from "pinia"
+import {
+    CategoriesTreeItem,
+    Category,
+    CategoryListItem,
+} from "@/admin/inertia/modules/categories/types"
+import Option, { OptionType } from "@/admin/inertia/modules/common/Option"
+import { arrayToMap } from "@/admin/inertia/utils"
+import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
 
 export const storeName = "categoriesTree"
 

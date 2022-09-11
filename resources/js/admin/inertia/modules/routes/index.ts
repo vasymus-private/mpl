@@ -11,8 +11,7 @@ import Option, { OptionType } from "@/admin/inertia/modules/common/Option"
 import { useBrandsStore } from "@/admin/inertia/modules/brands"
 import * as H from "history"
 import useRoute, { UrlParams } from "@/admin/inertia/composables/useRoute"
-import {AdminTab, TabEnum} from "@/admin/inertia/modules/common/Tabs"
-
+import { AdminTab, TabEnum } from "@/admin/inertia/modules/common/Tabs"
 
 export const storeName = "routes"
 
@@ -308,7 +307,7 @@ export const routeNames = {
     ROUTE_ADMIN_AJAX_HELPER: "admin-ajax.helper",
 
     ROUTE_ADMIN_AJAX_PRODUCT_IMAGE_UPLOAD: "admin-ajax.product-image-upload",
-    ROUTE_ADMIN_AJAX_CATEGORY_IMAGE_UPLOAD: 'admin-ajax.category-image-upload',
+    ROUTE_ADMIN_AJAX_CATEGORY_IMAGE_UPLOAD: "admin-ajax.category-image-upload",
 
     ROUTE_ADMIN_AJAX_PRODUCT_SEARCH: "admin-ajax.product-search",
 }

@@ -1,8 +1,8 @@
 import { Ref } from "vue"
 import { Inertia } from "@inertiajs/inertia"
 import { OptionType } from "@/admin/inertia/modules/common/Option"
-import {AdminTab} from "@/admin/inertia/modules/common/Tabs"
-import {RouteParams} from "@/admin/inertia/modules/routes"
+import { AdminTab } from "@/admin/inertia/modules/common/Tabs"
+import { RouteParams } from "@/admin/inertia/modules/routes"
 
 export enum UrlParams {
     brand_id = "brand_id",
@@ -72,7 +72,7 @@ export default (fullUrl?: Ref<string | null>) => {
         let s = new URLSearchParams(u.search)
         s.set(RouteParams.activeTab, tab.value)
         u.search = s.toString()
-        history.replaceState(history.state, '', u.toString())
+        history.replaceState(history.state, "", u.toString())
     }
 
     return {

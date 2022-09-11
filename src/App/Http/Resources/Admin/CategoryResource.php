@@ -32,7 +32,7 @@ class CategoryResource extends JsonResource
             'ordering' => $this->resource->ordering,
             'description' => $this->resource->description,
             'seo' => $this->resource->seo,
-            'products' => $this->resource->products->map(fn(Product $product) => [
+            'products' => $this->resource->products->map(fn (Product $product) => [
                 'id' => $product->id,
                 'name' => $product->name,
                 'is_active' => $product->is_active,
