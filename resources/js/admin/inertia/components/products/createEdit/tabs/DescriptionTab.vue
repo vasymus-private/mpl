@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import {Field, useField} from "vee-validate"
 import {computed} from "vue"
-import AppHtmlEditor from '@/admin/inertia/components/forms/AppHtmlEditor.vue'
+import AppHtmlEditor from '@/admin/inertia/components/forms/parts/AppHtmlEditor.vue'
 import {useProductsStore} from "@/admin/inertia/modules/products"
 import {getRouteUrl, routeNames} from "@/admin/inertia/modules/routes"
 

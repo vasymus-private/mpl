@@ -11,7 +11,7 @@ import RowInputSelect from '@/admin/inertia/components/forms/vee-validate/RowInp
 import {useAvailabilityStatusesStore} from "@/admin/inertia/modules/availabilityStatuses"
 import {useCurrenciesStore} from "@/admin/inertia/modules/currencies"
 import {getRouteUrl, routeNames} from "@/admin/inertia/modules/routes"
-import AppHtmlEditor from '@/admin/inertia/components/forms/AppHtmlEditor.vue'
+import AppHtmlEditor from '@/admin/inertia/components/forms/parts/AppHtmlEditor.vue'
 import RowImage from '@/admin/inertia/components/forms/vee-validate/RowImage.vue'
 import RowImages from '@/admin/inertia/components/forms/vee-validate/RowImages.vue'
 

@@ -3,7 +3,7 @@ import {useField, Field} from "vee-validate"
 import {useCategoriesStore} from "@/admin/inertia/modules/categories"
 import {computed} from "vue"
 import {getRouteUrl, routeNames} from "@/admin/inertia/modules/routes"
-import AppHtmlEditor from '@/admin/inertia/components/forms/AppHtmlEditor.vue'
+import AppHtmlEditor from '@/admin/inertia/components/forms/parts/AppHtmlEditor.vue'
 
 
 const categoriesStore = useCategoriesStore()

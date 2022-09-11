@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import RowInput from '@/admin/inertia/components/forms/vee-validate/RowInput.vue'
-import InputGroup from "@/admin/inertia/components/forms/InputGroup.vue"
+import InputGroup from "@/admin/inertia/components/forms/parts/InputGroup.vue"
 import {ref} from 'vue'
 import Option from "@/admin/inertia/modules/common/Option"
 // @ts-ignore
