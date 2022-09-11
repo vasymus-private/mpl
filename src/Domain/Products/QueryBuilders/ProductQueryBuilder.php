@@ -75,7 +75,7 @@ class ProductQueryBuilder extends Builder
     /**
      * @param int $brandId
      *
-     * @return $this
+     * @return self
      */
     public function whereBrandId(int $brandId): self
     {
@@ -85,7 +85,7 @@ class ProductQueryBuilder extends Builder
     /**
      * @param string $search
      *
-     * @return $this
+     * @return self
      */
     public function whereNameOrSlugLike(string $search): self
     {
@@ -107,7 +107,7 @@ class ProductQueryBuilder extends Builder
     /**
      * @param string $direction
      *
-     * @return $this
+     * @return self
      */
     public function orderByOrderingAndId(string $direction = 'asc'): self
     {

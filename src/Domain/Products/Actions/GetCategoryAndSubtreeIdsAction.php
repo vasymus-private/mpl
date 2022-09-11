@@ -15,7 +15,7 @@ class GetCategoryAndSubtreeIdsAction extends BaseAction
     }
 
     /**
-     * @param int|array[int] $id
+     * @param int|int[] $idOrIds
      *
      * @return int[]
      */

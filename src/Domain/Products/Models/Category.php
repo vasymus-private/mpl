@@ -259,9 +259,6 @@ class Category extends BaseModel
 
     public function getHasActiveProductsAttribute(): bool
     {
-        /** @var \Domain\Products\Actions\HasActiveProductsAction $hasActiveProductsAction */
-        $hasActiveProductsAction = Cache::store('array')->rememberForever(HasActiveProductsAction::class, fn () => resolve(HasActiveProductsAction::class));
-
-        return $hasActiveProductsAction->execute($this->id);
+        return HasActiveProductsAction::cached()->execute($this->id);
     }
 }

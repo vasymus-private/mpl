@@ -262,8 +262,11 @@ export const routeNames = {
     ROUTE_ADMIN_EXPORT_PRODUCTS_DELETE: "admin.export-products.delete",
 
     ROUTE_ADMIN_AJAX_PRODUCTS_BULK_UPDATE: "admin-ajax.products.bulk.update",
+    ROUTE_ADMIN_AJAX_PRODUCTS_BULK_DELETE: 'admin-ajax.products.bulk.delete',
+
     ROUTE_ADMIN_AJAX_CATEGORIES_BULK_UPDATE:
         "admin-ajax.categories.bulk.update",
+    ROUTE_ADMIN_AJAX_CATEGORIES_BULK_DELETE: 'admin-ajax.categories.bulk.delete',
 
     ROUTE_ADMIN_AJAX_PRODUCTS_STORE: "admin-ajax.products.store",
     ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE: "admin-ajax.products.update",

@@ -7,7 +7,7 @@ use Domain\Products\Models\Brand;
 trait HasBrands
 {
     /**
-     * @var array[] @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\Brand}
+     * @var \Domain\Common\DTOs\OptionDTO[] @see {@link \Domain\Common\DTOs\OptionDTO} {@link \Domain\Products\Models\Brand}
      */
     public array $brands;
 

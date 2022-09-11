@@ -25,8 +25,10 @@ Route::post('show-order-busy', \App\Http\Controllers\Admin\Ajax\ShowOrderBusyCon
 Route::post('ping-order-busy/{id}', \App\Http\Controllers\Admin\Ajax\PingOrderBusyController::class)->name('admin-ajax.ping-order-busy');
 
 Route::put('products-bulk', [\App\Http\Controllers\Admin\Ajax\ProductsBulkController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_PRODUCTS_BULK_UPDATE);
+Route::delete('products-bulk', [\App\Http\Controllers\Admin\Ajax\ProductsBulkController::class, 'delete'])->name(Constants::ROUTE_ADMIN_AJAX_PRODUCTS_BULK_DELETE);
 
 Route::put('categories-bulk', [\App\Http\Controllers\Admin\Ajax\CategoriesBulkController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_CATEGORIES_BULK_UPDATE);
+Route::delete('categories-bulk', [\App\Http\Controllers\Admin\Ajax\CategoriesBulkController::class, 'delete'])->name(Constants::ROUTE_ADMIN_AJAX_CATEGORIES_BULK_DELETE);
 
 Route::post('product', [\App\Http\Controllers\Admin\Ajax\ProductsController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_PRODUCTS_STORE);
 Route::put('product/{admin_product}', [\App\Http\Controllers\Admin\Ajax\ProductsController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE);

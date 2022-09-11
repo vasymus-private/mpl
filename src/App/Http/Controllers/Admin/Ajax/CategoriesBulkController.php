@@ -3,18 +3,21 @@
 namespace App\Http\Controllers\Admin\Ajax;
 
 use App\Http\Controllers\Admin\BaseAdminController;
-use App\Http\Requests\Admin\Ajax\CategoriesBulkRequest;
+use App\Http\Requests\Admin\Ajax\CategoriesBulkDeleteRequest;
+use App\Http\Requests\Admin\Ajax\CategoriesBulkUpdateRequest;
 use App\Http\Resources\Admin\CategoryItemResource;
+use Domain\Products\Actions\DeleteCategoryAction;
 use Domain\Products\Models\Category;
+use Symfony\Component\HttpFoundation\Response;
 
 class CategoriesBulkController extends BaseAdminController
 {
     /**
-     * @param \App\Http\Requests\Admin\Ajax\CategoriesBulkRequest $request
+     * @param \App\Http\Requests\Admin\Ajax\CategoriesBulkUpdateRequest $request
      *
      * @return \Illuminate\Contracts\Support\Responsable
      */
-    public function update(CategoriesBulkRequest $request)
+    public function update(CategoriesBulkUpdateRequest $request)
     {
         $payload = $request->payload();
         $ids = collect($payload)->pluck('id')->toArray();
@@ -38,5 +41,19 @@ class CategoriesBulkController extends BaseAdminController
                 ->whereIn('id', $ids)
                 ->get()
         );
+    }
+
+    /**
+     * @param \App\Http\Requests\Admin\Ajax\CategoriesBulkDeleteRequest $request
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(CategoriesBulkDeleteRequest $request)
+    {
+        $request->getCategories()->each(function(Category $category) {
+            DeleteCategoryAction::cached()->execute($category);
+        });
+
+        return response('', Response::HTTP_NO_CONTENT);
     }
 }

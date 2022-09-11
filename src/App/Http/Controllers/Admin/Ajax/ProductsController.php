@@ -13,9 +13,9 @@ class ProductsController extends BaseAdminController
 {
     /**
      * @param \App\Http\Requests\Admin\Ajax\CreateProductRequest $request
-     * @param \Domain\Products\Actions\CreateOrUpdateProduct\CreateOrUpdateProductAction
+     * @param \Domain\Products\Actions\CreateOrUpdateProduct\CreateOrUpdateProductAction $createOrUpdateProductAction
      *
-     * @return \Illuminate\Contracts\Support\Responsable
+     * @return \App\Http\Resources\Admin\ProductResource
      */
     public function store(CreateProductRequest $request, CreateOrUpdateProductAction $createOrUpdateProductAction)
     {
@@ -28,9 +28,9 @@ class ProductsController extends BaseAdminController
 
     /**
      * @param \App\Http\Requests\Admin\Ajax\UpdateProductRequest $request
-     * @param \Domain\Products\Actions\CreateOrUpdateProduct\CreateOrUpdateProductAction
+     * @param \Domain\Products\Actions\CreateOrUpdateProduct\CreateOrUpdateProductAction $createOrUpdateProductAction
      *
-     * @return \Illuminate\Contracts\Support\Responsable
+     * @return \App\Http\Resources\Admin\ProductResource
      */
     public function update(UpdateProductRequest $request, CreateOrUpdateProductAction $createOrUpdateProductAction)
     {

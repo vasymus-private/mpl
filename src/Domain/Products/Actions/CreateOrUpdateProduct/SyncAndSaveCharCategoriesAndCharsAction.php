@@ -89,7 +89,7 @@ class SyncAndSaveCharCategoriesAndCharsAction extends BaseAction
      */
     private function update(Product $target, array $toUpdate)
     {
-        $target->charCategories->each(function (CharCategory $charCategory) use ($target, $toUpdate) {
+        $target->charCategories->each(function (CharCategory $charCategory) use ($toUpdate) {
             $charCategoryDto = $toUpdate[$charCategory->id] ?? null;
             if (! $charCategoryDto) {
                 return;
