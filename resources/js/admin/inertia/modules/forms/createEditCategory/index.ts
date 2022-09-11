@@ -1,16 +1,15 @@
 import { defineStore } from "pinia"
 import { useCategoriesStore } from "@/admin/inertia/modules/categories"
 import Option from "@/admin/inertia/modules/common/Option"
-import {AdminTab, TabEnum} from "@/admin/inertia/modules/common/Tabs"
+import { AdminTab, TabEnum } from "@/admin/inertia/modules/common/Tabs"
 import ElementsTab from "@/admin/inertia/components/categories/createEdit/tabs/ElementsTab.vue"
 import SeoTab from "@/admin/inertia/components/categories/createEdit/tabs/SeoTab.vue"
 import ProductsTab from "@/admin/inertia/components/categories/createEdit/tabs/ProductsTab.vue"
 import * as yup from "yup"
-import {yupIntegerOrEmptyString} from "@/admin/inertia/utils"
-import {Values} from "@/admin/inertia/modules/forms/createEditCategory/types"
-import {SubmissionContext} from "vee-validate"
-import {Category} from "@/admin/inertia/modules/categories/types"
-
+import { yupIntegerOrEmptyString } from "@/admin/inertia/utils"
+import { Values } from "@/admin/inertia/modules/forms/createEditCategory/types"
+import { SubmissionContext } from "vee-validate"
+import { Category } from "@/admin/inertia/modules/categories/types"
 
 export const storeName = "createEditCategoryForm"
 
@@ -30,12 +29,13 @@ export const useCreateEditCategoryFormStore = defineStore(storeName, {
             const categoriesStore = useCategoriesStore()
             const categoryId = categoriesStore.category?.id
 
-            const categoryAndSubtreeIds = categoriesStore.getCategoryAndSubtreeIds(categoryId)
+            const categoryAndSubtreeIds =
+                categoriesStore.getCategoryAndSubtreeIds(categoryId)
             if (!categoryAndSubtreeIds) {
                 return categoriesStore.options
             }
 
-            return categoriesStore.options.map(option => {
+            return categoriesStore.options.map((option) => {
                 if (categoryAndSubtreeIds.includes(+option.value)) {
                     option.disabled = true
                 }
@@ -64,10 +64,11 @@ export const useCreateEditCategoryFormStore = defineStore(storeName, {
         },
     },
     actions: {
-        async submitCreateEditCategory(values: Values, ctx: SubmissionContext<Values>): Promise<void> {
-
-        }
-    }
+        async submitCreateEditCategory(
+            values: Values,
+            ctx: SubmissionContext<Values>
+        ): Promise<void> {},
+    },
 })
 
 export const getFormSchema = () => {

@@ -1,5 +1,3 @@
-import {Category} from "@/admin/inertia/modules/categories/types"
+import { Category } from "@/admin/inertia/modules/categories/types"
 
-export interface Values extends Partial<Omit<Category, 'products'>>{
-
-}
+export interface Values extends Partial<Omit<Category, "products">> {}
