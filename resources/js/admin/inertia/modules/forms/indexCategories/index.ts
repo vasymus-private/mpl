@@ -43,9 +43,7 @@ export const useIndexCategoriesFormStore = defineStore(storeName, {
                 )
 
                 const categoriesStore = useCategoriesStore()
-                categoriesStore.addOrUpdateCategoryListItems(
-                    categoriesResponse
-                )
+                categoriesStore.addOrUpdateCategoryListItems(categoriesResponse)
             } catch (e) {
                 if (e instanceof AxiosError) {
                     const { errorsToErrorFields } = useFormHelpers<Values>(
