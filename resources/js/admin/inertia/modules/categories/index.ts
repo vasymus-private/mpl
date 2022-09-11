@@ -6,7 +6,7 @@ import {
 } from "@/admin/inertia/modules/categories/types"
 import Option from "@/admin/inertia/modules/common/Option"
 import { arrayToMap } from "@/admin/inertia/utils"
-import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes";
+import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
 
 export const storeName = "categoriesTree"
 
@@ -121,9 +121,7 @@ export const useCategoriesStore = defineStore(storeName, {
 
             this._listItems = [...this._listItems, ...listItems]
         },
-        async deleteCategory(): Promise<void> {
-
-        }
+        async deleteCategory(): Promise<void> {},
     },
 })
 

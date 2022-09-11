@@ -1,5 +1,5 @@
-import {defineStore} from "pinia"
-import {useCategoriesStore} from "@/admin/inertia/modules/categories"
+import { defineStore } from "pinia"
+import { useCategoriesStore } from "@/admin/inertia/modules/categories"
 
 export const storeName = "createEditCategoryForm"
 
@@ -15,5 +15,5 @@ export const useCreateEditCategoryFormStore = defineStore(storeName, {
 
             return base
         },
-    }
+    },
 })
