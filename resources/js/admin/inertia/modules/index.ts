@@ -6,13 +6,13 @@ import {
     CategoriesTreeItem,
     Category,
     CategoryListItem,
-} from "@/admin/inertia/modules/categoriesTree/types"
+} from "@/admin/inertia/modules/categories/types"
 import { useAuthStore } from "@/admin/inertia/modules/auth"
 import { Pinia } from "pinia"
 import { useArticlesStore } from "@/admin/inertia/modules/articles"
 import { Service } from "@/admin/inertia/modules/services/Service"
 import { useServicesStore } from "@/admin/inertia/modules/services"
-import { useCategoriesTreeStore } from "@/admin/inertia/modules/categoriesTree"
+import { useCategoriesStore } from "@/admin/inertia/modules/categories"
 import { useColumnsStore } from "@/admin/inertia/modules/columns"
 import { useBrandsStore } from "@/admin/inertia/modules/brands"
 import ProductListItem from "@/admin/inertia/modules/products/ProductListItem"
@@ -122,10 +122,10 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
     const servicesStore = useServicesStore(pinia)
     servicesStore.setEntities(services)
 
-    const categoriesTreeStore = useCategoriesTreeStore(pinia)
-    categoriesTreeStore.setEntities(categoriesTree)
-    categoriesTreeStore.setEntity(category)
-    categoriesTreeStore.setListItems(categoryListItems)
+    const categoriesStore = useCategoriesStore(pinia)
+    categoriesStore.setEntities(categoriesTree)
+    categoriesStore.setEntity(category)
+    categoriesStore.setListItems(categoryListItems)
 
     const columnsStore = useColumnsStore(pinia)
     columnsStore.setAdminOrderColumns(adminOrderColumns)

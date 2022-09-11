@@ -33,7 +33,7 @@ import { ErrorResponse, Errors } from "@/admin/inertia/modules/common/types"
 import { CustomFormData } from "@/admin/inertia/utils/CustomFormData"
 import { Inertia } from "@inertiajs/inertia"
 
-export const storeName = "createEditForm"
+export const storeName = "createEditProductForm"
 
 export const useCreateEditProductFormStore = defineStore(storeName, {
     getters: {

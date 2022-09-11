@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import {useCategoriesTreeStore} from "@/admin/inertia/modules/categoriesTree"
+import {useCategoriesStore} from "@/admin/inertia/modules/categories"
 import {Field} from "vee-validate"
 
 
-const categoriesStore = useCategoriesTreeStore()
+const categoriesStore = useCategoriesStore()
 </script>
 
 <template>

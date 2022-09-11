@@ -9,9 +9,9 @@ import { Ref } from "vue"
 import axios, { AxiosError } from "axios"
 import { getRouteUrl, routeNames } from "@/admin/inertia/modules/routes"
 import useFormHelpers from "@/admin/inertia/composables/useFormHelpers"
-import { useCategoriesTreeStore } from "@/admin/inertia/modules/categoriesTree"
+import { useCategoriesStore } from "@/admin/inertia/modules/categories"
 import { ErrorResponse } from "@/admin/inertia/modules/common/types"
-import { CategoryListItem } from "@/admin/inertia/modules/categoriesTree/types"
+import { CategoryListItem } from "@/admin/inertia/modules/categories/types"
 
 export const storeName = "indexCategoriesForm"
 
@@ -42,8 +42,8 @@ export const useIndexCategoriesFormStore = defineStore(storeName, {
                     }
                 )
 
-                const categoriesTreeStore = useCategoriesTreeStore()
-                categoriesTreeStore.addOrUpdateCategoryListItems(
+                const categoriesStore = useCategoriesStore()
+                categoriesStore.addOrUpdateCategoryListItems(
                     categoriesResponse
                 )
             } catch (e) {

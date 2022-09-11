@@ -1,5 +1,5 @@
 import { defineStore, storeToRefs } from "pinia"
-import { useCategoriesTreeStore } from "@/admin/inertia/modules/categoriesTree"
+import { useCategoriesStore } from "@/admin/inertia/modules/categories"
 import route, {
     Config,
     RouteParam,
@@ -27,7 +27,7 @@ export const useRoutesStore = defineStore(storeName, {
                 type: RouteTypeEnum,
                 id: number | string = null
             ): boolean => {
-                const categoriesTreeStore = useCategoriesTreeStore()
+                const categoriesStore = useCategoriesStore()
 
                 let router = this.router
                 if (!router) {
@@ -49,7 +49,7 @@ export const useRoutesStore = defineStore(storeName, {
                         }
 
                         let categoryAndSubtreeIds =
-                            categoriesTreeStore.getCategoryAndSubtreeIds(id)
+                            categoriesStore.getCategoryAndSubtreeIds(id)
 
                         if (!categoryAndSubtreeIds) {
                             return false
@@ -105,7 +105,7 @@ export const useRoutesStore = defineStore(storeName, {
             let result = []
 
             if (categoryId) {
-                let categoriesStore = useCategoriesTreeStore()
+                let categoriesStore = useCategoriesStore()
                 let category = categoriesStore.option(categoryId)
                 if (category) {
                     result = [
@@ -142,7 +142,7 @@ export const useRoutesStore = defineStore(storeName, {
             let result = []
 
             if (categoryId) {
-                let categoriesStore = useCategoriesTreeStore()
+                let categoriesStore = useCategoriesStore()
                 let category = categoriesStore.option(categoryId)
                 if (category) {
                     result = [

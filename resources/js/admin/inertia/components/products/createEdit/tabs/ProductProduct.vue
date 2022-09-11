@@ -5,7 +5,7 @@ import {ref} from 'vue'
 import Option from "@/admin/inertia/modules/common/Option"
 // @ts-ignore
 import Multiselect from 'vue-multiselect'
-import {useCategoriesTreeStore} from "@/admin/inertia/modules/categoriesTree"
+import {useCategoriesStore} from "@/admin/inertia/modules/categories"
 import {ProductProductType, SearchProduct} from "@/admin/inertia/modules/products/Product"
 import {chunk} from 'lodash'
 import {useFieldArray} from "vee-validate"
@@ -13,7 +13,7 @@ import {routeNames} from "@/admin/inertia/modules/routes"
 import {useProductsStore} from "@/admin/inertia/modules/products"
 
 
-const categoriesTreeStore = useCategoriesTreeStore()
+const categoriesStore = useCategoriesStore()
 const productsStore = useProductsStore()
 const search = ref<string>(null)
 const categories = ref<Array<Option>>(null)
@@ -95,7 +95,7 @@ const onChange = (event, product: SearchProduct) => {
                 <Multiselect
                     v-model="categories"
                     @close="fetchItems"
-                    :options="categoriesTreeStore.options"
+                    :options="categoriesStore.options"
                     :multiple="true"
                     :close-on-select="false"
                     placeholder="Категория"

@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import NavItem from '@/admin/inertia/components/layout/NavItem.vue'
 import {useRoutesStore, RouteTypeEnum, routeNames} from "@/admin/inertia/modules/routes"
-import {useCategoriesTreeStore} from "@/admin/inertia/modules/categoriesTree"
+import {useCategoriesStore} from "@/admin/inertia/modules/categories"
 import {ref} from 'vue'
 import {useProfileStore} from "@/admin/inertia/modules/profile"
 
 
 const routesStore = useRoutesStore()
-const categoriesTreeStore = useCategoriesTreeStore()
+const categoriesStore = useCategoriesStore()
 const profileStore = useProfileStore()
 
 const aside = ref(null)
@@ -51,7 +51,7 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean
                             nav-link-class="sub-level-2"
                         />
                         <NavItem
-                            v-for="category in categoriesTreeStore.categories"
+                            v-for="category in categoriesStore.categories"
                             :id-or-href="`categories-${category.id}`"
                             :title="category.name"
                             :is-inertia-link="false"

@@ -6,8 +6,8 @@ import useRoute from "@/admin/inertia/composables/useRoute"
 import {storeToRefs} from "pinia"
 import useSearchInput from "@/admin/inertia/composables/useSearchInput"
 import useCheckedItems from "@/admin/inertia/composables/useCheckedItems"
-import {CategoryListItem} from "@/admin/inertia/modules/categoriesTree/types"
-import {useCategoriesTreeStore} from "@/admin/inertia/modules/categoriesTree"
+import {CategoryListItem} from "@/admin/inertia/modules/categories/types"
+import {useCategoriesStore} from "@/admin/inertia/modules/categories"
 import {useForm} from "vee-validate"
 import FormControlInput from '@/admin/inertia/components/forms/vee-validate/FormControlInput.vue'
 import {useIndexCategoriesFormStore, getValidationSchema} from "@/admin/inertia/modules/forms/indexCategories"
@@ -20,9 +20,9 @@ import {Values} from "@/admin/inertia/modules/forms/indexCategories/types"
 
 const routesStore = useRoutesStore()
 const indexCategoriesFormStore = useIndexCategoriesFormStore()
-const categoriesTreeStore = useCategoriesTreeStore()
+const categoriesStore = useCategoriesStore()
 
-const {listItems : categoryListItems} = storeToRefs(categoriesTreeStore)
+const {listItems : categoryListItems} = storeToRefs(categoriesStore)
 const {fullUrl} = storeToRefs(routesStore)
 
 
@@ -58,7 +58,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
 })
 
 const getLinkHref = (categoryId: number): string => {
-    const hasSubcategories = categoriesTreeStore.hasSubcategories(categoryId)
+    const hasSubcategories = categoriesStore.hasSubcategories(categoryId)
     if (hasSubcategories) {
         return routesStore.route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {category_id: categoryId})
     }
