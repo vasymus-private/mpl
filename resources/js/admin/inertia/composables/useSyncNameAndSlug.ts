@@ -1,15 +1,17 @@
-import {ref, watch} from "vue"
-import {slugify} from "@/admin/inertia/modules/common"
-import {FieldContext} from "vee-validate"
+import { ref, watch } from "vue"
+import { slugify } from "@/admin/inertia/modules/common"
+import { FieldContext } from "vee-validate"
 
-
-export default (name: FieldContext<string|null>['value'], setSlugValue: FieldContext<string|null>['setValue']) => {
+export default (
+    name: FieldContext<string | null>["value"],
+    setSlugValue: FieldContext<string | null>["setValue"]
+) => {
     const generateSlugSyncMode = ref<boolean>(false)
 
     const watchGenerateSlugSyncMode = () => {
-        watch(generateSlugSyncMode, newV => {
+        watch(generateSlugSyncMode, (newV) => {
             if (newV) {
-                handleSyncNameAndSlug();
+                handleSyncNameAndSlug()
             }
         })
     }
