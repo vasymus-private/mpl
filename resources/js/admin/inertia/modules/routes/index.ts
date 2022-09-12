@@ -303,8 +303,8 @@ export const routeNames = {
     ROUTE_ADMIN_AJAX_PRODUCTS_STORE: "admin-ajax.products.store",
     ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE: "admin-ajax.products.update",
 
-    ROUTE_ADMIN_AJAX_CATEGORIES_STORE: 'admin-ajax.categories.store',
-    ROUTE_ADMIN_AJAX_CATEGORIES_UPDATE: 'admin-ajax.categories.update',
+    ROUTE_ADMIN_AJAX_CATEGORIES_STORE: "admin-ajax.categories.store",
+    ROUTE_ADMIN_AJAX_CATEGORIES_UPDATE: "admin-ajax.categories.update",
 
     ROUTE_ADMIN_AJAX_SORT_COLUMNS: "admin-ajax.sort-columns",
     ROUTE_ADMIN_AJAX_HELPER: "admin-ajax.helper",

@@ -2,7 +2,7 @@ import Meta, { MetaLink } from "@/admin/inertia/modules/common/Meta"
 import { isNumeric } from "@/admin/inertia/utils"
 import axios from "axios"
 import { getRouteUrl, routeNames } from "@/admin/inertia/modules/routes"
-import {Errors} from "@/admin/inertia/modules/common/types";
+import { Errors } from "@/admin/inertia/modules/common/types"
 
 export const extendMetaLinksWithComputedData = (
     meta: Meta,
@@ -104,7 +104,6 @@ export const slugify = async (
 
 export const getActiveName = (is_active: boolean | null) =>
     is_active ? "Да" : "Нет"
-
 
 export const errorsToErrorFields = (
     errors: Errors

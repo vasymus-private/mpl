@@ -27,7 +27,7 @@ class CreateOrUpdateCategoryAction extends BaseAction
      */
     public function execute(CategoryDTO $categoryDTO, Category $target = null): Category
     {
-        return DB::transaction(function() use($categoryDTO, $target) {
+        return DB::transaction(function () use ($categoryDTO, $target) {
             $target = $target ?: new Category();
 
             if ($categoryDTO->name !== null) {
