@@ -119,7 +119,9 @@ export const useProductsStore = defineStore(storeName, {
             this._productListItems = productListItems
         },
         deleteProductListItems(ids: Array<number>): void {
-            this._productListItems = this._productListItems.filter(item => !ids.includes(item.id))
+            this._productListItems = this._productListItems.filter(
+                (item) => !ids.includes(item.id)
+            )
         },
         addOrUpdateProductListItems(
             productListItems: Array<ProductListItem>
