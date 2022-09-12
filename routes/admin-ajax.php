@@ -33,6 +33,9 @@ Route::delete('categories-bulk', [\App\Http\Controllers\Admin\Ajax\CategoriesBul
 Route::post('product', [\App\Http\Controllers\Admin\Ajax\ProductsController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_PRODUCTS_STORE);
 Route::put('product/{admin_product}', [\App\Http\Controllers\Admin\Ajax\ProductsController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE);
 
+Route::post('category', [\App\Http\Controllers\Admin\Ajax\CategoriesController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_CATEGORIES_STORE);
+Route::put('category/{admin_category}', [\App\Http\Controllers\Admin\Ajax\CategoriesController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_CATEGORIES_UPDATE);
+
 Route::put('sort-columns', \App\Http\Controllers\Admin\Ajax\SortColumnsController::class)->name(Constants::ROUTE_ADMIN_AJAX_SORT_COLUMNS);
 
 Route::post('helper/slug', [\App\Http\Controllers\Admin\Ajax\HelperController::class, 'slug'])->name(Constants::ROUTE_ADMIN_AJAX_HELPER);

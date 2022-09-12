@@ -10,6 +10,11 @@ import { yupIntegerOrEmptyString } from "@/admin/inertia/utils"
 import { Values } from "@/admin/inertia/modules/forms/createEditCategory/types"
 import { SubmissionContext } from "vee-validate"
 import { Category } from "@/admin/inertia/modules/categories/types"
+import axios, {AxiosError} from "axios"
+import {getRouteUrl, routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
+import {Inertia} from "@inertiajs/inertia"
+import {ErrorResponse} from "@/admin/inertia/modules/common/types"
+import {errorsToErrorFields} from "@/admin/inertia/modules/common"
 
 export const storeName = "createEditCategoryForm"
 
@@ -67,7 +72,52 @@ export const useCreateEditCategoryFormStore = defineStore(storeName, {
         async submitCreateEditCategory(
             values: Values,
             ctx: SubmissionContext<Values>
-        ): Promise<void> {},
+        ): Promise<void> {
+            const categoriesStore = useCategoriesStore()
+            const routesStore = useRoutesStore()
+
+            try {
+                let category: Category
+
+                if (categoriesStore.isCreatingCategoryRoute) {
+                    const response = await axios.post<{ data: Category }>(
+                        routesStore.route(routeNames.ROUTE_ADMIN_AJAX_CATEGORIES_STORE),
+                        values
+                    )
+
+                    category = response.data.data
+                    Inertia.get(
+                        getRouteUrl(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_EDIT, {
+                            admin_category: category.id,
+                        })
+                    )
+                } else {
+                    const response = await axios.put<{ data: Category }>(
+                        routesStore.route(
+                            routeNames.ROUTE_ADMIN_AJAX_CATEGORIES_UPDATE,
+                            values.id
+                        ),
+                        values
+                    )
+
+                    category = response.data.data
+                    categoriesStore.setEntity(category)
+                }
+            } catch (e) {
+                if (e instanceof AxiosError) {
+                    const {
+                        data: { errors },
+                    }: ErrorResponse = e.response
+
+                    const errorFields = errorsToErrorFields(errors)
+
+                    ctx.setErrors(errorFields)
+                    return
+                }
+
+                throw e
+            }
+        },
     },
 })
 

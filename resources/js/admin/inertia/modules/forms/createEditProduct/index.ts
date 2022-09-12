@@ -25,6 +25,7 @@ import { getRouteUrl, routeNames } from "@/admin/inertia/modules/routes"
 import { Values } from "@/admin/inertia/modules/forms/createEditProduct/types"
 import axios, { AxiosError } from "axios"
 import { ErrorResponse, Errors } from "@/admin/inertia/modules/common/types"
+import {errorsToErrorFields} from "@/admin/inertia/modules/common"
 import { CustomFormData } from "@/admin/inertia/utils/CustomFormData"
 import { Inertia } from "@inertiajs/inertia"
 
@@ -442,21 +443,6 @@ export const getWatchProductToFormCb =
         console.log("--- values", values)
         setValues(values)
     }
-
-const errorsToErrorFields = (
-    errors: Errors
-): Record<string, string | undefined> => {
-    let errorFields = {}
-
-    for (let key in errors) {
-        errorFields = {
-            ...errorFields,
-            [key]: errors[key].join(" "),
-        }
-    }
-
-    return errorFields
-}
 
 const valuesToFormData = (values: Values): FormData => {
     const formData = new CustomFormData()

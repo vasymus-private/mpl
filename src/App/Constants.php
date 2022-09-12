@@ -74,6 +74,10 @@ final class Constants
 
     public const ROUTE_ADMIN_AJAX_PRODUCTS_STORE = 'admin-ajax.products.store';
     public const ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE = 'admin-ajax.products.update';
+
+    public const ROUTE_ADMIN_AJAX_CATEGORIES_STORE = 'admin-ajax.categories.store';
+    public const ROUTE_ADMIN_AJAX_CATEGORIES_UPDATE = 'admin-ajax.categories.update';
+
     public const ROUTE_ADMIN_AJAX_SORT_COLUMNS = 'admin-ajax.sort-columns';
     public const ROUTE_ADMIN_AJAX_HELPER = 'admin-ajax.helper';
 

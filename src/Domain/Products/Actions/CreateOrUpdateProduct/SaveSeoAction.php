@@ -3,7 +3,7 @@
 namespace Domain\Products\Actions\CreateOrUpdateProduct;
 
 use Domain\Common\Actions\BaseAction;
-use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\SeoDTO;
+use Domain\Products\DTOs\Admin\Inertia\SeoDTO;
 use Domain\Products\Models\Product\Product;
 use Domain\Seo\Models\Seo;
 
@@ -11,7 +11,7 @@ class SaveSeoAction extends BaseAction
 {
     /**
      * @param \Domain\Products\Models\Product\Product $target
-     * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\SeoDTO|null $seoDTO
+     * @param \Domain\Products\DTOs\Admin\Inertia\SeoDTO|null $seoDTO
      *
      * @return void
      */

@@ -18,7 +18,7 @@ const categoriesStore = useCategoriesStore()
                 </tr>
                 </thead>
                 <tbody>
-                    <template v-if="categoriesStore.category?.products">
+                    <template v-if="categoriesStore.category?.products.length">
                         <tr v-for="categoryProduct in categoriesStore.category.products" :key="`category-product-${categoryProduct.id}`">
                             <td><Link :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_EDIT, {admin_product: categoryProduct.id})" target="_blank">{{ categoryProduct.id }}</Link></td>
                             <td><Link :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_EDIT, {admin_product: categoryProduct.id})" target="_blank">{{ categoryProduct.name }}</Link></td>
