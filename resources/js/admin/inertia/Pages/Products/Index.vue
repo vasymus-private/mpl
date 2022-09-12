@@ -76,27 +76,39 @@ const brand = computed({
 
 const perPageOptions = getPerPageOptions()
 
-const deleteProducts = () => {
-    if (confirm('Вы уверены, что хотите удалить продукт выбранные продукты?')) { // todo temporary until modals simple confirm implementation
-        productStore.handleDelete(checkedItems.value)
-    }
-}
-const deleteProduct = (product: ProductListItem) => {
-    if (confirm(`Вы уверены, что хотите удалить продукт '${product.id}' '${product.name}' ?`)) {
-        productStore.handleDelete([product.id])
-    }
-}
 const toggleActive = (product: ProductListItem) => {
     console.log('---product', product)
 }
 
-const {errors, handleSubmit, values, setValues, validate, isSubmitting} = useForm<Values>({
+const {errors, handleSubmit, values, setValues, validate, isSubmitting, setErrors} = useForm<Values>({
     validationSchema: getValidationSchema(),
     keepValuesOnUnmount: true,
     initialValues: {
         products: []
     }
 })
+
+const deleteProducts = async () => {
+    if (confirm('Вы уверены, что хотите удалить продукт выбранные продукты?')) {
+        let errorsOrVoid = await indexProductsForm.deleteIndexProducts(checkedItems.value)
+        if (!errorsOrVoid) {
+            return
+        }
+
+        setErrors(errorsOrVoid) // todo move to toasts
+    }
+}
+
+const deleteProduct = async (product: ProductListItem) => {
+    if (confirm(`Вы уверены, что хотите удалить продукт '${product.id}' '${product.name}' ?`)) {
+        let errorsOrVoid = await indexProductsForm.deleteIndexProducts([product.id])
+        if (!errorsOrVoid) {
+            return
+        }
+
+        setErrors(errorsOrVoid) // todo move to toasts
+    }
+}
 
 const {indexForId} = useFormHelpers<Values>('products', values)
 

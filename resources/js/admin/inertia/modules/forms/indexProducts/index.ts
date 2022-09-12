@@ -4,7 +4,7 @@ import {
     yupIntegerOrEmptyString,
     yupNumberOrEmptyString,
 } from "@/admin/inertia/utils"
-import { getRouteUrl, routeNames } from "@/admin/inertia/modules/routes"
+import {getRouteUrl, routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
 import axios, { AxiosError } from "axios"
 import { Ref } from "vue"
 import ProductListItem from "@/admin/inertia/modules/products/ProductListItem"
@@ -16,6 +16,7 @@ import {
 } from "@/admin/inertia/modules/forms/indexProducts/types"
 import useFormHelpers from "@/admin/inertia/composables/useFormHelpers"
 import { ErrorResponse } from "@/admin/inertia/modules/common/types"
+import {errorsToErrorFields} from "@/admin/inertia/modules/common"
 
 export const storeName = "indexProductsForm"
 
@@ -64,6 +65,33 @@ export const useIndexProductsFormStore = defineStore(storeName, {
                 throw e
             }
         },
+        async deleteIndexProducts(checkedProducts: Array<number>): Promise<void | Record<string, string | undefined>> {
+            if (!checkedProducts.length) {
+                return
+            }
+
+            const routesStore = useRoutesStore()
+            const productsStore = useProductsStore()
+
+            try {
+                let url = new URL(routesStore.route(routeNames.ROUTE_ADMIN_AJAX_PRODUCTS_BULK_DELETE))
+                checkedProducts.forEach(id => {
+                    url.searchParams.append('ids', `${id}`)
+                })
+                await axios.delete(url.toString())
+
+                productsStore.deleteProductListItems(checkedProducts)
+            } catch (e) {
+                if (e instanceof AxiosError) {
+                    const {
+                        data: { errors },
+                    }: ErrorResponse = e.response
+
+                    return errorsToErrorFields(errors)
+                }
+                throw e
+            }
+        }
     },
 })
 
