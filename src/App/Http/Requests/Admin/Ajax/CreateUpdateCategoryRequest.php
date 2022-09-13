@@ -38,7 +38,7 @@ class CreateUpdateCategoryRequest extends FormRequest
                 Rule::exists(Category::TABLE, 'id')
                     ->when(
                         $this->category(),
-                        fn (Exists $query) => $query->whereNot('id', $this->category()->id)
+                        fn (Exists $query) => $query->whereNot('id', [$this->category()->id])
                     ),
             ],
             'description' => 'nullable|string|max:65000',
