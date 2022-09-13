@@ -51,9 +51,7 @@ export default (fullUrl?: Ref<string | null>) => {
     }
 
     const revisit = () => {
-        Inertia.visit(
-            new URL(location.href).toString()
-        )
+        Inertia.visit(new URL(location.href).toString())
     }
 
     const removeUrlParam = (type: OptionType) => {
