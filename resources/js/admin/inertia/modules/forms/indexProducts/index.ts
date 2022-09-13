@@ -69,39 +69,6 @@ export const useIndexProductsFormStore = defineStore(storeName, {
                 throw e
             }
         },
-        async deleteIndexProducts(
-            checkedProducts: Array<number>
-        ): Promise<void | Record<string, string | undefined>> {
-            if (!checkedProducts.length) {
-                return
-            }
-
-            const routesStore = useRoutesStore()
-            const productsStore = useProductsStore()
-
-            try {
-                let url = new URL(
-                    routesStore.route(
-                        routeNames.ROUTE_ADMIN_AJAX_PRODUCTS_BULK_DELETE
-                    )
-                )
-                checkedProducts.forEach((id) => {
-                    url.searchParams.append("ids[]", `${id}`)
-                })
-                await axios.delete(url.toString())
-
-                productsStore.deleteProductListItems(checkedProducts)
-            } catch (e) {
-                if (e instanceof AxiosError) {
-                    const {
-                        data: { errors },
-                    }: ErrorResponse = e.response
-
-                    return errorsToErrorFields(errors)
-                }
-                throw e
-            }
-        },
     },
 })
 

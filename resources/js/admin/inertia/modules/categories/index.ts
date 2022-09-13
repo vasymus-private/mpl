@@ -7,6 +7,9 @@ import {
 import Option, { OptionType } from "@/admin/inertia/modules/common/Option"
 import { arrayToMap } from "@/admin/inertia/utils"
 import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
+import axios, {AxiosError} from "axios";
+import {ErrorResponse} from "@/admin/inertia/modules/common/types";
+import {errorsToErrorFields} from "@/admin/inertia/modules/common";
 
 export const storeName = "categoriesTree"
 
@@ -105,7 +108,7 @@ export const useCategoriesStore = defineStore(storeName, {
         setListItems(listItems: Array<CategoryListItem>): void {
             this._listItems = listItems
         },
-        deleteListItems(ids: Array<number>): void {
+        removeListItems(ids: Array<number>): void {
             this._listItems = this._listItems.filter(
                 (item) => !ids.includes(item.id)
             )
@@ -126,6 +129,38 @@ export const useCategoriesStore = defineStore(storeName, {
             })
 
             this._listItems = [...this._listItems, ...listItems]
+        },
+        async deleteBulkCategories(
+            checkedCategories: Array<number>
+        ): Promise<void | Record<string, string | undefined>> {
+            if (!checkedCategories.length) {
+                return
+            }
+
+            const routesStore = useRoutesStore()
+
+            try {
+                let url = new URL(
+                    routesStore.route(
+                        routeNames.ROUTE_ADMIN_AJAX_CATEGORIES_BULK_DELETE
+                    )
+                )
+                checkedCategories.forEach((id) => {
+                    url.searchParams.append("ids[]", `${id}`)
+                })
+                await axios.delete(url.toString())
+
+                this.removeListItems(checkedCategories)
+            } catch (e) {
+                if (e instanceof AxiosError) {
+                    const {
+                        data: { errors },
+                    }: ErrorResponse = e.response
+
+                    return errorsToErrorFields(errors)
+                }
+                throw e
+            }
         },
     },
 })

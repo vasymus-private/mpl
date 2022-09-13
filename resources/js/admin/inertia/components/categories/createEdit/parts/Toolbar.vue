@@ -1,15 +1,38 @@
 <script setup lang="ts">
 import {Link} from "@inertiajs/inertia-vue3"
-import {routeNames} from "@/admin/inertia/modules/routes"
+import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
 import {useCategoriesStore} from "@/admin/inertia/modules/categories"
-import {useCreateEditCategoryFormStore} from "@/admin/inertia/modules/forms/createEditCategory";
+import {Inertia} from "@inertiajs/inertia"
+import {useToastsStore} from "@/admin/inertia/modules/toasts"
 
 
 const categoriesStore = useCategoriesStore()
-const createEditCategoryFormStore = useCreateEditCategoryFormStore()
+const routesStore = useRoutesStore()
+const toastsStore = useToastsStore()
 
-const handleDelete = () => {
+const handleDelete = async () => {
+    if (!categoriesStore.category?.id) {
+        return
+    }
 
+    if (confirm(`Вы уверены, что хотите удалить категорию?`)) {
+        let errorsOrVoid = await categoriesStore.deleteBulkCategories([categoriesStore.category?.id])
+        if (!errorsOrVoid) {
+            Inertia.visit(
+                routesStore.route(
+                    routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX
+                )
+            )
+            return
+        }
+
+        for (let key in errorsOrVoid) {
+            toastsStore.error({
+                title: key,
+                message: errorsOrVoid[key]
+            })
+        }
+    }
 }
 </script>
 

@@ -1,17 +1,38 @@
 <script lang="ts" setup>
-import {getRouteUrl, routeNames} from "@/admin/inertia/modules/routes"
+import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
 import {useProductsStore} from "@/admin/inertia/modules/products"
 import {Link} from "@inertiajs/inertia-vue3"
 import {useField} from "vee-validate"
 import {Inertia} from "@inertiajs/inertia"
+import {useToastsStore} from "@/admin/inertia/modules/toasts"
 
 
 const productsStore = useProductsStore()
+const routesStore = useRoutesStore()
+const toastsStore = useToastsStore()
 const {value: is_with_variations, setValue: setWithVariations} = useField<boolean>('is_with_variations')
 const deleteItem = async () => {
+    if (!productsStore.product?.id) {
+        return
+    }
+
     if (confirm('Уверены, что хотите удалить товар?')) {
-        await productsStore.handleDelete([productsStore.product.id])
-        Inertia.visit(getRouteUrl(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX))
+        let errorsOrVoid = await productsStore.deleteBulkProducts([productsStore.product.id])
+        if (!errorsOrVoid) {
+            Inertia.visit(
+                routesStore.route(
+                    routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX
+                )
+            )
+            return
+        }
+
+        for (let key in errorsOrVoid) {
+            toastsStore.error({
+                title: key,
+                message: errorsOrVoid[key]
+            })
+        }
     }
 }
 </script>

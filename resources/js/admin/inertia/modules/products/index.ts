@@ -3,7 +3,7 @@ import ProductListItem from "@/admin/inertia/modules/products/ProductListItem"
 import Links from "@/admin/inertia/modules/common/Links"
 import Meta from "@/admin/inertia/modules/common/Meta"
 import Option from "@/admin/inertia/modules/common/Option"
-import { extendMetaLinksWithComputedData } from "@/admin/inertia/modules/common"
+import {errorsToErrorFields, extendMetaLinksWithComputedData} from "@/admin/inertia/modules/common"
 import {
     getRouteUrl,
     routeNames,
@@ -16,8 +16,9 @@ import Product, {
     searchProductRequestToUrlSearchParams,
     SearchProductResponse,
 } from "@/admin/inertia/modules/products/Product"
-import axios from "axios"
+import axios, {AxiosError} from "axios"
 import { arrayToMap } from "@/admin/inertia/utils"
+import {ErrorResponse} from "@/admin/inertia/modules/common/types";
 
 export const storeName = "products"
 
@@ -118,7 +119,7 @@ export const useProductsStore = defineStore(storeName, {
         setProductListItems(productListItems: Array<ProductListItem>): void {
             this._productListItems = productListItems
         },
-        deleteProductListItems(ids: Array<number>): void {
+        removeProductListItems(ids: Array<number>): void {
             this._productListItems = this._productListItems.filter(
                 (item) => !ids.includes(item.id)
             )
@@ -161,9 +162,6 @@ export const useProductsStore = defineStore(storeName, {
         setProduct(product: Product | null): void {
             this._product.entity = product
         },
-        async handleDelete(selected: Array<number>): Promise<void> {
-            console.log("---", selected)
-        },
         async fetchSearchProducts(
             request: SearchProductRequest,
             type: ProductProductType
@@ -184,6 +182,39 @@ export const useProductsStore = defineStore(storeName, {
                 this._searchProduct[type].meta = meta
             } finally {
                 this._searchProduct[type].loading = false
+            }
+        },
+        async deleteBulkProducts(
+            ids: Array<number>
+        ): Promise<void | Record<string, string | undefined>> {
+            if (!ids.length) {
+                return
+            }
+
+            const routesStore = useRoutesStore()
+            const productsStore = useProductsStore()
+
+            try {
+                let url = new URL(
+                    routesStore.route(
+                        routeNames.ROUTE_ADMIN_AJAX_PRODUCTS_BULK_DELETE
+                    )
+                )
+                ids.forEach((id) => {
+                    url.searchParams.append("ids[]", `${id}`)
+                })
+                await axios.delete(url.toString())
+
+                productsStore.removeProductListItems(ids)
+            } catch (e) {
+                if (e instanceof AxiosError) {
+                    const {
+                        data: { errors },
+                    }: ErrorResponse = e.response
+
+                    return errorsToErrorFields(errors)
+                }
+                throw e
             }
         },
     },

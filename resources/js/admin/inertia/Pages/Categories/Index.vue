@@ -84,7 +84,7 @@ const deleteCategory = async (category: CategoryListItem) => {
 }
 
 const bulkDelete = async (ids: Array<number>) => {
-    let errorsOrVoid = await indexCategoriesFormStore.deleteIndexCategories(ids)
+    let errorsOrVoid = await categoriesStore.deleteBulkCategories(ids)
     if (!errorsOrVoid) {
         revisit()
         return

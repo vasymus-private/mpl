@@ -104,7 +104,7 @@ const deleteProduct = async (product: ProductListItem) => {
 }
 
 const bulkDelete = async (ids: Array<number>) => {
-    let errorsOrVoid = await indexProductsForm.deleteIndexProducts(ids)
+    let errorsOrVoid = await productStore.deleteBulkProducts(ids)
     if (!errorsOrVoid) {
         revisit()
         return
