@@ -7,9 +7,9 @@ import {
 import Option, { OptionType } from "@/admin/inertia/modules/common/Option"
 import { arrayToMap } from "@/admin/inertia/utils"
 import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
-import axios, {AxiosError} from "axios";
-import {ErrorResponse} from "@/admin/inertia/modules/common/types";
-import {errorsToErrorFields} from "@/admin/inertia/modules/common";
+import axios, { AxiosError } from "axios"
+import { ErrorResponse } from "@/admin/inertia/modules/common/types"
+import { errorsToErrorFields } from "@/admin/inertia/modules/common"
 
 export const storeName = "categoriesTree"
 
