@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import {useModalsStore, ModalType} from "@/admin/inertia/modules/modals"
+import {useModalsStore} from "@/admin/inertia/modules/modals"
+import {ModalType} from "@/admin/inertia/modules/modals/types"
 import {ColumnType} from "@/admin/inertia/modules/columns/Column"
 import {useField, useFieldArray, Field, FieldEntry} from "vee-validate"
 import {getEmptyVariation} from "@/admin/inertia/modules/forms/createEditProduct"

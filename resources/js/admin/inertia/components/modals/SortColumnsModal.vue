@@ -4,7 +4,8 @@ import {computed, ref, Ref} from "vue"
 import Column, {ColumnType} from "@/admin/inertia/modules/columns/Column"
 import {useColumnsStore} from "@/admin/inertia/modules/columns"
 import Draggable from 'vuedraggable'
-import {ModalType, useModalsStore} from "@/admin/inertia/modules/modals"
+import {useModalsStore} from "@/admin/inertia/modules/modals"
+import {ModalType} from "@/admin/inertia/modules/modals/types"
 import ModalCloseButton from '@/admin/inertia/components/modals/ModalCloseButton.vue'
 
 

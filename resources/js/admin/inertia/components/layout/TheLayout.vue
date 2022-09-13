@@ -1,13 +1,15 @@
 <script lang="ts" setup>
 import TheHeader from "@/admin/inertia/components/layout/TheHeader.vue"
 import TheSidebar from "@/admin/inertia/components/layout/TheSidebar.vue"
-import {useModalsStore, Modals} from "@/admin/inertia/modules/modals"
+import {Modals, useModalsStore} from "@/admin/inertia/modules/modals"
 import {onMounted, onUnmounted, Ref, ref} from 'vue'
 import axios from "axios"
 import {useProfileStore} from "@/admin/inertia/modules/profile"
+import {Toasts, useToastsStore} from "@/admin/inertia/modules/toasts"
 
 
 const modalsStore = useModalsStore()
+const toastsStore = useToastsStore()
 const profileStore = useProfileStore()
 
 const resizer = ref<Ref<Element>>(null)
@@ -85,10 +87,20 @@ onUnmounted(() => {
             </div>
         </main>
         <component
-            v-for="modal in modalsStore.types"
+            v-for="(modal, idx) in modalsStore.types"
             :is="Modals[modal.type]"
             :type="modal.type"
             :modal-props="modal.props || {}"
+            :key="`${modal.type}-${idx}`"
         />
+        <div v-if="toastsStore.types.length" class="toast-container position-fixed bottom-0 end-0 p-3">
+            <template v-for="(toast, idx) in toastsStore.types" :key="`${toast.props._uuid}`">
+                <component
+                    :is="Toasts[toast.type]"
+                    :type="toast.type"
+                    :toast-props="toast.props"
+                />
+            </template>
+        </div>
     </div>
 </template>

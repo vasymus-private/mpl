@@ -2,7 +2,8 @@
 import {Teleport, ref, onMounted, onBeforeUnmount} from "vue"
 import {Modal} from 'bootstrap'
 import ModalCloseButton from "@/admin/inertia/components/modals/ModalCloseButton.vue"
-import {ModalType, useModalsStore} from "@/admin/inertia/modules/modals"
+import {useModalsStore} from "@/admin/inertia/modules/modals"
+import {ModalType} from "@/admin/inertia/modules/modals/types"
 
 
 const props = defineProps<{
@@ -40,7 +41,7 @@ defineExpose({
                         <button @click="modalsStore.closeModal(props.type)" type="button" class="btn-close" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <slot></slot>
+                        <slot />
                     </div>
                     <div class="modal-footer">
                         <slot name="footer">

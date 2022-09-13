@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import {ModalType, useModalsStore} from "@/admin/inertia/modules/modals"
+import {useModalsStore} from "@/admin/inertia/modules/modals"
+import {ModalType} from "@/admin/inertia/modules/modals/types"
 
 
 const props = defineProps<{

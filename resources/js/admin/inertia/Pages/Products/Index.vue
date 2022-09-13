@@ -9,7 +9,8 @@ import TheLayout from '@/admin/inertia/components/layout/TheLayout.vue'
 import Pagination from "@/admin/inertia/components/layout/Pagination.vue"
 import Option from "@/admin/inertia/modules/common/Option"
 import {getActiveName} from '@/admin/inertia/modules/common'
-import {ModalType, useModalsStore} from "@/admin/inertia/modules/modals"
+import {useModalsStore} from "@/admin/inertia/modules/modals"
+import {ModalType} from "@/admin/inertia/modules/modals/types"
 import ProductListItem from "@/admin/inertia/modules/products/ProductListItem"
 import {Link} from "@inertiajs/inertia-vue3"
 import {ColumnType} from "@/admin/inertia/modules/columns/Column"

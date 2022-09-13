@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Modal from '@/admin/inertia/components/modals/Modal.vue'
-import {ModalType, useModalsStore} from "@/admin/inertia/modules/modals"
+import {useModalsStore} from "@/admin/inertia/modules/modals"
+import {ModalType} from "@/admin/inertia/modules/modals/types"
 import {computed, onBeforeUnmount, ref} from "vue"
 import ModalCloseButton from '@/admin/inertia/components/modals/ModalCloseButton.vue'
 import {useFieldArray, Field, useField} from "vee-validate"
