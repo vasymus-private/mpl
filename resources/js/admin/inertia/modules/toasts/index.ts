@@ -1,12 +1,12 @@
-import {defineStore} from "pinia"
+import { defineStore } from "pinia"
 import {
     ToastProps,
     ToastPayload,
     ToastType,
 } from "@/admin/inertia/modules/toasts/types"
-import {DefineComponent} from "@vue/runtime-core"
-import Toast from '@/admin/inertia/components/toasts/Toast.vue'
-import {randomId} from "@/admin/inertia/utils"
+import { DefineComponent } from "@vue/runtime-core"
+import Toast from "@/admin/inertia/components/toasts/Toast.vue"
+import { randomId } from "@/admin/inertia/utils"
 
 export const storeName = "toasts"
 
@@ -17,7 +17,7 @@ interface State {
 export const useToastsStore = defineStore(storeName, {
     state: (): State => {
         return {
-            _types: []
+            _types: [],
         }
     },
     getters: {
@@ -29,7 +29,7 @@ export const useToastsStore = defineStore(storeName, {
                 type,
                 props: {
                     ...props,
-                    _uuid: props._uuid || randomId()
+                    _uuid: props._uuid || randomId(),
                 },
             })
         },
@@ -46,7 +46,9 @@ export const useToastsStore = defineStore(storeName, {
             this.openToast(ToastType.INFO, props)
         },
         closeToast(uuid: string): void {
-            this._types = this._types.filter(payload => payload.props._uuid !== uuid)
+            this._types = this._types.filter(
+                (payload) => payload.props._uuid !== uuid
+            )
         },
     },
 })
