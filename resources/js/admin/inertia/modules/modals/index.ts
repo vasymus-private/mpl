@@ -2,7 +2,7 @@ import { defineStore } from "pinia"
 import { DefineComponent } from "@vue/runtime-core"
 import SortColumnsModal from "@/admin/inertia/components/modals/SortColumnsModal.vue"
 import CreateEditVariation from "@/admin/inertia/components/products/createEdit/modals/CreateEditVariation.vue"
-import {ModalType, ModalPayload} from "@/admin/inertia/modules/modals/types"
+import { ModalType, ModalPayload } from "@/admin/inertia/modules/modals/types"
 
 export const storeName = "modals"
 
