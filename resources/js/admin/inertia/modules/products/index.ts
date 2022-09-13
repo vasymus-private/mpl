@@ -3,7 +3,10 @@ import ProductListItem from "@/admin/inertia/modules/products/ProductListItem"
 import Links from "@/admin/inertia/modules/common/Links"
 import Meta from "@/admin/inertia/modules/common/Meta"
 import Option from "@/admin/inertia/modules/common/Option"
-import {errorsToErrorFields, extendMetaLinksWithComputedData} from "@/admin/inertia/modules/common"
+import {
+    errorsToErrorFields,
+    extendMetaLinksWithComputedData,
+} from "@/admin/inertia/modules/common"
 import {
     getRouteUrl,
     routeNames,
@@ -16,9 +19,9 @@ import Product, {
     searchProductRequestToUrlSearchParams,
     SearchProductResponse,
 } from "@/admin/inertia/modules/products/Product"
-import axios, {AxiosError} from "axios"
+import axios, { AxiosError } from "axios"
 import { arrayToMap } from "@/admin/inertia/utils"
-import {ErrorResponse} from "@/admin/inertia/modules/common/types";
+import { ErrorResponse } from "@/admin/inertia/modules/common/types"
 
 export const storeName = "products"
 
