@@ -58,4 +58,4 @@ export const Toasts: { [key in ToastType]: DefineComponent } = {
     [ToastType.ERROR]: Toast,
 }
 
-export const DELAY_DEFAULT = 5000
+export const DELAY_DEFAULT = 7000

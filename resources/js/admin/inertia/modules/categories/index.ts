@@ -86,7 +86,7 @@ export const useCategoriesStore = defineStore(storeName, {
                 return option ? option : null
             }
         },
-        isCreatingCategoryRoute() {
+        isCreatingCategoryRoute(): boolean {
             let routesStore = useRoutesStore()
 
             return [
@@ -105,6 +105,11 @@ export const useCategoriesStore = defineStore(storeName, {
         setListItems(listItems: Array<CategoryListItem>): void {
             this._listItems = listItems
         },
+        deleteListItems(ids: Array<number>): void {
+            this._listItems = this._listItems.filter(
+                (item) => !ids.includes(item.id)
+            )
+        },
         addOrUpdateCategoryListItems(listItems: Array<CategoryListItem>): void {
             let newCategoryListItemsById =
                 arrayToMap<CategoryListItem>(listItems)
@@ -122,7 +127,6 @@ export const useCategoriesStore = defineStore(storeName, {
 
             this._listItems = [...this._listItems, ...listItems]
         },
-        async deleteCategory(): Promise<void> {},
     },
 })
 

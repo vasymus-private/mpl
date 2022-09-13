@@ -174,6 +174,5 @@ export const getWatchPCategoryToFormCb =
             seo,
         }
 
-        console.log("--- values", values)
         setValues(values)
     }

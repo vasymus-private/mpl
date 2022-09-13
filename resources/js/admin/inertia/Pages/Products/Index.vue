@@ -32,6 +32,7 @@ import {storeToRefs} from "pinia"
 import useRoute, {UrlParams} from "@/admin/inertia/composables/useRoute"
 import useSearchInput from "@/admin/inertia/composables/useSearchInput"
 import useFormHelpers from "@/admin/inertia/composables/useFormHelpers"
+import {useToastsStore} from "@/admin/inertia/modules/toasts"
 
 
 const columnsStore = useColumnsStore()
@@ -42,6 +43,7 @@ const routesStore = useRoutesStore()
 const currenciesStore = useCurrenciesStore()
 const availabilitiesStore = useAvailabilityStatusesStore()
 const indexProductsForm = useIndexProductsFormStore()
+const toastsStore = useToastsStore()
 
 const {productListItems} = storeToRefs(productStore)
 const {fullUrl} = storeToRefs(routesStore)
@@ -56,7 +58,7 @@ const {
     manualCheck,
     cancel,
 } = useCheckedItems<ProductListItem>(productListItems)
-const {getUrlParam, visit, removeUrlParam} = useRoute(fullUrl)
+const {getUrlParam, visit, removeUrlParam, revisit} = useRoute(fullUrl)
 const {searchInput, onPerPage, handleSearch, handleClear} = useSearchInput(fullUrl)
 
 const brand = computed({
@@ -81,7 +83,7 @@ const toggleActive = (product: ProductListItem) => {
     console.log('---product', product)
 }
 
-const {errors, handleSubmit, values, setValues, validate, isSubmitting, setErrors} = useForm<Values>({
+const {errors, submitCount, handleSubmit, values, setValues, validate, isSubmitting, setErrors} = useForm<Values>({
     validationSchema: getValidationSchema(),
     keepValuesOnUnmount: true,
     initialValues: {
@@ -90,24 +92,29 @@ const {errors, handleSubmit, values, setValues, validate, isSubmitting, setError
 })
 
 const deleteProducts = async () => {
-    if (confirm('Вы уверены, что хотите удалить продукт выбранные продукты?')) {
-        let errorsOrVoid = await indexProductsForm.deleteIndexProducts(checkedItems.value)
-        if (!errorsOrVoid) {
-            return
-        }
-
-        setErrors(errorsOrVoid) // todo move to toasts
+    if (confirm('Вы уверены, что хотите удалить выбранные продукты?')) {
+        await bulkDelete(checkedItems.value)
     }
 }
 
 const deleteProduct = async (product: ProductListItem) => {
     if (confirm(`Вы уверены, что хотите удалить продукт '${product.id}' '${product.name}' ?`)) {
-        let errorsOrVoid = await indexProductsForm.deleteIndexProducts([product.id])
-        if (!errorsOrVoid) {
-            return
-        }
+        await bulkDelete([product.id])
+    }
+}
 
-        setErrors(errorsOrVoid) // todo move to toasts
+const bulkDelete = async (ids: Array<number>) => {
+    let errorsOrVoid = await indexProductsForm.deleteIndexProducts(ids)
+    if (!errorsOrVoid) {
+        revisit()
+        return
+    }
+
+    for (let key in errorsOrVoid) {
+        toastsStore.error({
+            title: key,
+            message: errorsOrVoid[key]
+        })
     }
 }
 
@@ -138,7 +145,7 @@ watchEffect(() => {
 watchSelectAll()
 
 const onSubmit = handleSubmit(async (values, ctx) => {
-    const errorFields = await indexProductsForm.submitIndexProducts(checkedItems, values)
+    const errorFields = await indexProductsForm.submitIndexProducts(checkedItems.value, values)
     if (errorFields) {
         ctx.setErrors(errorFields)
         return
@@ -377,11 +384,13 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                 </div>
             </form>
 
-            <ul class="list-group" v-if="Object.values(errors).length">
-                <li v-for="(error, index) in errors" :key="`error-${error}-${index}`" class="list-group-item list-group-item-danger">
-                    {{ error }}
-                </li>
-            </ul>
+            <template v-if="Object.values(errors).length && submitCount > 0">
+                <ul class="list-group">
+                    <li v-for="error in errors" :key="error" class="list-group-item list-group-item-danger">
+                        {{ error }}
+                    </li>
+                </ul>
+            </template>
 
             <Pagination
                 v-if="productStore.meta"

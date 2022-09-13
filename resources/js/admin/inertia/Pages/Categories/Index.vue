@@ -16,11 +16,13 @@ import FormCheckInput from '@/admin/inertia/components/forms/vee-validate/FormCh
 import {watch} from "vue"
 import useFormHelpers from "@/admin/inertia/composables/useFormHelpers"
 import {Values} from "@/admin/inertia/modules/forms/indexCategories/types"
+import {useToastsStore} from "@/admin/inertia/modules/toasts"
 
 
 const routesStore = useRoutesStore()
 const indexCategoriesFormStore = useIndexCategoriesFormStore()
 const categoriesStore = useCategoriesStore()
+const toastsStore = useToastsStore()
 
 const {listItems : categoryListItems} = storeToRefs(categoriesStore)
 const {fullUrl} = storeToRefs(routesStore)
@@ -36,10 +38,10 @@ const {
     manualCheck,
     cancel,
 } = useCheckedItems<CategoryListItem>(categoryListItems)
-const {visit, removeUrlParam} = useRoute(fullUrl)
+const {visit, removeUrlParam, revisit} = useRoute(fullUrl)
 const {searchInput, handleSearch, handleClear} = useSearchInput(fullUrl)
 
-const {errors, handleSubmit, values, setValues, validate, isSubmitting} = useForm<Values>({
+const {errors, submitCount, handleSubmit, values, setValues, validate, isSubmitting} = useForm<Values>({
     validationSchema: getValidationSchema(),
     keepValuesOnUnmount: true,
     initialValues: {
@@ -48,12 +50,11 @@ const {errors, handleSubmit, values, setValues, validate, isSubmitting} = useFor
 })
 
 const onSubmit = handleSubmit(async (values, ctx) => {
-    const errorFields = await indexCategoriesFormStore.submitIndexCategories(checkedItems, values)
+    const errorFields = await indexCategoriesFormStore.submitIndexCategories(checkedItems.value, values)
     if (errorFields) {
         ctx.setErrors(errorFields)
         return
     }
-    editMode.value = false
     editMode.value = false
 })
 
@@ -70,8 +71,31 @@ const toggleActive = (category: CategoryListItem) => {
     console.log('---category', category)
 }
 
-const deleteCategory = (category: CategoryListItem) => {
-    console.log('---category', category)
+const deleteCategories = async () => {
+    if (confirm('Вы уверены, что хотите удалить выбранные категории?')) {
+        await bulkDelete(checkedItems.value)
+    }
+}
+
+const deleteCategory = async (category: CategoryListItem) => {
+    if (confirm(`Вы уверены, что хотите удалить категорию '${category.id}' '${category.name}' ?`)) {
+        await bulkDelete([category.id])
+    }
+}
+
+const bulkDelete = async (ids: Array<number>) => {
+    let errorsOrVoid = await indexCategoriesFormStore.deleteIndexCategories(ids)
+    if (!errorsOrVoid) {
+        revisit()
+        return
+    }
+
+    for (let key in errorsOrVoid) {
+        toastsStore.error({
+            title: key,
+            message: errorsOrVoid[key]
+        })
+    }
 }
 
 const {indexForId} = useFormHelpers<Values>('categories', values)
@@ -243,11 +267,13 @@ watchSelectAll()
                 </div>
             </form>
 
-            <ul class="list-group" v-if="Object.values(errors).length">
-                <li v-for="(error, index) in errors" :key="`error-${error}-${index}`" class="list-group-item list-group-item-danger">
-                    {{ error }}
-                </li>
-            </ul>
+            <template v-if="Object.values(errors).length && submitCount > 0">
+                <ul class="list-group">
+                    <li v-for="error in errors" :key="error" class="list-group-item list-group-item-danger">
+                        {{ error }}
+                    </li>
+                </ul>
+            </template>
 
             <footer key="edit-mode-on" v-if="editMode" class="footer edit-item-footer">
                 <button form="form-categories-list" type="submit" :disabled="isSubmitting" class="btn btn-info">Сохранить</button>
@@ -255,7 +281,7 @@ watchSelectAll()
             </footer>
             <footer key="edit-mode-off" v-else class="footer edit-item-footer">
                 <button @click="editMode = true" :disabled="!checkedItems.length" type="button" class="btn btn-primary mb-2 btn__save mr-2">Редактировать</button>
-                <button @click="deleteCategory" :disabled="!checkedItems.length" type="button" class="btn btn-info mb-2 btn__default">Удалить</button>
+                <button @click="deleteCategories" :disabled="!checkedItems.length" type="button" class="btn btn-info mb-2 btn__default">Удалить</button>
             </footer>
         </div>
     </TheLayout>

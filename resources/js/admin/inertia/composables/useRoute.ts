@@ -50,6 +50,12 @@ export default (fullUrl?: Ref<string | null>) => {
         Inertia.visit(to.toString())
     }
 
+    const revisit = () => {
+        Inertia.visit(
+            new URL(location.href).toString()
+        )
+    }
+
     const removeUrlParam = (type: OptionType) => {
         switch (type) {
             case OptionType.category: {
@@ -80,5 +86,6 @@ export default (fullUrl?: Ref<string | null>) => {
         visit,
         removeUrlParam,
         onTabClick,
+        revisit,
     }
 }

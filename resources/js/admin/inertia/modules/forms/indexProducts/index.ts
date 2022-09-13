@@ -27,12 +27,12 @@ export const storeName = "indexProductsForm"
 export const useIndexProductsFormStore = defineStore(storeName, {
     actions: {
         async submitIndexProducts(
-            checkedProducts: Ref<Array<number>>,
+            checkedProducts: Array<number>,
             values: Values
         ): Promise<void | Record<string, string | undefined>> {
             try {
                 let productsToUpdate = values.products.filter((item) =>
-                    checkedProducts.value.includes(item.id)
+                    checkedProducts.includes(item.id)
                 )
                 if (!productsToUpdate.length) {
                     return
@@ -86,7 +86,7 @@ export const useIndexProductsFormStore = defineStore(storeName, {
                     )
                 )
                 checkedProducts.forEach((id) => {
-                    url.searchParams.append("ids", `${id}`)
+                    url.searchParams.append("ids[]", `${id}`)
                 })
                 await axios.delete(url.toString())
 

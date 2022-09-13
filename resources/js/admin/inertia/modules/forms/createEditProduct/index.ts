@@ -440,14 +440,11 @@ export const getWatchProductToFormCb =
             instruments,
             variations,
         }
-        console.log("--- values", values)
         setValues(values)
     }
 
 const valuesToFormData = (values: Values): FormData => {
     const formData = new CustomFormData()
-
-    console.log("--- submit values", values)
 
     let stringOrNumberKeys: Array<keyof Values> = [
         "name",
