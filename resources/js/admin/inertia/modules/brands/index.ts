@@ -1,7 +1,10 @@
 import { defineStore } from "pinia"
 import Option from "@/admin/inertia/modules/common/Option"
 import {Brand, BrandListItem} from "@/admin/inertia/modules/brands/types"
-import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes";
+import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
+import axios, {AxiosError} from "axios"
+import {ErrorResponse} from "@/admin/inertia/modules/common/types"
+import {errorsToErrorFields} from "@/admin/inertia/modules/common"
 
 export const storeName = "brands"
 
@@ -59,5 +62,42 @@ export const useBrandsStore = defineStore(storeName, {
         setOptions(options: Array<Option>): void {
             this._options = options
         },
+        removeEntities(ids: Array<number>): void {
+            this._entities = this._entities.filter(
+                (item) => !ids.includes(item.id)
+            )
+        },
+        async deleteBulkBrands(
+            checkedBrands: Array<number>
+        ): Promise<void | Record<string, string | undefined>> {
+            if (!checkedBrands.length) {
+                return
+            }
+
+            const routesStore = useRoutesStore()
+
+            try {
+                let url = new URL(
+                    routesStore.route(
+                        routeNames.ROUTE_ADMIN_AJAX_BRANDS_BULK_DELETE
+                    )
+                )
+                checkedBrands.forEach((id) => {
+                    url.searchParams.append("ids[]", `${id}`)
+                })
+                await axios.delete(url.toString())
+
+                this.removeEntities(checkedBrands)
+            } catch (e) {
+                if (e instanceof AxiosError) {
+                    const {
+                        data: { errors },
+                    }: ErrorResponse = e.response
+
+                    return errorsToErrorFields(errors)
+                }
+                throw e
+            }
+        }
     },
 })

@@ -24,7 +24,7 @@ const indexCategoriesFormStore = useIndexCategoriesFormStore()
 const categoriesStore = useCategoriesStore()
 const toastsStore = useToastsStore()
 
-const {listItems : categoryListItems} = storeToRefs(categoriesStore)
+const {listItems : categoriesList} = storeToRefs(categoriesStore)
 const {fullUrl} = storeToRefs(routesStore)
 
 
@@ -37,7 +37,7 @@ const {
     watchSelectAll,
     manualCheck,
     cancel,
-} = useCheckedItems<CategoryListItem>(categoryListItems)
+} = useCheckedItems<CategoryListItem>(categoriesList)
 const {visit, removeUrlParam, revisit} = useRoute(fullUrl)
 const {searchInput, handleSearch, handleClearSearch} = useSearchInput(fullUrl)
 
@@ -107,7 +107,7 @@ const bulkDelete = async (ids: Array<number>) => {
 
 const {indexForId} = useFormHelpers<Values>('categories', values)
 
-watch(categoryListItems, (categories: Array<CategoryListItem>) => {
+watch(categoriesList, (categories: Array<CategoryListItem>) => {
     setValues({
         categories: categories.map(item => ({
             id: item.id,
@@ -188,7 +188,7 @@ watchSelectAll()
                         </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="category in categoryListItems" :key="`category-${category.id}`" @click="manualCheck(category.id)">
+                            <tr v-for="category in categoriesList" :key="`category-${category.id}`" @click="manualCheck(category.id)">
                                 <td>
                                     <div class="form-check">
                                         <input
