@@ -1,11 +1,10 @@
-import {defineStore} from "pinia"
-import {useBrandsStore} from "@/admin/inertia/modules/brands"
-import {AdminTab, TabEnum} from "@/admin/inertia/modules/common/Tabs"
-import ElementsTab from '@/admin/inertia/components/brands/createEdit/tabs/ElementsTab.vue'
-import DescriptionTab from '@/admin/inertia/components/brands/createEdit/tabs/DescriptionTab.vue'
-import PhotoTab from '@/admin/inertia/components/brands/createEdit/tabs/PhotoTab.vue'
-import SeoTab from '@/admin/inertia/components/brands/createEdit/tabs/SeoTab.vue'
-
+import { defineStore } from "pinia"
+import { useBrandsStore } from "@/admin/inertia/modules/brands"
+import { AdminTab, TabEnum } from "@/admin/inertia/modules/common/Tabs"
+import ElementsTab from "@/admin/inertia/components/brands/createEdit/tabs/ElementsTab.vue"
+import DescriptionTab from "@/admin/inertia/components/brands/createEdit/tabs/DescriptionTab.vue"
+import PhotoTab from "@/admin/inertia/components/brands/createEdit/tabs/PhotoTab.vue"
+import SeoTab from "@/admin/inertia/components/brands/createEdit/tabs/SeoTab.vue"
 
 export const storeName = "createEditBrandForm"
 
@@ -45,5 +44,5 @@ export const useCreateEditBrandFormStore = defineStore(storeName, {
                 },
             ]
         },
-    }
+    },
 })

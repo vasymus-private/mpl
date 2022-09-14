@@ -1,8 +1,7 @@
-import {defineStore} from "pinia"
-import {Values} from "@/admin/inertia/modules/forms/indexBrands/types"
+import { defineStore } from "pinia"
+import { Values } from "@/admin/inertia/modules/forms/indexBrands/types"
 import * as yup from "yup"
-import {yupIntegerOrEmptyString} from "@/admin/inertia/utils"
-
+import { yupIntegerOrEmptyString } from "@/admin/inertia/utils"
 
 export const storeName = "indexBrandsForm"
 
@@ -11,9 +10,8 @@ export const useIndexBrandsFormStore = defineStore(storeName, {
         async submitIndexBrands(
             checkedBrands: Array<number>,
             values: Values
-        ): Promise<void | Record<string, string | undefined>> {
-        }
-    }
+        ): Promise<void | Record<string, string | undefined>> {},
+    },
 })
 
 export const getValidationSchema = () =>

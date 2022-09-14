@@ -275,9 +275,9 @@ export const routeNames = {
     ROUTE_ADMIN_BRANDS_CREATE: "admin.brands.create",
     ROUTE_ADMIN_BRANDS_EDIT: "admin.brands.edit",
 
-    ROUTE_ADMIN_BRANDS_TEMP_INDEX: 'admin.brands.temp.index',
-    ROUTE_ADMIN_BRANDS_TEMP_CREATE: 'admin.brands.temp.create',
-    ROUTE_ADMIN_BRANDS_TEMP_EDIT: 'admin.brands.temp.edit',
+    ROUTE_ADMIN_BRANDS_TEMP_INDEX: "admin.brands.temp.index",
+    ROUTE_ADMIN_BRANDS_TEMP_CREATE: "admin.brands.temp.create",
+    ROUTE_ADMIN_BRANDS_TEMP_EDIT: "admin.brands.temp.edit",
 
     ROUTE_ADMIN_ORDERS_INDEX: "admin.orders.index",
     ROUTE_ADMIN_ORDERS_CREATE: "admin.orders.create",
@@ -304,8 +304,8 @@ export const routeNames = {
     ROUTE_ADMIN_AJAX_CATEGORIES_BULK_DELETE:
         "admin-ajax.categories.bulk.delete",
 
-    ROUTE_ADMIN_AJAX_BRANDS_BULK_UPDATE: 'admin-ajax.brands.bulk.update',
-    ROUTE_ADMIN_AJAX_BRANDS_BULK_DELETE: 'admin-ajax.brands.bulk.delete',
+    ROUTE_ADMIN_AJAX_BRANDS_BULK_UPDATE: "admin-ajax.brands.bulk.update",
+    ROUTE_ADMIN_AJAX_BRANDS_BULK_DELETE: "admin-ajax.brands.bulk.delete",
 
     ROUTE_ADMIN_AJAX_PRODUCTS_STORE: "admin-ajax.products.store",
     ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE: "admin-ajax.products.update",
@@ -313,15 +313,15 @@ export const routeNames = {
     ROUTE_ADMIN_AJAX_CATEGORIES_STORE: "admin-ajax.categories.store",
     ROUTE_ADMIN_AJAX_CATEGORIES_UPDATE: "admin-ajax.categories.update",
 
-    ROUTE_ADMIN_AJAX_BRANDS_STORE: 'admin-ajax.brands.store',
-    ROUTE_ADMIN_AJAX_BRANDS_UPDATE: 'admin-ajax.brands.update',
+    ROUTE_ADMIN_AJAX_BRANDS_STORE: "admin-ajax.brands.store",
+    ROUTE_ADMIN_AJAX_BRANDS_UPDATE: "admin-ajax.brands.update",
 
     ROUTE_ADMIN_AJAX_SORT_COLUMNS: "admin-ajax.sort-columns",
     ROUTE_ADMIN_AJAX_HELPER: "admin-ajax.helper",
 
     ROUTE_ADMIN_AJAX_PRODUCT_IMAGE_UPLOAD: "admin-ajax.product-image-upload",
     ROUTE_ADMIN_AJAX_CATEGORY_IMAGE_UPLOAD: "admin-ajax.category-image-upload",
-    ROUTE_ADMIN_AJAX_BRAND_IMAGE_UPLOAD: 'admin-ajax.brand-image-upload',
+    ROUTE_ADMIN_AJAX_BRAND_IMAGE_UPLOAD: "admin-ajax.brand-image-upload",
 
     ROUTE_ADMIN_AJAX_PRODUCT_SEARCH: "admin-ajax.product-search",
 }

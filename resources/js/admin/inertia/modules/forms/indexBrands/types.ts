@@ -1,4 +1,4 @@
-import {BrandListItem} from "@/admin/inertia/modules/brands/types"
+import { BrandListItem } from "@/admin/inertia/modules/brands/types"
 
 export interface Values {
     brands: Array<Partial<BrandListItem>>
