@@ -36,7 +36,7 @@ import Meta from "@/admin/inertia/modules/common/Meta"
 import { useRoutesStore } from "@/admin/inertia/modules/routes"
 import Product from "@/admin/inertia/modules/products/Product"
 import { useProfileStore } from "@/admin/inertia/modules/profile"
-import {Brand, BrandListItem} from "@/admin/inertia/modules/brands/types"
+import { Brand, BrandListItem } from "@/admin/inertia/modules/brands/types"
 
 interface InitialPageProps {
     fullUrl: string
@@ -69,7 +69,7 @@ interface InitialPageProps {
     }
     category?: Category
     brands?: Array<BrandListItem>
-    brand?: Brand|null
+    brand?: Brand | null
 }
 
 /**

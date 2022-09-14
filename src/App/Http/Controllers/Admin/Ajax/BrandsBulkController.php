@@ -8,11 +8,9 @@ class BrandsBulkController extends BaseAdminController
 {
     public function update()
     {
-
     }
 
     public function delete()
     {
-
     }
 }

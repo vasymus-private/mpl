@@ -1,13 +1,13 @@
 import { defineStore } from "pinia"
 import Option from "@/admin/inertia/modules/common/Option"
-import {Brand, BrandListItem} from "@/admin/inertia/modules/brands/types"
-import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes";
+import { Brand, BrandListItem } from "@/admin/inertia/modules/brands/types"
+import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
 
 export const storeName = "brands"
 
 interface State {
     _entities: Array<BrandListItem>
-    _entity: Brand|null
+    _entity: Brand | null
     _options: Array<Option>
 }
 
@@ -21,7 +21,7 @@ export const useBrandsStore = defineStore(storeName, {
     },
     getters: {
         brandsList: (state: State): Array<BrandListItem> => state._entities,
-        brand: (state: State): Brand|null => state._entity,
+        brand: (state: State): Brand | null => state._entity,
         options: (state: State): Array<Option> => state._options,
         nullableOptions(): Array<Option> {
             return [
@@ -53,7 +53,7 @@ export const useBrandsStore = defineStore(storeName, {
         setEntities(brandList: Array<BrandListItem>): void {
             this._entities = brandList
         },
-        setEntity(brand: Brand|null): void {
+        setEntity(brand: Brand | null): void {
             this._entity = brand
         },
         setOptions(options: Array<Option>): void {

@@ -8,11 +8,9 @@ class BrandsController extends BaseAdminController
 {
     public function store()
     {
-
     }
 
     public function update()
     {
-
     }
 }
