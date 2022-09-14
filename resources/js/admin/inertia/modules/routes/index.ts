@@ -97,6 +97,8 @@ export const useRoutesStore = defineStore(storeName, {
         },
         productsUrlParamOptions(): Array<Option> {
             let { fullUrl } = storeToRefs(this)
+            let categoriesStore = useCategoriesStore()
+            let brandsStore = useBrandsStore()
 
             let { getUrlParam } = useRoute(fullUrl)
 
@@ -106,7 +108,6 @@ export const useRoutesStore = defineStore(storeName, {
             let result = []
 
             if (categoryId) {
-                let categoriesStore = useCategoriesStore()
                 let category = categoriesStore.option(categoryId)
                 if (category) {
                     result = [
@@ -120,7 +121,6 @@ export const useRoutesStore = defineStore(storeName, {
             }
 
             if (brandId) {
-                let brandsStore = useBrandsStore()
                 let brand = brandsStore.option(brandId)
                 if (brand) {
                     result = [

@@ -59,7 +59,7 @@ const {
     cancel,
 } = useCheckedItems<ProductListItem>(productListItems)
 const {getUrlParam, visit, removeUrlParam, revisit} = useRoute(fullUrl)
-const {searchInput, onPerPage, handleSearch, handleClear} = useSearchInput(fullUrl)
+const {searchInput, onPerPage, handleSearch, handleClearSearch} = useSearchInput(fullUrl)
 
 const brand = computed({
     get() {
@@ -188,7 +188,8 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                             aria-describedby="search-button"
                         />
                         <button
-                            @click="handleClear"
+                            v-if="searchInput"
+                            @click="handleClearSearch"
                             class="btn-outline-secondary"
                             type="button"
                         ><i class="fa fa-times" aria-hidden="true"></i></button>

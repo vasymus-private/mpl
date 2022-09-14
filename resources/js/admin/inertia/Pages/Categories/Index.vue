@@ -39,7 +39,7 @@ const {
     cancel,
 } = useCheckedItems<CategoryListItem>(categoryListItems)
 const {visit, removeUrlParam, revisit} = useRoute(fullUrl)
-const {searchInput, handleSearch, handleClear} = useSearchInput(fullUrl)
+const {searchInput, handleSearch, handleClearSearch} = useSearchInput(fullUrl)
 
 const {errors, submitCount, handleSubmit, values, setValues, validate, isSubmitting} = useForm<Values>({
     validationSchema: getValidationSchema(),
@@ -148,7 +148,8 @@ watchSelectAll()
                             aria-describedby="search-button"
                         />
                         <button
-                            @click="handleClear"
+                            v-if="searchInput"
+                            @click="handleClearSearch"
                             class="btn-outline-secondary"
                             type="button"
                         ><i class="fa fa-times" aria-hidden="true"></i></button>

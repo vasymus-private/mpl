@@ -28,11 +28,9 @@ export default (fullUrl?: Ref<string | null>) => {
             [UrlParams.search]: searchInput.value,
         })
     }
-    const handleClear = () => {
+    const handleClearSearch = () => {
         visit({
             [UrlParams.search]: null,
-            [UrlParams.brand_id]: null,
-            [UrlParams.category_id]: null,
         })
     }
 
@@ -40,6 +38,6 @@ export default (fullUrl?: Ref<string | null>) => {
         searchInput,
         onPerPage,
         handleSearch,
-        handleClear,
+        handleClearSearch,
     }
 }
