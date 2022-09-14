@@ -79,11 +79,18 @@ const brand = computed({
 
 const perPageOptions = getPerPageOptions()
 
-const toggleActive = (product: ProductListItem) => {
-    console.log('---product', product)
+const toggleActive = async (product: ProductListItem) => {
+    await indexProductsForm.submitIndexProducts([product.id], {
+        products: [
+            {
+                ...product,
+                is_active: !product.is_active,
+            }
+        ]
+    })
 }
 
-const {errors, submitCount, handleSubmit, values, setValues, validate, isSubmitting, setErrors} = useForm<Values>({
+const {errors, submitCount, handleSubmit, values, setValues, validate, isSubmitting} = useForm<Values>({
     validationSchema: getValidationSchema(),
     keepValuesOnUnmount: true,
     initialValues: {

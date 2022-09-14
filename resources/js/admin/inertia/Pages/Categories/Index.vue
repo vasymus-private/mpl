@@ -67,8 +67,15 @@ const getLinkHref = (categoryId: number): string => {
     return routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id: categoryId})
 }
 
-const toggleActive = (category: CategoryListItem) => {
-    console.log('---category', category)
+const toggleActive = async (category: CategoryListItem) => {
+    await indexCategoriesFormStore.submitIndexCategories([category.id], {
+        categories: [
+            {
+                ...category,
+                is_active: !category.is_active
+            }
+        ]
+    })
 }
 
 const deleteCategories = async () => {
