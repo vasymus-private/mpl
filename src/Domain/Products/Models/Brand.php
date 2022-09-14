@@ -36,6 +36,7 @@ class Brand extends BaseModel implements HasMedia
     public const DEFAULT_ORDERING = 500;
 
     public const MC_MAIN_IMAGE = "main";
+    public const MC_DESCRIPTION_FILES = 'description-files';
 
     /**
      * The table associated with the model.
@@ -88,6 +89,8 @@ class Brand extends BaseModel implements HasMedia
         $this
             ->addMediaCollection(static::MC_MAIN_IMAGE)
             ->singleFile();
+
+        $this->addMediaCollection(static::MC_DESCRIPTION_FILES);
     }
 
     /**

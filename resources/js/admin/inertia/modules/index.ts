@@ -36,6 +36,7 @@ import Meta from "@/admin/inertia/modules/common/Meta"
 import { useRoutesStore } from "@/admin/inertia/modules/routes"
 import Product from "@/admin/inertia/modules/products/Product"
 import { useProfileStore } from "@/admin/inertia/modules/profile"
+import {Brand, BrandListItem} from "@/admin/inertia/modules/brands/types"
 
 interface InitialPageProps {
     fullUrl: string
@@ -67,6 +68,8 @@ interface InitialPageProps {
         data: Array<CategoryListItem>
     }
     category?: Category
+    brands?: Array<BrandListItem>
+    brand?: Brand|null
 }
 
 /**
@@ -102,6 +105,8 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
         product = null,
         categories: { data: categoryListItems = [] } = {},
         category = null,
+        brands = [],
+        brand = null,
     } = initialPageProps as InitialPageProps
 
     // todo dev only
@@ -133,6 +138,8 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
     columnsStore.setAdminProductVariantColumns(adminProductVariantColumns)
 
     const brandsStore = useBrandsStore(pinia)
+    brandsStore.setEntities(brands)
+    brandsStore.setEntity(brand)
     brandsStore.setOptions(brandOptions)
 
     const productsStore = useProductsStore(pinia)

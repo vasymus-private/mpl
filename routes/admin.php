@@ -136,6 +136,28 @@ Route
 
 Route
     ::get(
+        "temp-brands",
+        [BrandsController::class, "indexTemp"]
+    )
+    ->name(Constants::ROUTE_ADMIN_BRANDS_TEMP_INDEX)
+;
+Route
+    ::get(
+        "temp-brands/create",
+        [BrandsController::class, "createTemp"]
+    )
+    ->name(Constants::ROUTE_ADMIN_BRANDS_TEMP_CREATE)
+;
+Route
+    ::get(
+        "temp-brands/{admin_brand}/edit",
+        [BrandsController::class, "editTemp"]
+    )
+    ->name(Constants::ROUTE_ADMIN_BRANDS_TEMP_EDIT)
+;
+
+Route
+    ::get(
         "orders",
         [OrdersController::class, "index"]
     )

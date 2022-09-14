@@ -831,6 +831,7 @@ body {
 }
 .search .btn-outline-secondary:hover {
   background: transparent;
+  color: rgba(108, 117, 125, 0.5);
 }
 .search .btn-outline-secondary.search-icon {
   height: 39px;
