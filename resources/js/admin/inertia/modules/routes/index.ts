@@ -253,7 +253,7 @@ export const routeNames = {
     ROUTE_LOGOUT: "logout",
 
     ROUTE_ADMIN_HOME: "admin.home",
-    ROUTE_ADMIN_TEMP_HOME: 'admin.temp.home',
+    ROUTE_ADMIN_TEMP_HOME: "admin.temp.home",
     ROUTE_ADMIN_MEDIA: "admin.media",
 
     ROUTE_ADMIN_PRODUCTS_INDEX: "admin.products.index",
@@ -284,9 +284,9 @@ export const routeNames = {
     ROUTE_ADMIN_ORDERS_CREATE: "admin.orders.create",
     ROUTE_ADMIN_ORDERS_EDIT: "admin.orders.edit",
 
-    ROUTE_ADMIN_ORDERS_TEMP_INDEX: 'admin.orders.temp.index',
-    ROUTE_ADMIN_ORDERS_TEMP_CREATE: 'admin.orders.temp.create',
-    ROUTE_ADMIN_ORDERS_TEMP_EDIT: 'admin.orders.temp.edit',
+    ROUTE_ADMIN_ORDERS_TEMP_INDEX: "admin.orders.temp.index",
+    ROUTE_ADMIN_ORDERS_TEMP_CREATE: "admin.orders.temp.create",
+    ROUTE_ADMIN_ORDERS_TEMP_EDIT: "admin.orders.temp.edit",
 
     ROUTE_ADMIN_ARTICLES_INDEX: "admin.articles.index",
     ROUTE_ADMIN_ARTICLES_CREATE: "admin.articles.create",
