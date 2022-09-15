@@ -5,12 +5,12 @@ import ElementsTab from "@/admin/inertia/components/brands/createEdit/tabs/Eleme
 import DescriptionTab from "@/admin/inertia/components/brands/createEdit/tabs/DescriptionTab.vue"
 import PhotoTab from "@/admin/inertia/components/brands/createEdit/tabs/PhotoTab.vue"
 import SeoTab from "@/admin/inertia/components/brands/createEdit/tabs/SeoTab.vue"
-import {SubmissionContext} from "vee-validate"
-import {Values} from "@/admin/inertia/modules/forms/createEditBrand/types"
+import { SubmissionContext } from "vee-validate"
+import { Values } from "@/admin/inertia/modules/forms/createEditBrand/types"
 import * as yup from "yup"
-import {yupIntegerOrEmptyString} from "@/admin/inertia/utils"
-import {Brand} from "@/admin/inertia/modules/brands/types"
-import {getImageSchema} from "@/admin/inertia/modules/forms/createEditProduct";
+import { yupIntegerOrEmptyString } from "@/admin/inertia/utils"
+import { Brand } from "@/admin/inertia/modules/brands/types"
+import { getImageSchema } from "@/admin/inertia/modules/forms/createEditProduct"
 
 export const storeName = "createEditBrandForm"
 
@@ -55,10 +55,8 @@ export const useCreateEditBrandFormStore = defineStore(storeName, {
         async submitCreateEditBrands(
             values: Values,
             ctx: SubmissionContext<Values>
-        ): Promise<void> {
-
-        }
-    }
+        ): Promise<void> {},
+    },
 })
 
 export const getFormSchema = () => {

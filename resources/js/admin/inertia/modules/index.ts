@@ -109,7 +109,7 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
         product = null,
         categories: { data: categoryListItems = [] } = {},
         category = null,
-        brands : {
+        brands: {
             data: brandsList = [],
             links: brandsListLinks = null,
             meta: brandsListMeta = null,

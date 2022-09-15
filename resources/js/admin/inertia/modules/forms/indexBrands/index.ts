@@ -1,13 +1,16 @@
 import { defineStore } from "pinia"
-import {BrandsResponse, Values} from "@/admin/inertia/modules/forms/indexBrands/types"
+import {
+    BrandsResponse,
+    Values,
+} from "@/admin/inertia/modules/forms/indexBrands/types"
 import * as yup from "yup"
-import {arrayToMap, yupIntegerOrEmptyString} from "@/admin/inertia/utils"
-import axios, {AxiosError} from "axios"
-import {getRouteUrl, routeNames} from "@/admin/inertia/modules/routes"
+import { arrayToMap, yupIntegerOrEmptyString } from "@/admin/inertia/utils"
+import axios, { AxiosError } from "axios"
+import { getRouteUrl, routeNames } from "@/admin/inertia/modules/routes"
 import useFormHelpers from "@/admin/inertia/composables/useFormHelpers"
-import {ErrorResponse} from "@/admin/inertia/modules/common/types"
-import {useBrandsStore} from "@/admin/inertia/modules/brands"
-import {BrandListItem} from "@/admin/inertia/modules/brands/types"
+import { ErrorResponse } from "@/admin/inertia/modules/common/types"
+import { useBrandsStore } from "@/admin/inertia/modules/brands"
+import { BrandListItem } from "@/admin/inertia/modules/brands/types"
 
 export const storeName = "indexBrandsForm"
 
@@ -27,14 +30,10 @@ export const useIndexBrandsFormStore = defineStore(storeName, {
                 const {
                     data: { data: brandsResponse = [] },
                 } = await axios.put<BrandsResponse>(
-                    getRouteUrl(
-                        routeNames.ROUTE_ADMIN_AJAX_BRANDS_BULK_UPDATE
-                    ),
+                    getRouteUrl(routeNames.ROUTE_ADMIN_AJAX_BRANDS_BULK_UPDATE),
                     {
                         categories:
-                            arrayToMap<Partial<BrandListItem>>(
-                                brandsToUpdate
-                            ),
+                            arrayToMap<Partial<BrandListItem>>(brandsToUpdate),
                     }
                 )
 
