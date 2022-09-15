@@ -29,8 +29,7 @@ class CreateOrUpdateBrandAction extends BaseAction
     public function __construct(
         SaveSeoAction $saveSeoAction,
         SyncAndSaveMediasAction $syncAndSaveMediasAction
-    )
-    {
+    ) {
         $this->saveSeoAction = $saveSeoAction;
         $this->syncAndSaveMediasAction = $syncAndSaveMediasAction;
     }
@@ -43,7 +42,7 @@ class CreateOrUpdateBrandAction extends BaseAction
      */
     public function execute(BrandDTO $brandDTO, Brand $target = null): Brand
     {
-        return DB::transaction(function() use($brandDTO, $target) {
+        return DB::transaction(function () use ($brandDTO, $target) {
             $target = $target ?: new Brand();
 
             if ($brandDTO->name !== null) {
