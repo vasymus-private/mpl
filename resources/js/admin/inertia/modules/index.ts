@@ -68,7 +68,11 @@ interface InitialPageProps {
         data: Array<CategoryListItem>
     }
     category?: Category
-    brands?: Array<BrandListItem>
+    brands?: {
+        data: Array<BrandListItem>
+        links: Links
+        meta: Meta
+    }
     brand?: Brand | null
 }
 
@@ -105,7 +109,11 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
         product = null,
         categories: { data: categoryListItems = [] } = {},
         category = null,
-        brands = [],
+        brands : {
+            data: brandsList = [],
+            links: brandsListLinks = null,
+            meta: brandsListMeta = null,
+        } = {},
         brand = null,
     } = initialPageProps as InitialPageProps
 
@@ -138,7 +146,9 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
     columnsStore.setAdminProductVariantColumns(adminProductVariantColumns)
 
     const brandsStore = useBrandsStore(pinia)
-    brandsStore.setEntities(brands)
+    brandsStore.setEntities(brandsList)
+    brandsStore.setLinks(brandsListLinks)
+    brandsStore.setMeta(brandsListMeta)
     brandsStore.setEntity(brand)
     brandsStore.setOptions(brandOptions)
 

@@ -5,6 +5,7 @@ namespace Domain\Products\Models;
 use Carbon\Carbon;
 use Domain\Common\DTOs\OptionDTO;
 use Domain\Common\Models\BaseModel;
+use Domain\Common\Models\CustomMedia;
 use Domain\Products\Models\Product\Product;
 use Domain\Seo\Models\Seo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -13,6 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Support\H;
 
 /**
  * @property int $id
@@ -25,6 +27,9 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  *
  * @see \Domain\Products\Models\Brand::seo()
  * @property \Domain\Seo\Models\Seo|null $seo
+ *
+ * @see \Domain\Products\Models\Brand::getMainImageMediaAttribute()
+ * @property-read \Domain\Common\Models\CustomMedia|null $main_image_media
  * */
 class Brand extends BaseModel implements HasMedia
 {
@@ -99,7 +104,15 @@ class Brand extends BaseModel implements HasMedia
     public static function getBrandOptions(): array
     {
         return Cache::store('array')->rememberForever('options-brands', function () {
-            return Brand::query()->select(["id", "name"])->get()->map(fn (Brand $brand) => OptionDTO::fromBrand($brand)->toArray())->all();
+            return Brand::query()->select(["id", "name"])->orderBy(sprintf('%s.ordering', Brand::TABLE))->get()->map(fn (Brand $brand) => OptionDTO::fromBrand($brand)->toArray())->all();
         });
+    }
+
+    /**
+     * @return \Domain\Common\Models\CustomMedia|null
+     */
+    public function getMainImageMediaAttribute(): ?CustomMedia
+    {
+        return H::runtimeCache(sprintf('%s-%s', 'brand-main-image-media', $this->id), fn () => $this->getFirstMedia(static::MC_MAIN_IMAGE));
     }
 }

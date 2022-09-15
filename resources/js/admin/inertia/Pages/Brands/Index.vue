@@ -15,6 +15,8 @@ import useFormHelpers from "@/admin/inertia/composables/useFormHelpers"
 import {watch} from "vue"
 import {Link} from "@inertiajs/inertia-vue3"
 import FormControlInput from '@/admin/inertia/components/forms/vee-validate/FormControlInput.vue'
+import Pagination from "@/admin/inertia/components/layout/Pagination.vue"
+import {getPerPageOptions} from "@/admin/inertia/modules/common"
 
 
 const routesStore = useRoutesStore()
@@ -36,7 +38,7 @@ const {
     cancel,
 } = useCheckedItems<BrandListItem>(brandsList)
 const {visit, revisit} = useRoute(fullUrl)
-const {searchInput, handleSearch, handleClearSearch} = useSearchInput(fullUrl)
+const {searchInput, onPerPage, handleSearch, handleClearSearch} = useSearchInput(fullUrl)
 
 const {errors, submitCount, handleSubmit, values, setValues, validate, isSubmitting} = useForm<Values>({
     validationSchema: getValidationSchema(),
@@ -94,6 +96,8 @@ watch(brandsList, (brands: Array<BrandListItem>) => {
         }))
     })
 })
+
+const perPageOptions = getPerPageOptions()
 
 watchSelectAll()
 </script>
@@ -220,7 +224,6 @@ watchSelectAll()
                                         class="table__column-name"
                                         @click.stop=""
                                     >
-                                        <span class="adm-submenu-item-link-icon adm-list-table-icon iblock-section-icon"></span>
                                         {{brand.name}}
                                     </Link>
                                 </span>
@@ -247,6 +250,16 @@ watchSelectAll()
                     </li>
                 </ul>
             </template>
+
+            <Pagination
+                v-if="brandsStore.meta"
+                :total="brandsStore.meta.total"
+                :current-page="brandsStore.meta.current_page"
+                :per-page="brandsStore.getPerPageOption"
+                :per-page-options="perPageOptions"
+                :links="brandsStore.meta.links"
+                @update:perPage="onPerPage"
+            />
 
             <footer key="edit-mode-on" v-if="editMode" class="footer edit-item-footer">
                 <button form="form-brands-list" type="submit" :disabled="isSubmitting" class="btn btn-info">Сохранить</button>

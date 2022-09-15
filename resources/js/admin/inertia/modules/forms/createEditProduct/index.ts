@@ -262,6 +262,7 @@ export const getFormSchema = () => {
     })
 }
 
+// todo move to common
 export const getImageSchema = () =>
     yup.object({
         id: yupIntegerOrEmptyString(),

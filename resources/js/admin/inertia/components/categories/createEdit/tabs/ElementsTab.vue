@@ -21,6 +21,15 @@ const uploadUrl = computed(() => {
 
 <template>
     <div class="item-edit product-edit">
+        <div v-if="!categoriesStore.isCreatingCategoryRoute" class="row mb-3">
+            <div class="col-sm-5 text-end">
+                ID:
+            </div>
+            <div class="col-sm-7">
+                {{ categoriesStore.category?.id }}
+            </div>
+        </div>
+
         <RowCheckbox
             name="is_active"
             label="Активность"

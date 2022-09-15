@@ -150,7 +150,7 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean
                         nav-link-class="sub-level-1"
                     >
                         <NavItem
-                            :id-or-href="route(routeNames.ROUTE_ADMIN_BRANDS_INDEX)"
+                            :id-or-href="route(routeNames.ROUTE_ADMIN_BRANDS_TEMP_INDEX)"
                             :is-inertia-link="false"
                             title="Элементы"
                             :is-collapse="false"

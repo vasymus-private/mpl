@@ -27,9 +27,18 @@ class BrandResource extends JsonResource
             'name' => $this->resource->name,
             'slug' => $this->resource->slug,
             'ordering' => $this->resource->ordering,
-            '$this->preview' => $this->resource->preview,
+            'preview' => $this->resource->preview,
             'description' => $this->resource->description,
             'seo' => $this->resource->seo,
+            'mainImage' => $this->resource->main_image_media
+                ? [
+                    'id' => $this->resource->main_image_media->id,
+                    'uuid' => $this->resource->main_image_media->uuid,
+                    'url' => $this->resource->main_image_media->getFullUrl(),
+                    'name' => $this->resource->main_image_media->name,
+                    'file_name' => $this->resource->main_image_media->file_name,
+                ]
+                : null,
         ];
     }
 }

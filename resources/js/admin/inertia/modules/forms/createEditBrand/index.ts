@@ -10,6 +10,7 @@ import {Values} from "@/admin/inertia/modules/forms/createEditBrand/types"
 import * as yup from "yup"
 import {yupIntegerOrEmptyString} from "@/admin/inertia/utils"
 import {Brand} from "@/admin/inertia/modules/brands/types"
+import {getImageSchema} from "@/admin/inertia/modules/forms/createEditProduct";
 
 export const storeName = "createEditBrandForm"
 
@@ -76,6 +77,7 @@ export const getFormSchema = () => {
                 description: yup.string().max(65000).nullable(),
             })
             .nullable(),
+        mainImage: getImageSchema().nullable(),
     })
 }
 
@@ -89,6 +91,7 @@ export const getWatchBrandToFormCb =
             preview,
             description,
             seo,
+            mainImage,
         } = brand || {}
 
         const values = {
@@ -99,6 +102,7 @@ export const getWatchBrandToFormCb =
             preview,
             description,
             seo,
+            mainImage,
         }
 
         setValues(values)

@@ -4,11 +4,11 @@ import Multiselect from 'vue-multiselect'
 import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
 import {computed, watchEffect} from "vue"
 import {ColumnName, isSortableColumn, useColumnsStore} from "@/admin/inertia/modules/columns"
-import {getPerPageOptions, useProductsStore} from "@/admin/inertia/modules/products"
+import {useProductsStore} from "@/admin/inertia/modules/products"
 import TheLayout from '@/admin/inertia/components/layout/TheLayout.vue'
 import Pagination from "@/admin/inertia/components/layout/Pagination.vue"
 import Option from "@/admin/inertia/modules/common/Option"
-import {getActiveName} from '@/admin/inertia/modules/common'
+import {getActiveName, getPerPageOptions} from '@/admin/inertia/modules/common'
 import {useModalsStore} from "@/admin/inertia/modules/modals"
 import {ModalType} from "@/admin/inertia/modules/modals/types"
 import ProductListItem from "@/admin/inertia/modules/products/ProductListItem"

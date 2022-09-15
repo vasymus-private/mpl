@@ -34,6 +34,8 @@ class BrandsController extends BaseAdminController
             $query->where(sprintf('%s.name', Brand::TABLE), "LIKE", "%{$request->search}%");
         }
 
+        $query->orderBy(sprintf('%s.ordering', Brand::TABLE));
+
         return $inertia->render('Brands/Index', [
             'brands' => BrandItemResource::collection($query->paginate($request->per_page)),
         ]);

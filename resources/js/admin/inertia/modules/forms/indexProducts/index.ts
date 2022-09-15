@@ -10,7 +10,6 @@ import {
     useRoutesStore,
 } from "@/admin/inertia/modules/routes"
 import axios, { AxiosError } from "axios"
-import { Ref } from "vue"
 import ProductListItem from "@/admin/inertia/modules/products/ProductListItem"
 import { defineStore } from "pinia"
 import { useProductsStore } from "@/admin/inertia/modules/products"
@@ -20,7 +19,6 @@ import {
 } from "@/admin/inertia/modules/forms/indexProducts/types"
 import useFormHelpers from "@/admin/inertia/composables/useFormHelpers"
 import { ErrorResponse } from "@/admin/inertia/modules/common/types"
-import { errorsToErrorFields } from "@/admin/inertia/modules/common"
 
 export const storeName = "indexProductsForm"
 

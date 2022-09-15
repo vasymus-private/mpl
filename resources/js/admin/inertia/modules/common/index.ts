@@ -3,6 +3,7 @@ import { isNumeric } from "@/admin/inertia/utils"
 import axios from "axios"
 import { getRouteUrl, routeNames } from "@/admin/inertia/modules/routes"
 import { Errors } from "@/admin/inertia/modules/common/types"
+import Option from "@/admin/inertia/modules/common/Option";
 
 export const extendMetaLinksWithComputedData = (
     meta: Meta,
@@ -119,3 +120,9 @@ export const errorsToErrorFields = (
 
     return errorFields
 }
+
+export const getPerPageOptions = (): Array<Option> =>
+    [5, 10, 20, 50, 100, 200, 500].map((page) => ({
+        value: page,
+        label: `${page}`,
+    }))

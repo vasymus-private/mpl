@@ -4,14 +4,17 @@ import {Brand, BrandListItem} from "@/admin/inertia/modules/brands/types"
 import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
 import axios, {AxiosError} from "axios"
 import {ErrorResponse} from "@/admin/inertia/modules/common/types"
-import {errorsToErrorFields} from "@/admin/inertia/modules/common"
-import {CategoryListItem} from "@/admin/inertia/modules/categories/types";
-import {arrayToMap} from "@/admin/inertia/utils";
+import {errorsToErrorFields, extendMetaLinksWithComputedData} from "@/admin/inertia/modules/common"
+import {arrayToMap} from "@/admin/inertia/utils"
+import Links from "@/admin/inertia/modules/common/Links"
+import Meta from "@/admin/inertia/modules/common/Meta"
 
 export const storeName = "brands"
 
 interface State {
     _entities: Array<BrandListItem>
+    _links: Links | null
+    _meta: Meta | null
     _entity: Brand|null
     _options: Array<Option>
 }
@@ -20,12 +23,23 @@ export const useBrandsStore = defineStore(storeName, {
     state: (): State => {
         return {
             _entities: [],
+            _links: null,
+            _meta: null,
             _entity: null,
             _options: [],
         }
     },
     getters: {
         brandsList: (state: State): Array<BrandListItem> => state._entities,
+        links: (state: State): Links | null => state._links,
+        meta: (state: State): Meta | null => state._meta,
+        getPerPageOption: (state: State): Option | null =>
+            state._meta && state._meta.per_page
+                ? {
+                    value: state._meta.per_page,
+                    label: `${state._meta.per_page}`,
+                }
+                : null,
         brand: (state: State): Brand|null => state._entity,
         options: (state: State): Array<Option> => state._options,
         nullableOptions(): Array<Option> {
@@ -57,6 +71,15 @@ export const useBrandsStore = defineStore(storeName, {
     actions: {
         setEntities(brandList: Array<BrandListItem>): void {
             this._entities = brandList
+        },
+        setLinks(links: Links | null): void {
+            this._links = links
+        },
+        setMeta(meta: Meta | null): void {
+            const routesStore = useRoutesStore()
+            this._meta = meta
+                ? extendMetaLinksWithComputedData(meta, routesStore.fullUrl)
+                : null
         },
         setEntity(brand: Brand|null): void {
             this._entity = brand

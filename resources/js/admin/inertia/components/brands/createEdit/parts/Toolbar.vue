@@ -47,8 +47,8 @@ const handleDelete = async () => {
                 </Link>
             </div>
             <div v-if="!brandsStore.isCreatingBrandRoute" class="col-sm-5 d-flex align-items-center">
-                <Link :href="route(routeNames.ROUTE_ADMIN_BRANDS_TEMP_CREATE)" class="btn btn-info mx-1">Добавить производителя</Link>
-                <button type="button" @click="handleDelete" class="btn btn-danger mx-1">Удалить производителя</button>
+                <Link :href="route(routeNames.ROUTE_ADMIN_BRANDS_TEMP_CREATE)" class="btn btn-info mx-1">Добавить</Link>
+                <button type="button" @click="handleDelete" class="btn btn-danger mx-1">Удалить</button>
             </div>
         </div>
     </div>
