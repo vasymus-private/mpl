@@ -35,7 +35,7 @@ const {
     manualCheck,
     cancel,
 } = useCheckedItems<BrandListItem>(brandsList)
-const {visit, removeUrlParam, revisit} = useRoute(fullUrl)
+const {visit, revisit} = useRoute(fullUrl)
 const {searchInput, handleSearch, handleClearSearch} = useSearchInput(fullUrl)
 
 const {errors, submitCount, handleSubmit, values, setValues, validate, isSubmitting} = useForm<Values>({

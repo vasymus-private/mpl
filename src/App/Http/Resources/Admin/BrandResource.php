@@ -27,6 +27,7 @@ class BrandResource extends JsonResource
             'name' => $this->resource->name,
             'slug' => $this->resource->slug,
             'ordering' => $this->resource->ordering,
+            '$this->preview' => $this->resource->preview,
             'description' => $this->resource->description,
             'seo' => $this->resource->seo,
         ];

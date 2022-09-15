@@ -5,6 +5,8 @@ import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
 import axios, {AxiosError} from "axios"
 import {ErrorResponse} from "@/admin/inertia/modules/common/types"
 import {errorsToErrorFields} from "@/admin/inertia/modules/common"
+import {CategoryListItem} from "@/admin/inertia/modules/categories/types";
+import {arrayToMap} from "@/admin/inertia/utils";
 
 export const storeName = "brands"
 
@@ -66,6 +68,23 @@ export const useBrandsStore = defineStore(storeName, {
             this._entities = this._entities.filter(
                 (item) => !ids.includes(item.id)
             )
+        },
+        addOrUpdateBrandsListItems(listItems: Array<BrandListItem>): void {
+            let newItemById =
+                arrayToMap<BrandListItem>(listItems)
+
+            this._listItems = this._listItems.map((item: BrandListItem) => {
+                let newListItem = newItemById[item.id]
+
+                if (newListItem) {
+                    listItems = listItems.filter((it) => it.id !== item.id)
+                    return newListItem
+                }
+
+                return item
+            })
+
+            this._listItems = [...this._listItems, ...listItems]
         },
         async deleteBulkBrands(
             checkedBrands: Array<number>

@@ -12,6 +12,7 @@ export interface Brand {
     name: string | null
     slug: string | null
     ordering: number | null
+    preview: string | null
     description: string | null
     mainImage: MediaImage | null
     seo: Seo | null
