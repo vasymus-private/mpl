@@ -27,6 +27,7 @@ final class Constants
     public const ROUTE_LOGOUT = 'logout';
 
     public const ROUTE_ADMIN_HOME = 'admin.home';
+    public const ROUTE_ADMIN_TEMP_HOME = 'admin.temp.home';
     public const ROUTE_ADMIN_MEDIA = 'admin.media';
 
     public const ROUTE_ADMIN_PRODUCTS_INDEX = 'admin.products.index';
@@ -56,6 +57,10 @@ final class Constants
     public const ROUTE_ADMIN_ORDERS_INDEX = 'admin.orders.index';
     public const ROUTE_ADMIN_ORDERS_CREATE = 'admin.orders.create';
     public const ROUTE_ADMIN_ORDERS_EDIT = 'admin.orders.edit';
+
+    public const ROUTE_ADMIN_ORDERS_TEMP_INDEX = 'admin.orders.temp.index';
+    public const ROUTE_ADMIN_ORDERS_TEMP_CREATE = 'admin.orders.temp.create';
+    public const ROUTE_ADMIN_ORDERS_TEMP_EDIT = 'admin.orders.temp.edit';
 
     public const ROUTE_ADMIN_ARTICLES_INDEX = 'admin.articles.index';
     public const ROUTE_ADMIN_ARTICLES_CREATE = 'admin.articles.create';

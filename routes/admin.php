@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\TestInertiaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get("home", [HomeController::class, "index"])->name(Constants::ROUTE_ADMIN_HOME);
+Route::get("home-temp", [HomeController::class, "indexTemp"])->name(Constants::ROUTE_ADMIN_TEMP_HOME);
 Route::get("media/{id}/{name?}", [HomeController::class, "media"])->name(Constants::ROUTE_ADMIN_MEDIA);
 
 Route
@@ -176,6 +177,28 @@ Route
         [OrdersController::class, "edit"]
     )
     ->name(Constants::ROUTE_ADMIN_ORDERS_EDIT)
+;
+
+Route
+    ::get(
+        "orders-temp",
+        [OrdersController::class, "indexTemp"]
+    )
+    ->name(Constants::ROUTE_ADMIN_ORDERS_TEMP_INDEX)
+;
+Route
+    ::get(
+        "orders-temp/create",
+        [OrdersController::class, "createTemp"]
+    )
+    ->name(Constants::ROUTE_ADMIN_ORDERS_TEMP_CREATE)
+;
+Route
+    ::get(
+        "orders-temp/{admin_order}/edit",
+        [OrdersController::class, "editTemp"]
+    )
+    ->name(Constants::ROUTE_ADMIN_ORDERS_TEMP_EDIT)
 ;
 
 Route::
