@@ -30,6 +30,9 @@ use Support\H;
  *
  * @see \Domain\Products\Models\Brand::getMainImageMediaAttribute()
  * @property-read \Domain\Common\Models\CustomMedia|null $main_image_media
+ *
+ * @see \Domain\Products\Models\Brand::products()
+ * @property-read \Domain\Products\Collections\ProductCollection $products
  * */
 class Brand extends BaseModel implements HasMedia
 {

@@ -3,7 +3,7 @@
 namespace App\Http\Requests\Admin\Ajax;
 
 use Domain\Common\Models\Currency;
-use Domain\Products\DTOs\Admin\Inertia\ProductListUpdateDTO;
+use Domain\Products\DTOs\Admin\Inertia\ProductsListUpdateDTO;
 use Domain\Products\Models\AvailabilityStatus;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -45,13 +45,13 @@ class ProductsBulkUpdateRequest extends FormRequest
     }
 
     /**
-     * @return \Domain\Products\DTOs\Admin\Inertia\ProductListUpdateDTO[]
-     * @phpstan-return array<int, \Domain\Products\DTOs\Admin\Inertia\ProductListUpdateDTO>
+     * @return \Domain\Products\DTOs\Admin\Inertia\ProductsListUpdateDTO[]
+     * @phpstan-return array<int, \Domain\Products\DTOs\Admin\Inertia\ProductsListUpdateDTO>
      */
     public function payload(): array
     {
         return collect($this->products)
-            ->map(fn (array $item) => new ProductListUpdateDTO([
+            ->map(fn (array $item) => new ProductsListUpdateDTO([
                 'id' => (int)$item['id'],
                 'name' => (string)$item['name'],
                 'ordering' => isset($item['ordering']) ? (int)$item['ordering'] : null,

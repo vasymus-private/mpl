@@ -2,6 +2,7 @@
 
 namespace Domain\Products\DTOs\Admin\Inertia\CreateEditProduct;
 
+use Domain\Products\DTOs\Admin\Inertia\MediaDTO;
 use Domain\Products\DTOs\Admin\Inertia\SeoDTO;
 use Spatie\DataTransferObject\DataTransferObject;
 
@@ -153,17 +154,17 @@ class ProductDTO extends DataTransferObject
     public array $infoPrices = [];
 
     /**
-     * @var \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO[]
+     * @var \Domain\Products\DTOs\Admin\Inertia\MediaDTO[]
      */
     public array $instructions = [];
 
     /**
-     * @var \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO|null
+     * @var \Domain\Products\DTOs\Admin\Inertia\MediaDTO|null
      */
     public ?MediaDTO $mainImage;
 
     /**
-     * @var \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO[]
+     * @var \Domain\Products\DTOs\Admin\Inertia\MediaDTO[]
      */
     public array $additionalImages = [];
 

@@ -3,6 +3,7 @@
 namespace Domain\Products\Actions\CreateOrUpdateCategory;
 
 use Domain\Common\Actions\BaseAction;
+use Domain\Products\Actions\SaveSeoAction;
 use Domain\Products\DTOs\Admin\Inertia\CreateEditCategory\CategoryDTO;
 use Domain\Products\Models\Category;
 use Illuminate\Support\Facades\DB;
@@ -10,10 +11,13 @@ use Illuminate\Support\Facades\DB;
 class CreateOrUpdateCategoryAction extends BaseAction
 {
     /**
-     * @var \Domain\Products\Actions\CreateOrUpdateCategory\SaveSeoAction
+     * @var \Domain\Products\Actions\SaveSeoAction
      */
     private SaveSeoAction $saveSeoAction;
 
+    /**
+     * @param \Domain\Products\Actions\SaveSeoAction $saveSeoAction
+     */
     public function __construct(SaveSeoAction $saveSeoAction)
     {
         $this->saveSeoAction = $saveSeoAction;

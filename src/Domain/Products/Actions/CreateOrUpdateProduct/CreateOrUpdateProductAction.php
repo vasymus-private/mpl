@@ -3,7 +3,9 @@
 namespace Domain\Products\Actions\CreateOrUpdateProduct;
 
 use Domain\Common\Actions\BaseAction;
-use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO;
+use Domain\Products\Actions\SaveSeoAction;
+use Domain\Products\Actions\SyncAndSaveMediasAction;
+use Domain\Products\DTOs\Admin\Inertia\MediaDTO;
 use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\ProductDTO;
 use Domain\Products\Models\Pivots\ProductProduct;
 use Domain\Products\Models\Product\Product;
@@ -12,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 class CreateOrUpdateProductAction extends BaseAction
 {
     /**
-     * @var \Domain\Products\Actions\CreateOrUpdateProduct\SaveSeoAction
+     * @var \Domain\Products\Actions\SaveSeoAction
      */
     private SaveSeoAction $saveSeoAction;
 
@@ -22,7 +24,7 @@ class CreateOrUpdateProductAction extends BaseAction
     private SyncAndSaveInfoPricesAction $syncAndSaveInfoPricesAction;
 
     /**
-     * @var \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveMediasAction
+     * @var \Domain\Products\Actions\SyncAndSaveMediasAction
      */
     private SyncAndSaveMediasAction $syncAndSaveMediasAction;
 
@@ -37,9 +39,9 @@ class CreateOrUpdateProductAction extends BaseAction
     private SyncAndSaveVariationsAction $syncAndSaveVariationsAction;
 
     /**
-     * @param \Domain\Products\Actions\CreateOrUpdateProduct\SaveSeoAction $saveSeoAction
+     * @param \Domain\Products\Actions\SaveSeoAction $saveSeoAction
      * @param \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveInfoPricesAction $syncAndSaveInfoPricesAction
-     * @param \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveMediasAction $syncAndSaveMediasAction
+     * @param \Domain\Products\Actions\SyncAndSaveMediasAction $syncAndSaveMediasAction
      * @param \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveCharCategoriesAndCharsAction $syncAndSaveCharCategoriesAndCharsAction
      * @param \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveVariationsAction $syncAndSaveVariationsAction
      */
@@ -202,7 +204,7 @@ class CreateOrUpdateProductAction extends BaseAction
 
     /**
      * @param \Domain\Products\Models\Product\Product $target
-     * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO[] $mediaDTOs
+     * @param \Domain\Products\DTOs\Admin\Inertia\MediaDTO[] $mediaDTOs
      *
      * @return void
      */
@@ -213,7 +215,7 @@ class CreateOrUpdateProductAction extends BaseAction
 
     /**
      * @param \Domain\Products\Models\Product\Product $target
-     * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO|null $mediaDTO
+     * @param \Domain\Products\DTOs\Admin\Inertia\MediaDTO|null $mediaDTO
      *
      * @return void
      */
@@ -224,7 +226,7 @@ class CreateOrUpdateProductAction extends BaseAction
 
     /**
      * @param \Domain\Products\Models\Product\Product $target
-     * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO[] $mediaDTOs
+     * @param \Domain\Products\DTOs\Admin\Inertia\MediaDTO[] $mediaDTOs
      *
      * @return void
      */

@@ -1,11 +1,10 @@
 <?php
 
-namespace Domain\Products\Actions\CreateOrUpdateProduct;
+namespace Domain\Products\Actions;
 
 use Domain\Common\Actions\BaseAction;
 use Domain\Common\Models\CustomMedia;
-use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO;
-use Domain\Products\Models\Product\Product;
+use Domain\Products\DTOs\Admin\Inertia\MediaDTO;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
@@ -13,13 +12,13 @@ use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 class SyncAndSaveMediasAction extends BaseAction
 {
     /**
-     * @param \Domain\Products\Models\Product\Product $target
-     * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO[] $mediaDTOs
+     * @param \Domain\Products\Models\Product\Product|\Domain\Products\Models\Brand $target
+     * @param \Domain\Products\DTOs\Admin\Inertia\MediaDTO[] $mediaDTOs
      * @param string $collectionName
      *
      * @return void
      */
-    public function execute(Product $target, array $mediaDTOs, string $collectionName)
+    public function execute($target, array $mediaDTOs, string $collectionName)
     {
         if (! $target->id) {
             $target->save();
@@ -27,7 +26,7 @@ class SyncAndSaveMediasAction extends BaseAction
 
         $target->load('media');
 
-        /** @var \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO[][] $sorted */
+        /** @var \Domain\Products\DTOs\Admin\Inertia\MediaDTO[][] $sorted */
         $sorted = collect($mediaDTOs)->reduce(function (array $acc, MediaDTO $item) use ($target, $collectionName) {
             if ($item->file) {
                 $acc['file'][] = $item;
@@ -66,13 +65,13 @@ class SyncAndSaveMediasAction extends BaseAction
     }
 
     /**
-     * @param \Domain\Products\Models\Product\Product $target
+     * @param \Domain\Products\Models\Product\Product|\Domain\Products\Models\Brand $target
      * @param string $collectionName
      * @param int[] $notDeleteIds
      *
      * @return void
      */
-    private function delete(Product $target, string $collectionName, array $notDeleteIds)
+    private function delete($target, string $collectionName, array $notDeleteIds)
     {
         $target->getMedia($collectionName)->each(function (CustomMedia $customMedia) use ($notDeleteIds) {
             if (in_array($customMedia->id, $notDeleteIds)) {
@@ -84,13 +83,13 @@ class SyncAndSaveMediasAction extends BaseAction
     }
 
     /**
-     * @phpstan-param \Domain\Products\Models\Product\Product $target
-     * @phpstan-param array<int,\Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO> $mediaDTOsToUpdate
+     * @phpstan-param \Domain\Products\Models\Product\Product|\Domain\Products\Models\Brand $target
+     * @phpstan-param array<int,\Domain\Products\DTOs\Admin\Inertia\MediaDTO> $mediaDTOsToUpdate
      * @phpstan-param string $collectionName
      *
      * @return void
      */
-    private function update(Product $target, array $mediaDTOsToUpdate, string $collectionName)
+    private function update($target, array $mediaDTOsToUpdate, string $collectionName)
     {
         $target->getMedia($collectionName)->each(function (CustomMedia $customMedia) use ($mediaDTOsToUpdate) {
             $updateMediaDTO = $mediaDTOsToUpdate[$customMedia->id] ?? null;
@@ -106,13 +105,13 @@ class SyncAndSaveMediasAction extends BaseAction
     }
 
     /**
-     * @param \Domain\Products\Models\Product\Product $target
-     * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO[] $mediaDTOsNew
+     * @param \Domain\Products\Models\Product\Product|\Domain\Products\Models\Brand $target
+     * @param \Domain\Products\DTOs\Admin\Inertia\MediaDTO[] $mediaDTOsNew
      * @param string $collectionName
      *
      * @return void
      */
-    private function storeFile(Product $target, array $mediaDTOsNew, string $collectionName)
+    private function storeFile($target, array $mediaDTOsNew, string $collectionName)
     {
         foreach ($mediaDTOsNew as $mediaDTO) {
             if (! $mediaDTO->file) {
@@ -131,13 +130,13 @@ class SyncAndSaveMediasAction extends BaseAction
     }
 
     /**
-     * @param \Domain\Products\Models\Product\Product $target
-     * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO[] $mediaDTOsCopy
+     * @param \Domain\Products\Models\Product\Product|\Domain\Products\Models\Brand $target
+     * @param \Domain\Products\DTOs\Admin\Inertia\MediaDTO[] $mediaDTOsCopy
      * @param string $collectionName
      *
      * @return void
      */
-    private function storeCopy(Product $target, array $mediaDTOsCopy, string $collectionName)
+    private function storeCopy($target, array $mediaDTOsCopy, string $collectionName)
     {
         foreach ($mediaDTOsCopy as $mediaDTO) {
             /** @var \Domain\Common\Models\CustomMedia|null $original */
@@ -169,13 +168,13 @@ class SyncAndSaveMediasAction extends BaseAction
     }
 
     /**
-     * @param \Domain\Products\Models\Product\Product $target
+     * @param \Domain\Products\Models\Product\Product|\Domain\Products\Models\Brand $target
      * @param string $collectionName
-     * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\MediaDTO $mediaDTO
+     * @param \Domain\Products\DTOs\Admin\Inertia\MediaDTO $mediaDTO
      *
      * @return bool
      */
-    private function isForCopying(Product $target, string $collectionName, MediaDTO $mediaDTO): bool
+    private function isForCopying($target, string $collectionName, MediaDTO $mediaDTO): bool
     {
         if (! $mediaDTO->id) {
             return false;

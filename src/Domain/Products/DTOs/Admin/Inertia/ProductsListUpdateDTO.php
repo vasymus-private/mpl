@@ -4,7 +4,7 @@ namespace Domain\Products\DTOs\Admin\Inertia;
 
 use Spatie\DataTransferObject\DataTransferObject;
 
-class ProductListUpdateDTO extends DataTransferObject
+class ProductsListUpdateDTO extends DataTransferObject
 {
     /**
      * @var int
