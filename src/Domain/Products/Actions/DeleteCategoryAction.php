@@ -11,7 +11,7 @@ class DeleteCategoryAction extends BaseAction
 {
     public function execute(Category $category)
     {
-        DB::transaction(function() use ($category) {
+        DB::transaction(function () use ($category) {
             $category->subcategories->each(function (Category $subcategory) {
                 static::cached()->execute($subcategory);
             });

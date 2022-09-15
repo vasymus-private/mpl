@@ -53,7 +53,7 @@ class BrandsBulkController extends BaseAdminController
     {
         $brands = Brand::query()->whereIn(sprintf('%s.id', Brand::class), $request->ids)->get();
 
-        $brands->each(function(Brand $brand) use ($deleteBrandAction) {
+        $brands->each(function (Brand $brand) use ($deleteBrandAction) {
             $deleteBrandAction->execute($brand);
         });
 
