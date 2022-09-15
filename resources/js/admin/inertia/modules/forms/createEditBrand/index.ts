@@ -11,6 +11,12 @@ import * as yup from "yup"
 import { yupIntegerOrEmptyString } from "@/admin/inertia/utils"
 import { Brand } from "@/admin/inertia/modules/brands/types"
 import { getImageSchema } from "@/admin/inertia/modules/forms/createEditProduct"
+import {CustomFormData} from "@/admin/inertia/utils/CustomFormData"
+import axios, {AxiosError} from "axios"
+import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
+import {Inertia} from "@inertiajs/inertia"
+import {ErrorResponse} from "@/admin/inertia/modules/common/types"
+import {errorsToErrorFields} from "@/admin/inertia/modules/common"
 
 export const storeName = "createEditBrandForm"
 
@@ -55,7 +61,59 @@ export const useCreateEditBrandFormStore = defineStore(storeName, {
         async submitCreateEditBrands(
             values: Values,
             ctx: SubmissionContext<Values>
-        ): Promise<void> {},
+        ): Promise<void> {
+            const brandsStore = useBrandsStore()
+            const routesStore = useRoutesStore()
+
+            try {
+                let brand: Brand
+
+                const formData = valuesToFormData(values)
+
+                if (brandsStore.isCreatingBrandRoute) {
+                    const response = await axios.post<{ data: Brand }>(
+                        routesStore.route(routeNames.ROUTE_ADMIN_AJAX_BRANDS_STORE),
+                        formData,
+                        {
+                            headers: { "Content-Type": "multipart/form-data" },
+                        }
+                    )
+                    brand = response.data.data
+                    Inertia.get(
+                        routesStore.route(routeNames.ROUTE_ADMIN_BRANDS_TEMP_EDIT, {
+                            admin_brand: brand.id
+                        })
+                    )
+                } else {
+                    formData.append("_method", "PUT")
+
+                    const response = await axios.post<{ data: Brand }>(
+                        routesStore.route(
+                            routeNames.ROUTE_ADMIN_AJAX_BRANDS_UPDATE,
+                            values.id
+                        ),
+                        formData,
+                        {
+                            headers: { "Content-Type": "multipart/form-data" },
+                        }
+                    )
+                    brand = response.data.data
+                    brandsStore.setEntity(brand)
+                }
+            } catch (e) {
+                if (e instanceof AxiosError) {
+                    const {
+                        data: { errors },
+                    }: ErrorResponse = e.response
+
+                    const errorFields = errorsToErrorFields(errors)
+
+                    ctx.setErrors(errorFields)
+                    return
+                }
+                throw e
+            }
+        },
     },
 })
 
@@ -105,3 +163,48 @@ export const getWatchBrandToFormCb =
 
         setValues(values)
     }
+
+const valuesToFormData = (values: Values): FormData => {
+    const formData = new CustomFormData()
+
+    let stringOrNumberKeys: Array<keyof Values> = [
+        "name",
+        "slug",
+        "ordering",
+        "preview",
+        "description",
+    ]
+
+    stringOrNumberKeys.forEach((key) => {
+        let value = values[key] as string | number | null | undefined
+        formData.setStringOrNumber(key, value)
+    })
+
+    if (values.seo) {
+        formData.appendStringOrNumber("seo[title]", values.seo.title)
+        formData.appendStringOrNumber("seo[h1]", values.seo.h1)
+        formData.appendStringOrNumber("seo[keywords]", values.seo.keywords)
+        formData.appendStringOrNumber(
+            "seo[description]",
+            values.seo.description
+        )
+    }
+
+    if (values.mainImage) {
+        formData.appendStringOrNumber(`mainImage[id]`, values.mainImage.id)
+        formData.appendStringOrNumber(`mainImage[uuid]`, values.mainImage.uuid)
+        formData.appendStringOrNumber(`mainImage[name]`, values.mainImage.name)
+        formData.appendStringOrNumber(
+            `mainImage[file_name]`,
+            values.mainImage.file_name
+        )
+        formData.appendStringOrNumber(
+            `mainImage[order_column]`,
+            values.mainImage.order_column
+        )
+
+        formData.appendFile(`mainImage[file]`, values.mainImage.file)
+    }
+
+    return formData
+}

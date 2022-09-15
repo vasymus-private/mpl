@@ -1,4 +1,5 @@
 import { Seo } from "@/admin/inertia/modules/common/types"
+import Media from "@/admin/inertia/modules/common/Media"
 
 export interface BrandListItem {
     id: number
@@ -14,6 +15,6 @@ export interface Brand {
     ordering: number | null
     preview: string | null
     description: string | null
-    mainImage: MediaImage | null
+    mainImage: Media | null
     seo: Seo | null
 }

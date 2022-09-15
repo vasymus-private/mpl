@@ -51,7 +51,7 @@ class BrandsBulkController extends BaseAdminController
      */
     public function delete(BrandsBulkDeleteRequest $request, DeleteBrandAction $deleteBrandAction)
     {
-        $brands = Brand::query()->whereIn(sprintf('%s.id', Brand::class), $request->ids)->get();
+        $brands = Brand::query()->whereIn(sprintf('%s.id', Brand::TABLE), $request->ids)->get();
 
         $brands->each(function(Brand $brand) use ($deleteBrandAction) {
             $deleteBrandAction->execute($brand);

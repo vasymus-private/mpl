@@ -15,12 +15,12 @@ const handleDelete = async () => {
         return
     }
 
-    if (confirm(`Вы уверены, что хотите удалить категорию?`)) {
-        let errorsOrVoid = await brandsStore.deleteBulkBrands([brandsStore.brand?.id])
+    if (confirm(`Вы уверены, что хотите удалить производителя?`)) {
+        let errorsOrVoid = await brandsStore.deleteBulkBrands([brandsStore.brand.id])
         if (!errorsOrVoid) {
             Inertia.visit(
                 routesStore.route(
-                    routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX
+                    routeNames.ROUTE_ADMIN_BRANDS_TEMP_INDEX
                 )
             )
             return
