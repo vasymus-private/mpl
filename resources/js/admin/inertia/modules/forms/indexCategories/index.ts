@@ -5,18 +5,15 @@ import {
     CategoriesResponse,
     Values,
 } from "@/admin/inertia/modules/forms/indexCategories/types"
-import { Ref } from "vue"
 import axios, { AxiosError } from "axios"
 import {
     getRouteUrl,
     routeNames,
-    useRoutesStore,
 } from "@/admin/inertia/modules/routes"
 import useFormHelpers from "@/admin/inertia/composables/useFormHelpers"
 import { useCategoriesStore } from "@/admin/inertia/modules/categories"
 import { ErrorResponse } from "@/admin/inertia/modules/common/types"
 import { CategoryListItem } from "@/admin/inertia/modules/categories/types"
-import { errorsToErrorFields } from "@/admin/inertia/modules/common"
 
 export const storeName = "indexCategoriesForm"
 

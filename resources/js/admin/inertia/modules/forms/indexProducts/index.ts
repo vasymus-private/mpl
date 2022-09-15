@@ -7,7 +7,6 @@ import {
 import {
     getRouteUrl,
     routeNames,
-    useRoutesStore,
 } from "@/admin/inertia/modules/routes"
 import axios, { AxiosError } from "axios"
 import ProductListItem from "@/admin/inertia/modules/products/ProductListItem"

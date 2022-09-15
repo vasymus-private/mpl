@@ -98,7 +98,7 @@ export const useBrandsStore = defineStore(storeName, {
         addOrUpdateBrandsListItems(listItems: Array<BrandListItem>): void {
             let newItemById = arrayToMap<BrandListItem>(listItems)
 
-            this._listItems = this._listItems.map((item: BrandListItem) => {
+            this._entities = this._entities.map((item: BrandListItem) => {
                 let newListItem = newItemById[item.id]
 
                 if (newListItem) {
@@ -109,7 +109,7 @@ export const useBrandsStore = defineStore(storeName, {
                 return item
             })
 
-            this._listItems = [...this._listItems, ...listItems]
+            this._entities = [...this._entities, ...listItems]
         },
         async deleteBulkBrands(
             checkedBrands: Array<number>

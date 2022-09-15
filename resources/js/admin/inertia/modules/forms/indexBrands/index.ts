@@ -32,7 +32,7 @@ export const useIndexBrandsFormStore = defineStore(storeName, {
                 } = await axios.put<BrandsResponse>(
                     getRouteUrl(routeNames.ROUTE_ADMIN_AJAX_BRANDS_BULK_UPDATE),
                     {
-                        categories:
+                        brands:
                             arrayToMap<Partial<BrandListItem>>(brandsToUpdate),
                     }
                 )
@@ -60,12 +60,12 @@ export const useIndexBrandsFormStore = defineStore(storeName, {
 
 export const getValidationSchema = () =>
     yup.object({
-        categories: yup.array().of(
+        brands: yup.array().of(
             yup.object({
                 id: yup.number().required(),
                 ordering: yupIntegerOrEmptyString(),
                 name: yup.string().required().max(250),
-                description: yup.boolean(),
+                preview: yup.string().max(65000).nullable(),
             })
         ),
     })

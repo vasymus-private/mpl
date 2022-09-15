@@ -4,7 +4,7 @@ export interface BrandListItem {
     id: number
     name: string | null
     ordering: number | null
-    description: string | null
+    preview: string | null
 }
 
 export interface Brand {

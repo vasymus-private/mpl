@@ -15,6 +15,7 @@ import useFormHelpers from "@/admin/inertia/composables/useFormHelpers"
 import {watch} from "vue"
 import {Link} from "@inertiajs/inertia-vue3"
 import FormControlInput from '@/admin/inertia/components/forms/vee-validate/FormControlInput.vue'
+import FormControlTextarea from '@/admin/inertia/components/forms/vee-validate/FormControlTextarea.vue'
 import Pagination from "@/admin/inertia/components/layout/Pagination.vue"
 import {getPerPageOptions} from "@/admin/inertia/modules/common"
 
@@ -92,7 +93,7 @@ watch(brandsList, (brands: Array<BrandListItem>) => {
             id: item.id,
             ordering: item.ordering,
             name: item.name,
-            description: item.description,
+            preview: item.preview,
         }))
     })
 })
@@ -229,13 +230,12 @@ watchSelectAll()
                                 </span>
                             </td>
                             <td>
-                                <FormControlInput
+                                <FormControlTextarea
                                     v-if="editMode && isChecked(brand.id)"
-                                    :name="`brands[${indexForId(brand.id)}].description`"
-                                    type="text"
+                                    :name="`brands[${indexForId(brand.id)}].preview`"
                                     :keep-value="true"
                                 />
-                                <span v-else class="main-grid-cell-content">{{brand.description}}</span>
+                                <span v-else class="main-grid-cell-content">{{brand.preview}}</span>
                             </td>
                         </tr>
                         </tbody>

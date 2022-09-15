@@ -26,7 +26,7 @@ class BrandItemResource extends JsonResource
             'id' => $this->resource->id,
             'name' => $this->resource->name,
             'ordering' => $this->resource->ordering,
-            'description' => $this->resource->description,
+            'preview' => $this->resource->preview,
         ];
     }
 }
