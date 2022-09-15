@@ -32,8 +32,9 @@ export const useIndexBrandsFormStore = defineStore(storeName, {
                 } = await axios.put<BrandsResponse>(
                     getRouteUrl(routeNames.ROUTE_ADMIN_AJAX_BRANDS_BULK_UPDATE),
                     {
-                        brands:
-                            arrayToMap<Partial<BrandListItem>>(brandsToUpdate),
+                        brands: arrayToMap<Partial<BrandListItem>>(
+                            brandsToUpdate
+                        ),
                     }
                 )
 

@@ -11,12 +11,12 @@ import * as yup from "yup"
 import { yupIntegerOrEmptyString } from "@/admin/inertia/utils"
 import { Brand } from "@/admin/inertia/modules/brands/types"
 import { getImageSchema } from "@/admin/inertia/modules/forms/createEditProduct"
-import {CustomFormData} from "@/admin/inertia/utils/CustomFormData"
-import axios, {AxiosError} from "axios"
-import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
-import {Inertia} from "@inertiajs/inertia"
-import {ErrorResponse} from "@/admin/inertia/modules/common/types"
-import {errorsToErrorFields} from "@/admin/inertia/modules/common"
+import { CustomFormData } from "@/admin/inertia/utils/CustomFormData"
+import axios, { AxiosError } from "axios"
+import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
+import { Inertia } from "@inertiajs/inertia"
+import { ErrorResponse } from "@/admin/inertia/modules/common/types"
+import { errorsToErrorFields } from "@/admin/inertia/modules/common"
 
 export const storeName = "createEditBrandForm"
 
@@ -72,7 +72,9 @@ export const useCreateEditBrandFormStore = defineStore(storeName, {
 
                 if (brandsStore.isCreatingBrandRoute) {
                     const response = await axios.post<{ data: Brand }>(
-                        routesStore.route(routeNames.ROUTE_ADMIN_AJAX_BRANDS_STORE),
+                        routesStore.route(
+                            routeNames.ROUTE_ADMIN_AJAX_BRANDS_STORE
+                        ),
                         formData,
                         {
                             headers: { "Content-Type": "multipart/form-data" },
@@ -80,9 +82,12 @@ export const useCreateEditBrandFormStore = defineStore(storeName, {
                     )
                     brand = response.data.data
                     Inertia.get(
-                        routesStore.route(routeNames.ROUTE_ADMIN_BRANDS_TEMP_EDIT, {
-                            admin_brand: brand.id
-                        })
+                        routesStore.route(
+                            routeNames.ROUTE_ADMIN_BRANDS_TEMP_EDIT,
+                            {
+                                admin_brand: brand.id,
+                            }
+                        )
                     )
                 } else {
                     formData.append("_method", "PUT")

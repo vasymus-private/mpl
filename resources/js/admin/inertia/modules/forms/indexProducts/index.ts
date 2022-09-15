@@ -4,10 +4,7 @@ import {
     yupIntegerOrEmptyString,
     yupNumberOrEmptyString,
 } from "@/admin/inertia/utils"
-import {
-    getRouteUrl,
-    routeNames,
-} from "@/admin/inertia/modules/routes"
+import { getRouteUrl, routeNames } from "@/admin/inertia/modules/routes"
 import axios, { AxiosError } from "axios"
 import ProductListItem from "@/admin/inertia/modules/products/ProductListItem"
 import { defineStore } from "pinia"

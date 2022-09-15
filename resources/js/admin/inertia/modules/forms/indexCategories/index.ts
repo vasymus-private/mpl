@@ -6,10 +6,7 @@ import {
     Values,
 } from "@/admin/inertia/modules/forms/indexCategories/types"
 import axios, { AxiosError } from "axios"
-import {
-    getRouteUrl,
-    routeNames,
-} from "@/admin/inertia/modules/routes"
+import { getRouteUrl, routeNames } from "@/admin/inertia/modules/routes"
 import useFormHelpers from "@/admin/inertia/composables/useFormHelpers"
 import { useCategoriesStore } from "@/admin/inertia/modules/categories"
 import { ErrorResponse } from "@/admin/inertia/modules/common/types"
