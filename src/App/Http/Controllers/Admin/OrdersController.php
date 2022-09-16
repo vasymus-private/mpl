@@ -82,7 +82,6 @@ class OrdersController extends BaseAdminController
 
     public function createTemp(Request $request)
     {
-
     }
 
     public function edit(Request $request)
@@ -96,6 +95,5 @@ class OrdersController extends BaseAdminController
 
     public function editTemp(Request $request)
     {
-
     }
 }
