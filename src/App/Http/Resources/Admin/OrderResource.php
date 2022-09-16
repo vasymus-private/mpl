@@ -2,8 +2,6 @@
 
 namespace App\Http\Resources\Admin;
 
-use Domain\Products\DTOs\Admin\OrderProductItemDTO;
-use Domain\Products\Models\Product\Product;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;
 
