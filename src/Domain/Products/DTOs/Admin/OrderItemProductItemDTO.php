@@ -21,7 +21,7 @@ class OrderItemProductItemDTO extends DataTransferObject
             'id' => $product->id,
             'name' => $product->order_product->name ?? $product->name,
             'count' => $product->order_product_count ?? 0,
-            'unit' => $product->unit,
+            'unit' => $product->order_product->unit ?? $product->unit,
         ]);
     }
 }

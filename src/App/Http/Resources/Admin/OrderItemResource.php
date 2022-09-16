@@ -2,8 +2,6 @@
 
 namespace App\Http\Resources\Admin;
 
-use Domain\Products\DTOs\Admin\OrderItemProductItemDTO;
-use Domain\Products\Models\Product\Product;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;
 
@@ -42,7 +40,7 @@ class OrderItemResource extends JsonResource
             'user_email' => $this->resource->user->email ?? null,
             'user_phone' => $this->resource->user->phone ?? null,
             'order_price_retail_rub_formatted' => $this->resource->order_price_retail_rub_formatted,
-            'products' => $this->resource->products->map(fn (Product $product) => OrderItemProductItemDTO::fromModel($product))->all(),
+            'products' => OrderItemProductItemResource::collection($this->resource->products),
             'payment_method_id' => $this->resource->payment_method_id,
             'is_busy_by_other_admin' => $this->resource->is_busy_by_other_admin,
         ];

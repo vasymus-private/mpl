@@ -15,6 +15,7 @@ export const useAuthStore = defineStore(storeName, {
                 email: null,
                 phone: null,
                 is_anonymous: null,
+                is_super_admin: null,
             },
         }
     },
