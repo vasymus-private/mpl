@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import {OrderImportance} from "@/admin/inertia/modules/orderImportance/types"
+import { OrderImportance } from "@/admin/inertia/modules/orderImportance/types"
 
 export const storeName = "orderImportance"
 
