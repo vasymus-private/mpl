@@ -81,6 +81,7 @@ class HandleInertiaRequests extends Middleware
                         'phone',
                     ]), [
                         'is_anonymous' => $userOrAdmin->is_anonymous2,
+                        'is_super_admin' => $userOrAdmin->is_super_admin,
                     ]),
                 ];
             },

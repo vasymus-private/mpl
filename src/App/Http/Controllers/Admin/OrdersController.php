@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Resources\Admin\OrderItemResource;
+use App\Http\Resources\Admin\OrderResource;
 use Carbon\Exceptions\InvalidFormatException;
 use Domain\Orders\Models\Order;
 use Domain\Users\Models\BaseUser\BaseUser;
@@ -82,6 +83,17 @@ class OrdersController extends BaseAdminController
 
     public function createTemp(Request $request)
     {
+        $inertia = H::getAdminInertia();
+
+        $order = $request->copy_id
+            ? Order::query()->find($request->copy_id)
+            : null;
+
+        return $inertia->render('Orders/CreateEdit', [
+            'order' => $order
+                ? (new OrderResource($order))->toArray($request)
+                : null,
+        ]);
     }
 
     public function edit(Request $request)
@@ -95,5 +107,13 @@ class OrdersController extends BaseAdminController
 
     public function editTemp(Request $request)
     {
+        $inertia = H::getAdminInertia();
+
+        /** @var \Domain\Orders\Models\Order $order */
+        $order = $request->admin_order;
+
+        return $inertia->render('Orders/CreateEdit', [
+            'order' => (new OrderResource($order))->toArray($request),
+        ]);
     }
 }

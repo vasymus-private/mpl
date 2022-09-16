@@ -4,4 +4,5 @@ export default interface User {
     email: string | null
     phone: string | null
     is_anonymous: boolean | null
+    is_super_admin: boolean | null
 }
