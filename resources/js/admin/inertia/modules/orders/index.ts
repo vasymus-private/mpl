@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import {OrderItem, Order} from "@/admin/inertia/modules/orders/types"
+import { OrderItem, Order } from "@/admin/inertia/modules/orders/types"
 import Links from "@/admin/inertia/modules/common/Links"
 import Meta from "@/admin/inertia/modules/common/Meta"
 import {useRoutesStore} from "@/admin/inertia/modules/routes"
