@@ -21,6 +21,7 @@ use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\Category;
 use Domain\Products\Models\CharType;
+use Domain\Users\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
@@ -105,6 +106,7 @@ class HandleInertiaRequests extends Middleware
             'orderImportance' => OrderImportanceResource::collection(OrderImportance::cachedAll()),
             'orderStatuses' => OrderStatusResource::collection(OrderStatus::cachedAll()),
             'charTypes' => CharTypeResource::collection(CharType::cachedAll()),
+            'admins' => Admin::cachedAll()->map(fn(Admin $admin) => ['id' => $admin->id, 'name' => $admin->name, 'color' => $admin->admin_color]),
         ]);
     }
 }

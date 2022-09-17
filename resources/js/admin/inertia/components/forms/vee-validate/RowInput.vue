@@ -7,7 +7,7 @@ const props = defineProps<{
     name: string
     label: string
     labelClass?: string|object|Array<string>
-    type?: 'text' | 'number'
+    type?: 'text' | 'number' | 'date'
     keepValue?: boolean
 }>()
 const name = toRef(props, 'name')

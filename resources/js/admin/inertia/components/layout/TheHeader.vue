@@ -30,12 +30,12 @@ const logout = () => {
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto header-menu">
+                <ul class="navbar-nav me-auto header-menu">
                     <li class="nav-item active">
                         <a class="header-link" :href="route(routeNames.ROUTE_ADMIN_TEMP_HOME)">Администрирование <span class="sr-only">(current)</span></a>
                     </li>
                 </ul>
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <span class="adm-header-user-block">
                             {{ authStore.userName }}

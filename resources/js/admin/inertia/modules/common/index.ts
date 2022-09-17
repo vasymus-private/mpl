@@ -126,3 +126,11 @@ export const getPerPageOptions = (): Array<Option> =>
         value: page,
         label: `${page}`,
     }))
+
+export const withEmptyOption = (options: Array<Option>): Array<Option> => [EMPTY_OPTION, ...options]
+
+export const EMPTY_OPTION: Option = {
+    value: null,
+    label: '(не установлено)',
+    disabled: false
+}

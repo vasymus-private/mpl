@@ -86,7 +86,7 @@ const deleteSelected = () => {
     <div class="admin-edit-variations">
         <div class="admin-edit-variations__header">
             <button type="button" @click="onAddVariation" class="btn btn__add">Добавить элемент</button>
-            <button type="button" @click="modalsStore.openModal(ModalType.SORT_ADMIN_COLUMNS, {type: ColumnType.adminProductVariantColumns})" class="btn btn-primary mb-2 mr-2">Настроить</button>
+            <button type="button" @click="modalsStore.openModal(ModalType.SORT_ADMIN_COLUMNS, {type: ColumnType.adminProductVariantColumns})" class="btn btn-primary mb-2 me-2">Настроить</button>
         </div>
 
         <div class="table-responsive">

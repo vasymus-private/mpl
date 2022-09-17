@@ -23,10 +23,15 @@ class OrderItemProductItemResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->resource->id,
-            'order_product' => $this->resource->order_product,
-            'product_name' => $this->resource->name,
-            'unit' => $this->resource->unit,
+            'product' => [
+                'id' => $this->resource->id,
+                'name' => $this->resource->name,
+                'unit' => $this->resource->unit,
+            ],
+            'order_product' => [
+                'name' => $this->resource->order_product->name ?? null,
+                'unit' => $this->resource->order_product->unit ?? null,
+            ],
         ];
     }
 }

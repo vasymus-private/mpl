@@ -5,7 +5,7 @@ import {toRef} from "vue"
 
 const props = defineProps<{
     name: string
-    type?: 'text' | 'number'
+    type?: 'text' | 'number' | 'date'
     keepValue?: boolean
 }>()
 const name = toRef(props, 'name')

@@ -3,7 +3,8 @@ import Media from "@/admin/inertia/modules/common/Media"
 
 export interface OrderItem {
     id: number
-    created_at: DateTime | null // parse from 'Y-m-d H:i:s'
+    created_at: string | null // parse from 'Y-m-d H:i:s'
+    dt_created_at: DateTime | null
     order_status_id: number | null
     comment_admin: string | null
     comment_user: string | null
@@ -49,10 +50,14 @@ export interface Order {
     supplier_invoices: Array<Media>
     comment_admin: string | null
     products: Array<OrderProductItem>
-    created_at: DateTime | null // parse from 'Y-m-d H:i:s'
-    updated_at: DateTime | null // parse from 'Y-m-d H:i:s'
+    created_at: string | null // parse from 'Y-m-d H:i:s'
+    dt_created_at: DateTime | null // parse from 'Y-m-d H:i:s'
+    updated_at: string | null // parse from 'Y-m-d H:i:s'
+    dt_updated_at: DateTime | null // parse from 'Y-m-d H:i:s'
     is_busy_by_other_admin: boolean
     busy_by_name: string|null
+
+    // calc_ prefix or calculated : {} property
 }
 
 export interface OrderItemProductItem {
@@ -77,18 +82,23 @@ export interface OrderProductItem {
         price_purchase_currency_id: number|null
         price_retail: number|null
         price_retail_currency_id: number|null
+        coefficient: number|null
+        availability_status_id: number|null
+        mainImage: Media
     }
     order_product: {
-        ordering: number
         count: number
+        name: string|null
+        unit: string|null
         price_purchase: number
         price_purchase_currency_id: number
         price_retail: number
         price_retail_currency_id: number
-        name: string|null
-        unit: string|null
+        ordering: number
         price_retail_rub: number
         price_retail_rub_origin: number
         price_retail_rub_was_updated: boolean
     }
+
+    // calc_ prefix or calculated : {} property
 }

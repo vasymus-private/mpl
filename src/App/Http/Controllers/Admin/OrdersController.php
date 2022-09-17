@@ -22,7 +22,7 @@ class OrdersController extends BaseAdminController
     {
         $inertia = H::getAdminInertia();
 
-        $query = Order::query()->select(['*'])->with(['user', 'admin', 'status', 'products', 'payment', 'importance']);
+        $query = Order::query()->select(['*'])->with(['admin', 'products']);
         $table = Order::TABLE;
         $usersT = BaseUser::TABLE;
         $DATE_FORMAT_DB_QUERY = 'Y-m-d H:i:s';

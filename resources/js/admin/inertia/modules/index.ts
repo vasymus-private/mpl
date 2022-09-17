@@ -37,6 +37,9 @@ import { useRoutesStore } from "@/admin/inertia/modules/routes"
 import Product from "@/admin/inertia/modules/products/Product"
 import { useProfileStore } from "@/admin/inertia/modules/profile"
 import { Brand, BrandListItem } from "@/admin/inertia/modules/brands/types"
+import {Order, OrderItem} from "@/admin/inertia/modules/orders/types";
+import {useOrdersStore} from "@/admin/inertia/modules/orders";
+import {Admin} from "@/admin/inertia/modules/auth/types";
 
 interface InitialPageProps {
     fullUrl: string
@@ -74,6 +77,13 @@ interface InitialPageProps {
         meta: Meta
     }
     brand?: Brand | null
+    orders?: {
+        data: Array<OrderItem>
+        links: Links
+        meta: Meta
+    }
+    order?: Order|null
+    admins?: Array<Admin>
 }
 
 /**
@@ -115,6 +125,13 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
             meta: brandsListMeta = null,
         } = {},
         brand = null,
+        orders: {
+            data: ordersList,
+            links: ordersListLinks = null,
+            meta: ordersListMeta = null,
+        },
+        order = null,
+        admins = [],
     } = initialPageProps as InitialPageProps
 
     // todo dev only
@@ -128,6 +145,7 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
 
     const authStore = useAuthStore(pinia)
     authStore.setAuthUser(auth.user)
+    authStore.setAdmins(admins)
 
     const articlesStore = useArticlesStore(pinia)
     articlesStore.setEntities(articles)
@@ -182,4 +200,10 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
 
     const profileStore = useProfileStore(pinia)
     profileStore.setAdminSidebarFlexBasis(adminSidebarFlexBasis)
+
+    const ordersStore = useOrdersStore(pinia)
+    ordersStore.setOrdersList(ordersList)
+    ordersStore.setLinks(ordersListLinks)
+    ordersStore.setMeta(ordersListMeta)
+    ordersStore.setOrder(order)
 }
