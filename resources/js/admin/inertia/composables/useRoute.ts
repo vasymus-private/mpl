@@ -11,12 +11,12 @@ export enum UrlParams {
     per_page = "per_page",
     search = "search",
 
-    date_from = 'date_from',
-    date_to = 'date_to',
-    order_id = 'order_id',
-    email = 'email',
-    name = 'name',
-    admin_id = 'admin_id',
+    date_from = "date_from",
+    date_to = "date_to",
+    order_id = "order_id",
+    email = "email",
+    name = "name",
+    admin_id = "admin_id",
 }
 
 export default (fullUrl?: Ref<string | null>) => {
