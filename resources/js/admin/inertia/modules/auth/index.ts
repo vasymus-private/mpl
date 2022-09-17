@@ -1,7 +1,7 @@
 import { defineStore } from "pinia"
 import Auth from "@/admin/inertia/modules/auth/Auth"
 import User from "@/admin/inertia/modules/auth/User"
-import {Admin} from "@/admin/inertia/modules/auth/types"
+import { Admin } from "@/admin/inertia/modules/auth/types"
 import Option from "@/admin/inertia/modules/common/Option"
 
 export const storeName = "auth"
@@ -29,10 +29,14 @@ export const useAuthStore = defineStore(storeName, {
     },
     getters: {
         userName: (state): string | null => state.auth.user.name,
-        adminOptions: (state): Array<Option> => state._admins.map(admin => ({value: admin.id, label: admin.name})),
-        admin(state): (id: number) => Admin|undefined {
-            return (id:number) => state._admins.find(item => item.id === id)
-        }
+        adminOptions: (state): Array<Option> =>
+            state._admins.map((admin) => ({
+                value: admin.id,
+                label: admin.name,
+            })),
+        admin(state): (id: number) => Admin | undefined {
+            return (id: number) => state._admins.find((item) => item.id === id)
+        },
     },
     actions: {
         setAuthUser(user: User): void {

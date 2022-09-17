@@ -11,8 +11,8 @@ export const useOrderImportanceStore = defineStore(storeName, {
     },
     getters: {
         entities: (state): Array<OrderImportance> => state._entities,
-        orderImportance(state): (id: number) => OrderImportance|undefined {
-            return (id:number) => this.entities.find(item => item.id === id)
+        orderImportance(state): (id: number) => OrderImportance | undefined {
+            return (id: number) => this.entities.find((item) => item.id === id)
         },
     },
     actions: {
