@@ -29,7 +29,10 @@ export const useAuthStore = defineStore(storeName, {
     },
     getters: {
         userName: (state): string | null => state.auth.user.name,
-        adminOptions: (state): Array<Option> => state._admins.map(admin => ({value: admin.id, label: admin.name}))
+        adminOptions: (state): Array<Option> => state._admins.map(admin => ({value: admin.id, label: admin.name})),
+        admin(state): (id: number) => Admin|undefined {
+            return (id:number) => state._admins.find(item => item.id === id)
+        }
     },
     actions: {
         setAuthUser(user: User): void {

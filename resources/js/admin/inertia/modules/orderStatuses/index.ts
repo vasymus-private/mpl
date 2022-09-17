@@ -11,6 +11,11 @@ export const useOrderStatusesStore = defineStore(storeName, {
     },
     getters: {
         entities: (state): Array<OrderStatus> => state._entities,
+        orderStatus(): (id: number) => OrderStatus|undefined {
+            return id => {
+                return this.entities.find(item => item.id === id)
+            }
+        },
     },
     actions: {
         setEntities(entities: Array<OrderStatus>): void {

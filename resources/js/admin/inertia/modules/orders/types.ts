@@ -69,6 +69,7 @@ export interface OrderItemProductItem {
     order_product: {
         name: string|null
         unit: string|null
+        count: number|null
     }
 }
 

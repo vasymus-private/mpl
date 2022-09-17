@@ -129,7 +129,7 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
             data: ordersList,
             links: ordersListLinks = null,
             meta: ordersListMeta = null,
-        },
+        } = {},
         order = null,
         admins = [],
     } = initialPageProps as InitialPageProps
