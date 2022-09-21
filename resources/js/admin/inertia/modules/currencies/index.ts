@@ -2,7 +2,8 @@ import { defineStore } from "pinia"
 import {
     Currency,
     CharCode,
-    Rate, CurrencyName,
+    Rate,
+    CurrencyName,
 } from "@/admin/inertia/modules/currencies/types"
 import Option from "@/admin/inertia/modules/common/Option"
 
@@ -26,13 +27,14 @@ export const useCurrenciesStore = defineStore(storeName, {
             (state: State) =>
             (currencyIdOrName: CurrencyName | number | null): Currency | null =>
                 state._entities.find(
-                    (item: Currency): boolean => item.id === currencyIdOrName || item.name === currencyIdOrName
+                    (item: Currency): boolean =>
+                        item.id === currencyIdOrName ||
+                        item.name === currencyIdOrName
                 ),
         rates: (state: State): Array<Rate> => state._rates,
         rate: function () {
-            return (currencyName: CurrencyName): Rate|undefined => this.rates.find(
-                (r) => r.CharCode === currencyName
-            )
+            return (currencyName: CurrencyName): Rate | undefined =>
+                this.rates.find((r) => r.CharCode === currencyName)
         },
         priceFormatted: function () {
             return (
@@ -57,11 +59,8 @@ export const useCurrenciesStore = defineStore(storeName, {
                 }).format(price)
             }
         },
-        convertedToRub: function() {
-            return (
-                value: number,
-                fromCurrency: Currency
-            ): number | null => {
+        convertedToRub: function () {
+            return (value: number, fromCurrency: Currency): number | null => {
                 if (fromCurrency.name === CharCode.RUB) {
                     return value
                 }
@@ -88,7 +87,8 @@ export const useCurrenciesStore = defineStore(storeName, {
                     return ""
                 }
 
-                let currency: Currency | undefined = this.entity(currencyIdOrName)
+                let currency: Currency | undefined =
+                    this.entity(currencyIdOrName)
                 if (!currency) {
                     return ""
                 }

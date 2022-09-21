@@ -10,9 +10,9 @@ export interface Rate {
 }
 
 export enum CharCode {
-    EUR = 'EUR',
-    USD = 'USD',
-    RUB = 'RUB'
+    EUR = "EUR",
+    USD = "USD",
+    RUB = "RUB",
 }
 
 export interface Currency {
