@@ -7,7 +7,7 @@ import RowInput from '@/admin/inertia/components/forms/native/RowInput.vue'
 import RowSelect from '@/admin/inertia/components/forms/native/RowSelect.vue'
 import {storeToRefs} from "pinia"
 import {useAuthStore} from "@/admin/inertia/modules/auth"
-import {withEmptyOption} from "@/admin/inertia/modules/common"
+import {getPerPageOptions, withEmptyOption} from "@/admin/inertia/modules/common"
 import useSearchInput from "@/admin/inertia/composables/useSearchInput"
 import {Link} from "@inertiajs/inertia-vue3"
 import {useModalsStore} from "@/admin/inertia/modules/modals"
@@ -19,6 +19,7 @@ import {useColumnsStore, isSortableColumn, ColumnName} from "@/admin/inertia/mod
 import {useOrderStatusesStore} from "@/admin/inertia/modules/orderStatuses"
 import {useOrderImportanceStore} from "@/admin/inertia/modules/orderImportance"
 import {usePaymentMethodsStore} from "@/admin/inertia/modules/paymentMethods"
+import Pagination from "@/admin/inertia/components/layout/Pagination.vue"
 
 
 const ordersStore = useOrdersStore()
@@ -45,8 +46,9 @@ const {
 
 const {fullUrl} = storeToRefs(routesStore)
 const {adminOptions} = storeToRefs(authStore)
-const { dateFrom, dateTo, orderId, email, name, admin, handleOrdersSearch, cancelOrdersSearch } = useSearchInput(fullUrl, adminOptions)
+const { dateFrom, dateTo, orderId, email, name, admin, handleOrdersSearch, cancelOrdersSearch, onPerPage } = useSearchInput(fullUrl, adminOptions)
 
+const perPageOptions = getPerPageOptions()
 
 const onSubmit = () => {
     handleOrdersSearch()
@@ -59,6 +61,14 @@ const deleteOrder = (order: OrderItem) => {
         console.log('---- deleting order')
     }
 }
+
+const deleteOrders = () => {
+    if (confirm('Вы уверены, что хотите удалить выбранные заказы.')) {
+        console.log('---- deleting orders')
+    }
+}
+
+watchSelectAll()
 </script>
 
 <template>
@@ -249,6 +259,20 @@ const deleteOrder = (order: OrderItem) => {
                     </tbody>
                 </table>
             </div>
+
+            <Pagination
+                v-if="ordersStore.meta"
+                :total="ordersStore.meta.total"
+                :current-page="ordersStore.meta.current_page"
+                :per-page="ordersStore.getPerPageOption"
+                :per-page-options="perPageOptions"
+                :links="ordersStore.meta.links"
+                @update:perPage="onPerPage"
+            />
+
+            <footer key="edit-mode-off" class="footer edit-item-footer">
+                <button @click="deleteOrders" :disabled="!checkedItems.length" type="button" class="btn btn-info mb-2 btn__default">Удалить</button>
+            </footer>
         </div>
     </TheLayout>
 </template>

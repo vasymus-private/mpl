@@ -7,6 +7,7 @@ import {extendMetaLinksWithComputedData} from "@/admin/inertia/modules/common"
 import {DateTime} from "luxon"
 import {useCurrenciesStore} from "@/admin/inertia/modules/currencies"
 import {CharCode} from "@/admin/inertia/modules/currencies/types"
+import Option from "@/admin/inertia/modules/common/Option"
 
 const storeName = "ordersStore"
 
@@ -62,7 +63,16 @@ export const useOrdersStore = defineStore(storeName, {
 
                 return currenciesStore.priceRubFormatted(sumOrderProductsPriceRub, CharCode.RUB)
             }
-        }
+        },
+        links: (state: State): Links | null => state._links,
+        meta: (state: State): Meta | null => state._meta,
+        getPerPageOption: (state: State): Option | null =>
+            state._meta && state._meta.per_page
+                ? {
+                    value: state._meta.per_page,
+                    label: `${state._meta.per_page}`,
+                }
+                : null,
     },
     actions: {
         setOrdersList(ordersList: Array<OrderItem>): void {

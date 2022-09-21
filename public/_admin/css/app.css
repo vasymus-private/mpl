@@ -204,14 +204,6 @@ body {
   color: #535c69;
   font-size: 13px;
 }
-.table .main-grid-cell-content p:after {
-  content: "";
-  background: #333;
-  height: 1px;
-  display: block;
-  width: 67%;
-  margin: 10px auto -7px;
-}
 .table .form-check {
   padding-top: 16px;
   margin: 0 -11px 0 -7px;
