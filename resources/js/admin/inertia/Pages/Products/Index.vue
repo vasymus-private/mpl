@@ -58,7 +58,7 @@ const {
     manualCheck,
     cancel,
 } = useCheckedItems<ProductListItem>(productListItems)
-const {getUrlParam, visit, removeUrlParam, revisit} = useRoute(fullUrl)
+const {getUrlParam, visit, visitWithoutUrlParam, revisit} = useRoute(fullUrl)
 const {searchInput, onPerPage, handleSearch, handleClearSearch} = useSearchInput(fullUrl)
 
 const brand = computed({
@@ -68,7 +68,7 @@ const brand = computed({
             return null
         }
 
-        return brandsStore.option(brandId)
+        return brandsStore.option(`${brandId}`)
     },
     set(brandOption: Option) {
         visit({
@@ -175,9 +175,9 @@ const onSubmit = handleSubmit(async (values, ctx) => {
             <div class="search form-group row">
                 <div class="col-xs-12 col-sm-8">
                     <div class="input-group mb-3">
-                        <template v-for="option in routesStore.productsUrlParamOptions" :key="`${option.type}-${option.value}`">
+                        <template v-for="option in routesStore.productsUrlParamOptions" :key="`${option.urlParam}-${option.value}`">
                             <span style="max-width: 200px;" class="input-group-text d-inline-block text-truncate">{{option.label}}</span>
-                            <button @click="removeUrlParam(option.type)" class="btn input-group-prepend__remove" type="button"></button>
+                            <button @click="visitWithoutUrlParam(option.urlParam)" class="btn input-group-prepend__remove" type="button"></button>
                         </template>
                         <input
                             v-model="searchInput"

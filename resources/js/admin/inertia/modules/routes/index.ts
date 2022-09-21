@@ -1,17 +1,12 @@
-import { defineStore, storeToRefs } from "pinia"
-import { useCategoriesStore } from "@/admin/inertia/modules/categories"
-import route, {
-    Config,
-    RouteParam,
-    RouteParamsWithQueryOverload,
-    Router,
-} from "ziggy-js"
-import { Ziggy } from "@/helpers/ziggy"
-import Option, { OptionType } from "@/admin/inertia/modules/common/Option"
-import { useBrandsStore } from "@/admin/inertia/modules/brands"
+import {defineStore, storeToRefs} from "pinia"
+import {useCategoriesStore} from "@/admin/inertia/modules/categories"
+import route, {Config, RouteParam, RouteParamsWithQueryOverload, Router,} from "ziggy-js"
+import {Ziggy} from "@/helpers/ziggy"
+import Option from "@/admin/inertia/modules/common/Option"
+import {useBrandsStore} from "@/admin/inertia/modules/brands"
 import * as H from "history"
-import useRoute, { UrlParams } from "@/admin/inertia/composables/useRoute"
-import { AdminTab, TabEnum } from "@/admin/inertia/modules/common/Tabs"
+import useRoute, {UrlParams} from "@/admin/inertia/composables/useRoute"
+import {AdminTab, TabEnum} from "@/admin/inertia/modules/common/Tabs"
 
 export const storeName = "routes"
 
@@ -105,29 +100,29 @@ export const useRoutesStore = defineStore(storeName, {
             let categoryId = getUrlParam(UrlParams.category_id)
             let brandId = getUrlParam(UrlParams.brand_id)
 
-            let result = []
-
-            if (categoryId) {
-                let category = categoriesStore.option(categoryId)
+            let result: Array<Option> = []
+debugger
+            if (categoryId != null) {
+                let category = categoriesStore.option(`${categoryId}`)
                 if (category) {
                     result = [
                         ...result,
                         {
                             ...category,
-                            type: OptionType.category,
+                            urlParam: UrlParams.category_id,
                         },
                     ]
                 }
             }
 
-            if (brandId) {
-                let brand = brandsStore.option(brandId)
+            if (brandId != null) {
+                let brand = brandsStore.option(`${brandId}`)
                 if (brand) {
                     result = [
                         ...result,
                         {
                             ...brand,
-                            type: OptionType.brand,
+                            urlParam: UrlParams.brand_id,
                         },
                     ]
                 }
@@ -140,17 +135,17 @@ export const useRoutesStore = defineStore(storeName, {
             let { getUrlParam } = useRoute(fullUrl)
             let categoryId = getUrlParam(UrlParams.category_id)
 
-            let result = []
+            let result: Array<Option> = []
 
-            if (categoryId) {
+            if (categoryId != null) {
                 let categoriesStore = useCategoriesStore()
-                let category = categoriesStore.option(categoryId)
+                let category = categoriesStore.option(`${categoryId}`)
                 if (category) {
                     result = [
                         ...result,
                         {
                             ...category,
-                            type: OptionType.category,
+                            urlParam: UrlParams.category_id,
                         },
                     ]
                 }
@@ -218,7 +213,7 @@ export const useRoutesStore = defineStore(storeName, {
                     return def || TabEnum.elements
                 }
                 let paramActiveTab = new URL(url).searchParams.get(
-                    RouteParams.activeTab
+                    UrlParams.active_tab
                 )
                 if (!paramActiveTab) {
                     return def || TabEnum.elements
@@ -350,8 +345,4 @@ export enum RouteTypeEnum {
     referenceServices = "reference-services",
     referenceFaq = "reference-faq",
     referenceContacts = "reference-contacts",
-}
-
-export enum RouteParams {
-    activeTab = "activeTab",
 }

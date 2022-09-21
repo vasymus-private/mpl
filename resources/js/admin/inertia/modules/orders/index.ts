@@ -1,4 +1,4 @@
-import { defineStore } from "pinia"
+import {defineStore, storeToRefs} from "pinia"
 import {
     Order,
     OrderItem,
@@ -7,12 +7,13 @@ import {
 } from "@/admin/inertia/modules/orders/types"
 import Links from "@/admin/inertia/modules/common/Links"
 import Meta from "@/admin/inertia/modules/common/Meta"
-import { useRoutesStore } from "@/admin/inertia/modules/routes"
+import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
 import { extendMetaLinksWithComputedData } from "@/admin/inertia/modules/common"
 import { DateTime } from "luxon"
 import { useCurrenciesStore } from "@/admin/inertia/modules/currencies"
 import { CharCode } from "@/admin/inertia/modules/currencies/types"
 import Option from "@/admin/inertia/modules/common/Option"
+import useRoute, {UrlParams} from "@/admin/inertia/composables/useRoute"
 
 const storeName = "orders"
 
@@ -39,7 +40,27 @@ export const useOrdersStore = defineStore(storeName, {
     },
     getters: {
         ordersList: (state): Array<OrderItem> => state._entities,
-        order: (state): Order | null => state._entity,
+        order: (state): Order|null => state._entity,
+        isCreatingOrderRoute() {
+            let routesStore = useRoutesStore()
+
+            return [
+                routeNames.ROUTE_ADMIN_ORDERS_CREATE,
+                routeNames.ROUTE_ADMIN_ORDERS_TEMP_CREATE,
+            ].includes(routesStore.current)
+        },
+        isCreatingFromCopy(): boolean {
+            if (!this.isCreatingOrderRoute) {
+                return false
+            }
+
+            const routesStore = useRoutesStore()
+            const {fullUrl} = storeToRefs(routesStore)
+
+            const {hasUrlParam} = useRoute(fullUrl)
+
+            return hasUrlParam(UrlParams.copy_id)
+        },
         _priceRetailRub(state) {
             return (id: number, type: _Type): number | null => {
                 let order: Order | OrderItem
@@ -92,12 +113,10 @@ export const useOrdersStore = defineStore(storeName, {
             }
         },
         orderItemPriceRetailRubFormatted() {
-            return (id: number): string =>
-                this._priceRetailRubFormatted(id, _Type.entities)
+            return (id: number): string => this._priceRetailRubFormatted(id, _Type.entities)
         },
         orderPriceRetailRubFormatted() {
-            return (id: number): string =>
-                this._priceRetailRubFormatted(id, _Type.entity)
+            return (id: number): string => this._priceRetailRubFormatted(id, _Type.entity)
         },
         links: (state: State): Links | null => state._links,
         meta: (state: State): Meta | null => state._meta,
