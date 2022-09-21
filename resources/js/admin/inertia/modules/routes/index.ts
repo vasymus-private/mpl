@@ -1,12 +1,17 @@
-import {defineStore, storeToRefs} from "pinia"
-import {useCategoriesStore} from "@/admin/inertia/modules/categories"
-import route, {Config, RouteParam, RouteParamsWithQueryOverload, Router,} from "ziggy-js"
-import {Ziggy} from "@/helpers/ziggy"
+import { defineStore, storeToRefs } from "pinia"
+import { useCategoriesStore } from "@/admin/inertia/modules/categories"
+import route, {
+    Config,
+    RouteParam,
+    RouteParamsWithQueryOverload,
+    Router,
+} from "ziggy-js"
+import { Ziggy } from "@/helpers/ziggy"
 import Option from "@/admin/inertia/modules/common/Option"
-import {useBrandsStore} from "@/admin/inertia/modules/brands"
+import { useBrandsStore } from "@/admin/inertia/modules/brands"
 import * as H from "history"
-import useRoute, {UrlParams} from "@/admin/inertia/composables/useRoute"
-import {AdminTab, TabEnum} from "@/admin/inertia/modules/common/Tabs"
+import useRoute, { UrlParams } from "@/admin/inertia/composables/useRoute"
+import { AdminTab, TabEnum } from "@/admin/inertia/modules/common/Tabs"
 
 export const storeName = "routes"
 
@@ -101,7 +106,7 @@ export const useRoutesStore = defineStore(storeName, {
             let brandId = getUrlParam(UrlParams.brand_id)
 
             let result: Array<Option> = []
-debugger
+            debugger
             if (categoryId != null) {
                 let category = categoriesStore.option(`${categoryId}`)
                 if (category) {
