@@ -14,13 +14,18 @@ import { useCurrenciesStore } from "@/admin/inertia/modules/currencies"
 import { CharCode } from "@/admin/inertia/modules/currencies/types"
 import Option from "@/admin/inertia/modules/common/Option"
 
-const storeName = "ordersStore"
+const storeName = "orders"
 
 interface State {
     _entities: Array<OrderItem>
     _links: Links | null
     _meta: Meta | null
     _entity: Order | null
+}
+
+enum _Type {
+    entity,
+    entities,
 }
 
 export const useOrdersStore = defineStore(storeName, {
@@ -33,13 +38,12 @@ export const useOrdersStore = defineStore(storeName, {
         }
     },
     getters: {
-        ordersList(state): Array<OrderItem> {
-            return state._entities
-        },
-        orderPriceRetailRub(state) {
-            return (id: number): number | null => {
+        ordersList: (state): Array<OrderItem> => state._entities,
+        order: (state): Order|null => state._entity,
+        _priceRetailRub(state) {
+            return (id: number, type: _Type): number | null => {
                 let order: Order | OrderItem
-                if (state._entity?.id === id) {
+                if (type === _Type.entity) {
                     order = state._entity
                 } else {
                     order = this.ordersList.find(
@@ -70,10 +74,10 @@ export const useOrdersStore = defineStore(storeName, {
                 )
             }
         },
-        orderPriceRetailRubFormatted() {
-            return (id: number): string => {
+        _priceRetailRubFormatted() {
+            return (id: number, type: _Type): string => {
                 let sumOrderProductsPriceRub: number | null =
-                    this.orderPriceRetailRub(id)
+                    this._priceRetailRub(id, type)
 
                 if (!sumOrderProductsPriceRub) {
                     return ""
@@ -86,6 +90,12 @@ export const useOrdersStore = defineStore(storeName, {
                     CharCode.RUB
                 )
             }
+        },
+        orderItemPriceRetailRubFormatted() {
+            return (id: number): string => this._priceRetailRubFormatted(id, _Type.entities)
+        },
+        orderPriceRetailRubFormatted() {
+            return (id: number): string => this._priceRetailRubFormatted(id, _Type.entity)
         },
         links: (state: State): Links | null => state._links,
         meta: (state: State): Meta | null => state._meta,

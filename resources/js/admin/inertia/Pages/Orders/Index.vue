@@ -237,7 +237,7 @@ watchSelectAll()
                                 </span>
                             </td>
                             <td v-if="isSortableColumn(sortableColumn, ColumnName.sum)" :class="`sortable-column-${sortableColumn.value}`">
-                                <span class="main-grid-cell-content">{{ordersStore.orderPriceRetailRubFormatted(order.id)}}</span>
+                                <span class="main-grid-cell-content">{{ordersStore.orderItemPriceRetailRubFormatted(order.id)}}</span>
                             </td>
                             <td v-if="isSortableColumn(sortableColumn, ColumnName.name)" :class="`sortable-column-${sortableColumn.value}`">
                                 <span class="main-grid-cell-content">{{order.request_user_name || order.user_name}}</span>
