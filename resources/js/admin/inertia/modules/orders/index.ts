@@ -1,12 +1,17 @@
-import {defineStore} from "pinia"
-import {Order, OrderItem, OrderItemProductItem, OrderProductItem} from "@/admin/inertia/modules/orders/types"
+import { defineStore } from "pinia"
+import {
+    Order,
+    OrderItem,
+    OrderItemProductItem,
+    OrderProductItem,
+} from "@/admin/inertia/modules/orders/types"
 import Links from "@/admin/inertia/modules/common/Links"
 import Meta from "@/admin/inertia/modules/common/Meta"
-import {useRoutesStore} from "@/admin/inertia/modules/routes"
-import {extendMetaLinksWithComputedData} from "@/admin/inertia/modules/common"
-import {DateTime} from "luxon"
-import {useCurrenciesStore} from "@/admin/inertia/modules/currencies"
-import {CharCode} from "@/admin/inertia/modules/currencies/types"
+import { useRoutesStore } from "@/admin/inertia/modules/routes"
+import { extendMetaLinksWithComputedData } from "@/admin/inertia/modules/common"
+import { DateTime } from "luxon"
+import { useCurrenciesStore } from "@/admin/inertia/modules/currencies"
+import { CharCode } from "@/admin/inertia/modules/currencies/types"
 import Option from "@/admin/inertia/modules/common/Option"
 
 const storeName = "ordersStore"
@@ -32,36 +37,54 @@ export const useOrdersStore = defineStore(storeName, {
             return state._entities
         },
         orderPriceRetailRub(state) {
-            return (id: number): number|null => {
+            return (id: number): number | null => {
                 let order: Order | OrderItem
                 if (state._entity?.id === id) {
                     order = state._entity
                 } else {
-                    order = this.ordersList.find((item: OrderItem) => item.id === id)
+                    order = this.ordersList.find(
+                        (item: OrderItem) => item.id === id
+                    )
                 }
 
                 if (!order) {
                     return null
                 }
 
-                let orderProducts: Array<OrderProductItem|OrderItemProductItem> = order.products
+                let orderProducts: Array<
+                    OrderProductItem | OrderItemProductItem
+                > = order.products
 
-                return orderProducts.reduce<number>((acc: number, product: OrderItemProductItem | OrderProductItem): number => {
-                    return acc + (product.order_product.price_retail_rub * product.order_product.count)
-                }, 0)
+                return orderProducts.reduce<number>(
+                    (
+                        acc: number,
+                        product: OrderItemProductItem | OrderProductItem
+                    ): number => {
+                        return (
+                            acc +
+                            product.order_product.price_retail_rub *
+                                product.order_product.count
+                        )
+                    },
+                    0
+                )
             }
         },
         orderPriceRetailRubFormatted() {
             return (id: number): string => {
-                let sumOrderProductsPriceRub: number|null = this.orderPriceRetailRub(id)
+                let sumOrderProductsPriceRub: number | null =
+                    this.orderPriceRetailRub(id)
 
                 if (!sumOrderProductsPriceRub) {
-                    return ''
+                    return ""
                 }
 
                 const currenciesStore = useCurrenciesStore()
 
-                return currenciesStore.priceRubFormatted(sumOrderProductsPriceRub, CharCode.RUB)
+                return currenciesStore.priceRubFormatted(
+                    sumOrderProductsPriceRub,
+                    CharCode.RUB
+                )
             }
         },
         links: (state: State): Links | null => state._links,
@@ -69,9 +92,9 @@ export const useOrdersStore = defineStore(storeName, {
         getPerPageOption: (state: State): Option | null =>
             state._meta && state._meta.per_page
                 ? {
-                    value: state._meta.per_page,
-                    label: `${state._meta.per_page}`,
-                }
+                      value: state._meta.per_page,
+                      label: `${state._meta.per_page}`,
+                  }
                 : null,
     },
     actions: {
