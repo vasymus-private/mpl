@@ -1,4 +1,4 @@
-import { defineStore } from "pinia"
+import {defineStore, storeToRefs} from "pinia"
 import ProductListItem from "@/admin/inertia/modules/products/ProductListItem"
 import Links from "@/admin/inertia/modules/common/Links"
 import Meta from "@/admin/inertia/modules/common/Meta"
@@ -22,6 +22,7 @@ import Product, {
 import axios, { AxiosError } from "axios"
 import { arrayToMap } from "@/admin/inertia/utils"
 import { ErrorResponse } from "@/admin/inertia/modules/common/types"
+import useRoute, {UrlParams} from "@/admin/inertia/composables/useRoute";
 
 export const storeName = "products"
 
@@ -97,17 +98,16 @@ export const useProductsStore = defineStore(storeName, {
             ].includes(routesStore.current)
         },
         isCreatingFromCopy(): boolean {
-            let isCreating = this.isCreatingProductRoute
-            if (!isCreating) {
+            if (!this.isCreatingProductRoute) {
                 return false
             }
 
             const routesStore = useRoutesStore()
-            if (!routesStore.fullUrl) {
-                return false
-            }
+            const {fullUrl} = storeToRefs(routesStore)
 
-            return !!new URL(routesStore.fullUrl).searchParams.get("copy_id")
+            const {hasUrlParam} = useRoute(fullUrl)
+
+            return hasUrlParam(UrlParams.copy_id)
         },
         searchProducts:
             (state: State) =>

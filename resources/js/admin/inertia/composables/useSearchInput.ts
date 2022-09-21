@@ -11,9 +11,13 @@ export default (
     const _searchInput = ref<string | null>(null)
     const searchInput = computed<string | null>({
         get() {
-            return _searchInput.value
-                ? _searchInput.value
-                : getUrlParam(UrlParams.search)
+            if (_searchInput.value) {
+                return _searchInput.value
+            }
+
+            let urlParam = getUrlParam(UrlParams.search)
+
+            return urlParam ? `${urlParam}` : null
         },
         set(v: string | null) {
             _searchInput.value = v
@@ -23,9 +27,13 @@ export default (
     const _dateFrom = ref<string | null>(null)
     const dateFrom = computed<string | null>({
         get(): string | null {
-            return _dateFrom.value
-                ? _dateFrom.value
-                : getUrlParam(UrlParams.date_from)
+            if (_dateFrom.value) {
+                return _dateFrom.value
+            }
+
+            let urlParam = getUrlParam(UrlParams.date_from)
+
+            return urlParam ? `${urlParam}` : null
         },
         set(v: string | null): void {
             _dateFrom.value = v
@@ -35,9 +43,13 @@ export default (
     const _dateTo = ref<string | null>(null)
     const dateTo = computed<string | null>({
         get(): string | null {
-            return _dateTo.value
-                ? _dateTo.value
-                : getUrlParam(UrlParams.date_to)
+            if (_dateTo.value) {
+                return _dateTo.value
+            }
+
+            let urlParam = getUrlParam(UrlParams.date_to)
+
+            return urlParam ? `${urlParam}` : null
         },
         set(v: string | null): void {
             _dateTo.value = v
@@ -47,9 +59,13 @@ export default (
     const _orderId = ref<string | null>(null)
     const orderId = computed<string | null>({
         get(): string | null {
-            return _orderId.value
-                ? _orderId.value
-                : getUrlParam(UrlParams.order_id)
+            if (_orderId.value) {
+                return _orderId.value
+            }
+
+            let urlParam = getUrlParam(UrlParams.order_id)
+
+            return urlParam ? `${urlParam}` : null
         },
         set(v: string | null): void {
             _orderId.value = v
@@ -59,7 +75,13 @@ export default (
     const _email = ref<string | null>(null)
     const email = computed<string | null>({
         get(): string | null {
-            return _email.value ? _email.value : getUrlParam(UrlParams.email)
+            if (_email.value) {
+                return _email.value
+            }
+
+            let urlParam = getUrlParam(UrlParams.email)
+
+            return urlParam ? `${urlParam}` : null
         },
         set(v: string | null): void {
             _email.value = v
@@ -69,7 +91,13 @@ export default (
     const _name = ref<string | null>(null)
     const name = computed<string | null>({
         get(): string | null {
-            return _name.value ? _name.value : getUrlParam(UrlParams.name)
+            if (_name.value) {
+                return _name.value
+            }
+
+            let urlParam = getUrlParam(UrlParams.name)
+
+            return urlParam ? `${urlParam}` : null
         },
         set(v: string | null): void {
             _name.value = v
@@ -83,8 +111,10 @@ export default (
                 return _admin.value
             }
 
+            let urlParam = getUrlParam(UrlParams.admin_id)
+
             return adminOptions.value.find(
-                (o) => `${o.value}` === `${getUrlParam(UrlParams.admin_id)}`
+                (o) => `${o.value}` === `${urlParam}`
             )
         },
         set(v: Option | null): void {

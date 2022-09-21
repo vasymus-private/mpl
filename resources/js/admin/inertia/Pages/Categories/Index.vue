@@ -38,7 +38,7 @@ const {
     manualCheck,
     cancel,
 } = useCheckedItems<CategoryListItem>(categoriesList)
-const {visit, removeUrlParam, revisit} = useRoute(fullUrl)
+const {visit, visitWithoutUrlParam, revisit} = useRoute(fullUrl)
 const {searchInput, handleSearch, handleClearSearch} = useSearchInput(fullUrl)
 
 const {errors, submitCount, handleSubmit, values, setValues, validate, isSubmitting} = useForm<Values>({
@@ -135,9 +135,9 @@ watchSelectAll()
             <div class="search form-group row">
                 <div class="col-xs-12 col-sm-10">
                     <div class="input-group mb-3">
-                        <template v-for="option in routesStore.categoriesUrlParamOptions" :key="`${option.type}-${option.value}`">
+                        <template v-for="option in routesStore.categoriesUrlParamOptions" :key="`${option.urlParam}-${option.value}`">
                             <span style="max-width: 200px;" class="input-group-text d-inline-block text-truncate">{{option.label}}</span>
-                            <button @click="removeUrlParam(option.type)" class="btn input-group-prepend__remove" type="button"></button>
+                            <button @click="visitWithoutUrlParam(option.urlParam)" class="btn input-group-prepend__remove" type="button"></button>
                         </template>
                         <input
                             v-model="searchInput"

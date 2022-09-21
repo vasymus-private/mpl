@@ -1,8 +1,8 @@
 import { Ref } from "vue"
 import { Inertia } from "@inertiajs/inertia"
-import { OptionType } from "@/admin/inertia/modules/common/Option"
 import { AdminTab } from "@/admin/inertia/modules/common/Tabs"
-import { RouteParams } from "@/admin/inertia/modules/routes"
+import {isNumeric} from "@/admin/inertia/utils"
+import {computed} from 'vue'
 
 export enum UrlParams {
     brand_id = "brand_id",
@@ -17,34 +17,66 @@ export enum UrlParams {
     email = "email",
     name = "name",
     admin_id = "admin_id",
+
+    copy_id = "copy_id",
+
+    active_tab = "active_tab",
 }
 
 export default (fullUrl?: Ref<string | null>) => {
-    const getUrlParam = (key: string): string | null => {
-        let url =
-            typeof location !== "undefined"
-                ? location.href
-                : fullUrl
-                ? fullUrl.value
-                : null
+    const _url = computed<string|null>(() => typeof location !== "undefined"
+        ? location.href
+        : fullUrl
+            ? fullUrl.value
+            : null)
 
-        if (!url) {
+    const getUrlParam = (key: string): string | number | boolean | null => {
+        if (!_url.value) {
             return null
         }
 
         try {
-            let u = new URL(url)
-            return u.searchParams.get(key)
+            let u = new URL(_url.value)
+            let value = u.searchParams.get(key)
+
+            switch (true) {
+                case 'true' === value: {
+                    return true
+                }
+                case 'false' === value: {
+                    return false
+                }
+                case isNumeric(value): {
+                    return +value
+                }
+                default: {
+                    return value
+                }
+            }
         } catch (e) {
             console.warn(e)
             return null
         }
     }
 
+    const hasUrlParam = (key: string): boolean => {
+        if (!_url.value) {
+            return false
+        }
+
+        try {
+            let u = new URL(_url.value)
+            return u.searchParams.has(key)
+        } catch (e) {
+            console.warn(e)
+            return false
+        }
+    }
+
     const visit = (
         params: Partial<Record<UrlParams, string | number | null>>
     ) => {
-        const to = new URL(location.href)
+        const to = new URL(_url.value)
 
         for (let key in params) {
             if (params[key]) {
@@ -58,30 +90,38 @@ export default (fullUrl?: Ref<string | null>) => {
     }
 
     const revisit = () => {
-        Inertia.visit(new URL(location.href).toString())
+        Inertia.visit(new URL(_url.value).toString())
     }
 
-    const removeUrlParam = (type: OptionType) => {
-        switch (type) {
-            case OptionType.category: {
-                visit({
-                    [UrlParams.category_id]: null,
-                })
-                break
-            }
-            case OptionType.brand: {
-                visit({
-                    [UrlParams.brand_id]: null,
-                })
-                break
-            }
-        }
+    const visitWithoutUrlParam = (param: UrlParams) => {
+        visit({
+            [param]: null,
+        })
     }
 
     const onTabClick = (tab: AdminTab) => {
-        let u = new URL(location.href)
+        setUrlParam(UrlParams.active_tab, tab.value)
+    }
+
+    const setUrlParam = (key: UrlParams, value: string|number|boolean|null) => {
+        let u = new URL(_url.value)
         let s = new URLSearchParams(u.search)
-        s.set(RouteParams.activeTab, tab.value)
+
+        switch (true) {
+            case value == null : {
+                s.delete(key)
+                break
+            }
+            case typeof value === 'boolean': {
+                s.set(key, value ? 'true' : 'false')
+                break
+            }
+            default: {
+                s.set(key, `${value}`)
+                break
+            }
+        }
+
         u.search = s.toString()
         history.replaceState(history.state, "", u.toString())
     }
@@ -89,8 +129,9 @@ export default (fullUrl?: Ref<string | null>) => {
     return {
         getUrlParam,
         visit,
-        removeUrlParam,
         onTabClick,
         revisit,
+        hasUrlParam,
+        visitWithoutUrlParam,
     }
 }
