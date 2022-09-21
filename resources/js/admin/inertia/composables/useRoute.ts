@@ -1,8 +1,8 @@
 import { Ref } from "vue"
 import { Inertia } from "@inertiajs/inertia"
 import { AdminTab } from "@/admin/inertia/modules/common/Tabs"
-import {isNumeric} from "@/admin/inertia/utils"
-import {computed} from 'vue'
+import { isNumeric } from "@/admin/inertia/utils"
+import { computed } from "vue"
 
 export enum UrlParams {
     brand_id = "brand_id",
@@ -24,11 +24,13 @@ export enum UrlParams {
 }
 
 export default (fullUrl?: Ref<string | null>) => {
-    const _url = computed<string|null>(() => typeof location !== "undefined"
-        ? location.href
-        : fullUrl
+    const _url = computed<string | null>(() =>
+        typeof location !== "undefined"
+            ? location.href
+            : fullUrl
             ? fullUrl.value
-            : null)
+            : null
+    )
 
     const getUrlParam = (key: string): string | number | boolean | null => {
         if (!_url.value) {
@@ -40,10 +42,10 @@ export default (fullUrl?: Ref<string | null>) => {
             let value = u.searchParams.get(key)
 
             switch (true) {
-                case 'true' === value: {
+                case "true" === value: {
                     return true
                 }
-                case 'false' === value: {
+                case "false" === value: {
                     return false
                 }
                 case isNumeric(value): {
@@ -103,17 +105,20 @@ export default (fullUrl?: Ref<string | null>) => {
         setUrlParam(UrlParams.active_tab, tab.value)
     }
 
-    const setUrlParam = (key: UrlParams, value: string|number|boolean|null) => {
+    const setUrlParam = (
+        key: UrlParams,
+        value: string | number | boolean | null
+    ) => {
         let u = new URL(_url.value)
         let s = new URLSearchParams(u.search)
 
         switch (true) {
-            case value == null : {
+            case value == null: {
                 s.delete(key)
                 break
             }
-            case typeof value === 'boolean': {
-                s.set(key, value ? 'true' : 'false')
+            case typeof value === "boolean": {
+                s.set(key, value ? "true" : "false")
                 break
             }
             default: {
