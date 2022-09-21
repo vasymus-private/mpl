@@ -39,7 +39,7 @@ export const useOrdersStore = defineStore(storeName, {
     },
     getters: {
         ordersList: (state): Array<OrderItem> => state._entities,
-        order: (state): Order|null => state._entity,
+        order: (state): Order | null => state._entity,
         _priceRetailRub(state) {
             return (id: number, type: _Type): number | null => {
                 let order: Order | OrderItem
@@ -92,10 +92,12 @@ export const useOrdersStore = defineStore(storeName, {
             }
         },
         orderItemPriceRetailRubFormatted() {
-            return (id: number): string => this._priceRetailRubFormatted(id, _Type.entities)
+            return (id: number): string =>
+                this._priceRetailRubFormatted(id, _Type.entities)
         },
         orderPriceRetailRubFormatted() {
-            return (id: number): string => this._priceRetailRubFormatted(id, _Type.entity)
+            return (id: number): string =>
+                this._priceRetailRubFormatted(id, _Type.entity)
         },
         links: (state: State): Links | null => state._links,
         meta: (state: State): Meta | null => state._meta,
