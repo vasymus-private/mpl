@@ -1,8 +1,9 @@
 import { defineStore } from "pinia"
-import Currency, {
-    CHAR_CODE_RUB,
-    Rate,
-} from "@/admin/inertia/modules/currencies/Currency"
+import {
+    Currency,
+    CharCode,
+    Rate, CurrencyName,
+} from "@/admin/inertia/modules/currencies/types"
 import Option from "@/admin/inertia/modules/common/Option"
 
 export const storeName = "currencies"
@@ -23,11 +24,16 @@ export const useCurrenciesStore = defineStore(storeName, {
         entities: (state: State): Array<Currency> => state._entities,
         entity:
             (state: State) =>
-            (id: number | null): Currency | null =>
+            (currencyIdOrName: CurrencyName | number | null): Currency | null =>
                 state._entities.find(
-                    (item: Currency): boolean => item.id === id
+                    (item: Currency): boolean => item.id === currencyIdOrName || item.name === currencyIdOrName
                 ),
         rates: (state: State): Array<Rate> => state._rates,
+        rate: function () {
+            return (currencyName: CurrencyName): Rate|undefined => this.rates.find(
+                (r) => r.CharCode === currencyName
+            )
+        },
         priceFormatted: function () {
             return (
                 price: number | null,
@@ -51,24 +57,43 @@ export const useCurrenciesStore = defineStore(storeName, {
                 }).format(price)
             }
         },
+        convertedToRub: function() {
+            return (
+                value: number,
+                fromCurrency: Currency
+            ): number | null => {
+                if (fromCurrency.name === CharCode.RUB) {
+                    return value
+                }
+
+                let rate: Rate | undefined = this.rate(fromCurrency.name)
+                if (!rate) {
+                    return null
+                }
+
+                let multiplier = rate.Value / rate.Nominal
+
+                return value * multiplier
+            }
+        },
         priceRubFormatted: function () {
             return (
                 price: number | null,
-                currencyId: number | null
+                currencyIdOrName: CurrencyName | number | null
             ): string => {
                 if (price == null) {
                     return ""
                 }
-                if (currencyId == null) {
+                if (currencyIdOrName == null) {
                     return ""
                 }
 
-                let currency: Currency | undefined = this.entity(currencyId)
+                let currency: Currency | undefined = this.entity(currencyIdOrName)
                 if (!currency) {
                     return ""
                 }
 
-                let rub = this.convertToRub(price, currency)
+                let rub = this.convertedToRub(price, currency)
 
                 return new Intl.NumberFormat("ru-RU", {
                     style: "currency",
@@ -76,7 +101,6 @@ export const useCurrenciesStore = defineStore(storeName, {
                 }).format(rub)
             }
         },
-
         options: function (): Array<Option> {
             return this.entities.map(
                 (currency: Currency): Option => ({
@@ -93,25 +117,6 @@ export const useCurrenciesStore = defineStore(storeName, {
         },
         setRates(rates: Array<Rate>): void {
             this._rates = rates
-        },
-        convertToRub: function (
-            value: number,
-            fromCurrency: Currency
-        ): number | null {
-            if (fromCurrency.name === CHAR_CODE_RUB) {
-                return value
-            }
-
-            let rate: Rate | undefined = this.rates.find(
-                (r) => r.CharCode === fromCurrency.name
-            )
-            if (!rate) {
-                return null
-            }
-
-            let multiplier = rate.Value / rate.Nominal
-
-            return value * multiplier
         },
     },
 })

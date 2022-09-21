@@ -32,6 +32,7 @@ class OrderItemProductItemResource extends JsonResource
                 'name' => $this->resource->order_product->name ?? null,
                 'unit' => $this->resource->order_product->unit ?? null,
                 'count' => $this->resource->order_product->count ?? null,
+                'price_retail_rub' => $this->resource->order_product->price_retail_rub ?? null,
             ],
         ];
     }

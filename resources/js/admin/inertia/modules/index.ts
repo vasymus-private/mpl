@@ -21,7 +21,7 @@ import AvailabilityStatus from "@/admin/inertia/modules/availabilityStatuses/Ava
 import { useAvailabilityStatusesStore } from "@/admin/inertia/modules/availabilityStatuses"
 import BillStatus from "@/admin/inertia/modules/billStatuses/BillStatus"
 import { useBillStatusesStore } from "@/admin/inertia/modules/billStatuses"
-import Currency, { Rate } from "@/admin/inertia/modules/currencies/Currency"
+import { Currency, Rate } from "@/admin/inertia/modules/currencies/types"
 import { useCurrenciesStore } from "@/admin/inertia/modules/currencies"
 import PaymentMethod from "@/admin/inertia/modules/paymentMethods/PaymentMethod"
 import { usePaymentMethodsStore } from "@/admin/inertia/modules/paymentMethods"

@@ -18,6 +18,7 @@ import {OrderItem} from "@/admin/inertia/modules/orders/types"
 import {useColumnsStore, isSortableColumn, ColumnName} from "@/admin/inertia/modules/columns"
 import {useOrderStatusesStore} from "@/admin/inertia/modules/orderStatuses"
 import {useOrderImportanceStore} from "@/admin/inertia/modules/orderImportance"
+import {usePaymentMethodsStore} from "@/admin/inertia/modules/paymentMethods"
 
 
 const ordersStore = useOrdersStore()
@@ -27,6 +28,7 @@ const modalsStore = useModalsStore()
 const columnStore = useColumnsStore()
 const orderStatusStore = useOrderStatusesStore()
 const orderImportanceStore = useOrderImportanceStore()
+const paymentsStore = usePaymentMethodsStore()
 
 const {ordersList} = storeToRefs(ordersStore)
 
@@ -138,7 +140,7 @@ const deleteOrder = (order: OrderItem) => {
                                 <button
                                     class="btn btn__grid-row-action-button dropdown-toggle"
                                     type="button"
-                                    :id="`actions-dropdown-${product.uuid}`"
+                                    :id="`actions-dropdown-${order.id}`"
                                     data-bs-toggle="dropdown"
                                     aria-expanded="false"
                                 ></button>
@@ -150,7 +152,7 @@ const deleteOrder = (order: OrderItem) => {
                                     </Link>
                                     <div class="bx-core-popup-menu__arrow"></div>
                                     <Link class="dropdown-item bx-core-popup-menu-item bx-core-popup-menu-item-default" :href="route(routeNames.ROUTE_ADMIN_ORDERS_TEMP_CREATE, {copy_id: order.id})">
-                                        <span class="bx-core-popup-menu-item-icon adm-menu-edit"></span>
+                                        <span class="bx-core-popup-menu-item-icon adm-menu-copy"></span>
                                         <span class="bx-core-popup-menu-item-text">Копировать</span>
                                     </Link>
                                     <span class="bx-core-popup-menu-separator"></span>
@@ -185,10 +187,13 @@ const deleteOrder = (order: OrderItem) => {
                             </td>
                             <td v-if="isSortableColumn(sortableColumn, ColumnName.positions)" :class="`sortable-column-${sortableColumn.value}`">
                                 <div class="main-grid-cell-content">
-                                    <p v-for="orderItemProductItem in order.products" :key="orderItemProductItem.product.id">
-                                        {{ orderItemProductItem.order_product.name }} <br />
-                                        {{ orderItemProductItem.order_product.count }}
-                                    </p>
+                                    <template v-for="orderItemProductItem in order.products" :key="orderItemProductItem.product.id">
+                                        <p>
+                                            {{ orderItemProductItem.order_product.name || orderItemProductItem.product.name }} <br />
+                                            ({{ orderItemProductItem.order_product.count }} шт.)
+                                        </p>
+                                        <hr />
+                                    </template>
                                 </div>
                             </td>
                             <td v-if="isSortableColumn(sortableColumn, ColumnName.comment_admin)" :class="`sortable-column-${sortableColumn.value}`">
@@ -222,48 +227,25 @@ const deleteOrder = (order: OrderItem) => {
                                 </span>
                             </td>
                             <td v-if="isSortableColumn(sortableColumn, ColumnName.sum)" :class="`sortable-column-${sortableColumn.value}`">
-                                <span class="main-grid-cell-content">{{order.created_at}}</span>
+                                <span class="main-grid-cell-content">{{ordersStore.orderPriceRetailRubFormatted(order.id)}}</span>
+                            </td>
+                            <td v-if="isSortableColumn(sortableColumn, ColumnName.name)" :class="`sortable-column-${sortableColumn.value}`">
+                                <span class="main-grid-cell-content">{{order.request_user_name || order.user_name}}</span>
+                            </td>
+                            <td v-if="isSortableColumn(sortableColumn, ColumnName.phone)" :class="`sortable-column-${sortableColumn.value}`">
+                                <span class="main-grid-cell-content">{{order.request_user_phone || order.user_phone}}</span>
+                            </td>
+                            <td v-if="isSortableColumn(sortableColumn, ColumnName.email)" :class="`sortable-column-${sortableColumn.value}`">
+                                <span class="main-grid-cell-content">{{order.request_user_email || order.user_email}}</span>
+                            </td>
+                            <td v-if="isSortableColumn(sortableColumn, ColumnName.comment_user)" :class="`sortable-column-${sortableColumn.value}`">
+                                <span class="main-grid-cell-content">{{order.comment_user}}</span>
+                            </td>
+                            <td v-if="isSortableColumn(sortableColumn, ColumnName.payment_method)" :class="`sortable-column-${sortableColumn.value}`">
+                                <span class="main-grid-cell-content">{{paymentsStore.paymentMethod(order.payment_method_id)?.name}}</span>
                             </td>
                         </template>
                     </tr>
-                    @foreach($items as $order)
-                    <tr wire:key="order-{{$order['id']}}-{{json_encode($sortableColumns)}}">
-                        @foreach($sortableColumns as $sortableColumn)
-                        @switch(true)
-                        @case($sortableColumn->equals(\Domain\Common\Enums\Column::sum()))
-                        <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}">
-                            <span class="main-grid-cell-content">{{$order['order_price_retail_rub_formatted']}}</span>
-                        </td>
-                        @break
-                        @case($sortableColumn->equals(\Domain\Common\Enums\Column::name()))
-                        <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}">
-                            <span class="main-grid-cell-content">{{$order['user_name']}}</span>
-                        </td>
-                        @break
-                        @case($sortableColumn->equals(\Domain\Common\Enums\Column::phone()))
-                        <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}">
-                            <span class="main-grid-cell-content">{{$order['user_phone']}}</span>
-                        </td>
-                        @break
-                        @case($sortableColumn->equals(\Domain\Common\Enums\Column::email()))
-                        <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}">
-                            <span class="main-grid-cell-content">{{$order['user_email']}}</span>
-                        </td>
-                        @break
-                        @case($sortableColumn->equals(\Domain\Common\Enums\Column::comment_user()))
-                        <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}">
-                            <span class="main-grid-cell-content">{{$order['comment_user']}}</span>
-                        </td>
-                        @break
-                        @case($sortableColumn->equals(\Domain\Common\Enums\Column::payment_method()))
-                        <td wire:key="sortable-column-table-row-{{$sortableColumn->value}}">
-                            <span class="main-grid-cell-content">{{$order['payment_method_name']}}</span>
-                        </td>
-                        @break
-                        @endswitch
-                        @endforeach
-                    </tr>
-                    @endforeach
                     </tbody>
                 </table>
             </div>

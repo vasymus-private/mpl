@@ -11,6 +11,11 @@ export const usePaymentMethodsStore = defineStore(storeName, {
     },
     getters: {
         entities: (state): Array<PaymentMethod> => state._entities,
+        paymentMethod: function() {
+            return (id: number): PaymentMethod|undefined => {
+                return this.entities.find(item => item.id === id)
+            }
+        }
     },
     actions: {
         setEntities(entities: Array<PaymentMethod>): void {

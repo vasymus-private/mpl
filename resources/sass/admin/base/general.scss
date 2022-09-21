@@ -183,17 +183,6 @@ body {
         margin: 16px 0;
         color: #535c69;
         font-size: 13px;
-
-        p {
-            &:after {
-                content: "";
-                background: #333;
-                height: 1px;
-                display: block;
-                width: 67%;
-                margin: 10px auto -7px;
-            }
-        }
     }
 
     .form-check {

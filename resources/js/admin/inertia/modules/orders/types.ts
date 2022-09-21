@@ -16,7 +16,9 @@ export interface OrderItem {
     user_name: string | null
     user_email: string | null
     user_phone: string | null
-    order_price_retail_rub_formatted: string | null
+    request_user_name: string | null
+    request_user_email: string | null
+    request_user_phone: string | null
     products: Array<OrderItemProductItem>
     payment_method_id: number | null
     is_busy_by_other_admin: boolean
@@ -69,7 +71,8 @@ export interface OrderItemProductItem {
     order_product: {
         name: string|null
         unit: string|null
-        count: number|null
+        count: number
+        price_retail_rub: number
     }
 }
 
