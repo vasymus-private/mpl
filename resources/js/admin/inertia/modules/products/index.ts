@@ -1,4 +1,4 @@
-import {defineStore, storeToRefs} from "pinia"
+import { defineStore, storeToRefs } from "pinia"
 import ProductListItem from "@/admin/inertia/modules/products/ProductListItem"
 import Links from "@/admin/inertia/modules/common/Links"
 import Meta from "@/admin/inertia/modules/common/Meta"
@@ -103,9 +103,9 @@ export const useProductsStore = defineStore(storeName, {
             }
 
             const routesStore = useRoutesStore()
-            const {fullUrl} = storeToRefs(routesStore)
+            const { fullUrl } = storeToRefs(routesStore)
 
-            const {hasUrlParam} = useRoute(fullUrl)
+            const { hasUrlParam } = useRoute(fullUrl)
 
             return hasUrlParam(UrlParams.copy_id)
         },
