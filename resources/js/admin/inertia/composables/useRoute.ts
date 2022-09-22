@@ -1,13 +1,13 @@
 import { Ref } from "vue"
 import { Inertia } from "@inertiajs/inertia"
-import {isNumeric} from "@/admin/inertia/utils"
-import {UrlParams} from "@/admin/inertia/modules/common/types"
-
+import { isNumeric } from "@/admin/inertia/utils"
+import { UrlParams } from "@/admin/inertia/modules/common/types"
 
 export default (fullUrl?: Ref<string | null>) => {
-    const _getUrl = () => typeof location !== "undefined"
-        ? location.href
-        : fullUrl
+    const _getUrl = () =>
+        typeof location !== "undefined"
+            ? location.href
+            : fullUrl
             ? fullUrl.value
             : null
 
@@ -21,10 +21,10 @@ export default (fullUrl?: Ref<string | null>) => {
             let value = u.searchParams.get(key)
 
             switch (true) {
-                case 'true' === value: {
+                case "true" === value: {
                     return true
                 }
-                case 'false' === value: {
+                case "false" === value: {
                     return false
                 }
                 case isNumeric(value): {
