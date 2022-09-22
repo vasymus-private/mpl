@@ -1,13 +1,13 @@
-import {defineStore, storeToRefs} from "pinia"
+import {defineStore} from "pinia"
 import {useCategoriesStore} from "@/admin/inertia/modules/categories"
-import route, {Config, RouteParam, RouteParamsWithQueryOverload, Router,} from "ziggy-js"
+import route, {Config, RouteParam, RouteParamsWithQueryOverload, Router} from "ziggy-js"
 import {Ziggy} from "@/helpers/ziggy"
 import Option from "@/admin/inertia/modules/common/Option"
 import {useBrandsStore} from "@/admin/inertia/modules/brands"
 import * as H from "history"
-import useRoute from "@/admin/inertia/composables/useRoute"
 import {AdminTab, TabEnum} from "@/admin/inertia/modules/common/Tabs"
 import {UrlParams} from "@/admin/inertia/modules/common/types"
+import {isNumeric} from "@/admin/inertia/utils"
 
 export const storeName = "routes"
 
@@ -25,6 +25,47 @@ export const useRoutesStore = defineStore(storeName, {
                 : typeof location !== 'undefined'
                     ? location.href
                     : null
+        },
+        urlParam: function() {
+            return (key: string): string | number | boolean | null => {
+                try {
+                    let u = new URL(this.url)
+                    let value = u.searchParams.get(key)
+
+                    switch (true) {
+                        case 'true' === value: {
+                            return true
+                        }
+                        case 'false' === value: {
+                            return false
+                        }
+                        case isNumeric(value): {
+                            return +value
+                        }
+                        default: {
+                            return value
+                        }
+                    }
+                } catch (e) {
+                    console.warn(e)
+                    return null
+                }
+            }
+        },
+        hasUrlParam: function() {
+            return (key: string): boolean => {
+                if (!this.url) {
+                    return false
+                }
+
+                try {
+                    let u = new URL(this.url)
+                    return u.searchParams.has(key)
+                } catch (e) {
+                    console.warn(e)
+                    return false
+                }
+            }
         },
         isActiveRoute() {
             return (
@@ -99,14 +140,11 @@ export const useRoutesStore = defineStore(storeName, {
             }
         },
         productsUrlParamOptions(): Array<Option> {
-            let { fullUrl } = storeToRefs(this)
             let categoriesStore = useCategoriesStore()
             let brandsStore = useBrandsStore()
 
-            let { getUrlParam } = useRoute(fullUrl)
-
-            let categoryId = getUrlParam(UrlParams.category_id)
-            let brandId = getUrlParam(UrlParams.brand_id)
+            let categoryId = this.urlParam(UrlParams.category_id)
+            let brandId = this.urlParam(UrlParams.brand_id)
 
             let result: Array<Option> = []
 
@@ -139,9 +177,7 @@ export const useRoutesStore = defineStore(storeName, {
             return result
         },
         categoriesUrlParamOptions(): Array<Option> {
-            let { fullUrl } = storeToRefs(this)
-            let { getUrlParam } = useRoute(fullUrl)
-            let categoryId = getUrlParam(UrlParams.category_id)
+            let categoryId = this.urlParam(UrlParams.category_id)
 
             let result: Array<Option> = []
 

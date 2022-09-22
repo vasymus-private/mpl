@@ -1,4 +1,4 @@
-import {defineStore, storeToRefs} from "pinia"
+import {defineStore} from "pinia"
 import {
     Order,
     OrderItem,
@@ -13,7 +13,6 @@ import { DateTime } from "luxon"
 import { useCurrenciesStore } from "@/admin/inertia/modules/currencies"
 import { CharCode } from "@/admin/inertia/modules/currencies/types"
 import Option from "@/admin/inertia/modules/common/Option"
-import useRoute from "@/admin/inertia/composables/useRoute"
 import {UrlParams} from "@/admin/inertia/modules/common/types"
 
 const storeName = "orders"
@@ -56,11 +55,8 @@ export const useOrdersStore = defineStore(storeName, {
             }
 
             const routesStore = useRoutesStore()
-            const {fullUrl} = storeToRefs(routesStore)
 
-            const {hasUrlParam} = useRoute(fullUrl)
-
-            return hasUrlParam(UrlParams.copy_id)
+            return routesStore.hasUrlParam(UrlParams.copy_id)
         },
         _priceRetailRub(state) {
             return (id: number, type: _Type): number | null => {
