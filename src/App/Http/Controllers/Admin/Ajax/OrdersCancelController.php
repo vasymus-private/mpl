@@ -20,22 +20,24 @@ class OrdersCancelController extends BaseAdminController
     {
         $request->validate([
             'should_cancel' => 'required|boolean',
-            'cancel_message' => 'string|max:250'
+            'cancel_message' => 'string|max:250',
         ]);
 
         /** @var \Domain\Orders\Models\Order $order */
         $order = $request->admin_order;
-        /** @var boolean $shouldCancel */
+        /** @var bool $shouldCancel */
         $shouldCancel = $request->should_cancel;
         /** @var string|null $cancelMessage */
         $cancelMessage = $request->cancel_message;
 
         if ($shouldCancel) {
             HandleCancelOrderAction::cached()->execute($order, $cancelMessage, H::admin());
+
             return response('', Response::HTTP_NO_CONTENT);
         }
 
         HandleNotCancelOrderAction::cached()->execute($order, H::admin());
+
         return response('', Response::HTTP_NO_CONTENT);
     }
 }

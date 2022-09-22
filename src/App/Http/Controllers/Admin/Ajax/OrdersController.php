@@ -9,11 +9,9 @@ class OrdersController extends BaseAdminController
 {
     public function store(CreateUpdateOrderRequest $request)
     {
-
     }
 
     public function update(CreateUpdateOrderRequest $request)
     {
-
     }
 }

@@ -12,11 +12,13 @@ export const useOrderStatusesStore = defineStore(storeName, {
     },
     getters: {
         entities: (state): Array<OrderStatus> => state._entities,
-        options: function(): Array<Option> {
-            return this.entities.map((item: OrderStatus): Option => ({
-                value: item.id,
-                label: item.name,
-            }))
+        options: function (): Array<Option> {
+            return this.entities.map(
+                (item: OrderStatus): Option => ({
+                    value: item.id,
+                    label: item.name,
+                })
+            )
         },
         orderStatus(): (id: number) => OrderStatus | undefined {
             return (id) => {
