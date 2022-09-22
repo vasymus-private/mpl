@@ -1,4 +1,4 @@
-import {defineStore} from "pinia"
+import { defineStore } from "pinia"
 import ProductListItem from "@/admin/inertia/modules/products/ProductListItem"
 import Links from "@/admin/inertia/modules/common/Links"
 import Meta from "@/admin/inertia/modules/common/Meta"
