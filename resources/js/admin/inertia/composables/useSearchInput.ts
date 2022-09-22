@@ -1,5 +1,6 @@
-import { computed, Ref, ref } from "vue"
-import useRoute, { UrlParams } from "@/admin/inertia/composables/useRoute"
+import {computed, Ref, ref} from "vue"
+import useRoute from "@/admin/inertia/composables/useRoute"
+import {UrlParams} from "@/admin/inertia/modules/common/types"
 import Option from "@/admin/inertia/modules/common/Option"
 
 export default (
@@ -8,16 +9,20 @@ export default (
 ) => {
     const { getUrlParam, visit } = useRoute(fullUrl)
 
+    const _getRefOrUrlParam = (r: Ref<string|null>, param: UrlParams): string|null => {
+        if (r.value) {
+            return r.value
+        }
+
+        let urlParam = getUrlParam(param)
+
+        return urlParam ? `${urlParam}` : null
+    }
+
     const _searchInput = ref<string | null>(null)
     const searchInput = computed<string | null>({
         get() {
-            if (_searchInput.value) {
-                return _searchInput.value
-            }
-
-            let urlParam = getUrlParam(UrlParams.search)
-
-            return urlParam ? `${urlParam}` : null
+            return _getRefOrUrlParam(_searchInput, UrlParams.search)
         },
         set(v: string | null) {
             _searchInput.value = v
@@ -27,13 +32,7 @@ export default (
     const _dateFrom = ref<string | null>(null)
     const dateFrom = computed<string | null>({
         get(): string | null {
-            if (_dateFrom.value) {
-                return _dateFrom.value
-            }
-
-            let urlParam = getUrlParam(UrlParams.date_from)
-
-            return urlParam ? `${urlParam}` : null
+            return _getRefOrUrlParam(_dateFrom, UrlParams.date_from)
         },
         set(v: string | null): void {
             _dateFrom.value = v
@@ -43,13 +42,7 @@ export default (
     const _dateTo = ref<string | null>(null)
     const dateTo = computed<string | null>({
         get(): string | null {
-            if (_dateTo.value) {
-                return _dateTo.value
-            }
-
-            let urlParam = getUrlParam(UrlParams.date_to)
-
-            return urlParam ? `${urlParam}` : null
+            return _getRefOrUrlParam(_dateTo, UrlParams.date_to)
         },
         set(v: string | null): void {
             _dateTo.value = v
@@ -59,13 +52,7 @@ export default (
     const _orderId = ref<string | null>(null)
     const orderId = computed<string | null>({
         get(): string | null {
-            if (_orderId.value) {
-                return _orderId.value
-            }
-
-            let urlParam = getUrlParam(UrlParams.order_id)
-
-            return urlParam ? `${urlParam}` : null
+            return _getRefOrUrlParam(_orderId, UrlParams.order_id)
         },
         set(v: string | null): void {
             _orderId.value = v
@@ -75,13 +62,7 @@ export default (
     const _email = ref<string | null>(null)
     const email = computed<string | null>({
         get(): string | null {
-            if (_email.value) {
-                return _email.value
-            }
-
-            let urlParam = getUrlParam(UrlParams.email)
-
-            return urlParam ? `${urlParam}` : null
+            return _getRefOrUrlParam(_email, UrlParams.email)
         },
         set(v: string | null): void {
             _email.value = v
@@ -91,13 +72,7 @@ export default (
     const _name = ref<string | null>(null)
     const name = computed<string | null>({
         get(): string | null {
-            if (_name.value) {
-                return _name.value
-            }
-
-            let urlParam = getUrlParam(UrlParams.name)
-
-            return urlParam ? `${urlParam}` : null
+            return _getRefOrUrlParam(_name, UrlParams.name)
         },
         set(v: string | null): void {
             _name.value = v
@@ -178,7 +153,7 @@ export default (
             let final
             switch (urlParam) {
                 case UrlParams.admin_id: {
-                    final = map[urlParam]?.value.value
+                    final = map[urlParam]?.value?.value
                     break
                 }
                 default: {

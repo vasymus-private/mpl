@@ -13,7 +13,8 @@ import { DateTime } from "luxon"
 import { useCurrenciesStore } from "@/admin/inertia/modules/currencies"
 import { CharCode } from "@/admin/inertia/modules/currencies/types"
 import Option from "@/admin/inertia/modules/common/Option"
-import useRoute, {UrlParams} from "@/admin/inertia/composables/useRoute"
+import useRoute from "@/admin/inertia/composables/useRoute"
+import {UrlParams} from "@/admin/inertia/modules/common/types"
 
 const storeName = "orders"
 

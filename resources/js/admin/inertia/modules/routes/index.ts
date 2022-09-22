@@ -5,8 +5,9 @@ import {Ziggy} from "@/helpers/ziggy"
 import Option from "@/admin/inertia/modules/common/Option"
 import {useBrandsStore} from "@/admin/inertia/modules/brands"
 import * as H from "history"
-import useRoute, {UrlParams} from "@/admin/inertia/composables/useRoute"
+import useRoute from "@/admin/inertia/composables/useRoute"
 import {AdminTab, TabEnum} from "@/admin/inertia/modules/common/Tabs"
+import {UrlParams} from "@/admin/inertia/modules/common/types"
 
 export const storeName = "routes"
 
@@ -18,6 +19,13 @@ export const useRoutesStore = defineStore(storeName, {
     },
     getters: {
         fullUrl: (state): string | null => state._fullUrl,
+        url: function(): string|null {
+            return this.fullUrl
+                ? this.fullUrl
+                : typeof location !== 'undefined'
+                    ? location.href
+                    : null
+        },
         isActiveRoute() {
             return (
                 type: RouteTypeEnum,
@@ -101,7 +109,7 @@ export const useRoutesStore = defineStore(storeName, {
             let brandId = getUrlParam(UrlParams.brand_id)
 
             let result: Array<Option> = []
-debugger
+
             if (categoryId != null) {
                 let category = categoriesStore.option(`${categoryId}`)
                 if (category) {
@@ -235,6 +243,29 @@ debugger
         setFullUrl(fullUrl: string | null): void {
             this._fullUrl = fullUrl
         },
+        replaceState(key: UrlParams, value: string|number|boolean|null): void {
+            let u = new URL(this.url)
+            let s = new URLSearchParams(u.search)
+
+            switch (true) {
+                case value == null : {
+                    s.delete(key)
+                    break
+                }
+                case typeof value === 'boolean': {
+                    s.set(key, value ? 'true' : 'false')
+                    break
+                }
+                default: {
+                    s.set(key, `${value}`)
+                    break
+                }
+            }
+
+            u.search = s.toString()
+            history.replaceState(history.state, "", u.toString())
+            this.setFullUrl(u.toString())
+        }
     },
 })
 

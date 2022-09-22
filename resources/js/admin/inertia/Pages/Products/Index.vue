@@ -29,10 +29,11 @@ import {
 import {Values} from "@/admin/inertia/modules/forms/indexProducts/types"
 import useCheckedItems from "@/admin/inertia/composables/useCheckedItems"
 import {storeToRefs} from "pinia"
-import useRoute, {UrlParams} from "@/admin/inertia/composables/useRoute"
+import useRoute from "@/admin/inertia/composables/useRoute"
 import useSearchInput from "@/admin/inertia/composables/useSearchInput"
 import useFormHelpers from "@/admin/inertia/composables/useFormHelpers"
 import {useToastsStore} from "@/admin/inertia/modules/toasts"
+import {UrlParams} from "@/admin/inertia/modules/common/types"
 
 
 const columnsStore = useColumnsStore()

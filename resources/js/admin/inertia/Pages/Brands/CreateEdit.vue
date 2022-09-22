@@ -4,23 +4,23 @@ import Breadcrumbs from '@/admin/inertia/components/brands/createEdit/parts/Brea
 import {useCreateEditBrandFormStore, getFormSchema, getWatchBrandToFormCb} from "@/admin/inertia/modules/forms/createEditBrand"
 import {Values} from "@/admin/inertia/modules/forms/createEditBrand/types"
 import {useRoutesStore} from "@/admin/inertia/modules/routes"
-import {storeToRefs} from "pinia"
-import useRoute from "@/admin/inertia/composables/useRoute"
 import {useBrandsStore} from "@/admin/inertia/modules/brands"
 import {useForm} from "vee-validate"
 import {watch} from "vue"
 import Toolbar from '@/admin/inertia/components/brands/createEdit/parts/Toolbar.vue'
 import {routeNames} from "@/admin/inertia/modules/routes"
 import {Link} from "@inertiajs/inertia-vue3"
+import {UrlParams} from "@/admin/inertia/modules/common/types"
+import {AdminTab} from "@/admin/inertia/modules/common/Tabs"
 
 
 const createEditBrandFormStore = useCreateEditBrandFormStore()
 const routesStore = useRoutesStore()
 const brandsStore = useBrandsStore()
 
-const {fullUrl} = storeToRefs(routesStore)
-
-const {onTabClick} = useRoute(fullUrl)
+const onTabClick = (tab: AdminTab) => {
+    routesStore.replaceState(UrlParams.active_tab, tab.value)
+}
 
 const {errors, handleSubmit, values, setValues, submitCount, isSubmitting} = useForm<Values>({
     validationSchema: getFormSchema(),

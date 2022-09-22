@@ -13,17 +13,17 @@ import {
 import Breadcrumbs from "@/admin/inertia/components/products/createEdit/parts/Breadcrumbs.vue"
 import Toolbar from "@/admin/inertia/components/products/createEdit/parts/Toolbar.vue"
 import {Values} from "@/admin/inertia/modules/forms/createEditProduct/types"
-import {storeToRefs} from "pinia"
-import useRoute from "@/admin/inertia/composables/useRoute"
+import {AdminTab} from "@/admin/inertia/modules/common/Tabs"
+import {UrlParams} from "@/admin/inertia/modules/common/types"
 
 
 const productsStore = useProductsStore()
 const createEditProductFormsStore = useCreateEditProductFormStore()
 const routesStore = useRoutesStore()
 
-const {fullUrl} = storeToRefs(routesStore)
-
-const {onTabClick} = useRoute(fullUrl)
+const onTabClick = (tab: AdminTab) => {
+    routesStore.replaceState(UrlParams.active_tab, tab.value)
+}
 
 const {errors, handleSubmit, values, setValues, submitCount, isSubmitting} = useForm<Values>({
     validationSchema: getFormSchema(),

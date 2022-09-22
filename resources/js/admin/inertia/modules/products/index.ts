@@ -21,8 +21,8 @@ import Product, {
 } from "@/admin/inertia/modules/products/Product"
 import axios, { AxiosError } from "axios"
 import { arrayToMap } from "@/admin/inertia/utils"
-import { ErrorResponse } from "@/admin/inertia/modules/common/types"
-import useRoute, {UrlParams} from "@/admin/inertia/composables/useRoute";
+import { ErrorResponse, UrlParams } from "@/admin/inertia/modules/common/types"
+import useRoute from "@/admin/inertia/composables/useRoute"
 
 export const storeName = "products"
 

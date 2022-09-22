@@ -1,4 +1,4 @@
-import {UrlParams} from "@/admin/inertia/composables/useRoute"
+import {UrlParams} from "@/admin/inertia/modules/common/types"
 
 export default interface Option {
     value: string | number

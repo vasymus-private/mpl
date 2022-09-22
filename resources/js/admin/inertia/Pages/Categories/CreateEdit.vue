@@ -11,19 +11,19 @@ import {useRoutesStore, routeNames} from "@/admin/inertia/modules/routes"
 import {useForm} from 'vee-validate'
 import {Values} from "@/admin/inertia/modules/forms/createEditCategory/types"
 import {Link} from "@inertiajs/inertia-vue3"
-import {storeToRefs} from "pinia"
-import useRoute from "@/admin/inertia/composables/useRoute"
 import {useCategoriesStore} from "@/admin/inertia/modules/categories"
 import {watch} from "vue"
+import {AdminTab} from "@/admin/inertia/modules/common/Tabs"
+import {UrlParams} from "@/admin/inertia/modules/common/types"
 
 
 const createEditCategoryFormStore = useCreateEditCategoryFormStore()
 const routesStore = useRoutesStore()
 const categoriesStore = useCategoriesStore()
 
-const {fullUrl} = storeToRefs(routesStore)
-
-const {onTabClick} = useRoute(fullUrl)
+const onTabClick = (tab: AdminTab) => {
+    routesStore.replaceState(UrlParams.active_tab, tab.value)
+}
 
 const {errors, handleSubmit, values, setValues, submitCount, isSubmitting} = useForm<Values>({
     validationSchema: getFormSchema(),
