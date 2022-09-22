@@ -36,4 +36,6 @@ export enum UrlParams {
     copy_id = "copy_id",
 
     active_tab = "active_tab",
+
+    edit_mode = "edit_mode",
 }

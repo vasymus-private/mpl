@@ -3,15 +3,21 @@ import {Link} from "@inertiajs/inertia-vue3"
 import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
 import {useToastsStore} from "@/admin/inertia/modules/toasts"
 import {useOrdersStore} from "@/admin/inertia/modules/orders"
-import {storeToRefs} from "pinia"
-import useRoute from "@/admin/inertia/composables/useRoute"
+import {useCreateEditOrderFormStore} from "@/admin/inertia/modules/forms/createEditOrder"
 
 
 const ordersStore = useOrdersStore()
 const routesStore = useRoutesStore()
-const {fullUrl} = storeToRefs(routesStore)
-
-const {} = useRoute(fullUrl)
+const createEditOrderFormStore = useCreateEditOrderFormStore()
+const toggleMode = () => {
+    createEditOrderFormStore.toggleEditMode()
+}
+const handleDelete = () => {
+    if (confirm(`Вы уверены, что хотите удалить заказ №${ordersStore.order?.id}?`)) {
+        // todo
+        console.log('--- deleting')
+    }
+}
 </script>
 
 <template>
@@ -26,11 +32,15 @@ const {} = useRoute(fullUrl)
             </div>
 
             <div class="col-sm-7 d-flex align-items-center justify-content-end">
+                <button @click="toggleMode" type="button" class="btn btn-secondary text-nowrap btn__dropdown">
+                    {{ createEditOrderFormStore.isEditMode ? 'Подробности заказа' : 'Изменить заказ' }}
+                </button>
+
+                <Link v-if="!ordersStore.isCreatingOrderRoute" :href="route(routeNames.ROUTE_ADMIN_ORDERS_TEMP_CREATE)" class="btn btn-secondary text-nowrap btn__dropdown">Создать</Link>
+
                 <Link v-if="!ordersStore.isCreatingOrderRoute" :href="route(routeNames.ROUTE_ADMIN_ORDERS_TEMP_CREATE, {'copy_id' : ordersStore.order?.id})" class="btn__copy">Копировать</Link>
 
-                <button type="button" class="btn btn-secondary text-nowrap btn__dropdown">
-                    Изменить заказ
-                </button>
+                <button v-if="!ordersStore.isCreatingOrderRoute" type="button" @click="handleDelete" class="btn btn-secondary text-nowrap btn__dropdown">Удалить</button>
             </div>
         </div>
     </div>

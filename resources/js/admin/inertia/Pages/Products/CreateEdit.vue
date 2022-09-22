@@ -22,7 +22,7 @@ const createEditProductFormsStore = useCreateEditProductFormStore()
 const routesStore = useRoutesStore()
 
 const onTabClick = (tab: AdminTab) => {
-    routesStore.replaceState(UrlParams.active_tab, tab.value)
+    routesStore.replaceUrlParamState(UrlParams.active_tab, tab.value)
 }
 
 const {errors, handleSubmit, values, setValues, submitCount, isSubmitting} = useForm<Values>({

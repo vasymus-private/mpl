@@ -279,7 +279,7 @@ export const useRoutesStore = defineStore(storeName, {
         setFullUrl(fullUrl: string | null): void {
             this._fullUrl = fullUrl
         },
-        replaceState(key: UrlParams, value: string|number|boolean|null): void {
+        replaceUrlParamState(key: UrlParams, value: string|number|boolean|null): void {
             let u = new URL(this.url)
             let s = new URLSearchParams(u.search)
 

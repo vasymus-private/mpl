@@ -21,4 +21,6 @@ export enum TabEnum {
     other = "other",
 
     products = "products",
+    order = "order",
+    history = "history",
 }
