@@ -16,7 +16,7 @@ import Option from "@/admin/inertia/modules/common/Option"
 import { UrlParams } from "@/admin/inertia/modules/common/types"
 
 const storeName = "orders"
-const format = 'yyyy-LL-dd HH:mm:ss'
+const format = "yyyy-LL-dd HH:mm:ss"
 
 interface State {
     _entities: Array<OrderItem>
@@ -133,10 +133,7 @@ export const useOrdersStore = defineStore(storeName, {
             this._entities = ordersList.map((item) => ({
                 ...item,
                 dt_created_at: item.created_at
-                    ? DateTime.fromFormat(
-                          item.created_at,
-                          format
-                      )
+                    ? DateTime.fromFormat(item.created_at, format)
                     : null,
             }))
         },
@@ -157,16 +154,10 @@ export const useOrdersStore = defineStore(storeName, {
             this._entity = {
                 ...order,
                 dt_created_at: order.created_at
-                    ? DateTime.fromFormat(
-                          order.created_at,
-                          format
-                      )
+                    ? DateTime.fromFormat(order.created_at, format)
                     : null,
                 dt_updated_at: order.updated_at
-                    ? DateTime.fromFormat(
-                          order.updated_at,
-                        format
-                      )
+                    ? DateTime.fromFormat(order.updated_at, format)
                     : null,
             }
         },

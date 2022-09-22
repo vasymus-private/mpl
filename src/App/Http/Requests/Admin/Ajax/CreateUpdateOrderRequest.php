@@ -62,9 +62,7 @@ class CreateUpdateOrderRequest extends FormRequest
         ];
     }
 
-
     public function prepare()
     {
-
     }
 }

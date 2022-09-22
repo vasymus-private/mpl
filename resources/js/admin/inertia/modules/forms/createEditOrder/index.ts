@@ -8,7 +8,7 @@ import HistoryTab from "@/admin/inertia/components/orders/createEdit/tabs/Histor
 import * as yup from "yup"
 import { Order } from "@/admin/inertia/modules/orders/types"
 import { Values } from "@/admin/inertia/modules/forms/createEditOrder/types"
-import {yupIntegerOrEmptyString} from "@/admin/inertia/utils";
+import { yupIntegerOrEmptyString } from "@/admin/inertia/utils"
 
 export const storeName = "createEditOrderForm"
 
@@ -65,10 +65,10 @@ export const useCreateEditOrderFormStore = defineStore(storeName, {
 
 export const getWatchOrderToFormCb =
     (setValues: (a: object) => any) => (order: Order | null) => {
-        const {order_status_id} = order || {}
+        const { order_status_id } = order || {}
 
         setValues({
-            order_status_id
+            order_status_id,
         })
     }
 
