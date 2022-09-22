@@ -1,13 +1,18 @@
-import {defineStore} from "pinia"
-import {useCategoriesStore} from "@/admin/inertia/modules/categories"
-import route, {Config, RouteParam, RouteParamsWithQueryOverload, Router} from "ziggy-js"
-import {Ziggy} from "@/helpers/ziggy"
+import { defineStore } from "pinia"
+import { useCategoriesStore } from "@/admin/inertia/modules/categories"
+import route, {
+    Config,
+    RouteParam,
+    RouteParamsWithQueryOverload,
+    Router,
+} from "ziggy-js"
+import { Ziggy } from "@/helpers/ziggy"
 import Option from "@/admin/inertia/modules/common/Option"
-import {useBrandsStore} from "@/admin/inertia/modules/brands"
+import { useBrandsStore } from "@/admin/inertia/modules/brands"
 import * as H from "history"
-import {AdminTab, TabEnum} from "@/admin/inertia/modules/common/Tabs"
-import {UrlParams} from "@/admin/inertia/modules/common/types"
-import {isNumeric} from "@/admin/inertia/utils"
+import { AdminTab, TabEnum } from "@/admin/inertia/modules/common/Tabs"
+import { UrlParams } from "@/admin/inertia/modules/common/types"
+import { isNumeric } from "@/admin/inertia/utils"
 
 export const storeName = "routes"
 
@@ -19,24 +24,24 @@ export const useRoutesStore = defineStore(storeName, {
     },
     getters: {
         fullUrl: (state): string | null => state._fullUrl,
-        url: function(): string|null {
+        url: function (): string | null {
             return this.fullUrl
                 ? this.fullUrl
-                : typeof location !== 'undefined'
-                    ? location.href
-                    : null
+                : typeof location !== "undefined"
+                ? location.href
+                : null
         },
-        urlParam: function() {
+        urlParam: function () {
             return (key: string): string | number | boolean | null => {
                 try {
                     let u = new URL(this.url)
                     let value = u.searchParams.get(key)
 
                     switch (true) {
-                        case 'true' === value: {
+                        case "true" === value: {
                             return true
                         }
-                        case 'false' === value: {
+                        case "false" === value: {
                             return false
                         }
                         case isNumeric(value): {
@@ -52,7 +57,7 @@ export const useRoutesStore = defineStore(storeName, {
                 }
             }
         },
-        hasUrlParam: function() {
+        hasUrlParam: function () {
             return (key: string): boolean => {
                 if (!this.url) {
                     return false
@@ -279,17 +284,20 @@ export const useRoutesStore = defineStore(storeName, {
         setFullUrl(fullUrl: string | null): void {
             this._fullUrl = fullUrl
         },
-        replaceUrlParamState(key: UrlParams, value: string|number|boolean|null): void {
+        replaceUrlParamState(
+            key: UrlParams,
+            value: string | number | boolean | null
+        ): void {
             let u = new URL(this.url)
             let s = new URLSearchParams(u.search)
 
             switch (true) {
-                case value == null : {
+                case value == null: {
                     s.delete(key)
                     break
                 }
-                case typeof value === 'boolean': {
-                    s.set(key, value ? 'true' : 'false')
+                case typeof value === "boolean": {
+                    s.set(key, value ? "true" : "false")
                     break
                 }
                 default: {
@@ -301,7 +309,7 @@ export const useRoutesStore = defineStore(storeName, {
             u.search = s.toString()
             history.replaceState(history.state, "", u.toString())
             this.setFullUrl(u.toString())
-        }
+        },
     },
 })
 

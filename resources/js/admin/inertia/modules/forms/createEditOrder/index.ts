@@ -1,13 +1,13 @@
-import {defineStore} from "pinia"
-import {useOrdersStore} from "@/admin/inertia/modules/orders"
-import {useRoutesStore} from "@/admin/inertia/modules/routes"
-import {UrlParams} from "@/admin/inertia/modules/common/types"
-import {AdminTab, TabEnum} from "@/admin/inertia/modules/common/Tabs"
+import { defineStore } from "pinia"
+import { useOrdersStore } from "@/admin/inertia/modules/orders"
+import { useRoutesStore } from "@/admin/inertia/modules/routes"
+import { UrlParams } from "@/admin/inertia/modules/common/types"
+import { AdminTab, TabEnum } from "@/admin/inertia/modules/common/Tabs"
 import OrderTab from "@/admin/inertia/components/orders/createEdit/tabs/OrderTab.vue"
 import HistoryTab from "@/admin/inertia/components/orders/createEdit/tabs/HistoryTab.vue"
 import * as yup from "yup"
-import {Order} from "@/admin/inertia/modules/orders/types"
-import {Values} from "@/admin/inertia/modules/forms/createEditOrder/types"
+import { Order } from "@/admin/inertia/modules/orders/types"
+import { Values } from "@/admin/inertia/modules/forms/createEditOrder/types"
 
 export const storeName = "createEditOrderForm"
 
@@ -17,11 +17,11 @@ export const useCreateEditOrderFormStore = defineStore(storeName, {
             const ordersStore = useOrdersStore()
 
             if (ordersStore.isCreatingFromCopy) {
-                return 'Добавление заказа копированием'
+                return "Добавление заказа копированием"
             }
 
             if (ordersStore.isCreatingOrderRoute) {
-                return 'Добавление заказа'
+                return "Добавление заказа"
             }
 
             return `Заказ №${ordersStore.order?.id}`
@@ -47,30 +47,28 @@ export const useCreateEditOrderFormStore = defineStore(storeName, {
         },
     },
     actions: {
-        toggleEditMode: function(): void {
+        toggleEditMode: function (): void {
             const routesStore = useRoutesStore()
 
-            routesStore.replaceUrlParamState(UrlParams.edit_mode, !this.isEditMode)
+            routesStore.replaceUrlParamState(
+                UrlParams.edit_mode,
+                !this.isEditMode
+            )
         },
         async submitCreateEditOrder(
             values: Values,
             { setErrors }
-        ): Promise<void> {
-
-        }
-    }
+        ): Promise<void> {},
+    },
 })
 
-export const getWatchOrderToFormCb = (setValues: (a: object) => any) => (order: Order | null) => {
-    const {} = order || {}
+export const getWatchOrderToFormCb =
+    (setValues: (a: object) => any) => (order: Order | null) => {
+        const {} = order || {}
 
-    setValues({
-
-    })
-}
+        setValues({})
+    }
 
 export const getFormSchema = () => {
-    return yup.object({
-
-    })
+    return yup.object({})
 }
