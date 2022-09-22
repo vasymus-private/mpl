@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <div>
+    <div class="item-edit product-edit">
         history
     </div>
 </template>

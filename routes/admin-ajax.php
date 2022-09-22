@@ -42,6 +42,10 @@ Route::put('category/{admin_category}', [\App\Http\Controllers\Admin\Ajax\Catego
 Route::post('brand', [\App\Http\Controllers\Admin\Ajax\BrandsController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_BRANDS_STORE);
 Route::put('brand/{admin_brand}', [\App\Http\Controllers\Admin\Ajax\BrandsController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_BRANDS_UPDATE);
 
+Route::post('order', [\App\Http\Controllers\Admin\Ajax\OrdersController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_ORDERS_STORE);
+Route::put('order/{admin_order}', [\App\Http\Controllers\Admin\Ajax\OrdersController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_ORDERS_UPDATE);
+Route::put('order-cancel/{admin_order}', \App\Http\Controllers\Admin\Ajax\OrdersCancelController::class)->name(Constants::ROUTE_ADMIN_AJAX_ORDERS_CANCEL);
+
 Route::put('sort-columns', \App\Http\Controllers\Admin\Ajax\SortColumnsController::class)->name(Constants::ROUTE_ADMIN_AJAX_SORT_COLUMNS);
 
 Route::post('helper/slug', [\App\Http\Controllers\Admin\Ajax\HelperController::class, 'slug'])->name(Constants::ROUTE_ADMIN_AJAX_HELPER);
