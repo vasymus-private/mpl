@@ -22,8 +22,7 @@ class CreateOrUpdateOrderAction extends BaseAction
     public function __construct(
         CreateOrderAction $createOrderAction,
         DefaultUpdateOrderAction $defaultUpdateOrderAction
-    )
-    {
+    ) {
         $this->createOrderAction = $createOrderAction;
         $this->defaultUpdateOrderAction = $defaultUpdateOrderAction;
     }
@@ -36,7 +35,7 @@ class CreateOrUpdateOrderAction extends BaseAction
      */
     public function execute(CreateOrUpdateOrderDTO $dto, Order $target = null): void
     {
-        if (!$target) {
+        if (! $target) {
             $this->createOrderAction->execute(
                 $this->mapCreateOrUpdateOrderDtoToCreateOrderParamsDto($dto)
             );
