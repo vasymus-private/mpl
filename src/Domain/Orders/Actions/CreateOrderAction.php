@@ -2,6 +2,7 @@
 
 namespace Domain\Orders\Actions;
 
+use Domain\Common\Actions\BaseAction;
 use Domain\Orders\DTOs\CreateOrderParamsDTO;
 use Domain\Orders\Models\Order;
 use Domain\Orders\Models\OrderEvent;
@@ -9,7 +10,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class CreateOrderAction
+class CreateOrderAction extends BaseAction
 {
     /**
      * @link \App\Http\Livewire\Admin\ShowOrder\ShowOrder::DEFAULT_ORDERING
@@ -49,8 +50,7 @@ class CreateOrderAction
         }
 
         DB::beginTransaction();
-        /** @var \Domain\Orders\Models\Order|null $order */
-        $order = null;
+
         /** @var \Domain\Common\Models\CustomMedia[] $medias */
         $medias = [];
 

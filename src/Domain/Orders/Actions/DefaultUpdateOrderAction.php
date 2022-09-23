@@ -2,6 +2,7 @@
 
 namespace Domain\Orders\Actions;
 
+use Domain\Common\Actions\BaseAction;
 use Domain\Orders\DTOs\DefaultUpdateOrderParams;
 use Domain\Orders\Enums\OrderEventType;
 use Domain\Orders\Models\Order;
@@ -11,7 +12,7 @@ use Domain\Orders\Models\PaymentMethod;
 use Domain\Users\Models\Admin;
 use Domain\Users\Models\BaseUser\BaseUser;
 
-class DefaultUpdateOrderAction
+class DefaultUpdateOrderAction extends BaseAction
 {
     /**
      * @param \Domain\Orders\DTOs\DefaultUpdateOrderParams $params

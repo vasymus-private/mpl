@@ -320,8 +320,7 @@ class ShowOrder extends BaseShowComponent
     protected function saveItem()
     {
         if ($this->isCreating) {
-            $createOrderAction = resolve(CreateOrderAction::class);
-            $order = $createOrderAction->execute(new CreateOrderParamsDTO([
+            $order = CreateOrderAction::cached()->execute(new CreateOrderParamsDTO([
                 'user' => H::admin(),
                 'order_status_id' => $this->item->order_status_id ? (int)$this->item->order_status_id : null,
                 'importance_id' => $this->item->importance_id ? (int)$this->item->importance_id : null,
@@ -349,9 +348,7 @@ class ShowOrder extends BaseShowComponent
             return;
         }
 
-        $defaultUpdateOrderAction = resolve(DefaultUpdateOrderAction::class);
-
-        $defaultUpdateOrderAction->execute(new DefaultUpdateOrderParams([
+        DefaultUpdateOrderAction::cached()->execute(new DefaultUpdateOrderParams([
             'order' => $this->getFreshOrder(),
             'user' => H::admin(),
             'comment_user' => $this->item->comment_user,
@@ -364,9 +361,7 @@ class ShowOrder extends BaseShowComponent
             'phone' => $this->phone,
         ]));
 
-        /** @var \Domain\Orders\Actions\OMS\HandleChangeOrderStatusAction $handleChangeOrderStatusAction */
-        $handleChangeOrderStatusAction = resolve(HandleChangeOrderStatusAction::class);
-        $handleChangeOrderStatusAction->execute(
+        HandleChangeOrderStatusAction::cached()->execute(
             $this->getFreshOrder(),
             $this->item->order_status_id,
             H::admin()

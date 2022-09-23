@@ -2,13 +2,14 @@
 
 namespace Domain\Orders\Actions\OMS;
 
+use Domain\Common\Actions\BaseAction;
 use Domain\Orders\Enums\OrderEventType;
 use Domain\Orders\Models\Order;
 use Domain\Orders\Models\OrderEvent;
 use Domain\Orders\Models\OrderStatus;
 use Domain\Users\Models\BaseUser\BaseUser;
 
-class HandleChangeOrderStatusAction
+class HandleChangeOrderStatusAction extends BaseAction
 {
     /**
      * @param \Domain\Orders\Models\Order $order
