@@ -12,11 +12,13 @@ use Domain\Orders\Models\PaymentMethod;
 use Domain\Products\Models\Product\Product;
 use Domain\Users\Models\Admin;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Exists;
 use Support\H;
 
 /**
  * @property-read int $order_status_id
- * @property-read int $payment_method_id
+ * @property-read int|null $payment_method_id
  * @property-read string|null $comment_user
  * @property-read int|null $admin_id
  * @property-read int|null $importance_id
@@ -83,13 +85,14 @@ class CreateUpdateOrderRequest extends FormRequest
             'supplierInvoices.*.file' => sprintf('nullable|file|max:%s', H::validatorMb(95)),
 
             'productItems' => 'array',
-            'productItems.*.uuid' => 'string|required',
+            'productItems.*.uuid' => sprintf('required|exists:%s,uuid', Product::class),
             'productItems.*.count' => 'nullable|integer',
             'productItems.*.name' => 'nullable|string|max:250',
             'productItems.*.unit' => 'nullable|string|max:250',
             'productItems.*.ordering' => 'nullable|integer',
             'productItems.*.price_retail_rub' => 'nullable|numeric',
             'productItems.*.price_retail_rub_origin' => 'nullable|numeric',
+            'productItems.*.price_retail_rub_was_updated' => 'nullable|boolean',
         ];
     }
 
@@ -99,24 +102,35 @@ class CreateUpdateOrderRequest extends FormRequest
     public function prepare(): CreateOrUpdateOrderDTO
     {
         return new CreateOrUpdateOrderDTO([
-            'user' => H::admin(),
             'order_status_id' => $this->order_status_id,
             'importance_id' => $this->importance_id,
-            'order_event_type' => OrderEventType::admin_created(),
             'comment_user' => $this->comment_user,
             'request_name' => $this->request_name,
             'request_email' => $this->request_email,
             'request_phone' => $this->request_phone,
+            'payment_method_id' => $this->payment_method_id,
+            'customer_bill_description' => $this->customer_bill_description ? (string)$this->customer_bill_description : null,
+            'customer_bill_status_id' => $this->customer_bill_status_id ? (int)$this->customer_bill_status_id : null,
+            'provider_bill_description' => $this->provider_bill_description ? (string)$this->provider_bill_description : null,
+            'provider_bill_status_id' => $this->provider_bill_status_id ? (int)$this->provider_bill_status_id : null,
+            'comment_admin' => $this->comment_admin ? (string)$this->comment_admin : null,
             'productItems' => collect($this->productItems)
                 ->map(function (array $productItem) {
+                    /** @var \Domain\Products\Models\Product\Product $product */
+                    $product = Product::query()->withTrashed()->where(sprintf('%s.uuid', Product::TABLE), $productItem['uuid'])->firstOrFail();
                     return new OrderProductItemDTO([
-                        'count' => (int)$productItem['order_product_count'],
-                        'name' => $productItem['name'] ?? null,
-                        'unit' => $productItem['unit'] ?? null,
-                        'ordering' => $productItem['ordering'] ? (int)$productItem['ordering'] : null,
-                        'price_retail_rub' => $productItem['price_retail_rub'] ?? null,
-                        'price_retail_rub_origin' => $productItem['price_retail_rub_origin'] ?? null,
-                        'product' => Product::query()->withTrashed()->where(sprintf('%s.uuid', Product::TABLE), $productItem['uuid'])->firstOrFail(),
+                        'count' => isset($productItem['count']) ? (int)$productItem['count'] : 1,
+                        'order_product_count' => isset($productItem['count']) ? (int)$productItem['count'] : 1,
+                        'name' => isset($productItem['name']) ? (string)$productItem['name'] : null,
+                        'unit' => isset($productItem['unit']) ? (string)$productItem['unit'] : null,
+                        'ordering' => isset($productItem['ordering']) ? (int)$productItem['ordering'] : null,
+                        'price_retail_rub' => (float)$productItem['price_retail_rub'],
+                        'order_product_price_retail_rub' => (float)$productItem['price_retail_rub'],
+                        'price_retail_rub_origin' => (float)$productItem['price_retail_rub_origin'],
+                        'price_retail_rub_was_updated' => isset($productItem['price_retail_rub_was_updated']) ? (bool)$productItem['price_retail_rub_was_updated'] : null,
+                        'order_product_price_retail_rub_was_updated' => isset($productItem['price_retail_rub_was_updated']) ? (bool)$productItem['price_retail_rub_was_updated'] : null,
+                        'product' => $product,
+                        'id' => $product->id,
                     ]);
                 })
                 ->all(),

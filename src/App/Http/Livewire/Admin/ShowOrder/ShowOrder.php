@@ -322,10 +322,12 @@ class ShowOrder extends BaseShowComponent
         if ($this->isCreating) {
             $order = CreateOrderAction::cached()->execute(new CreateOrderParamsDTO([
                 'user' => H::admin(),
+                'event_user' => H::admin(),
                 'order_status_id' => $this->item->order_status_id ? (int)$this->item->order_status_id : null,
                 'importance_id' => $this->item->importance_id ? (int)$this->item->importance_id : null,
                 'order_event_type' => OrderEventType::admin_created(),
                 'comment_user' => $this->item->comment_user,
+                'payment_method_id' => $this->item->payment_method_id ? (int)$this->item->payment_method_id : null,
                 'request_name' => $this->name,
                 'request_email' => $this->email,
                 'request_phone' => $this->phone,
@@ -340,6 +342,12 @@ class ShowOrder extends BaseShowComponent
                         'product' => Product::query()->withTrashed()->where(sprintf('%s.uuid', Product::TABLE), $productItem['uuid'])->firstOrFail(),
                     ]);
                 })->all(),
+                'customer_bill_description' => $this->item->customer_bill_description ? (string)$this->item->customer_bill_description : null,
+                'customer_bill_status_id' => $this->item->customer_bill_status_id ? (int)$this->item->customer_bill_status_id : null,
+                'provider_bill_description' => $this->item->provider_bill_description ? (string)$this->item->provider_bill_description : null,
+                'provider_bill_status_id' => $this->item->provider_bill_status_id ? (int)$this->item->provider_bill_status_id : null,
+                'comment_admin' => $this->item->comment_admin ? (string)$this->item->comment_admin : null,
+                'admin_id' => $this->item->admin_id ? (int)$this->item->admin_id : null,
             ]));
             if ($order) {
                 $this->item = $order;
@@ -350,9 +358,9 @@ class ShowOrder extends BaseShowComponent
 
         DefaultUpdateOrderAction::cached()->execute(new DefaultUpdateOrderParams([
             'order' => $this->getFreshOrder(),
-            'user' => H::admin(),
+            'event_user' => H::admin(),
             'comment_user' => $this->item->comment_user,
-            'comment_admin' => $this->item->comment_admin,
+            'comment_admin' => $this->item->comment_admin ? (string)$this->item->comment_admin : null,
             'payment_method_id' => $this->item->payment_method_id,
             'admin_id' => $this->item->admin_id,
             'importance_id' => $this->item->importance_id,
@@ -370,8 +378,7 @@ class ShowOrder extends BaseShowComponent
 
     protected function saveOrderItems()
     {
-        $changeOrderProductsAction = resolve(ChangeOrderProductsAction::class);
-        $changeOrderProductsAction->execute($this->item, H::admin(), $this->productItems);
+        ChangeOrderProductsAction::cached()->execute($this->item, H::admin(), $this->productItems);
     }
 
     public function handleDeleteOrder()
@@ -491,8 +498,7 @@ class ShowOrder extends BaseShowComponent
 
     protected function saveInvoices()
     {
-        $updateOrderCustomerInvoicesAction = resolve(UpdateOrderCustomerInvoicesAction::class);
-        $updateOrderCustomerInvoicesAction->execute(new UpdateOrderInvoicesParamsDTO([
+        UpdateOrderCustomerInvoicesAction::cached()->execute(new UpdateOrderInvoicesParamsDTO([
             'order' => $this->getFreshOrder(),
             'customer_bill_status_id' => $this->item->customer_bill_status_id,
             'customer_bill_description' => $this->item->customer_bill_description,
@@ -500,7 +506,7 @@ class ShowOrder extends BaseShowComponent
             'provider_bill_status_id' => $this->item->provider_bill_status_id,
             'provider_bill_description' => $this->item->provider_bill_description,
             'supplierInvoices' => $this->supplierInvoices,
-            'user' => H::admin(),
+            'event_user' => H::admin(),
         ]));
     }
 

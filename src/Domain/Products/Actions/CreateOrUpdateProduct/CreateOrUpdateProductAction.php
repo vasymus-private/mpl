@@ -6,7 +6,7 @@ use Domain\Common\Actions\BaseAction;
 use Domain\Products\Actions\SaveSeoAction;
 use Domain\Products\Actions\SyncAndSaveMediasAction;
 use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\ProductDTO;
-use Domain\Products\DTOs\Admin\Inertia\MediaDTO;
+use Domain\Common\DTOs\MediaDTO;
 use Domain\Products\Models\Pivots\ProductProduct;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Support\Facades\DB;
@@ -204,7 +204,7 @@ class CreateOrUpdateProductAction extends BaseAction
 
     /**
      * @param \Domain\Products\Models\Product\Product $target
-     * @param \Domain\Products\DTOs\Admin\Inertia\MediaDTO[] $mediaDTOs
+     * @param \Domain\Common\DTOs\MediaDTO[] $mediaDTOs
      *
      * @return void
      */
@@ -215,7 +215,7 @@ class CreateOrUpdateProductAction extends BaseAction
 
     /**
      * @param \Domain\Products\Models\Product\Product $target
-     * @param \Domain\Products\DTOs\Admin\Inertia\MediaDTO|null $mediaDTO
+     * @param \Domain\Common\DTOs\MediaDTO|null $mediaDTO
      *
      * @return void
      */
@@ -226,7 +226,7 @@ class CreateOrUpdateProductAction extends BaseAction
 
     /**
      * @param \Domain\Products\Models\Product\Product $target
-     * @param \Domain\Products\DTOs\Admin\Inertia\MediaDTO[] $mediaDTOs
+     * @param \Domain\Common\DTOs\MediaDTO[] $mediaDTOs
      *
      * @return void
      */

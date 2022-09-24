@@ -72,7 +72,7 @@ class DefaultUpdateOrderAction extends BaseAction
 
         $params->order->save();
         foreach ($orderEvents as $orderEvent) {
-            $this->createOrderEvent($orderEvent, $params->order, $params->user);
+            $this->saveOrderEvent($orderEvent, $params->order, $params->event_user);
         }
     }
 
@@ -194,15 +194,15 @@ class DefaultUpdateOrderAction extends BaseAction
     /**
      * @param \Domain\Orders\Models\OrderEvent $orderEvent
      * @param \Domain\Orders\Models\Order $order
-     * @param \Domain\Users\Models\BaseUser\BaseUser|null $user
+     * @param \Domain\Users\Models\BaseUser\BaseUser|null $eventUser
      *
      * @return \Domain\Orders\Models\OrderEvent
      */
-    private function createOrderEvent(OrderEvent $orderEvent, Order $order, BaseUser $user = null): OrderEvent
+    private function saveOrderEvent(OrderEvent $orderEvent, Order $order, BaseUser $eventUser = null): OrderEvent
     {
         $orderEvent->order()->associate($order);
-        if ($user) {
-            $orderEvent->user()->associate($user);
+        if ($eventUser) {
+            $orderEvent->user()->associate($eventUser);
         }
         $orderEvent->save();
 

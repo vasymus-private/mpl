@@ -2,22 +2,23 @@
 
 namespace Domain\Orders\Actions;
 
+use Domain\Common\Actions\BaseAction;
 use Domain\Orders\Enums\OrderEventType;
 use Domain\Orders\Models\Order;
 use Domain\Orders\Models\OrderEvent;
 use Domain\Products\Models\Product\Product;
 use Domain\Users\Models\BaseUser\BaseUser;
 
-class ChangeOrderProductsAction
+class ChangeOrderProductsAction extends BaseAction
 {
     /**
      * @param \Domain\Orders\Models\Order $order
-     * @param \Domain\Users\Models\BaseUser\BaseUser $user
+     * @param \Domain\Users\Models\BaseUser\BaseUser $eventUser
      * @param array[] $productItems @see {@link \Domain\Products\DTOs\Admin\OrderProductItemDTO}
      *
      * @return void
      */
-    public function execute(Order $order, BaseUser $user, array $productItems): void
+    public function execute(Order $order, BaseUser $eventUser, array $productItems): void
     {
         $orderEvents = [];
 
@@ -84,7 +85,7 @@ class ChangeOrderProductsAction
         }
 
         foreach ($orderEvents as $orderEvent) {
-            $this->createOrderEvent($orderEvent, $order, $user);
+            $this->createOrderEvent($orderEvent, $order, $eventUser);
         }
     }
 
@@ -213,15 +214,15 @@ class ChangeOrderProductsAction
     /**
      * @param \Domain\Orders\Models\OrderEvent $orderEvent
      * @param \Domain\Orders\Models\Order $order
-     * @param \Domain\Users\Models\BaseUser\BaseUser|null $user
+     * @param \Domain\Users\Models\BaseUser\BaseUser|null $eventUser
      *
      * @return \Domain\Orders\Models\OrderEvent
      */
-    private function createOrderEvent(OrderEvent $orderEvent, Order $order, BaseUser $user = null): OrderEvent
+    private function createOrderEvent(OrderEvent $orderEvent, Order $order, BaseUser $eventUser = null): OrderEvent
     {
         $orderEvent->order()->associate($order);
-        if ($user) {
-            $orderEvent->user()->associate($user);
+        if ($eventUser) {
+            $orderEvent->user()->associate($eventUser);
         }
         $orderEvent->save();
 

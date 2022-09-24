@@ -11,9 +11,14 @@ use Spatie\DataTransferObject\DataTransferObject;
 class CreateOrUpdateOrderDTO extends DataTransferObject
 {
     /**
+     * @var \Domain\Users\Models\BaseUser\BaseUser|null
+     */
+    public ?BaseUser $user;
+
+    /**
      * @var \Domain\Users\Models\BaseUser\BaseUser
      */
-    public BaseUser $user;
+    public BaseUser $event_user;
 
     /**
      * @var int
@@ -51,11 +56,6 @@ class CreateOrUpdateOrderDTO extends DataTransferObject
     public ?string $request_phone;
 
     /**
-     * @var string[]|\Illuminate\Http\UploadedFile[]
-     */
-    public array $attachment = [];
-
-    /**
      * @var \Domain\Orders\DTOs\OrderProductItemDTO[]
      */
     public array $productItems = [];
@@ -74,4 +74,34 @@ class CreateOrUpdateOrderDTO extends DataTransferObject
      * @var int|null
      */
     public ?int $admin_id;
+
+    /**
+     * @var string|null
+     */
+    public ?string $customer_bill_description;
+
+    /**
+     * @var int|null
+     */
+    public ?int $customer_bill_status_id;
+
+    /**
+     * @var string|null
+     */
+    public ?string $provider_bill_description;
+
+    /**
+     * @var int|null
+     */
+    public ?int $provider_bill_status_id;
+
+    /**
+     * @var \Domain\Common\DTOs\MediaDTO[]
+     */
+    public array $customerInvoices = [];
+
+    /**
+     * @var \Domain\Common\DTOs\MediaDTO[]
+     */
+    public array $supplierInvoices = [];
 }

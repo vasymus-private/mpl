@@ -14,9 +14,9 @@ class DefaultUpdateOrderParams extends DataTransferObject
     public Order $order;
 
     /**
-     * @var \Domain\Users\Models\BaseUser\BaseUser|null
+     * @var \Domain\Users\Models\BaseUser\BaseUser
      */
-    public ?BaseUser $user;
+    public BaseUser $event_user;
 
     /**
      * @var string|int|float|null
@@ -57,4 +57,24 @@ class DefaultUpdateOrderParams extends DataTransferObject
      * @var string|null
      */
     public ?string $phone;
+
+    /**
+     * @var string|null
+     */
+    public ?string $customer_bill_description;
+
+    /**
+     * @var int|null
+     */
+    public ?int $customer_bill_status_id;
+
+    /**
+     * @var string|null
+     */
+    public ?string $provider_bill_description;
+
+    /**
+     * @var int|null
+     */
+    public ?int $provider_bill_status_id;
 }

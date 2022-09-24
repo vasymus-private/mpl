@@ -14,11 +14,11 @@ class HandleChangeOrderStatusAction extends BaseAction
     /**
      * @param \Domain\Orders\Models\Order $order
      * @param int $newStatus
-     * @param \Domain\Users\Models\BaseUser\BaseUser|null $user
+     * @param \Domain\Users\Models\BaseUser\BaseUser|null $eventUser
      *
      * @return void
      */
-    public function execute(Order $order, int $newStatus, BaseUser $user = null): void
+    public function execute(Order $order, int $newStatus, BaseUser $eventUser = null): void
     {
         if ((string)$order->getOriginal('order_status_id') === (string)$newStatus) {
             return;
@@ -34,8 +34,8 @@ class HandleChangeOrderStatusAction extends BaseAction
             'description' => sprintf('Статус изменен на: "%s"', $orderStatus->name),
         ];
         $orderEvent->type = OrderEventType::update_status();
-        if ($user) {
-            $orderEvent->user()->associate($user);
+        if ($eventUser) {
+            $orderEvent->user()->associate($eventUser);
         }
         $orderEvent->order()->associate($order);
         $orderEvent->save();

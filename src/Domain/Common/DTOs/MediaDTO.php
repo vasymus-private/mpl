@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Products\DTOs\Admin\Inertia;
+namespace Domain\Common\DTOs;
 
 use Illuminate\Http\UploadedFile;
 use Spatie\DataTransferObject\DataTransferObject;

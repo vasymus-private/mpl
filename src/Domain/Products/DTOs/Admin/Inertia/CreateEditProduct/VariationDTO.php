@@ -2,7 +2,7 @@
 
 namespace Domain\Products\DTOs\Admin\Inertia\CreateEditProduct;
 
-use Domain\Products\DTOs\Admin\Inertia\MediaDTO;
+use Domain\Common\DTOs\MediaDTO;
 use Spatie\DataTransferObject\DataTransferObject;
 
 class VariationDTO extends DataTransferObject
@@ -78,12 +78,12 @@ class VariationDTO extends DataTransferObject
     public ?string $preview;
 
     /**
-     * @var \Domain\Products\DTOs\Admin\Inertia\MediaDTO|null
+     * @var \Domain\Common\DTOs\MediaDTO|null
      */
     public ?MediaDTO $mainImage;
 
     /**
-     * @var \Domain\Products\DTOs\Admin\Inertia\MediaDTO[]
+     * @var \Domain\Common\DTOs\MediaDTO[]
      */
     public array $additionalImages = [];
 }

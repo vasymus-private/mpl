@@ -79,6 +79,7 @@ class CartCheckoutController extends BaseWebController
 
         return CreateOrderAction::cached()->execute(new CreateOrderParamsDTO([
             'user' => $user,
+            'event_user' => $user,
             'order_status_id' => OrderStatus::ID_OPEN,
             'importance_id' => OrderImportance::ID_GREY,
             'order_event_type' => OrderEventType::checkout(),

@@ -16,6 +16,11 @@ class CreateOrderParamsDTO extends DataTransferObject
     public BaseUser $user;
 
     /**
+     * @var \Domain\Users\Models\BaseUser\BaseUser|null
+     */
+    public ?BaseUser $event_user;
+
+    /**
      * @var int
      */
     public int $order_status_id = OrderStatus::ID_OPEN;
@@ -34,6 +39,11 @@ class CreateOrderParamsDTO extends DataTransferObject
      * @var string|null
      */
     public ?string $comment_user;
+
+    /**
+     * @var int|null
+     */
+    public ?int $payment_method_id;
 
     /**
      * @var string|null
@@ -59,4 +69,34 @@ class CreateOrderParamsDTO extends DataTransferObject
      * @var \Domain\Orders\DTOs\OrderProductItemDTO[]
      */
     public array $productItems;
+
+    /**
+     * @var string|null
+     */
+    public ?string $customer_bill_description;
+
+    /**
+     * @var int|null
+     */
+    public ?int $customer_bill_status_id;
+
+    /**
+     * @var string|null
+     */
+    public ?string $provider_bill_description;
+
+    /**
+     * @var int|null
+     */
+    public ?int $provider_bill_status_id;
+
+    /**
+     * @var string|null
+     */
+    public ?string $comment_admin;
+
+    /**
+     * @var int|null
+     */
+    public ?int $admin_id;
 }

@@ -6,7 +6,7 @@ use Domain\Common\Actions\BaseAction;
 use Domain\Products\Actions\SaveSeoAction;
 use Domain\Products\Actions\SyncAndSaveMediasAction;
 use Domain\Products\DTOs\Admin\Inertia\BrandDTO;
-use Domain\Products\DTOs\Admin\Inertia\MediaDTO;
+use Domain\Common\DTOs\MediaDTO;
 use Domain\Products\Models\Brand;
 use Illuminate\Support\Facades\DB;
 
@@ -81,7 +81,7 @@ class CreateOrUpdateBrandAction extends BaseAction
 
     /**
      * @param \Domain\Products\Models\Brand $target
-     * @param \Domain\Products\DTOs\Admin\Inertia\MediaDTO|null $mediaDTO
+     * @param \Domain\Common\DTOs\MediaDTO|null $mediaDTO
      *
      * @return void
      */

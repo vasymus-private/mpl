@@ -2,6 +2,7 @@
 
 namespace Domain\Orders\Actions;
 
+use Domain\Common\Actions\BaseAction;
 use Domain\Orders\DTOs\UpdateOrderInvoicesParamsDTO;
 use Domain\Orders\Enums\OrderEventType;
 use Domain\Orders\Models\BillStatus;
@@ -9,7 +10,7 @@ use Domain\Orders\Models\Order;
 use Domain\Orders\Models\OrderEvent;
 use Support\H;
 
-class UpdateOrderCustomerInvoicesAction
+class UpdateOrderCustomerInvoicesAction extends BaseAction
 {
     /**
      * @var \Domain\Orders\Actions\SaveOrderMediasAction
@@ -117,6 +118,7 @@ class UpdateOrderCustomerInvoicesAction
         $orderEventDescription = '';
 
         if ($this->propertyHasChanged($params, 'customer_bill_status_id')) {
+            /** @var \Domain\Orders\Models\BillStatus $billStatus */
             $billStatus = BillStatus::query()->findOrFail($params->customer_bill_status_id);
             $orderEventDescription .= sprintf('Статус: `%s`. ', $billStatus->name);
         }
@@ -238,8 +240,8 @@ class UpdateOrderCustomerInvoicesAction
         $orderEvent->type = OrderEventType::update_customer_invoice();
         $orderEvent->payload = $orderEventPayload;
         $orderEvent->order()->associate($params->order);
-        if ($params->user) {
-            $orderEvent->user()->associate($params->user);
+        if ($params->event_user) {
+            $orderEvent->user()->associate($params->event_user);
         }
         $orderEvent->save();
     }
@@ -267,8 +269,8 @@ class UpdateOrderCustomerInvoicesAction
         $orderEvent->type = OrderEventType::update_supplier_invoice();
         $orderEvent->payload = $orderEventPayload;
         $orderEvent->order()->associate($params->order);
-        if ($params->user) {
-            $orderEvent->user()->associate($params->user);
+        if ($params->event_user) {
+            $orderEvent->user()->associate($params->event_user);
         }
         $orderEvent->save();
     }
