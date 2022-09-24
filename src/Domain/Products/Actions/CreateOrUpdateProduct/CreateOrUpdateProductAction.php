@@ -3,10 +3,10 @@
 namespace Domain\Products\Actions\CreateOrUpdateProduct;
 
 use Domain\Common\Actions\BaseAction;
+use Domain\Common\DTOs\MediaDTO;
 use Domain\Products\Actions\SaveSeoAction;
 use Domain\Products\Actions\SyncAndSaveMediasAction;
 use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\ProductDTO;
-use Domain\Common\DTOs\MediaDTO;
 use Domain\Products\Models\Pivots\ProductProduct;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Support\Facades\DB;

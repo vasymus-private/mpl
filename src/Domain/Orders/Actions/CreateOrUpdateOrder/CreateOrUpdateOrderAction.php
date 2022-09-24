@@ -198,7 +198,6 @@ class CreateOrUpdateOrderAction extends BaseAction
         $result = [];
 
         foreach ($mediaDTOs as $mediaDTO) {
-
         }
 
         return $result;

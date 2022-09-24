@@ -4,7 +4,6 @@ namespace App\Http\Requests\Admin\Ajax;
 
 use Domain\Orders\DTOs\CreateOrUpdateOrderDTO;
 use Domain\Orders\DTOs\OrderProductItemDTO;
-use Domain\Orders\Enums\OrderEventType;
 use Domain\Orders\Models\BillStatus;
 use Domain\Orders\Models\OrderImportance;
 use Domain\Orders\Models\OrderStatus;
@@ -12,8 +11,6 @@ use Domain\Orders\Models\PaymentMethod;
 use Domain\Products\Models\Product\Product;
 use Domain\Users\Models\Admin;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Exists;
 use Support\H;
 
 /**
@@ -118,6 +115,7 @@ class CreateUpdateOrderRequest extends FormRequest
                 ->map(function (array $productItem) {
                     /** @var \Domain\Products\Models\Product\Product $product */
                     $product = Product::query()->withTrashed()->where(sprintf('%s.uuid', Product::TABLE), $productItem['uuid'])->firstOrFail();
+
                     return new OrderProductItemDTO([
                         'count' => isset($productItem['count']) ? (int)$productItem['count'] : 1,
                         'order_product_count' => isset($productItem['count']) ? (int)$productItem['count'] : 1,

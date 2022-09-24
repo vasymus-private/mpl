@@ -3,8 +3,8 @@
 namespace Domain\Products\Actions;
 
 use Domain\Common\Actions\BaseAction;
-use Domain\Common\Models\CustomMedia;
 use Domain\Common\DTOs\MediaDTO;
+use Domain\Common\Models\CustomMedia;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
