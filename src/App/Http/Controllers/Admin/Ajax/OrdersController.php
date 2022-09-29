@@ -22,7 +22,7 @@ class OrdersController extends BaseAdminController
         $createOrUpdateOrderDto->order_event_type = OrderEventType::admin_created();
         $order = $createOrUpdateOrderAction->execute($createOrUpdateOrderDto);
 
-        if (!$order) {
+        if (! $order) {
             return response('', Response::HTTP_FAILED_DEPENDENCY);
         }
 

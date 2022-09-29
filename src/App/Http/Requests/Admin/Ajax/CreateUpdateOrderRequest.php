@@ -123,6 +123,7 @@ class CreateUpdateOrderRequest extends FormRequest
                 ->map(function (array $productItem) {
                     /** @var \Domain\Products\Models\Product\Product $product */
                     $product = Product::query()->withTrashed()->where(sprintf('%s.uuid', Product::TABLE), $productItem['uuid'])->firstOrFail();
+
                     return new OrderProductItemDTO([
                         'count' => isset($productItem['count']) ? (int)$productItem['count'] : 1,
                         'order_product_count' => isset($productItem['count']) ? (int)$productItem['count'] : 1,
