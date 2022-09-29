@@ -12,6 +12,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class OrdersController extends BaseAdminController
 {
+    /**
+     * @param \App\Http\Requests\Admin\Ajax\CreateUpdateOrderRequest $request
+     * @param \Domain\Orders\Actions\CreateOrUpdateOrder\CreateOrUpdateOrderAction $createOrUpdateOrderAction
+     *
+     * @return \App\Http\Resources\Admin\OrderResource|\Illuminate\Http\Response
+     */
     public function store(CreateUpdateOrderRequest $request, CreateOrUpdateOrderAction $createOrUpdateOrderAction)
     {
         $admin = H::admin();
@@ -29,7 +35,26 @@ class OrdersController extends BaseAdminController
         return new OrderResource($order);
     }
 
-    public function update(CreateUpdateOrderRequest $request)
+    /**
+     * @param \App\Http\Requests\Admin\Ajax\CreateUpdateOrderRequest $request
+     * @param \Domain\Orders\Actions\CreateOrUpdateOrder\CreateOrUpdateOrderAction $createOrUpdateOrderAction
+     *
+     * @return \App\Http\Resources\Admin\OrderResource|\Illuminate\Http\Response
+     */
+    public function update(CreateUpdateOrderRequest $request, CreateOrUpdateOrderAction $createOrUpdateOrderAction)
     {
+        /** @var \Domain\Orders\Models\Order $order */
+        $order = $request->admin_order;
+
+        $admin = H::admin();
+        $createOrUpdateOrderDto = $request->prepare();
+        $createOrUpdateOrderDto->event_user = $admin;
+        $order = $createOrUpdateOrderAction->execute($createOrUpdateOrderDto, $order);
+
+        if (! $order) {
+            return response('', Response::HTTP_FAILED_DEPENDENCY);
+        }
+
+        return new OrderResource($order);
     }
 }
