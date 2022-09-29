@@ -2,8 +2,8 @@
 
 namespace Domain\Common\Actions;
 
-use Domain\Common\Models\CustomMedia;
 use Domain\Common\DTOs\MediaDTO;
+use Domain\Common\Models\CustomMedia;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;

@@ -111,12 +111,12 @@ class CreateUpdateOrderRequest extends FormRequest
             'customer_bill_description' => $this->customer_bill_description ? (string)$this->customer_bill_description : null,
             'customer_bill_status_id' => $this->customer_bill_status_id ? (int)$this->customer_bill_status_id : null,
             'customerInvoices' => isset($this->customerInvoices)
-                ? collect($this->customerInvoices)->map(fn($media) => MediaDTO::create($media))->all()
+                ? collect($this->customerInvoices)->map(fn ($media) => MediaDTO::create($media))->all()
                 : [],
             'provider_bill_description' => $this->provider_bill_description ? (string)$this->provider_bill_description : null,
             'provider_bill_status_id' => $this->provider_bill_status_id ? (int)$this->provider_bill_status_id : null,
             'supplierInvoices' => isset($this->supplierInvoices)
-                ? collect($this->supplierInvoices)->map(fn($media) => MediaDTO::create($media))->all()
+                ? collect($this->supplierInvoices)->map(fn ($media) => MediaDTO::create($media))->all()
                 : [],
             'comment_admin' => $this->comment_admin ? (string)$this->comment_admin : null,
             'productItems' => collect($this->productItems)

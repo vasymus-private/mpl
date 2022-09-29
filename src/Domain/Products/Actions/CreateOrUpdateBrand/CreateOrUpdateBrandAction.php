@@ -3,9 +3,9 @@
 namespace Domain\Products\Actions\CreateOrUpdateBrand;
 
 use Domain\Common\Actions\BaseAction;
+use Domain\Common\Actions\SyncAndSaveMediasAction;
 use Domain\Common\DTOs\MediaDTO;
 use Domain\Products\Actions\SaveSeoAction;
-use Domain\Common\Actions\SyncAndSaveMediasAction;
 use Domain\Products\DTOs\Admin\Inertia\BrandDTO;
 use Domain\Products\Models\Brand;
 use Illuminate\Support\Facades\DB;
