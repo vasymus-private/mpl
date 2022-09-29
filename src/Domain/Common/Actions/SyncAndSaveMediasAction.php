@@ -1,8 +1,7 @@
 <?php
 
-namespace Domain\Products\Actions;
+namespace Domain\Common\Actions;
 
-use Domain\Common\Actions\BaseAction;
 use Domain\Common\Models\CustomMedia;
 use Domain\Common\DTOs\MediaDTO;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded;
@@ -12,7 +11,7 @@ use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 class SyncAndSaveMediasAction extends BaseAction
 {
     /**
-     * @param \Domain\Products\Models\Product\Product|\Domain\Products\Models\Brand $target
+     * @param \Domain\Products\Models\Product\Product|\Domain\Products\Models\Brand|\Domain\Orders\Models\Order $target
      * @param \Domain\Common\DTOs\MediaDTO[] $mediaDTOs
      * @param string $collectionName
      *
@@ -65,7 +64,7 @@ class SyncAndSaveMediasAction extends BaseAction
     }
 
     /**
-     * @param \Domain\Products\Models\Product\Product|\Domain\Products\Models\Brand $target
+     * @param \Domain\Products\Models\Product\Product|\Domain\Products\Models\Brand|\Domain\Orders\Models\Order $target
      * @param string $collectionName
      * @param int[] $notDeleteIds
      *
@@ -83,7 +82,7 @@ class SyncAndSaveMediasAction extends BaseAction
     }
 
     /**
-     * @phpstan-param \Domain\Products\Models\Product\Product|\Domain\Products\Models\Brand $target
+     * @phpstan-param \Domain\Products\Models\Product\Product|\Domain\Products\Models\Brand|\Domain\Orders\Models\Order $target
      * @phpstan-param array<int,\Domain\Common\DTOs\MediaDTO> $mediaDTOsToUpdate
      * @phpstan-param string $collectionName
      *
@@ -105,7 +104,7 @@ class SyncAndSaveMediasAction extends BaseAction
     }
 
     /**
-     * @param \Domain\Products\Models\Product\Product|\Domain\Products\Models\Brand $target
+     * @param \Domain\Products\Models\Product\Product|\Domain\Products\Models\Brand|\Domain\Orders\Models\Order $target
      * @param \Domain\Common\DTOs\MediaDTO[] $mediaDTOsNew
      * @param string $collectionName
      *
@@ -130,7 +129,7 @@ class SyncAndSaveMediasAction extends BaseAction
     }
 
     /**
-     * @param \Domain\Products\Models\Product\Product|\Domain\Products\Models\Brand $target
+     * @param \Domain\Products\Models\Product\Product|\Domain\Products\Models\Brand|\Domain\Orders\Models\Order $target
      * @param \Domain\Common\DTOs\MediaDTO[] $mediaDTOsCopy
      * @param string $collectionName
      *
@@ -168,7 +167,7 @@ class SyncAndSaveMediasAction extends BaseAction
     }
 
     /**
-     * @param \Domain\Products\Models\Product\Product|\Domain\Products\Models\Brand $target
+     * @param \Domain\Products\Models\Product\Product|\Domain\Products\Models\Brand|\Domain\Orders\Models\Order $target
      * @param string $collectionName
      * @param \Domain\Common\DTOs\MediaDTO $mediaDTO
      *

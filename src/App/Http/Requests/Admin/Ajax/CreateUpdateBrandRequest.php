@@ -57,14 +57,7 @@ class CreateUpdateBrandRequest extends FormRequest
     {
         $payload = $this->all();
 
-        $mediaCB = fn (array $media) => new MediaDTO([
-            'id' => isset($media['id']) ? (int)$media['id'] : null,
-            'uuid' => isset($media['uuid']) ? (string)$media['uuid'] : null,
-            'name' => isset($media['name']) ? (string)$media['name'] : null,
-            'file_name' => isset($media['file_name']) ? (string)$media['file_name'] : null,
-            'order_column' => isset($media['order_column']) ? (int)$media['order_column'] : null,
-            'file' => $media['file'] ?? null,
-        ]);
+        $mediaCB = fn (array $media) => MediaDTO::create($media);
 
         return new BrandDTO([
             'name' => isset($payload['name'])

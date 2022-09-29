@@ -3,6 +3,8 @@
 namespace Domain\Orders\Actions;
 
 use Domain\Common\Actions\BaseAction;
+use Domain\Common\Actions\SyncAndSaveMediasAction;
+use Domain\Common\DTOs\MediaDTO;
 use Domain\Orders\DTOs\UpdateOrderInvoicesParamsDTO;
 use Domain\Orders\Enums\OrderEventType;
 use Domain\Orders\Models\BillStatus;
@@ -13,16 +15,16 @@ use Support\H;
 class UpdateOrderCustomerInvoicesAction extends BaseAction
 {
     /**
-     * @var \Domain\Orders\Actions\SaveOrderMediasAction
+     * @var \Domain\Common\Actions\SyncAndSaveMediasAction
      */
-    private SaveOrderMediasAction $saveOrderMediasAction;
+    private SyncAndSaveMediasAction $syncAndSaveMediasAction;
 
     /**
-     * @param \Domain\Orders\Actions\SaveOrderMediasAction $saveOrderMediasAction
+     * @param \Domain\Common\Actions\SyncAndSaveMediasAction $syncAndSaveMediasAction
      */
-    public function __construct(SaveOrderMediasAction $saveOrderMediasAction)
+    public function __construct(SyncAndSaveMediasAction $syncAndSaveMediasAction)
     {
-        $this->saveOrderMediasAction = $saveOrderMediasAction;
+        $this->syncAndSaveMediasAction = $syncAndSaveMediasAction;
     }
 
     /**
@@ -63,13 +65,35 @@ class UpdateOrderCustomerInvoicesAction extends BaseAction
         }
 
         if ($this->customerInvoicesHaveChanges($params)) {
-            $this->saveOrderMediasAction->execute($params->order, $params->customerInvoices, Order::MC_CUSTOMER_INVOICES);
+            $this->syncAndSaveMediasAction->execute($params->order, $this->mapInvoicesToMediaDTOs($params->customerInvoices), Order::MC_CUSTOMER_INVOICES);
             $this->createCustomerInvoicesOrderEvent($params);
         }
         if ($this->supplierInvoicesHaveChanges($params)) {
-            $this->saveOrderMediasAction->execute($params->order, $params->supplierInvoices, Order::MC_SUPPLIER_INVOICES);
+            $this->syncAndSaveMediasAction->execute($params->order, $this->mapInvoicesToMediaDTOs($params->supplierInvoices), Order::MC_SUPPLIER_INVOICES);
             $this->createSupplierInvoicesOrderEvent($params);
         }
+    }
+
+    /**
+     * @param array[] $invoices {@link \Domain\Common\DTOs\FileDTO}
+     *
+     * @return array
+     */
+    private function mapInvoicesToMediaDTOs(array $invoices): array
+    {
+        $result = [];
+
+        foreach ($invoices as $invoice) {
+            $result[] = new MediaDTO([
+                'id' => $invoice['id'] ?? null,
+                'name' => $invoice['name'] ?? null,
+                'file_name' => $invoice['file_name'] ?? null,
+                'order_column' => $invoice['ordering'] ?? null,
+                'file' => $invoice['file'] ?? null,
+            ]);
+        }
+
+        return $result;
     }
 
     /**
@@ -153,6 +177,7 @@ class UpdateOrderCustomerInvoicesAction extends BaseAction
         $orderEventDescription = '';
 
         if ($this->propertyHasChanged($params, 'provider_bill_status_id')) {
+            /** @var \Domain\Orders\Models\BillStatus $billStatus */
             $billStatus = BillStatus::query()->findOrFail($params->provider_bill_status_id);
             $orderEventDescription .= sprintf('Статус: `%s`. ', $billStatus->name);
         }

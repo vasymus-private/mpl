@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Admin\Ajax;
 
+use Domain\Common\DTOs\MediaDTO;
 use Domain\Orders\DTOs\CreateOrUpdateOrderDTO;
 use Domain\Orders\DTOs\OrderProductItemDTO;
-use Domain\Orders\Enums\OrderEventType;
 use Domain\Orders\Models\BillStatus;
 use Domain\Orders\Models\OrderImportance;
 use Domain\Orders\Models\OrderStatus;
@@ -12,8 +12,6 @@ use Domain\Orders\Models\PaymentMethod;
 use Domain\Products\Models\Product\Product;
 use Domain\Users\Models\Admin;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Exists;
 use Support\H;
 
 /**
@@ -55,18 +53,18 @@ class CreateUpdateOrderRequest extends FormRequest
     {
         return [
             'order_status_id' => sprintf('required|integer|exists:%s,id', OrderStatus::class),
+            'request_email' => 'string|max:250|nullable',
+            'request_name' => 'string|max:250|nullable',
+            'request_phone' => 'string|max:250|nullable',
             'payment_method_id' => sprintf('required|integer|exists:%s,id', PaymentMethod::class),
             'comment_user' => 'nullable|max:65000',
             'admin_id' => sprintf('nullable|integer|exists:%s,id', Admin::class),
             'importance_id' => sprintf('nullable|integer|exists:%s,id', OrderImportance::class),
-            'customer_bill_status_id' => sprintf('required|integer|exists:%s,id', BillStatus::class),
             'customer_bill_description' => 'nullable|max:65000',
-            'provider_bill_status_id' => sprintf('required|exists:%s,id', BillStatus::class),
+            'customer_bill_status_id' => sprintf('required|integer|exists:%s,id', BillStatus::class),
             'provider_bill_description' => 'nullable|max:65000',
+            'provider_bill_status_id' => sprintf('required|exists:%s,id', BillStatus::class),
             'comment_admin' => 'nullable|max:65000',
-            'request_name' => 'string|max:250|nullable',
-            'request_email' => 'string|max:250|nullable',
-            'request_phone' => 'string|max:250|nullable',
 
             'customerInvoices' => 'nullable|array',
             'customerInvoices.*.id' => 'nullable|integer',
@@ -102,17 +100,24 @@ class CreateUpdateOrderRequest extends FormRequest
     public function prepare(): CreateOrUpdateOrderDTO
     {
         return new CreateOrUpdateOrderDTO([
-            'order_status_id' => $this->order_status_id,
-            'importance_id' => $this->importance_id,
-            'comment_user' => $this->comment_user,
-            'request_name' => $this->request_name,
-            'request_email' => $this->request_email,
-            'request_phone' => $this->request_phone,
-            'payment_method_id' => $this->payment_method_id,
+            'order_status_id' => (int)$this->order_status_id,
+            'request_email' => $this->request_email ? (string)$this->request_email : null,
+            'request_name' => $this->request_name ? (string)$this->request_name : null,
+            'request_phone' => $this->request_phone ? (string)$this->request_phone : null,
+            'payment_method_id' => $this->payment_method_id ? (int)$this->payment_method_id : null,
+            'comment_user' => $this->comment_user ? (string)$this->comment_user : null,
+            'admin_id' => $this->admin_id ? (int)$this->admin_id : null,
+            'importance_id' => $this->importance_id ? (int)$this->importance_id : null,
             'customer_bill_description' => $this->customer_bill_description ? (string)$this->customer_bill_description : null,
             'customer_bill_status_id' => $this->customer_bill_status_id ? (int)$this->customer_bill_status_id : null,
+            'customerInvoices' => isset($this->customerInvoices)
+                ? collect($this->customerInvoices)->map(fn($media) => MediaDTO::create($media))->all()
+                : [],
             'provider_bill_description' => $this->provider_bill_description ? (string)$this->provider_bill_description : null,
             'provider_bill_status_id' => $this->provider_bill_status_id ? (int)$this->provider_bill_status_id : null,
+            'supplierInvoices' => isset($this->supplierInvoices)
+                ? collect($this->supplierInvoices)->map(fn($media) => MediaDTO::create($media))->all()
+                : [],
             'comment_admin' => $this->comment_admin ? (string)$this->comment_admin : null,
             'productItems' => collect($this->productItems)
                 ->map(function (array $productItem) {

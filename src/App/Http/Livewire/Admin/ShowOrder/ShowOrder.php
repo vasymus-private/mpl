@@ -383,9 +383,7 @@ class ShowOrder extends BaseShowComponent
 
     public function handleDeleteOrder()
     {
-        /** @var \Domain\Orders\Actions\DeleteOrderAction $deleteOrder */
-        $deleteOrder = resolve(DeleteOrderAction::class);
-        $deleteOrder->execute($this->item, H::admin());
+        DeleteOrderAction::cached()->execute($this->item, H::admin());
 
         return redirect()->route(Constants::ROUTE_ADMIN_ORDERS_INDEX);
     }
@@ -398,9 +396,7 @@ class ShowOrder extends BaseShowComponent
             return false;
         }
 
-        /** @var \Domain\Orders\Actions\HandleCancelOrderAction $handleCancelOrderAction */
-        $handleCancelOrderAction = resolve(HandleCancelOrderAction::class);
-        $handleCancelOrderAction->execute($this->item, $this->cancelMessage, H::admin());
+        HandleCancelOrderAction::cached()->execute($this->item, $this->cancelMessage, H::admin());
 
         $this->initHistory();
 
@@ -415,9 +411,7 @@ class ShowOrder extends BaseShowComponent
             return false;
         }
 
-        /** @var \Domain\Orders\Actions\HandleNotCancelOrderAction $handleNotCancelOrderAction */
-        $handleNotCancelOrderAction = resolve(HandleNotCancelOrderAction::class);
-        $handleNotCancelOrderAction->execute($this->item, H::admin());
+        HandleNotCancelOrderAction::cached()->execute($this->item, H::admin());
 
         $this->initHistory();
 

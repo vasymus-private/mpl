@@ -4,19 +4,19 @@ namespace Domain\Products\Actions\CreateOrUpdateProduct;
 
 use Domain\Common\Actions\BaseAction;
 use Domain\Products\Actions\DeleteVariationAction;
-use Domain\Products\Actions\SyncAndSaveMediasAction;
+use Domain\Common\Actions\SyncAndSaveMediasAction;
 use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\VariationDTO;
 use Domain\Products\Models\Product\Product;
 
 class SyncAndSaveVariationsAction extends BaseAction
 {
     /**
-     * @var \Domain\Products\Actions\SyncAndSaveMediasAction
+     * @var \Domain\Common\Actions\SyncAndSaveMediasAction
      */
     private SyncAndSaveMediasAction $syncAndSaveMediasAction;
 
     /**
-     * @param \Domain\Products\Actions\SyncAndSaveMediasAction $syncAndSaveMediasAction
+     * @param \Domain\Common\Actions\SyncAndSaveMediasAction $syncAndSaveMediasAction
      */
     public function __construct(SyncAndSaveMediasAction $syncAndSaveMediasAction)
     {

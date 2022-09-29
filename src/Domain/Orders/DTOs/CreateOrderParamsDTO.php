@@ -99,4 +99,14 @@ class CreateOrderParamsDTO extends DataTransferObject
      * @var int|null
      */
     public ?int $admin_id;
+
+    /**
+     * @var \Domain\Common\DTOs\MediaDTO[]
+     */
+    public array $customerInvoices = [];
+
+    /**
+     * @var \Domain\Common\DTOs\MediaDTO[]
+     */
+    public array $supplierInvoices = [];
 }

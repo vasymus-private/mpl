@@ -4,7 +4,7 @@ namespace Domain\Products\Actions\CreateOrUpdateProduct;
 
 use Domain\Common\Actions\BaseAction;
 use Domain\Products\Actions\SaveSeoAction;
-use Domain\Products\Actions\SyncAndSaveMediasAction;
+use Domain\Common\Actions\SyncAndSaveMediasAction;
 use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\ProductDTO;
 use Domain\Common\DTOs\MediaDTO;
 use Domain\Products\Models\Pivots\ProductProduct;
@@ -24,7 +24,7 @@ class CreateOrUpdateProductAction extends BaseAction
     private SyncAndSaveInfoPricesAction $syncAndSaveInfoPricesAction;
 
     /**
-     * @var \Domain\Products\Actions\SyncAndSaveMediasAction
+     * @var \Domain\Common\Actions\SyncAndSaveMediasAction
      */
     private SyncAndSaveMediasAction $syncAndSaveMediasAction;
 
@@ -41,7 +41,7 @@ class CreateOrUpdateProductAction extends BaseAction
     /**
      * @param \Domain\Products\Actions\SaveSeoAction $saveSeoAction
      * @param \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveInfoPricesAction $syncAndSaveInfoPricesAction
-     * @param \Domain\Products\Actions\SyncAndSaveMediasAction $syncAndSaveMediasAction
+     * @param \Domain\Common\Actions\SyncAndSaveMediasAction $syncAndSaveMediasAction
      * @param \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveCharCategoriesAndCharsAction $syncAndSaveCharCategoriesAndCharsAction
      * @param \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveVariationsAction $syncAndSaveVariationsAction
      */

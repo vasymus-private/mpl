@@ -3,6 +3,7 @@
 namespace Domain\Orders\Actions;
 
 use Domain\Common\Actions\BaseAction;
+use Domain\Common\Actions\SyncAndSaveMediasAction;
 use Domain\Orders\DTOs\CreateOrderParamsDTO;
 use Domain\Orders\Models\Order;
 use Domain\Orders\Models\OrderEvent;
@@ -15,12 +16,25 @@ class CreateOrderAction extends BaseAction
     /**
      * @link \App\Http\Livewire\Admin\ShowOrder\ShowOrder::DEFAULT_ORDERING
      */
-    protected const DEFAULT_ORDERING = 100;
+    private const DEFAULT_ORDERING = 100;
 
     /**
      * @link \App\Http\Livewire\Admin\ShowOrder\ShowOrder::ORDERING_STEP
      */
-    protected const ORDERING_STEP = 100;
+    private const ORDERING_STEP = 100;
+
+    /**
+     * @var \Domain\Common\Actions\SyncAndSaveMediasAction
+     */
+    private SyncAndSaveMediasAction $syncAndSaveMediasAction;
+
+    /**
+     * @param \Domain\Common\Actions\SyncAndSaveMediasAction $syncAndSaveMediasAction
+     */
+    public function __construct(SyncAndSaveMediasAction $syncAndSaveMediasAction)
+    {
+        $this->syncAndSaveMediasAction = $syncAndSaveMediasAction;
+    }
 
     /**
      * @param \Domain\Orders\DTOs\CreateOrderParamsDTO $params
@@ -44,11 +58,11 @@ class CreateOrderAction extends BaseAction
                 "importance_id" => $params->importance_id,
                 "comment_user" => $params->comment_user,
                 "payment_method_id" => $params->payment_method_id,
+                'comment_admin' => $params->comment_admin,
                 'customer_bill_description' => $params->customer_bill_description,
                 'customer_bill_status_id' => $params->customer_bill_status_id,
                 'provider_bill_description' => $params->provider_bill_description,
                 'provider_bill_status_id' => $params->provider_bill_status_id,
-                'comment_admin' => $params->comment_admin,
                 "request" => [
                     "name" => $params->request_name,
                     "email" => $params->request_email,
@@ -73,6 +87,9 @@ class CreateOrderAction extends BaseAction
             $orderEvent->order()->associate($order);
             $orderEvent->user()->associate($params->event_user);
             $orderEvent->save();
+
+            $this->syncAndSaveMediasAction->execute($order, $params->customerInvoices, Order::MC_CUSTOMER_INVOICES);
+            $this->syncAndSaveMediasAction->execute($order, $params->supplierInvoices, Order::MC_SUPPLIER_INVOICES);
         } catch (Exception $exception) {
             Log::error($exception);
             $order = null;

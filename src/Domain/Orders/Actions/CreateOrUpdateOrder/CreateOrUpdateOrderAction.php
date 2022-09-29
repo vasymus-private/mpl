@@ -122,8 +122,10 @@ class CreateOrUpdateOrderAction extends BaseAction
             'importance_id' => $createOrUpdateOrderDTO->importance_id,
             'customer_bill_description' => $createOrUpdateOrderDTO->customer_bill_description,
             'customer_bill_status_id' => $createOrUpdateOrderDTO->customer_bill_status_id,
+            'customerInvoices' => $createOrUpdateOrderDTO->customerInvoices,
             'provider_bill_description' => $createOrUpdateOrderDTO->provider_bill_description,
             'provider_bill_status_id' => $createOrUpdateOrderDTO->provider_bill_status_id,
+            'supplierInvoices' => $createOrUpdateOrderDTO->supplierInvoices,
             'comment_admin' => $createOrUpdateOrderDTO->comment_admin,
             'order_event_type' => $createOrUpdateOrderDTO->order_event_type,
             'productItems' => $createOrUpdateOrderDTO->productItems,
@@ -198,7 +200,13 @@ class CreateOrUpdateOrderAction extends BaseAction
         $result = [];
 
         foreach ($mediaDTOs as $mediaDTO) {
-
+            $result[] = [
+                'id' => $mediaDTO->id,
+                'name' => $mediaDTO->name,
+                'file_name' => $mediaDTO->file_name,
+                'path' => $mediaDTO->file ? $mediaDTO->file->path() : null,
+                'file' => $mediaDTO->file,
+            ];
         }
 
         return $result;
