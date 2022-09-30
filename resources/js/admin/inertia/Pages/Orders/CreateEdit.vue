@@ -4,14 +4,13 @@ import Breadcrumbs from "@/admin/inertia/components/orders/createEdit/parts/Brea
 import {useCreateEditOrderFormStore, getFormSchema, getWatchOrderToFormCb} from "@/admin/inertia/modules/forms/createEditOrder"
 import Toolbar from "@/admin/inertia/components/orders/createEdit/parts/Toolbar.vue"
 import {useRoutesStore, routeNames} from "@/admin/inertia/modules/routes"
-import {AdminTab} from "@/admin/inertia/modules/common/Tabs"
+import {AdminTab, TabEnum} from "@/admin/inertia/modules/common/Tabs"
 import {UrlParams} from "@/admin/inertia/modules/common/types"
 import {Link} from "@inertiajs/inertia-vue3"
 import {useForm} from "vee-validate"
 import {Values} from "@/admin/inertia/modules/forms/createEditOrder/types"
 import {watch} from "vue"
 import {useOrdersStore} from "@/admin/inertia/modules/orders"
-
 
 
 const createEditOrderFormStore = useCreateEditOrderFormStore()
@@ -49,7 +48,7 @@ const onSubmit = handleSubmit((values, actions) => {
                 <ul class="nav nav-tabs item-tabs" role="tablist">
                     <li v-for="tab in createEditOrderFormStore.allAdminTabs" :key="`${tab.value}-tab`" class="nav-item" role="presentation">
                         <button
-                            :class="['nav-link', tab.value === routesStore.activeTab(createEditOrderFormStore.allAdminTabs) ? 'active' : '']"
+                            :class="['nav-link', tab.value === routesStore.activeTab(createEditOrderFormStore.allAdminTabs, TabEnum.order) ? 'active' : '']"
                             :id="`${tab.value}-tab`"
                             data-bs-toggle="tab"
                             :data-bs-target="`#${tab.value}-content`"
@@ -68,7 +67,7 @@ const onSubmit = handleSubmit((values, actions) => {
                     <div
                         v-for="tab in createEditOrderFormStore.allAdminTabs"
                         :key="`${tab.value}-content`"
-                        :class="['tab-pane', 'p-3', 'fade', tab.value === routesStore.activeTab(createEditOrderFormStore.allAdminTabs) ? 'show active' : '']"
+                        :class="['tab-pane', 'p-3', 'fade', tab.value === routesStore.activeTab(createEditOrderFormStore.allAdminTabs, TabEnum.order) ? 'show active' : '']"
                         :id="`${tab.value}-content`"
                         role="tabpanel"
                         :aria-labelledby="`${tab.value}-tab`"

@@ -3,14 +3,44 @@ import {useOrdersStore} from "@/admin/inertia/modules/orders"
 import RowSelect from "@/admin/inertia/components/forms/vee-validate/RowSelect.vue"
 import {useOrderStatusesStore} from "@/admin/inertia/modules/orderStatuses"
 import {ref} from 'vue'
+import {useCreateEditOrderFormStore} from "@/admin/inertia/modules/forms/createEditOrder"
+import {useRoutesStore} from "@/admin/inertia/modules/routes"
+import {useToastsStore} from "@/admin/inertia/modules/toasts"
 
 
 const ordersStore = useOrdersStore()
 const orderStatusesStore = useOrderStatusesStore()
+const createEditOrderFormStore = useCreateEditOrderFormStore()
+const routesStore = useRoutesStore()
+const toastsStore = useToastsStore()
 const isOpen = ref<boolean>(false)
-const cancelReason = ref<string|null>(null)
-const handleCancel = (shouldCancel: boolean) => {
+const cancelDescription = ref<string|null>(null)
 
+const handleCancel = async (shouldCancel: boolean) => {
+    let errorsOrVoid = await createEditOrderFormStore.handleCancel(
+        shouldCancel,
+        cancelDescription.value
+    )
+
+    if (!errorsOrVoid) {
+        isOpen.value = false
+        cancelDescription.value = null
+        return
+    }
+
+    for (let key in errorsOrVoid) {
+        toastsStore.error({
+            title: key,
+            message: errorsOrVoid[key]
+        })
+    }
+}
+const setIsOpen = () => {
+    isOpen.value = true
+}
+const setIsNotOpen = () => {
+    isOpen.value = false
+    cancelDescription.value = null
 }
 </script>
 
@@ -70,16 +100,19 @@ const handleCancel = (shouldCancel: boolean) => {
                 </template>
                 <template v-else>
                     <div class="form-group row">
-                        <div class="col-sm-7 offset-sm-5 d-flex align-items-center">
-                            <button @click="isOpen = true" type="button" class="btn btn__cancel-order">Отменить заказ</button>
+                        <div v-if="!isOpen" class="col-sm-7 offset-sm-5 d-flex align-items-center mb-3">
+                            <button @click="setIsOpen" type="button" class="btn btn__cancel-order">Отменить заказ</button>
                         </div>
-                        <div v-if="isOpen" class="col-sm-7 offset-sm-5 d-flex align-items-center">
-                            <input v-bind="cancelReason" class="form-control" type="text" />
-                        </div>
-                        <div class="col-sm-7 offset-sm-5 d-flex align-items-center">
-                            <button @click="handleCancel(true)" type="button" class="btn btn-info">Отправить</button>
-                            <button @click="isOpen = false" type="button" class="btn btn-secondary">Отменить заказ</button>
-                        </div>
+                        <template v-if="isOpen">
+                            <div class="col-sm-7 offset-sm-5 align-items-center mb-3">
+                                <label for="cancel-reason" class="form-label">Причина отмены:</label>
+                                <textarea v-model="cancelDescription" id="cancel-reason" class="form-control" rows="3"></textarea>
+                            </div>
+                            <div class="col-sm-7 offset-sm-5 align-items-center">
+                                <button @click="handleCancel(true)" type="button" class="btn btn-info">Отправить</button>
+                                <button @click="setIsNotOpen" type="button" class="btn btn-secondary ms-2">Отменить</button>
+                            </div>
+                        </template>
                     </div>
                 </template>
             </template>
