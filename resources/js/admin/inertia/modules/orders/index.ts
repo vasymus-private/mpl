@@ -164,7 +164,7 @@ export const useOrdersStore = defineStore(storeName, {
         updateOrder(order: Partial<Order>): void {
             this._entity = {
                 ...this._entity,
-                ...order
+                ...order,
             }
         },
     },

@@ -1,7 +1,7 @@
 import { defineStore } from "pinia"
 import { useOrdersStore } from "@/admin/inertia/modules/orders"
-import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
-import {ErrorResponse, UrlParams} from "@/admin/inertia/modules/common/types"
+import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
+import { ErrorResponse, UrlParams } from "@/admin/inertia/modules/common/types"
 import { AdminTab, TabEnum } from "@/admin/inertia/modules/common/Tabs"
 import OrderTab from "@/admin/inertia/components/orders/createEdit/tabs/OrderTab.vue"
 import HistoryTab from "@/admin/inertia/components/orders/createEdit/tabs/HistoryTab.vue"
@@ -9,8 +9,8 @@ import * as yup from "yup"
 import { Order } from "@/admin/inertia/modules/orders/types"
 import { Values } from "@/admin/inertia/modules/forms/createEditOrder/types"
 import { yupIntegerOrEmptyString } from "@/admin/inertia/utils"
-import axios, {AxiosError} from "axios";
-import {errorsToErrorFields} from "@/admin/inertia/modules/common";
+import axios, { AxiosError } from "axios"
+import { errorsToErrorFields } from "@/admin/inertia/modules/common"
 
 export const storeName = "createEditOrderForm"
 
@@ -64,7 +64,7 @@ export const useCreateEditOrderFormStore = defineStore(storeName, {
         ): Promise<void> {},
         async handleCancel(
             shouldCancel: boolean,
-            cancelDescription?: string|null
+            cancelDescription?: string | null
         ): Promise<void | Record<string, string | undefined>> {
             const routesStore = useRoutesStore()
             const ordersStore = useOrdersStore()
@@ -74,11 +74,15 @@ export const useCreateEditOrderFormStore = defineStore(storeName, {
                     routesStore.route(
                         routeNames.ROUTE_ADMIN_AJAX_ORDERS_CANCEL,
                         {
-                            admin_order: ordersStore.order.id
+                            admin_order: ordersStore.order.id,
                         }
                     )
                 )
-                let response = await axios.put<{id: number, cancelled: boolean, cancelled_description: string|null}>(url.toString(), {
+                let response = await axios.put<{
+                    id: number
+                    cancelled: boolean
+                    cancelled_description: string | null
+                }>(url.toString(), {
                     should_cancel: shouldCancel,
                     cancelled_description: cancelDescription,
                 })
