@@ -25,7 +25,10 @@ import { getRouteUrl, routeNames } from "@/admin/inertia/modules/routes"
 import { Values } from "@/admin/inertia/modules/forms/createEditProduct/types"
 import axios, { AxiosError } from "axios"
 import { ErrorResponse } from "@/admin/inertia/modules/common/types"
-import { errorsToErrorFields, getMediaSchema } from "@/admin/inertia/modules/common"
+import {
+    errorsToErrorFields,
+    getMediaSchema,
+} from "@/admin/inertia/modules/common"
 import { CustomFormData } from "@/admin/inertia/utils/CustomFormData"
 import { Inertia } from "@inertiajs/inertia"
 
