@@ -15,7 +15,10 @@ import axios, { AxiosError } from "axios"
 import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
 import { Inertia } from "@inertiajs/inertia"
 import { ErrorResponse } from "@/admin/inertia/modules/common/types"
-import { errorsToErrorFields, getMediaSchema } from "@/admin/inertia/modules/common"
+import {
+    errorsToErrorFields,
+    getMediaSchema,
+} from "@/admin/inertia/modules/common"
 
 export const storeName = "createEditBrandForm"
 
