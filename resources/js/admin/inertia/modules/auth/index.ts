@@ -7,14 +7,14 @@ import Option from "@/admin/inertia/modules/common/Option"
 export const storeName = "auth"
 
 interface State {
-    auth: Auth
+    _auth: Auth
     _admins: Array<Admin>
 }
 
 export const useAuthStore = defineStore(storeName, {
     state: (): State => {
         return {
-            auth: {
+            _auth: {
                 user: {
                     id: null,
                     name: null,
@@ -28,7 +28,7 @@ export const useAuthStore = defineStore(storeName, {
         }
     },
     getters: {
-        userName: (state): string | null => state.auth.user.name,
+        userName: (state): string | null => state._auth.user.name,
         adminOptions: (state): Array<Option> =>
             state._admins.map((admin) => ({
                 value: admin.id,
@@ -37,10 +37,11 @@ export const useAuthStore = defineStore(storeName, {
         admin(state): (id: number) => Admin | undefined {
             return (id: number) => state._admins.find((item) => item.id === id)
         },
+        auth: (state): Auth => state._auth,
     },
     actions: {
         setAuthUser(user: User): void {
-            this.auth.user = user
+            this._auth.user = user
         },
         setAdmins(admins: Array<Admin>): void {
             this._admins = admins

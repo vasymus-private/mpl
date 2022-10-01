@@ -2,10 +2,16 @@
 import {useOrdersStore} from "@/admin/inertia/modules/orders"
 import RowSelect from "@/admin/inertia/components/forms/vee-validate/RowSelect.vue"
 import {useOrderStatusesStore} from "@/admin/inertia/modules/orderStatuses"
-import {ref} from 'vue'
+import {computed, ref} from 'vue'
 import {useCreateEditOrderFormStore} from "@/admin/inertia/modules/forms/createEditOrder"
 import {useRoutesStore} from "@/admin/inertia/modules/routes"
 import {useToastsStore} from "@/admin/inertia/modules/toasts"
+import RowInput from "@/admin/inertia/components/forms/vee-validate/RowInput.vue"
+import {usePaymentMethodsStore} from "@/admin/inertia/modules/paymentMethods"
+import RowTextarea from "@/admin/inertia/components/forms/vee-validate/RowTextarea.vue"
+import {useAuthStore} from "@/admin/inertia/modules/auth"
+import {useOrderImportanceStore} from "@/admin/inertia/modules/orderImportance"
+import {useBillStatusesStore} from "@/admin/inertia/modules/billStatuses"
 
 
 const ordersStore = useOrdersStore()
@@ -13,6 +19,11 @@ const orderStatusesStore = useOrderStatusesStore()
 const createEditOrderFormStore = useCreateEditOrderFormStore()
 const routesStore = useRoutesStore()
 const toastsStore = useToastsStore()
+const paymentMethodsStore = usePaymentMethodsStore()
+const authStore = useAuthStore()
+const orderImportanceStore = useOrderImportanceStore()
+const billStatusesStore = useBillStatusesStore()
+
 const isOpen = ref<boolean>(false)
 const cancelDescription = ref<string|null>(null)
 
@@ -42,6 +53,8 @@ const setIsNotOpen = () => {
     isOpen.value = false
     cancelDescription.value = null
 }
+
+const editing = computed<boolean>(() => ordersStore.isCreatingOrderRoute || createEditOrderFormStore.isEditMode)
 </script>
 
 <template>
@@ -52,23 +65,29 @@ const setIsNotOpen = () => {
         </div>
 
         <div class="adm-bus-component-content-container">
-            <div v-if="!ordersStore.isCreatingOrderRoute" class="form-group row">
-                <label class="col-sm-5 col-form-label">Номер заказа:</label>
-                <div class="col-sm-7 d-flex align-items-center">
+            <div v-if="!ordersStore.isCreatingOrderRoute" class="row mb-3">
+                <div class="col-sm-5 text-end">
+                    <label>Номер заказа:</label>
+                </div>
+                <div class="col-sm-7">
                     {{ ordersStore.order?.id }}
                 </div>
             </div>
 
-            <div v-if="!ordersStore.isCreatingOrderRoute" class="form-group row">
-                <label class="col-sm-5 col-form-label">Создан:</label>
-                <div class="col-sm-7 d-flex align-items-center">
+            <div v-if="!ordersStore.isCreatingOrderRoute" class="row mb-3">
+                <div class="col-sm-5 text-end">
+                    <label>Создан:</label>
+                </div>
+                <div class="col-sm-7">
                     {{ ordersStore.order?.dt_created_at ? ordersStore.order.dt_created_at.toFormat('yyyy-LL-dd HH:mm:ss') : '' }}
                 </div>
             </div>
 
-            <div v-if="!ordersStore.isCreatingOrderRoute" class="form-group row">
-                <label class="col-sm-5 col-form-label">Последнее изменение:</label>
-                <div class="col-sm-7 d-flex align-items-center">
+            <div v-if="!ordersStore.isCreatingOrderRoute" class="row mb-3">
+                <div class="col-sm-5 text-end">
+                    <label>Последнее изменение:</label>
+                </div>
+                <div class="col-sm-7">
                     {{ ordersStore.order?.dt_updated_at ? ordersStore.order.dt_updated_at.toFormat('yyyy-LL-dd HH:mm:ss') : '' }}
                 </div>
             </div>
@@ -116,6 +135,165 @@ const setIsNotOpen = () => {
                     </div>
                 </template>
             </template>
+        </div>
+
+        <div class="adm-bus-component-title-container">
+            <div class="adm-bus-component-title-icon"></div>
+            <span class="adm-bus-component-title">Покупатель</span>
+        </div>
+
+        <div class="adm-bus-component-content-container">
+            <RowInput v-if="editing" name="request_user_email" label="E-mail (логин)" />
+            <div v-else class="row mb-3">
+                <div class="col-sm-5 text-end">
+                    <label>E-mail (логин):</label>
+                </div>
+                <div class="col-sm-7">
+                    {{ ordersStore.order?.request_user_email }}
+                </div>
+            </div>
+
+            <RowInput v-if="editing" name="request_user_name" label="Имя" />
+            <div v-else class="row mb-3">
+                <div class="col-sm-5 text-end">
+                    <label>Имя:</label>
+                </div>
+                <div class="col-sm-7">
+                    {{ ordersStore.order?.request_user_name }}
+                </div>
+            </div>
+
+            <RowInput v-if="editing" name="request_user_phone" label="Телефон" />
+            <div v-else class="row mb-3">
+                <div class="col-sm-5 text-end">
+                    <label>Телефон:</label>
+                </div>
+                <div class="col-sm-7">
+                    {{ ordersStore.order?.request_user_phone }}
+                </div>
+            </div>
+
+            <RowSelect
+                v-if="editing"
+                name="payment_method_id"
+                label="Способ оплаты"
+                :options="paymentMethodsStore.options"
+            />
+            <div v-else class="row mb-3">
+                <div class="col-sm-5 text-end">
+                    <label>Способ оплаты:</label>
+                </div>
+                <div class="col-sm-7">
+                    {{ paymentMethodsStore.paymentMethod(ordersStore.order?.payment_method_id)?.name }}
+                </div>
+            </div>
+
+            <RowTextarea v-if="editing" name="comment_user" label="Комментарий пользователя" />
+            <div v-else class="row mb-3">
+                <div class="col-sm-5 text-end">
+                    <label>Комментарий пользователя:</label>
+                </div>
+                <div class="col-sm-7">
+                    {{ ordersStore.order?.comment_user }}
+                </div>
+            </div>
+        </div>
+
+        <div class="adm-bus-component-title-container">
+            <div class="adm-bus-component-title-icon"></div>
+            <span class="adm-bus-component-title">Служебные поля</span>
+        </div>
+
+        <div class="adm-bus-component-content-container">
+            <RowSelect
+                v-if="editing"
+                name="admin_id"
+                label="Менеджер"
+                :options="authStore.adminOptions"
+            />
+            <div v-else class="row mb-3">
+                <div class="col-sm-5 text-end">
+                    <label>Менеджер:</label>
+                </div>
+                <div class="col-sm-7">
+                    {{ authStore.admin(ordersStore.order?.admin_id)?.name }}
+                </div>
+            </div>
+
+            <RowSelect
+                v-if="editing"
+                name="importance_id"
+                label="Важность"
+                :options="orderImportanceStore.options"
+            />
+            <div v-else class="row mb-3" :style="{ backgroundColor: orderImportanceStore.orderImportance(ordersStore.order?.importance_id)?.color || 'transparent' }">
+                <div class="col-sm-5 text-end">
+                    <label>Важность:</label>
+                </div>
+                <div class="col-sm-7">
+                    {{ orderImportanceStore.orderImportance(ordersStore.order?.importance_id)?.name }}
+                </div>
+            </div>
+
+            <RowTextarea v-if="editing" name="customer_bill_description" label="Счёт покупателю" />
+            <div v-else class="row mb-3">
+                <div class="col-sm-5 text-end">
+                    <label>Счёт покупателю:</label>
+                </div>
+                <div class="col-sm-7">
+                    {{ ordersStore.order?.customer_bill_description }}
+                </div>
+            </div>
+
+            <RowSelect
+                v-if="editing"
+                name="customer_bill_status_id"
+                label="Статус счёта покупателю"
+                :options="billStatusesStore.options"
+            />
+            <div v-else class="row mb-3">
+                <div class="col-sm-5 text-end">
+                    <label>Статус счёта покупателю:</label>
+                </div>
+                <div class="col-sm-7">
+                    {{ billStatusesStore.billStatus(ordersStore.order?.customer_bill_status_id)?.name }}
+                </div>
+            </div>
+
+            <RowTextarea v-if="editing" name="provider_bill_description" label="Счёт от поставщика" />
+            <div v-else class="row mb-3">
+                <div class="col-sm-5 text-end">
+                    <label>Счёт от поставщика:</label>
+                </div>
+                <div class="col-sm-7">
+                    {{ ordersStore.order?.provider_bill_description }}
+                </div>
+            </div>
+
+            <RowSelect
+                v-if="editing"
+                name="provider_bill_status_id"
+                label="Статус счёта поставщика"
+                :options="billStatusesStore.options"
+            />
+            <div v-else class="row mb-3">
+                <div class="col-sm-5 text-end">
+                    <label>Статус счёта поставщика:</label>
+                </div>
+                <div class="col-sm-7">
+                    {{ billStatusesStore.billStatus(ordersStore.order?.provider_bill_status_id)?.name }}
+                </div>
+            </div>
+
+            <RowTextarea v-if="editing" name="comment_admin" label="Комментарий менеджера" />
+            <div v-else class="row mb-3">
+                <div class="col-sm-5 text-end">
+                    <label>Комментарий менеджера:</label>
+                </div>
+                <div class="col-sm-7">
+                    {{ ordersStore.order?.comment_admin }}
+                </div>
+            </div>
         </div>
     </div>
 </template>

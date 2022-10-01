@@ -65,6 +65,7 @@ export interface Order {
 export interface OrderItemProductItem {
     product: {
         id: number
+        uuid: string
         name: string
         unit: string | null
     }

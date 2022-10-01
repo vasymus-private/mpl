@@ -7,6 +7,7 @@ use Domain\Orders\Actions\HandleCancelOrderAction;
 use Domain\Orders\Actions\HandleNotCancelOrderAction;
 use Domain\Orders\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Support\H;
 
 class OrdersCancelController extends BaseAdminController
@@ -42,6 +43,9 @@ class OrdersCancelController extends BaseAdminController
             'id' => $order->id,
             'cancelled' => $order->cancelled,
             'cancelled_description' => $order->cancelled_description,
+            'updated_at' => $order->updated_at instanceof Carbon
+                ? $order->updated_at->format('Y-m-d H:i:s')
+                : null,
         ];
     }
 
@@ -53,7 +57,7 @@ class OrdersCancelController extends BaseAdminController
     private function refreshOrder(int $id): Order
     {
         /** @var \Domain\Orders\Models\Order $order */
-        $order = Order::query()->select(['id', 'cancelled', 'cancelled_description'])->findOrFail($id);
+        $order = Order::query()->select(['id', 'cancelled', 'cancelled_description', 'updated_at'])->findOrFail($id);
 
         return $order;
     }

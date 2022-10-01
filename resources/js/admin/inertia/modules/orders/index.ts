@@ -164,7 +164,10 @@ export const useOrdersStore = defineStore(storeName, {
         updateOrder(order: Partial<Order>): void {
             this._entity = {
                 ...this._entity,
-                ...order
+                ...order,
+                dt_updated_at: order.updated_at
+                    ? DateTime.fromFormat(order.updated_at, format)
+                    : null,
             }
         },
     },

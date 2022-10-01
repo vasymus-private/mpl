@@ -24,8 +24,8 @@ import { CharTypeEnum } from "@/admin/inertia/modules/charTypes/CharType"
 import { getRouteUrl, routeNames } from "@/admin/inertia/modules/routes"
 import { Values } from "@/admin/inertia/modules/forms/createEditProduct/types"
 import axios, { AxiosError } from "axios"
-import { ErrorResponse, Errors } from "@/admin/inertia/modules/common/types"
-import { errorsToErrorFields } from "@/admin/inertia/modules/common"
+import { ErrorResponse } from "@/admin/inertia/modules/common/types"
+import { errorsToErrorFields, getMediaSchema } from "@/admin/inertia/modules/common"
 import { CustomFormData } from "@/admin/inertia/utils/CustomFormData"
 import { Inertia } from "@inertiajs/inertia"
 
@@ -240,9 +240,9 @@ export const getFormSchema = () => {
             })
             .nullable(),
         infoPrices: yup.array().of(getInfoPriceSchema()).nullable(),
-        instructions: yup.array().of(getImageSchema()).nullable(),
-        mainImage: getImageSchema().nullable(),
-        additionalImages: yup.array().of(getImageSchema()).nullable(),
+        instructions: yup.array().of(getMediaSchema()).nullable(),
+        mainImage: getMediaSchema().nullable(),
+        additionalImages: yup.array().of(getMediaSchema()).nullable(),
         charCategories: yup.array().of(getCharCategorySchema()).nullable(),
         accessories: yup.array().of(getProductProductSchema()).nullable(),
         similar: yup.array().of(getProductProductSchema()).nullable(),
@@ -261,18 +261,6 @@ export const getFormSchema = () => {
             .nullable(),
     })
 }
-
-// todo move to common
-export const getImageSchema = () =>
-    yup.object({
-        id: yupIntegerOrEmptyString(),
-        uuid: yup.string().nullable(),
-        url: yup.string(),
-        name: yup.string().max(250).nullable(),
-        file_name: yup.string().max(250).nullable(),
-        order_column: yup.number().nullable(),
-        file: yup.mixed(),
-    })
 
 export const getProductProductSchema = () =>
     yup.object({
@@ -306,8 +294,8 @@ export const getVariationSchema = () =>
         unit: yup.string().max(250).nullable(),
         availability_status_id: yupIntegerOrEmptyString(),
         preview: yup.string().max(65000).nullable(),
-        mainImage: getImageSchema().nullable(),
-        additionalImages: yup.array().of(getImageSchema()),
+        mainImage: getMediaSchema().nullable(),
+        additionalImages: yup.array().of(getMediaSchema()),
         is_checked: yup.boolean(),
     })
 

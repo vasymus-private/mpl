@@ -10,13 +10,12 @@ import { Values } from "@/admin/inertia/modules/forms/createEditBrand/types"
 import * as yup from "yup"
 import { yupIntegerOrEmptyString } from "@/admin/inertia/utils"
 import { Brand } from "@/admin/inertia/modules/brands/types"
-import { getImageSchema } from "@/admin/inertia/modules/forms/createEditProduct"
 import { CustomFormData } from "@/admin/inertia/utils/CustomFormData"
 import axios, { AxiosError } from "axios"
 import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
 import { Inertia } from "@inertiajs/inertia"
 import { ErrorResponse } from "@/admin/inertia/modules/common/types"
-import { errorsToErrorFields } from "@/admin/inertia/modules/common"
+import { errorsToErrorFields, getMediaSchema } from "@/admin/inertia/modules/common"
 
 export const storeName = "createEditBrandForm"
 
@@ -138,7 +137,7 @@ export const getFormSchema = () => {
                 description: yup.string().max(65000).nullable(),
             })
             .nullable(),
-        mainImage: getImageSchema().nullable(),
+        mainImage: getMediaSchema().nullable(),
     })
 }
 

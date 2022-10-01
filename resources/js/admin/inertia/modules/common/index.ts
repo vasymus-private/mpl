@@ -1,9 +1,10 @@
 import Meta, { MetaLink } from "@/admin/inertia/modules/common/Meta"
-import { isNumeric } from "@/admin/inertia/utils"
+import {isNumeric, yupIntegerOrEmptyString} from "@/admin/inertia/utils"
 import axios from "axios"
 import { getRouteUrl, routeNames } from "@/admin/inertia/modules/routes"
 import { Errors } from "@/admin/inertia/modules/common/types"
 import Option from "@/admin/inertia/modules/common/Option"
+import * as yup from "yup";
 
 export const extendMetaLinksWithComputedData = (
     meta: Meta,
@@ -137,3 +138,14 @@ export const EMPTY_OPTION: Option = {
     label: "(не установлено)",
     disabled: false,
 }
+
+export const getMediaSchema = () =>
+    yup.object({
+        id: yupIntegerOrEmptyString(),
+        uuid: yup.string().nullable(),
+        url: yup.string(),
+        name: yup.string().max(250).nullable(),
+        file_name: yup.string().max(250).nullable(),
+        order_column: yup.number().nullable(),
+        file: yup.mixed(),
+    })

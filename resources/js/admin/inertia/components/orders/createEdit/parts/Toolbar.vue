@@ -10,7 +10,9 @@ const ordersStore = useOrdersStore()
 const routesStore = useRoutesStore()
 const createEditOrderFormStore = useCreateEditOrderFormStore()
 const toggleMode = () => {
-    createEditOrderFormStore.toggleEditMode()
+    if (createEditOrderFormStore.couldBeChangedByAdmin) {
+        createEditOrderFormStore.toggleEditMode()
+    }
 }
 const handleDelete = () => {
     if (confirm(`Вы уверены, что хотите удалить заказ №${ordersStore.order?.id}?`)) {
@@ -32,7 +34,18 @@ const handleDelete = () => {
             </div>
 
             <div class="col-sm-7 d-flex align-items-center justify-content-end">
-                <button @click="toggleMode" type="button" class="btn btn-secondary text-nowrap btn__dropdown">
+                <span
+                    v-if="!createEditOrderFormStore.couldBeChangedByAdmin && !createEditOrderFormStore.isEditMode"
+                    class="btn btn-secondary text-nowrap btn__dropdown"
+                >
+                    Изменение заблокировано
+                </span>
+                <button
+                    v-else
+                    @click="toggleMode"
+                    type="button"
+                    class="btn btn-secondary text-nowrap btn__dropdown"
+                >
                     {{ createEditOrderFormStore.isEditMode ? 'Подробности заказа' : 'Изменить заказ' }}
                 </button>
 

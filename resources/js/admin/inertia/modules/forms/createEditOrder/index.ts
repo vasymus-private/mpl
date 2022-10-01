@@ -9,8 +9,9 @@ import * as yup from "yup"
 import { Order } from "@/admin/inertia/modules/orders/types"
 import { Values } from "@/admin/inertia/modules/forms/createEditOrder/types"
 import { yupIntegerOrEmptyString } from "@/admin/inertia/utils"
-import axios, {AxiosError} from "axios";
-import {errorsToErrorFields} from "@/admin/inertia/modules/common";
+import axios, {AxiosError} from "axios"
+import {errorsToErrorFields, getMediaSchema} from "@/admin/inertia/modules/common"
+import {useAuthStore} from "@/admin/inertia/modules/auth";
 
 export const storeName = "createEditOrderForm"
 
@@ -48,6 +49,16 @@ export const useCreateEditOrderFormStore = defineStore(storeName, {
                 },
             ]
         },
+        couldBeChangedByAdmin: (): boolean => {
+            const ordersStore = useOrdersStore()
+            const authStore = useAuthStore()
+
+            const isBusyByOtherAdmin: boolean = ordersStore.order
+                ? ordersStore.order.is_busy_by_other_admin
+                : false
+
+            return ordersStore.isCreatingOrderRoute || !isBusyByOtherAdmin || authStore.auth.user.is_super_admin
+        }
     },
     actions: {
         toggleEditMode: function (): void {
@@ -78,7 +89,7 @@ export const useCreateEditOrderFormStore = defineStore(storeName, {
                         }
                     )
                 )
-                let response = await axios.put<{id: number, cancelled: boolean, cancelled_description: string|null}>(url.toString(), {
+                let response = await axios.put<{id: number, cancelled: boolean, cancelled_description: string|null, updated_at: string|null}>(url.toString(), {
                     should_cancel: shouldCancel,
                     cancelled_description: cancelDescription,
                 })
@@ -100,15 +111,78 @@ export const useCreateEditOrderFormStore = defineStore(storeName, {
 
 export const getWatchOrderToFormCb =
     (setValues: (a: object) => any) => (order: Order | null) => {
-        const { order_status_id } = order || {}
+        const {
+            order_status_id,
+            request_user_email,
+            request_user_name,
+            request_user_phone,
+            payment_method_id,
+            comment_user,
+            admin_id,
+            importance_id,
+            customer_bill_description,
+            customer_bill_status_id,
+            customer_invoices = [],
+            provider_bill_description,
+            provider_bill_status_id,
+            supplier_invoices = [],
+            comment_admin,
+            products = [],
+        } = order || {}
 
         setValues({
             order_status_id,
+            request_user_email,
+            request_user_name,
+            request_user_phone,
+            payment_method_id,
+            comment_user,
+            admin_id,
+            importance_id,
+            customer_bill_description,
+            customer_bill_status_id,
+            customer_invoices,
+            provider_bill_description,
+            provider_bill_status_id,
+            supplier_invoices,
+            comment_admin,
+            products,
         })
     }
 
 export const getFormSchema = () => {
     return yup.object({
         order_status_id: yupIntegerOrEmptyString(),
+        request_user_email: yup.string().nullable(),
+        request_user_name: yup.string().nullable(),
+        request_user_phone: yup.string().nullable(),
+        payment_method_id: yupIntegerOrEmptyString(),
+        comment_user: yup.string().nullable(),
+        admin_id: yupIntegerOrEmptyString(),
+        importance_id: yupIntegerOrEmptyString(),
+        customer_bill_description: yup.string().nullable(),
+        customer_bill_status_id: yupIntegerOrEmptyString(),
+        customer_invoices: yup.array().of(getMediaSchema()).nullable(),
+        provider_bill_description: yup.string().nullable(),
+        provider_bill_status_id: yupIntegerOrEmptyString(),
+        supplier_invoices: yup.array().of(getMediaSchema()).nullable(),
+        comment_admin: yup.string().nullable(),
+        products: yup.array().of(getOrderProductSchema()),
+    })
+}
+
+export const getOrderProductSchema = () => {
+    return yup.object({
+        count: yup.number(),
+        name: yup.string().nullable(),
+        unit: yup.string().nullable(),
+        price_purchase: yup.number(),
+        price_purchase_currency_id: yup.number().integer(),
+        price_retail: yup.number(),
+        price_retail_currency_id: yup.number().integer(),
+        ordering: yup.number().integer(),
+        price_retail_rub: yup.number(),
+        price_retail_rub_origin: yup.number(),
+        price_retail_rub_was_updated: yup.boolean(),
     })
 }
