@@ -12,6 +12,7 @@ import RowTextarea from "@/admin/inertia/components/forms/vee-validate/RowTextar
 import {useAuthStore} from "@/admin/inertia/modules/auth"
 import {useOrderImportanceStore} from "@/admin/inertia/modules/orderImportance"
 import {useBillStatusesStore} from "@/admin/inertia/modules/billStatuses"
+import RowMedias from "@/admin/inertia/components/forms/vee-validate/RowMedias.vue"
 
 
 const ordersStore = useOrdersStore()
@@ -144,7 +145,11 @@ const showAdditionalFiles = computed<boolean>(() => !ordersStore.isCreatingOrder
         </div>
 
         <div class="adm-bus-component-content-container">
-            <RowInput v-if="editing" name="request_user_email" label="E-mail (логин)" />
+            <RowInput
+                v-if="editing"
+                name="request_user_email"
+                label="E-mail (логин)"
+            />
             <div v-else class="row mb-3">
                 <div class="col-sm-5 text-end">
                     <label>E-mail (логин):</label>
@@ -154,7 +159,11 @@ const showAdditionalFiles = computed<boolean>(() => !ordersStore.isCreatingOrder
                 </div>
             </div>
 
-            <RowInput v-if="editing" name="request_user_name" label="Имя" />
+            <RowInput
+                v-if="editing"
+                name="request_user_name"
+                label="Имя"
+            />
             <div v-else class="row mb-3">
                 <div class="col-sm-5 text-end">
                     <label>Имя:</label>
@@ -164,7 +173,11 @@ const showAdditionalFiles = computed<boolean>(() => !ordersStore.isCreatingOrder
                 </div>
             </div>
 
-            <RowInput v-if="editing" name="request_user_phone" label="Телефон" />
+            <RowInput
+                v-if="editing"
+                name="request_user_phone"
+                label="Телефон"
+            />
             <div v-else class="row mb-3">
                 <div class="col-sm-5 text-end">
                     <label>Телефон:</label>
@@ -189,7 +202,11 @@ const showAdditionalFiles = computed<boolean>(() => !ordersStore.isCreatingOrder
                 </div>
             </div>
 
-            <RowTextarea v-if="editing" name="comment_user" label="Комментарий пользователя" />
+            <RowTextarea
+                v-if="editing"
+                name="comment_user"
+                label="Комментарий пользователя"
+            />
             <div v-else class="row mb-3">
                 <div class="col-sm-5 text-end">
                     <label>Комментарий пользователя:</label>
@@ -250,7 +267,11 @@ const showAdditionalFiles = computed<boolean>(() => !ordersStore.isCreatingOrder
                 </div>
             </div>
 
-            <RowTextarea v-if="editing" name="customer_bill_description" label="Счёт покупателю" />
+            <RowTextarea
+                v-if="editing"
+                name="customer_bill_description"
+                label="Счёт покупателю"
+            />
             <div v-else class="row mb-3">
                 <div class="col-sm-5 text-end">
                     <label>Счёт покупателю:</label>
@@ -275,7 +296,27 @@ const showAdditionalFiles = computed<boolean>(() => !ordersStore.isCreatingOrder
                 </div>
             </div>
 
-            <RowTextarea v-if="editing" name="provider_bill_description" label="Счёт от поставщика" />
+            <RowMedias
+                v-if="editing"
+                name="customer_invoices"
+                label="Приложенные файлы"
+            />
+            <div v-else class="row mb-3">
+                <div class="col-sm-5 text-end">
+                    <label>Приложенные файлы:</label>
+                </div>
+                <div class="col-sm-7">
+                    <p v-for="media in ordersStore.order?.customer_invoices" class="mb-0" :key="media.uuid">
+                        <a target="_blank" download :href="route(routeNames.ROUTE_ADMIN_MEDIA, {id: media.id, name: media.name})">{{media.name}}</a>
+                    </p>
+                </div>
+            </div>
+
+            <RowTextarea
+                v-if="editing"
+                name="provider_bill_description"
+                label="Счёт от поставщика"
+            />
             <div v-else class="row mb-3">
                 <div class="col-sm-5 text-end">
                     <label>Счёт от поставщика:</label>
@@ -300,7 +341,27 @@ const showAdditionalFiles = computed<boolean>(() => !ordersStore.isCreatingOrder
                 </div>
             </div>
 
-            <RowTextarea v-if="editing" name="comment_admin" label="Комментарий менеджера" />
+            <RowMedias
+                v-if="editing"
+                name="supplier_invoices"
+                label="Приложенные файлы"
+            />
+            <div v-else class="row mb-3">
+                <div class="col-sm-5 text-end">
+                    <label>Приложенные файлы:</label>
+                </div>
+                <div class="col-sm-7">
+                    <p v-for="media in ordersStore.order?.supplier_invoices" class="mb-0" :key="media.uuid">
+                        <a target="_blank" download :href="route(routeNames.ROUTE_ADMIN_MEDIA, {id: media.id, name: media.name})">{{media.name}}</a>
+                    </p>
+                </div>
+            </div>
+
+            <RowTextarea
+                v-if="editing"
+                name="comment_admin"
+                label="Комментарий менеджера"
+            />
             <div v-else class="row mb-3">
                 <div class="col-sm-5 text-end">
                     <label>Комментарий менеджера:</label>
