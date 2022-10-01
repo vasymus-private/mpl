@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Admin;
 
+use Domain\Products\Models\Product\Product;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;
 
@@ -42,7 +43,7 @@ class OrderItemResource extends JsonResource
             'request_user_name' => $this->resource->request['name'] ?? null,
             'request_user_email' => $this->resource->request['email'] ?? null,
             'request_user_phone' => $this->resource->request['phone'] ?? null,
-            'products' => OrderItemProductItemResource::collection($this->resource->products),
+            'products' => $this->resource->products->map(fn(Product $product) => (new OrderItemProductItemResource($product))->toArray($request)),
             'payment_method_id' => $this->resource->payment_method_id,
             'is_busy_by_other_admin' => $this->resource->is_busy_by_other_admin,
         ];

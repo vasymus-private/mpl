@@ -64,7 +64,6 @@
         "mustache": "^4.2.0",
         "normalize.css": "^8.0.1",
         "popper.js": "^1.16.1",
-        "slick-carousel": "^1.8.1",
         "slideout": "file:resources/js/vendor/slideout-1.0.1",
         "sortablejs": "^1.14.0",
         "sticky-sidebar": "^3.3.1",

@@ -4,7 +4,7 @@ import RowSelect from "@/admin/inertia/components/forms/vee-validate/RowSelect.v
 import {useOrderStatusesStore} from "@/admin/inertia/modules/orderStatuses"
 import {computed, ref} from 'vue'
 import {useCreateEditOrderFormStore} from "@/admin/inertia/modules/forms/createEditOrder"
-import {useRoutesStore} from "@/admin/inertia/modules/routes"
+import {useRoutesStore, routeNames} from "@/admin/inertia/modules/routes"
 import {useToastsStore} from "@/admin/inertia/modules/toasts"
 import RowInput from "@/admin/inertia/components/forms/vee-validate/RowInput.vue"
 import {usePaymentMethodsStore} from "@/admin/inertia/modules/paymentMethods"
@@ -55,6 +55,7 @@ const setIsNotOpen = () => {
 }
 
 const editing = computed<boolean>(() => ordersStore.isCreatingOrderRoute || createEditOrderFormStore.isEditMode)
+const showAdditionalFiles = computed<boolean>(() => !ordersStore.isCreatingOrderRoute || !createEditOrderFormStore.isEditMode && (!!ordersStore.order?.initial_attachments.length && !!ordersStore.order?.payment_method_attachments.length))
 </script>
 
 <template>
@@ -195,6 +196,20 @@ const editing = computed<boolean>(() => ordersStore.isCreatingOrderRoute || crea
                 </div>
                 <div class="col-sm-7">
                     {{ ordersStore.order?.comment_user }}
+                </div>
+            </div>
+
+            <div v-if="showAdditionalFiles" class="row mb-3">
+                <div class="col-sm-5 text-end">
+                    <label>Прикрепленные файлы к заказу:</label>
+                </div>
+                <div class="col-sm-7">
+                    <p v-for="media in ordersStore.order?.initial_attachments" class="mb-0" :key="media.uuid">
+                        <a target="_blank" download :href="route(routeNames.ROUTE_ADMIN_MEDIA, {id: media.id, name: media.name})">{{media.name}}</a>
+                    </p>
+                    <p v-for="media in ordersStore.order?.payment_method_attachments" class="mb-0" :key="media.uuid">
+                        <a target="_blank" download :href="route(routeNames.ROUTE_ADMIN_MEDIA, {id: media.id, name: media.name})">{{media.name}}</a>
+                    </p>
                 </div>
             </div>
         </div>

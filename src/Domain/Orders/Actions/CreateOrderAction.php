@@ -60,15 +60,16 @@ class CreateOrderAction extends BaseAction
                 "payment_method_id" => $params->payment_method_id,
                 'comment_admin' => $params->comment_admin,
                 'customer_bill_description' => $params->customer_bill_description,
-                'customer_bill_status_id' => $params->customer_bill_status_id,
+                'customer_bill_status_id' => $params->customer_bill_status_id ?: Order::DEFAULT_CUSTOMER_BILL_STATUS_ID,
                 'provider_bill_description' => $params->provider_bill_description,
-                'provider_bill_status_id' => $params->provider_bill_status_id,
+                'provider_bill_status_id' => $params->provider_bill_status_id ?: Order::DEFAULT_PROVIDER_BILL_STATUS_ID,
                 "request" => [
                     "name" => $params->request_name,
                     "email" => $params->request_email,
                     "phone" => $params->request_phone,
                 ],
             ];
+
             $order = Order::forceCreate($orderParams);
 
             $order->products()->attach($productsPrepare);

@@ -17,7 +17,7 @@ class OrderProductItemDTO extends DataTransferObject
      *
      * @var int
      */
-    public int $order_product_count = 1;
+    public ?int $order_product_count = 1;
 
     /**
      * @var string|null
@@ -35,14 +35,14 @@ class OrderProductItemDTO extends DataTransferObject
     public ?int $ordering;
 
     /**
-     * @var float|int
+     * @var float|int|null
      */
     public $price_retail_rub;
 
     /**
      * @deprecated For backward compatibility. Should be the copy as $price_retail_rub
      *
-     * @var float|int
+     * @var float|int|null
      */
     public $order_product_price_retail_rub;
 
@@ -71,7 +71,7 @@ class OrderProductItemDTO extends DataTransferObject
     /**
      * @deprecated For backward compatibility. Should be used $product->id
      *
-     * @var int
+     * @var int|null
      */
-    public int $id;
+    public ?int $id;
 }
