@@ -79,7 +79,7 @@ export const useCurrenciesStore = defineStore(storeName, {
             return (
                 price: number | null,
                 currencyIdOrName: CurrencyName | number | null
-            ): number|null => {
+            ): number | null => {
                 if (price == null) {
                     return null
                 }
