@@ -13,6 +13,10 @@ import {useAuthStore} from "@/admin/inertia/modules/auth"
 import {useOrderImportanceStore} from "@/admin/inertia/modules/orderImportance"
 import {useBillStatusesStore} from "@/admin/inertia/modules/billStatuses"
 import RowMedias from "@/admin/inertia/components/forms/vee-validate/RowMedias.vue"
+import {useFieldArray} from "vee-validate"
+import {OrderOfOrderProductItem} from "@/admin/inertia/modules/orders/types"
+import FormControlInput from "@/admin/inertia/components/forms/vee-validate/FormControlInput.vue"
+import {useCurrenciesStore} from "@/admin/inertia/modules/currencies"
 
 
 const ordersStore = useOrdersStore()
@@ -24,6 +28,7 @@ const paymentMethodsStore = usePaymentMethodsStore()
 const authStore = useAuthStore()
 const orderImportanceStore = useOrderImportanceStore()
 const billStatusesStore = useBillStatusesStore()
+const currenciesStore = useCurrenciesStore()
 
 const isOpen = ref<boolean>(false)
 const cancelDescription = ref<string|null>(null)
@@ -57,6 +62,18 @@ const setIsNotOpen = () => {
 
 const editing = computed<boolean>(() => ordersStore.isCreatingOrderRoute || createEditOrderFormStore.isEditMode)
 const showAdditionalFiles = computed<boolean>(() => !ordersStore.isCreatingOrderRoute || !createEditOrderFormStore.isEditMode && (!!ordersStore.order?.initial_attachments.length && !!ordersStore.order?.payment_method_attachments.length))
+
+const {fields : productsFields, remove, swap} = useFieldArray<OrderOfOrderProductItem>('products')
+
+const addProduct = () => {
+
+}
+const editProduct = (idx) => {
+
+}
+const deleteProduct = (idx) => {
+    remove(idx)
+}
 </script>
 
 <template>
@@ -370,6 +387,115 @@ const showAdditionalFiles = computed<boolean>(() => !ordersStore.isCreatingOrder
                     {{ ordersStore.order?.comment_admin }}
                 </div>
             </div>
+        </div>
+
+        <div class="adm-bus-component-title-container">
+            <div class="adm-bus-component-title-icon"></div>
+            <span class="adm-bus-component-title">Состав заказа</span>
+        </div>
+
+        <div class="adm-bus-component-content-container">
+            <div v-if="editing" class="search form-group row justify-content-end">
+                <div class="col-xs-12 col-sm-2">
+                    <div class="dropdown">
+                        <button type="button" @click="addProduct" class="btn btn-add btn-secondary">Добавить товар</button>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table adm-s-order-table-ddi-table">
+                <thead>
+                    <tr>
+                        <th v-if="editing" scope="col"><span class="main-grid-head-title">&nbsp;</span></th>
+                        <th scope="col">&uarr;&darr;</th>
+                        <th scope="col">Название</th>
+                        <th scope="col">Количество</th>
+                        <th scope="col">Свойства</th>
+                        <th scope="col">Цена</th>
+                        <th scope="col">Сумма</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(productField, idx) in productsFields" :key="productField.value.uuid">
+                        <td v-if="editing">
+                            <div class="dropdown" @click.stop="">
+                                <button
+                                    class="btn btn__grid-row-action-button dropdown-toggle"
+                                    type="button"
+                                    :id="`actions-dropdown-${productField.value.uuid}`"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                ></button>
+                                <div class="dropdown-menu bx-core-popup-menu" :aria-labelledby="`actions-dropdown-${productField.value.uuid}`">
+                                    <button @click="editProduct(idx)" type="button" class="bx-core-popup-menu-item">
+                                        <span class="bx-core-popup-menu-item-icon adm-menu-edit"></span>
+                                        <span class="bx-core-popup-menu-item-text">Изменить</span>
+                                    </button>
+                                    <span class="bx-core-popup-menu-separator"></span>
+                                    <button @click="deleteProduct(productField)" type="button" class="bx-core-popup-menu-item">
+                                        <span class="bx-core-popup-menu-item-icon adm-menu-delete"></span>
+                                        <span class="bx-core-popup-menu-item-text">Удалить</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="buttons-block">
+                                <button
+                                    :disabled="productField.isFirst"
+                                    type="button"
+                                    class="btn btn__default"
+                                    @click="swap(idx, idx - 1)"
+                                >&uarr;</button>
+                                <button
+                                    :disabled="productField.isLast"
+                                    type="button"
+                                    class="btn btn__default"
+                                    @click="swap(idx, idx + 1)"
+                                >&darr;</button>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="main-grid-cell-content">
+                                <a
+                                    target="_blank"
+                                    :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_EDIT, {admin_product: productField.value.id})"
+                                >{{productField.value.name}}</a>
+                            </span>
+                        </td>
+                        <td>
+                            <FormControlInput
+                                v-if="!editing"
+                                :name="`products[${idx}].count`"
+                                type="text"
+                            />
+                            <span v-else class="main-grid-cell-content">{{productField.value.count}}</span>
+                        </td>
+                        <td>
+                            <p>Закупочная: {{ordersStore.orderProductItemPriceRubPurchaseFormatted(productField.value.uuid)}}</p>
+                            <p>Сумма закупки: {{ordersStore.orderProductItemPriceRubPurchaseSumFormatted(productField.value.uuid)}}</p>
+                            <p>Заработок: {{ordersStore.orderProductItemProfitRubFormatted(productField.value.uuid)}}</p>
+                        </td>
+                        <td>
+                            <FormControlInput
+                                v-if="!editing"
+                                :name="`products[${idx}].price_retail_rub`"
+                                type="text"
+                            />
+                            <p v-else>
+                                <span class="main-grid-cell-content">{{$product['order_product_price_retail_rub_formatted']}}</span>
+                            </p>
+
+                            <p v-if="productField.value.price_retail_rub_was_updated" :style="{textDecoration: 'line-through'}">
+                                <span class="main-grid-cell-content">{{$product['order_product_price_retail_rub_origin_formatted']}}</span>
+                            </p>
+                        </td>
+                        <td>
+                            <span class="main-grid-cell-content">{{$product['order_product_price_retail_rub_sum_formatted']}}</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </template>

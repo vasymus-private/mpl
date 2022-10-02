@@ -70,6 +70,8 @@ export interface OrderItemProductItem {
         unit: string | null
     }
     order_product: {
+        id: number
+        uuid: string
         name: string | null
         unit: string | null
         count: number
@@ -78,32 +80,38 @@ export interface OrderItemProductItem {
 }
 
 export interface OrderProductItem {
-    product: {
-        id: number
-        uuid: string
-        name: string
-        unit: string | null
-        price_purchase: number | null
-        price_purchase_currency_id: number | null
-        price_retail: number | null
-        price_retail_currency_id: number | null
-        coefficient: number | null
-        availability_status_id: number | null
-        mainImage: Media
-    }
-    order_product: {
-        count: number
-        name: string | null
-        unit: string | null
-        price_purchase: number
-        price_purchase_currency_id: number
-        price_retail: number
-        price_retail_currency_id: number
-        ordering: number
-        price_retail_rub: number
-        price_retail_rub_origin: number
-        price_retail_rub_was_updated: boolean
-    }
+    product: ProductOfOrderProductItem
+    order_product: OrderOfOrderProductItem
 
     // calc_ prefix or calculated : {} property
+}
+
+export interface ProductOfOrderProductItem {
+    id: number
+    uuid: string
+    name: string
+    unit: string | null
+    price_purchase: number | null
+    price_purchase_currency_id: number | null
+    price_retail: number | null
+    price_retail_currency_id: number | null
+    coefficient: number | null
+    availability_status_id: number | null
+    mainImage: Media
+}
+
+export interface OrderOfOrderProductItem {
+    id: number
+    uuid: string
+    count: number
+    name: string | null
+    unit: string | null
+    price_purchase: number // TODO specify if need
+    price_purchase_currency_id: number // TODO specify if need
+    price_retail: number // TODO delete -- do not use
+    price_retail_currency_id: number // TODO delete -- do not use
+    ordering: number
+    price_retail_rub: number
+    price_retail_rub_origin: number
+    price_retail_rub_was_updated: boolean
 }

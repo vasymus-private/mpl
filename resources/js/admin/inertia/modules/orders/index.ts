@@ -1,19 +1,14 @@
-import { defineStore } from "pinia"
-import {
-    Order,
-    OrderItem,
-    OrderItemProductItem,
-    OrderProductItem,
-} from "@/admin/inertia/modules/orders/types"
+import {defineStore} from "pinia"
+import {Order, OrderItem, OrderItemProductItem, OrderProductItem,} from "@/admin/inertia/modules/orders/types"
 import Links from "@/admin/inertia/modules/common/Links"
 import Meta from "@/admin/inertia/modules/common/Meta"
-import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
-import { extendMetaLinksWithComputedData } from "@/admin/inertia/modules/common"
-import { DateTime } from "luxon"
-import { useCurrenciesStore } from "@/admin/inertia/modules/currencies"
-import { CharCode } from "@/admin/inertia/modules/currencies/types"
+import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
+import {extendMetaLinksWithComputedData} from "@/admin/inertia/modules/common"
+import {DateTime} from "luxon"
+import {useCurrenciesStore} from "@/admin/inertia/modules/currencies"
+import {CharCode} from "@/admin/inertia/modules/currencies/types"
 import Option from "@/admin/inertia/modules/common/Option"
-import { UrlParams } from "@/admin/inertia/modules/common/types"
+import {UrlParams} from "@/admin/inertia/modules/common/types"
 
 const storeName = "orders"
 const format = "yyyy-LL-dd HH:mm:ss"
@@ -59,48 +54,29 @@ export const useOrdersStore = defineStore(storeName, {
 
             return routesStore.hasUrlParam(UrlParams.copy_id)
         },
-        _priceRetailRub(state) {
-            return (id: number, type: _Type): number | null => {
-                let order: Order | OrderItem
-                if (type === _Type.entity) {
-                    order = state._entity
-                } else {
-                    order = this.ordersList.find(
-                        (item: OrderItem) => item.id === id
-                    )
-                }
+        orderItemPriceRetailRubFormatted() {
+            return (id: number): string => {
+                let order: OrderItem|undefined = this.ordersList.find(
+                    (item: OrderItem) => item.id === id
+                )
 
                 if (!order) {
-                    return null
+                    return ''
                 }
 
-                let orderProducts: Array<
-                    OrderProductItem | OrderItemProductItem
-                > = order.products
-
-                return orderProducts.reduce<number>(
+                let sumOrderProductsPriceRub: number = order.products.reduce<number>(
                     (
                         acc: number,
-                        product: OrderItemProductItem | OrderProductItem
+                        product: OrderItemProductItem
                     ): number => {
                         return (
                             acc +
                             product.order_product.price_retail_rub *
-                                product.order_product.count
+                            product.order_product.count
                         )
                     },
                     0
                 )
-            }
-        },
-        _priceRetailRubFormatted() {
-            return (id: number, type: _Type): string => {
-                let sumOrderProductsPriceRub: number | null =
-                    this._priceRetailRub(id, type)
-
-                if (!sumOrderProductsPriceRub) {
-                    return ""
-                }
 
                 const currenciesStore = useCurrenciesStore()
 
@@ -110,13 +86,79 @@ export const useOrdersStore = defineStore(storeName, {
                 )
             }
         },
-        orderItemPriceRetailRubFormatted() {
-            return (id: number): string =>
-                this._priceRetailRubFormatted(id, _Type.entities)
+        orderProductItem() {
+            return (productUuid: string): OrderProductItem|undefined => {
+                return this.order.products.find(item => item.uuid === productUuid)
+            }
         },
-        orderPriceRetailRubFormatted() {
-            return (id: number): string =>
-                this._priceRetailRubFormatted(id, _Type.entity)
+        orderProductItemPriceRubPurchaseFormatted() {
+            return (productUuid: string): string|null => {
+                let orderProductItem: OrderProductItem|undefined = this.orderProductItem(productUuid)
+                if (!orderProductItem) {
+                    return null
+                }
+
+                const currenciesStore = useCurrenciesStore()
+
+                return currenciesStore.priceRubFormatted(
+                    orderProductItem.product.price_purchase,
+                    orderProductItem.product.price_purchase_currency_id
+                )
+            }
+        },
+        orderProductItemPriceRubPurchaseSum() {
+            return (productUuid: string): number|null => {
+                let orderProductItem: OrderProductItem|undefined = this.orderProductItem(productUuid)
+                if (!orderProductItem) {
+                    return null
+                }
+
+                const currenciesStore = useCurrenciesStore()
+
+                let pricePurchase = currenciesStore.priceRub(orderProductItem.product.price_purchase, orderProductItem.product.price_purchase_currency_id)
+
+                return pricePurchase * orderProductItem.order_product.count
+            }
+        },
+        orderProductItemPriceRubPurchaseSumFormatted() {
+            return (productUuid: string): string|null => {
+                const sum: number|null = this.orderProductItemPriceRubPurchaseSum(productUuid)
+
+                if (!sum) {
+                    return null
+                }
+
+                const currenciesStore = useCurrenciesStore()
+
+                return currenciesStore.priceRubFormatted(
+                    sum,
+                    CharCode.RUB
+                )
+            }
+        },
+        orderProductItemPriceRubRetailSum() {
+            return (productUuid: string): number|null => {
+                let orderProductItem: OrderProductItem|undefined = this.orderProductItem(productUuid)
+                if (!orderProductItem) {
+                    return null
+                }
+
+                return orderProductItem.order_product.price_retail_rub * orderProductItem.order_product.count
+            }
+        },
+        orderProductItemProfitRubFormatted() {
+            return (productUuid: string): string|null => {
+                const rubPurchaseSum: number|null = this.orderProductItemPriceRubPurchaseSum(productUuid)
+                const rubRetailSum: number|null = this.orderProductItemPriceRubRetailSum(productUuid)
+
+                const profitRub = rubRetailSum - rubPurchaseSum
+                const currenciesStore = useCurrenciesStore()
+
+                return currenciesStore.priceRubFormatted(
+                    profitRub,
+                    CharCode.RUB
+                )
+            }
         },
         links: (state: State): Links | null => state._links,
         meta: (state: State): Meta | null => state._meta,

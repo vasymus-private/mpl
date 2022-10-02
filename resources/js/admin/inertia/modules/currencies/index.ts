@@ -75,25 +75,37 @@ export const useCurrenciesStore = defineStore(storeName, {
                 return value * multiplier
             }
         },
-        priceRubFormatted: function () {
+        priceRub() {
             return (
                 price: number | null,
                 currencyIdOrName: CurrencyName | number | null
-            ): string => {
+            ): number|null => {
                 if (price == null) {
-                    return ""
+                    return null
                 }
                 if (currencyIdOrName == null) {
-                    return ""
+                    return null
                 }
 
                 let currency: Currency | undefined =
                     this.entity(currencyIdOrName)
                 if (!currency) {
-                    return ""
+                    return null
                 }
 
-                let rub = this.convertedToRub(price, currency)
+                return this.convertedToRub(price, currency)
+            }
+        },
+        priceRubFormatted: function () {
+            return (
+                price: number | null,
+                currencyIdOrName: CurrencyName | number | null
+            ): string => {
+                const rub = this.priceRub(price, currencyIdOrName)
+
+                if (!rub) {
+                    return null
+                }
 
                 return new Intl.NumberFormat("ru-RU", {
                     style: "currency",

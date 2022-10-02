@@ -6,7 +6,7 @@ import { AdminTab, TabEnum } from "@/admin/inertia/modules/common/Tabs"
 import OrderTab from "@/admin/inertia/components/orders/createEdit/tabs/OrderTab.vue"
 import HistoryTab from "@/admin/inertia/components/orders/createEdit/tabs/HistoryTab.vue"
 import * as yup from "yup"
-import { Order } from "@/admin/inertia/modules/orders/types"
+import {Order, OrderProductItem} from "@/admin/inertia/modules/orders/types"
 import { Values } from "@/admin/inertia/modules/forms/createEditOrder/types"
 import { yupIntegerOrEmptyString } from "@/admin/inertia/utils"
 import axios, { AxiosError } from "axios"
@@ -158,7 +158,7 @@ export const getWatchOrderToFormCb =
             provider_bill_status_id,
             supplier_invoices,
             comment_admin,
-            products,
+            products: products.map((item: OrderProductItem) => ({...item.order_product})),
         })
     }
 

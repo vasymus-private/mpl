@@ -39,6 +39,8 @@ class OrderProductItemResource extends JsonResource
                     : null,
             ],
             'order_product' => [
+                'id' => $this->resource->id, // added for convenience
+                'uuid' => $this->resource->uuid, // added for convenience
                 'count' => $this->resource->order_product->count ?? 1,
                 'name' => $this->resource->order_product->name ?? null,
                 'unit' => $this->resource->order_product->unit ?? null,
