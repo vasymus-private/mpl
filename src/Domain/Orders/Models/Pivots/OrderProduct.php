@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @property int $order_id
  * @property int $ordering
  * @property int $count
- * @property string|null $name
- * @property string|null $unit
+ * @property string $name
+ * @property string $unit
  * @property float $price_retail_rub
  * @property float $price_retail_rub_origin
  * @property bool $price_retail_rub_was_updated

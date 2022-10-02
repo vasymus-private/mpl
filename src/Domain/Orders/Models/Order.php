@@ -216,6 +216,7 @@ class Order extends BaseModel implements HasMedia
                 'price_retail_rub_origin',
                 'price_retail_rub_was_updated',
             ])
+            ->orderBy('ordering')
         ;
     }
 

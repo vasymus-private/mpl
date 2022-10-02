@@ -6,4 +6,5 @@ export interface ModalPayload {
 export enum ModalType {
     SORT_ADMIN_COLUMNS,
     CREATE_EDIT_VARIATION,
+    EDIT_ORDER_PRODUCT,
 }

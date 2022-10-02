@@ -633,7 +633,7 @@ class ShowOrder extends BaseShowComponent
 
     protected function setAdditionalProductItems(array $items)
     {
-        $this->additionalProductItems = collect($items)->map(fn (Product $product) => OrderAdditionalProductItemDTO::create($product)->toArray())->toArray();
+        $this->additionalProductItems = collect($items)->map(fn (Product $product) => OrderAdditionalProductItemDTO::create($product)->toArray())->keyBy('uuid')->toArray();
     }
 
     protected function fetchAdditionalProductItems()

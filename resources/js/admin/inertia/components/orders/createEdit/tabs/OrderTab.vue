@@ -18,6 +18,8 @@ import {OrderProductItem} from "@/admin/inertia/modules/orders/types"
 import FormControlInput from "@/admin/inertia/components/forms/vee-validate/FormControlInput.vue"
 import {useCurrenciesStore} from "@/admin/inertia/modules/currencies"
 import {CharCode} from "@/admin/inertia/modules/currencies/types"
+import {ModalType} from "@/admin/inertia/modules/modals/types"
+import {useModalsStore} from "@/admin/inertia/modules/modals"
 
 
 const ordersStore = useOrdersStore()
@@ -30,6 +32,7 @@ const authStore = useAuthStore()
 const orderImportanceStore = useOrderImportanceStore()
 const billStatusesStore = useBillStatusesStore()
 const currenciesStore = useCurrenciesStore()
+const modalsStore = useModalsStore()
 
 const isOpen = ref<boolean>(false)
 const cancelDescription = ref<string|null>(null)
@@ -70,7 +73,9 @@ const addProduct = () => {
 
 }
 const editProduct = (idx) => {
-
+    modalsStore.openModal(ModalType.EDIT_ORDER_PRODUCT, {
+        index: idx
+    })
 }
 const deleteProduct = (idx) => {
     remove(idx)
@@ -540,7 +545,7 @@ const orderTotalProfitRubFormatted = computed<string>(() => {
                                 <a
                                     target="_blank"
                                     :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_EDIT, {admin_product: productField.value.id})"
-                                >{{productField.value.name}}</a>
+                                >{{productField.value.order_product_name}}</a>
                             </span>
                         </td>
                         <td>

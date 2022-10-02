@@ -199,7 +199,7 @@ watchSelectAll()
                                 <div class="main-grid-cell-content">
                                     <template v-for="orderItemProductItem in order.products" :key="orderItemProductItem.id">
                                         <p>
-                                            {{ orderItemProductItem.order_product_name || orderItemProductItem.name }} <br />
+                                            {{ orderItemProductItem.order_product_name }} <br />
                                             ({{ orderItemProductItem.order_product_count }} шт.)
                                         </p>
                                         <hr />
