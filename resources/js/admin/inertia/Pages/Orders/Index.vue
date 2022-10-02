@@ -197,10 +197,10 @@ watchSelectAll()
                             </td>
                             <td v-if="isSortableColumn(sortableColumn, ColumnName.positions)" :class="`sortable-column-${sortableColumn.value}`">
                                 <div class="main-grid-cell-content">
-                                    <template v-for="orderItemProductItem in order.products" :key="orderItemProductItem.product.id">
+                                    <template v-for="orderItemProductItem in order.products" :key="orderItemProductItem.id">
                                         <p>
-                                            {{ orderItemProductItem.order_product.name || orderItemProductItem.product.name }} <br />
-                                            ({{ orderItemProductItem.order_product.count }} шт.)
+                                            {{ orderItemProductItem.order_product_name || orderItemProductItem.name }} <br />
+                                            ({{ orderItemProductItem.order_product_count }} шт.)
                                         </p>
                                         <hr />
                                     </template>

@@ -58,35 +58,20 @@ export interface Order {
     dt_updated_at: DateTime | null // parse from 'Y-m-d H:i:s'
     is_busy_by_other_admin: boolean
     busy_by_name: string | null
-
-    // calc_ prefix or calculated : {} property
 }
 
 export interface OrderItemProductItem {
-    product: {
-        id: number
-        uuid: string
-        name: string
-        unit: string | null
-    }
-    order_product: {
-        id: number
-        uuid: string
-        name: string | null
-        unit: string | null
-        count: number
-        price_retail_rub: number
-    }
+    id: number
+    uuid: string
+    name: string
+    unit: string | null
+    order_product_name: string | null
+    order_product_unit: string | null
+    order_product_count: number
+    order_product_price_retail_rub: number
 }
 
 export interface OrderProductItem {
-    product: ProductOfOrderProductItem
-    order_product: OrderOfOrderProductItem
-
-    // calc_ prefix or calculated : {} property
-}
-
-export interface ProductOfOrderProductItem {
     id: number
     uuid: string
     name: string
@@ -98,20 +83,11 @@ export interface ProductOfOrderProductItem {
     coefficient: number | null
     availability_status_id: number | null
     mainImage: Media
-}
-
-export interface OrderOfOrderProductItem {
-    id: number
-    uuid: string
-    count: number
-    name: string | null
-    unit: string | null
-    price_purchase: number // TODO specify if need
-    price_purchase_currency_id: number // TODO specify if need
-    price_retail: number // TODO delete -- do not use
-    price_retail_currency_id: number // TODO delete -- do not use
-    ordering: number
-    price_retail_rub: number
-    price_retail_rub_origin: number
-    price_retail_rub_was_updated: boolean
+    order_product_count: number
+    order_product_name: string | null
+    order_product_unit: string | null
+    order_product_ordering: number
+    order_product_price_retail_rub: number
+    order_product_price_retail_rub_origin: number
+    order_product_price_retail_rub_was_updated: boolean
 }

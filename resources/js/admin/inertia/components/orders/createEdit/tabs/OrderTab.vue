@@ -4,7 +4,7 @@ import RowSelect from "@/admin/inertia/components/forms/vee-validate/RowSelect.v
 import {useOrderStatusesStore} from "@/admin/inertia/modules/orderStatuses"
 import {computed, ref} from 'vue'
 import {useCreateEditOrderFormStore} from "@/admin/inertia/modules/forms/createEditOrder"
-import {useRoutesStore, routeNames} from "@/admin/inertia/modules/routes"
+import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
 import {useToastsStore} from "@/admin/inertia/modules/toasts"
 import RowInput from "@/admin/inertia/components/forms/vee-validate/RowInput.vue"
 import {usePaymentMethodsStore} from "@/admin/inertia/modules/paymentMethods"
@@ -13,10 +13,11 @@ import {useAuthStore} from "@/admin/inertia/modules/auth"
 import {useOrderImportanceStore} from "@/admin/inertia/modules/orderImportance"
 import {useBillStatusesStore} from "@/admin/inertia/modules/billStatuses"
 import RowMedias from "@/admin/inertia/components/forms/vee-validate/RowMedias.vue"
-import {useFieldArray} from "vee-validate"
-import {OrderOfOrderProductItem} from "@/admin/inertia/modules/orders/types"
+import {FieldEntry, useFieldArray} from "vee-validate"
+import {OrderProductItem} from "@/admin/inertia/modules/orders/types"
 import FormControlInput from "@/admin/inertia/components/forms/vee-validate/FormControlInput.vue"
 import {useCurrenciesStore} from "@/admin/inertia/modules/currencies"
+import {CharCode} from "@/admin/inertia/modules/currencies/types"
 
 
 const ordersStore = useOrdersStore()
@@ -63,7 +64,7 @@ const setIsNotOpen = () => {
 const editing = computed<boolean>(() => ordersStore.isCreatingOrderRoute || createEditOrderFormStore.isEditMode)
 const showAdditionalFiles = computed<boolean>(() => !ordersStore.isCreatingOrderRoute || !createEditOrderFormStore.isEditMode && (!!ordersStore.order?.initial_attachments.length && !!ordersStore.order?.payment_method_attachments.length))
 
-const {fields : productsFields, remove, swap} = useFieldArray<OrderOfOrderProductItem>('products')
+const {fields : productsFields, remove, swap} = useFieldArray<OrderProductItem>('products')
 
 const addProduct = () => {
 
@@ -74,6 +75,85 @@ const editProduct = (idx) => {
 const deleteProduct = (idx) => {
     remove(idx)
 }
+
+const orderProductItemPricePurchaseRubFormatted = (orderProductItem: FieldEntry<OrderProductItem>): string => {
+    return currenciesStore.priceRubFormatted(
+        orderProductItem.value.price_purchase,
+        orderProductItem.value.price_purchase_currency_id
+    )
+}
+const orderProductItemPriceRetailRubSum = (orderProductItem: FieldEntry<OrderProductItem>): number => {
+    return orderProductItem.value.order_product_price_retail_rub * orderProductItem.value.order_product_count
+}
+const orderProductItemPriceRetailRubSumFormatted = (orderProductItem: FieldEntry<OrderProductItem>): string => {
+    return currenciesStore.priceRubFormatted(
+        orderProductItemPriceRetailRubSum(orderProductItem),
+        CharCode.RUB
+    )
+}
+const orderProductItemPricePurchaseRubSum = (orderProductItem: FieldEntry<OrderProductItem>): number => {
+    let pricePurchase = currenciesStore.priceRub(orderProductItem.value.price_purchase, orderProductItem.value.price_purchase_currency_id)
+
+    return pricePurchase * orderProductItem.value.order_product_count
+}
+const orderProductItemPricePurchaseRubSumFormatted = (orderProductItem: FieldEntry<OrderProductItem>): string => {
+    return currenciesStore.priceRubFormatted(
+        orderProductItemPricePurchaseRubSum(orderProductItem),
+        CharCode.RUB
+    )
+}
+const orderProductItemProfitRubFormatted = (orderProductItem: FieldEntry<OrderProductItem>): string => {
+    const pricePurchaseRubSum = orderProductItemPricePurchaseRubSum(orderProductItem)
+    const priceRetailRubSum = orderProductItemPriceRetailRubSum(orderProductItem)
+
+    const profitRub = priceRetailRubSum - pricePurchaseRubSum
+
+    return currenciesStore.priceRubFormatted(
+        profitRub,
+        CharCode.RUB
+    )
+}
+const orderProductPriceRetailRubFormatted = (orderProductItem: FieldEntry<OrderProductItem>): string => {
+    return currenciesStore.priceRubFormatted(
+        orderProductItem.value.order_product_price_retail_rub,
+        CharCode.RUB
+    )
+}
+const orderProductPriceRetailRubOriginFormatted = (orderProductItem: FieldEntry<OrderProductItem>): string => {
+    return currenciesStore.priceRubFormatted(
+        orderProductItem.value.order_product_price_retail_rub_origin,
+        CharCode.RUB
+    )
+}
+
+const orderTotalPriceRetailRub = computed<number>(() => {
+    return productsFields.value.reduce((acc: number, orderProductItem: FieldEntry<OrderProductItem>): number => {
+        return acc + orderProductItemPriceRetailRubSum(orderProductItem)
+    }, 0)
+})
+const orderTotalPriceRetailRubFormatted = computed<string>(() => {
+    return currenciesStore.priceRubFormatted(
+        orderTotalPriceRetailRub.value,
+        CharCode.RUB
+    )
+})
+const orderTotalPricePurchaseRub = computed<number>(() => {
+    return productsFields.value.reduce((acc: number, orderProductItem: FieldEntry<OrderProductItem>): number => {
+        return acc + orderProductItemPricePurchaseRubSum(orderProductItem)
+    }, 0)
+})
+const orderTotalPricePurchaseRubFormatted = computed<string>(() => {
+    return currenciesStore.priceRubFormatted(
+        orderTotalPricePurchaseRub.value,
+        CharCode.RUB
+    )
+})
+const orderTotalProfitRubFormatted = computed<string>(() => {
+    return currenciesStore.priceRubFormatted(
+        orderTotalPriceRetailRub.value - orderTotalPricePurchaseRub.value,
+        CharCode.RUB
+    )
+})
 </script>
 
 <template>
@@ -465,37 +545,98 @@ const deleteProduct = (idx) => {
                         </td>
                         <td>
                             <FormControlInput
-                                v-if="!editing"
-                                :name="`products[${idx}].count`"
+                                v-if="editing"
+                                :name="`products[${idx}].order_product_count`"
                                 type="text"
                             />
-                            <span v-else class="main-grid-cell-content">{{productField.value.count}}</span>
+                            <span v-else class="main-grid-cell-content">{{productField.value.order_product_count}}</span>
                         </td>
                         <td>
-                            <p>Закупочная: {{ordersStore.orderProductItemPriceRubPurchaseFormatted(productField.value.uuid)}}</p>
-                            <p>Сумма закупки: {{ordersStore.orderProductItemPriceRubPurchaseSumFormatted(productField.value.uuid)}}</p>
-                            <p>Заработок: {{ordersStore.orderProductItemProfitRubFormatted(productField.value.uuid)}}</p>
+                            <template v-if="editing">
+                                <p>Закупочная: {{orderProductItemPricePurchaseRubFormatted(productField)}}</p>
+                                <p>Сумма закупки: {{orderProductItemPricePurchaseRubSumFormatted(productField)}}</p>
+                                <p>Заработок: {{orderProductItemProfitRubFormatted(productField)}}</p>
+                            </template>
+                            <template v-else>
+                                <p>Закупочная: {{ordersStore.orderProductItemPricePurchaseRubFormatted(productField.value.uuid)}}</p>
+                                <p>Сумма закупки: {{ordersStore.orderProductItemPricePurchaseRubSumFormatted(productField.value.uuid)}}</p>
+                                <p>Заработок: {{ordersStore.orderProductItemProfitRubFormatted(productField.value.uuid)}}</p>
+                            </template>
                         </td>
                         <td>
                             <FormControlInput
-                                v-if="!editing"
-                                :name="`products[${idx}].price_retail_rub`"
+                                v-if="editing"
+                                :name="`products[${idx}].order_product_price_retail_rub`"
                                 type="text"
                             />
                             <p v-else>
-                                <span class="main-grid-cell-content">{{$product['order_product_price_retail_rub_formatted']}}</span>
+                                <span class="main-grid-cell-content">{{orderProductPriceRetailRubFormatted(productField)}}</span>
                             </p>
 
-                            <p v-if="productField.value.price_retail_rub_was_updated" :style="{textDecoration: 'line-through'}">
-                                <span class="main-grid-cell-content">{{$product['order_product_price_retail_rub_origin_formatted']}}</span>
+                            <p v-if="productField.value.order_product_price_retail_rub_was_updated" :style="{textDecoration: 'line-through'}">
+                                <span class="main-grid-cell-content">{{orderProductPriceRetailRubOriginFormatted(productField)}}</span>
                             </p>
                         </td>
                         <td>
-                            <span class="main-grid-cell-content">{{$product['order_product_price_retail_rub_sum_formatted']}}</span>
+                            <span v-if="editing" class="main-grid-cell-content">{{orderProductItemPriceRetailRubSumFormatted(productField)}}</span>
+                            <span v-else class="main-grid-cell-content">{{ordersStore.orderProductItemPriceRetailRubSumFormatted(productField.value.uuid)}}</span>
                         </td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+
+        <div class="row-line row-line__right">
+            <div class="adm-s-result-container-itog-table py-2">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th>Розничная стоимость товаров:</th>
+                        <th>
+                            <template v-if="editing">
+                                {{ orderTotalPriceRetailRubFormatted }}
+                            </template>
+                            <template v-else>
+                                {{ ordersStore.orderTotalPriceRetailRubFormatted }}
+                            </template>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>Закупочная стоимость товаров:</th>
+                        <th>
+                            <template v-if="editing">
+                                {{ orderTotalPricePurchaseRubFormatted }}
+                            </template>
+                            <template v-else>
+                                {{ ordersStore.orderTotalPricePurchaseRubFormatted }}
+                            </template>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>Заработок:</th>
+                        <th>
+                            <template v-if="editing">
+                                {{ orderTotalProfitRubFormatted }}
+                            </template>
+                            <template v-else>
+                                {{ ordersStore.orderTotalProfitRubFormatted }}
+                            </template>
+                        </th>
+                    </tr>
+                    <tr class="adm-s-result-container-itog-table-result">
+                        <th>Итого к оплате:</th>
+                        <th>
+                            <template v-if="editing">
+                                {{ orderTotalPriceRetailRubFormatted }}
+                            </template>
+                            <template v-else>
+                                {{ ordersStore.orderTotalPriceRetailRubFormatted }}
+                            </template>
+                        </th>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </template>

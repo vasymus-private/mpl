@@ -210,10 +210,6 @@ class Order extends BaseModel implements HasMedia
             ->withPivot([
                 "count",
                 'ordering',
-                "price_purchase",
-                "price_purchase_currency_id",
-                "price_retail",
-                "price_retail_currency_id",
                 "name",
                 'unit',
                 'price_retail_rub',

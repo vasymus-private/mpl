@@ -43,7 +43,7 @@ class CreateOrderAction extends BaseAction
      */
     public function execute(CreateOrderParamsDTO $params): ?Order
     {
-        $productsPrepare = $this->prepareProductItems($params);
+        $productsPrepare = $this->prepareProductItemsForAttach($params);
 
         DB::beginTransaction();
 
@@ -78,10 +78,11 @@ class CreateOrderAction extends BaseAction
                 $medias[] = $order->addMedia($file)->toMediaCollection(Order::MC_INITIAL_ATTACHMENT);
             }
 
+            $productsPrepareForEvent = $this->prepareProductItemsForEvent($params);
             $orderEvent = new OrderEvent();
             $orderEvent->payload = [
                 'order' => $orderParams,
-                'products' => $productsPrepare,
+                'products' => $productsPrepareForEvent,
             ];
             $orderEvent->type = $params->order_event_type;
 
@@ -109,7 +110,7 @@ class CreateOrderAction extends BaseAction
      *
      * @phpstan-return array<int, array>
      */
-    private function prepareProductItems(CreateOrderParamsDTO $params): array
+    private function prepareProductItemsForAttach(CreateOrderParamsDTO $params): array
     {
         $initOrdering = static::DEFAULT_ORDERING;
 
@@ -122,12 +123,39 @@ class CreateOrderAction extends BaseAction
                 'name' => $productItem->name ?? $productItem->product->name,
                 'unit' => $productItem->unit ?? $productItem->product->unit,
                 'ordering' => $productItem->ordering ?: ($initOrdering = $initOrdering + static::ORDERING_STEP),
+                'price_retail_rub' => $productItem->price_retail_rub ?: $productItem->product->price_retail_rub,
+                'price_retail_rub_origin' => $productItem->price_retail_rub_origin ?: $productItem->product->price_retail_rub,
+            ];
+        }
+
+        return $productsPrepare;
+    }
+
+    /**
+     * @phpstan-param \Domain\Orders\DTOs\CreateOrderParamsDTO $params
+     *
+     * @phpstan-return array<int, array>
+     */
+    private function prepareProductItemsForEvent(CreateOrderParamsDTO $params): array
+    {
+        $initOrdering = static::DEFAULT_ORDERING;
+
+        $productsPrepare = [];
+
+        /** @var \Domain\Orders\DTOs\OrderProductItemDTO $productItem */
+        foreach (collect($params->productItems)->sortBy('ordering')->sortBy('id')->values()->toArray() as $productItem) {
+            $productsPrepare[$productItem->product->id] = [
+                'count' => $productItem->count,
+                'name' => $productItem->name ?? $productItem->product->name,
+                'unit' => $productItem->unit ?? $productItem->product->unit,
+                'ordering' => $productItem->ordering ?: ($initOrdering = $initOrdering + static::ORDERING_STEP),
+                'price_retail_rub' => $productItem->price_retail_rub ?: $productItem->product->price_retail_rub,
+                'price_retail_rub_origin' => $productItem->price_retail_rub_origin ?: $productItem->product->price_retail_rub,
+
                 'price_purchase' => $productItem->product->price_purchase,
                 'price_purchase_currency_id' => $productItem->product->price_purchase_currency_id,
                 'price_retail' => $productItem->product->price_retail,
                 'price_retail_currency_id' => $productItem->product->price_retail_currency_id,
-                'price_retail_rub' => $productItem->price_retail_rub ?: $productItem->product->price_retail_rub,
-                'price_retail_rub_origin' => $productItem->price_retail_rub_origin ?: $productItem->product->price_retail_rub,
             ];
         }
 

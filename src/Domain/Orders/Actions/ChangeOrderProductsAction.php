@@ -39,10 +39,6 @@ class ChangeOrderProductsAction extends BaseAction
             // updating
             if ($currentOrderProduct) {
                 $productsPrepare[$productItem['id']] = array_merge($prepared, [
-                    'price_purchase' => $currentOrderProduct->order_product->price_purchase,
-                    'price_purchase_currency_id' => $currentOrderProduct->order_product->price_purchase_currency_id,
-                    'price_retail' => $currentOrderProduct->order_product->price_retail,
-                    'price_retail_currency_id' => $currentOrderProduct->order_product->price_retail_currency_id,
                     'price_retail_rub_origin' => $currentOrderProduct->order_product->price_retail_rub_origin,
                 ]);
 
@@ -65,10 +61,6 @@ class ChangeOrderProductsAction extends BaseAction
             // creating
             $currentProduct = Product::query()->findOrFail($productItem['id']);
             $productsPrepare[$productItem['id']] = array_merge($prepared, [
-                'price_purchase' => $currentProduct->price_purchase,
-                'price_purchase_currency_id' => $currentProduct->price_purchase_currency_id,
-                'price_retail' => $currentProduct->price_retail,
-                'price_retail_currency_id' => $currentProduct->price_retail_currency_id,
                 'price_retail_rub_origin' => $currentProduct->price_retail_rub,
             ]);
             $orderEvents[] = $this->makeAddProductItemOrderEvent($currentProduct, $productItem['order_product_count']);
@@ -187,6 +179,10 @@ class ChangeOrderProductsAction extends BaseAction
             'description' => sprintf('Добавлен товар `%s` (#%s) в количестве %s.', $product->name, $product->id, $count),
             'product_id' => $product->id,
             'product_uuid' => $product->uuid,
+            'price_purchase' => $product->price_purchase,
+            'price_purchase_currency_id' => $product->price_purchase_currency_id,
+            'price_retail' => $product->price_retail,
+            'price_retail_currency_id' => $product->price_retail_currency_id,
         ];
 
         return $orderEvent;

@@ -859,7 +859,7 @@ class ShowOrder extends BaseShowComponent
             sprintf('%s-total-price-retail-%s', static::class, $this->item->id),
             fn () => collect($this->productItems)
                 ->reduce(function (float $acc, array $productItem): float {
-                    return $acc + ($productItem['order_product_price_retail_rub'] * $productItem['order_product_count']);
+                    return $acc + ((float)$productItem['order_product_price_retail_rub'] * (int)$productItem['order_product_count']);
                 }, 0)
         );
     }

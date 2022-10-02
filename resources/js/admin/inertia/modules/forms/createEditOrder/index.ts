@@ -158,7 +158,7 @@ export const getWatchOrderToFormCb =
             provider_bill_status_id,
             supplier_invoices,
             comment_admin,
-            products: products.map((item: OrderProductItem) => ({...item.order_product})),
+            products,
         })
     }
 
@@ -185,16 +185,18 @@ export const getFormSchema = () => {
 
 export const getOrderProductSchema = () => {
     return yup.object({
-        count: yup.number(),
-        name: yup.string().nullable(),
-        unit: yup.string().nullable(),
+        id: yup.number().integer(),
+        uuid: yup.string(),
         price_purchase: yup.number(),
         price_purchase_currency_id: yup.number().integer(),
         price_retail: yup.number(),
         price_retail_currency_id: yup.number().integer(),
-        ordering: yup.number().integer(),
-        price_retail_rub: yup.number(),
-        price_retail_rub_origin: yup.number(),
-        price_retail_rub_was_updated: yup.boolean(),
+        order_product_count: yup.number(),
+        order_product_name: yup.string().nullable(),
+        order_product_unit: yup.string().nullable(),
+        order_product_ordering: yup.number().integer(),
+        order_product_price_retail_rub: yup.number(),
+        order_product_price_retail_rub_origin: yup.number(),
+        order_product_price_retail_rub_was_updated: yup.boolean(),
     })
 }

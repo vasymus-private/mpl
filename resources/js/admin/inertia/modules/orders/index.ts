@@ -1,5 +1,5 @@
 import {defineStore} from "pinia"
-import {Order, OrderItem, OrderItemProductItem, OrderProductItem,} from "@/admin/inertia/modules/orders/types"
+import {Order, OrderItem, OrderItemProductItem, OrderProductItem} from "@/admin/inertia/modules/orders/types"
 import Links from "@/admin/inertia/modules/common/Links"
 import Meta from "@/admin/inertia/modules/common/Meta"
 import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
@@ -18,11 +18,6 @@ interface State {
     _links: Links | null
     _meta: Meta | null
     _entity: Order | null
-}
-
-enum _Type {
-    entity,
-    entities,
 }
 
 export const useOrdersStore = defineStore(storeName, {
@@ -71,8 +66,8 @@ export const useOrdersStore = defineStore(storeName, {
                     ): number => {
                         return (
                             acc +
-                            product.order_product.price_retail_rub *
-                            product.order_product.count
+                            product.order_product_price_retail_rub *
+                            product.order_product_count
                         )
                     },
                     0
@@ -91,7 +86,7 @@ export const useOrdersStore = defineStore(storeName, {
                 return this.order.products.find(item => item.uuid === productUuid)
             }
         },
-        orderProductItemPriceRubPurchaseFormatted() {
+        orderProductItemPricePurchaseRubFormatted() {
             return (productUuid: string): string|null => {
                 let orderProductItem: OrderProductItem|undefined = this.orderProductItem(productUuid)
                 if (!orderProductItem) {
@@ -101,12 +96,12 @@ export const useOrdersStore = defineStore(storeName, {
                 const currenciesStore = useCurrenciesStore()
 
                 return currenciesStore.priceRubFormatted(
-                    orderProductItem.product.price_purchase,
-                    orderProductItem.product.price_purchase_currency_id
+                    orderProductItem.price_purchase,
+                    orderProductItem.price_purchase_currency_id
                 )
             }
         },
-        orderProductItemPriceRubPurchaseSum() {
+        orderProductItemPricePurchaseRubSum() {
             return (productUuid: string): number|null => {
                 let orderProductItem: OrderProductItem|undefined = this.orderProductItem(productUuid)
                 if (!orderProductItem) {
@@ -115,41 +110,53 @@ export const useOrdersStore = defineStore(storeName, {
 
                 const currenciesStore = useCurrenciesStore()
 
-                let pricePurchase = currenciesStore.priceRub(orderProductItem.product.price_purchase, orderProductItem.product.price_purchase_currency_id)
+                let pricePurchase = currenciesStore.priceRub(orderProductItem.price_purchase, orderProductItem.price_purchase_currency_id)
 
-                return pricePurchase * orderProductItem.order_product.count
+                return pricePurchase * orderProductItem.order_product_count
             }
         },
-        orderProductItemPriceRubPurchaseSumFormatted() {
+        orderProductItemPricePurchaseRubSumFormatted() {
             return (productUuid: string): string|null => {
-                const sum: number|null = this.orderProductItemPriceRubPurchaseSum(productUuid)
+                const rubPurchaseSum: number|null = this.orderProductItemPricePurchaseRubSum(productUuid)
 
-                if (!sum) {
+                if (!rubPurchaseSum) {
                     return null
                 }
 
                 const currenciesStore = useCurrenciesStore()
 
                 return currenciesStore.priceRubFormatted(
-                    sum,
+                    rubPurchaseSum,
                     CharCode.RUB
                 )
             }
         },
-        orderProductItemPriceRubRetailSum() {
+        orderProductItemPriceRetailRubSum() {
             return (productUuid: string): number|null => {
                 let orderProductItem: OrderProductItem|undefined = this.orderProductItem(productUuid)
                 if (!orderProductItem) {
                     return null
                 }
 
-                return orderProductItem.order_product.price_retail_rub * orderProductItem.order_product.count
+                return orderProductItem.order_product_price_retail_rub * orderProductItem.order_product_count
+            }
+        },
+        orderProductItemPriceRetailRubSumFormatted() {
+            return (productUuid: string): string => {
+                const rubRetailSum: number|null = this.orderProductItemPriceRetailRubSum(productUuid)
+
+                const currenciesStore = useCurrenciesStore()
+
+                return currenciesStore.priceRubFormatted(
+                    rubRetailSum,
+                    CharCode.RUB
+                )
             }
         },
         orderProductItemProfitRubFormatted() {
             return (productUuid: string): string|null => {
-                const rubPurchaseSum: number|null = this.orderProductItemPriceRubPurchaseSum(productUuid)
-                const rubRetailSum: number|null = this.orderProductItemPriceRubRetailSum(productUuid)
+                const rubPurchaseSum: number|null = this.orderProductItemPricePurchaseRubSum(productUuid)
+                const rubRetailSum: number|null = this.orderProductItemPriceRetailRubSum(productUuid)
 
                 const profitRub = rubRetailSum - rubPurchaseSum
                 const currenciesStore = useCurrenciesStore()
@@ -159,6 +166,43 @@ export const useOrdersStore = defineStore(storeName, {
                     CharCode.RUB
                 )
             }
+        },
+        orderTotalPriceRetailRub(): number {
+            return this.order.products.reduce((acc: number, orderProductItem: OrderProductItem): number => {
+                return acc + this.orderProductItemPriceRetailRubSum(orderProductItem.uuid)
+            }, 0)
+        },
+        orderTotalPriceRetailRubFormatted(): string {
+            const currenciesStore = useCurrenciesStore()
+
+            return currenciesStore.priceRubFormatted(
+                this.orderTotalPriceRetailRub,
+                CharCode.RUB
+            )
+        },
+        orderTotalPricePurchaseRub(): number {
+            return this.order.products.reduce((acc: number, orderProductItem: OrderProductItem): number => {
+                return acc + this.orderProductItemPricePurchaseRubSum(orderProductItem.uuid)
+            }, 0)
+        },
+        orderTotalPricePurchaseRubFormatted(): string {
+            const currenciesStore = useCurrenciesStore()
+
+            return currenciesStore.priceRubFormatted(
+                this.orderTotalPricePurchaseRub,
+                CharCode.RUB
+            )
+        },
+        orderTotalProfitRub(): number {
+            return this.orderTotalPriceRetailRub - this.orderTotalPricePurchaseRub
+        },
+        orderTotalProfitRubFormatted(): string {
+            const currenciesStore = useCurrenciesStore()
+
+            return currenciesStore.priceRubFormatted(
+                this.orderTotalProfitRub,
+                CharCode.RUB
+            )
         },
         links: (state: State): Links | null => state._links,
         meta: (state: State): Meta | null => state._meta,
