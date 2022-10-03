@@ -10,9 +10,12 @@ const props = defineProps<{
     type: ModalType
     title?: string
 }>()
+
 const modalsStore = useModalsStore()
+
 const modal = ref(null)
-let bootstrapModal = ref<Modal>(null)
+const bootstrapModal = ref<Modal>(null)
+
 onMounted(() => {
     bootstrapModal.value = new Modal(modal.value)
     modal.value.addEventListener('hidden.bs.modal', () => {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Admin\Ajax;
 
+use Domain\Products\Models\Product\Product;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductSearchResource extends JsonResource
@@ -24,10 +25,21 @@ class ProductSearchResource extends JsonResource
     {
         return [
             'id' => $this->resource->id,
-            'name' => $this->resource->name,
             'uuid' => $this->resource->uuid,
+            'is_active' => $this->resource->is_active,
+            'name' => $this->resource->name,
             'image' => $this->resource->main_image_md_thumb_url,
             'price_rub_formatted' => $this->resource->price_retail_rub_formatted,
+            'is_with_variations' => $this->resource->is_with_variations,
+            'variations' => $this->resource->variations->map(fn(Product $variation) => [
+                'id' => $variation->id,
+                'uuid' => $variation->uuid,
+                'is_active' => $this->resource->is_active,
+                'name' => $variation->name,
+                'image' => $variation->main_image_md_thumb_url,
+                'price_rub_formatted' => $variation->price_retail_rub_formatted,
+                'is_with_variations' => false,
+            ])
         ];
     }
 }

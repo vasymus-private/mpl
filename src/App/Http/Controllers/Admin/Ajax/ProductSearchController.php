@@ -12,6 +12,7 @@ class ProductSearchController extends BaseAdminController
 {
     /**
      * @param \Illuminate\Http\Request $request
+     * @param \Domain\Products\Actions\GetCategoryAndSubtreeIdsAction $getCategoryAndSubtreeIdsAction
      *
      * @return \Illuminate\Contracts\Support\Responsable
      */
@@ -21,8 +22,9 @@ class ProductSearchController extends BaseAdminController
             'category_ids' => 'array|nullable',
             'category_ids.*' => 'integer',
             'search' => 'string|nullable',
+            'brand_id' => 'integer|nullable',
         ]);
-        $productQuery = Product::query()->notVariations();
+        $productQuery = Product::query()->notVariations()->with('variations.media', 'media');
 
         if (! empty($validated['category_ids'])) {
             $categoriesAndSubtreeIds = $getCategoryAndSubtreeIdsAction->execute($validated['category_ids']);
@@ -36,6 +38,10 @@ class ProductSearchController extends BaseAdminController
                 'like',
                 sprintf('%%%s%%', $validated['search'])
             );
+        }
+
+        if (! empty($validated['brand_id'])) {
+            $productQuery->whereBrandId($validated['brand_id']);
         }
 
         return ProductSearchResource::collection(

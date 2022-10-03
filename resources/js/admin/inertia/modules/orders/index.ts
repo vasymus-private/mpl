@@ -89,7 +89,7 @@ export const useOrdersStore = defineStore(storeName, {
         },
         orderProductItem() {
             return (productUuid: string): OrderProductItem | undefined => {
-                return this.order.products.find(
+                return this.order?.products.find(
                     (item) => item.uuid === productUuid
                 )
             }
@@ -189,7 +189,7 @@ export const useOrdersStore = defineStore(storeName, {
             }
         },
         orderTotalPriceRetailRub(): number {
-            return this.order.products.reduce(
+            return this.order?.products.reduce(
                 (acc: number, orderProductItem: OrderProductItem): number => {
                     return (
                         acc +
@@ -210,7 +210,7 @@ export const useOrdersStore = defineStore(storeName, {
             )
         },
         orderTotalPricePurchaseRub(): number {
-            return this.order.products.reduce(
+            return this.order?.products.reduce(
                 (acc: number, orderProductItem: OrderProductItem): number => {
                     return (
                         acc +

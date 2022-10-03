@@ -8,7 +8,7 @@ import * as yup from "yup"
 
 export const extendMetaLinksWithComputedData = (
     meta: Meta,
-    fullUrl: string | null
+    fullUrl?: string | null
 ): Meta => {
     meta.links.forEach((metaLink: MetaLink, index: number) => {
         const labelIsNumeric = isNumeric(metaLink.label)
@@ -35,7 +35,7 @@ export const extendMetaLinksWithComputedData = (
 
 export const extendUrlWithCurrentParams = (
     url: string | null,
-    fullUrl: string | null
+    fullUrl?: string | null
 ): string | null => {
     if (!url) {
         return null

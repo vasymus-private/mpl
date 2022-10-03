@@ -64,6 +64,8 @@ interface OtherProduct {
     price_rub_formatted: string | null
 }
 
+export type SearchType = ProductProductType | string
+
 export enum ProductProductType {
     TYPE_ACCESSORY = 1,
     TYPE_SIMILAR = 2,
@@ -73,10 +75,11 @@ export enum ProductProductType {
 }
 
 export interface SearchProductRequest {
-    category_ids?: Array<number | string>
+    category_ids?: Array<number | string> | null
     search?: string | null
     page?: number | null
     per_page?: number | null
+    brand_id?: number | null
 }
 
 export const searchProductRequestToUrlSearchParams = (
@@ -98,7 +101,9 @@ export const searchProductRequestToUrlSearchParams = (
         res.append("per_page", `${request.per_page}`)
     }
 
-    console.log("----", res.toString())
+    if (request.brand_id) {
+        res.append('brand_id', `${request.brand_id}`)
+    }
 
     return res
 }
@@ -106,9 +111,22 @@ export const searchProductRequestToUrlSearchParams = (
 export interface SearchProduct {
     id: number
     uuid: string
+    is_active: boolean
     name: string
     image: string | null
     price_rub_formatted: string | null
+    is_with_variations: boolean
+    _is_open?: boolean
+    variations: Array<SearchProductVariation>
+}
+export interface SearchProductVariation {
+    id: number
+    uuid: string
+    is_active: boolean
+    name: string
+    image: string | null
+    price_rub_formatted: string | null
+    is_with_variations: boolean
 }
 
 export interface SearchProductResponse {

@@ -70,7 +70,7 @@ const showAdditionalFiles = computed<boolean>(() => !ordersStore.isCreatingOrder
 const {fields : productsFields, remove, swap} = useFieldArray<OrderProductItem>('products')
 
 const addProduct = () => {
-
+    modalsStore.openModal(ModalType.ADD_ORDER_PRODUCT_ITEM, {})
 }
 const editProduct = (idx) => {
     modalsStore.openModal(ModalType.EDIT_ORDER_PRODUCT, {

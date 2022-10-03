@@ -18,6 +18,7 @@ import Product, {
     SearchProductRequest,
     searchProductRequestToUrlSearchParams,
     SearchProductResponse,
+    SearchType,
 } from "@/admin/inertia/modules/products/Product"
 import axios, { AxiosError } from "axios"
 import { arrayToMap } from "@/admin/inertia/utils"
@@ -25,18 +26,18 @@ import { ErrorResponse, UrlParams } from "@/admin/inertia/modules/common/types"
 
 export const storeName = "products"
 
+export const additionalOrderProduct = 'additionalOrderProduct'
+
 interface State {
     _productListItems: Array<ProductListItem>
     _links: Links | null
     _meta: Meta | null
     _product: { entity: Product | null; loading: boolean }
-    _searchProduct: {
-        [key in ProductProductType]: {
-            entities: Array<SearchProduct>
-            meta: Meta | null
-            loading: boolean
-        }
-    }
+    _searchProduct : Partial<Record<SearchType, {
+        entities: Array<SearchProduct>
+        meta: Meta | null
+        loading: boolean
+    }>>
 }
 
 export const useProductsStore = defineStore(storeName, {
@@ -68,6 +69,11 @@ export const useProductsStore = defineStore(storeName, {
                     loading: false,
                 },
                 [ProductProductType.TYPE_INSTRUMENT]: {
+                    entities: [],
+                    meta: null,
+                    loading: false,
+                },
+                [additionalOrderProduct]: {
                     entities: [],
                     meta: null,
                     loading: false,
@@ -107,12 +113,29 @@ export const useProductsStore = defineStore(storeName, {
         },
         searchProducts:
             (state: State) =>
-            (type: ProductProductType): Array<SearchProduct> =>
+            (type: SearchType): Array<SearchProduct> =>
                 state._searchProduct[type].entities,
         searchProductsLoading:
             (state: State) =>
-            (type: ProductProductType): boolean =>
+            (type: SearchType): boolean =>
                 state._searchProduct[type].loading,
+        additionalOrderProductSearch(): Array<SearchProduct> {
+            return this.searchProducts(additionalOrderProduct)
+        },
+        additionalOrderProductSearchLoading(): boolean {
+            return this.searchProductsLoading(additionalOrderProduct)
+        },
+        additionalOrderProductSearchMeta(state: State): Meta|null {
+            return state._searchProduct[additionalOrderProduct].meta
+        },
+        additionalOrderProductSearchPerPage(): Option|null {
+            return this.additionalOrderProductSearchMeta && this.additionalOrderProductSearchMeta.per_page
+                ? {
+                    value: this.additionalOrderProductSearchMeta.per_page,
+                    label: `${this.additionalOrderProductSearchMeta.per_page}`,
+                }
+                : null
+        },
     },
     actions: {
         setProductListItems(productListItems: Array<ProductListItem>): void {
@@ -163,7 +186,7 @@ export const useProductsStore = defineStore(storeName, {
         },
         async fetchSearchProducts(
             request: SearchProductRequest,
-            type: ProductProductType
+            type: SearchType
         ): Promise<void> {
             try {
                 this._searchProduct[type].loading = true
@@ -177,11 +200,38 @@ export const useProductsStore = defineStore(storeName, {
                     data: { data: products, meta },
                 } = await axios.get<SearchProductResponse>(url.toString())
 
-                this._searchProduct[type].entities = products
-                this._searchProduct[type].meta = meta
+                this.setSearchProductEntities(products, type)
+                this.setSearchProductsMeta(meta, type)
             } finally {
                 this._searchProduct[type].loading = false
             }
+        },
+        setSearchProductEntities(products: Array<SearchProduct>, type: SearchType): void {
+            switch (type) {
+                case additionalOrderProduct: {
+                    this._searchProduct[additionalOrderProduct].entities = products.map(item => ({...item, _is_open: false}))
+                    break
+                }
+                default: {
+                    this._searchProduct[type].entities = products
+                    break
+                }
+            }
+        },
+        setSearchProductsMeta(meta: Meta|null, type: SearchType): void {
+            this._searchProduct[type].meta = meta
+                ? extendMetaLinksWithComputedData(meta)
+                : null
+        },
+        async fetchAdditionalOrderProduct(request: SearchProductRequest): Promise<void> {
+            await this.fetchSearchProducts(request, additionalOrderProduct)
+        },
+        toggleAdditionalOrderProductItemOpen(item: SearchProduct): void {
+            this._searchProduct[additionalOrderProduct].entities.forEach((it: SearchProduct) => {
+                if (it.uuid === item.uuid) {
+                    it._is_open = !it._is_open
+                }
+            })
         },
         async deleteBulkProducts(
             ids: Array<number>

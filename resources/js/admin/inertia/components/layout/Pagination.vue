@@ -19,7 +19,7 @@ const props = defineProps<{
 
 const lastPage = computed((): number => Math.max(Math.ceil(props.total / +props.perPage.value), 1))
 
-const emit = defineEmits(['update:perPage'])
+const emit = defineEmits(['update:perPage', 'update:page'])
 const perPageData = useVModel(props, 'perPage', emit)
 </script>
 
