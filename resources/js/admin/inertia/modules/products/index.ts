@@ -26,18 +26,23 @@ import { ErrorResponse, UrlParams } from "@/admin/inertia/modules/common/types"
 
 export const storeName = "products"
 
-export const additionalOrderProduct = 'additionalOrderProduct'
+export const additionalOrderProduct = "additionalOrderProduct"
 
 interface State {
     _productListItems: Array<ProductListItem>
     _links: Links | null
     _meta: Meta | null
     _product: { entity: Product | null; loading: boolean }
-    _searchProduct : Partial<Record<SearchType, {
-        entities: Array<SearchProduct>
-        meta: Meta | null
-        loading: boolean
-    }>>
+    _searchProduct: Partial<
+        Record<
+            SearchType,
+            {
+                entities: Array<SearchProduct>
+                meta: Meta | null
+                loading: boolean
+            }
+        >
+    >
 }
 
 export const useProductsStore = defineStore(storeName, {
@@ -125,15 +130,16 @@ export const useProductsStore = defineStore(storeName, {
         additionalOrderProductSearchLoading(): boolean {
             return this.searchProductsLoading(additionalOrderProduct)
         },
-        additionalOrderProductSearchMeta(state: State): Meta|null {
+        additionalOrderProductSearchMeta(state: State): Meta | null {
             return state._searchProduct[additionalOrderProduct].meta
         },
-        additionalOrderProductSearchPerPage(): Option|null {
-            return this.additionalOrderProductSearchMeta && this.additionalOrderProductSearchMeta.per_page
+        additionalOrderProductSearchPerPage(): Option | null {
+            return this.additionalOrderProductSearchMeta &&
+                this.additionalOrderProductSearchMeta.per_page
                 ? {
-                    value: this.additionalOrderProductSearchMeta.per_page,
-                    label: `${this.additionalOrderProductSearchMeta.per_page}`,
-                }
+                      value: this.additionalOrderProductSearchMeta.per_page,
+                      label: `${this.additionalOrderProductSearchMeta.per_page}`,
+                  }
                 : null
         },
     },
@@ -206,10 +212,14 @@ export const useProductsStore = defineStore(storeName, {
                 this._searchProduct[type].loading = false
             }
         },
-        setSearchProductEntities(products: Array<SearchProduct>, type: SearchType): void {
+        setSearchProductEntities(
+            products: Array<SearchProduct>,
+            type: SearchType
+        ): void {
             switch (type) {
                 case additionalOrderProduct: {
-                    this._searchProduct[additionalOrderProduct].entities = products.map(item => ({...item, _is_open: false}))
+                    this._searchProduct[additionalOrderProduct].entities =
+                        products.map((item) => ({ ...item, _is_open: false }))
                     break
                 }
                 default: {
@@ -218,20 +228,24 @@ export const useProductsStore = defineStore(storeName, {
                 }
             }
         },
-        setSearchProductsMeta(meta: Meta|null, type: SearchType): void {
+        setSearchProductsMeta(meta: Meta | null, type: SearchType): void {
             this._searchProduct[type].meta = meta
                 ? extendMetaLinksWithComputedData(meta)
                 : null
         },
-        async fetchAdditionalOrderProduct(request: SearchProductRequest): Promise<void> {
+        async fetchAdditionalOrderProduct(
+            request: SearchProductRequest
+        ): Promise<void> {
             await this.fetchSearchProducts(request, additionalOrderProduct)
         },
         toggleAdditionalOrderProductItemOpen(item: SearchProduct): void {
-            this._searchProduct[additionalOrderProduct].entities.forEach((it: SearchProduct) => {
-                if (it.uuid === item.uuid) {
-                    it._is_open = !it._is_open
+            this._searchProduct[additionalOrderProduct].entities.forEach(
+                (it: SearchProduct) => {
+                    if (it.uuid === item.uuid) {
+                        it._is_open = !it._is_open
+                    }
                 }
-            })
+            )
         },
         async deleteBulkProducts(
             ids: Array<number>

@@ -102,7 +102,7 @@ export const searchProductRequestToUrlSearchParams = (
     }
 
     if (request.brand_id) {
-        res.append('brand_id', `${request.brand_id}`)
+        res.append("brand_id", `${request.brand_id}`)
     }
 
     return res
