@@ -116,7 +116,7 @@ export interface SearchProduct {
     image: string | null
     price_rub_formatted: string | null
     is_with_variations: boolean
-    unit: string|null
+    unit: string | null
     price_purchase: number | null
     price_purchase_currency_id: number | null
     price_retail: number | null
@@ -133,7 +133,7 @@ export interface SearchProductVariation {
     image: string | null
     price_rub_formatted: string | null
     is_with_variations: boolean
-    unit: string|null
+    unit: string | null
     price_purchase: number | null
     price_purchase_currency_id: number | null
     price_retail: number | null
