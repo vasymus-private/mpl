@@ -6,7 +6,6 @@ import EditOrderProduct from "@/admin/inertia/components/orders/createEdit/modal
 import AddOrderProductItem from "@/admin/inertia/components/orders/createEdit/modals/AddOrderProductItem.vue"
 import { ModalType, ModalPayload } from "@/admin/inertia/modules/modals/types"
 
-
 export const storeName = "modals"
 
 interface State {
