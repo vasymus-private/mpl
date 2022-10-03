@@ -27,9 +27,9 @@ class ChangeOrderProductsAction extends BaseAction
         /** @see {@link \Domain\Products\DTOs\Admin\OrderProductItemDTO} */
         foreach ($productItems as $productItem) {
             $prepared = [
-                'count' => $productItem['order_product_count'],
-                'name' => $productItem['name'],
-                'unit' => $productItem['unit'],
+                'count' => $productItem['order_product_count'] ?? 1,
+                'name' => $productItem['name'] ?? '',
+                'unit' => $productItem['unit'] ?? '',
                 'price_retail_rub' => $productItem['order_product_price_retail_rub'],
                 'price_retail_rub_was_updated' => $productItem['order_product_price_retail_rub_was_updated'],
                 'ordering' => $productItem['ordering'],

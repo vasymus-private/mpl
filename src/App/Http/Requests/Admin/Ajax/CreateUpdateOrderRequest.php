@@ -89,7 +89,6 @@ class CreateUpdateOrderRequest extends FormRequest
             'productItems.*.unit' => 'nullable|string|max:250',
             'productItems.*.ordering' => 'nullable|integer',
             'productItems.*.price_retail_rub' => 'nullable|numeric',
-            'productItems.*.price_retail_rub_origin' => 'nullable|numeric',
             'productItems.*.price_retail_rub_was_updated' => 'nullable|boolean',
         ];
     }
@@ -131,10 +130,12 @@ class CreateUpdateOrderRequest extends FormRequest
                         'unit' => isset($productItem['unit']) ? (string)$productItem['unit'] : null,
                         'ordering' => isset($productItem['ordering']) ? (int)$productItem['ordering'] : null,
                         'price_retail_rub' => (float)$productItem['price_retail_rub'],
+                        // for backward compatibility
                         'order_product_price_retail_rub' => (float)$productItem['price_retail_rub'],
-                        'price_retail_rub_origin' => (float)$productItem['price_retail_rub_origin'],
                         'price_retail_rub_was_updated' => isset($productItem['price_retail_rub_was_updated']) ? (bool)$productItem['price_retail_rub_was_updated'] : null,
+                        // for backward compatibility
                         'order_product_price_retail_rub_was_updated' => isset($productItem['price_retail_rub_was_updated']) ? (bool)$productItem['price_retail_rub_was_updated'] : null,
+                        // for backward compatibility
                         'product' => $product,
                         'id' => $product->id,
                     ]);

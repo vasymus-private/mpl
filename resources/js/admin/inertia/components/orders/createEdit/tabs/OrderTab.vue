@@ -67,7 +67,7 @@ const setIsNotOpen = () => {
 const editing = computed<boolean>(() => ordersStore.isCreatingOrderRoute || createEditOrderFormStore.isEditMode)
 const showAdditionalFiles = computed<boolean>(() => !ordersStore.isCreatingOrderRoute || !createEditOrderFormStore.isEditMode && (!!ordersStore.order?.initial_attachments.length && !!ordersStore.order?.payment_method_attachments.length))
 
-const {fields : productsFields, remove, swap} = useFieldArray<OrderProductItem>('products')
+const {fields : productsFields, remove, swap} = useFieldArray<Partial<OrderProductItem>>('products')
 
 const addProduct = () => {
     modalsStore.openModal(ModalType.ADD_ORDER_PRODUCT_ITEM, {})

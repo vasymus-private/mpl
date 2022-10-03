@@ -116,6 +116,12 @@ export interface SearchProduct {
     image: string | null
     price_rub_formatted: string | null
     is_with_variations: boolean
+    unit: string|null
+    price_purchase: number | null
+    price_purchase_currency_id: number | null
+    price_retail: number | null
+    price_retail_currency_id: number | null
+    ordering: number | null
     _is_open?: boolean
     variations: Array<SearchProductVariation>
 }
@@ -127,6 +133,12 @@ export interface SearchProductVariation {
     image: string | null
     price_rub_formatted: string | null
     is_with_variations: boolean
+    unit: string|null
+    price_purchase: number | null
+    price_purchase_currency_id: number | null
+    price_retail: number | null
+    price_retail_currency_id: number | null
+    ordering: number | null
 }
 
 export interface SearchProductResponse {

@@ -15,6 +15,9 @@ import {TabEnum} from "@/admin/inertia/modules/common/Tabs"
 import Pagination from "@/admin/inertia/components/layout/Pagination.vue"
 import {getPerPageOptions} from "@/admin/inertia/modules/common"
 import Option from "@/admin/inertia/modules/common/Option"
+import {useFieldArray} from "vee-validate"
+import {OrderProductItem} from "@/admin/inertia/modules/orders/types"
+import {useCurrenciesStore} from "@/admin/inertia/modules/currencies"
 
 
 const props = defineProps<{
@@ -25,6 +28,7 @@ const props = defineProps<{
 const categoriesStore = useCategoriesStore()
 const brandsStore = useBrandsStore()
 const productsStore = useProductsStore()
+const currenciesStore = useCurrenciesStore()
 
 const currentCategoryId = ref<number|null>(null)
 const brand = ref<Option>(null)
@@ -33,6 +37,8 @@ const page = ref<number>(1)
 const _perPage = ref<Option|null>(null)
 
 const perPageOptions = getPerPageOptions()
+
+const {fields : productsFields, push, update} = useFieldArray<Partial<OrderProductItem>>('products')
 
 const handleSearch = async () => {
     page.value = 1
@@ -52,7 +58,44 @@ const toggleOpenVariation = (product: SearchProduct) => {
     productsStore.toggleAdditionalOrderProductItemOpen(product)
 }
 const chooseProduct = (product: SearchProduct|SearchProductVariation) => {
-    console.log('---', product)
+    let index: number|undefined
+    const productField = productsFields.value.find((item, i) => {
+        if (item.value.id === product.id) {
+            index = i
+            return true
+        }
+    })
+
+    if (productField) {
+        update(index, {
+            ...productField.value,
+            order_product_count: productField.value.order_product_count + 1,
+        })
+    } else {
+        push({
+            id: product.id,
+            uuid: product.uuid,
+            name: product.name,
+            unit: product.unit,
+            price_purchase: product.price_purchase,
+            price_purchase_currency_id: product.price_purchase_currency_id,
+            price_retail: product.price_retail,
+            price_retail_currency_id: product.price_retail_currency_id,
+            order_product_count: 1,
+            order_product_name: product.name,
+            order_product_unit: product.unit,
+            order_product_ordering: product.ordering,
+            order_product_price_retail_rub: currenciesStore.priceRub(
+                product.price_retail,
+                product.price_retail_currency_id
+            ),
+            order_product_price_retail_rub_origin: currenciesStore.priceRub(
+                product.price_retail,
+                product.price_retail_currency_id
+            ),
+            order_product_price_retail_rub_was_updated: false,
+        })
+    }
 }
 const onPerPage = async (perPage: Option) => {
     _perPage.value = perPage
@@ -74,9 +117,10 @@ const handleFetch = async () => {
 }
 
 onMounted(async () => {
-    await productsStore.fetchAdditionalOrderProduct({})
+    await handleFetch()
 })
 watch<Option|null>(brand, async () => {
+    page.value = 1
     await handleFetch()
 }, {
     flush: "post"

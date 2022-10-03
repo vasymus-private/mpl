@@ -82,7 +82,6 @@ export interface OrderProductItem {
     price_retail_currency_id: number | null
     coefficient: number | null
     availability_status_id: number | null
-    mainImage: Media
     order_product_count: number
     order_product_name: string | null
     order_product_unit: string | null
