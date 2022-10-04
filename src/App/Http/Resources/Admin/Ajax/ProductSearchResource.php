@@ -37,7 +37,7 @@ class ProductSearchResource extends JsonResource
             'price_retail' => $this->resource->price_retail,
             'price_retail_currency_id' => $this->resource->price_retail_currency_id,
             'ordering' => $this->resource->ordering,
-            'variations' => $this->resource->variations->map(fn(Product $variation) => [
+            'variations' => $this->resource->variations->map(fn (Product $variation) => [
                 'id' => $variation->id,
                 'uuid' => $variation->uuid,
                 'is_active' => $variation->is_active,
@@ -51,7 +51,7 @@ class ProductSearchResource extends JsonResource
                 'price_retail' => $variation->price_retail,
                 'price_retail_currency_id' => $variation->price_retail_currency_id,
                 'ordering' => $variation->ordering,
-            ])
+            ]),
         ];
     }
 }
