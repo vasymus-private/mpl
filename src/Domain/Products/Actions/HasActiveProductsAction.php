@@ -2,12 +2,13 @@
 
 namespace Domain\Products\Actions;
 
+use Domain\Common\Actions\BaseAction;
 use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\DB;
 
-class HasActiveProductsAction
+class HasActiveProductsAction extends BaseAction
 {
     /**
      * @param string|int $id

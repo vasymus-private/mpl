@@ -3,6 +3,7 @@
 namespace Domain\Common\DTOs;
 
 use Domain\Common\Models\CustomMedia;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Livewire\TemporaryUploadedFile;
@@ -31,6 +32,8 @@ class FileDTO extends DataTransferObject
     public ?string $uuid;
 
     public ?int $ordering;
+
+    public ?UploadedFile $file;
 
     public static function fromCustomMedia(CustomMedia $media): self
     {
@@ -95,6 +98,7 @@ class FileDTO extends DataTransferObject
             "path" => $temporaryUploadedFile->getRealPath(),
             "url" => $url ?? '',
             "uuid" => Str::uuid()->toString(),
+            "file" => $temporaryUploadedFile,
         ], $add));
     }
 }

@@ -2,11 +2,13 @@
 
 namespace Domain\Orders\Models;
 
+use Domain\Common\Models\BaseModel;
+
 /**
  * @property int $id
  * @property string $name
  * */
-class BillStatus extends \Domain\Common\Models\BaseModel
+class BillStatus extends BaseModel
 {
     public const TABLE = "bill_statuses";
 

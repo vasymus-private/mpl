@@ -23,35 +23,100 @@ final class Constants
     public const MIME_XLS = "application/vnd.ms-excel";
     public const MIME_ZIP = 'application/zip';
 
+    public const ROUTE_WEB_HOME = 'home';
+    public const ROUTE_LOGOUT = 'logout';
+
     public const ROUTE_ADMIN_HOME = 'admin.home';
+    public const ROUTE_ADMIN_TEMP_HOME = 'admin.temp.home';
     public const ROUTE_ADMIN_MEDIA = 'admin.media';
 
     public const ROUTE_ADMIN_PRODUCTS_INDEX = 'admin.products.index';
     public const ROUTE_ADMIN_PRODUCTS_CREATE = 'admin.products.create';
     public const ROUTE_ADMIN_PRODUCTS_EDIT = 'admin.products.edit';
 
+    public const ROUTE_ADMIN_PRODUCTS_TEMP_INDEX = 'admin.products.temp.index';
+    public const ROUTE_ADMIN_PRODUCTS_TEMP_CREATE = 'admin.products.temp.create';
+    public const ROUTE_ADMIN_PRODUCTS_TEMP_EDIT = 'admin.products.temp.edit';
+
     public const ROUTE_ADMIN_CATEGORIES_INDEX = 'admin.categories.index';
     public const ROUTE_ADMIN_CATEGORIES_CREATE = 'admin.categories.create';
     public const ROUTE_ADMIN_CATEGORIES_EDIT = 'admin.categories.edit';
+
+    public const ROUTE_ADMIN_CATEGORIES_TEMP_INDEX = 'admin.categories.temp.index';
+    public const ROUTE_ADMIN_CATEGORIES_TEMP_CREATE = 'admin.categories.temp.create';
+    public const ROUTE_ADMIN_CATEGORIES_TEMP_EDIT = 'admin.categories.temp.edit';
 
     public const ROUTE_ADMIN_BRANDS_INDEX = 'admin.brands.index';
     public const ROUTE_ADMIN_BRANDS_CREATE = 'admin.brands.create';
     public const ROUTE_ADMIN_BRANDS_EDIT = 'admin.brands.edit';
 
+    public const ROUTE_ADMIN_BRANDS_TEMP_INDEX = 'admin.brands.temp.index';
+    public const ROUTE_ADMIN_BRANDS_TEMP_CREATE = 'admin.brands.temp.create';
+    public const ROUTE_ADMIN_BRANDS_TEMP_EDIT = 'admin.brands.temp.edit';
+
     public const ROUTE_ADMIN_ORDERS_INDEX = 'admin.orders.index';
     public const ROUTE_ADMIN_ORDERS_CREATE = 'admin.orders.create';
     public const ROUTE_ADMIN_ORDERS_EDIT = 'admin.orders.edit';
+
+    public const ROUTE_ADMIN_ORDERS_TEMP_INDEX = 'admin.orders.temp.index';
+    public const ROUTE_ADMIN_ORDERS_TEMP_CREATE = 'admin.orders.temp.create';
+    public const ROUTE_ADMIN_ORDERS_TEMP_EDIT = 'admin.orders.temp.edit';
+
+    public const ROUTE_ADMIN_ARTICLES_INDEX = 'admin.articles.index';
+    public const ROUTE_ADMIN_ARTICLES_CREATE = 'admin.articles.create';
+    public const ROUTE_ADMIN_ARTICLES_EDIT = 'admin.articles.edit';
+
+    public const ROUTE_ADMIN_SERVICES_INDEX = 'admin.services.index';
+    public const ROUTE_ADMIN_SERVICES_CREATE = 'admin.services.create';
+    public const ROUTE_ADMIN_SERVICES_EDIT = 'admin.services.edit';
 
     public const ROUTE_ADMIN_EXPORT_PRODUCTS_INDEX = 'admin.export-products.index';
     public const ROUTE_ADMIN_EXPORT_PRODUCTS_SHOW = 'admin.export-products.show';
     public const ROUTE_ADMIN_EXPORT_PRODUCTS_STORE = 'admin.export-products.store';
     public const ROUTE_ADMIN_EXPORT_PRODUCTS_DELETE = 'admin.export-products.delete';
 
+    public const ROUTE_ADMIN_AJAX_PRODUCTS_BULK_UPDATE = 'admin-ajax.products.bulk.update';
+    public const ROUTE_ADMIN_AJAX_PRODUCTS_BULK_DELETE = 'admin-ajax.products.bulk.delete';
+
+    public const ROUTE_ADMIN_AJAX_CATEGORIES_BULK_UPDATE = 'admin-ajax.categories.bulk.update';
+    public const ROUTE_ADMIN_AJAX_CATEGORIES_BULK_DELETE = 'admin-ajax.categories.bulk.delete';
+
+    public const ROUTE_ADMIN_AJAX_BRANDS_BULK_UPDATE = 'admin-ajax.brands.bulk.update';
+    public const ROUTE_ADMIN_AJAX_BRANDS_BULK_DELETE = 'admin-ajax.brands.bulk.delete';
+
+    public const ROUTE_ADMIN_AJAX_PRODUCTS_STORE = 'admin-ajax.products.store';
+    public const ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE = 'admin-ajax.products.update';
+
+    public const ROUTE_ADMIN_AJAX_CATEGORIES_STORE = 'admin-ajax.categories.store';
+    public const ROUTE_ADMIN_AJAX_CATEGORIES_UPDATE = 'admin-ajax.categories.update';
+
+    public const ROUTE_ADMIN_AJAX_BRANDS_STORE = 'admin-ajax.brands.store';
+    public const ROUTE_ADMIN_AJAX_BRANDS_UPDATE = 'admin-ajax.brands.update';
+
+    public const ROUTE_ADMIN_AJAX_ORDERS_STORE = 'admin-ajax.orders.store';
+    public const ROUTE_ADMIN_AJAX_ORDERS_UPDATE = 'admin-ajax.orders.update';
+    public const ROUTE_ADMIN_AJAX_ORDERS_CANCEL = 'admin-ajax.orders.cancel';
+
+    public const ROUTE_ADMIN_AJAX_ORDER_EVENTS_INDEX = 'admin-ajax.order-event.index';
+
+    public const ROUTE_ADMIN_AJAX_SORT_COLUMNS = 'admin-ajax.sort-columns';
+    public const ROUTE_ADMIN_AJAX_HELPER = 'admin-ajax.helper';
+
+    public const ROUTE_ADMIN_AJAX_PRODUCT_IMAGE_UPLOAD = 'admin-ajax.product-image-upload';
+    public const ROUTE_ADMIN_AJAX_CATEGORY_IMAGE_UPLOAD = 'admin-ajax.category-image-upload';
+    public const ROUTE_ADMIN_AJAX_BRAND_IMAGE_UPLOAD = 'admin-ajax.brand-image-upload';
+
+    public const ROUTE_ADMIN_AJAX_PRODUCT_SEARCH = 'admin-ajax.product-search';
+
     public const MEDIA_DISK_PUBLIC = 'public';
     public const MEDIA_DISK_PRIVATE = 'private-media';
     public const MEDIA_PREFIX = 'media';
     public const MEDIA_DISK_S3_PUBLIC = 's3';
     public const MEDIA_DISK_S3_PRIVATE = 's3-private';
+    public const MEDIA_CLOUD_DISKS = [
+        self::MEDIA_DISK_S3_PUBLIC,
+        self::MEDIA_DISK_S3_PRIVATE,
+    ];
 
     private function __construct()
     {

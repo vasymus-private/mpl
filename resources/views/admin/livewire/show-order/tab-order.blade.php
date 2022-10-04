@@ -163,7 +163,7 @@
         <div class="adm-bus-component-title-icon"></div>
         <span class="adm-bus-component-title">Служебные поля</span>
     </div>
-    <div class="adm-bus-component-content-container">           
+    <div class="adm-bus-component-content-container">
         @if($isCreating || $this->isEditMode())
             @include('admin.livewire.includes.form-group-select', [
                 'field' => 'item.admin_id',
@@ -192,7 +192,7 @@
                 <div class="col-sm-5">
                     <label class="col-form-label" style="background-color: {{$item->importance->color ?? 'transparent'}}">Важность:</label>
                 </div>
-                
+
                 <div class="col-sm-7 d-flex align-items-center">
                     <span class="block" style="background-color: {{$item->importance->color ?? 'transparent'}}">{{$item->importance->name ?? ''}}</span>
                 </div>
@@ -361,7 +361,7 @@
                 </div>
             </div>
         @endif
-    </div>      
+    </div>
     <div class="adm-bus-component-title-container">
         <div class="adm-bus-component-title-icon"></div>
         <span class="adm-bus-component-title">Состав заказа</span>
@@ -448,7 +448,6 @@
             @endforeach
             </tbody>
         </table>
-
     </div>
 
     <div class="row-line row-line__right">
@@ -467,9 +466,9 @@
                         <th>Заработок:</th>
                         <th>{{$this->getTotalDiffPricePurchasePriceRetailFormatted()}}</th>
                     </tr>
-                    <tr class="adm-s-result-container-itog-table-result"> 
-                        <th>Итого к оплате</th>
-                        <th>168 163 р</th>
+                    <tr class="adm-s-result-container-itog-table-result">
+                        <th>Итого к оплате:</th>
+                        <th>{{$this->getTotalPriceRetailFormatted()}}</th>
                     </tr>
                 </tbody>
             </table>

@@ -16,7 +16,7 @@ class UpdateOrderInvoicesParamsDTO extends DataTransferObject
     /**
      * @var \Domain\Users\Models\BaseUser\BaseUser|null
      */
-    public ?BaseUser $user;
+    public ?BaseUser $event_user;
 
     /**
      * @var int|string|null

@@ -12,7 +12,7 @@ class CartProductResource extends JsonResource
     /**
      * The resource instance.
      *
-     * @var Product
+     * @var \Domain\Products\Models\Product\Product
      */
     public $resource;
 

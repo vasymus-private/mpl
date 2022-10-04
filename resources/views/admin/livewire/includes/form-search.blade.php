@@ -22,7 +22,7 @@
                 <button wire:click="{{$submit ?? 'handleSearch'}}" class="btn-outline-secondary search-icon" type="button" id="search-button"><i class="fa fa-search" aria-hidden="true"></i></button>
             </div>
         </div>
-    </div wire:key="form-search-col-1">
+    </div>
     @if($brandFilter ?? null)
         <div  wire:key="form-search-col-2" class="col-xs-12 col-sm-2">
             @include('admin.livewire.includes.form-control-select', [
