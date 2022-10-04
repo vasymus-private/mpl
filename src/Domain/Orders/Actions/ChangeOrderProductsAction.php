@@ -2,22 +2,23 @@
 
 namespace Domain\Orders\Actions;
 
+use Domain\Common\Actions\BaseAction;
 use Domain\Orders\Enums\OrderEventType;
 use Domain\Orders\Models\Order;
 use Domain\Orders\Models\OrderEvent;
 use Domain\Products\Models\Product\Product;
 use Domain\Users\Models\BaseUser\BaseUser;
 
-class ChangeOrderProductsAction
+class ChangeOrderProductsAction extends BaseAction
 {
     /**
      * @param \Domain\Orders\Models\Order $order
-     * @param \Domain\Users\Models\BaseUser\BaseUser $user
+     * @param \Domain\Users\Models\BaseUser\BaseUser $eventUser
      * @param array[] $productItems @see {@link \Domain\Products\DTOs\Admin\OrderProductItemDTO}
      *
      * @return void
      */
-    public function execute(Order $order, BaseUser $user, array $productItems): void
+    public function execute(Order $order, BaseUser $eventUser, array $productItems): void
     {
         $orderEvents = [];
 
@@ -26,9 +27,9 @@ class ChangeOrderProductsAction
         /** @see {@link \Domain\Products\DTOs\Admin\OrderProductItemDTO} */
         foreach ($productItems as $productItem) {
             $prepared = [
-                'count' => $productItem['order_product_count'],
-                'name' => $productItem['name'],
-                'unit' => $productItem['unit'],
+                'count' => $productItem['order_product_count'] ?? 1,
+                'name' => $productItem['name'] ?? '',
+                'unit' => $productItem['unit'] ?? '',
                 'price_retail_rub' => $productItem['order_product_price_retail_rub'],
                 'price_retail_rub_was_updated' => $productItem['order_product_price_retail_rub_was_updated'],
                 'ordering' => $productItem['ordering'],
@@ -38,10 +39,6 @@ class ChangeOrderProductsAction
             // updating
             if ($currentOrderProduct) {
                 $productsPrepare[$productItem['id']] = array_merge($prepared, [
-                    'price_purchase' => $currentOrderProduct->order_product->price_purchase,
-                    'price_purchase_currency_id' => $currentOrderProduct->order_product->price_purchase_currency_id,
-                    'price_retail' => $currentOrderProduct->order_product->price_retail,
-                    'price_retail_currency_id' => $currentOrderProduct->order_product->price_retail_currency_id,
                     'price_retail_rub_origin' => $currentOrderProduct->order_product->price_retail_rub_origin,
                 ]);
 
@@ -64,10 +61,6 @@ class ChangeOrderProductsAction
             // creating
             $currentProduct = Product::query()->findOrFail($productItem['id']);
             $productsPrepare[$productItem['id']] = array_merge($prepared, [
-                'price_purchase' => $currentProduct->price_purchase,
-                'price_purchase_currency_id' => $currentProduct->price_purchase_currency_id,
-                'price_retail' => $currentProduct->price_retail,
-                'price_retail_currency_id' => $currentProduct->price_retail_currency_id,
                 'price_retail_rub_origin' => $currentProduct->price_retail_rub,
             ]);
             $orderEvents[] = $this->makeAddProductItemOrderEvent($currentProduct, $productItem['order_product_count']);
@@ -84,7 +77,7 @@ class ChangeOrderProductsAction
         }
 
         foreach ($orderEvents as $orderEvent) {
-            $this->createOrderEvent($orderEvent, $order, $user);
+            $this->createOrderEvent($orderEvent, $order, $eventUser);
         }
     }
 
@@ -186,6 +179,10 @@ class ChangeOrderProductsAction
             'description' => sprintf('Добавлен товар `%s` (#%s) в количестве %s.', $product->name, $product->id, $count),
             'product_id' => $product->id,
             'product_uuid' => $product->uuid,
+            'price_purchase' => $product->price_purchase,
+            'price_purchase_currency_id' => $product->price_purchase_currency_id,
+            'price_retail' => $product->price_retail,
+            'price_retail_currency_id' => $product->price_retail_currency_id,
         ];
 
         return $orderEvent;
@@ -213,15 +210,15 @@ class ChangeOrderProductsAction
     /**
      * @param \Domain\Orders\Models\OrderEvent $orderEvent
      * @param \Domain\Orders\Models\Order $order
-     * @param \Domain\Users\Models\BaseUser\BaseUser|null $user
+     * @param \Domain\Users\Models\BaseUser\BaseUser|null $eventUser
      *
      * @return \Domain\Orders\Models\OrderEvent
      */
-    private function createOrderEvent(OrderEvent $orderEvent, Order $order, BaseUser $user = null): OrderEvent
+    private function createOrderEvent(OrderEvent $orderEvent, Order $order, BaseUser $eventUser = null): OrderEvent
     {
         $orderEvent->order()->associate($order);
-        if ($user) {
-            $orderEvent->user()->associate($user);
+        if ($eventUser) {
+            $orderEvent->user()->associate($eventUser);
         }
         $orderEvent->save();
 

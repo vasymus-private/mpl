@@ -2,10 +2,11 @@
 
 namespace Domain\Orders\Actions;
 
+use Domain\Common\Actions\BaseAction;
 use Domain\Common\Models\CustomMedia;
 use Domain\Orders\Models\Order;
 
-class SaveOrderMediasAction
+class SaveOrderMediasAction extends BaseAction
 {
     /**
      * @param \Domain\Orders\Models\Order $order
@@ -13,6 +14,9 @@ class SaveOrderMediasAction
      * @param string $collectionName
      *
      * @return void
+     *
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
      */
     public function execute(Order $order, array $files, string $collectionName): void
     {

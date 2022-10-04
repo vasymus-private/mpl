@@ -81,13 +81,22 @@ use Illuminate\Notifications\Notifiable;
  * @see \Domain\Users\Models\BaseUser\BaseUser::setAdminOrderColumnsAttribute()
  * @property \Domain\Common\Enums\Column[] $admin_order_columns
  *
+ * @see \Domain\Users\Models\BaseUser\BaseUser::getAdminOrderColumnsArrAttribute()
+ * @property-read array[] $admin_order_columns_arr
+ *
  * @see \Domain\Users\Models\BaseUser\BaseUser::getAdminProductColumnsAttribute()
  * @see \Domain\Users\Models\BaseUser\BaseUser::setAdminProductColumnsAttribute()
  * @property \Domain\Common\Enums\Column[] $admin_product_columns
  *
+ * @see \Domain\Users\Models\BaseUser\BaseUser::getAdminProductColumnsArrAttribute()
+ * @property-read array[] $admin_product_columns_arr
+ *
  * @see \Domain\Users\Models\BaseUser\BaseUser::getAdminProductVariantColumnsAttribute()
  * @see \Domain\Users\Models\BaseUser\BaseUser::setAdminProductVariantColumnsAttribute()
  * @property \Domain\Common\Enums\Column[] $admin_product_variant_columns
+ *
+ * @see \Domain\Users\Models\BaseUser\BaseUser::getAdminProductVariantColumnsArrAttribute()
+ * @property-read array[] $admin_product_variant_columns_arr
  *
  * @method static \Domain\Users\QueryBuilders\UserQueryBuilder query()
  *
@@ -307,5 +316,46 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
         $settings = $this->settings;
         $settings[static::SETTINGS_ADMIN_PRODUCT_VARIANT_COLUMNS] = collect($adminProductVariantColumns)->map(fn (Column $productVariantAdminColumn) => $productVariantAdminColumn->value)->all();
         $this->settings = $settings;
+    }
+
+    /**
+     * @return array[]
+     * @phpstan-return array<array<int|string>>
+     */
+    public function getAdminOrderColumnsArrAttribute(): array
+    {
+        return collect($this->admin_order_columns)->map([static::class, '_columnsMapCB'])->all();
+    }
+
+    /**
+     * @return array[]
+     * @phpstan-return array<array<int|string>>
+     */
+    public function getAdminProductColumnsArrAttribute(): array
+    {
+        return collect($this->admin_product_columns)->map([static::class, '_columnsMapCB'])->all();
+    }
+
+    /**
+     * @return array[]
+     * @phpstan-return array<array<int|string>>
+     */
+    public function getAdminProductVariantColumnsArrAttribute(): array
+    {
+        return collect($this->admin_product_variant_columns)->map([static::class, '_columnsMapCB'])->all();
+    }
+
+    /**
+     * @param \Domain\Common\Enums\Column $column
+     *
+     * @return array
+     * @phpstan-return array<int|string>
+     */
+    public static function _columnsMapCB(Column $column): array
+    {
+        return [
+            'value' => $column->value,
+            'label' => $column->label,
+        ];
     }
 }

@@ -2,12 +2,13 @@
 
 namespace Domain\Orders\Actions;
 
+use Domain\Common\Actions\BaseAction;
 use Domain\Orders\Enums\OrderEventType;
 use Domain\Orders\Models\Order;
 use Domain\Orders\Models\OrderEvent;
 use Domain\Users\Models\BaseUser\BaseUser;
 
-class HandleNotCancelOrderAction
+class HandleNotCancelOrderAction extends BaseAction
 {
     /**
      * @param Order $order

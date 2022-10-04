@@ -3,6 +3,7 @@
 namespace Domain\Products\Models\Product;
 
 use Domain\Common\Models\Currency;
+use Domain\Common\Models\CustomMedia;
 use Domain\Products\Models\AvailabilityStatus;
 use Illuminate\Support\Facades\Cache;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -80,6 +81,9 @@ use Support\H;
  *
  * @see \Domain\Products\Models\Product\ProductAcM::getCartCountAttribute()
  * @property-read int|null $cart_count
+ *
+ * @see \Domain\Products\Models\Product\ProductAcM::getMainImageMediaAttribute()
+ * @property-read \Domain\Common\Models\CustomMedia|null $main_image_media
  *
  * @see \Domain\Products\Models\Product\ProductAcM::getMainImageUrlAttribute()
  * @property-read string $main_image_url
@@ -335,6 +339,14 @@ trait ProductAcM
         });
 
         return $search->cart_product->count ?? null;
+    }
+
+    /**
+     * @return \Domain\Common\Models\CustomMedia|null
+     */
+    public function getMainImageMediaAttribute(): ?CustomMedia
+    {
+        return H::runtimeCache(sprintf('%s-%s', 'product-main-image-media', $this->uuid), fn () => $this->getFirstMedia(static::MC_MAIN_IMAGE));
     }
 
     public function getMainImageUrlAttribute(): string

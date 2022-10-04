@@ -15,21 +15,29 @@ class GetCategoryAndSubtreeIdsAction extends BaseAction
     }
 
     /**
-     * @param int $id
+     * @param int|int[] $idOrIds
      *
      * @return int[]
      */
-    public function execute(int $id): array
+    public function execute($idOrIds): array
     {
         $ids = [];
 
-        $categoryAndSubtree = $this->getCategoryAndSubtreeAction->execute($id);
-
-        if (! $categoryAndSubtree) {
-            return $ids;
+        if (is_integer($idOrIds)) {
+            $idOrIds = [$idOrIds];
         }
 
-        return $this->cb($ids, $categoryAndSubtree);
+        foreach ($idOrIds as $id) {
+            $categoryAndSubtree = $this->getCategoryAndSubtreeAction->execute($id);
+            if (! $categoryAndSubtree) {
+                continue;
+            }
+
+            $res = $this->cb($ids, $categoryAndSubtree);
+            $ids = array_merge($ids, $res);
+        }
+
+        return array_unique($ids);
     }
 
     /**

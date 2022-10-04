@@ -2,6 +2,7 @@
 
 namespace Domain\Common\Models;
 
+use App\Constants;
 use Carbon\Exceptions\InvalidFormatException;
 use DateTimeInterface;
 use Illuminate\Support\Carbon;
@@ -33,6 +34,9 @@ use Support\H;
  *
  * @see {@link \Domain\Common\Models\CustomMedia::getDeleteTimeAttribute()} {@link \Domain\Common\Models\CustomMedia::setDeleteTimeAttribute()}
  * @property \DateTimeInterface|null $delete_time
+ *
+ * @see \Domain\Common\Models\CustomMedia::getIsOnCloudAttribute()
+ * @property-read bool $is_on_cloud
  */
 class CustomMedia extends Media
 {
@@ -79,5 +83,10 @@ class CustomMedia extends Media
     public function setDeleteTimeAttribute(DateTimeInterface $dateTime)
     {
         $this->setCustomProperty('deleteTime', $dateTime);
+    }
+
+    public function getIsOnCloudAttribute(): bool
+    {
+        return in_array($this->disk, Constants::MEDIA_CLOUD_DISKS);
     }
 }

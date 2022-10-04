@@ -320,13 +320,14 @@ class ShowOrder extends BaseShowComponent
     protected function saveItem()
     {
         if ($this->isCreating) {
-            $createOrderAction = resolve(CreateOrderAction::class);
-            $order = $createOrderAction->execute(new CreateOrderParamsDTO([
+            $order = CreateOrderAction::cached()->execute(new CreateOrderParamsDTO([
                 'user' => H::admin(),
+                'event_user' => H::admin(),
                 'order_status_id' => $this->item->order_status_id ? (int)$this->item->order_status_id : null,
                 'importance_id' => $this->item->importance_id ? (int)$this->item->importance_id : null,
                 'order_event_type' => OrderEventType::admin_created(),
                 'comment_user' => $this->item->comment_user,
+                'payment_method_id' => $this->item->payment_method_id ? (int)$this->item->payment_method_id : null,
                 'request_name' => $this->name,
                 'request_email' => $this->email,
                 'request_phone' => $this->phone,
@@ -341,6 +342,12 @@ class ShowOrder extends BaseShowComponent
                         'product' => Product::query()->withTrashed()->where(sprintf('%s.uuid', Product::TABLE), $productItem['uuid'])->firstOrFail(),
                     ]);
                 })->all(),
+                'customer_bill_description' => $this->item->customer_bill_description ? (string)$this->item->customer_bill_description : null,
+                'customer_bill_status_id' => $this->item->customer_bill_status_id ? (int)$this->item->customer_bill_status_id : null,
+                'provider_bill_description' => $this->item->provider_bill_description ? (string)$this->item->provider_bill_description : null,
+                'provider_bill_status_id' => $this->item->provider_bill_status_id ? (int)$this->item->provider_bill_status_id : null,
+                'comment_admin' => $this->item->comment_admin ? (string)$this->item->comment_admin : null,
+                'admin_id' => $this->item->admin_id ? (int)$this->item->admin_id : null,
             ]));
             if ($order) {
                 $this->item = $order;
@@ -349,13 +356,11 @@ class ShowOrder extends BaseShowComponent
             return;
         }
 
-        $defaultUpdateOrderAction = resolve(DefaultUpdateOrderAction::class);
-
-        $defaultUpdateOrderAction->execute(new DefaultUpdateOrderParams([
+        DefaultUpdateOrderAction::cached()->execute(new DefaultUpdateOrderParams([
             'order' => $this->getFreshOrder(),
-            'user' => H::admin(),
+            'event_user' => H::admin(),
             'comment_user' => $this->item->comment_user,
-            'comment_admin' => $this->item->comment_admin,
+            'comment_admin' => $this->item->comment_admin ? (string)$this->item->comment_admin : null,
             'payment_method_id' => $this->item->payment_method_id,
             'admin_id' => $this->item->admin_id,
             'importance_id' => $this->item->importance_id,
@@ -364,9 +369,7 @@ class ShowOrder extends BaseShowComponent
             'phone' => $this->phone,
         ]));
 
-        /** @var \Domain\Orders\Actions\OMS\HandleChangeOrderStatusAction $handleChangeOrderStatusAction */
-        $handleChangeOrderStatusAction = resolve(HandleChangeOrderStatusAction::class);
-        $handleChangeOrderStatusAction->execute(
+        HandleChangeOrderStatusAction::cached()->execute(
             $this->getFreshOrder(),
             $this->item->order_status_id,
             H::admin()
@@ -375,15 +378,12 @@ class ShowOrder extends BaseShowComponent
 
     protected function saveOrderItems()
     {
-        $changeOrderProductsAction = resolve(ChangeOrderProductsAction::class);
-        $changeOrderProductsAction->execute($this->item, H::admin(), $this->productItems);
+        ChangeOrderProductsAction::cached()->execute($this->item, H::admin(), $this->productItems);
     }
 
     public function handleDeleteOrder()
     {
-        /** @var \Domain\Orders\Actions\DeleteOrderAction $deleteOrder */
-        $deleteOrder = resolve(DeleteOrderAction::class);
-        $deleteOrder->execute($this->item, H::admin());
+        DeleteOrderAction::cached()->execute($this->item, H::admin());
 
         return redirect()->route(Constants::ROUTE_ADMIN_ORDERS_INDEX);
     }
@@ -396,9 +396,7 @@ class ShowOrder extends BaseShowComponent
             return false;
         }
 
-        /** @var \Domain\Orders\Actions\HandleCancelOrderAction $handleCancelOrderAction */
-        $handleCancelOrderAction = resolve(HandleCancelOrderAction::class);
-        $handleCancelOrderAction->execute($this->item, $this->cancelMessage, H::admin());
+        HandleCancelOrderAction::cached()->execute($this->item, $this->cancelMessage, H::admin());
 
         $this->initHistory();
 
@@ -413,9 +411,7 @@ class ShowOrder extends BaseShowComponent
             return false;
         }
 
-        /** @var \Domain\Orders\Actions\HandleNotCancelOrderAction $handleNotCancelOrderAction */
-        $handleNotCancelOrderAction = resolve(HandleNotCancelOrderAction::class);
-        $handleNotCancelOrderAction->execute($this->item, H::admin());
+        HandleNotCancelOrderAction::cached()->execute($this->item, H::admin());
 
         $this->initHistory();
 
@@ -496,8 +492,7 @@ class ShowOrder extends BaseShowComponent
 
     protected function saveInvoices()
     {
-        $updateOrderCustomerInvoicesAction = resolve(UpdateOrderCustomerInvoicesAction::class);
-        $updateOrderCustomerInvoicesAction->execute(new UpdateOrderInvoicesParamsDTO([
+        UpdateOrderCustomerInvoicesAction::cached()->execute(new UpdateOrderInvoicesParamsDTO([
             'order' => $this->getFreshOrder(),
             'customer_bill_status_id' => $this->item->customer_bill_status_id,
             'customer_bill_description' => $this->item->customer_bill_description,
@@ -505,7 +500,7 @@ class ShowOrder extends BaseShowComponent
             'provider_bill_status_id' => $this->item->provider_bill_status_id,
             'provider_bill_description' => $this->item->provider_bill_description,
             'supplierInvoices' => $this->supplierInvoices,
-            'user' => H::admin(),
+            'event_user' => H::admin(),
         ]));
     }
 
@@ -638,7 +633,7 @@ class ShowOrder extends BaseShowComponent
 
     protected function setAdditionalProductItems(array $items)
     {
-        $this->additionalProductItems = collect($items)->map(fn (Product $product) => OrderAdditionalProductItemDTO::create($product)->toArray())->toArray();
+        $this->additionalProductItems = collect($items)->map(fn (Product $product) => OrderAdditionalProductItemDTO::create($product)->toArray())->keyBy('uuid')->toArray();
     }
 
     protected function fetchAdditionalProductItems()
@@ -765,81 +760,12 @@ class ShowOrder extends BaseShowComponent
                 fn (OrderEvent $orderEvent) => (new OrderHistoryItem([
                     'orderEventId' => $orderEvent->id,
                     'userName' => $orderEvent->user->name ?? null,
-                    'operation' => $this->getOperation($orderEvent->type),
+                    'operation' => $orderEvent->type_name,
                     'description' => $orderEvent->payload['description'] ?? '',
                     'date' => $orderEvent->created_at ? $orderEvent->created_at->format('Y-m-d H:i:s') : null,
                 ]))->toArray()
             )
             ->toArray();
-    }
-
-    /**
-     * @param \Domain\Orders\Enums\OrderEventType $orderEventType
-     *
-     * @return string
-     */
-    protected function getOperation(OrderEventType $orderEventType): string
-    {
-        switch (true) {
-            case $orderEventType->equals(OrderEventType::checkout()):
-            case $orderEventType->equals(OrderEventType::admin_created()): {
-                return 'Создание заказа';
-            }
-            case $orderEventType->equals(OrderEventType::update_product_price_retail()): {
-                return 'Изменение цены товара';
-            }
-            case $orderEventType->equals(OrderEventType::update_product_count()): {
-                return 'Изменение количества товара';
-            }
-            case $orderEventType->equals(OrderEventType::update_product_unit()): {
-                return 'Изменение упаковки товара';
-            }
-            case $orderEventType->equals(OrderEventType::update_product_name()): {
-                return 'Изменение названия товара';
-            }
-            case $orderEventType->equals(OrderEventType::add_product()): {
-                return 'Добавление товара';
-            }
-            case $orderEventType->equals(OrderEventType::delete_product()): {
-                return 'Удаление товара';
-            }
-            case $orderEventType->equals(OrderEventType::update_comment_admin()): {
-                return 'Комментарий к заказу';
-            }
-            case $orderEventType->equals(OrderEventType::update_status()): {
-                return 'Изменение статуса заказа';
-            }
-            case $orderEventType->equals(OrderEventType::update_customer_personal_data()): {
-                return 'Изменение параметров покупателя';
-            }
-            case $orderEventType->equals(OrderEventType::update_payment_method()): {
-                return 'Изменение способа оплаты';
-            }
-            case $orderEventType->equals(OrderEventType::update_comment_user()): {
-                return 'Изменение комментария пользователя';
-            }
-            case $orderEventType->equals(OrderEventType::update_admin()): {
-                return 'Изменение менеджера';
-            }
-            case $orderEventType->equals(OrderEventType::update_importance()): {
-                return 'Изменение важности';
-            }
-            case $orderEventType->equals(OrderEventType::update_customer_invoice()): {
-                return 'Изменение счёта покупателя';
-            }
-            case $orderEventType->equals(OrderEventType::update_supplier_invoice()): {
-                return 'Изменение счёта от поставщика';
-            }
-            case $orderEventType->equals(OrderEventType::cancellation()): {
-                return 'Отмена заказа';
-            }
-            case $orderEventType->equals(OrderEventType::delete()): {
-                return 'Удаление заказа';
-            }
-            default: {
-                return '';
-            }
-        }
     }
 
     /**
@@ -864,7 +790,7 @@ class ShowOrder extends BaseShowComponent
             sprintf('%s-total-price-retail-%s', static::class, $this->item->id),
             fn () => collect($this->productItems)
                 ->reduce(function (float $acc, array $productItem): float {
-                    return $acc + ($productItem['order_product_price_retail_rub'] * $productItem['order_product_count']);
+                    return $acc + ((float)$productItem['order_product_price_retail_rub'] * (int)$productItem['order_product_count']);
                 }, 0)
         );
     }

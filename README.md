@@ -1,3 +1,4 @@
+
 # Laravel application
 
 Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
@@ -98,3 +99,18 @@ sudo usermod -a -G docker developer
 ```
 
 Install docker-compose according to [guid](https://docs.docker.com/compose/install/#install-compose-on-linux-systems).
+
+
+# Inertia
+
+## Server Side Rendering
+
+Run build:
+```shell
+npx mix --mix-config=webpack.ssr.mix.js
+```
+
+Then run simple node server:
+```shell
+node public/_admin/js/ssr.js
+```
