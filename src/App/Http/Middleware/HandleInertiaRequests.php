@@ -106,7 +106,7 @@ class HandleInertiaRequests extends Middleware
             'orderImportance' => OrderImportanceResource::collection(OrderImportance::cachedAll()),
             'orderStatuses' => OrderStatusResource::collection(OrderStatus::cachedAll()),
             'charTypes' => CharTypeResource::collection(CharType::cachedAll()),
-            'admins' => Admin::cachedAll()->map(fn (Admin $admin) => ['id' => $admin->id, 'name' => $admin->name, 'color' => $admin->admin_color]),
+            'admins' => Admin::cachedAll()->map(fn (Admin $admin) => ['id' => $admin->id, 'name' => $admin->name, 'color' => $admin->admin_color]), // @phpstan-ignore-line
         ]);
     }
 }

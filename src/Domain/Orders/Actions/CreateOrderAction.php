@@ -112,7 +112,7 @@ class CreateOrderAction extends BaseAction
      */
     private function prepareProductItemsForAttach(CreateOrderParamsDTO $params): array
     {
-        $initOrdering = static::DEFAULT_ORDERING;
+        $initOrdering = self::DEFAULT_ORDERING;
 
         $productsPrepare = [];
 
@@ -122,7 +122,7 @@ class CreateOrderAction extends BaseAction
                 'count' => $productItem->count ?? 1,
                 'name' => $productItem->name ?? $productItem->product->name,
                 'unit' => $productItem->unit ?? $productItem->product->unit,
-                'ordering' => $productItem->ordering ?: ($initOrdering = $initOrdering + static::ORDERING_STEP),
+                'ordering' => $productItem->ordering ?: ($initOrdering = $initOrdering + self::ORDERING_STEP),
                 'price_retail_rub' => $productItem->price_retail_rub ?: $productItem->product->price_retail_rub,
                 'price_retail_rub_origin' => $productItem->product->price_retail_rub,
             ];
@@ -138,7 +138,7 @@ class CreateOrderAction extends BaseAction
      */
     private function prepareProductItemsForEvent(CreateOrderParamsDTO $params): array
     {
-        $initOrdering = static::DEFAULT_ORDERING;
+        $initOrdering = self::DEFAULT_ORDERING;
 
         $productsPrepare = [];
 
@@ -148,7 +148,7 @@ class CreateOrderAction extends BaseAction
                 'count' => $productItem->count ?? 1,
                 'name' => $productItem->name ?? $productItem->product->name,
                 'unit' => $productItem->unit ?? $productItem->product->unit,
-                'ordering' => $productItem->ordering ?: ($initOrdering = $initOrdering + static::ORDERING_STEP),
+                'ordering' => $productItem->ordering ?: ($initOrdering = $initOrdering + self::ORDERING_STEP),
                 'price_retail_rub' => $productItem->price_retail_rub ?: $productItem->product->price_retail_rub,
                 'price_retail_rub_origin' => $productItem->product->price_retail_rub,
                 // for event

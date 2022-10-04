@@ -40,7 +40,7 @@ class MediaDTO extends DataTransferObject
     /**
      * @param array $media
      *
-     * @return static
+     * @return self
      */
     public static function create(array $media): self
     {
