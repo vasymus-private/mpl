@@ -1,10 +1,23 @@
 <script lang="ts" setup>
-import {Teleport, ref, onMounted, onBeforeUnmount} from "vue"
+import {ref, onMounted, onBeforeUnmount} from "vue"
 import {Modal} from 'bootstrap'
 import ModalCloseButton from "@/admin/inertia/components/modals/ModalCloseButton.vue"
 import {useModalsStore} from "@/admin/inertia/modules/modals"
 import {ModalType} from "@/admin/inertia/modules/modals/types"
+import {
+    Teleport as teleport_,
+    TeleportProps,
+    VNodeProps
+} from 'vue'
 
+/**
+ * @see https://github.com/vuejs/core/issues/2855#issuecomment-768388962
+ */
+const Teleport = teleport_ as {
+    new (): {
+        $props: VNodeProps & TeleportProps
+    }
+}
 
 const props = defineProps<{
     type: ModalType
@@ -33,7 +46,7 @@ defineExpose({
 </script>
 
 <template>
-    <Teleport to="body">
+    <component :is="Teleport">
         <div ref="modal" class="modal fade" :id="props.type" tabindex="-1" :aria-labelledby="`label-${props.type}`" aria-hidden="true">
             <div class="modal-dialog" :class="$attrs.class">
                 <div class="modal-content">
@@ -54,5 +67,5 @@ defineExpose({
                 </div>
             </div>
         </div>
-    </Teleport>
+    </component>
 </template>

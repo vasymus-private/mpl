@@ -1,14 +1,14 @@
 <script lang="ts" setup>
+// @ts-ignore
+import Multiselect from 'vue-multiselect'
 import RowInput from '@/admin/inertia/components/forms/vee-validate/RowInput.vue'
 import InputGroup from "@/admin/inertia/components/forms/parts/InputGroup.vue"
 import {ref} from 'vue'
 import Option from "@/admin/inertia/modules/common/Option"
-// @ts-ignore
-import Multiselect from 'vue-multiselect'
 import {useCategoriesStore} from "@/admin/inertia/modules/categories"
 import {ProductProductType, SearchProduct} from "@/admin/inertia/modules/products/Product"
 import {chunk} from 'lodash'
-import {useFieldArray} from "vee-validate"
+import {useFieldArray, FieldEntry} from "vee-validate"
 import {routeNames} from "@/admin/inertia/modules/routes"
 import {useProductsStore} from "@/admin/inertia/modules/products"
 
@@ -32,7 +32,7 @@ const fetchItems = () => {
     }, props.type)
 }
 
-interface OtherProduct {id: number, uuid?: string, name?: string, image?: string, price_rub_formatted?: string}
+interface OtherProduct {id?: number, uuid?: string, name?: string, image?: string, price_rub_formatted?: string}
 const {fields, push, remove} = useFieldArray<OtherProduct>(props.name)
 const isChecked = (id: number): boolean => {
     for (let i = 0; i < fields.value.length; i++) {
@@ -65,7 +65,7 @@ const onChange = (event, product: SearchProduct) => {
 
         <p class="h3">{{ props.label }}</p>
 
-        <div v-for="(fieldsChunk, chunkIdx) in chunk<OtherProduct>(fields, 3)" class="row">
+        <div v-for="(fieldsChunk, chunkIdx) in chunk<FieldEntry<OtherProduct>>(fields, 3)" class="row">
             <div v-for="(field, idx) in fieldsChunk" :key="field.value.id" class="col-sm-4">
                 <div class="card mb-3" style="max-width: 540px;">
                     <div class="row g-0">
