@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 import { useOrdersStore } from "@/admin/inertia/modules/orders"
-import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
+import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
 import { ErrorResponse, UrlParams } from "@/admin/inertia/modules/common/types"
 import { AdminTab, TabEnum } from "@/admin/inertia/modules/common/Tabs"
 import OrderTab from "@/admin/inertia/components/orders/createEdit/tabs/OrderTab.vue"
@@ -15,9 +15,9 @@ import {
     getMediaSchema,
 } from "@/admin/inertia/modules/common"
 import { useAuthStore } from "@/admin/inertia/modules/auth"
-import {CustomFormData} from "@/admin/inertia/utils/CustomFormData"
+import { CustomFormData } from "@/admin/inertia/utils/CustomFormData"
 import Media from "@/admin/inertia/modules/common/Media"
-import {Inertia} from "@inertiajs/inertia";
+import { Inertia } from "@inertiajs/inertia"
 
 export const storeName = "createEditOrderForm"
 
@@ -92,8 +92,10 @@ export const useCreateEditOrderFormStore = defineStore(storeName, {
                 const routesStore = useRoutesStore()
 
                 if (ordersStore.isCreatingOrderRoute) {
-                    const response = await axios.post<{data: Order}>(
-                        routesStore.route(routeNames.ROUTE_ADMIN_AJAX_ORDERS_STORE),
+                    const response = await axios.post<{ data: Order }>(
+                        routesStore.route(
+                            routeNames.ROUTE_ADMIN_AJAX_ORDERS_STORE
+                        ),
                         formData,
                         {
                             headers: { "Content-Type": "multipart/form-data" },
@@ -103,17 +105,20 @@ export const useCreateEditOrderFormStore = defineStore(storeName, {
                     order = response.data.data
 
                     Inertia.get(
-                        routesStore.route(routeNames.ROUTE_ADMIN_ORDERS_TEMP_EDIT, {
-                            admin_order: order.id
-                        })
+                        routesStore.route(
+                            routeNames.ROUTE_ADMIN_ORDERS_TEMP_EDIT,
+                            {
+                                admin_order: order.id,
+                            }
+                        )
                     )
                 } else {
                     formData.append("_method", "PUT")
-                    const response = await axios.post<{data: Order}>(
+                    const response = await axios.post<{ data: Order }>(
                         routesStore.route(
                             routeNames.ROUTE_ADMIN_AJAX_ORDERS_UPDATE,
                             {
-                                admin_order: values.id
+                                admin_order: values.id,
                             }
                         ),
                         formData,
@@ -268,19 +273,19 @@ const valuesToFormData = (values: Values): FormData => {
     const formData = new CustomFormData()
 
     let stringOrNumberKeys: Array<keyof Values> = [
-        'order_status_id',
-        'request_user_email',
-        'request_user_name',
-        'request_user_phone',
-        'payment_method_id',
-        'comment_user',
-        'admin_id',
-        'importance_id',
-        'customer_bill_description',
-        'customer_bill_status_id',
-        'provider_bill_description',
-        'provider_bill_status_id',
-        'comment_admin',
+        "order_status_id",
+        "request_user_email",
+        "request_user_name",
+        "request_user_phone",
+        "payment_method_id",
+        "comment_user",
+        "admin_id",
+        "importance_id",
+        "customer_bill_description",
+        "customer_bill_status_id",
+        "provider_bill_description",
+        "provider_bill_status_id",
+        "comment_admin",
     ]
 
     stringOrNumberKeys.forEach((key) => {

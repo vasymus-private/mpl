@@ -1,21 +1,29 @@
 import { defineStore } from "pinia"
 import {
-    Order, OrderEvent,
+    Order,
+    OrderEvent,
     OrderItem,
     OrderItemProductItem,
     OrderProductItem,
 } from "@/admin/inertia/modules/orders/types"
 import Links from "@/admin/inertia/modules/common/Links"
 import Meta from "@/admin/inertia/modules/common/Meta"
-import {getRouteUrl, routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
-import {errorsToErrorFields, extendMetaLinksWithComputedData} from "@/admin/inertia/modules/common"
+import {
+    getRouteUrl,
+    routeNames,
+    useRoutesStore,
+} from "@/admin/inertia/modules/routes"
+import {
+    errorsToErrorFields,
+    extendMetaLinksWithComputedData,
+} from "@/admin/inertia/modules/common"
 import { DateTime } from "luxon"
 import { useCurrenciesStore } from "@/admin/inertia/modules/currencies"
 import { CharCode } from "@/admin/inertia/modules/currencies/types"
 import Option from "@/admin/inertia/modules/common/Option"
-import {ErrorResponse, UrlParams} from "@/admin/inertia/modules/common/types"
-import axios, {AxiosError} from "axios";
-import {useToastsStore} from "@/admin/inertia/modules/toasts";
+import { ErrorResponse, UrlParams } from "@/admin/inertia/modules/common/types"
+import axios, { AxiosError } from "axios"
+import { useToastsStore } from "@/admin/inertia/modules/toasts"
 
 const storeName = "orders"
 const format = "yyyy-LL-dd HH:mm:ss"
@@ -292,7 +300,7 @@ export const useOrdersStore = defineStore(storeName, {
             }
         },
         setOrderEvents(orderEvents: Array<OrderEvent>): void {
-            this._orderEvents = orderEvents.map(item => ({
+            this._orderEvents = orderEvents.map((item) => ({
                 ...item,
                 dt_created_at: item.created_at
                     ? DateTime.fromFormat(item.created_at, format)
@@ -305,7 +313,12 @@ export const useOrdersStore = defineStore(storeName, {
             }
 
             try {
-                const response = await axios.get<{data: Array<OrderEvent>}>(getRouteUrl(routeNames.ROUTE_ADMIN_AJAX_ORDER_EVENTS_INDEX, {admin_order: this._entity.id}))
+                const response = await axios.get<{ data: Array<OrderEvent> }>(
+                    getRouteUrl(
+                        routeNames.ROUTE_ADMIN_AJAX_ORDER_EVENTS_INDEX,
+                        { admin_order: this._entity.id }
+                    )
+                )
 
                 this.setOrderEvents(response.data.data)
             } catch (e) {
@@ -321,7 +334,7 @@ export const useOrdersStore = defineStore(storeName, {
                     for (let key in errs) {
                         toastsStore.error({
                             title: key,
-                            message: errs[key]
+                            message: errs[key],
                         })
                     }
                 }
