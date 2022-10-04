@@ -46,6 +46,8 @@ Route::post('order', [\App\Http\Controllers\Admin\Ajax\OrdersController::class, 
 Route::put('order/{admin_order}', [\App\Http\Controllers\Admin\Ajax\OrdersController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_ORDERS_UPDATE);
 Route::put('order-cancel/{admin_order}', \App\Http\Controllers\Admin\Ajax\OrdersCancelController::class)->name(Constants::ROUTE_ADMIN_AJAX_ORDERS_CANCEL);
 
+Route::get('order/{admin_order}/order-events', [\App\Http\Controllers\Admin\Ajax\OrderEventsController::class, 'index'])->name(Constants::ROUTE_ADMIN_AJAX_ORDER_EVENTS_INDEX);
+
 Route::put('sort-columns', \App\Http\Controllers\Admin\Ajax\SortColumnsController::class)->name(Constants::ROUTE_ADMIN_AJAX_SORT_COLUMNS);
 
 Route::post('helper/slug', [\App\Http\Controllers\Admin\Ajax\HelperController::class, 'slug'])->name(Constants::ROUTE_ADMIN_AJAX_HELPER);

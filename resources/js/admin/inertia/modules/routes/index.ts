@@ -395,6 +395,8 @@ export const routeNames = {
     ROUTE_ADMIN_AJAX_ORDERS_UPDATE: "admin-ajax.orders.update",
     ROUTE_ADMIN_AJAX_ORDERS_CANCEL: "admin-ajax.orders.cancel",
 
+    ROUTE_ADMIN_AJAX_ORDER_EVENTS_INDEX: 'admin-ajax.order-event.index',
+
     ROUTE_ADMIN_AJAX_SORT_COLUMNS: "admin-ajax.sort-columns",
     ROUTE_ADMIN_AJAX_HELPER: "admin-ajax.helper",
 

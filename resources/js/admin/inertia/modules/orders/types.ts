@@ -90,3 +90,12 @@ export interface OrderProductItem {
     order_product_price_retail_rub_origin: number
     order_product_price_retail_rub_was_updated: boolean
 }
+
+export interface OrderEvent {
+    id: number
+    userName: string|null,
+    operation: string,
+    description: string,
+    created_at: string|null,
+    dt_created_at: DateTime | null // parse from 'Y-m-d H:i:s'
+}

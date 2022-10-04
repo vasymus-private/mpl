@@ -107,6 +107,8 @@ export const useCreateEditOrderFormStore = defineStore(storeName, {
                 })
 
                 ordersStore.updateOrder(response.data)
+
+                await ordersStore.fetchOrderEvents()
             } catch (e) {
                 if (e instanceof AxiosError) {
                     const {

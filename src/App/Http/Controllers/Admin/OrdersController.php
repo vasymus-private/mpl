@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Resources\Admin\OrderEventResource;
 use App\Http\Resources\Admin\OrderItemResource;
 use App\Http\Resources\Admin\OrderResource;
 use Carbon\Exceptions\InvalidFormatException;
@@ -112,8 +113,11 @@ class OrdersController extends BaseAdminController
         /** @var \Domain\Orders\Models\Order $order */
         $order = $request->admin_order;
 
+        $order->load(['events', 'events.user']);
+
         return $inertia->render('Orders/CreateEdit', [
             'order' => (new OrderResource($order))->toArray($request),
+            'orderEvents' => OrderEventResource::collection($order->events),
         ]);
     }
 }

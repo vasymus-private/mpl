@@ -97,6 +97,8 @@ final class Constants
     public const ROUTE_ADMIN_AJAX_ORDERS_UPDATE = 'admin-ajax.orders.update';
     public const ROUTE_ADMIN_AJAX_ORDERS_CANCEL = 'admin-ajax.orders.cancel';
 
+    public const ROUTE_ADMIN_AJAX_ORDER_EVENTS_INDEX = 'admin-ajax.order-event.index';
+
     public const ROUTE_ADMIN_AJAX_SORT_COLUMNS = 'admin-ajax.sort-columns';
     public const ROUTE_ADMIN_AJAX_HELPER = 'admin-ajax.helper';
 

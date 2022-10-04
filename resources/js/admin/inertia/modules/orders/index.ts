@@ -1,19 +1,21 @@
 import { defineStore } from "pinia"
 import {
-    Order,
+    Order, OrderEvent,
     OrderItem,
     OrderItemProductItem,
     OrderProductItem,
 } from "@/admin/inertia/modules/orders/types"
 import Links from "@/admin/inertia/modules/common/Links"
 import Meta from "@/admin/inertia/modules/common/Meta"
-import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
-import { extendMetaLinksWithComputedData } from "@/admin/inertia/modules/common"
+import {getRouteUrl, routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
+import {errorsToErrorFields, extendMetaLinksWithComputedData} from "@/admin/inertia/modules/common"
 import { DateTime } from "luxon"
 import { useCurrenciesStore } from "@/admin/inertia/modules/currencies"
 import { CharCode } from "@/admin/inertia/modules/currencies/types"
 import Option from "@/admin/inertia/modules/common/Option"
-import { UrlParams } from "@/admin/inertia/modules/common/types"
+import {ErrorResponse, UrlParams} from "@/admin/inertia/modules/common/types"
+import axios from "axios";
+import {useToastsStore} from "@/admin/inertia/modules/toasts";
 
 const storeName = "orders"
 const format = "yyyy-LL-dd HH:mm:ss"
@@ -23,6 +25,7 @@ interface State {
     _links: Links | null
     _meta: Meta | null
     _entity: Order | null
+    _orderEvents: Array<OrderEvent>
 }
 
 export const useOrdersStore = defineStore(storeName, {
@@ -32,11 +35,13 @@ export const useOrdersStore = defineStore(storeName, {
             _links: null,
             _meta: null,
             _entity: null,
+            _orderEvents: [],
         }
     },
     getters: {
         ordersList: (state): Array<OrderItem> => state._entities,
         order: (state): Order | null => state._entity,
+        orderEvents: (state): Array<OrderEvent> => state._orderEvents,
         isCreatingOrderRoute() {
             let routesStore = useRoutesStore()
 
@@ -284,6 +289,40 @@ export const useOrdersStore = defineStore(storeName, {
                 dt_updated_at: order.updated_at
                     ? DateTime.fromFormat(order.updated_at, format)
                     : null,
+            }
+        },
+        setOrderEvents(orderEvents: Array<OrderEvent>): void {
+            this._orderEvents = orderEvents.map(item => ({
+                ...item,
+                dt_created_at: item.created_at
+                    ? DateTime.fromFormat(item.created_at, format)
+                    : null,
+            }))
+        },
+        async fetchOrderEvents(): Promise<void> {
+            if (!this._entity) {
+                return
+            }
+
+            try {
+                const response = await axios.get<{data: Array<OrderEvent>}>(getRouteUrl(routeNames.ROUTE_ADMIN_AJAX_ORDER_EVENTS_INDEX, {admin_order: this._entity.id}))
+
+                this.setOrderEvents(response.data.data)
+            } catch (e) {
+                const toastsStore = useToastsStore()
+
+                const {
+                    data: { errors },
+                }: ErrorResponse = e.response
+
+                const errs = errorsToErrorFields(errors)
+
+                for (let key in errs) {
+                    toastsStore.error({
+                        title: key,
+                        message: errs[key]
+                    })
+                }
             }
         },
         updateOrder(order: Partial<Order>): void {

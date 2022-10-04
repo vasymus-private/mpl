@@ -175,7 +175,7 @@ watchSelectAll()
                         </td>
                         <template v-for="sortableColumn in columnStore.adminOrderColumns" :key="sortableColumn.value">
                             <td v-if="isSortableColumn(sortableColumn, ColumnName.date_creation)" :class="`sortable-column-${sortableColumn.value}`">
-                                <span class="main-grid-cell-content">{{order.created_at}}</span>
+                                <span class="main-grid-cell-content">{{order.dt_created_at ? order.dt_created_at.toFormat('dd.LL.yyyy HH:mm:ss') : null}}</span>
                             </td>
                             <td v-if="isSortableColumn(sortableColumn, ColumnName.id)" :class="`sortable-column-${sortableColumn.value}`">
                                 <span class="main-grid-cell-content">
@@ -220,7 +220,7 @@ watchSelectAll()
                                 v-if="isSortableColumn(sortableColumn, ColumnName.manager)"
                                 :class="`sortable-column-${sortableColumn.value}`"
                             >
-                                <span class="main-grid-cell-content">
+                                <span class="main-grid-cell-content" v-if="order.admin_id">
                                     <span
                                         :style="{
                                             backgroundColor: authStore.admin(order.admin_id)?.color || 'transparent',

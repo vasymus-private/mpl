@@ -760,81 +760,12 @@ class ShowOrder extends BaseShowComponent
                 fn (OrderEvent $orderEvent) => (new OrderHistoryItem([
                     'orderEventId' => $orderEvent->id,
                     'userName' => $orderEvent->user->name ?? null,
-                    'operation' => $this->getOperation($orderEvent->type),
+                    'operation' => $orderEvent->type_name,
                     'description' => $orderEvent->payload['description'] ?? '',
                     'date' => $orderEvent->created_at ? $orderEvent->created_at->format('Y-m-d H:i:s') : null,
                 ]))->toArray()
             )
             ->toArray();
-    }
-
-    /**
-     * @param \Domain\Orders\Enums\OrderEventType $orderEventType
-     *
-     * @return string
-     */
-    protected function getOperation(OrderEventType $orderEventType): string
-    {
-        switch (true) {
-            case $orderEventType->equals(OrderEventType::checkout()):
-            case $orderEventType->equals(OrderEventType::admin_created()): {
-                return 'Создание заказа';
-            }
-            case $orderEventType->equals(OrderEventType::update_product_price_retail()): {
-                return 'Изменение цены товара';
-            }
-            case $orderEventType->equals(OrderEventType::update_product_count()): {
-                return 'Изменение количества товара';
-            }
-            case $orderEventType->equals(OrderEventType::update_product_unit()): {
-                return 'Изменение упаковки товара';
-            }
-            case $orderEventType->equals(OrderEventType::update_product_name()): {
-                return 'Изменение названия товара';
-            }
-            case $orderEventType->equals(OrderEventType::add_product()): {
-                return 'Добавление товара';
-            }
-            case $orderEventType->equals(OrderEventType::delete_product()): {
-                return 'Удаление товара';
-            }
-            case $orderEventType->equals(OrderEventType::update_comment_admin()): {
-                return 'Комментарий к заказу';
-            }
-            case $orderEventType->equals(OrderEventType::update_status()): {
-                return 'Изменение статуса заказа';
-            }
-            case $orderEventType->equals(OrderEventType::update_customer_personal_data()): {
-                return 'Изменение параметров покупателя';
-            }
-            case $orderEventType->equals(OrderEventType::update_payment_method()): {
-                return 'Изменение способа оплаты';
-            }
-            case $orderEventType->equals(OrderEventType::update_comment_user()): {
-                return 'Изменение комментария пользователя';
-            }
-            case $orderEventType->equals(OrderEventType::update_admin()): {
-                return 'Изменение менеджера';
-            }
-            case $orderEventType->equals(OrderEventType::update_importance()): {
-                return 'Изменение важности';
-            }
-            case $orderEventType->equals(OrderEventType::update_customer_invoice()): {
-                return 'Изменение счёта покупателя';
-            }
-            case $orderEventType->equals(OrderEventType::update_supplier_invoice()): {
-                return 'Изменение счёта от поставщика';
-            }
-            case $orderEventType->equals(OrderEventType::cancellation()): {
-                return 'Отмена заказа';
-            }
-            case $orderEventType->equals(OrderEventType::delete()): {
-                return 'Удаление заказа';
-            }
-            default: {
-                return '';
-            }
-        }
     }
 
     /**
