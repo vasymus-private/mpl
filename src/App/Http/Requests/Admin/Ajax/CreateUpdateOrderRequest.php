@@ -25,12 +25,12 @@ use Support\H;
  * @property-read int|null $provider_bill_status_id
  * @property-read string|null $provider_bill_description
  * @property-read string|null $comment_admin
- * @property-read string|null $request_name
- * @property-read string|null $request_email
- * @property-read string|null $request_phone
+ * @property-read string|null $request_user_name
+ * @property-read string|null $request_user_email
+ * @property-read string|null $request_user_phone
  * @property-read array|null $customerInvoices
  * @property-read array|null $supplierInvoices
- * @property-read array $productItems
+ * @property-read array $products
  */
 class CreateUpdateOrderRequest extends FormRequest
 {
@@ -53,9 +53,9 @@ class CreateUpdateOrderRequest extends FormRequest
     {
         return [
             'order_status_id' => sprintf('required|integer|exists:%s,id', OrderStatus::class),
-            'request_email' => 'string|max:250|nullable',
-            'request_name' => 'string|max:250|nullable',
-            'request_phone' => 'string|max:250|nullable',
+            'request_user_email' => 'string|max:250|nullable',
+            'request_user_name' => 'string|max:250|nullable',
+            'request_user_phone' => 'string|max:250|nullable',
             'payment_method_id' => sprintf('required|integer|exists:%s,id', PaymentMethod::class),
             'comment_user' => 'nullable|max:65000',
             'admin_id' => sprintf('nullable|integer|exists:%s,id', Admin::class),
@@ -82,14 +82,14 @@ class CreateUpdateOrderRequest extends FormRequest
             'supplierInvoices.*.order_column' => 'nullable|integer',
             'supplierInvoices.*.file' => sprintf('nullable|file|max:%s', H::validatorMb(95)),
 
-            'productItems' => 'array',
-            'productItems.*.uuid' => sprintf('required|exists:%s,uuid', Product::class),
-            'productItems.*.count' => 'nullable|integer',
-            'productItems.*.name' => 'nullable|string|max:250',
-            'productItems.*.unit' => 'nullable|string|max:250',
-            'productItems.*.ordering' => 'nullable|integer',
-            'productItems.*.price_retail_rub' => 'nullable|numeric',
-            'productItems.*.price_retail_rub_was_updated' => 'nullable|boolean',
+            'products' => 'array',
+            'products.*.uuid' => sprintf('required|exists:%s,uuid', Product::class),
+            'products.*.count' => 'nullable|integer',
+            'products.*.name' => 'nullable|string|max:250',
+            'products.*.unit' => 'nullable|string|max:250',
+            'products.*.ordering' => 'nullable|integer',
+            'products.*.price_retail_rub' => 'nullable|numeric',
+            'products.*.price_retail_rub_was_updated' => 'nullable|boolean',
         ];
     }
 
@@ -100,9 +100,9 @@ class CreateUpdateOrderRequest extends FormRequest
     {
         return new CreateOrUpdateOrderDTO([
             'order_status_id' => (int)$this->order_status_id,
-            'request_email' => $this->request_email ? (string)$this->request_email : null,
-            'request_name' => $this->request_name ? (string)$this->request_name : null,
-            'request_phone' => $this->request_phone ? (string)$this->request_phone : null,
+            'request_email' => $this->request_user_email ? (string)$this->request_user_email : null,
+            'request_name' => $this->request_user_name ? (string)$this->request_user_name : null,
+            'request_phone' => $this->request_user_phone ? (string)$this->request_user_phone : null,
             'payment_method_id' => $this->payment_method_id ? (int)$this->payment_method_id : null,
             'comment_user' => $this->comment_user ? (string)$this->comment_user : null,
             'admin_id' => $this->admin_id ? (int)$this->admin_id : null,
@@ -118,7 +118,7 @@ class CreateUpdateOrderRequest extends FormRequest
                 ? collect($this->supplierInvoices)->map(fn ($media) => MediaDTO::create($media))->all()
                 : [],
             'comment_admin' => $this->comment_admin ? (string)$this->comment_admin : null,
-            'productItems' => collect($this->productItems)
+            'productItems' => collect($this->products)
                 ->map(function (array $productItem) {
                     /** @var \Domain\Products\Models\Product\Product $product */
                     $product = Product::query()->withTrashed()->where(sprintf('%s.uuid', Product::TABLE), $productItem['uuid'])->firstOrFail();

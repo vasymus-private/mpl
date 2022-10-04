@@ -200,6 +200,7 @@ const orderTotalProfitRubFormatted = computed<string>(() => {
                 name="order_status_id"
                 label="Статус заказа"
                 :options="orderStatusesStore.options"
+                :keep-value="true"
             />
 
             <template v-if="!ordersStore.isCreatingOrderRoute">
@@ -251,6 +252,7 @@ const orderTotalProfitRubFormatted = computed<string>(() => {
                 v-if="editing"
                 name="request_user_email"
                 label="E-mail (логин)"
+                :keep-value="true"
             />
             <div v-else class="row mb-3">
                 <div class="col-sm-5 text-end">
@@ -265,6 +267,7 @@ const orderTotalProfitRubFormatted = computed<string>(() => {
                 v-if="editing"
                 name="request_user_name"
                 label="Имя"
+                :keep-value="true"
             />
             <div v-else class="row mb-3">
                 <div class="col-sm-5 text-end">
@@ -279,6 +282,7 @@ const orderTotalProfitRubFormatted = computed<string>(() => {
                 v-if="editing"
                 name="request_user_phone"
                 label="Телефон"
+                :keep-value="true"
             />
             <div v-else class="row mb-3">
                 <div class="col-sm-5 text-end">
@@ -294,6 +298,7 @@ const orderTotalProfitRubFormatted = computed<string>(() => {
                 name="payment_method_id"
                 label="Способ оплаты"
                 :options="paymentMethodsStore.options"
+                :keep-value="true"
             />
             <div v-else class="row mb-3">
                 <div class="col-sm-5 text-end">
@@ -308,6 +313,7 @@ const orderTotalProfitRubFormatted = computed<string>(() => {
                 v-if="editing"
                 name="comment_user"
                 label="Комментарий пользователя"
+                :keep-value="true"
             />
             <div v-else class="row mb-3">
                 <div class="col-sm-5 text-end">
@@ -344,6 +350,7 @@ const orderTotalProfitRubFormatted = computed<string>(() => {
                 name="admin_id"
                 label="Менеджер"
                 :options="authStore.adminOptions"
+                :keep-value="true"
             />
             <div v-else class="row mb-3">
                 <div class="col-sm-5 text-end">
@@ -359,6 +366,7 @@ const orderTotalProfitRubFormatted = computed<string>(() => {
                 name="importance_id"
                 label="Важность"
                 :options="orderImportanceStore.options"
+                :keep-value="true"
             />
             <div v-else class="row mb-3" :style="{ backgroundColor: orderImportanceStore.orderImportance(ordersStore.order?.importance_id)?.color || 'transparent' }">
                 <div class="col-sm-5 text-end">
@@ -373,6 +381,7 @@ const orderTotalProfitRubFormatted = computed<string>(() => {
                 v-if="editing"
                 name="customer_bill_description"
                 label="Счёт покупателю"
+                :keep-value="true"
             />
             <div v-else class="row mb-3">
                 <div class="col-sm-5 text-end">
@@ -388,6 +397,7 @@ const orderTotalProfitRubFormatted = computed<string>(() => {
                 name="customer_bill_status_id"
                 label="Статус счёта покупателю"
                 :options="billStatusesStore.options"
+                :keep-value="true"
             />
             <div v-else class="row mb-3">
                 <div class="col-sm-5 text-end">
@@ -402,6 +412,7 @@ const orderTotalProfitRubFormatted = computed<string>(() => {
                 v-if="editing"
                 name="customer_invoices"
                 label="Приложенные файлы"
+                :keep-value="true"
             />
             <div v-else class="row mb-3">
                 <div class="col-sm-5 text-end">
@@ -418,6 +429,7 @@ const orderTotalProfitRubFormatted = computed<string>(() => {
                 v-if="editing"
                 name="provider_bill_description"
                 label="Счёт от поставщика"
+                :keep-value="true"
             />
             <div v-else class="row mb-3">
                 <div class="col-sm-5 text-end">
@@ -433,6 +445,7 @@ const orderTotalProfitRubFormatted = computed<string>(() => {
                 name="provider_bill_status_id"
                 label="Статус счёта поставщика"
                 :options="billStatusesStore.options"
+                :keep-value="true"
             />
             <div v-else class="row mb-3">
                 <div class="col-sm-5 text-end">
@@ -447,6 +460,7 @@ const orderTotalProfitRubFormatted = computed<string>(() => {
                 v-if="editing"
                 name="supplier_invoices"
                 label="Приложенные файлы"
+                :keep-value="true"
             />
             <div v-else class="row mb-3">
                 <div class="col-sm-5 text-end">
@@ -463,6 +477,7 @@ const orderTotalProfitRubFormatted = computed<string>(() => {
                 v-if="editing"
                 name="comment_admin"
                 label="Комментарий менеджера"
+                :keep-value="true"
             />
             <div v-else class="row mb-3">
                 <div class="col-sm-5 text-end">
@@ -553,6 +568,7 @@ const orderTotalProfitRubFormatted = computed<string>(() => {
                                 v-if="editing"
                                 :name="`products[${idx}].order_product_count`"
                                 type="text"
+                                :keep-value="true"
                             />
                             <span v-else class="main-grid-cell-content">{{productField.value.order_product_count}}</span>
                         </td>
@@ -573,6 +589,7 @@ const orderTotalProfitRubFormatted = computed<string>(() => {
                                 v-if="editing"
                                 :name="`products[${idx}].order_product_price_retail_rub`"
                                 type="text"
+                                :keep-value="true"
                             />
                             <p v-else>
                                 <span class="main-grid-cell-content">{{orderProductPriceRetailRubFormatted(productField)}}</span>

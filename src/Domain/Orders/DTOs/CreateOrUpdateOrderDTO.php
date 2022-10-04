@@ -16,9 +16,9 @@ class CreateOrUpdateOrderDTO extends DataTransferObject
     public ?BaseUser $user;
 
     /**
-     * @var \Domain\Users\Models\BaseUser\BaseUser
+     * @var \Domain\Users\Models\BaseUser\BaseUser|null
      */
-    public BaseUser $event_user;
+    public ?BaseUser $event_user;
 
     /**
      * @var int

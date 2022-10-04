@@ -213,4 +213,10 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
     ordersStore.setMeta(ordersListMeta)
     ordersStore.setOrder(order)
     ordersStore.setOrderEvents(orderEventsData)
+
+    // todo dev only
+    if (typeof window !== "undefined") {
+        // @ts-ignore
+        window.__pinia = pinia
+    }
 }

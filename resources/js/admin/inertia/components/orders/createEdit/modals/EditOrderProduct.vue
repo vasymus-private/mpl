@@ -49,13 +49,29 @@ const cancel = () => {
     <Modal :type="props.type" title="Редактирование товара">
         <template #default>
             <div>
-                <RowInput :name="`products[${props.modalProps.index}].order_product_name`" label="Наименование" />
+                <RowInput
+                    :name="`products[${props.modalProps.index}].order_product_name`"
+                    label="Наименование"
+                    :keep-value="true"
+                />
 
-                <RowInput :name="`products[${props.modalProps.index}].order_product_unit`" label="Упаковка / Единица" />
+                <RowInput
+                    :name="`products[${props.modalProps.index}].order_product_unit`"
+                    label="Упаковка / Единица"
+                    :keep-value="true"
+                />
 
-                <RowInput :name="`products[${props.modalProps.index}].order_product_price_retail_rub`" label="Розничная цена (руб)" />
+                <RowInput
+                    :name="`products[${props.modalProps.index}].order_product_price_retail_rub`"
+                    label="Розничная цена (руб)"
+                    :keep-value="true"
+                />
 
-                <RowInput :name="`products[${props.modalProps.index}].order_product_count`" label="Количество" />
+                <RowInput
+                    :name="`products[${props.modalProps.index}].order_product_count`"
+                    label="Количество"
+                    :keep-value="true"
+                />
             </div>
         </template>
 

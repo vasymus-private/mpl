@@ -14,7 +14,7 @@ import { useCurrenciesStore } from "@/admin/inertia/modules/currencies"
 import { CharCode } from "@/admin/inertia/modules/currencies/types"
 import Option from "@/admin/inertia/modules/common/Option"
 import {ErrorResponse, UrlParams} from "@/admin/inertia/modules/common/types"
-import axios from "axios";
+import axios, {AxiosError} from "axios";
 import {useToastsStore} from "@/admin/inertia/modules/toasts";
 
 const storeName = "orders"
@@ -309,20 +309,24 @@ export const useOrdersStore = defineStore(storeName, {
 
                 this.setOrderEvents(response.data.data)
             } catch (e) {
-                const toastsStore = useToastsStore()
+                if (e instanceof AxiosError) {
+                    const toastsStore = useToastsStore()
 
-                const {
-                    data: { errors },
-                }: ErrorResponse = e.response
+                    const {
+                        data: { errors },
+                    }: ErrorResponse = e.response
 
-                const errs = errorsToErrorFields(errors)
+                    const errs = errorsToErrorFields(errors)
 
-                for (let key in errs) {
-                    toastsStore.error({
-                        title: key,
-                        message: errs[key]
-                    })
+                    for (let key in errs) {
+                        toastsStore.error({
+                            title: key,
+                            message: errs[key]
+                        })
+                    }
                 }
+
+                throw e
             }
         },
         updateOrder(order: Partial<Order>): void {
