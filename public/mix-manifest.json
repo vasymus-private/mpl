@@ -1,9 +1,4 @@
 {
-    "/js/app.js": "/js/app.js",
-    "/_admin/js/app.js": "/_admin/js/app.js",
-    "/_admin/js/client.js": "/_admin/js/client.js",
-    "/css/app.css": "/css/app.css",
-    "/_admin/css/app.css": "/_admin/css/app.css",
     "/images/Maestro.png": "/images/Maestro.png",
     "/images/Maestro1.png": "/images/Maestro1.png",
     "/images/MasterCard.png": "/images/MasterCard.png",

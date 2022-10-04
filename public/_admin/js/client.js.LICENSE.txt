@@ -1,3 +1,23 @@
+/* NProgress, (c) 2013, 2014 Rico Sta. Cruz - http://ricostacruz.com/nprogress
+ * @license MIT */
+
+/*!
+  * Bootstrap v5.1.3 (https://getbootstrap.com/)
+  * Copyright 2011-2021 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  */
+
+/*!
+  * pinia v2.0.14
+  * (c) 2022 Eduardo San Martin Morote
+  * @license MIT
+  */
+
+/*!
+ * @license Copyright (c) 2003-2022, CKSource Holding sp. z o.o. All rights reserved.
+ * For licensing, see LICENSE.md.
+ */
+
 /*!
  * The buffer module from node.js, for the browser.
  *
@@ -6,6 +26,12 @@
  */
 
 /*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
+
+/**
+  * vee-validate v4.6.7
+  * (c) 2022 Abdelrahman Awad
+  * @license MIT
+  */
 
 /**
  * @license
