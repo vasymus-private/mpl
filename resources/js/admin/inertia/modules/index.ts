@@ -37,7 +37,11 @@ import { useRoutesStore } from "@/admin/inertia/modules/routes"
 import Product from "@/admin/inertia/modules/products/Product"
 import { useProfileStore } from "@/admin/inertia/modules/profile"
 import { Brand, BrandListItem } from "@/admin/inertia/modules/brands/types"
-import {Order, OrderEvent, OrderItem} from "@/admin/inertia/modules/orders/types"
+import {
+    Order,
+    OrderEvent,
+    OrderItem,
+} from "@/admin/inertia/modules/orders/types"
 import { useOrdersStore } from "@/admin/inertia/modules/orders"
 import { Admin } from "@/admin/inertia/modules/auth/types"
 
@@ -134,9 +138,7 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
             meta: ordersListMeta = null,
         } = {},
         order = null,
-        orderEvents: {
-            data: orderEventsData = [],
-        } = {},
+        orderEvents: { data: orderEventsData = [] } = {},
         admins = [],
     } = initialPageProps as InitialPageProps
 

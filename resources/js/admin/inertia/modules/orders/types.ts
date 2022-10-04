@@ -93,9 +93,9 @@ export interface OrderProductItem {
 
 export interface OrderEvent {
     id: number
-    userName: string|null,
-    operation: string,
-    description: string,
-    created_at: string|null,
+    userName: string | null
+    operation: string
+    description: string
+    created_at: string | null
     dt_created_at: DateTime | null // parse from 'Y-m-d H:i:s'
 }
