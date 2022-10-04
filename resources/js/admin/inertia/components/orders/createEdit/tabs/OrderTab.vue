@@ -81,33 +81,33 @@ const deleteProduct = (idx) => {
     remove(idx)
 }
 
-const orderProductItemPricePurchaseRubFormatted = (orderProductItem: FieldEntry<OrderProductItem>): string => {
+const orderProductItemPricePurchaseRubFormatted = (orderProductItem: FieldEntry<Partial<OrderProductItem>>): string => {
     return currenciesStore.priceRubFormatted(
         orderProductItem.value.price_purchase,
         orderProductItem.value.price_purchase_currency_id
     )
 }
-const orderProductItemPriceRetailRubSum = (orderProductItem: FieldEntry<OrderProductItem>): number => {
+const orderProductItemPriceRetailRubSum = (orderProductItem: FieldEntry<Partial<OrderProductItem>>): number => {
     return orderProductItem.value.order_product_price_retail_rub * orderProductItem.value.order_product_count
 }
-const orderProductItemPriceRetailRubSumFormatted = (orderProductItem: FieldEntry<OrderProductItem>): string => {
+const orderProductItemPriceRetailRubSumFormatted = (orderProductItem: FieldEntry<Partial<OrderProductItem>>): string => {
     return currenciesStore.priceRubFormatted(
         orderProductItemPriceRetailRubSum(orderProductItem),
         CharCode.RUB
     )
 }
-const orderProductItemPricePurchaseRubSum = (orderProductItem: FieldEntry<OrderProductItem>): number => {
+const orderProductItemPricePurchaseRubSum = (orderProductItem: FieldEntry<Partial<OrderProductItem>>): number => {
     let pricePurchase = currenciesStore.priceRub(orderProductItem.value.price_purchase, orderProductItem.value.price_purchase_currency_id)
 
     return pricePurchase * orderProductItem.value.order_product_count
 }
-const orderProductItemPricePurchaseRubSumFormatted = (orderProductItem: FieldEntry<OrderProductItem>): string => {
+const orderProductItemPricePurchaseRubSumFormatted = (orderProductItem: FieldEntry<Partial<OrderProductItem>>): string => {
     return currenciesStore.priceRubFormatted(
         orderProductItemPricePurchaseRubSum(orderProductItem),
         CharCode.RUB
     )
 }
-const orderProductItemProfitRubFormatted = (orderProductItem: FieldEntry<OrderProductItem>): string => {
+const orderProductItemProfitRubFormatted = (orderProductItem: FieldEntry<Partial<OrderProductItem>>): string => {
     const pricePurchaseRubSum = orderProductItemPricePurchaseRubSum(orderProductItem)
     const priceRetailRubSum = orderProductItemPriceRetailRubSum(orderProductItem)
 
@@ -118,13 +118,13 @@ const orderProductItemProfitRubFormatted = (orderProductItem: FieldEntry<OrderPr
         CharCode.RUB
     )
 }
-const orderProductPriceRetailRubFormatted = (orderProductItem: FieldEntry<OrderProductItem>): string => {
+const orderProductPriceRetailRubFormatted = (orderProductItem: FieldEntry<Partial<OrderProductItem>>): string => {
     return currenciesStore.priceRubFormatted(
         orderProductItem.value.order_product_price_retail_rub,
         CharCode.RUB
     )
 }
-const orderProductPriceRetailRubOriginFormatted = (orderProductItem: FieldEntry<OrderProductItem>): string => {
+const orderProductPriceRetailRubOriginFormatted = (orderProductItem: FieldEntry<Partial<OrderProductItem>>): string => {
     return currenciesStore.priceRubFormatted(
         orderProductItem.value.order_product_price_retail_rub_origin,
         CharCode.RUB
@@ -132,7 +132,7 @@ const orderProductPriceRetailRubOriginFormatted = (orderProductItem: FieldEntry<
 }
 
 const orderTotalPriceRetailRub = computed<number>(() => {
-    return productsFields.value.reduce((acc: number, orderProductItem: FieldEntry<OrderProductItem>): number => {
+    return productsFields.value.reduce((acc: number, orderProductItem: FieldEntry<Partial<OrderProductItem>>): number => {
         return acc + orderProductItemPriceRetailRubSum(orderProductItem)
     }, 0)
 })
@@ -143,7 +143,7 @@ const orderTotalPriceRetailRubFormatted = computed<string>(() => {
     )
 })
 const orderTotalPricePurchaseRub = computed<number>(() => {
-    return productsFields.value.reduce((acc: number, orderProductItem: FieldEntry<OrderProductItem>): number => {
+    return productsFields.value.reduce((acc: number, orderProductItem: FieldEntry<Partial<OrderProductItem>>): number => {
         return acc + orderProductItemPricePurchaseRubSum(orderProductItem)
     }, 0)
 })
