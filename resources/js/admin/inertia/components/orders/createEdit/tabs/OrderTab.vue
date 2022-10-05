@@ -330,10 +330,10 @@ const orderTotalProfitRubFormatted = computed<string>(() => {
                 </div>
                 <div class="col-sm-7">
                     <p v-for="media in ordersStore.order?.initial_attachments" class="mb-0" :key="media.uuid">
-                        <a target="_blank" download :href="route(routeNames.ROUTE_ADMIN_MEDIA, {id: media.id, name: media.name})">{{media.name}}</a>
+                        <a target="_blank" download :href="routesStore.route(routeNames.ROUTE_ADMIN_MEDIA, {id: media.id, name: media.name})">{{media.name}}</a>
                     </p>
                     <p v-for="media in ordersStore.order?.payment_method_attachments" class="mb-0" :key="media.uuid">
-                        <a target="_blank" download :href="route(routeNames.ROUTE_ADMIN_MEDIA, {id: media.id, name: media.name})">{{media.name}}</a>
+                        <a target="_blank" download :href="routesStore.route(routeNames.ROUTE_ADMIN_MEDIA, {id: media.id, name: media.name})">{{media.name}}</a>
                     </p>
                 </div>
             </div>
@@ -420,7 +420,7 @@ const orderTotalProfitRubFormatted = computed<string>(() => {
                 </div>
                 <div class="col-sm-7">
                     <p v-for="media in ordersStore.order?.customer_invoices" class="mb-0" :key="media.uuid">
-                        <a target="_blank" download :href="route(routeNames.ROUTE_ADMIN_MEDIA, {id: media.id, name: media.name})">{{media.name}}</a>
+                        <a target="_blank" download :href="routesStore.route(routeNames.ROUTE_ADMIN_MEDIA, {id: media.id, name: media.name})">{{media.name}}</a>
                     </p>
                 </div>
             </div>

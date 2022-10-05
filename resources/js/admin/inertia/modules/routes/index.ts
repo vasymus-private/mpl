@@ -223,7 +223,7 @@ export const useRoutesStore = defineStore(storeName, {
                     location,
                 } as Config
 
-                return route(name, params, undefined, config)
+                return route(name, params, false, config)
             }
         },
         router(): Router | null {
@@ -244,7 +244,7 @@ export const useRoutesStore = defineStore(storeName, {
                 location,
             } as Config
 
-            return route(undefined, undefined, undefined, config)
+            return route(undefined, undefined, false, config)
         },
         current(): string | null {
             return this.router ? this.router.current() : null
@@ -316,7 +316,7 @@ export const useRoutesStore = defineStore(storeName, {
 export const getRouteUrl = (
     name: string,
     params?: RouteParamsWithQueryOverload | RouteParam
-): string => route(name, params, undefined, Ziggy as Config)
+): string => route(name, params, false, Ziggy as Config)
 
 export const routeNames = {
     ROUTE_WEB_HOME: "home",

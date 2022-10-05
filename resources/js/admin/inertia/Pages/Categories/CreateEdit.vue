@@ -83,7 +83,7 @@ const onSubmit = handleSubmit((values: Values, ctx) => {
                     <div class="edit-item-footer js-edit-item-footer">
                         <button type="submit" :disabled="isSubmitting" class="btn btn-primary mb-2 btn__save mr-2">Сохранить</button>
 
-                        <Link :href="route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {category_id: categoriesStore.category?.parent_id})" type="button" class="btn btn-info mb-2 btn__default">Отменить</Link>
+                        <Link :href="routesStore.route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {category_id: categoriesStore.category?.parent_id})" type="button" class="btn btn-info mb-2 btn__default">Отменить</Link>
 
                         <button type="button" class="btn btn-info js-pin-btn pin-btn"></button>
                     </div>

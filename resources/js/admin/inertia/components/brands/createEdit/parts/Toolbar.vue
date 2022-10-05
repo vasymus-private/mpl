@@ -40,14 +40,14 @@ const handleDelete = async () => {
     <div class="detail-toolbar">
         <div class="row d-flex align-items-center">
             <div class="col-sm-7">
-                <Link :href="route(routeNames.ROUTE_ADMIN_BRANDS_TEMP_INDEX)" class="detail-toolbar__btn">
+                <Link :href="routesStore.route(routeNames.ROUTE_ADMIN_BRANDS_TEMP_INDEX)" class="detail-toolbar__btn">
                     <span class="detail-toolbar__btn-l"></span>
                     <span class="detail-toolbar__btn-text">Производители</span>
                     <span class="detail-toolbar__btn-r"></span>
                 </Link>
             </div>
             <div v-if="!brandsStore.isCreatingBrandRoute" class="col-sm-5 d-flex align-items-center">
-                <Link :href="route(routeNames.ROUTE_ADMIN_BRANDS_TEMP_CREATE)" class="btn btn-info mx-1">Добавить</Link>
+                <Link :href="routesStore.route(routeNames.ROUTE_ADMIN_BRANDS_TEMP_CREATE)" class="btn btn-info mx-1">Добавить</Link>
                 <button type="button" @click="handleDelete" class="btn btn-danger mx-1">Удалить</button>
             </div>
         </div>
