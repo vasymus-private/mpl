@@ -468,7 +468,7 @@ const orderTotalProfitRubFormatted = computed<string>(() => {
                 </div>
                 <div class="col-sm-7">
                     <p v-for="media in ordersStore.order?.supplier_invoices" class="mb-0" :key="media.uuid">
-                        <a target="_blank" download :href="route(routeNames.ROUTE_ADMIN_MEDIA, {id: media.id, name: media.name})">{{media.name}}</a>
+                        <a target="_blank" download :href="routesStore.route(routeNames.ROUTE_ADMIN_MEDIA, {id: media.id, name: media.name})">{{media.name}}</a>
                     </p>
                 </div>
             </div>
@@ -559,7 +559,7 @@ const orderTotalProfitRubFormatted = computed<string>(() => {
                             <span class="main-grid-cell-content">
                                 <a
                                     target="_blank"
-                                    :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_EDIT, {admin_product: productField.value.id})"
+                                    :href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_EDIT, {admin_product: productField.value.id})"
                                 >{{productField.value.order_product_name}}</a>
                             </span>
                         </td>
