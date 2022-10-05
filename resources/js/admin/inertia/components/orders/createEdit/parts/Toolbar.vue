@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {Link} from "@inertiajs/inertia-vue3"
 import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
-import {useToastsStore} from "@/admin/inertia/modules/toasts"
 import {useOrdersStore} from "@/admin/inertia/modules/orders"
 import {useCreateEditOrderFormStore} from "@/admin/inertia/modules/forms/createEditOrder"
 
@@ -26,7 +25,7 @@ const handleDelete = () => {
     <div class="detail-toolbar">
         <div class="row d-flex align-items-center">
             <div class="d-flex align-items-center col-sm-5">
-                <Link :href="route(routeNames.ROUTE_ADMIN_ORDERS_TEMP_INDEX)" class="detail-toolbar__btn">
+                <Link :href="routesStore.route(routeNames.ROUTE_ADMIN_ORDERS_TEMP_INDEX)" class="detail-toolbar__btn">
                     <span class="detail-toolbar__btn-l"></span>
                     <span class="detail-toolbar__btn-text">Список заказов</span>
                     <span class="detail-toolbar__btn-r"></span>
@@ -49,9 +48,9 @@ const handleDelete = () => {
                     {{ createEditOrderFormStore.isEditMode ? 'Подробности заказа' : 'Изменить заказ' }}
                 </button>
 
-                <Link v-if="!ordersStore.isCreatingOrderRoute" :href="route(routeNames.ROUTE_ADMIN_ORDERS_TEMP_CREATE)" class="btn btn-secondary text-nowrap btn__dropdown">Создать</Link>
+                <Link v-if="!ordersStore.isCreatingOrderRoute" :href="routesStore.route(routeNames.ROUTE_ADMIN_ORDERS_TEMP_CREATE)" class="btn btn-secondary text-nowrap btn__dropdown">Создать</Link>
 
-                <Link v-if="!ordersStore.isCreatingOrderRoute" :href="route(routeNames.ROUTE_ADMIN_ORDERS_TEMP_CREATE, {'copy_id' : ordersStore.order?.id})" class="btn__copy">Копировать</Link>
+                <Link v-if="!ordersStore.isCreatingOrderRoute" :href="routesStore.route(routeNames.ROUTE_ADMIN_ORDERS_TEMP_CREATE, {'copy_id' : ordersStore.order?.id})" class="btn__copy">Копировать</Link>
 
                 <button v-if="!ordersStore.isCreatingOrderRoute" type="button" @click="handleDelete" class="btn btn-secondary text-nowrap btn__dropdown">Удалить</button>
             </div>

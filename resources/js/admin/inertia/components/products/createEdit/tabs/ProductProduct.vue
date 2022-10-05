@@ -9,7 +9,7 @@ import {useCategoriesStore} from "@/admin/inertia/modules/categories"
 import {ProductProductType, SearchProduct} from "@/admin/inertia/modules/products/Product"
 import {chunk} from 'lodash'
 import {useFieldArray, FieldEntry} from "vee-validate"
-import {routeNames} from "@/admin/inertia/modules/routes"
+import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
 import {useProductsStore} from "@/admin/inertia/modules/products"
 
 
@@ -17,6 +17,7 @@ const categoriesStore = useCategoriesStore()
 const productsStore = useProductsStore()
 const search = ref<string>(null)
 const categories = ref<Array<Option>>(null)
+const routesStore = useRoutesStore()
 
 const props = defineProps<{
     type: ProductProductType
@@ -75,7 +76,7 @@ const onChange = (event, product: SearchProduct) => {
                         <div class="col-md-8">
                             <div class="card-body">
                                 <p class="h6 card-title">
-                                    <a target="_blank" :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_EDIT, {admin_product: field.value.id})">{{field.value.name}}</a>
+                                    <a target="_blank" :href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_EDIT, {admin_product: field.value.id})">{{field.value.name}}</a>
                                 </p>
                                 <p class="card-text">
                                     <small class="text-muted">{{field.value.price_rub_formatted}}</small>

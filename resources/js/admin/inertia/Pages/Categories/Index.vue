@@ -125,7 +125,7 @@ watchSelectAll()
     <TheLayout>
         <div>
             <div class="breadcrumbs">
-                <a :href="route(routeNames.ROUTE_ADMIN_HOME)" class="breadcrumbs__item">
+                <a :href="routesStore.route(routeNames.ROUTE_ADMIN_HOME)" class="breadcrumbs__item">
                     <span class="breadcrumbs__text">Рабочий стол</span>
                 </a>
             </div>
@@ -162,7 +162,7 @@ watchSelectAll()
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-2">
-                    <Link :href="route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_CREATE)" class="btn btn-add btn-secondary">Создать</Link>
+                    <Link :href="routesStore.route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_CREATE)" class="btn btn-add btn-secondary">Создать</Link>
                 </div>
             </div>
 
@@ -212,12 +212,12 @@ watchSelectAll()
                                         ></button>
                                         <div class="dropdown-menu bx-core-popup-menu" :aria-labelledby="`actions-dropdown-${category.id}`">
                                             <div class="bx-core-popup-menu__arrow"></div>
-                                            <Link class="dropdown-item bx-core-popup-menu-item bx-core-popup-menu-item-default" :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id: category.id})">
+                                            <Link class="dropdown-item bx-core-popup-menu-item bx-core-popup-menu-item-default" :href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id: category.id})">
                                                 <span class="bx-core-popup-menu-item-icon"></span>
                                                 <span class="bx-core-popup-menu-item-text">Товары</span>
                                             </Link>
                                             <div class="bx-core-popup-menu__arrow"></div>
-                                            <Link class="dropdown-item bx-core-popup-menu-item bx-core-popup-menu-item-default" :href="route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_EDIT, {admin_category: category.id})">
+                                            <Link class="dropdown-item bx-core-popup-menu-item bx-core-popup-menu-item-default" :href="routesStore.route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_EDIT, {admin_category: category.id})">
                                                 <span class="bx-core-popup-menu-item-icon adm-menu-edit"></span>
                                                 <span class="bx-core-popup-menu-item-text">Изменить</span>
                                             </Link>

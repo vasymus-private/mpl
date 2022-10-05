@@ -41,7 +41,7 @@ const deleteItem = async () => {
     <div class="detail-toolbar">
         <div class="row d-flex align-items-center">
             <div class="d-flex align-items-center col-sm-5">
-                <Link :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {'category_id' : productsStore.product?.category_id})" class="detail-toolbar__btn">
+                <Link :href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {'category_id' : productsStore.product?.category_id})" class="detail-toolbar__btn">
                     <span class="detail-toolbar__btn-l"></span>
                     <span class="detail-toolbar__btn-text">Товары</span>
                     <span class="detail-toolbar__btn-r"></span>
@@ -51,7 +51,7 @@ const deleteItem = async () => {
             </div>
 
             <div class="col-sm-7 d-flex align-items-center justify-content-end">
-                <Link v-if="!productsStore.isCreatingProductRoute" :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_CREATE, {'copy_id' : productsStore.product?.id})" class="btn__copy">Копировать</Link>
+                <Link v-if="!productsStore.isCreatingProductRoute" :href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_CREATE, {'copy_id' : productsStore.product?.id})" class="btn__copy">Копировать</Link>
                 <div class="dropdown">
                     <button
                         class="btn btn-secondary dropdown-toggle btn__dropdown"
@@ -82,7 +82,7 @@ const deleteItem = async () => {
                         <span class="add">Действия</span>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="actions-dropdown-actions">
-                        <Link class="dropdown-item" :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_CREATE)">
+                        <Link class="dropdown-item" :href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_CREATE)">
                             <span class="bx-core-popup-menu-item-icon edit"></span>
                             Добавить элемент
                         </Link>

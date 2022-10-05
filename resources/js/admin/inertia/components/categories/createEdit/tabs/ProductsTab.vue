@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import {useCategoriesStore} from "@/admin/inertia/modules/categories"
 import {Link} from "@inertiajs/inertia-vue3"
-import {routeNames} from "@/admin/inertia/modules/routes"
+import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
 
 const categoriesStore = useCategoriesStore()
+const routesStore = useRoutesStore()
 </script>
 
 <template>
@@ -20,8 +21,8 @@ const categoriesStore = useCategoriesStore()
                 <tbody>
                     <template v-if="categoriesStore.category?.products.length">
                         <tr v-for="categoryProduct in categoriesStore.category.products" :key="`category-product-${categoryProduct.id}`">
-                            <td><Link :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_EDIT, {admin_product: categoryProduct.id})" target="_blank">{{ categoryProduct.id }}</Link></td>
-                            <td><Link :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_EDIT, {admin_product: categoryProduct.id})" target="_blank">{{ categoryProduct.name }}</Link></td>
+                            <td><Link :href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_EDIT, {admin_product: categoryProduct.id})" target="_blank">{{ categoryProduct.id }}</Link></td>
+                            <td><Link :href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_EDIT, {admin_product: categoryProduct.id})" target="_blank">{{ categoryProduct.name }}</Link></td>
                             <td>{{ categoryProduct.is_active ? 'Да' : 'Нет' }}</td>
                         </tr>
                     </template>

@@ -166,7 +166,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
     <TheLayout>
         <div>
             <div class="breadcrumbs">
-                <a :href="route(routeNames.ROUTE_ADMIN_HOME)" class="breadcrumbs__item">
+                <a :href="routesStore.route(routeNames.ROUTE_ADMIN_HOME)" class="breadcrumbs__item">
                     <span class="breadcrumbs__text">Рабочий стол</span>
                 </a>
             </div>
@@ -214,7 +214,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                     />
                 </div>
                 <div class="col-xs-12 col-sm-2">
-                    <Link :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_CREATE)" class="btn btn-add btn-secondary">Создать</Link>
+                    <Link :href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_CREATE)" class="btn btn-add btn-secondary">Создать</Link>
                 </div>
             </div>
 
@@ -265,7 +265,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                     ></button>
                                     <div class="dropdown-menu bx-core-popup-menu" :aria-labelledby="`actions-dropdown-${product.uuid}`">
                                         <div class="bx-core-popup-menu__arrow"></div>
-                                        <Link class="dropdown-item bx-core-popup-menu-item bx-core-popup-menu-item-default" :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_EDIT, {admin_product: product.id})">
+                                        <Link class="dropdown-item bx-core-popup-menu-item bx-core-popup-menu-item-default" :href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_EDIT, {admin_product: product.id})">
                                             <span class="bx-core-popup-menu-item-icon adm-menu-edit"></span>
                                             <span class="bx-core-popup-menu-item-text">Изменить</span>
                                         </Link>
@@ -274,7 +274,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                             <span class="bx-core-popup-menu-item-text"> {{ product.is_active ? 'Деактивировать' : 'Активировать' }}</span>
                                         </button>
                                         <span class="bx-core-popup-menu-separator"></span>
-                                        <Link class="bx-core-popup-menu-item" :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_CREATE, {copy_id : product.id})">
+                                        <Link class="bx-core-popup-menu-item" :href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_CREATE, {copy_id : product.id})">
                                             <span class="bx-core-popup-menu-item-icon adm-menu-copy"></span>
                                             <span class="bx-core-popup-menu-item-text">Копировать</span>
                                         </Link>
@@ -306,7 +306,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                     />
                                     <span v-else class="main-grid-cell-content">
                                         <Link
-                                            :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_EDIT, {admin_product: product.id})"
+                                            :href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_EDIT, {admin_product: product.id})"
                                         >{{product.name}}</Link>
                                     </span>
                                 </td>
