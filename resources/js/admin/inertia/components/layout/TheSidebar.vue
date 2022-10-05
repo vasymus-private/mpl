@@ -250,7 +250,7 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean
                 </NavItem>
                 <NavItem
                     :id-or-href="routesStore.route(routeNames.ROUTE_ADMIN_ORDERS_TEMP_INDEX)"
-                    :is-inertia-link="false"
+                    :is-inertia-link="true"
                     title="Заказы"
                     :is-collapse="false"
                     icon-class="adm-icon iblock_menu_icon_types"
