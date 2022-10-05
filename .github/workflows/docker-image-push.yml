@@ -38,6 +38,8 @@ jobs:
             -   name: Build And Push
                 id: docker_build
                 uses: docker/build-push-action@v2
+                env:
+                    APP_URL: "http://${{ secrets.HOST_IP }}"
                 with:
                     context: ./
                     file: ./docker/app/Dockerfile
