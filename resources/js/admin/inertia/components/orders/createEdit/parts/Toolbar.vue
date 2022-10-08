@@ -40,7 +40,7 @@ const handleDelete = () => {
                     Изменение заблокировано
                 </span>
                 <button
-                    v-else
+                    v-else-if="createEditOrderFormStore.couldBeChangedByAdmin && !ordersStore.isCreatingOrderRoute"
                     @click="toggleMode"
                     type="button"
                     class="btn btn-secondary text-nowrap btn__dropdown"

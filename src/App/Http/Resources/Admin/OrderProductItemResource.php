@@ -24,6 +24,7 @@ class OrderProductItemResource extends JsonResource
     {
         return [
             'id' => $this->resource->id,
+            'parent_id' => $this->resource->parent_id,
             'uuid' => $this->resource->uuid,
             'name' => $this->resource->name,
             'unit' => $this->resource->unit,

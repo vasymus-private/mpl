@@ -75,6 +75,7 @@ const chooseProduct = (product: SearchProduct|SearchProductVariation) => {
     } else {
         push({
             id: product.id,
+            parent_id: product.parent_id,
             uuid: product.uuid,
             name: product.name,
             unit: product.unit,
