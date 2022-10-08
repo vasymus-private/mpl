@@ -4,22 +4,22 @@ import { createInertiaApp } from "@inertiajs/inertia-vue3"
 import createServer from "@inertiajs/server"
 import { ZiggyVue } from "ziggy-js/dist/vue"
 import { createPinia } from "pinia"
-import {initFromPageProps} from "@/admin/inertia/modules"
+import { initFromPageProps } from "@/admin/inertia/modules"
 import "@/admin/inertia/settings/vee-validate"
-import {getAmendedZiggyConfig} from "@/admin/inertia/utils"
+import { getAmendedZiggyConfig } from "@/admin/inertia/utils"
 
 createServer((page) =>
     createInertiaApp({
         page,
         render: renderToString,
         resolve: (name) => require(`./Pages/${name}`),
-        setup({app, props, plugin}) {
+        setup({ app, props, plugin }) {
             const pinia = createPinia()
             let initialPageProps = props.initialPage.props
 
             let ziggyConfig = getAmendedZiggyConfig(initialPageProps.fullUrl)
             try {
-                return createSSRApp({render: () => h(app, props)})
+                return createSSRApp({ render: () => h(app, props) })
                     .use(plugin)
                     .use(ZiggyVue, ziggyConfig)
                     .use(pinia)

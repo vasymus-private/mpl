@@ -11,10 +11,7 @@ import { Values } from "@/admin/inertia/modules/forms/createEditCategory/types"
 import { SubmissionContext } from "vee-validate"
 import { Category } from "@/admin/inertia/modules/categories/types"
 import axios, { AxiosError } from "axios"
-import {
-    routeNames,
-    useRoutesStore,
-} from "@/admin/inertia/modules/routes"
+import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
 import { Inertia } from "@inertiajs/inertia"
 import { ErrorResponse } from "@/admin/inertia/modules/common/types"
 import { errorsToErrorFields } from "@/admin/inertia/modules/common"
