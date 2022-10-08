@@ -110,7 +110,7 @@ export const searchProductRequestToUrlSearchParams = (
 
 export interface SearchProduct {
     id: number
-    parent_id: number|null
+    parent_id: number | null
     uuid: string
     is_active: boolean
     name: string
@@ -128,7 +128,7 @@ export interface SearchProduct {
 }
 export interface SearchProductVariation {
     id: number
-    parent_id: number|null
+    parent_id: number | null
     uuid: string
     is_active: boolean
     name: string
