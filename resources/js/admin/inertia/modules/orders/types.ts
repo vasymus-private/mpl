@@ -73,7 +73,7 @@ export interface OrderItemProductItem {
 
 export interface OrderProductItem {
     id: number
-    parent_id: number|null
+    parent_id: number | null
     uuid: string
     name: string
     unit: string | null
