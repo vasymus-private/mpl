@@ -45,7 +45,7 @@ import {
 import { useOrdersStore } from "@/admin/inertia/modules/orders"
 import { Admin } from "@/admin/inertia/modules/auth/types"
 
-interface InitialPageProps {
+export interface InitialPageProps {
     fullUrl: string
     auth: Auth
     categoriesTree: Array<CategoriesTreeItem>
@@ -97,7 +97,10 @@ interface InitialPageProps {
  * props on all page + props specific for concrete controller
  * @see \App\Http\Middleware\HandleInertiaRequests::share()
  */
-export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
+export const initFromPageProps = (
+    pinia: Pinia,
+    initialPageProps: InitialPageProps
+) => {
     let {
         fullUrl,
         auth,
@@ -140,7 +143,7 @@ export const initFromPageProps = (pinia: Pinia, initialPageProps) => {
         order = null,
         orderEvents: { data: orderEventsData = [] } = {},
         admins = [],
-    } = initialPageProps as InitialPageProps
+    } = initialPageProps
 
     // todo dev only
     if (typeof window !== "undefined") {

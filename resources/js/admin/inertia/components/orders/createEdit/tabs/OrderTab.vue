@@ -133,7 +133,8 @@ const orderProductPriceRetailRubOriginFormatted = (orderProductItem: FieldEntry<
 
 const orderTotalPriceRetailRub = computed<number>(() => {
     return productsFields.value.reduce((acc: number, orderProductItem: FieldEntry<Partial<OrderProductItem>>): number => {
-        return acc + orderProductItemPriceRetailRubSum(orderProductItem)
+        acc += orderProductItemPriceRetailRubSum(orderProductItem)
+        return acc
     }, 0)
 })
 const orderTotalPriceRetailRubFormatted = computed<string>(() => {
@@ -144,7 +145,8 @@ const orderTotalPriceRetailRubFormatted = computed<string>(() => {
 })
 const orderTotalPricePurchaseRub = computed<number>(() => {
     return productsFields.value.reduce((acc: number, orderProductItem: FieldEntry<Partial<OrderProductItem>>): number => {
-        return acc + orderProductItemPricePurchaseRubSum(orderProductItem)
+        acc += orderProductItemPricePurchaseRubSum(orderProductItem)
+        return acc
     }, 0)
 })
 const orderTotalPricePurchaseRubFormatted = computed<string>(() => {

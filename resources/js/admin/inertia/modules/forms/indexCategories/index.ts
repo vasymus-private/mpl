@@ -6,7 +6,7 @@ import {
     Values,
 } from "@/admin/inertia/modules/forms/indexCategories/types"
 import axios, { AxiosError } from "axios"
-import { getRouteUrl, routeNames } from "@/admin/inertia/modules/routes"
+import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
 import useFormHelpers from "@/admin/inertia/composables/useFormHelpers"
 import { useCategoriesStore } from "@/admin/inertia/modules/categories"
 import { ErrorResponse } from "@/admin/inertia/modules/common/types"
@@ -27,10 +27,11 @@ export const useIndexCategoriesFormStore = defineStore(storeName, {
                 if (!categoriesToUpdate.length) {
                     return
                 }
+                const routesStore = useRoutesStore()
                 const {
                     data: { data: categoriesResponse = [] },
                 } = await axios.put<CategoriesResponse>(
-                    getRouteUrl(
+                    routesStore.route(
                         routeNames.ROUTE_ADMIN_AJAX_CATEGORIES_BULK_UPDATE
                     ),
                     {
