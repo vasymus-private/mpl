@@ -1,7 +1,7 @@
 import { defineStore } from "pinia"
 import Column from "@/admin/inertia/modules/columns/Column"
 import axios from "axios"
-import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
+import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
 
 export const storeName = "columns"
 

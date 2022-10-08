@@ -21,7 +21,7 @@ import {
 } from "@/admin/inertia/utils"
 import * as yup from "yup"
 import { CharTypeEnum } from "@/admin/inertia/modules/charTypes/CharType"
-import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
+import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
 import { Values } from "@/admin/inertia/modules/forms/createEditProduct/types"
 import axios, { AxiosError } from "axios"
 import { ErrorResponse } from "@/admin/inertia/modules/common/types"
@@ -138,7 +138,9 @@ export const useCreateEditProductFormStore = defineStore(storeName, {
 
                 if (productsStore.isCreatingProductRoute) {
                     const response = await axios.post<{ data: Product }>(
-                        routesStore.route(routeNames.ROUTE_ADMIN_AJAX_PRODUCTS_STORE),
+                        routesStore.route(
+                            routeNames.ROUTE_ADMIN_AJAX_PRODUCTS_STORE
+                        ),
                         formData,
                         {
                             headers: { "Content-Type": "multipart/form-data" },
@@ -146,9 +148,12 @@ export const useCreateEditProductFormStore = defineStore(storeName, {
                     )
                     product = response.data.data
                     Inertia.get(
-                        routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_EDIT, {
-                            admin_product: product.id,
-                        })
+                        routesStore.route(
+                            routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_EDIT,
+                            {
+                                admin_product: product.id,
+                            }
+                        )
                     )
                 } else {
                     formData.append("_method", "PUT")

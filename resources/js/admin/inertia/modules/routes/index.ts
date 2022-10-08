@@ -11,9 +11,9 @@ import { useBrandsStore } from "@/admin/inertia/modules/brands"
 import * as H from "history"
 import { AdminTab, TabEnum } from "@/admin/inertia/modules/common/Tabs"
 import { UrlParams } from "@/admin/inertia/modules/common/types"
-import {getAmendedZiggyConfig, isNumeric} from "@/admin/inertia/utils"
-import {usePage} from '@inertiajs/inertia-vue3'
-import {InitialPageProps} from "@/admin/inertia/modules"
+import { getAmendedZiggyConfig, isNumeric } from "@/admin/inertia/utils"
+import { usePage } from "@inertiajs/inertia-vue3"
+import { InitialPageProps } from "@/admin/inertia/modules"
 
 export const storeName = "routes"
 

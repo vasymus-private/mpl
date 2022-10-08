@@ -97,7 +97,10 @@ export interface InitialPageProps {
  * props on all page + props specific for concrete controller
  * @see \App\Http\Middleware\HandleInertiaRequests::share()
  */
-export const initFromPageProps = (pinia: Pinia, initialPageProps: InitialPageProps) => {
+export const initFromPageProps = (
+    pinia: Pinia,
+    initialPageProps: InitialPageProps
+) => {
     let {
         fullUrl,
         auth,
