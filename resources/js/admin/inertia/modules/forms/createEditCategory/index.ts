@@ -12,7 +12,6 @@ import { SubmissionContext } from "vee-validate"
 import { Category } from "@/admin/inertia/modules/categories/types"
 import axios, { AxiosError } from "axios"
 import {
-    getRouteUrl,
     routeNames,
     useRoutesStore,
 } from "@/admin/inertia/modules/routes"
@@ -93,7 +92,7 @@ export const useCreateEditCategoryFormStore = defineStore(storeName, {
 
                     category = response.data.data
                     Inertia.get(
-                        getRouteUrl(
+                        routesStore.route(
                             routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_EDIT,
                             {
                                 admin_category: category.id,

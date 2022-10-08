@@ -1,7 +1,7 @@
 import { defineStore } from "pinia"
 import Column from "@/admin/inertia/modules/columns/Column"
 import axios from "axios"
-import { getRouteUrl, routeNames } from "@/admin/inertia/modules/routes"
+import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
 
 export const storeName = "columns"
 
@@ -41,6 +41,8 @@ export const useColumnsStore = defineStore(storeName, {
         ): Promise<void> {
             this._loading = true
             try {
+                const routesStore = useRoutesStore()
+
                 const {
                     data: {
                         data: {
@@ -52,7 +54,7 @@ export const useColumnsStore = defineStore(storeName, {
                     status,
                     statusText,
                 } = await axios.put<SortColumnsResponse>(
-                    getRouteUrl(routeNames.ROUTE_ADMIN_AJAX_SORT_COLUMNS),
+                    routesStore.route(routeNames.ROUTE_ADMIN_AJAX_SORT_COLUMNS),
                     requestParams
                 )
 

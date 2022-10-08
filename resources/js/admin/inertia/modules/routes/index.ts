@@ -6,13 +6,14 @@ import route, {
     RouteParamsWithQueryOverload,
     Router,
 } from "ziggy-js"
-import { Ziggy } from "@/helpers/ziggy"
 import Option from "@/admin/inertia/modules/common/Option"
 import { useBrandsStore } from "@/admin/inertia/modules/brands"
 import * as H from "history"
 import { AdminTab, TabEnum } from "@/admin/inertia/modules/common/Tabs"
 import { UrlParams } from "@/admin/inertia/modules/common/types"
-import { isNumeric } from "@/admin/inertia/utils"
+import {getAmendedZiggyConfig, isNumeric} from "@/admin/inertia/utils"
+import {usePage} from '@inertiajs/inertia-vue3'
+import {InitialPageProps} from "@/admin/inertia/modules"
 
 export const storeName = "routes"
 
@@ -23,7 +24,14 @@ export const useRoutesStore = defineStore(storeName, {
         }
     },
     getters: {
-        fullUrl: (state): string | null => state._fullUrl,
+        fullUrl: (state): string => {
+            if (state._fullUrl) {
+                return state._fullUrl
+            }
+
+            const pageProps = usePage<InitialPageProps>()
+            return pageProps.props.value.fullUrl
+        },
         url: function (): string | null {
             return this.fullUrl
                 ? this.fullUrl
@@ -206,10 +214,7 @@ export const useRoutesStore = defineStore(storeName, {
             return (
                 name: string,
                 params?: RouteParamsWithQueryOverload | RouteParam
-            ): string | null => {
-                if (!this.fullUrl) {
-                    return null
-                }
+            ): string => {
                 let u = new URL(this.fullUrl)
                 let location = {
                     host: u.host,
@@ -218,19 +223,18 @@ export const useRoutesStore = defineStore(storeName, {
                     state: typeof history !== "undefined" ? history.state : {},
                     hash: u.hash,
                 } as H.Location
+
+                let ziggyConfig = getAmendedZiggyConfig(this.fullUrl)
+
                 let config = {
-                    ...Ziggy,
+                    ...ziggyConfig,
                     location,
                 } as Config
 
-                return route(name, params, false, config)
+                return route(name, params, undefined, config)
             }
         },
-        router(): Router | null {
-            if (!this.fullUrl) {
-                return null
-            }
-
+        router(): Router {
             let u = new URL(this.fullUrl)
             let location = {
                 host: u.host,
@@ -239,12 +243,15 @@ export const useRoutesStore = defineStore(storeName, {
                 state: typeof history !== "undefined" ? history.state : {},
                 hash: u.hash,
             } as H.Location
+
+            let ziggyConfig = getAmendedZiggyConfig(this.fullUrl)
+
             let config = {
-                ...Ziggy,
+                ...ziggyConfig,
                 location,
             } as Config
 
-            return route(undefined, undefined, false, config)
+            return route(undefined, undefined, undefined, config)
         },
         current(): string | null {
             return this.router ? this.router.current() : null
@@ -316,7 +323,11 @@ export const useRoutesStore = defineStore(storeName, {
 export const getRouteUrl = (
     name: string,
     params?: RouteParamsWithQueryOverload | RouteParam
-): string => route(name, params, false, Ziggy as Config)
+): string => {
+    let ziggyConfig = getAmendedZiggyConfig()
+
+    return route(name, params, undefined, ziggyConfig as Config)
+}
 
 export const routeNames = {
     ROUTE_WEB_HOME: "home",

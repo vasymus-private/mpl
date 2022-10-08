@@ -6,7 +6,7 @@ import {
 import * as yup from "yup"
 import { arrayToMap, yupIntegerOrEmptyString } from "@/admin/inertia/utils"
 import axios, { AxiosError } from "axios"
-import { getRouteUrl, routeNames } from "@/admin/inertia/modules/routes"
+import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
 import useFormHelpers from "@/admin/inertia/composables/useFormHelpers"
 import { ErrorResponse } from "@/admin/inertia/modules/common/types"
 import { useBrandsStore } from "@/admin/inertia/modules/brands"
@@ -27,10 +27,11 @@ export const useIndexBrandsFormStore = defineStore(storeName, {
                 if (!brandsToUpdate.length) {
                     return
                 }
+                const routesStore = useRoutesStore()
                 const {
                     data: { data: brandsResponse = [] },
                 } = await axios.put<BrandsResponse>(
-                    getRouteUrl(routeNames.ROUTE_ADMIN_AJAX_BRANDS_BULK_UPDATE),
+                    routesStore.route(routeNames.ROUTE_ADMIN_AJAX_BRANDS_BULK_UPDATE),
                     {
                         brands: arrayToMap<Partial<BrandListItem>>(
                             brandsToUpdate

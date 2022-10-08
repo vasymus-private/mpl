@@ -151,7 +151,7 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean
                     >
                         <NavItem
                             :id-or-href="routesStore.route(routeNames.ROUTE_ADMIN_BRANDS_TEMP_INDEX)"
-                            :is-inertia-link="false"
+                            :is-inertia-link="true"
                             title="Элементы"
                             :is-collapse="false"
                             icon-class="adm-arrow-icon-dot"

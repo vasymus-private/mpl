@@ -1,15 +1,15 @@
 import { createApp, h } from "vue"
 import { createInertiaApp } from "@inertiajs/inertia-vue3"
 import { ZiggyVue } from "ziggy-js/src/js/vue"
-import { Ziggy } from "@/helpers/ziggy"
 import { InertiaProgress } from "@inertiajs/progress"
 import { createPinia } from "pinia"
-import { initFromPageProps } from "@/admin/inertia/modules"
+import {initFromPageProps, InitialPageProps} from "@/admin/inertia/modules"
 import "bootstrap"
 import { Inertia } from "@inertiajs/inertia"
 import "ckeditor5-custom-build/build/ckeditor"
 import "vue-multiselect/dist/vue-multiselect.css"
 import axios from "axios"
+import {getAmendedZiggyConfig} from "@/admin/inertia/utils"
 
 const pinia = createPinia()
 //
@@ -42,7 +42,7 @@ const pinia = createPinia()
 // })
 
 Inertia.on("navigate", (event) => {
-    initFromPageProps(pinia, event.detail.page.props)
+    initFromPageProps(pinia, event.detail.page.props as unknown as InitialPageProps)
 })
 
 createInertiaApp({
@@ -50,15 +50,20 @@ createInertiaApp({
     // @ts-ignore
     setup({ el, App, props, plugin }) {
         // console.log(el, App, props, plugin)
+
+        let initialPageProps: InitialPageProps = props.initialPage.props as unknown as InitialPageProps
+
+        let ziggyConfig = getAmendedZiggyConfig(initialPageProps.fullUrl)
+
         try {
             return createApp({ render: () => h(App, props) })
                 .use(plugin)
-                .use(ZiggyVue, Ziggy)
+                .use(ZiggyVue, ziggyConfig)
                 .use(pinia)
                 .mount(el)
             // walkaround for passing page props to pinia
         } finally {
-            initFromPageProps(pinia, props?.initialPage?.props)
+            initFromPageProps(pinia, initialPageProps)
         }
     },
 })

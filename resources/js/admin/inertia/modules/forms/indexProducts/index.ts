@@ -4,7 +4,7 @@ import {
     yupIntegerOrEmptyString,
     yupNumberOrEmptyString,
 } from "@/admin/inertia/utils"
-import { getRouteUrl, routeNames } from "@/admin/inertia/modules/routes"
+import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
 import axios, { AxiosError } from "axios"
 import ProductListItem from "@/admin/inertia/modules/products/ProductListItem"
 import { defineStore } from "pinia"
@@ -31,10 +31,11 @@ export const useIndexProductsFormStore = defineStore(storeName, {
                 if (!productsToUpdate.length) {
                     return
                 }
+                const routesStore = useRoutesStore()
                 const {
                     data: { data: productsResponse = [] },
                 } = await axios.put<ProductsResponse>(
-                    getRouteUrl(
+                    routesStore.route(
                         routeNames.ROUTE_ADMIN_AJAX_PRODUCTS_BULK_UPDATE
                     ),
                     {

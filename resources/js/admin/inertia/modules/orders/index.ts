@@ -9,7 +9,6 @@ import {
 import Links from "@/admin/inertia/modules/common/Links"
 import Meta from "@/admin/inertia/modules/common/Meta"
 import {
-    getRouteUrl,
     routeNames,
     useRoutesStore,
 } from "@/admin/inertia/modules/routes"
@@ -313,8 +312,9 @@ export const useOrdersStore = defineStore(storeName, {
             }
 
             try {
+                const routesStore = useRoutesStore()
                 const response = await axios.get<{ data: Array<OrderEvent> }>(
-                    getRouteUrl(
+                    routesStore.route(
                         routeNames.ROUTE_ADMIN_AJAX_ORDER_EVENTS_INDEX,
                         { admin_order: this._entity.id }
                     )

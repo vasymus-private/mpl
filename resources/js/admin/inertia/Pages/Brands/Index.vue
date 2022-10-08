@@ -19,7 +19,6 @@ import FormControlTextarea from '@/admin/inertia/components/forms/vee-validate/F
 import Pagination from "@/admin/inertia/components/layout/Pagination.vue"
 import {getPerPageOptions} from "@/admin/inertia/modules/common"
 
-
 const routesStore = useRoutesStore()
 const indexBrandsFormStore = useIndexBrandsFormStore()
 const brandsStore = useBrandsStore()
@@ -107,7 +106,7 @@ watchSelectAll()
     <TheLayout>
         <div>
             <div class="breadcrumbs">
-                <a :href="routesStore.route(routeNames.ROUTE_ADMIN_HOME)" class="breadcrumbs__item">
+                <a :href="routesStore.route(routeNames.ROUTE_ADMIN_TEMP_HOME)" class="breadcrumbs__item">
                     <span class="breadcrumbs__text">Рабочий стол</span>
                 </a>
             </div>

@@ -35,13 +35,9 @@ let configWithoutUpload: {toolbar: object, simpleUpload: object} = {
         uploadUrl: 'https://example.com',
     },
 }
-let editor
-let CKEditor
-if (typeof window !== "undefined") {
-    editor = window.ClassicEditor
-    let { component } = require('@ckeditor/ckeditor5-vue')
-    CKEditor = component
-}
+let editor = require('ckeditor5-custom-build')
+let { component } = require('@ckeditor/ckeditor5-vue')
+let CKEditor = component
 </script>
 
 <template>

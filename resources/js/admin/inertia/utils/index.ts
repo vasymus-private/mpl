@@ -1,5 +1,8 @@
 import * as yup from "yup"
 import { v4 as uuidv4 } from "uuid"
+import { Ziggy } from "@/helpers/ziggy"
+import {usePage} from "@inertiajs/inertia-vue3";
+import {InitialPageProps} from "@/admin/inertia/modules";
 
 export const isNumeric = (n: any): boolean =>
     !isNaN(parseFloat(n)) && isFinite(n)
@@ -57,4 +60,21 @@ export const arrayToMap = <Obj extends Object = Object>(
         },
         {}
     )
+}
+
+export const getAmendedZiggyConfig = (fullUrl?: string|null): object => {
+    let u: URL
+
+    if (fullUrl) {
+        u = new URL(fullUrl)
+    } else {
+        const pageProps = usePage<InitialPageProps>()
+        u = new URL(pageProps.props.value.fullUrl)
+    }
+
+    const initialZiggyConfig = Ziggy
+
+    initialZiggyConfig.url = u.origin
+
+    return initialZiggyConfig
 }

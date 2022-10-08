@@ -76,7 +76,7 @@ watchSelectAll()
         <div>
             <Head title="Заказы" />
             <div class="breadcrumbs">
-                <a :href="routesStore.route(routeNames.ROUTE_ADMIN_HOME)" class="breadcrumbs__item">
+                <a :href="routesStore.route(routeNames.ROUTE_ADMIN_TEMP_HOME)" class="breadcrumbs__item">
                     <span class="breadcrumbs__text">Рабочий стол</span>
                 </a>
             </div>
