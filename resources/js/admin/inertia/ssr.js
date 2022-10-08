@@ -5,7 +5,6 @@ import createServer from "@inertiajs/server"
 import { ZiggyVue } from "ziggy-js/dist/vue"
 import { createPinia } from "pinia"
 import { initFromPageProps } from "@/admin/inertia/modules"
-import "@/admin/inertia/settings/vee-validate"
 import { getAmendedZiggyConfig } from "@/admin/inertia/utils"
 
 createServer((page) =>

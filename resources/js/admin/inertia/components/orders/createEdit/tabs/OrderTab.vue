@@ -561,7 +561,7 @@ const orderTotalProfitRubFormatted = computed<string>(() => {
                             <span class="main-grid-cell-content">
                                 <a
                                     target="_blank"
-                                    :href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_EDIT, {admin_product: productField.value.id})"
+                                    :href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_EDIT, {admin_product: productField.value.parent_id ? productField.value.parent_id : productField.value.id})"
                                 >{{productField.value.order_product_name}}</a>
                             </span>
                         </td>
