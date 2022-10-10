@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-// @ts-ignore
-import Multiselect from 'vue-multiselect'
+import Multiselect from '@/admin/inertia/vendor/vue-multiselect/Multiselect.vue'
 import Modal from '@/admin/inertia/components/modals/Modal.vue'
 import {ModalType} from "@/admin/inertia/modules/modals/types"
 import ModalCloseButton from '@/admin/inertia/components/modals/ModalCloseButton.vue'

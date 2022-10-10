@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-// @ts-ignore
-import Multiselect from 'vue-multiselect'
+import Multiselect from '@/admin/inertia/vendor/vue-multiselect/Multiselect.vue'
 import RowInput from '@/admin/inertia/components/forms/vee-validate/RowInput.vue'
 import InputGroup from "@/admin/inertia/components/forms/parts/InputGroup.vue"
 import {ref} from 'vue'

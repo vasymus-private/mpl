@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-// @ts-ignore
-import Multiselect from 'vue-multiselect'
+import Multiselect from '@/admin/inertia/vendor/vue-multiselect/Multiselect.vue'
 import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
 import {computed, watchEffect} from "vue"
 import {ColumnName, isSortableColumn, useColumnsStore} from "@/admin/inertia/modules/columns"
