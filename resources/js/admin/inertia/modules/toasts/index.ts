@@ -53,8 +53,10 @@ export const useToastsStore = defineStore(storeName, {
 })
 
 export const Toasts: { [key in ToastType]: () => DefineComponent } = {
-    [ToastType.INFO]: () => require("@/admin/inertia/components/toasts/Toast.vue").default,
-    [ToastType.ERROR]: () => require("@/admin/inertia/components/toasts/Toast.vue").default,
+    [ToastType.INFO]: () =>
+        require("@/admin/inertia/components/toasts/Toast.vue").default,
+    [ToastType.ERROR]: () =>
+        require("@/admin/inertia/components/toasts/Toast.vue").default,
 }
 
 export const DELAY_DEFAULT = 7000
