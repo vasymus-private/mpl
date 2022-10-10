@@ -1,9 +1,5 @@
 import { defineStore } from "pinia"
 import { DefineComponent } from "@vue/runtime-core"
-import SortColumnsModal from "@/admin/inertia/components/modals/SortColumnsModal.vue"
-import CreateEditVariation from "@/admin/inertia/components/products/createEdit/modals/CreateEditVariation.vue"
-import EditOrderProduct from "@/admin/inertia/components/orders/createEdit/modals/EditOrderProduct.vue"
-import AddOrderProductItem from "@/admin/inertia/components/orders/createEdit/modals/AddOrderProductItem.vue"
 import { ModalType, ModalPayload } from "@/admin/inertia/modules/modals/types"
 
 export const storeName = "modals"
@@ -36,9 +32,9 @@ export const useModalsStore = defineStore(storeName, {
     },
 })
 
-export const Modals: Partial<Record<ModalType, DefineComponent>> = {
-    [ModalType.SORT_ADMIN_COLUMNS]: SortColumnsModal,
-    [ModalType.CREATE_EDIT_VARIATION]: CreateEditVariation,
-    [ModalType.EDIT_ORDER_PRODUCT]: EditOrderProduct,
-    [ModalType.ADD_ORDER_PRODUCT_ITEM]: AddOrderProductItem,
+export const Modals: Partial<Record<ModalType, () => DefineComponent>> = {
+    [ModalType.SORT_ADMIN_COLUMNS]: () => require("@/admin/inertia/components/modals/SortColumnsModal.vue").default,
+    [ModalType.CREATE_EDIT_VARIATION]: () => require("@/admin/inertia/components/products/createEdit/modals/CreateEditVariation.vue").default,
+    [ModalType.EDIT_ORDER_PRODUCT]: () => require("@/admin/inertia/components/orders/createEdit/modals/EditOrderProduct.vue").default,
+    [ModalType.ADD_ORDER_PRODUCT_ITEM]: () => require("@/admin/inertia/components/orders/createEdit/modals/AddOrderProductItem.vue").default,
 }

@@ -88,7 +88,7 @@ onUnmounted(() => {
         </main>
         <component
             v-for="(modal, idx) in modalsStore.types"
-            :is="Modals[modal.type]"
+            :is="Modals[modal.type]()"
             :type="modal.type"
             :modal-props="modal.props || {}"
             :key="`${modal.type}-${idx}`"
@@ -96,7 +96,7 @@ onUnmounted(() => {
         <div v-if="toastsStore.types.length" class="toast-container position-fixed bottom-0 end-0 p-3">
             <template v-for="toast in toastsStore.types" :key="`${toast.props._uuid}`">
                 <component
-                    :is="Toasts[toast.type]"
+                    :is="Toasts[toast.type]()"
                     :type="toast.type"
                     :toast-props="toast.props"
                 />
