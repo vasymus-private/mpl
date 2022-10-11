@@ -5,7 +5,7 @@ import {
     Rate,
     CurrencyName,
 } from "@/admin/inertia/modules/currencies/types"
-import {Option} from "@/admin/inertia/modules/common/types"
+import { Option } from "@/admin/inertia/modules/common/types"
 
 export const storeName = "currencies"
 
