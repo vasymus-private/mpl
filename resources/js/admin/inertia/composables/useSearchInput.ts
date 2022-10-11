@@ -1,7 +1,6 @@
 import { computed, Ref, ref } from "vue"
 import useRoute from "@/admin/inertia/composables/useRoute"
-import { UrlParams } from "@/admin/inertia/modules/common/types"
-import Option from "@/admin/inertia/modules/common/Option"
+import { UrlParams, Option } from "@/admin/inertia/modules/common/types"
 
 export default (adminOptions?: Ref<Array<Option>>) => {
     const { getUrlParam, visit } = useRoute()

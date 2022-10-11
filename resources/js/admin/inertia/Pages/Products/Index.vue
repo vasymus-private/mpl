@@ -6,11 +6,10 @@ import {isSortableColumn, useColumnsStore} from "@/admin/inertia/modules/columns
 import {useProductsStore} from "@/admin/inertia/modules/products"
 import TheLayout from '@/admin/inertia/components/layout/TheLayout.vue'
 import Pagination from "@/admin/inertia/components/layout/Pagination.vue"
-import Option from "@/admin/inertia/modules/common/Option"
 import {getActiveName, getPerPageOptions} from '@/admin/inertia/modules/common'
 import {useModalsStore} from "@/admin/inertia/modules/modals"
 import {ModalType} from "@/admin/inertia/modules/modals/types"
-import ProductListItem from "@/admin/inertia/modules/products/ProductListItem"
+import {ProductListItem} from "@/admin/inertia/modules/products/types"
 import {Link} from "@inertiajs/inertia-vue3"
 import {ColumnType, ColumnName} from "@/admin/inertia/modules/columns/types"
 import {useBrandsStore} from "@/admin/inertia/modules/brands"
@@ -32,7 +31,7 @@ import useRoute from "@/admin/inertia/composables/useRoute"
 import useSearchInput from "@/admin/inertia/composables/useSearchInput"
 import useFormHelpers from "@/admin/inertia/composables/useFormHelpers"
 import {useToastsStore} from "@/admin/inertia/modules/toasts"
-import {UrlParams} from "@/admin/inertia/modules/common/types"
+import {UrlParams, Option} from "@/admin/inertia/modules/common/types"
 
 
 const columnsStore = useColumnsStore()

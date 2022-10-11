@@ -3,7 +3,7 @@ import {useField} from "vee-validate"
 import {randomId} from "@/admin/inertia/utils"
 import {toRef, ref} from 'vue'
 import { useDropZone } from '@vueuse/core'
-import Media from "@/admin/inertia/modules/common/Media"
+import {Media} from "@/admin/inertia/modules/common/types"
 
 
 const props = defineProps<{

@@ -8,7 +8,7 @@ import {useColumnsStore, isSortableColumn} from "@/admin/inertia/modules/columns
 import {ref, watch} from "vue"
 import {VariationForm} from "@/admin/inertia/modules/forms/createEditProduct/types"
 import {randomId} from "@/admin/inertia/utils"
-import Media from "@/admin/inertia/modules/common/Media"
+import {Media} from "@/admin/inertia/modules/common/types"
 import {copyMedia} from "@/admin/inertia/modules/common/utils"
 import {useCurrenciesStore} from "@/admin/inertia/modules/currencies"
 import {useAvailabilityStatusesStore} from "@/admin/inertia/modules/availabilityStatuses"

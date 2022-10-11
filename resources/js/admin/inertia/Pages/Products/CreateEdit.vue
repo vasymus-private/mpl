@@ -13,8 +13,7 @@ import {
 import Breadcrumbs from "@/admin/inertia/components/products/createEdit/parts/Breadcrumbs.vue"
 import Toolbar from "@/admin/inertia/components/products/createEdit/parts/Toolbar.vue"
 import {Values} from "@/admin/inertia/modules/forms/createEditProduct/types"
-import {AdminTab} from "@/admin/inertia/modules/common/Tabs"
-import {UrlParams} from "@/admin/inertia/modules/common/types"
+import {UrlParams, AdminTab} from "@/admin/inertia/modules/common/types"
 
 
 const productsStore = useProductsStore()

@@ -1,5 +1,5 @@
 import { DateTime } from "luxon"
-import Media from "@/admin/inertia/modules/common/Media"
+import {Media} from "@/admin/inertia/modules/common/types"
 
 export interface OrderItem {
     id: number

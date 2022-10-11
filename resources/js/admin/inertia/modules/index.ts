@@ -1,7 +1,6 @@
 import { Column } from "@/admin/inertia/modules/columns/types"
 import { Article } from "@/admin/inertia/modules/articles/types"
 import { Auth } from "@/admin/inertia/modules/auth/types"
-import Option from "@/admin/inertia/modules/common/Option"
 import {
     CategoriesTreeItem,
     Category,
@@ -15,7 +14,7 @@ import { useServicesStore } from "@/admin/inertia/modules/services"
 import { useCategoriesStore } from "@/admin/inertia/modules/categories"
 import { useColumnsStore } from "@/admin/inertia/modules/columns"
 import { useBrandsStore } from "@/admin/inertia/modules/brands"
-import ProductListItem from "@/admin/inertia/modules/products/ProductListItem"
+import {ProductListItem, Product} from "@/admin/inertia/modules/products/types"
 import { useProductsStore } from "@/admin/inertia/modules/products"
 import { AvailabilityStatus } from "@/admin/inertia/modules/availabilityStatuses/types"
 import { useAvailabilityStatusesStore } from "@/admin/inertia/modules/availabilityStatuses"
@@ -31,10 +30,8 @@ import { OrderStatus } from "@/admin/inertia/modules/orderStatuses/types"
 import { useOrderStatusesStore } from "@/admin/inertia/modules/orderStatuses"
 import { CharType } from "@/admin/inertia/modules/charTypes/types"
 import { useCharTypesStore } from "@/admin/inertia/modules/charTypes"
-import Links from "@/admin/inertia/modules/common/Links"
-import Meta from "@/admin/inertia/modules/common/Meta"
+import {Links, Meta, Option} from "@/admin/inertia/modules/common/types"
 import { useRoutesStore } from "@/admin/inertia/modules/routes"
-import Product from "@/admin/inertia/modules/products/Product"
 import { useProfileStore } from "@/admin/inertia/modules/profile"
 import { Brand, BrandListItem } from "@/admin/inertia/modules/brands/types"
 import {

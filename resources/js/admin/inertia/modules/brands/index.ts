@@ -1,16 +1,13 @@
 import { defineStore } from "pinia"
-import Option from "@/admin/inertia/modules/common/Option"
 import { Brand, BrandListItem } from "@/admin/inertia/modules/brands/types"
 import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
 import axios, { AxiosError } from "axios"
-import { ErrorResponse } from "@/admin/inertia/modules/common/types"
+import { ErrorResponse, Links, Option, Meta } from "@/admin/inertia/modules/common/types"
 import {
     errorsToErrorFields,
     extendMetaLinksWithComputedData,
 } from "@/admin/inertia/modules/common"
 import { arrayToMap } from "@/admin/inertia/utils"
-import Links from "@/admin/inertia/modules/common/Links"
-import Meta from "@/admin/inertia/modules/common/Meta"
 
 export const storeName = "brands"
 

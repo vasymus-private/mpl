@@ -1,4 +1,4 @@
-import Media from "@/admin/inertia/modules/common/Media"
+import {Media} from "@/admin/inertia/modules/common/types"
 import axios from "axios"
 import { blobToFile, randomId } from "@/admin/inertia/utils"
 
