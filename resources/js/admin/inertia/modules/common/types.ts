@@ -1,4 +1,4 @@
-import {DefineComponent} from "@vue/runtime-core"
+import { DefineComponent } from "@vue/runtime-core"
 
 export interface Errors {
     [key: string]: Array<string>

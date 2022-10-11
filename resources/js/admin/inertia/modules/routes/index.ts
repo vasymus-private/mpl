@@ -8,7 +8,12 @@ import route, {
 } from "ziggy-js"
 import { useBrandsStore } from "@/admin/inertia/modules/brands"
 import * as H from "history"
-import { UrlParams, AdminTab, TabEnum, Option } from "@/admin/inertia/modules/common/types"
+import {
+    UrlParams,
+    AdminTab,
+    TabEnum,
+    Option,
+} from "@/admin/inertia/modules/common/types"
 import { getAmendedZiggyConfig, isNumeric } from "@/admin/inertia/utils"
 import { usePage } from "@inertiajs/inertia-vue3"
 import { InitialPageProps } from "@/admin/inertia/modules"

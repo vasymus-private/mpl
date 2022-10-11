@@ -1,7 +1,13 @@
 import { defineStore } from "pinia"
 import { useOrdersStore } from "@/admin/inertia/modules/orders"
 import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
-import { ErrorResponse, UrlParams, Media, AdminTab, TabEnum } from "@/admin/inertia/modules/common/types"
+import {
+    ErrorResponse,
+    UrlParams,
+    Media,
+    AdminTab,
+    TabEnum,
+} from "@/admin/inertia/modules/common/types"
 import OrderTab from "@/admin/inertia/components/orders/createEdit/tabs/OrderTab.vue"
 import HistoryTab from "@/admin/inertia/components/orders/createEdit/tabs/HistoryTab.vue"
 import * as yup from "yup"

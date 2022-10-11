@@ -1,7 +1,12 @@
 import { isNumeric, yupIntegerOrEmptyString } from "@/admin/inertia/utils"
 import axios from "axios"
 import { getRouteUrl, routeNames } from "@/admin/inertia/modules/routes"
-import { Errors, Meta, MetaLink, Option } from "@/admin/inertia/modules/common/types"
+import {
+    Errors,
+    Meta,
+    MetaLink,
+    Option,
+} from "@/admin/inertia/modules/common/types"
 import * as yup from "yup"
 
 export const extendMetaLinksWithComputedData = (

@@ -12,11 +12,17 @@ import {
     searchProductRequestToUrlSearchParams,
     SearchProductResponse,
     SearchType,
-    ProductListItem
+    ProductListItem,
 } from "@/admin/inertia/modules/products/types"
 import axios, { AxiosError } from "axios"
 import { arrayToMap } from "@/admin/inertia/utils"
-import { ErrorResponse, UrlParams, Links, Meta, Option } from "@/admin/inertia/modules/common/types"
+import {
+    ErrorResponse,
+    UrlParams,
+    Links,
+    Meta,
+    Option,
+} from "@/admin/inertia/modules/common/types"
 
 export const storeName = "products"
 

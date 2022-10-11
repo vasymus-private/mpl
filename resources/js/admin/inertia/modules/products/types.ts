@@ -1,4 +1,4 @@
-import {Media, Meta, Seo} from "@/admin/inertia/modules/common/types"
+import { Media, Meta, Seo } from "@/admin/inertia/modules/common/types"
 
 export interface CharCategory {
     id: number

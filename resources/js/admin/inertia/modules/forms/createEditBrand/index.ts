@@ -13,7 +13,11 @@ import { CustomFormData } from "@/admin/inertia/utils/CustomFormData"
 import axios, { AxiosError } from "axios"
 import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
 import { Inertia } from "@inertiajs/inertia"
-import { ErrorResponse, AdminTab, TabEnum } from "@/admin/inertia/modules/common/types"
+import {
+    ErrorResponse,
+    AdminTab,
+    TabEnum,
+} from "@/admin/inertia/modules/common/types"
 import {
     errorsToErrorFields,
     getMediaSchema,

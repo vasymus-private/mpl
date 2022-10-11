@@ -1,7 +1,7 @@
 import { defineStore } from "pinia"
 import { Auth, User } from "@/admin/inertia/modules/auth/types"
 import { Admin } from "@/admin/inertia/modules/auth/types"
-import {Option} from "@/admin/inertia/modules/common/types"
+import { Option } from "@/admin/inertia/modules/common/types"
 
 export const storeName = "auth"
 
