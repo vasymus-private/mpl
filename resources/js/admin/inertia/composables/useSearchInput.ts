@@ -3,9 +3,7 @@ import useRoute from "@/admin/inertia/composables/useRoute"
 import { UrlParams } from "@/admin/inertia/modules/common/types"
 import Option from "@/admin/inertia/modules/common/Option"
 
-export default (
-    adminOptions?: Ref<Array<Option>>
-) => {
+export default (adminOptions?: Ref<Array<Option>>) => {
     const { getUrlParam, visit } = useRoute()
 
     const _getRefOrUrlParam = (

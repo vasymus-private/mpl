@@ -107,7 +107,7 @@ class ProductsController extends BaseWebController
         $product->load([
             'media',
             "seo",
-            "variations" => function($query) {
+            "variations" => function ($query) {
                 /** @var \Illuminate\Database\Eloquent\Relations\HasMany|\Domain\Products\QueryBuilders\ProductQueryBuilder $query */
                 return $query->active();
             },

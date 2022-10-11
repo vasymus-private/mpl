@@ -1,17 +1,15 @@
 import { Inertia } from "@inertiajs/inertia"
 import { isNumeric } from "@/admin/inertia/utils"
 import { UrlParams } from "@/admin/inertia/modules/common/types"
-import {usePage} from "@inertiajs/inertia-vue3"
-import {InitialPageProps} from "@/admin/inertia/modules"
+import { usePage } from "@inertiajs/inertia-vue3"
+import { InitialPageProps } from "@/admin/inertia/modules"
 
 export default () => {
     const pageProps = usePage<InitialPageProps>()
     const fullUrl = pageProps.props.value.fullUrl
 
     const _getUrl = (): string =>
-        typeof location !== "undefined"
-            ? location.href
-            : fullUrl
+        typeof location !== "undefined" ? location.href : fullUrl
 
     const getUrlParam = (key: string): string | number | boolean | null => {
         if (!_getUrl()) {
