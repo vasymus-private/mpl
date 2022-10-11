@@ -144,9 +144,11 @@ export const useProductsStore = defineStore(storeName, {
         },
         productsIds() {
             return (uuids: Array<string>): Array<number> => {
-                return this.productListItems.filter(item => uuids.includes(item.uuid)).map(item => item.id)
+                return this.productListItems
+                    .filter((item) => uuids.includes(item.uuid))
+                    .map((item) => item.id)
             }
-        }
+        },
     },
     actions: {
         setProductListItems(productListItems: Array<ProductListItem>): void {

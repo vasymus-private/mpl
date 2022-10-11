@@ -74,9 +74,11 @@ export const useBrandsStore = defineStore(storeName, {
         },
         brandIds() {
             return (uuids: Array<string>): Array<number> => {
-                return this.brandsList.filter(item => uuids.includes(item.uuid)).map(item => item.id)
+                return this.brandsList
+                    .filter((item) => uuids.includes(item.uuid))
+                    .map((item) => item.id)
             }
-        }
+        },
     },
     actions: {
         setEntities(brandList: Array<BrandListItem>): void {

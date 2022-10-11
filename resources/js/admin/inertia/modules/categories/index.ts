@@ -102,9 +102,11 @@ export const useCategoriesStore = defineStore(storeName, {
         },
         categoryIds() {
             return (uuids: Array<string>): Array<number> => {
-                return this.categories.filter(item => uuids.includes(item.uuid)).map(item => item.id)
+                return this.categories
+                    .filter((item) => uuids.includes(item.uuid))
+                    .map((item) => item.id)
             }
-        }
+        },
     },
     actions: {
         setEntities(entities: Array<CategoriesTreeItem>): void {
