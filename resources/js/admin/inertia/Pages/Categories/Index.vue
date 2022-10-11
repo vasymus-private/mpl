@@ -66,7 +66,7 @@ const getLinkHref = (categoryId: number): string => {
 }
 
 const toggleActive = async (category: CategoryListItem) => {
-    await indexCategoriesFormStore.submitIndexCategories([category.id], {
+    await indexCategoriesFormStore.submitIndexCategories([category.uuid], {
         categories: [
             {
                 ...category,
@@ -84,11 +84,11 @@ const deleteCategories = async () => {
 
 const deleteCategory = async (category: CategoryListItem) => {
     if (confirm(`Вы уверены, что хотите удалить категорию '${category.id}' '${category.name}' ?`)) {
-        await bulkDelete([category.id])
+        await bulkDelete([category.uuid])
     }
 }
 
-const bulkDelete = async (ids: Array<number>) => {
+const bulkDelete = async (ids: Array<string>) => {
     let errorsOrVoid = await categoriesStore.deleteBulkCategories(ids)
     if (!errorsOrVoid) {
         revisit()
@@ -186,7 +186,7 @@ watchSelectAll()
                         </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="category in categoriesList" :key="`category-${category.id}`" @click="manualCheck(category.id)">
+                            <tr v-for="category in categoriesList" :key="`category-${category.id}`" @click="manualCheck(category.uuid)">
                                 <td>
                                     <div class="form-check">
                                         <input
@@ -234,7 +234,7 @@ watchSelectAll()
                                 <td><span class="main-grid-cell-content">{{category.id}}</span></td>
                                 <td>
                                     <FormControlInput
-                                        v-if="editMode && isChecked(category.id)"
+                                        v-if="editMode && isChecked(category.uuid)"
                                         :name="`categories[${indexForId(category.id)}].name`"
                                         type="text"
                                         :keep-value="true"
@@ -252,7 +252,7 @@ watchSelectAll()
                                 </td>
                                 <td>
                                     <FormControlInput
-                                        v-if="editMode && isChecked(category.id)"
+                                        v-if="editMode && isChecked(category.uuid)"
                                         :name="`categories[${indexForId(category.id)}].ordering`"
                                         type="number"
                                         :keep-value="true"
@@ -261,7 +261,7 @@ watchSelectAll()
                                 </td>
                                 <td>
                                     <FormCheckInput
-                                        v-if="editMode && isChecked(category.id)"
+                                        v-if="editMode && isChecked(category.uuid)"
                                         :name="`categories[${indexForId(category.id)}].is_active`"
                                         :keep-value="true"
                                     />

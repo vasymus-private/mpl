@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 import { CharType } from "@/admin/inertia/modules/charTypes/types"
-import Option from "@/admin/inertia/modules/common/Option"
+import {Option} from "@/admin/inertia/modules/common/types"
 
 export const storeName = "charTypes"
 

@@ -21,12 +21,12 @@ export const storeName = "indexProductsForm"
 export const useIndexProductsFormStore = defineStore(storeName, {
     actions: {
         async submitIndexProducts(
-            checkedProducts: Array<number>,
+            checkedProductsUuids: Array<string>,
             values: Values
         ): Promise<void | Record<string, string | undefined>> {
             try {
                 let productsToUpdate = values.products.filter((item) =>
-                    checkedProducts.includes(item.id)
+                    checkedProductsUuids.includes(item.uuid)
                 )
                 if (!productsToUpdate.length) {
                     return

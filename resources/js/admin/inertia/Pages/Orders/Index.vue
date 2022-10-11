@@ -131,7 +131,7 @@ watchSelectAll()
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="order in ordersList" :key="order.id" @click="manualCheck(order.id)">
+                    <tr v-for="order in ordersList" :key="order.id" @click="manualCheck(order.uuid)">
                         <td>
                             <div class="form-check">
                                 <input

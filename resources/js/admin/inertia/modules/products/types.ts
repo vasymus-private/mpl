@@ -2,7 +2,7 @@ import {Media, Meta, Seo} from "@/admin/inertia/modules/common/types"
 
 export interface CharCategory {
     id: number
-    uuid?: string | null
+    uuid: string
     name: string
     product_id: number
     ordering: number
@@ -11,7 +11,7 @@ export interface CharCategory {
 
 export interface Char {
     id: number
-    uuid?: string | null
+    uuid: string
     name: string
     value: string | number | null
     product_id: number
@@ -23,8 +23,8 @@ export interface Char {
 }
 
 export interface Product {
-    id: number | null
-    uuid: string | null
+    id: number
+    uuid: string
     name: string | null
     slug: string | null
     ordering: number | null
@@ -69,7 +69,8 @@ export interface Product {
 }
 
 export interface InfoPrice {
-    id: number | null
+    id: number
+    uuid: string
     name: string | null
     price: number | null
     product_id: number | null
@@ -129,8 +130,8 @@ export const searchProductRequestToUrlSearchParams = (
 
 export interface SearchProduct {
     id: number
-    parent_id: number | null
     uuid: string
+    parent_id: number | null
     is_active: boolean
     name: string
     image: string | null
@@ -147,8 +148,8 @@ export interface SearchProduct {
 }
 export interface SearchProductVariation {
     id: number
-    parent_id: number | null
     uuid: string
+    parent_id: number | null
     is_active: boolean
     name: string
     image: string | null

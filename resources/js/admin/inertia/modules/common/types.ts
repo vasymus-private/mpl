@@ -4,8 +4,8 @@ export interface Errors {
     [key: string]: Array<string>
 }
 
-export interface WithId {
-    id?: string | number
+export interface WithUuid {
+    uuid: string
 }
 
 export interface Seo {

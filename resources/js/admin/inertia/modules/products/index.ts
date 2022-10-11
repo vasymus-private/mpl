@@ -136,14 +136,19 @@ export const useProductsStore = defineStore(storeName, {
                   }
                 : null
         },
+        productsIds() {
+            return (uuids: Array<string>): Array<number> => {
+                return this.productListItems.filter(item => uuids.includes(item.uuid)).map(item => item.id)
+            }
+        }
     },
     actions: {
         setProductListItems(productListItems: Array<ProductListItem>): void {
             this._productListItems = productListItems
         },
-        removeProductListItems(ids: Array<number>): void {
+        removeProductListItems(uuids: Array<string>): void {
             this._productListItems = this._productListItems.filter(
-                (item) => !ids.includes(item.id)
+                (item) => !uuids.includes(item.uuid)
             )
         },
         addOrUpdateProductListItems(
@@ -245,9 +250,9 @@ export const useProductsStore = defineStore(storeName, {
             )
         },
         async deleteBulkProducts(
-            ids: Array<number>
+            uuids: Array<string>
         ): Promise<void | Record<string, string | undefined>> {
-            if (!ids.length) {
+            if (!uuids.length) {
                 return
             }
 
@@ -260,12 +265,13 @@ export const useProductsStore = defineStore(storeName, {
                         routeNames.ROUTE_ADMIN_AJAX_PRODUCTS_BULK_DELETE
                     )
                 )
+                const ids = this.productsIds(uuids)
                 ids.forEach((id) => {
                     url.searchParams.append("ids[]", `${id}`)
                 })
                 await axios.delete(url.toString())
 
-                productsStore.removeProductListItems(ids)
+                productsStore.removeProductListItems(uuids)
             } catch (e) {
                 if (e instanceof AxiosError) {
                     const {

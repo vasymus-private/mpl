@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 import { PaymentMethod } from "@/admin/inertia/modules/paymentMethods/types"
-import Option from "@/admin/inertia/modules/common/Option"
+import {Option} from "@/admin/inertia/modules/common/types"
 
 export const storeName = "paymentMethods"
 

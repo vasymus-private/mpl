@@ -17,12 +17,12 @@ export const storeName = "indexCategoriesForm"
 export const useIndexCategoriesFormStore = defineStore(storeName, {
     actions: {
         async submitIndexCategories(
-            checkedCategories: Array<number>,
+            checkedCategoriesUuids: Array<string>,
             values: Values
         ): Promise<void | Record<string, string | undefined>> {
             try {
                 let categoriesToUpdate = values.categories.filter((item) =>
-                    checkedCategories.includes(item.id)
+                    checkedCategoriesUuids.includes(item.uuid)
                 )
                 if (!categoriesToUpdate.length) {
                     return

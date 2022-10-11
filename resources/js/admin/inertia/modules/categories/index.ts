@@ -96,6 +96,11 @@ export const useCategoriesStore = defineStore(storeName, {
                 routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_CREATE,
             ].includes(routesStore.current)
         },
+        categoryIds() {
+            return (uuids: Array<string>): Array<number> => {
+                return this.categories.filter(item => uuids.includes(item.uuid)).map(item => item.id)
+            }
+        }
     },
     actions: {
         setEntities(entities: Array<CategoriesTreeItem>): void {
@@ -107,9 +112,9 @@ export const useCategoriesStore = defineStore(storeName, {
         setListItems(listItems: Array<CategoryListItem>): void {
             this._listItems = listItems
         },
-        removeListItems(ids: Array<number>): void {
+        removeListItems(uuids: Array<string>): void {
             this._listItems = this._listItems.filter(
-                (item) => !ids.includes(item.id)
+                (item) => !uuids.includes(item.uuid)
             )
         },
         addOrUpdateCategoryListItems(listItems: Array<CategoryListItem>): void {
@@ -130,9 +135,9 @@ export const useCategoriesStore = defineStore(storeName, {
             this._listItems = [...this._listItems, ...listItems]
         },
         async deleteBulkCategories(
-            checkedCategories: Array<number>
+            checkedCategoriesUuids: Array<string>
         ): Promise<void | Record<string, string | undefined>> {
-            if (!checkedCategories.length) {
+            if (!checkedCategoriesUuids.length) {
                 return
             }
 
@@ -144,12 +149,13 @@ export const useCategoriesStore = defineStore(storeName, {
                         routeNames.ROUTE_ADMIN_AJAX_CATEGORIES_BULK_DELETE
                     )
                 )
-                checkedCategories.forEach((id) => {
+                const ids = this.categoryIds(checkedCategoriesUuids)
+                ids.forEach((id) => {
                     url.searchParams.append("ids[]", `${id}`)
                 })
                 await axios.delete(url.toString())
 
-                this.removeListItems(checkedCategories)
+                this.removeListItems(checkedCategoriesUuids)
             } catch (e) {
                 if (e instanceof AxiosError) {
                     const {

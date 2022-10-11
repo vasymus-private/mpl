@@ -1,33 +1,33 @@
 import { Ref, ref, watch } from "vue"
-import { WithId } from "@/admin/inertia/modules/common/types"
+import { WithUuid } from "@/admin/inertia/modules/common/types"
 
-export default <T extends WithId>(items: Ref<Array<T>>) => {
+export default <T extends WithUuid>(items: Ref<Array<T>>) => {
     const selectAll = ref(false)
     const editMode = ref(false)
-    const checkedItems: Ref<Array<T["id"]>> = ref([])
+    const checkedItems: Ref<Array<T["uuid"]>> = ref([])
 
     const checkAll = () => {
-        checkedItems.value = items.value.map((item: T) => item.id)
+        checkedItems.value = items.value.map((item: T) => item.uuid)
     }
 
     const uncheckAll = () => {
         checkedItems.value = []
     }
 
-    const check = (id: T["id"]) => {
-        const isChecked = !!checkedItems.value.find((_id) => +id === +_id)
+    const check = (uuid: T["uuid"]) => {
+        const isChecked = !!checkedItems.value.find((_uuid) => +uuid === +_uuid)
         if (isChecked) {
             checkedItems.value = checkedItems.value.filter(
-                (_id) => +_id !== +id
+                (_uuid) => +_uuid !== +uuid
             )
             return
         }
 
-        checkedItems.value = [...checkedItems.value, id]
+        checkedItems.value = [...checkedItems.value, uuid]
     }
 
-    const isChecked = (id: T["id"]): boolean => {
-        return checkedItems.value.includes(id)
+    const isChecked = (uuid: T["uuid"]): boolean => {
+        return checkedItems.value.includes(uuid)
     }
 
     const cancel = () => {
@@ -35,12 +35,12 @@ export default <T extends WithId>(items: Ref<Array<T>>) => {
         uncheckAll()
     }
 
-    const manualCheck = (id: number) => {
+    const manualCheck = (uuid: string) => {
         if (editMode.value) {
             return
         }
 
-        check(id)
+        check(uuid)
     }
 
     const watchSelectAll = () => {

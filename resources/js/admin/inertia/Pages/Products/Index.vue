@@ -78,7 +78,7 @@ const brand = computed({
 const perPageOptions = getPerPageOptions()
 
 const toggleActive = async (product: ProductListItem) => {
-    await indexProductsForm.submitIndexProducts([product.id], {
+    await indexProductsForm.submitIndexProducts([product.uuid], {
         products: [
             {
                 ...product,
@@ -104,11 +104,11 @@ const deleteProducts = async () => {
 
 const deleteProduct = async (product: ProductListItem) => {
     if (confirm(`Вы уверены, что хотите удалить продукт '${product.id}' '${product.name}' ?`)) {
-        await bulkDelete([product.id])
+        await bulkDelete([product.uuid])
     }
 }
 
-const bulkDelete = async (ids: Array<number>) => {
+const bulkDelete = async (ids: Array<string>) => {
     let errorsOrVoid = await productStore.deleteBulkProducts(ids)
     if (!errorsOrVoid) {
         revisit()
@@ -238,7 +238,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="product in productListItems" :key="product.uuid" @click="manualCheck(product.id)">
+                        <tr v-for="product in productListItems" :key="product.uuid" @click="manualCheck(product.uuid)">
                             <td>
                                 <div class="form-check">
                                     <input
