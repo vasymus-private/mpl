@@ -28,8 +28,8 @@ class AddUuidToTablesTableSeeder extends BaseSeeder
      */
     public function run()
     {
-        $cb = function(Collection $models) {
-            $models->each(function(Model $model) {
+        $cb = function (Collection $models) {
+            $models->each(function (Model $model) {
                 /** @var \Domain\Orders\Models\Order|\Domain\Products\Models\Brand|\Domain\Products\Models\Category $model */
 
                 $model->uuid = (string)Str::uuid();
