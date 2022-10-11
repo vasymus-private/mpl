@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import {Auth, User} from "@/admin/inertia/modules/auth/types"
+import { Auth, User } from "@/admin/inertia/modules/auth/types"
 import { Admin } from "@/admin/inertia/modules/auth/types"
 import Option from "@/admin/inertia/modules/common/Option"
 
