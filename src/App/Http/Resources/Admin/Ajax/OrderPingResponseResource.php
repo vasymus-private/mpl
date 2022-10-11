@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Admin\Ajax;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BrandItemResource extends JsonResource
+class OrderPingResponseResource extends JsonResource
 {
     /**
      * The resource instance.
      *
-     * @var \Domain\Products\Models\Brand
+     * @var \Domain\Orders\Models\Order
      */
     public $resource;
 
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return array
      */
@@ -25,9 +25,9 @@ class BrandItemResource extends JsonResource
         return [
             'id' => $this->resource->id,
             'uuid' => $this->resource->uuid,
-            'name' => $this->resource->name,
-            'ordering' => $this->resource->ordering,
-            'preview' => $this->resource->preview,
+            'busy_by_id' => $this->resource->busy_by_id,
+            'busy_at' => $this->resource->busy_at,
+            'is_busy_by_other_admin' => $this->resource->is_busy_by_other_admin,
         ];
     }
 }

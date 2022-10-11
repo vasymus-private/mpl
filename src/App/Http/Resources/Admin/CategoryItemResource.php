@@ -24,6 +24,7 @@ class CategoryItemResource extends JsonResource
     {
         return [
             'id' => $this->resource->id,
+            'uuid' => $this->resource->uuid,
             'name' => $this->resource->name,
             'is_active' => $this->resource->is_active,
             'ordering' => $this->resource->ordering,

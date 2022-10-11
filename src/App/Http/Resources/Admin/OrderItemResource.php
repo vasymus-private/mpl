@@ -26,6 +26,7 @@ class OrderItemResource extends JsonResource
     {
         return [
             'id' => $this->resource->id,
+            'uuid' => $this->resource->uuid,
             'created_at' => $this->resource->created_at instanceof Carbon
                 ? $this->resource->created_at->format('Y-m-d H:i:s')
                 : null,

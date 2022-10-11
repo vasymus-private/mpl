@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Ajax;
 
 use App\Http\Controllers\Admin\BaseAdminController;
+use App\Http\Resources\Admin\Ajax\OrderPingResponseResource;
 use Domain\Orders\Models\Order;
 use Illuminate\Http\Request;
 
@@ -19,18 +20,11 @@ class ShowOrderBusyController extends BaseAdminController
             ];
         }
 
-        return [
-            'data' => Order::query()
-                ->select(['id', 'busy_by_id', 'busy_at'])
-                ->whereIn(sprintf('%s.id', Order::TABLE), $ids)
-                ->get()
-                ->map(fn (Order $order) => [
-                    'id' => $order->id,
-                    'busy_by_id' => $order->busy_by_id, // TODO remove temporary dev only
-                    'busy_at' => $order->busy_at, // TODO remove temporary dev only
-                    'is_busy_by_other_admin' => $order->is_busy_by_other_admin,
-                ])
-                ->toArray(),
-        ];
+        $orders = Order::query()
+            ->select(['id', 'busy_by_id', 'busy_at'])
+            ->whereIn(sprintf('%s.id', Order::TABLE), $ids)
+            ->get();
+
+        return OrderPingResponseResource::collection($orders);
     }
 }
