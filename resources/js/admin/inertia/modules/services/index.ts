@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import { Service } from "@/admin/inertia/modules/services/Service"
+import { Service } from "@/admin/inertia/modules/services/types"
 
 export const storeName = "services"
 

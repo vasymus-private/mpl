@@ -6,7 +6,7 @@ import {useCharTypesStore} from "@/admin/inertia/modules/charTypes"
 import {computed} from "vue"
 import Option from "@/admin/inertia/modules/common/Option"
 import {randomId} from "@/admin/inertia/utils"
-import {CharTypeEnum} from "@/admin/inertia/modules/charTypes/CharType"
+import {CharTypeEnum} from "@/admin/inertia/modules/charTypes/types"
 import {maxBy} from "lodash"
 import {Char, CharCategory} from "@/admin/inertia/modules/products/Char"
 

@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import Article from "@/admin/inertia/modules/articles/Article"
+import {Article} from "@/admin/inertia/modules/articles/types"
 
 export const storeName = "articles"
 

@@ -2,7 +2,7 @@
 import Multiselect from '@/admin/inertia/vendor/vue-multiselect/Multiselect.vue'
 import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
 import {computed, watchEffect} from "vue"
-import {ColumnName, isSortableColumn, useColumnsStore} from "@/admin/inertia/modules/columns"
+import {isSortableColumn, useColumnsStore} from "@/admin/inertia/modules/columns"
 import {useProductsStore} from "@/admin/inertia/modules/products"
 import TheLayout from '@/admin/inertia/components/layout/TheLayout.vue'
 import Pagination from "@/admin/inertia/components/layout/Pagination.vue"
@@ -12,7 +12,7 @@ import {useModalsStore} from "@/admin/inertia/modules/modals"
 import {ModalType} from "@/admin/inertia/modules/modals/types"
 import ProductListItem from "@/admin/inertia/modules/products/ProductListItem"
 import {Link} from "@inertiajs/inertia-vue3"
-import {ColumnType} from "@/admin/inertia/modules/columns/Column"
+import {ColumnType, ColumnName} from "@/admin/inertia/modules/columns/types"
 import {useBrandsStore} from "@/admin/inertia/modules/brands"
 import {useForm} from 'vee-validate'
 import {useCurrenciesStore} from "@/admin/inertia/modules/currencies"

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import Modal from '@/admin/inertia/components/modals/Modal.vue'
 import {computed, ref, Ref} from "vue"
-import Column, {ColumnType} from "@/admin/inertia/modules/columns/Column"
+import {Column, ColumnType} from "@/admin/inertia/modules/columns/types"
 import {useColumnsStore} from "@/admin/inertia/modules/columns"
 import Draggable from 'vuedraggable'
 import {useModalsStore} from "@/admin/inertia/modules/modals"

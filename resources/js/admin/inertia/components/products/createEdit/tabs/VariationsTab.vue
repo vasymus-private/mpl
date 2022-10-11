@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import {useModalsStore} from "@/admin/inertia/modules/modals"
 import {ModalType} from "@/admin/inertia/modules/modals/types"
-import {ColumnType} from "@/admin/inertia/modules/columns/Column"
+import {ColumnType, ColumnName} from "@/admin/inertia/modules/columns/types"
 import {useField, useFieldArray, Field, FieldEntry} from "vee-validate"
 import {getEmptyVariation} from "@/admin/inertia/modules/forms/createEditProduct"
-import {useColumnsStore, isSortableColumn, ColumnName} from "@/admin/inertia/modules/columns"
+import {useColumnsStore, isSortableColumn} from "@/admin/inertia/modules/columns"
 import {ref, watch} from "vue"
 import {VariationForm} from "@/admin/inertia/modules/forms/createEditProduct/types"
 import {randomId} from "@/admin/inertia/utils"

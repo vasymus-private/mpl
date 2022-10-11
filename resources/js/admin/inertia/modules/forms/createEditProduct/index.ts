@@ -20,7 +20,7 @@ import {
     yupIntegerOrEmptyString,
 } from "@/admin/inertia/utils"
 import * as yup from "yup"
-import { CharTypeEnum } from "@/admin/inertia/modules/charTypes/CharType"
+import { CharTypeEnum } from "@/admin/inertia/modules/charTypes/types"
 import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
 import { Values } from "@/admin/inertia/modules/forms/createEditProduct/types"
 import axios, { AxiosError } from "axios"
