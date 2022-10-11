@@ -7,7 +7,11 @@ import {
 import { arrayToMap } from "@/admin/inertia/utils"
 import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
 import axios, { AxiosError } from "axios"
-import { ErrorResponse, Option, OptionType } from "@/admin/inertia/modules/common/types"
+import {
+    ErrorResponse,
+    Option,
+    OptionType,
+} from "@/admin/inertia/modules/common/types"
 import { errorsToErrorFields } from "@/admin/inertia/modules/common"
 
 export const storeName = "categoriesTree"

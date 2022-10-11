@@ -6,7 +6,7 @@ import {
 } from "@/admin/inertia/utils"
 import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
 import axios, { AxiosError } from "axios"
-import {ProductListItem} from "@/admin/inertia/modules/products/types"
+import { ProductListItem } from "@/admin/inertia/modules/products/types"
 import { defineStore } from "pinia"
 import { useProductsStore } from "@/admin/inertia/modules/products"
 import {
