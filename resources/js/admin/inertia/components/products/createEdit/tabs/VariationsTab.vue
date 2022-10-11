@@ -12,6 +12,7 @@ import Media from "@/admin/inertia/modules/common/Media"
 import {copyMedia} from "@/admin/inertia/modules/common/utils"
 import {useCurrenciesStore} from "@/admin/inertia/modules/currencies"
 import {useAvailabilityStatusesStore} from "@/admin/inertia/modules/availabilityStatuses"
+import FormControlInput from '@/admin/inertia/components/forms/vee-validate/FormControlInput.vue'
 
 
 const modalsStore = useModalsStore()
@@ -158,12 +159,13 @@ const deleteSelected = () => {
                                 </div>
                             </div>
                         </td>
-                        <template v-for="sortableColumn in columnsStore.adminProductVariantColumns" :key="sortableColumn.value">
+                        <template v-for="(sortableColumn, idx) in columnsStore.adminProductVariantColumns" :key="sortableColumn.value">
                             <td v-if="isSortableColumn(sortableColumn, ColumnName.id)">
                                 <span class="main-grid-cell-content">{{product.value.id}}</span>
                             </td>
                             <td v-if="isSortableColumn(sortableColumn, ColumnName.name)">
-                                <span class="main-grid-cell-content">{{product.value.name}}</span>
+                                <FormControlInput v-if="editMode" :name="`variations[${idx}].name`" />
+                                <span v-else class="main-grid-cell-content">{{product.value.name}}</span>
                             </td>
                             <td v-if="isSortableColumn(sortableColumn, ColumnName.active)">
                                 <span class="main-grid-cell-content">{{product.value.is_active ? 'Да' : 'Нет'}}</span>
@@ -215,10 +217,11 @@ const deleteSelected = () => {
         </div>
 
         <div class="admin-edit-variations__footer">
-            <div v-if="editMode" class="variants-btn-group" role="group" aria-label="actions">
+            <div class="variants-btn-group" role="group" aria-label="actions">
                 <button
                     aria-label="edit all mode"
                     type="button"
+                    @click="editMode = true"
                     class="btn brn-edit"></button>
                 <button
                     @click="deleteSelected"
@@ -226,18 +229,6 @@ const deleteSelected = () => {
                     type="button"
                     class="btn btn-delete"></button>
             </div>
-            <template v-else>
-                <button
-                    @click="saveVariations"
-                    type="button"
-                    class="btn btn-light"
-                >Сохранить</button>
-                <button
-                    @click="cancelVariations"
-                    type="button"
-                    class="btn btn-light"
-                >Отменить</button>
-            </template>
         </div>
     </div>
 </template>

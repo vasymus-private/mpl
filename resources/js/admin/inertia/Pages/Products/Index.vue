@@ -46,7 +46,6 @@ const indexProductsForm = useIndexProductsFormStore()
 const toastsStore = useToastsStore()
 
 const {productListItems} = storeToRefs(productStore)
-const {fullUrl} = storeToRefs(routesStore)
 
 const {
     selectAll,
@@ -58,8 +57,8 @@ const {
     manualCheck,
     cancel,
 } = useCheckedItems<ProductListItem>(productListItems)
-const {getUrlParam, visit, visitWithoutUrlParam, revisit} = useRoute(fullUrl)
-const {searchInput, onPerPage, handleSearch, handleClearSearch} = useSearchInput(fullUrl)
+const {getUrlParam, visit, visitWithoutUrlParam, revisit} = useRoute()
+const {searchInput, onPerPage, handleSearch, handleClearSearch} = useSearchInput()
 
 const brand = computed({
     get() {

@@ -104,7 +104,26 @@ class ProductsController extends BaseWebController
         $user = H::userOrAdmin();
         event(new ProductViewedEvent($user, $product));
 
-        $product->load(['media', "seo", "variations.parent", 'variations.media', "brand", "accessory.category.parentCategory.parentCategory.parentCategory", 'accessory.media', "similar.category.parentCategory.parentCategory.parentCategory", 'similar.media', "related.category.parentCategory.parentCategory.parentCategory", 'related.media', "works.category.parentCategory.parentCategory.parentCategory", 'works.media', "charCategories.chars"]);
+        $product->load([
+            'media',
+            "seo",
+            "variations" => function($query) {
+                /** @var \Illuminate\Database\Eloquent\Relations\HasMany|\Domain\Products\QueryBuilders\ProductQueryBuilder $query */
+                return $query->active();
+            },
+            "variations.parent",
+            'variations.media',
+            "brand",
+            "accessory.category.parentCategory.parentCategory.parentCategory",
+            'accessory.media',
+            "similar.category.parentCategory.parentCategory.parentCategory",
+            'similar.media',
+            "related.category.parentCategory.parentCategory.parentCategory",
+            'related.media',
+            "works.category.parentCategory.parentCategory.parentCategory",
+            'works.media',
+            "charCategories.chars",
+        ]);
 
         $breadcrumbs = Breadcrumbs::productRoute($product, $category, $subcategory1, $subcategory2, $subcategory3);
         $seoArr = null;

@@ -25,8 +25,6 @@ const categoriesStore = useCategoriesStore()
 const toastsStore = useToastsStore()
 
 const {listItems : categoriesList} = storeToRefs(categoriesStore)
-const {fullUrl} = storeToRefs(routesStore)
-
 
 const {
     selectAll,
@@ -38,8 +36,8 @@ const {
     manualCheck,
     cancel,
 } = useCheckedItems<CategoryListItem>(categoriesList)
-const {visit, visitWithoutUrlParam, revisit} = useRoute(fullUrl)
-const {searchInput, handleSearch, handleClearSearch} = useSearchInput(fullUrl)
+const {visit, visitWithoutUrlParam, revisit} = useRoute()
+const {searchInput, handleSearch, handleClearSearch} = useSearchInput()
 
 const {errors, submitCount, handleSubmit, values, setValues, validate, isSubmitting} = useForm<Values>({
     validationSchema: getValidationSchema(),

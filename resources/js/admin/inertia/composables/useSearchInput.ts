@@ -4,10 +4,9 @@ import { UrlParams } from "@/admin/inertia/modules/common/types"
 import Option from "@/admin/inertia/modules/common/Option"
 
 export default (
-    fullUrl?: Ref<string | null>,
     adminOptions?: Ref<Array<Option>>
 ) => {
-    const { getUrlParam, visit } = useRoute(fullUrl)
+    const { getUrlParam, visit } = useRoute()
 
     const _getRefOrUrlParam = (
         r: Ref<string | null>,

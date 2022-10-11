@@ -44,9 +44,8 @@ const {
     cancel,
 } = useCheckedItems<OrderItem>(ordersList)
 
-const {fullUrl} = storeToRefs(routesStore)
 const {adminOptions} = storeToRefs(authStore)
-const { dateFrom, dateTo, orderId, email, name, admin, handleOrdersSearch, cancelOrdersSearch, onPerPage } = useSearchInput(fullUrl, adminOptions)
+const { dateFrom, dateTo, orderId, email, name, admin, handleOrdersSearch, cancelOrdersSearch, onPerPage } = useSearchInput(adminOptions)
 
 const perPageOptions = getPerPageOptions()
 

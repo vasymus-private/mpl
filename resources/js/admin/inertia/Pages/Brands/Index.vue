@@ -25,7 +25,6 @@ const brandsStore = useBrandsStore()
 const toastsStore = useToastsStore()
 
 const {brandsList} = storeToRefs(brandsStore)
-const {fullUrl} = storeToRefs(routesStore)
 
 const {
     selectAll,
@@ -37,8 +36,8 @@ const {
     manualCheck,
     cancel,
 } = useCheckedItems<BrandListItem>(brandsList)
-const {visit, revisit} = useRoute(fullUrl)
-const {searchInput, onPerPage, handleSearch, handleClearSearch} = useSearchInput(fullUrl)
+const {visit, revisit} = useRoute()
+const {searchInput, onPerPage, handleSearch, handleClearSearch} = useSearchInput()
 
 const {errors, submitCount, handleSubmit, values, setValues, validate, isSubmitting} = useForm<Values>({
     validationSchema: getValidationSchema(),
