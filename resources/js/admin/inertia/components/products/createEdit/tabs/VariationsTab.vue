@@ -20,10 +20,11 @@ const columnsStore = useColumnsStore()
 const currenciesStore = useCurrenciesStore()
 const availabilitiesStore = useAvailabilityStatusesStore()
 
-const {setValue} = useField<Array<VariationForm>>('variations')
-const {fields, push, update, remove} = useFieldArray<VariationForm>('variations')
 const selectAll = ref<boolean>(false)
 const editMode = ref<boolean>(false)
+const {setValue} = useField<Array<VariationForm>>('variations')
+const {fields, push, update, remove} = useFieldArray<VariationForm>('variations')
+
 const onAddVariation = () => {
     push(getEmptyVariation())
     modalsStore.openModal(ModalType.CREATE_EDIT_VARIATION, {})

@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
@@ -23,6 +24,7 @@ use Support\H;
 
 /**
  * @property int $id
+ * @property string $uuid
  * @property int $order_status_id
  * @property int $user_id
  * @property int|null $admin_id
@@ -183,6 +185,22 @@ class Order extends BaseModel implements HasMedia
         'provider_bill_status_id' => self::DEFAULT_PROVIDER_BILL_STATUS_ID,
     ];
 
+    /**
+     * @inheritDoc
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        $cb = function (self $model) {
+            if (! $model->uuid) {
+                $model->uuid = (string) Str::uuid();
+            }
+        };
+
+        static::saving($cb);
+    }
+
     public static function rbAdminOrder($value)
     {
         return static::query()->select(["*"])->findOrFail($value);
@@ -196,6 +214,17 @@ class Order extends BaseModel implements HasMedia
     protected static function newFactory()
     {
         return OrderFactory::new();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        if (! $this->uuid) {
+            $this->uuid = (string) Str::uuid();
+        }
     }
 
     /**

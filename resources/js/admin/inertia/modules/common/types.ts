@@ -3,7 +3,7 @@ export interface Errors {
 }
 
 export interface WithId {
-    id: string | number
+    id?: string | number
 }
 
 export interface Seo {
