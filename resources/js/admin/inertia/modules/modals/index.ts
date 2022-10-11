@@ -33,8 +33,16 @@ export const useModalsStore = defineStore(storeName, {
 })
 
 export const Modals: Partial<Record<ModalType, () => DefineComponent>> = {
-    [ModalType.SORT_ADMIN_COLUMNS]: () => require("@/admin/inertia/components/modals/SortColumnsModal.vue").default,
-    [ModalType.CREATE_EDIT_VARIATION]: () => require("@/admin/inertia/components/products/createEdit/modals/CreateEditVariation.vue").default,
-    [ModalType.EDIT_ORDER_PRODUCT]: () => require("@/admin/inertia/components/orders/createEdit/modals/EditOrderProduct.vue").default,
-    [ModalType.ADD_ORDER_PRODUCT_ITEM]: () => require("@/admin/inertia/components/orders/createEdit/modals/AddOrderProductItem.vue").default,
+    [ModalType.SORT_ADMIN_COLUMNS]: () =>
+        require("@/admin/inertia/components/modals/SortColumnsModal.vue")
+            .default,
+    [ModalType.CREATE_EDIT_VARIATION]: () =>
+        require("@/admin/inertia/components/products/createEdit/modals/CreateEditVariation.vue")
+            .default,
+    [ModalType.EDIT_ORDER_PRODUCT]: () =>
+        require("@/admin/inertia/components/orders/createEdit/modals/EditOrderProduct.vue")
+            .default,
+    [ModalType.ADD_ORDER_PRODUCT_ITEM]: () =>
+        require("@/admin/inertia/components/orders/createEdit/modals/AddOrderProductItem.vue")
+            .default,
 }
