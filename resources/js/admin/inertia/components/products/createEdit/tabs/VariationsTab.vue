@@ -60,6 +60,11 @@ const toggleActive = (variation: FieldEntry<VariationForm>, idx: number) => {
         is_active: !variation.value.is_active,
     })
 }
+const sortVariations = () => {
+    let variations = fields.value.map((variation: FieldEntry<VariationForm>) => variation.value)
+    let sorted = variations.sort((a: VariationForm, b: VariationForm) => a.ordering - b.ordering)
+    setValue(sorted)
+}
 const copyVariation = async (variation: FieldEntry<VariationForm>) => {
     let mainImage = await copyMedia(variation.value.mainImage)
     let additionalImages: Array<Media> = []
@@ -76,10 +81,15 @@ const copyVariation = async (variation: FieldEntry<VariationForm>) => {
         mainImage,
         additionalImages,
     })
+
+    sortVariations()
 }
 const saveVariations = () => {
     editMode.value = false
+
     uncheckAll()
+
+    sortVariations()
 }
 const cancelVariations = () => {
     checkedItems.value.forEach(uuid => {
@@ -98,6 +108,8 @@ const cancelVariations = () => {
     })
 
     uncheckAll()
+
+    sortVariations()
 }
 const deleteProduct = (variation: FieldEntry<VariationForm>, idx: number) => {
     if (!confirm(`Вы уверены, что хотите удалить вариант товара ${variation.value.id} ${variation.value.name} ?'`)) {

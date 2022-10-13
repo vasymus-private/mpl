@@ -4,7 +4,7 @@ import {useModalsStore} from "@/admin/inertia/modules/modals"
 import {ModalType} from "@/admin/inertia/modules/modals/types"
 import {computed, onBeforeUnmount, ref} from "vue"
 import ModalCloseButton from '@/admin/inertia/components/modals/ModalCloseButton.vue'
-import {useFieldArray, Field, useField} from "vee-validate"
+import {useFieldArray, Field, useField, FieldEntry} from "vee-validate"
 import RowCheckbox from '@/admin/inertia/components/forms/vee-validate/RowCheckbox.vue'
 import RowInput from '@/admin/inertia/components/forms/vee-validate/RowInput.vue'
 import RowSelect from '@/admin/inertia/components/forms/vee-validate/RowSelect.vue'
@@ -15,6 +15,7 @@ import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
 import AppHtmlEditor from '@/admin/inertia/components/forms/parts/AppHtmlEditor.vue'
 import RowImage from '@/admin/inertia/components/forms/vee-validate/RowImage.vue'
 import RowImages from '@/admin/inertia/components/forms/vee-validate/RowImages.vue'
+import {VariationForm} from "@/admin/inertia/modules/forms/createEditProduct/types"
 
 
 const props = defineProps<{
@@ -29,7 +30,8 @@ const currenciesStore = useCurrenciesStore()
 const modalsStore = useModalsStore()
 const routesStore = useRoutesStore()
 
-const {fields, remove} = useFieldArray<{id: number|null, name: string, preview: string}>('variations')
+const {setValue} = useField<Array<VariationForm>>('variations')
+const {fields, remove} = useFieldArray<VariationForm>('variations')
 
 const index = typeof props?.modalProps?.index !== 'undefined'
     ? props.modalProps.index
@@ -62,7 +64,13 @@ const preview = computed({
 })
 
 const toSave = ref<boolean>(false)
+const sortVariations = () => {
+    let variations = fields.value.map((variation: FieldEntry<VariationForm>) => variation.value)
+    let sorted = variations.sort((a: VariationForm, b: VariationForm) => a.ordering - b.ordering)
+    setValue(sorted)
+}
 const save = () => {
+    sortVariations()
     toSave.value = true
     modalsStore.closeModal(ModalType.CREATE_EDIT_VARIATION)
 }
