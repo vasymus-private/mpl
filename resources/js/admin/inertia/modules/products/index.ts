@@ -104,7 +104,8 @@ export const useProductsStore = defineStore(storeName, {
             return this.product?.variations || []
         },
         variation() {
-            return (uuid): Variation|undefined => this.variations.find(variation => variation.uuid === uuid)
+            return (uuid): Variation | undefined =>
+                this.variations.find((variation) => variation.uuid === uuid)
         },
         isCreatingProductRoute() {
             let routesStore = useRoutesStore()
