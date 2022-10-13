@@ -7,14 +7,16 @@ import NameAndSlug from '@/admin/inertia/components/forms/parts/NameAndSlug.vue'
 import Description from "@/admin/inertia/components/forms/parts/Description.vue"
 import {useCategoriesStore} from "@/admin/inertia/modules/categories"
 import {computed} from "vue"
-import {getRouteUrl, routeNames} from "@/admin/inertia/modules/routes"
+import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
 
 
 const createEditCategoryFormStore = useCreateEditCategoryFormStore()
 const categoriesStore = useCategoriesStore()
+const routesStore = useRoutesStore()
+
 const uploadUrl = computed(() => {
     return categoriesStore.category?.id
-        ? getRouteUrl(routeNames.ROUTE_ADMIN_AJAX_CATEGORY_IMAGE_UPLOAD, {admin_category: categoriesStore.category?.id})
+        ? routesStore.route(routeNames.ROUTE_ADMIN_AJAX_CATEGORY_IMAGE_UPLOAD, {admin_category: categoriesStore.category?.id})
         : null
 })
 </script>

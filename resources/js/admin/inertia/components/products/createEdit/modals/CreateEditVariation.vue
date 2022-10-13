@@ -11,7 +11,7 @@ import RowSelect from '@/admin/inertia/components/forms/vee-validate/RowSelect.v
 import RowInputSelect from '@/admin/inertia/components/forms/vee-validate/RowInputSelect.vue'
 import {useAvailabilityStatusesStore} from "@/admin/inertia/modules/availabilityStatuses"
 import {useCurrenciesStore} from "@/admin/inertia/modules/currencies"
-import {getRouteUrl, routeNames} from "@/admin/inertia/modules/routes"
+import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
 import AppHtmlEditor from '@/admin/inertia/components/forms/parts/AppHtmlEditor.vue'
 import RowImage from '@/admin/inertia/components/forms/vee-validate/RowImage.vue'
 import RowImages from '@/admin/inertia/components/forms/vee-validate/RowImages.vue'
@@ -27,6 +27,7 @@ const props = defineProps<{
 const availabilityStatusesStore = useAvailabilityStatusesStore()
 const currenciesStore = useCurrenciesStore()
 const modalsStore = useModalsStore()
+const routesStore = useRoutesStore()
 
 const {fields, remove} = useFieldArray<{id: number|null, name: string, preview: string}>('variations')
 
@@ -46,7 +47,7 @@ const title = computed(
 )
 const uploadUrl = computed(() => {
     return isEditingVariation.value
-        ? getRouteUrl(routeNames.ROUTE_ADMIN_AJAX_PRODUCT_IMAGE_UPLOAD, {admin_product: field.value.id})
+        ? routesStore.route(routeNames.ROUTE_ADMIN_AJAX_PRODUCT_IMAGE_UPLOAD, {admin_product: field.value.id})
         : null
 })
 

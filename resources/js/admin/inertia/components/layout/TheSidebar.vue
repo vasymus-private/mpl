@@ -40,10 +40,10 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean
                         :is-active-collapse="isActiveRoute(RouteTypeEnum.categoriesSub)"
                         icon-class="adm-icon iblock_menu_icon_iblocks"
                         nav-link-class="sub-level-1"
-                        :nav-link-text-href="route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX)"
+                        :nav-link-text-href="routesStore.route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX)"
                     >
                         <NavItem
-                            :id-or-href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX)"
+                            :id-or-href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX)"
                             title="Товары"
                             :is-inertia-link="true"
                             :is-collapse="false"
@@ -59,10 +59,10 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean
                             :is-active-collapse="isActiveRoute(RouteTypeEnum.categories, category.id)"
                             icon-class="adm-icon iblock_menu_icon_sections"
                             nav-link-class="sub-level-2"
-                            :nav-link-text-href="route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {category_id: category.id})"
+                            :nav-link-text-href="routesStore.route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {category_id: category.id})"
                         >
                             <NavItem
-                                :id-or-href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id : category.id})"
+                                :id-or-href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id : category.id})"
                                 title="Товары"
                                 :is-inertia-link="true"
                                 :is-collapse="false"
@@ -78,10 +78,10 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean
                                 :is-active-collapse="isActiveRoute(RouteTypeEnum.categories, subcategory1.id)"
                                 icon-class="adm-icon iblock_menu_icon_sections"
                                 nav-link-class="sub-level-3"
-                                :nav-link-text-href="route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {category_id: subcategory1.id})"
+                                :nav-link-text-href="routesStore.route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {category_id: subcategory1.id})"
                             >
                                 <NavItem
-                                    :id-or-href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id : subcategory1.id})"
+                                    :id-or-href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id : subcategory1.id})"
                                     title="Товары"
                                     :is-inertia-link="true"
                                     :is-collapse="false"
@@ -97,10 +97,10 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean
                                     :is-active-collapse="isActiveRoute(RouteTypeEnum.categories, subcategory2.id)"
                                     icon-class="adm-icon iblock_menu_icon_sections"
                                     nav-link-class="sub-level-4"
-                                    :nav-link-text-href="route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {category_id: subcategory2.id})"
+                                    :nav-link-text-href="routesStore.route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {category_id: subcategory2.id})"
                                 >
                                     <NavItem
-                                        :id-or-href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id : subcategory2.id})"
+                                        :id-or-href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id : subcategory2.id})"
                                         title="Товары"
                                         :is-inertia-link="true"
                                         :is-collapse="false"
@@ -116,10 +116,10 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean
                                         :is-active-collapse="isActiveRoute(RouteTypeEnum.categories, subcategory3.id)"
                                         icon-class="adm-icon iblock_menu_icon_sections"
                                         nav-link-class="sub-level-5"
-                                        :nav-link-text-href="route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {category_id: subcategory3.id})"
+                                        :nav-link-text-href="routesStore.route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {category_id: subcategory3.id})"
                                     >
                                         <NavItem
-                                            :id-or-href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id : subcategory3.id})"
+                                            :id-or-href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id : subcategory3.id})"
                                             title="Товары"
                                             :is-inertia-link="true"
                                             :is-collapse="false"
@@ -150,8 +150,8 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean
                         nav-link-class="sub-level-1"
                     >
                         <NavItem
-                            :id-or-href="route(routeNames.ROUTE_ADMIN_BRANDS_TEMP_INDEX)"
-                            :is-inertia-link="false"
+                            :id-or-href="routesStore.route(routeNames.ROUTE_ADMIN_BRANDS_TEMP_INDEX)"
+                            :is-inertia-link="true"
                             title="Элементы"
                             :is-collapse="false"
                             icon-class="adm-arrow-icon-dot"
@@ -168,7 +168,7 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean
                         nav-link-class="sub-level-1"
                     >
                         <NavItem
-                            :id-or-href="route(routeNames.ROUTE_ADMIN_ARTICLES_INDEX)"
+                            :id-or-href="routesStore.route(routeNames.ROUTE_ADMIN_ARTICLES_INDEX)"
                             :is-inertia-link="true"
                             title="Элементы"
                             :is-collapse="false"
@@ -186,7 +186,7 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean
                         nav-link-class="sub-level-1"
                     >
                         <NavItem
-                            :id-or-href="route(routeNames.ROUTE_ADMIN_SERVICES_INDEX)"
+                            :id-or-href="routesStore.route(routeNames.ROUTE_ADMIN_SERVICES_INDEX)"
                             :is-inertia-link="true"
                             title="Элементы"
                             :is-collapse="false"
@@ -249,15 +249,15 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean
                     />
                 </NavItem>
                 <NavItem
-                    :id-or-href="route(routeNames.ROUTE_ADMIN_ORDERS_TEMP_INDEX)"
-                    :is-inertia-link="false"
+                    :id-or-href="routesStore.route(routeNames.ROUTE_ADMIN_ORDERS_TEMP_INDEX)"
+                    :is-inertia-link="true"
                     title="Заказы"
                     :is-collapse="false"
                     icon-class="adm-icon iblock_menu_icon_types"
                     :is-arrow-space="true"
                 />
                 <NavItem
-                    :id-or-href="route(routeNames.ROUTE_ADMIN_EXPORT_PRODUCTS_INDEX)"
+                    :id-or-href="routesStore.route(routeNames.ROUTE_ADMIN_EXPORT_PRODUCTS_INDEX)"
                     :is-inertia-link="false"
                     title="Экспорт"
                     :is-collapse="false"

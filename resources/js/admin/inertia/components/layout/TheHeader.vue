@@ -1,13 +1,15 @@
 <script lang="ts" setup>
 import axios from 'axios'
 import {useAuthStore} from "@/admin/inertia/modules/auth"
-import {routeNames} from "@/admin/inertia/modules/routes"
+import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
+import {Link} from "@inertiajs/inertia-vue3"
 
 
 const authStore = useAuthStore()
+const routesStore = useRoutesStore()
 
 const logout = () => {
-    axios.post(route(routeNames.ROUTE_LOGOUT))
+    axios.post(routesStore.route(routeNames.ROUTE_LOGOUT))
         .then(() => {
             window.location.href = '/'
         })
@@ -17,7 +19,7 @@ const logout = () => {
 <template>
     <header id="header" class="header">
         <nav class="navbar navbar-expand-lg">
-            <a class="navbar-brand" :href="route(routeNames.ROUTE_WEB_HOME)">Сайт</a>
+            <a class="navbar-brand" href="/">Сайт</a>
             <button
                 class="navbar-toggler"
                 type="button"
@@ -32,7 +34,7 @@ const logout = () => {
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto header-menu">
                     <li class="nav-item active">
-                        <a class="header-link" :href="route(routeNames.ROUTE_ADMIN_TEMP_HOME)">Администрирование <span class="sr-only">(current)</span></a>
+                        <Link class="header-link" :href="routesStore.route(routeNames.ROUTE_ADMIN_TEMP_HOME)">Администрирование <span class="sr-only">(current)</span></Link>
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">

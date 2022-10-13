@@ -9,7 +9,7 @@ import {CategoriesTreeItem} from "@/admin/inertia/modules/categories/types"
 import {onMounted, ref, watch} from 'vue'
 import {useBrandsStore} from "@/admin/inertia/modules/brands"
 import {useProductsStore} from "@/admin/inertia/modules/products"
-import {routeNames} from "@/admin/inertia/modules/routes"
+import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
 import {SearchProduct, SearchProductVariation} from "@/admin/inertia/modules/products/Product"
 import {TabEnum} from "@/admin/inertia/modules/common/Tabs"
 import Pagination from "@/admin/inertia/components/layout/Pagination.vue"
@@ -29,6 +29,7 @@ const categoriesStore = useCategoriesStore()
 const brandsStore = useBrandsStore()
 const productsStore = useProductsStore()
 const currenciesStore = useCurrenciesStore()
+const routesStore = useRoutesStore()
 
 const currentCategoryId = ref<number|null>(null)
 const brand = ref<Option>(null)
@@ -74,6 +75,7 @@ const chooseProduct = (product: SearchProduct|SearchProductVariation) => {
     } else {
         push({
             id: product.id,
+            parent_id: product.parent_id,
             uuid: product.uuid,
             name: product.name,
             unit: product.unit,
@@ -194,14 +196,14 @@ watch<Option|null>(brand, async () => {
                                             </td>
                                             <td>
                                                 <div class="text-center">
-                                                    <a target="_blank" :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_EDIT, {admin_product: product.id})">
+                                                    <a target="_blank" :href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_EDIT, {admin_product: product.id})">
                                                         <img class="img-fluid" :src="product.image" alt="" />
                                                     </a>
                                                 </div>
                                             </td>
                                             <td>
                                             <span class="main-grid-cell-content">
-                                                <a target="_blank" :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_EDIT, {admin_product: product.id})">{{product.name}}</a>
+                                                <a target="_blank" :href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_EDIT, {admin_product: product.id})">{{product.name}}</a>
                                             </span>
                                             </td>
                                             <td>
@@ -234,14 +236,14 @@ watch<Option|null>(brand, async () => {
                                                 </td>
                                                 <td>
                                                     <div class="text-center">
-                                                        <a target="_blank" :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_EDIT, {admin_product: product.id, activeTab: TabEnum.variations})">
+                                                        <a target="_blank" :href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_EDIT, {admin_product: product.id, activeTab: TabEnum.variations})">
                                                             <img class="img-fluid" :src="variation.image" alt="" />
                                                         </a>
                                                     </div>
                                                 </td>
                                                 <td>
                                             <span class="main-grid-cell-content">
-                                                <a target="_blank" :href="route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_EDIT, {admin_product: product.id, activeTab: TabEnum.variations})">{{variation.name}}</a>
+                                                <a target="_blank" :href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_EDIT, {admin_product: product.id, activeTab: TabEnum.variations})">{{variation.name}}</a>
                                             </span>
                                                 </td>
                                                 <td>

@@ -7,11 +7,7 @@ import {
     errorsToErrorFields,
     extendMetaLinksWithComputedData,
 } from "@/admin/inertia/modules/common"
-import {
-    getRouteUrl,
-    routeNames,
-    useRoutesStore,
-} from "@/admin/inertia/modules/routes"
+import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
 import Product, {
     ProductProductType,
     SearchProduct,
@@ -196,9 +192,12 @@ export const useProductsStore = defineStore(storeName, {
         ): Promise<void> {
             try {
                 this._searchProduct[type].loading = true
+                const routesStore = useRoutesStore()
 
                 let url = new URL(
-                    getRouteUrl(routeNames.ROUTE_ADMIN_AJAX_PRODUCT_SEARCH)
+                    routesStore.route(
+                        routeNames.ROUTE_ADMIN_AJAX_PRODUCT_SEARCH
+                    )
                 )
                 url.search =
                     searchProductRequestToUrlSearchParams(request).toString()

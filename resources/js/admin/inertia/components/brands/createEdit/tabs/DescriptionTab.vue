@@ -1,15 +1,16 @@
 <script lang="ts" setup>
 import {computed} from "vue"
-import {getRouteUrl, routeNames} from "@/admin/inertia/modules/routes"
+import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
 import Description from "@/admin/inertia/components/forms/parts/Description.vue"
 import {useBrandsStore} from "@/admin/inertia/modules/brands"
 
 
 const brandsStore = useBrandsStore()
+const routesStore = useRoutesStore()
 
 const uploadUrl = computed(() => {
     return brandsStore.brand?.id
-        ? getRouteUrl(routeNames.ROUTE_ADMIN_AJAX_PRODUCT_IMAGE_UPLOAD, {admin_product: brandsStore.brand.id})
+        ? routesStore.route(routeNames.ROUTE_ADMIN_AJAX_PRODUCT_IMAGE_UPLOAD, {admin_product: brandsStore.brand.id})
         : null
 })
 </script>
