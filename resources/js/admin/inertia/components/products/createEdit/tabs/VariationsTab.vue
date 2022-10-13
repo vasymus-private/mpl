@@ -79,6 +79,7 @@ const copyVariation = async (variation: FieldEntry<VariationForm>) => {
 }
 const saveVariations = () => {
     editMode.value = false
+    uncheckAll()
 }
 const cancelVariations = () => {
     checkedItems.value.forEach(uuid => {
