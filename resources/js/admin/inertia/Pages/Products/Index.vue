@@ -261,6 +261,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                         :id="`actions-dropdown-${product.uuid}`"
                                         data-bs-toggle="dropdown"
                                         aria-expanded="false"
+                                        :disabled="editMode"
                                     ></button>
                                     <div class="dropdown-menu bx-core-popup-menu" :aria-labelledby="`actions-dropdown-${product.uuid}`">
                                         <div class="bx-core-popup-menu__arrow"></div>
@@ -380,7 +381,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                         :options="availabilitiesStore.options"
                                         :keep-value="true"
                                     />
-                                    <span v-else class="main-grid-cell-content">{{product.availability_status_name_short}}</span>
+                                    <span v-else class="main-grid-cell-content">{{availabilitiesStore.formattedName(product.availability_status_id)}}</span>
                                 </td>
                                 <td :class="`sortable-column-${sortableColumn.value}`" v-if="isSortableColumn(sortableColumn, ColumnName.id)">
                                     <span class="main-grid-cell-content">{{product.id}}</span>

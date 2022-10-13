@@ -208,6 +208,7 @@ watchSelectAll()
                                             :id="`actions-dropdown-${category.id}`"
                                             data-bs-toggle="dropdown"
                                             aria-expanded="false"
+                                            :disabled="editMode"
                                         ></button>
                                         <div class="dropdown-menu bx-core-popup-menu" :aria-labelledby="`actions-dropdown-${category.id}`">
                                             <div class="bx-core-popup-menu__arrow"></div>

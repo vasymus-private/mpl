@@ -13,6 +13,7 @@ import {
     SearchProductResponse,
     SearchType,
     ProductListItem,
+    Variation,
 } from "@/admin/inertia/modules/products/types"
 import axios, { AxiosError } from "axios"
 import { arrayToMap } from "@/admin/inertia/utils"
@@ -99,8 +100,11 @@ export const useProductsStore = defineStore(storeName, {
                   }
                 : null,
         product: (state: State): Product | null => state._product.entity,
-        variations() {
+        variations(): Array<Variation> {
             return this.product?.variations || []
+        },
+        variation() {
+            return (uuid): Variation|undefined => this.variations.find(variation => variation.uuid === uuid)
         },
         isCreatingProductRoute() {
             let routesStore = useRoutesStore()
