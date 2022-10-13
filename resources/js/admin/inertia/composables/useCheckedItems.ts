@@ -1,9 +1,13 @@
 import { Ref, ref, watch } from "vue"
 import { WithUuid } from "@/admin/inertia/modules/common/types"
 
-export default <T extends object|WithUuid>(items: Ref<Array<T>>, getUuid? : (item: T) => string) => {
+export default <T extends object | WithUuid>(
+    items: Ref<Array<T>>,
+    getUuid?: (item: T) => string
+) => {
     if (!getUuid) {
-        getUuid = (item: T) => ('uuid' in item && typeof item.uuid === 'string') ? item.uuid : ''
+        getUuid = (item: T) =>
+            "uuid" in item && typeof item.uuid === "string" ? item.uuid : ""
     }
     const selectAll = ref(false)
     const editMode = ref(false)
