@@ -25,7 +25,6 @@ const brandsStore = useBrandsStore()
 const toastsStore = useToastsStore()
 
 const {brandsList} = storeToRefs(brandsStore)
-const {fullUrl} = storeToRefs(routesStore)
 
 const {
     selectAll,
@@ -37,8 +36,8 @@ const {
     manualCheck,
     cancel,
 } = useCheckedItems<BrandListItem>(brandsList)
-const {visit, revisit} = useRoute(fullUrl)
-const {searchInput, onPerPage, handleSearch, handleClearSearch} = useSearchInput(fullUrl)
+const {visit, revisit} = useRoute()
+const {searchInput, onPerPage, handleSearch, handleClearSearch} = useSearchInput()
 
 const {errors, submitCount, handleSubmit, values, setValues, validate, isSubmitting} = useForm<Values>({
     validationSchema: getValidationSchema(),
@@ -65,11 +64,11 @@ const deleteBrands = async () => {
 
 const deleteBrand = async (brand: BrandListItem) => {
     if (confirm(`Вы уверены, что хотите удалить производителя '${brand.id}' '${brand.name}' ?`)) {
-        await bulkDelete([brand.id])
+        await bulkDelete([brand.uuid])
     }
 }
 
-const bulkDelete = async (ids: Array<number>) => {
+const bulkDelete = async (ids: Array<string>) => {
     let errorsOrVoid = await brandsStore.deleteBulkBrands(ids)
     if (!errorsOrVoid) {
         revisit()
@@ -90,6 +89,7 @@ watch(brandsList, (brands: Array<BrandListItem>) => {
     setValues({
         brands: brands.map(item => ({
             id: item.id,
+            uuid: item.uuid,
             ordering: item.ordering,
             name: item.name,
             preview: item.preview,
@@ -165,13 +165,13 @@ watchSelectAll()
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="brand in brandsList" :key="`brand-${brand.id}`" @click="manualCheck(brand.id)">
+                        <tr v-for="brand in brandsList" :key="`brand-${brand.id}`" @click="manualCheck(brand.uuid)">
                             <td>
                                 <div class="form-check">
                                     <input
                                         :disabled="editMode"
                                         v-model="checkedItems"
-                                        :value="brand.id"
+                                        :value="brand.uuid"
                                         class="form-check-input position-static js-product-item-checkbox"
                                         type="checkbox"
                                         @click.stop=""
@@ -186,6 +186,7 @@ watchSelectAll()
                                         :id="`actions-dropdown-${brand.id}`"
                                         data-bs-toggle="dropdown"
                                         aria-expanded="false"
+                                        :disabled="editMode"
                                     ></button>
                                     <div class="dropdown-menu bx-core-popup-menu" :aria-labelledby="`actions-dropdown-${brand.id}`">
                                         <div class="bx-core-popup-menu__arrow"></div>
@@ -204,7 +205,7 @@ watchSelectAll()
                             <td><span class="main-grid-cell-content">{{brand.id}}</span></td>
                             <td>
                                 <FormControlInput
-                                    v-if="editMode && isChecked(brand.id)"
+                                    v-if="editMode && isChecked(brand.uuid)"
                                     :name="`brands[${indexForId(brand.id)}].ordering`"
                                     type="number"
                                     :keep-value="true"
@@ -213,7 +214,7 @@ watchSelectAll()
                             </td>
                             <td>
                                 <FormControlInput
-                                    v-if="editMode && isChecked(brand.id)"
+                                    v-if="editMode && isChecked(brand.uuid)"
                                     :name="`brands[${indexForId(brand.id)}].name`"
                                     type="text"
                                     :keep-value="true"
@@ -230,7 +231,7 @@ watchSelectAll()
                             </td>
                             <td>
                                 <FormControlTextarea
-                                    v-if="editMode && isChecked(brand.id)"
+                                    v-if="editMode && isChecked(brand.uuid)"
                                     :name="`brands[${indexForId(brand.id)}].preview`"
                                     :keep-value="true"
                                 />

@@ -12,10 +12,10 @@ import useSearchInput from "@/admin/inertia/composables/useSearchInput"
 import {Link} from "@inertiajs/inertia-vue3"
 import {useModalsStore} from "@/admin/inertia/modules/modals"
 import {ModalType} from "@/admin/inertia/modules/modals/types"
-import {ColumnType} from "@/admin/inertia/modules/columns/Column"
+import {ColumnType, ColumnName} from "@/admin/inertia/modules/columns/types"
 import useCheckedItems from "@/admin/inertia/composables/useCheckedItems"
 import {OrderItem} from "@/admin/inertia/modules/orders/types"
-import {useColumnsStore, isSortableColumn, ColumnName} from "@/admin/inertia/modules/columns"
+import {useColumnsStore, isSortableColumn} from "@/admin/inertia/modules/columns"
 import {useOrderStatusesStore} from "@/admin/inertia/modules/orderStatuses"
 import {useOrderImportanceStore} from "@/admin/inertia/modules/orderImportance"
 import {usePaymentMethodsStore} from "@/admin/inertia/modules/paymentMethods"
@@ -38,15 +38,13 @@ const {
     editMode,
     checkedItems,
     check,
-    isChecked,
     watchSelectAll,
     manualCheck,
     cancel,
 } = useCheckedItems<OrderItem>(ordersList)
 
-const {fullUrl} = storeToRefs(routesStore)
 const {adminOptions} = storeToRefs(authStore)
-const { dateFrom, dateTo, orderId, email, name, admin, handleOrdersSearch, cancelOrdersSearch, onPerPage } = useSearchInput(fullUrl, adminOptions)
+const { dateFrom, dateTo, orderId, email, name, admin, handleOrdersSearch, cancelOrdersSearch, onPerPage } = useSearchInput(adminOptions)
 
 const perPageOptions = getPerPageOptions()
 
@@ -132,13 +130,13 @@ watchSelectAll()
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="order in ordersList" :key="order.id" @click="manualCheck(order.id)">
+                    <tr v-for="order in ordersList" :key="order.id" @click="manualCheck(order.uuid)">
                         <td>
                             <div class="form-check">
                                 <input
                                     :disabled="editMode"
                                     v-model="checkedItems"
-                                    :value="order.id"
+                                    :value="order.uuid"
                                     class="form-check-input position-static js-product-item-checkbox"
                                     type="checkbox"
                                     @click.stop=""

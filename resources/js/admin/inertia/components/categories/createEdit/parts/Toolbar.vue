@@ -16,7 +16,7 @@ const handleDelete = async () => {
     }
 
     if (confirm(`Вы уверены, что хотите удалить категорию?`)) {
-        let errorsOrVoid = await categoriesStore.deleteBulkCategories([categoriesStore.category?.id])
+        let errorsOrVoid = await categoriesStore.deleteBulkCategories([categoriesStore.category.uuid])
         if (!errorsOrVoid) {
             Inertia.visit(
                 routesStore.route(

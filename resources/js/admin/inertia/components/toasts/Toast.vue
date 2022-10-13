@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {ToastType, ToastProps} from "@/admin/inertia/modules/toasts/types"
-import {computed} from "vue"
+import {computed, onMounted} from "vue"
 import {DELAY_DEFAULT, useToastsStore} from "@/admin/inertia/modules/toasts"
 
 
@@ -45,7 +45,9 @@ const close = () => {
     toastsStore.closeToast(props.toastProps._uuid)
 }
 
-setTimeout(close, props.toastProps.delay || DELAY_DEFAULT)
+onMounted(() => {
+    setTimeout(close, props.toastProps.delay || DELAY_DEFAULT)
+})
 </script>
 
 <template>

@@ -1,28 +1,49 @@
 <script lang="ts" setup>
 import {useModalsStore} from "@/admin/inertia/modules/modals"
 import {ModalType} from "@/admin/inertia/modules/modals/types"
-import {ColumnType} from "@/admin/inertia/modules/columns/Column"
-import {useField, useFieldArray, Field, FieldEntry} from "vee-validate"
+import {ColumnType, ColumnName} from "@/admin/inertia/modules/columns/types"
+import {useField, useFieldArray, FieldEntry} from "vee-validate"
 import {getEmptyVariation} from "@/admin/inertia/modules/forms/createEditProduct"
-import {useColumnsStore, isSortableColumn, ColumnName} from "@/admin/inertia/modules/columns"
-import {ref, watch} from "vue"
+import {useColumnsStore, isSortableColumn} from "@/admin/inertia/modules/columns"
 import {VariationForm} from "@/admin/inertia/modules/forms/createEditProduct/types"
 import {randomId} from "@/admin/inertia/utils"
-import Media from "@/admin/inertia/modules/common/Media"
+import {Media} from "@/admin/inertia/modules/common/types"
 import {copyMedia} from "@/admin/inertia/modules/common/utils"
 import {useCurrenciesStore} from "@/admin/inertia/modules/currencies"
 import {useAvailabilityStatusesStore} from "@/admin/inertia/modules/availabilityStatuses"
+import FormControlInput from '@/admin/inertia/components/forms/vee-validate/FormControlInput.vue'
+import useCheckedItems from "@/admin/inertia/composables/useCheckedItems"
+import {Variation} from "@/admin/inertia/modules/products/types"
+import {useProductsStore} from "@/admin/inertia/modules/products"
+import {storeToRefs} from "pinia"
+import FormCheckInput from '@/admin/inertia/components/forms/vee-validate/FormCheckInput.vue'
+import {getActiveName} from '@/admin/inertia/modules/common'
+import FormControlSelect from '@/admin/inertia/components/forms/vee-validate/FormControlSelect.vue'
 
 
 const modalsStore = useModalsStore()
 const columnsStore = useColumnsStore()
 const currenciesStore = useCurrenciesStore()
 const availabilitiesStore = useAvailabilityStatusesStore()
+const productsStore = useProductsStore()
 
 const {setValue} = useField<Array<VariationForm>>('variations')
 const {fields, push, update, remove} = useFieldArray<VariationForm>('variations')
-const selectAll = ref<boolean>(false)
-const editMode = ref<boolean>(false)
+
+const {variations} = storeToRefs(productsStore)
+
+const {
+    selectAll,
+    editMode,
+    checkedItems,
+    check,
+    isChecked,
+    watchSelectAll,
+    manualCheck,
+    cancel,
+    uncheckAll,
+} = useCheckedItems<Variation>(variations)
+
 const onAddVariation = () => {
     push(getEmptyVariation())
     modalsStore.openModal(ModalType.CREATE_EDIT_VARIATION, {})
@@ -32,19 +53,17 @@ const onEditVariation = (idx: number) => {
         index: idx
     })
 }
-watch(selectAll, (nv) => {
-    let allVariations = fields.value.map(field => ({
-        ...field.value,
-        is_checked: !!nv
-    }))
 
-    setValue(allVariations)
-})
 const toggleActive = (variation: FieldEntry<VariationForm>, idx: number) => {
     update(idx, {
         ...variation.value,
         is_active: !variation.value.is_active,
     })
+}
+const sortVariations = () => {
+    let variations = fields.value.map((variation: FieldEntry<VariationForm>) => variation.value)
+    let sorted = variations.sort((a: VariationForm, b: VariationForm) => a.ordering - b.ordering)
+    setValue(sorted)
 }
 const copyVariation = async (variation: FieldEntry<VariationForm>) => {
     let mainImage = await copyMedia(variation.value.mainImage)
@@ -62,24 +81,59 @@ const copyVariation = async (variation: FieldEntry<VariationForm>) => {
         mainImage,
         additionalImages,
     })
+
+    sortVariations()
 }
 const saveVariations = () => {
+    editMode.value = false
 
+    uncheckAll()
+
+    sortVariations()
 }
 const cancelVariations = () => {
+    checkedItems.value.forEach(uuid => {
+        let variation = productsStore.variation(uuid)
+        if (!variation) {
+            console.warn(`--- failed to find variation with uuid ${uuid}`)
+            return
+        }
+        let idx = fields.value.findIndex(v => uuid === v.value.uuid)
+        if (!idx) {
+            return;
+        }
+        update(idx, {
+            ...variation,
+        })
+    })
 
+    uncheckAll()
+
+    sortVariations()
 }
 const deleteProduct = (variation: FieldEntry<VariationForm>, idx: number) => {
-    if (confirm(`Вы уверены, что хотите удалить вариант товара ${variation.value.id} ${variation.value.name} ?'`)) {
-        remove(idx)
+    if (!confirm(`Вы уверены, что хотите удалить вариант товара ${variation.value.id} ${variation.value.name} ?'`)) {
+        return
     }
+
+    remove(idx)
 }
 
 const deleteSelected = () => {
-    if (confirm('Вы уверены, что хотите удалить отмеченные записи?')) {
-
+    if (!confirm('Вы уверены, что хотите удалить отмеченные записи?')) {
+        return
     }
+
+    checkedItems.value.forEach((checkedUuid: string) => {
+        let idx = fields.value.findIndex(variation => checkedUuid === variation.value.uuid)
+        if (idx === -1) {
+            return
+        }
+        remove(idx)
+    })
 }
+
+watchSelectAll()
 </script>
 
 <template>
@@ -107,33 +161,28 @@ const deleteSelected = () => {
                 </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(product, idx) in fields" :key="product.value.uuid">
+                    <tr v-for="(product, idx) in fields" :key="product.value.uuid" @click="manualCheck(product.value.uuid)">
                         <td>
                             <div class="form-check">
-                                <Field
-                                    v-slot="{ field, meta }"
-                                    :name="`variations[${idx}].is_checked`"
+                                <input
+                                    :disabled="editMode"
+                                    v-model="checkedItems"
+                                    :value="product.value.uuid"
+                                    class="form-check-input position-static js-product-item-checkbox"
                                     type="checkbox"
-                                    :value="true"
-                                >
-                                    <input
-                                        v-bind="field"
-                                        :name="`variations[${idx}].is_checked`"
-                                        type="checkbox"
-                                        :value="true"
-                                        class="form-check-input position-static"
-                                    />
-                                </Field>
+                                    @click.stop=""
+                                />
                             </div>
                         </td>
                         <td>
-                            <div class="dropdown">
+                            <div class="dropdown" @click.stop="">
                                 <button
                                     class="btn btn__grid-row-action-button dropdown-toggle"
                                     type="button"
                                     :id="`actions-dropdown-${product.value.uuid}`"
                                     data-bs-toggle="dropdown"
                                     aria-expanded="false"
+                                    :disabled="editMode"
                                 ></button>
                                 <div class="dropdown-menu bx-core-popup-menu" :aria-labelledby="`actions-dropdown-${product.value.uuid}`">
                                     <div class="bx-core-popup-menu__arrow"></div>
@@ -163,10 +212,21 @@ const deleteSelected = () => {
                                 <span class="main-grid-cell-content">{{product.value.id}}</span>
                             </td>
                             <td v-if="isSortableColumn(sortableColumn, ColumnName.name)">
-                                <span class="main-grid-cell-content">{{product.value.name}}</span>
+                                <FormControlInput
+                                    v-if="editMode && isChecked(product.value.uuid)"
+                                    :name="`variations[${idx}].name`"
+                                    type="text"
+                                    :keep-value="true"
+                                />
+                                <span v-else class="main-grid-cell-content">{{product.value.name}}</span>
                             </td>
                             <td v-if="isSortableColumn(sortableColumn, ColumnName.active)">
-                                <span class="main-grid-cell-content">{{product.value.is_active ? 'Да' : 'Нет'}}</span>
+                                <FormCheckInput
+                                    v-if="editMode && isChecked(product.value.uuid)"
+                                    :name="`variations[${idx}].is_active`"
+                                    :keep-value="true"
+                                />
+                                <span v-else class="main-grid-cell-content">{{getActiveName(product.value.is_active)}}</span>
                             </td>
                             <td v-if="isSortableColumn(sortableColumn, ColumnName.detailed_image)">
                                 <a v-if="product.value.mainImage" :href="product.value.mainImage.url" target="_blank">
@@ -184,29 +244,91 @@ const deleteSelected = () => {
                                 </div>
                             </td>
                             <td v-if="isSortableColumn(sortableColumn, ColumnName.ordering)">
-                                <span class="main-grid-cell-content">{{product.value.ordering}}</span>
+                                <FormControlInput
+                                    v-if="editMode && isChecked(product.value.uuid)"
+                                    :name="`variations[${idx}].ordering`"
+                                    type="number"
+                                    :keep-value="true"
+                                />
+                                <span v-else class="main-grid-cell-content">{{product.value.ordering}}</span>
                             </td>
                             <td v-if="isSortableColumn(sortableColumn, ColumnName.price_purchase)">
-                                <span class="main-grid-cell-content">
+                                <div v-if="editMode && isChecked(product.value.uuid)" class="row">
+                                    <div class="col-auto">
+                                        <FormControlInput
+                                            :name="`variations[${idx}].price_purchase`"
+                                            type="number"
+                                            :keep-value="true"
+                                        />
+                                    </div>
+                                    <div class="col-auto">
+                                        <FormControlSelect
+                                            :name="`variations[${idx}].price_purchase_currency_id`"
+                                            :options="currenciesStore.options"
+                                            :keep-value="true"
+                                        />
+                                    </div>
+                                </div>
+                                <span v-else class="main-grid-cell-content">
                                     {{ currenciesStore.priceFormatted(product.value.price_purchase, product.value.price_purchase_currency_id) }}
                                 </span>
                             </td>
                             <td v-if="isSortableColumn(sortableColumn, ColumnName.price_retail)">
-                                <span class="main-grid-cell-content">
+                                <div v-if="editMode && isChecked(product.value.uuid)" class="row">
+                                    <div class="col-auto">
+                                        <FormControlInput
+                                            :name="`variations[${idx}].price_retail`"
+                                            type="number"
+                                            :keep-value="true"
+                                        />
+                                    </div>
+                                    <div class="col-auto">
+                                        <FormControlSelect
+                                            :name="`variations[${idx}].price_retail_currency_id`"
+                                            :options="currenciesStore.options"
+                                            :keep-value="true"
+                                        />
+                                    </div>
+                                </div>
+                                <span v-else class="main-grid-cell-content">
                                     {{ currenciesStore.priceFormatted(product.value.price_retail, product.value.price_retail_currency_id) }}
                                 </span>
                             </td>
                             <td v-if="isSortableColumn(sortableColumn, ColumnName.unit)">
-                                <span class="main-grid-cell-content">{{product.value.unit}}</span>
+                                <FormControlInput
+                                    v-if="editMode && isChecked(product.value.uuid)"
+                                    :name="`variations[${idx}].unit`"
+                                    type="text"
+                                    :keep-value="true"
+                                />
+                                <span v-else class="main-grid-cell-content">{{product.value.unit}}</span>
                             </td>
                             <td v-if="isSortableColumn(sortableColumn, ColumnName.coefficient)">
-                                <span class="main-grid-cell-content">{{product.value.coefficient}}</span>
+                                <FormControlInput
+                                    v-if="editMode && isChecked(product.value.uuid)"
+                                    :name="`variations[${idx}].coefficient`"
+                                    type="number"
+                                    :keep-value="true"
+                                />
+                                <span v-else class="main-grid-cell-content">{{product.value.coefficient}}</span>
                             </td>
                             <td v-if="isSortableColumn(sortableColumn, ColumnName.coefficient_description)">
-                                <span class="main-grid-cell-content">{{product.value.coefficient_description}}</span>
+                                <FormControlInput
+                                    v-if="editMode && isChecked(product.value.uuid)"
+                                    :name="`variations[${idx}].coefficient_description`"
+                                    type="text"
+                                    :keep-value="true"
+                                />
+                                <span v-else class="main-grid-cell-content">{{product.value.coefficient_description}}</span>
                             </td>
                             <td v-if="isSortableColumn(sortableColumn, ColumnName.availability)">
-                                <span class="main-grid-cell-content">{{availabilitiesStore.formattedName(product.value.availability_status_id)}}</span>
+                                <FormControlSelect
+                                    v-if="editMode && isChecked(product.value.uuid)"
+                                    :name="`variations[${idx}].availability_status_id`"
+                                    :options="availabilitiesStore.options"
+                                    :keep-value="true"
+                                />
+                                <span v-else class="main-grid-cell-content">{{availabilitiesStore.formattedName(product.value.availability_status_id)}}</span>
                             </td>
                         </template>
                     </tr>
@@ -215,13 +337,16 @@ const deleteSelected = () => {
         </div>
 
         <div class="admin-edit-variations__footer">
-            <div v-if="editMode" class="variants-btn-group" role="group" aria-label="actions">
+            <div v-if="!editMode" class="variants-btn-group" role="group" aria-label="actions">
                 <button
                     aria-label="edit all mode"
                     type="button"
+                    @click="editMode = true"
+                    :disabled="!checkedItems.length"
                     class="btn brn-edit"></button>
                 <button
                     @click="deleteSelected"
+                    :disabled="!checkedItems.length"
                     aria-label="delete all"
                     type="button"
                     class="btn btn-delete"></button>
@@ -231,7 +356,7 @@ const deleteSelected = () => {
                     @click="saveVariations"
                     type="button"
                     class="btn btn-light"
-                >Сохранить</button>
+                >Ок</button>
                 <button
                     @click="cancelVariations"
                     type="button"

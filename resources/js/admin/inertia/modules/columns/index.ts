@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import Column from "@/admin/inertia/modules/columns/Column"
+import { Column, ColumnName } from "@/admin/inertia/modules/columns/types"
 import axios from "axios"
 import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
 
@@ -80,33 +80,6 @@ type SortColumnsResponse = {
         adminProductColumns: Array<Column>
         adminProductVariantColumns: Array<Column>
     }
-}
-
-export enum ColumnName {
-    id = "id",
-    name = "name",
-    date_creation = "date_creation",
-    status = "status",
-    positions = "positions",
-    comment_admin = "comment_admin",
-    importance = "importance",
-    manager = "manager",
-    sum = "sum",
-    phone = "phone",
-    email = "email",
-    comment_user = "comment_user",
-    payment_method = "payment_method",
-    unit = "unit",
-    price_purchase = "price_purchase",
-    price_retail = "price_retail",
-    admin_comment = "admin_comment",
-    availability = "availability",
-    active = "active",
-    detailed_image = "detailed_image",
-    additional_images = "additional_images",
-    ordering = "ordering",
-    coefficient = "coefficient",
-    coefficient_description = "coefficient_description",
 }
 
 /**

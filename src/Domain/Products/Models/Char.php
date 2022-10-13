@@ -3,9 +3,11 @@
 namespace Domain\Products\Models;
 
 use Domain\Common\Models\BaseModel;
+use Illuminate\Support\Str;
 
 /**
  * @property int $id
+ * @property string $uuid
  * @property string $name
  * @property string|int|null $value
  * @property int $product_id
@@ -47,6 +49,22 @@ class Char extends BaseModel
         'type_id' => self::DEFAULT_TYPE,
         'ordering' => self::DEFAULT_ORDERING,
     ];
+
+    /**
+     * @inheritDoc
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        $cb = function (self $model) {
+            if (! $model->uuid) {
+                $model->uuid = (string) Str::uuid();
+            }
+        };
+
+        static::saving($cb);
+    }
 
     public function getIsTextAttribute(): bool
     {

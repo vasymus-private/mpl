@@ -4,11 +4,11 @@ import RowInput from "@/admin/inertia/components/forms/vee-validate/RowInput.vue
 import RowSelect from "@/admin/inertia/components/forms/vee-validate/RowSelect.vue"
 import {useCharTypesStore} from "@/admin/inertia/modules/charTypes"
 import {computed} from "vue"
-import Option from "@/admin/inertia/modules/common/Option"
+import {Option} from "@/admin/inertia/modules/common/types"
 import {randomId} from "@/admin/inertia/utils"
-import {CharTypeEnum} from "@/admin/inertia/modules/charTypes/CharType"
+import {CharTypeEnum} from "@/admin/inertia/modules/charTypes/types"
 import {maxBy} from "lodash"
-import {Char, CharCategory} from "@/admin/inertia/modules/products/Char"
+import {Char, CharCategory} from "@/admin/inertia/modules/products/types"
 
 
 const charTypesStore = useCharTypesStore()

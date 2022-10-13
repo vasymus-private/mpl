@@ -6,7 +6,7 @@ import {
 } from "@/admin/inertia/utils"
 import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
 import axios, { AxiosError } from "axios"
-import ProductListItem from "@/admin/inertia/modules/products/ProductListItem"
+import { ProductListItem } from "@/admin/inertia/modules/products/types"
 import { defineStore } from "pinia"
 import { useProductsStore } from "@/admin/inertia/modules/products"
 import {
@@ -21,13 +21,14 @@ export const storeName = "indexProductsForm"
 export const useIndexProductsFormStore = defineStore(storeName, {
     actions: {
         async submitIndexProducts(
-            checkedProducts: Array<number>,
+            checkedProductsUuids: Array<string>,
             values: Values
         ): Promise<void | Record<string, string | undefined>> {
             try {
                 let productsToUpdate = values.products.filter((item) =>
-                    checkedProducts.includes(item.id)
+                    checkedProductsUuids.includes(item.uuid)
                 )
+                console.log("--- products to update", productsToUpdate)
                 if (!productsToUpdate.length) {
                     return
                 }
@@ -72,6 +73,7 @@ export const getValidationSchema = () =>
         products: yup.array().of(
             yup.object({
                 id: yup.number().required(),
+                uuid: yup.string().max(36).required(),
                 ordering: yupIntegerOrEmptyString(),
                 name: yup.string().required().max(250),
                 is_active: yup.boolean(),

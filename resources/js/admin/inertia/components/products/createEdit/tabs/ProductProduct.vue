@@ -1,12 +1,11 @@
 <script lang="ts" setup>
-// @ts-ignore
-import Multiselect from 'vue-multiselect'
+import Multiselect from '@/admin/inertia/vendor/vue-multiselect/Multiselect.vue'
 import RowInput from '@/admin/inertia/components/forms/vee-validate/RowInput.vue'
 import InputGroup from "@/admin/inertia/components/forms/parts/InputGroup.vue"
 import {ref} from 'vue'
-import Option from "@/admin/inertia/modules/common/Option"
+import {Option} from "@/admin/inertia/modules/common/types"
 import {useCategoriesStore} from "@/admin/inertia/modules/categories"
-import {ProductProductType, SearchProduct} from "@/admin/inertia/modules/products/Product"
+import {ProductProductType, SearchProduct} from "@/admin/inertia/modules/products/types"
 import {chunk} from 'lodash'
 import {useFieldArray, FieldEntry} from "vee-validate"
 import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"

@@ -1,5 +1,8 @@
-import Product, { Variation } from "@/admin/inertia/modules/products/Product"
-import { Char } from "@/admin/inertia/modules/products/Char"
+import {
+    Variation,
+    Product,
+    Char,
+} from "@/admin/inertia/modules/products/types"
 
 export interface Values
     extends Partial<Omit<Product, "parent_id" | "web_route">> {
@@ -16,6 +19,4 @@ export interface TempChar {
     category_uuid?: string | null
 }
 
-export interface VariationForm extends Partial<Variation> {
-    is_checked?: boolean
-}
+export interface VariationForm extends Partial<Variation> {}

@@ -10,8 +10,7 @@ import {watch} from "vue"
 import Toolbar from '@/admin/inertia/components/brands/createEdit/parts/Toolbar.vue'
 import {routeNames} from "@/admin/inertia/modules/routes"
 import {Link} from "@inertiajs/inertia-vue3"
-import {UrlParams} from "@/admin/inertia/modules/common/types"
-import {AdminTab} from "@/admin/inertia/modules/common/Tabs"
+import {UrlParams, AdminTab} from "@/admin/inertia/modules/common/types"
 
 
 const createEditBrandFormStore = useCreateEditBrandFormStore()

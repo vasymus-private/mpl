@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {Field, useFieldArray} from "vee-validate"
-import Media from "@/admin/inertia/modules/common/Media"
+import {Media} from "@/admin/inertia/modules/common/types"
 import {ref, toRef} from "vue"
 import {maxBy} from "lodash"
 import {randomId} from "@/admin/inertia/utils"
@@ -23,7 +23,7 @@ const save = (files: File[] | null) => {
         return
     }
 
-    files.forEach(file => {
+    [...files].forEach(file => {
         const max = maxBy(
             fields.value,
             (item) => item.value.order_column

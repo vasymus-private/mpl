@@ -1,8 +1,9 @@
 import { DateTime } from "luxon"
-import Media from "@/admin/inertia/modules/common/Media"
+import { Media } from "@/admin/inertia/modules/common/types"
 
 export interface OrderItem {
     id: number
+    uuid: string
     created_at: string | null // parse from 'Y-m-d H:i:s'
     dt_created_at: DateTime | null
     order_status_id: number | null
@@ -26,6 +27,7 @@ export interface OrderItem {
 
 export interface Order {
     id: number
+    uuid: string
     user_id: number | null
     user_name: string | null
     user_email: string | null
@@ -73,8 +75,8 @@ export interface OrderItemProductItem {
 
 export interface OrderProductItem {
     id: number
-    parent_id: number | null
     uuid: string
+    parent_id: number | null
     name: string
     unit: string | null
     price_purchase: number | null

@@ -12,12 +12,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Support\H;
 
 /**
  * @property int $id
+ * @property string $uuid
  * @property string $name
  * @property string $slug
  * @property int|null $ordering
@@ -69,6 +71,22 @@ class Brand extends BaseModel implements HasMedia
      */
     public $timestamps = false;
 
+    /**
+     * @inheritDoc
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        $cb = function (self $model) {
+            if (! $model->uuid) {
+                $model->uuid = (string) Str::uuid();
+            }
+        };
+
+        static::saving($cb);
+    }
+
     public static function rbBrandSlug($value)
     {
         return static::query()->where(Brand::TABLE . ".slug", $value)->firstOrFail();
@@ -77,6 +95,17 @@ class Brand extends BaseModel implements HasMedia
     public static function rbAdminBrand($value)
     {
         return static::query()->findOrFail($value);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        if (! $this->uuid) {
+            $this->uuid = (string) Str::uuid();
+        }
     }
 
     public function seo(): MorphOne

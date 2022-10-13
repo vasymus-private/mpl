@@ -84,7 +84,6 @@ class ProductResource extends JsonResource
                         'order_column' => $media->order_column,
                     ];
                 })
-                ->sortByDesc('order_column')
                 ->values(),
             'mainImage' => $this->resource->main_image_media
                 ? [

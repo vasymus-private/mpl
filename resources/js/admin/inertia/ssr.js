@@ -22,7 +22,7 @@ createServer((page) =>
                     .use(plugin)
                     .use(ZiggyVue, ziggyConfig)
                     .use(pinia)
-                // walkaround for passing page props to pinia
+                // workaround for passing page props to pinia
             } finally {
                 initFromPageProps(pinia, initialPageProps)
             }

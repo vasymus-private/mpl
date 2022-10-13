@@ -1,7 +1,5 @@
 import { defineStore } from "pinia"
 import { useCategoriesStore } from "@/admin/inertia/modules/categories"
-import Option from "@/admin/inertia/modules/common/Option"
-import { AdminTab, TabEnum } from "@/admin/inertia/modules/common/Tabs"
 import ElementsTab from "@/admin/inertia/components/categories/createEdit/tabs/ElementsTab.vue"
 import SeoTab from "@/admin/inertia/components/categories/createEdit/tabs/SeoTab.vue"
 import ProductsTab from "@/admin/inertia/components/categories/createEdit/tabs/ProductsTab.vue"
@@ -13,7 +11,12 @@ import { Category } from "@/admin/inertia/modules/categories/types"
 import axios, { AxiosError } from "axios"
 import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
 import { Inertia } from "@inertiajs/inertia"
-import { ErrorResponse } from "@/admin/inertia/modules/common/types"
+import {
+    ErrorResponse,
+    AdminTab,
+    TabEnum,
+    Option,
+} from "@/admin/inertia/modules/common/types"
 import { errorsToErrorFields } from "@/admin/inertia/modules/common"
 
 export const storeName = "createEditCategoryForm"

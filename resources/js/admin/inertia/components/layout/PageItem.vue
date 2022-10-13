@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import {computed} from "vue"
-import {MetaLink} from "@/admin/inertia/modules/common/Meta"
+import {MetaLink} from "@/admin/inertia/modules/common/types"
 import {Link} from "@inertiajs/inertia-vue3"
 
 

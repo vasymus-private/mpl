@@ -1,8 +1,8 @@
-import { Seo } from "@/admin/inertia/modules/common/types"
-import Media from "@/admin/inertia/modules/common/Media"
+import { Seo, Media } from "@/admin/inertia/modules/common/types"
 
 export interface BrandListItem {
     id: number
+    uuid: string
     name: string | null
     ordering: number | null
     preview: string | null
@@ -10,6 +10,7 @@ export interface BrandListItem {
 
 export interface Brand {
     id: number
+    uuid: string
     name: string | null
     slug: string | null
     ordering: number | null

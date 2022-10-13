@@ -1,6 +1,5 @@
 import { defineStore } from "pinia"
 import { useBrandsStore } from "@/admin/inertia/modules/brands"
-import { AdminTab, TabEnum } from "@/admin/inertia/modules/common/Tabs"
 import ElementsTab from "@/admin/inertia/components/brands/createEdit/tabs/ElementsTab.vue"
 import DescriptionTab from "@/admin/inertia/components/brands/createEdit/tabs/DescriptionTab.vue"
 import PhotoTab from "@/admin/inertia/components/brands/createEdit/tabs/PhotoTab.vue"
@@ -14,7 +13,11 @@ import { CustomFormData } from "@/admin/inertia/utils/CustomFormData"
 import axios, { AxiosError } from "axios"
 import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
 import { Inertia } from "@inertiajs/inertia"
-import { ErrorResponse } from "@/admin/inertia/modules/common/types"
+import {
+    ErrorResponse,
+    AdminTab,
+    TabEnum,
+} from "@/admin/inertia/modules/common/types"
 import {
     errorsToErrorFields,
     getMediaSchema,

@@ -72,7 +72,16 @@ class ProductsController extends BaseAdminController
         /** @var \Domain\Products\Models\Product\Product $product */
         $product = $request->admin_product;
 
-        $product->load('charCategories.chars');
+        $product->load([
+            'charCategories.chars',
+            'media',
+            'variations.media',
+            'accessory.media',
+            'similar.media',
+            'related.media',
+            'works.media',
+            'instruments.media',
+        ]);
 
         return $inertia->render('Products/CreateEdit', [
             'product' => (new ProductResource($product))->toArray($request),

@@ -1,5 +1,6 @@
-export declare interface Service {
+export interface Service {
     id: number
+    uuid: string
     name: string
     slug: string
     ordering: number | null

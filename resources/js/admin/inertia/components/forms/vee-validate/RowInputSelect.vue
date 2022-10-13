@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Option from "@/admin/inertia/modules/common/Option"
+import {Option} from "@/admin/inertia/modules/common/types"
 import { Field } from 'vee-validate'
 import {toRef} from "vue"
 

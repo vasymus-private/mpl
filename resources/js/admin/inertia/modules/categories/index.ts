@@ -4,11 +4,14 @@ import {
     Category,
     CategoryListItem,
 } from "@/admin/inertia/modules/categories/types"
-import Option, { OptionType } from "@/admin/inertia/modules/common/Option"
 import { arrayToMap } from "@/admin/inertia/utils"
 import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
 import axios, { AxiosError } from "axios"
-import { ErrorResponse } from "@/admin/inertia/modules/common/types"
+import {
+    ErrorResponse,
+    Option,
+    OptionType,
+} from "@/admin/inertia/modules/common/types"
 import { errorsToErrorFields } from "@/admin/inertia/modules/common"
 
 export const storeName = "categoriesTree"
@@ -97,6 +100,13 @@ export const useCategoriesStore = defineStore(storeName, {
                 routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_CREATE,
             ].includes(routesStore.current)
         },
+        categoryIds() {
+            return (uuids: Array<string>): Array<number> => {
+                return this.categories
+                    .filter((item) => uuids.includes(item.uuid))
+                    .map((item) => item.id)
+            }
+        },
     },
     actions: {
         setEntities(entities: Array<CategoriesTreeItem>): void {
@@ -108,9 +118,9 @@ export const useCategoriesStore = defineStore(storeName, {
         setListItems(listItems: Array<CategoryListItem>): void {
             this._listItems = listItems
         },
-        removeListItems(ids: Array<number>): void {
+        removeListItems(uuids: Array<string>): void {
             this._listItems = this._listItems.filter(
-                (item) => !ids.includes(item.id)
+                (item) => !uuids.includes(item.uuid)
             )
         },
         addOrUpdateCategoryListItems(listItems: Array<CategoryListItem>): void {
@@ -131,9 +141,9 @@ export const useCategoriesStore = defineStore(storeName, {
             this._listItems = [...this._listItems, ...listItems]
         },
         async deleteBulkCategories(
-            checkedCategories: Array<number>
+            checkedCategoriesUuids: Array<string>
         ): Promise<void | Record<string, string | undefined>> {
-            if (!checkedCategories.length) {
+            if (!checkedCategoriesUuids.length) {
                 return
             }
 
@@ -145,12 +155,13 @@ export const useCategoriesStore = defineStore(storeName, {
                         routeNames.ROUTE_ADMIN_AJAX_CATEGORIES_BULK_DELETE
                     )
                 )
-                checkedCategories.forEach((id) => {
+                const ids = this.categoryIds(checkedCategoriesUuids)
+                ids.forEach((id) => {
                     url.searchParams.append("ids[]", `${id}`)
                 })
                 await axios.delete(url.toString())
 
-                this.removeListItems(checkedCategories)
+                this.removeListItems(checkedCategoriesUuids)
             } catch (e) {
                 if (e instanceof AxiosError) {
                     const {

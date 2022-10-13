@@ -1,11 +1,30 @@
-import { CharCategory } from "@/admin/inertia/modules/products/Char"
-import Meta from "@/admin/inertia/modules/common/Meta"
-import Media from "@/admin/inertia/modules/common/Media"
-import { Seo } from "@/admin/inertia/modules/common/types"
+import { Media, Meta, Seo } from "@/admin/inertia/modules/common/types"
 
-export default interface Product {
-    id: number | null
-    uuid: string | null
+export interface CharCategory {
+    id: number
+    uuid: string
+    name: string
+    product_id: number
+    ordering: number
+    chars: Array<Char>
+}
+
+export interface Char {
+    id: number
+    uuid: string
+    name: string
+    value: string | number | null
+    product_id: number
+    type_id: number
+    is_rate?: boolean
+    category_id: number
+    category_uuid?: string | null
+    ordering: number
+}
+
+export interface Product {
+    id: number
+    uuid: string
     name: string | null
     slug: string | null
     ordering: number | null
@@ -50,7 +69,8 @@ export default interface Product {
 }
 
 export interface InfoPrice {
-    id: number | null
+    id: number
+    uuid: string
     name: string | null
     price: number | null
     product_id: number | null
@@ -110,8 +130,8 @@ export const searchProductRequestToUrlSearchParams = (
 
 export interface SearchProduct {
     id: number
-    parent_id: number | null
     uuid: string
+    parent_id: number | null
     is_active: boolean
     name: string
     image: string | null
@@ -128,8 +148,8 @@ export interface SearchProduct {
 }
 export interface SearchProductVariation {
     id: number
-    parent_id: number | null
     uuid: string
+    parent_id: number | null
     is_active: boolean
     name: string
     image: string | null
@@ -165,4 +185,24 @@ export interface Variation {
     preview: string | null
     mainImage: Media | null
     additionalImages: Array<Media>
+}
+
+export interface ProductListItem {
+    id: number
+    uuid: string
+    name: string | null
+    ordering: number | null
+    is_active: boolean | null
+    unit: string | null
+    price_purchase: number | null
+    price_purchase_currency_id: number | null
+    price_purchase_formatted: string | null
+    price_retail: number | null
+    price_retail_currency_id: number | null
+    price_retail_formatted: string | null
+    admin_comment: string | null
+    availability_status_id: number | null
+    availability_status_name: string | null
+    availability_status_name_short: string | null
+    brand_id: number | null
 }

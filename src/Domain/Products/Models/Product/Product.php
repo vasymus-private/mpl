@@ -177,11 +177,9 @@ class Product extends BaseModel implements HasMedia
     {
         parent::boot();
 
-        static::booting();
-
-        $cb = function (self $product) {
-            if (! $product->uuid) {
-                $product->uuid = (string) Str::uuid();
+        $cb = function (self $model) {
+            if (! $model->uuid) {
+                $model->uuid = (string) Str::uuid();
             }
         };
 
@@ -204,6 +202,7 @@ class Product extends BaseModel implements HasMedia
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
+
         if (! $this->uuid) {
             $this->uuid = (string) Str::uuid();
         }

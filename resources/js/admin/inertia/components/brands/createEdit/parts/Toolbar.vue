@@ -16,7 +16,7 @@ const handleDelete = async () => {
     }
 
     if (confirm(`Вы уверены, что хотите удалить производителя?`)) {
-        let errorsOrVoid = await brandsStore.deleteBulkBrands([brandsStore.brand.id])
+        let errorsOrVoid = await brandsStore.deleteBulkBrands([brandsStore.brand.uuid])
         if (!errorsOrVoid) {
             Inertia.visit(
                 routesStore.route(

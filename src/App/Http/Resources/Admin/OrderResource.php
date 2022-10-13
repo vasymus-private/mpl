@@ -27,6 +27,7 @@ class OrderResource extends JsonResource
     {
         return [
             'id' => $this->resource->id,
+            'uuid' => $this->resource->uuid,
             'user_id' => $this->resource->user_id,
             'user_name' => $this->resource->user->name ?? null,
             'user_email' => $this->resource->user->email ?? null,
