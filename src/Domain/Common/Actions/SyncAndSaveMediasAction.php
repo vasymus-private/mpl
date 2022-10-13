@@ -77,7 +77,7 @@ class SyncAndSaveMediasAction extends BaseAction
         $ordering = 0;
 
         return collect($mediaDTOs)
-            ->map(function(MediaDTO $mediaDTO) use (&$ordering) {
+            ->map(function (MediaDTO $mediaDTO) use (&$ordering) {
                 $mediaDTO->order_column = ($ordering += static::ORDERING_STEP);
 
                 return $mediaDTO;
