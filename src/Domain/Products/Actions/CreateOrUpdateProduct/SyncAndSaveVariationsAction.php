@@ -28,10 +28,6 @@ class SyncAndSaveVariationsAction extends BaseAction
      * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\VariationDTO[] $variations
      *
      * @return void
-     *
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
      */
     public function execute(Product $target, array $variations)
     {
@@ -87,10 +83,6 @@ class SyncAndSaveVariationsAction extends BaseAction
      * @phpstan-param array<int, \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\VariationDTO> $toUpdate
      *
      * @return void
-     *
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
      */
     private function update(Product $target, array $toUpdate)
     {
@@ -113,6 +105,8 @@ class SyncAndSaveVariationsAction extends BaseAction
             $variation->price_retail_currency_id = $variationDTO->price_retail_currency_id;
             $variation->preview = $variationDTO->preview;
 
+            $variation->save();
+
             $this->syncAndSaveMediasAction->execute($variation, $variationDTO->mainImage ? [$variationDTO->mainImage] : [], Product::MC_MAIN_IMAGE);
 
             $this->syncAndSaveMediasAction->execute($variation, $variationDTO->additionalImages, Product::MC_ADDITIONAL_IMAGES);
@@ -124,10 +118,6 @@ class SyncAndSaveVariationsAction extends BaseAction
      * @param \Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\VariationDTO[] $toStore
      *
      * @return void
-     *
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
      */
     private function store(Product $target, array $toStore)
     {
