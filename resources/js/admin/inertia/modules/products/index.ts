@@ -99,6 +99,9 @@ export const useProductsStore = defineStore(storeName, {
                   }
                 : null,
         product: (state: State): Product | null => state._product.entity,
+        variations() {
+            return this.product?.variations || []
+        },
         isCreatingProductRoute() {
             let routesStore = useRoutesStore()
 

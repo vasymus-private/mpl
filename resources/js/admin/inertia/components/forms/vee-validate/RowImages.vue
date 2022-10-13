@@ -23,7 +23,7 @@ const save = (files: File[] | null) => {
         return
     }
 
-    files.forEach(file => {
+    [...files].forEach(file => {
         const max = maxBy(
             fields.value,
             (item) => item.value.order_column

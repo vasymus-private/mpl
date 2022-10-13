@@ -128,10 +128,11 @@ const {indexForId} = useFormHelpers<Values>('products', values)
 watchEffect(() => {
     setValues({
         products: productListItems.value.map((product: ProductListItem) => {
-            let {id, ordering, name, is_active, unit, price_purchase, price_purchase_currency_id, price_retail, price_retail_currency_id, availability_status_id, admin_comment} = product
+            let {id, uuid, ordering, name, is_active, unit, price_purchase, price_purchase_currency_id, price_retail, price_retail_currency_id, availability_status_id, admin_comment} = product
 
             return {
                 id,
+                uuid,
                 ordering,
                 name,
                 is_active,
@@ -150,6 +151,7 @@ watchEffect(() => {
 watchSelectAll()
 
 const onSubmit = handleSubmit(async (values, ctx) => {
+    console.log('---', checkedItems.value)
     const errorFields = await indexProductsForm.submitIndexProducts(checkedItems.value, values)
     if (errorFields) {
         ctx.setErrors(errorFields)
@@ -244,7 +246,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                     <input
                                         :disabled="editMode"
                                         v-model="checkedItems"
-                                        :value="product.id"
+                                        :value="product.uuid"
                                         class="form-check-input position-static js-product-item-checkbox"
                                         type="checkbox"
                                         @click.stop=""
@@ -287,7 +289,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                             <template v-for="sortableColumn in columnsStore.adminProductColumns" :key="sortableColumn.value">
                                 <td v-if="isSortableColumn(sortableColumn, ColumnName.ordering)" :class="`sortable-column-${sortableColumn.value}`">
                                     <FormControlInput
-                                        v-if="editMode && isChecked(product.id)"
+                                        v-if="editMode && isChecked(product.uuid)"
                                         :name="`products[${indexForId(product.id)}].ordering`"
                                         type="number"
                                         :keep-value="true"
@@ -296,7 +298,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                 </td>
                                 <td v-if="isSortableColumn(sortableColumn, ColumnName.name)" :class="`sortable-column-${sortableColumn.value}`" @click.stop="">
                                     <FormControlInput
-                                        v-if="editMode && isChecked(product.id)"
+                                        v-if="editMode && isChecked(product.uuid)"
                                         :name="`products[${indexForId(product.id)}].name`"
                                         type="text"
                                         :keep-value="true"
@@ -309,7 +311,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                 </td>
                                 <td v-if="isSortableColumn(sortableColumn, ColumnName.active)" :class="`sortable-column-${sortableColumn.value}`">
                                     <FormCheckInput
-                                        v-if="editMode && isChecked(product.id)"
+                                        v-if="editMode && isChecked(product.uuid)"
                                         :name="`products[${indexForId(product.id)}].is_active`"
                                         :keep-value="true"
                                     />
@@ -317,7 +319,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                 </td>
                                 <td v-if="isSortableColumn(sortableColumn, ColumnName.unit)" :class="`sortable-column-${sortableColumn.value}`">
                                     <FormControlInput
-                                        v-if="editMode && isChecked(product.id)"
+                                        v-if="editMode && isChecked(product.uuid)"
                                         :name="`products[${indexForId(product.id)}].unit`"
                                         type="text"
                                         :keep-value="true"
@@ -325,7 +327,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                     <span v-else class="main-grid-cell-content">{{product.unit}}</span>
                                 </td>
                                 <td v-if="isSortableColumn(sortableColumn, ColumnName.price_purchase)" :class="`sortable-column-${sortableColumn.value}`">
-                                    <div v-if="editMode && isChecked(product.id)" class="row">
+                                    <div v-if="editMode && isChecked(product.uuid)" class="row">
                                         <div class="col-auto">
                                             <FormControlInput
                                                 :name="`products[${indexForId(product.id)}].price_purchase`"
@@ -344,7 +346,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                     <span v-else class="main-grid-cell-content">{{product.price_purchase_formatted}}</span>
                                 </td>
                                 <td v-if="isSortableColumn(sortableColumn, ColumnName.price_retail)" :class="`sortable-column-${sortableColumn.value}`">
-                                    <div v-if="editMode && isChecked(product.id)" class="row">
+                                    <div v-if="editMode && isChecked(product.uuid)" class="row">
                                         <div class="col-auto">
                                             <FormControlInput
                                                 :name="`products[${indexForId(product.id)}].price_retail`"
@@ -364,7 +366,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                 </td>
                                 <td v-if="isSortableColumn(sortableColumn, ColumnName.admin_comment)" :class="`sortable-column-${sortableColumn.value}`">
                                     <FormControlTextarea
-                                        v-if="editMode && isChecked(product.id)"
+                                        v-if="editMode && isChecked(product.uuid)"
                                         :name="`products[${indexForId(product.id)}].admin_comment`"
                                         :rows="2"
                                         :keep-value="true"
@@ -373,7 +375,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                 </td>
                                 <td :class="`sortable-column-${sortableColumn.value}`" v-if="isSortableColumn(sortableColumn, ColumnName.availability)">
                                     <FormControlSelect
-                                        v-if="editMode && isChecked(product.id)"
+                                        v-if="editMode && isChecked(product.uuid)"
                                         :name="`products[${indexForId(product.id)}].availability_status_id`"
                                         :options="availabilitiesStore.options"
                                         :keep-value="true"

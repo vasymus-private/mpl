@@ -22,7 +22,7 @@ const save = (files: File[] | null) => {
         return
     }
 
-    files.forEach(file => {
+    [...files].forEach(file => {
         setValue({
             id: null,
             uuid: randomId(),

@@ -2,10 +2,9 @@
 import {useModalsStore} from "@/admin/inertia/modules/modals"
 import {ModalType} from "@/admin/inertia/modules/modals/types"
 import {ColumnType, ColumnName} from "@/admin/inertia/modules/columns/types"
-import {useField, useFieldArray, Field, FieldEntry} from "vee-validate"
+import {useField, useFieldArray, FieldEntry} from "vee-validate"
 import {getEmptyVariation} from "@/admin/inertia/modules/forms/createEditProduct"
 import {useColumnsStore, isSortableColumn} from "@/admin/inertia/modules/columns"
-import {ref, watch} from "vue"
 import {VariationForm} from "@/admin/inertia/modules/forms/createEditProduct/types"
 import {randomId} from "@/admin/inertia/utils"
 import {Media} from "@/admin/inertia/modules/common/types"
@@ -13,17 +12,33 @@ import {copyMedia} from "@/admin/inertia/modules/common/utils"
 import {useCurrenciesStore} from "@/admin/inertia/modules/currencies"
 import {useAvailabilityStatusesStore} from "@/admin/inertia/modules/availabilityStatuses"
 import FormControlInput from '@/admin/inertia/components/forms/vee-validate/FormControlInput.vue'
+import useCheckedItems from "@/admin/inertia/composables/useCheckedItems"
+import {Variation} from "@/admin/inertia/modules/products/types"
+import {useProductsStore} from "@/admin/inertia/modules/products"
+import {storeToRefs} from "pinia"
 
 
 const modalsStore = useModalsStore()
 const columnsStore = useColumnsStore()
 const currenciesStore = useCurrenciesStore()
 const availabilitiesStore = useAvailabilityStatusesStore()
+const productsStore = useProductsStore()
 
-const selectAll = ref<boolean>(false)
-const editMode = ref<boolean>(false)
 const {setValue} = useField<Array<VariationForm>>('variations')
 const {fields, push, update, remove} = useFieldArray<VariationForm>('variations')
+
+const {variations} = storeToRefs(productsStore)
+
+const {
+    selectAll,
+    editMode,
+    checkedItems,
+    check,
+    isChecked,
+    watchSelectAll,
+    manualCheck,
+    cancel,
+} = useCheckedItems<Variation>(variations)
 
 const onAddVariation = () => {
     push(getEmptyVariation())
@@ -34,14 +49,7 @@ const onEditVariation = (idx: number) => {
         index: idx
     })
 }
-watch(selectAll, (nv) => {
-    let allVariations = fields.value.map(field => ({
-        ...field.value,
-        is_checked: !!nv
-    }))
 
-    setValue(allVariations)
-})
 const toggleActive = (variation: FieldEntry<VariationForm>, idx: number) => {
     update(idx, {
         ...variation.value,
@@ -82,6 +90,8 @@ const deleteSelected = () => {
 
     }
 }
+
+watchSelectAll()
 </script>
 
 <template>
@@ -109,27 +119,21 @@ const deleteSelected = () => {
                 </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(product, idx) in fields" :key="product.value.uuid">
+                    <tr v-for="(product, idx) in fields" :key="product.value.uuid" @click="manualCheck(product.value.uuid)">
                         <td>
                             <div class="form-check">
-                                <Field
-                                    v-slot="{ field, meta }"
-                                    :name="`variations[${idx}].is_checked`"
+                                <input
+                                    :disabled="editMode"
+                                    v-model="checkedItems"
+                                    :value="product.value.uuid"
+                                    class="form-check-input position-static js-product-item-checkbox"
                                     type="checkbox"
-                                    :value="true"
-                                >
-                                    <input
-                                        v-bind="field"
-                                        :name="`variations[${idx}].is_checked`"
-                                        type="checkbox"
-                                        :value="true"
-                                        class="form-check-input position-static"
-                                    />
-                                </Field>
+                                    @click.stop=""
+                                />
                             </div>
                         </td>
                         <td>
-                            <div class="dropdown">
+                            <div class="dropdown" @click.stop="">
                                 <button
                                     class="btn btn__grid-row-action-button dropdown-toggle"
                                     type="button"
@@ -218,18 +222,32 @@ const deleteSelected = () => {
         </div>
 
         <div class="admin-edit-variations__footer">
-            <div class="variants-btn-group" role="group" aria-label="actions">
+            <div v-if="!editMode" class="variants-btn-group" role="group" aria-label="actions">
                 <button
                     aria-label="edit all mode"
                     type="button"
                     @click="editMode = true"
+                    :disabled="!checkedItems.length"
                     class="btn brn-edit"></button>
                 <button
                     @click="deleteSelected"
+                    :disabled="!checkedItems.length"
                     aria-label="delete all"
                     type="button"
                     class="btn btn-delete"></button>
             </div>
+            <template v-else>
+                <button
+                    @click="saveVariations"
+                    type="button"
+                    class="btn btn-light"
+                >Ок</button>
+                <button
+                    @click="cancelVariations"
+                    type="button"
+                    class="btn btn-light"
+                >Отменить</button>
+            </template>
         </div>
     </div>
 </template>

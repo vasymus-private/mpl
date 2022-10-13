@@ -38,7 +38,6 @@ const {
     editMode,
     checkedItems,
     check,
-    isChecked,
     watchSelectAll,
     manualCheck,
     cancel,
@@ -137,7 +136,7 @@ watchSelectAll()
                                 <input
                                     :disabled="editMode"
                                     v-model="checkedItems"
-                                    :value="order.id"
+                                    :value="order.uuid"
                                     class="form-check-input position-static js-product-item-checkbox"
                                     type="checkbox"
                                     @click.stop=""

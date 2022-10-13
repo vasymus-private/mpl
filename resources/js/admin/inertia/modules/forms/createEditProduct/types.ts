@@ -20,5 +20,4 @@ export interface TempChar {
 }
 
 export interface VariationForm extends Partial<Variation> {
-    is_checked?: boolean
 }

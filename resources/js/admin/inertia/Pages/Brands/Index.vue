@@ -89,6 +89,7 @@ watch(brandsList, (brands: Array<BrandListItem>) => {
     setValues({
         brands: brands.map(item => ({
             id: item.id,
+            uuid: item.uuid,
             ordering: item.ordering,
             name: item.name,
             preview: item.preview,
@@ -170,7 +171,7 @@ watchSelectAll()
                                     <input
                                         :disabled="editMode"
                                         v-model="checkedItems"
-                                        :value="brand.id"
+                                        :value="brand.uuid"
                                         class="form-check-input position-static js-product-item-checkbox"
                                         type="checkbox"
                                         @click.stop=""

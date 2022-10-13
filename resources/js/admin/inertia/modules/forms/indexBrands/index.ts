@@ -67,6 +67,7 @@ export const getValidationSchema = () =>
         brands: yup.array().of(
             yup.object({
                 id: yup.number().required(),
+                uuid: yup.string().max(36).required(),
                 ordering: yupIntegerOrEmptyString(),
                 name: yup.string().required().max(250),
                 preview: yup.string().max(65000).nullable(),

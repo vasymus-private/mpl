@@ -68,6 +68,7 @@ export const getValidationSchema = () =>
         categories: yup.array().of(
             yup.object({
                 id: yup.number().required(),
+                uuid: yup.string().max(36).required(),
                 ordering: yupIntegerOrEmptyString(),
                 name: yup.string().required().max(250),
                 is_active: yup.boolean(),

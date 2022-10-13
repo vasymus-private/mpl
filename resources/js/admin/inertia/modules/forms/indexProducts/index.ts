@@ -28,6 +28,7 @@ export const useIndexProductsFormStore = defineStore(storeName, {
                 let productsToUpdate = values.products.filter((item) =>
                     checkedProductsUuids.includes(item.uuid)
                 )
+                console.log('--- products to update', productsToUpdate)
                 if (!productsToUpdate.length) {
                     return
                 }
@@ -72,6 +73,7 @@ export const getValidationSchema = () =>
         products: yup.array().of(
             yup.object({
                 id: yup.number().required(),
+                uuid: yup.string().max(36).required(),
                 ordering: yupIntegerOrEmptyString(),
                 name: yup.string().required().max(250),
                 is_active: yup.boolean(),

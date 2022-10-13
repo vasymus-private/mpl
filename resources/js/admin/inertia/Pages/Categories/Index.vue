@@ -109,6 +109,7 @@ watch(categoriesList, (categories: Array<CategoryListItem>) => {
     setValues({
         categories: categories.map(item => ({
             id: item.id,
+            uuid: item.uuid,
             ordering: item.ordering,
             name: item.name,
             is_active: item.is_active,
@@ -192,7 +193,7 @@ watchSelectAll()
                                         <input
                                             :disabled="editMode"
                                             v-model="checkedItems"
-                                            :value="category.id"
+                                            :value="category.uuid"
                                             class="form-check-input position-static js-product-item-checkbox"
                                             type="checkbox"
                                             @click.stop=""
