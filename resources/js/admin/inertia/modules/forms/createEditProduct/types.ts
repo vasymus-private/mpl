@@ -19,5 +19,4 @@ export interface TempChar {
     category_uuid?: string | null
 }
 
-export interface VariationForm extends Partial<Variation> {
-}
+export interface VariationForm extends Partial<Variation> {}
