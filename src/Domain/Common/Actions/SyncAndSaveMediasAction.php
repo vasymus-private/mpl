@@ -10,6 +10,8 @@ use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 
 class SyncAndSaveMediasAction extends BaseAction
 {
+    private const ORDERING_STEP = 100;
+
     /**
      * @param \Domain\Products\Models\Product\Product|\Domain\Products\Models\Brand|\Domain\Orders\Models\Order $target
      * @param \Domain\Common\DTOs\MediaDTO[] $mediaDTOs
@@ -24,6 +26,8 @@ class SyncAndSaveMediasAction extends BaseAction
         }
 
         $target->load('media');
+
+        $mediaDTOs = $this->getWithUpdatedOrderingColumnAccordingArrayOrder($mediaDTOs);
 
         /** @var \Domain\Common\DTOs\MediaDTO[][] $sorted */
         $sorted = collect($mediaDTOs)->reduce(function (array $acc, MediaDTO $item) use ($target, $collectionName) {
@@ -61,6 +65,26 @@ class SyncAndSaveMediasAction extends BaseAction
         $this->storeFile($target, $sorted['file'], $collectionName);
 
         $this->storeCopy($target, $sorted['copy'], $collectionName);
+    }
+
+    /**
+     * @param \Domain\Common\DTOs\MediaDTO[] $mediaDTOs
+     *
+     * @return \Domain\Common\DTOs\MediaDTO[]
+     */
+    private function getWithUpdatedOrderingColumnAccordingArrayOrder(array $mediaDTOs): array
+    {
+        $ordering = 0;
+
+        return collect($mediaDTOs)
+            ->map(function(MediaDTO $mediaDTO) use (&$ordering) {
+                $mediaDTO->order_column = ($ordering += static::ORDERING_STEP);
+
+                return $mediaDTO;
+            })
+            ->sortBy('ordering')
+            ->values()
+            ->all();
     }
 
     /**
