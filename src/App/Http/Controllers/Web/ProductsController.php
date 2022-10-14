@@ -19,6 +19,7 @@ class ProductsController extends BaseWebController
     {
         $query = Product::query()
             ->notVariations()
+            ->withSlug()
             ->active()
             ->publicViewable()
             ->orderBy(sprintf('%s.ordering', Product::TABLE))
