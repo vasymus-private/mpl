@@ -41,6 +41,11 @@ class ProductQueryBuilder extends Builder
         return $this->whereNull("{$this->table}.parent_id");
     }
 
+    public function withSlug(): self
+    {
+        return $this->whereNotNull("{$this->table}.slug");
+    }
+
     public function variations(): self
     {
         return $this->whereNotNull("{$this->table}.parent_id");
