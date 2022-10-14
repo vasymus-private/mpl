@@ -68,6 +68,9 @@ export const useRoutesStore = defineStore(storeName, {
                 }
             }
         },
+        activeTabUrlParam(): string | undefined {
+            return this.urlParam(UrlParams.active_tab)
+        },
         hasUrlParam: function () {
             return (key: string): boolean => {
                 if (!this.url) {
@@ -261,13 +264,7 @@ export const useRoutesStore = defineStore(storeName, {
         },
         activeTab(): (tabs: Array<AdminTab>, def?: TabEnum) => string {
             return (tabs: Array<AdminTab>, def?: TabEnum): string => {
-                let url
-                if (typeof window !== "undefined") {
-                    url = window.location.href
-                }
-                if (!url) {
-                    url = this.fullUrl
-                }
+                let url = this.url
                 if (!url) {
                     return def || TabEnum.elements
                 }
