@@ -50,7 +50,7 @@ return [
     'temporary_upload_model' => Spatie\MediaLibraryPro\Models\TemporaryUpload::class, // @phpstan-ignore-line
 
     /*
-     * When enabled, Media Library Pro will only process temporary uploads there were uploaded
+     * When enabled, Media Library Pro will only process temporary uploads that were uploaded
      * in the same session. You can opt to disable this for stateless usage of
      * the pro components.
      */
@@ -70,6 +70,13 @@ return [
      * The class that contains the strategy for determining a media file's path.
      */
     'path_generator' => Spatie\MediaLibrary\Support\PathGenerator\DefaultPathGenerator::class,
+
+    /*
+     * Here you can specify which path generator should be used for the given class.
+     */
+    'custom_path_generators' => [
+        // Model::class => PathGenerator::class
+    ],
 
     /*
      * When urls to files get generated, this class will be called. Use the default
@@ -97,6 +104,7 @@ return [
     'image_optimizers' => [
         Spatie\ImageOptimizer\Optimizers\Jpegoptim::class => [
             '-m85', // set maximum quality to 85%
+            '--force', // ensure that progressive generation is always done also if a little bigger
             '--strip-all', // this strips out all text information such as comments and EXIF data
             '--all-progressive', // this will make sure the resulting image is a progressive one
         ],
@@ -116,10 +124,10 @@ return [
             '-O3', // this produces the slowest but best results
         ],
         Spatie\ImageOptimizer\Optimizers\Cwebp::class => [
-                '-m 6', // for the slowest compression method in order to get the best compression.
-                '-pass 10', // for maximizing the amount of analysis pass.
-                '-mt', // multithreading for some speed improvements.
-                '-q 90', //quality factor that brings the least noticeable changes.
+            '-m 6', // for the slowest compression method in order to get the best compression.
+            '-pass 10', // for maximizing the amount of analysis pass.
+            '-mt', // multithreading for some speed improvements.
+            '-q 90', //quality factor that brings the least noticeable changes.
         ],
     ],
 
@@ -187,7 +195,7 @@ return [
     'responsive_images' => [
         /*
          * This class is responsible for calculating the target widths of the responsive
-         * images. By default we optimize for filesize and create variations that each are 20%
+         * images. By default we optimize for filesize and create variations that each are 30%
          * smaller than the previous one. More info in the documentation.
          *
          * https://docs.spatie.be/laravel-medialibrary/v9/advanced-usage/generating-responsive-images

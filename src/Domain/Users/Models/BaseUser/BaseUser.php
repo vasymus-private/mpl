@@ -132,10 +132,11 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
     /**
      * The attributes that should be hidden for arrays.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**
@@ -150,7 +151,7 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
     /**
      * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'settings' => 'array',
@@ -214,9 +215,9 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|\Domain\Products\QueryBuilders\ProductQueryBuilder
      */
-    public function cart(): BelongsToMany
+    public function cart()
     {
         return $this->belongsToMany(Product::class, ProductUserCart::TABLE, 'user_id', 'product_id')
             ->using(ProductUserCart::class)

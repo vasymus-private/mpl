@@ -52,7 +52,7 @@ class FAQ extends BaseModel implements HasMedia
     /**
      * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         "is_active" => "bool",

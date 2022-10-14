@@ -5,8 +5,6 @@ namespace App\View\Components\Web;
 use Carbon\Carbon;
 use Domain\Products\DTOs\ViewedDTO;
 use Domain\Products\Models\Product\Product;
-use Domain\Services\Models\Service;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\View\Component;
@@ -15,7 +13,7 @@ use Support\H;
 class SidebarMenuViewedComponent extends Component
 {
     /**
-     * @var Collection|ViewedDTO[]
+     * @var \Illuminate\Database\Eloquent\Collection|\Domain\Products\DTOs\ViewedDTO[]
      * */
     public $viewed;
 

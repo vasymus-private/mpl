@@ -174,7 +174,7 @@ class ShowOrder extends BaseShowComponent
     public $tempSupplierInvoice;
 
     /**
-     * @var \Domain\Products\DTOs\Admin\CategoryItemSidebarDTO[]
+     * @var array[] {@link \Domain\Products\DTOs\Admin\CategoryItemSidebarDTO}
      * */
     public array $categoriesSidebar;
 
