@@ -68,7 +68,7 @@ export const useRoutesStore = defineStore(storeName, {
                 }
             }
         },
-        activeTabUrlParam(): string|undefined {
+        activeTabUrlParam(): string | undefined {
             return this.urlParam(UrlParams.active_tab)
         },
         hasUrlParam: function () {
