@@ -13,7 +13,7 @@ use Support\H;
 class SidebarMenuViewedComponent extends Component
 {
     /**
-     * @var \Illuminate\Database\Eloquent\Collection|\Domain\Products\DTOs\ViewedDTO[]
+     * @var \Illuminate\Support\Collection|\Domain\Products\DTOs\ViewedDTO[]
      * */
     public $viewed;
 

@@ -71,7 +71,7 @@ trait ProductRelations
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany|\Domain\Products\QueryBuilders\ProductQueryBuilder
      */
-    public function variations(): HasMany
+    public function variations()
     {
         /** @var \Illuminate\Database\Eloquent\Relations\HasMany|\Domain\Products\QueryBuilders\ProductQueryBuilder $hm */
         $hm = $this->hasMany(Product::class, "parent_id", "id")->orderBy(Product::TABLE . '.ordering', 'asc');
@@ -82,7 +82,7 @@ trait ProductRelations
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|\Domain\Products\QueryBuilders\ProductQueryBuilder
      */
-    public function products(): BelongsToMany
+    public function products()
     {
         /** @var \Illuminate\Database\Eloquent\Relations\BelongsToMany|\Domain\Products\QueryBuilders\ProductQueryBuilder $bm */
         $bm = $this->belongsToMany(Product::class, ProductProduct::TABLE, "product_1_id", "product_2_id");

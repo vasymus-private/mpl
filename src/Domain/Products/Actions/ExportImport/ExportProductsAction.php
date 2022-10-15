@@ -63,6 +63,7 @@ class ExportProductsAction
             $this->throwException($openResult);
         }
 
+        // @phpstan-ignore-next-line
         Product::query()->whereIn('id', $productsIds)
             ->with([
                 'media',

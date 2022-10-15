@@ -33,6 +33,7 @@ class CategoryResource extends JsonResource
             'ordering' => $this->resource->ordering,
             'description' => $this->resource->description,
             'seo' => $this->resource->seo,
+            // @phpstan-ignore-next-line
             'products' => $this->resource->products->map(fn (Product $product) => [
                 'id' => $product->id,
                 'uuid' => $product->uuid,
