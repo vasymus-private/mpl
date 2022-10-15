@@ -420,6 +420,7 @@ trait HasVariationsTab
 
         $additionalImages = $original->getMedia(Product::MC_ADDITIONAL_IMAGES);
         foreach ($additionalImages as $additionalImageMedia) {
+            /** @var \Domain\Common\Models\CustomMedia $additionalImageMedia */
             $additionalImage = FileDTO::fromCustomMedia($additionalImageMedia);
             $this->addMedia($additionalImage, Product::MC_ADDITIONAL_IMAGES, $copy);
         }
