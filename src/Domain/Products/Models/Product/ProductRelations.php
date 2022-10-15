@@ -69,19 +69,22 @@ trait ProductRelations
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany|\Domain\Products\QueryBuilders\ProductQueryBuilder
      */
     public function variations(): HasMany
     {
-        return $this->hasMany(Product::class, "parent_id", "id")->orderBy(Product::TABLE . '.ordering', 'asc');
+        /** @var \Illuminate\Database\Eloquent\Relations\HasMany|\Domain\Products\QueryBuilders\ProductQueryBuilder $hm */
+        $hm = $this->hasMany(Product::class, "parent_id", "id")->orderBy(Product::TABLE . '.ordering', 'asc');
+
+        return $hm;
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|\Domain\Products\QueryBuilders\ProductQueryBuilder
      */
     public function products(): BelongsToMany
     {
-        /** @var BelongsToMany $bm */
+        /** @var \Illuminate\Database\Eloquent\Relations\BelongsToMany|\Domain\Products\QueryBuilders\ProductQueryBuilder $bm */
         $bm = $this->belongsToMany(Product::class, ProductProduct::TABLE, "product_1_id", "product_2_id");
 
         return $bm

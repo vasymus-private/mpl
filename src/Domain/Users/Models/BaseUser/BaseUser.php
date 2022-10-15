@@ -219,11 +219,13 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
      */
     public function cart()
     {
-        return $this->belongsToMany(Product::class, ProductUserCart::TABLE, 'user_id', 'product_id')
+        /** @var \Illuminate\Database\Eloquent\Relations\BelongsToMany|\Domain\Products\QueryBuilders\ProductQueryBuilder $btm */
+        $btm = $this->belongsToMany(Product::class, ProductUserCart::TABLE, 'user_id', 'product_id')
             ->using(ProductUserCart::class)
             ->as('cart_product')
             ->withPivot(["count", "created_at", "deleted_at"])
             ->withTimestamps();
+        return $btm;
     }
 
     /**
