@@ -225,6 +225,7 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
             ->as('cart_product')
             ->withPivot(["count", "created_at", "deleted_at"])
             ->withTimestamps();
+
         return $btm;
     }
 
