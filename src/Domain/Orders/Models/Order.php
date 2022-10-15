@@ -390,15 +390,15 @@ class Order extends BaseModel implements HasMedia
     }
 
     /**
-     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[]
-     * */
+     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<array-key, \Domain\Common\Models\CustomMedia>
+     */
     public function getInitialAttachmentsAttribute(): MediaCollection
     {
         return $this->getMedia(static::MC_INITIAL_ATTACHMENT);
     }
 
     /**
-     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[]
+     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<array-key, \Domain\Common\Models\CustomMedia>
      * */
     public function getPaymentMethodAttachmentsAttribute(): MediaCollection
     {
@@ -406,7 +406,7 @@ class Order extends BaseModel implements HasMedia
     }
 
     /**
-     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[]
+     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<array-key, \Domain\Common\Models\CustomMedia>
      * */
     public function getCustomerInvoicesAttribute(): MediaCollection
     {
@@ -414,7 +414,7 @@ class Order extends BaseModel implements HasMedia
     }
 
     /**
-     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[]
+     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<array-key, \Domain\Common\Models\CustomMedia>
      * */
     public function getSupplierInvoicesAttribute(): MediaCollection
     {

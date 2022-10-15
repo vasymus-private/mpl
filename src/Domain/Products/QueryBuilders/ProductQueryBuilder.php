@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
  *
  * @method \Domain\Products\Models\Product\Product|null first($columns = ['*'])
  * @method \Domain\Products\Models\Product\Product findOrFail($id, $columns = ['*'])
+ * @method \Domain\Products\Collections\ProductCollection<\Domain\Products\Models\Product\Product> get($columns = ['*'])
  */
 class ProductQueryBuilder extends Builder
 {
