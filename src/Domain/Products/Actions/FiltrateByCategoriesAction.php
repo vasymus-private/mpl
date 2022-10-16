@@ -34,7 +34,7 @@ class FiltrateByCategoriesAction
         /** @var \Domain\Products\Models\Category[]|null[] $categories */
         $categories = [$params->subcategory3, $params->subcategory2, $params->subcategory1, $params->category];
         foreach ($categories as $category) {
-            if (!$category) {
+            if (! $category) {
                 continue;
             }
 
