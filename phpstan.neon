@@ -12,13 +12,11 @@ parameters:
     checkMissingIterableValueType: false
     excludePaths:
         - ./src/App/Http/Controllers/TestController.php
-
+    stubFiles:
+        - phpstanStubs/spatie/laravel-medialibrary/InteractsWithMedia.stub
     ignoreErrors:
         - '#Unsafe usage of new static#'
         - '#Parameter \#1 \$callback of method Illuminate\\Support\\Collection<\(int\|string\),Illuminate\\Database\\Eloquent\\Model>::each\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, \(int\|string\)\): mixed, Closure\(.*Models.*\): (void|true) given#'
         - '#Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection<\(int\|string\),Illuminate\\Database\\Eloquent\\Model>::map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, \(int\|string\)\): (string|array), Closure\(.*Models.*\): (string|array) given#'
         - '#.* expects Domain\\Products\\Models\\Product\\Product, Illuminate\\Database\\Eloquent\\Model given#'
-        - '#.* expects Domain\\Common\\Models\\CustomMedia, Illuminate\\Database\\Eloquent\\Model given#'
         - '#Anonymous function should return Illuminate\\Database\\Eloquent\\Builder<Illuminate\\Database\\Eloquent\\Model> but returns Domain\\Products\\QueryBuilders\\ProductQueryBuilder<Domain\\Products\\Models\\Product\\Product>#'
-        - '#Parameter \#1 \$callback of method Illuminate\\Support\\Collection<\(int\|string\),Illuminate\\Database\\Eloquent\\Model>::first\(\) expects \(callable\(Illuminate\\Database\\Eloquent\\Model, \(int\|string\)\): bool\)\|null, Closure\(.*Models.*\): (bool|null) given#'
-        - '#Parameter \#1 \$callback of method Illuminate\\Support\\Collection<\(int\|string\),Illuminate\\Database\\Eloquent\\Model>::filter\(\) expects \(callable\(Illuminate\\Database\\Eloquent\\Model, \(int\|string\)\): bool\)\|null, Closure\(.*Models.*\): (bool|null) given#'

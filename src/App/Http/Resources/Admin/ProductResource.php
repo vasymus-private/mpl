@@ -74,7 +74,6 @@ class ProductResource extends JsonResource
             'infoPrices' => $this->resource->infoPrices,
             'instructions' => $this->resource
                 ->getMedia(Product::MC_FILES)
-                // @phpstan-ignore-next-line
                 ->map(function (CustomMedia $media) {
                     return [
                         'id' => $media->id,
@@ -97,7 +96,6 @@ class ProductResource extends JsonResource
                 : null,
             'additionalImages' => $this->resource
                 ->getMedia(Product::MC_ADDITIONAL_IMAGES)
-                // @phpstan-ignore-next-line
                 ->map(function (CustomMedia $media) {
                     return [
                         'id' => $media->id,
@@ -170,7 +168,6 @@ class ProductResource extends JsonResource
                     : null,
                 'additionalImages' => $variation
                     ->getMedia(Product::MC_ADDITIONAL_IMAGES)
-                    // @phpstan-ignore-next-line
                     ->map(function (CustomMedia $media) {
                         return [
                             'id' => $media->id,
