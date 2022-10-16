@@ -31,7 +31,7 @@ class ProductsBulkController extends BaseAdminController
             $toUpdate = $payload[$product->id];
             $product->forceFill(
                 collect($toUpdate->all())
-                    ->except('id')
+                    ->except(['id'])
                     ->all()
             );
             $product->save();

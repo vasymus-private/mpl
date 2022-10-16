@@ -86,7 +86,7 @@ class OrderShippedMail extends Mailable
 
         return $this
                 ->to($this->email)
-                ->html(new HtmlString($htmlAndCssInline))
+                ->html((new HtmlString($htmlAndCssInline))->toHtml())
                 ->subject("union.parket-lux: Ваш заказ номер {$order->id} обрабатывается")
         ;
     }

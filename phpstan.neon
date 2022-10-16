@@ -12,6 +12,7 @@ parameters:
     checkMissingIterableValueType: false
     excludePaths:
         - ./src/App/Http/Controllers/TestController.php
-
+    stubFiles:
+        - phpstanStubs/spatie/laravel-medialibrary/InteractsWithMedia.stub
     ignoreErrors:
         - '#Unsafe usage of new static#'

@@ -8,8 +8,10 @@ use Illuminate\Database\Eloquent\Collection;
 use Support\H;
 
 /**
+ * @template TKey of array-key
  * @template TModel of \Domain\Products\Models\Product\Product
- * @extends Collection<TModel>
+ *
+ * @extends \Illuminate\Database\Eloquent\Collection<array-key, \Domain\Products\Models\Product\Product>
  */
 class ProductCollection extends Collection
 {

@@ -6,7 +6,6 @@ use App\Providers\MediaLibraryServiceProvider;
 use Database\Factories\OrderFactory;
 use Domain\Common\Models\BaseModel;
 use Domain\Orders\Models\Pivots\OrderProduct;
-use Domain\Products\Collections\ProductCollection;
 use Domain\Products\Models\Product\Product;
 use Domain\Users\Models\Admin;
 use Domain\Users\Models\BaseUser\BaseUser;
@@ -52,7 +51,7 @@ use Support\H;
  * @property \Carbon\Carbon|null $busy_at
  *
  * @see \Domain\Orders\Models\Order::products()
- * @property ProductCollection|Product[] $products
+ * @property \Domain\Products\Collections\ProductCollection<array-key, \Domain\Products\Models\Product\Product> $products
  *
  * @see \Domain\Orders\Models\Order::user()
  * @property \Domain\Users\Models\BaseUser\BaseUser $user
@@ -160,7 +159,7 @@ class Order extends BaseModel implements HasMedia
     /**
      * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'request' => 'array',
@@ -390,15 +389,15 @@ class Order extends BaseModel implements HasMedia
     }
 
     /**
-     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[]
-     * */
+     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<array-key, \Domain\Common\Models\CustomMedia>
+     */
     public function getInitialAttachmentsAttribute(): MediaCollection
     {
         return $this->getMedia(static::MC_INITIAL_ATTACHMENT);
     }
 
     /**
-     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[]
+     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<array-key, \Domain\Common\Models\CustomMedia>
      * */
     public function getPaymentMethodAttachmentsAttribute(): MediaCollection
     {
@@ -406,7 +405,7 @@ class Order extends BaseModel implements HasMedia
     }
 
     /**
-     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[]
+     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<array-key, \Domain\Common\Models\CustomMedia>
      * */
     public function getCustomerInvoicesAttribute(): MediaCollection
     {
@@ -414,7 +413,7 @@ class Order extends BaseModel implements HasMedia
     }
 
     /**
-     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[]
+     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<array-key, \Domain\Common\Models\CustomMedia>
      * */
     public function getSupplierInvoicesAttribute(): MediaCollection
     {

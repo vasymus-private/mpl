@@ -113,7 +113,7 @@ class Category extends BaseModel implements HasMedia
     /**
      * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         "is_active" => "boolean",
@@ -196,6 +196,9 @@ class Category extends BaseModel implements HasMedia
         return $builder->whereNull(static::TABLE . ".parent_id");
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection<array-key, \Domain\Products\Models\Category>
+     */
     public static function getTreeRuntimeCached(): Collection
     {
         return Cache::store('array')->rememberForever('categories', function () {

@@ -23,9 +23,9 @@ class CartProductsUpdateRequest extends FormRequest
     public const MODE_DEFAULT = self::MODE_ADD;
 
     /**
-     * @var \Domain\Products\Models\Product\Product
+     * @var \Domain\Products\Models\Product\Product|null
      * */
-    protected $product;
+    protected ?Product $product;
 
     /**
      * @return \Domain\Products\Models\Product\Product
@@ -134,9 +134,10 @@ class CartProductsUpdateRequest extends FormRequest
                             $qu->doesntHaveVariations();
                         })
                     ;
-                })
-            ;
-            $this->product = $productQuery->find($this->id);
+                });
+            /** @var \Domain\Products\Models\Product\Product|null $product */
+            $product = $productQuery->find($this->id);
+            $this->product = $product;
             if (! $this->product) {
                 $validator->errors()->add("id", "Id `{$this->id}` of product should exist, be active, be available and be a variation or product without variations.");
             }
