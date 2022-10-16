@@ -32,6 +32,8 @@ import useSearchInput from "@/admin/inertia/composables/useSearchInput"
 import useFormHelpers from "@/admin/inertia/composables/useFormHelpers"
 import {useToastsStore} from "@/admin/inertia/modules/toasts"
 import {UrlParams, Option} from "@/admin/inertia/modules/common/types"
+import {useCategoriesStore} from "@/admin/inertia/modules/categories"
+import ProductCategories from '@/admin/inertia/components/products/forms/ProductCategories.vue'
 
 
 const columnsStore = useColumnsStore()
@@ -43,6 +45,7 @@ const currenciesStore = useCurrenciesStore()
 const availabilitiesStore = useAvailabilityStatusesStore()
 const indexProductsForm = useIndexProductsFormStore()
 const toastsStore = useToastsStore()
+const categoriesStore = useCategoriesStore()
 
 const {productListItems} = storeToRefs(productStore)
 
@@ -128,7 +131,7 @@ const {indexForId} = useFormHelpers<Values>('products', values)
 watchEffect(() => {
     setValues({
         products: productListItems.value.map((product: ProductListItem) => {
-            let {id, uuid, ordering, name, is_active, unit, price_purchase, price_purchase_currency_id, price_retail, price_retail_currency_id, availability_status_id, admin_comment} = product
+            let {id, uuid, ordering, name, is_active, unit, price_purchase, price_purchase_currency_id, price_retail, price_retail_currency_id, availability_status_id, admin_comment, category_id, relatedCategoriesIds} = product
 
             return {
                 id,
@@ -143,6 +146,8 @@ watchEffect(() => {
                 price_retail_currency_id,
                 availability_status_id,
                 admin_comment,
+                category_id,
+                relatedCategoriesIds,
             }
         })
     })
@@ -236,7 +241,13 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                 </div>
                             </th>
                             <th scope="col">&nbsp;</th>
-                            <th v-for="sortableColumn in columnsStore.adminProductColumns" :key="sortableColumn.value" scope="col">{{sortableColumn.label}}</th>
+                            <th
+                                v-for="sortableColumn in columnsStore.adminProductColumns"
+                                :key="sortableColumn.value"
+                                scope="col"
+                            >
+                                <div :style="isSortableColumn(sortableColumn, ColumnName.categories) ? {width: '300px'} : {}">{{sortableColumn.label}}</div>
+                            </th>
                         </tr>
                         </thead>
                         <tbody>
@@ -385,6 +396,27 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                 </td>
                                 <td :class="`sortable-column-${sortableColumn.value}`" v-if="isSortableColumn(sortableColumn, ColumnName.id)">
                                     <span class="main-grid-cell-content">{{product.id}}</span>
+                                </td>
+                                <td v-if="isSortableColumn(sortableColumn, ColumnName.categories)" :class="`sortable-column-${sortableColumn.value}`">
+                                    <template v-if="editMode && isChecked(product.uuid)">
+                                        <div :style="{maxHeight: '300px', minHeight: '300px', overflowY: 'auto', paddingLeft: '10px'}">
+                                            <ProductCategories :name-prefix="`products[${indexForId(product.id)}].`" />
+                                        </div>
+                                    </template>
+                                    <template v-else>
+                                        <div>Основной: {{ categoriesStore.categoriesItem(product.category_id)?.name || '--' }}</div>
+                                        <div>
+                                            Дополнительные:
+                                            <template v-if="product.relatedCategoriesIds.length">
+                                                <ul>
+                                                    <li v-for="relatedCategoryId in product.relatedCategoriesIds" :key="`related-category-${relatedCategoryId}`">
+                                                        {{ categoriesStore.categoriesItem(relatedCategoryId)?.name }}
+                                                    </li>
+                                                </ul>
+                                            </template>
+                                            <template v-else>--</template>
+                                        </div>
+                                    </template>
                                 </td>
                             </template>
                         </tr>

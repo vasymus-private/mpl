@@ -205,4 +205,6 @@ export interface ProductListItem {
     availability_status_name: string | null
     availability_status_name_short: string | null
     brand_id: number | null
+    category_id: number | null
+    relatedCategoriesIds: Array<number>
 }

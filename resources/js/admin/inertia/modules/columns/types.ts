@@ -34,4 +34,5 @@ export enum ColumnName {
     ordering = "ordering",
     coefficient = "coefficient",
     coefficient_description = "coefficient_description",
+    categories = "categories",
 }

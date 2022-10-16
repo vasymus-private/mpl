@@ -40,6 +40,8 @@ class ProductListItemResource extends JsonResource
             'brand_id' => $this->resource->brand_id,
             'availability_status_name' => $this->resource->availability_status_name,
             'availability_status_name_short' => $this->resource->availability_status_name_short,
+            'category_id' => $this->resource->category_id,
+            'relatedCategoriesIds' => $this->resource->relatedCategories->pluck('id'),
         ];
     }
 }
