@@ -37,3 +37,5 @@ build
 !resources/js/vendor/ckeditor5/build
 
 /node
+
+.DS_Store

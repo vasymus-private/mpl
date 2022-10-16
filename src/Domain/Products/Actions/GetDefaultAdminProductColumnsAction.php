@@ -22,6 +22,7 @@ class GetDefaultAdminProductColumnsAction extends BaseAction
             Column::admin_comment(),
             Column::availability(),
             Column::id(),
+            Column::categories(),
         ];
     }
 }

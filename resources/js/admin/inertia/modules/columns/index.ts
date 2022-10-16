@@ -183,6 +183,10 @@ export const getColumn = (key: ColumnName): Column => {
             value: 24,
             label: "Описание коэффициента",
         },
+        [ColumnName.categories]: {
+            value: 25,
+            label: "Разделы",
+        },
     }
 
     return obj[key]
