@@ -196,6 +196,9 @@ class Category extends BaseModel implements HasMedia
         return $builder->whereNull(static::TABLE . ".parent_id");
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection<array-key, \Domain\Products\Models\Category>
+     */
     public static function getTreeRuntimeCached(): Collection
     {
         return Cache::store('array')->rememberForever('categories', function () {

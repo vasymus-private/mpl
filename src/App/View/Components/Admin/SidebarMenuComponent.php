@@ -55,7 +55,6 @@ class SidebarMenuComponent extends Component
      */
     public function __construct(Request $request, GetCategoryAndSubtreeIdsAction $getCategoryAndSubtreeIdsAction)
     {
-        // @phpstan-ignore-next-line
         $this->categories = Category::getTreeRuntimeCached()->map(fn (Category $category) => CategoryItemSidebarDTO::fromModel($category))->all();
         $this->currentRouteName = Route::currentRouteName();
         $this->categoriesRoutes = [

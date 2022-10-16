@@ -52,7 +52,7 @@ use Support\H;
  * @property \Carbon\Carbon|null $busy_at
  *
  * @see \Domain\Orders\Models\Order::products()
- * @property ProductCollection|Product[] $products
+ * @property \Domain\Products\Collections\ProductCollection<array-key, \Domain\Products\Models\Product\Product> $products
  *
  * @see \Domain\Orders\Models\Order::user()
  * @property \Domain\Users\Models\BaseUser\BaseUser $user

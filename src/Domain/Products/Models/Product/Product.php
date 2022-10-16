@@ -222,7 +222,7 @@ class Product extends BaseModel implements HasMedia
         return static::query()
             ->where(static::TABLE . ".slug", $value)
             ->where(function (Builder $builder) use ($category, $subcategory1, $subcategory2, $subcategory3) {
-                return $builder
+                $builder
                         ->orWhere(static::TABLE . ".category_id", $category->id)
                         ->when($subcategory3->id ?? null, function (Builder $b, $sub3Id) {
                             return $b->orWhere(static::TABLE . ".category_id", $sub3Id);
