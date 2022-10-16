@@ -6,7 +6,6 @@ use App\Providers\MediaLibraryServiceProvider;
 use Database\Factories\OrderFactory;
 use Domain\Common\Models\BaseModel;
 use Domain\Orders\Models\Pivots\OrderProduct;
-use Domain\Products\Collections\ProductCollection;
 use Domain\Products\Models\Product\Product;
 use Domain\Users\Models\Admin;
 use Domain\Users\Models\BaseUser\BaseUser;
