@@ -11,7 +11,7 @@ use Support\H;
  * @template TKey of array-key
  * @template TModel of \Domain\Products\Models\Product\Product
  *
- * @extends \Illuminate\Database\Eloquent\Collection<TKey, TModel>
+ * @extends \Illuminate\Database\Eloquent\Collection<array-key, \Domain\Products\Models\Product\Product>
  */
 class ProductCollection extends Collection
 {

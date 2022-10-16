@@ -5,6 +5,7 @@ namespace App\View\Components\Web;
 use Carbon\Carbon;
 use Domain\Products\DTOs\ViewedDTO;
 use Domain\Products\Models\Product\Product;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\View\Component;
@@ -13,7 +14,7 @@ use Support\H;
 class SidebarMenuViewedComponent extends Component
 {
     /**
-     * @var \Illuminate\Support\Collection|\Domain\Products\DTOs\ViewedDTO[]
+     * @var \Illuminate\Support\Collection<array-key, \Domain\Products\DTOs\ViewedDTO>
      * */
     public $viewed;
 
@@ -34,8 +35,11 @@ class SidebarMenuViewedComponent extends Component
             },
             "viewed.category.parentCategory",
         ]);
+        /** @var \Illuminate\Database\Eloquent\Collection<array-key, \Domain\Products\Models\Product\Product|\Domain\Services\Models\Service> $viewed */
+        $viewed = new Collection([]);
 
-        $this->viewed = $user->viewed
+        $this->viewed = $viewed
+            ->merge($user->viewed)
             ->merge($user->serviceViewed)
             ->sort(function (Model $itemA, Model $itemB) {
                 /**
