@@ -2,7 +2,7 @@
 import Modal from '@/admin/inertia/components/modals/Modal.vue'
 import {useModalsStore} from "@/admin/inertia/modules/modals"
 import {ModalType} from "@/admin/inertia/modules/modals/types"
-import {computed, onBeforeUnmount, ref} from "vue"
+import {computed, defineAsyncComponent, onBeforeUnmount, ref} from "vue"
 import ModalCloseButton from '@/admin/inertia/components/modals/ModalCloseButton.vue'
 import {useFieldArray, Field, useField, FieldEntry} from "vee-validate"
 import RowCheckbox from '@/admin/inertia/components/forms/vee-validate/RowCheckbox.vue'
@@ -12,11 +12,14 @@ import RowInputSelect from '@/admin/inertia/components/forms/vee-validate/RowInp
 import {useAvailabilityStatusesStore} from "@/admin/inertia/modules/availabilityStatuses"
 import {useCurrenciesStore} from "@/admin/inertia/modules/currencies"
 import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
-import AppHtmlEditor from '@/admin/inertia/components/forms/parts/AppHtmlEditor.vue'
 import RowImage from '@/admin/inertia/components/forms/vee-validate/RowImage.vue'
 import RowImages from '@/admin/inertia/components/forms/vee-validate/RowImages.vue'
 import {VariationForm} from "@/admin/inertia/modules/forms/createEditProduct/types"
+import {useMounted} from "@vueuse/core"
 
+
+const isMounted = useMounted()
+const AppHtmlEditor = defineAsyncComponent(() => import('@/admin/inertia/components/forms/parts/AppHtmlEditor.vue'))
 
 const props = defineProps<{
     type: ModalType
@@ -251,6 +254,7 @@ onBeforeUnmount(() => {
                                 aria-labelledby="create-variation-editor-tab"
                             >
                                 <AppHtmlEditor
+                                    v-if="isMounted"
                                     v-model="preview"
                                     :upload-url="uploadUrl"
                                 />

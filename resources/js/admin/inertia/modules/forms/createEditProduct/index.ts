@@ -32,7 +32,6 @@ import {
     errorsToErrorFields,
     getMediaSchema,
 } from "@/admin/inertia/modules/common"
-import { CustomFormData } from "@/admin/inertia/utils/CustomFormData"
 import { Inertia } from "@inertiajs/inertia"
 
 export const storeName = "createEditProductForm"
@@ -445,7 +444,8 @@ export const getWatchProductToFormCb =
     }
 
 const valuesToFormData = (values: Values): FormData => {
-    const formData = new CustomFormData()
+    let cfd = require('@/admin/inertia/utils/CustomFormData')
+    const formData = new cfd.CustomFormData()
 
     let stringOrNumberKeys: Array<keyof Values> = [
         "name",
