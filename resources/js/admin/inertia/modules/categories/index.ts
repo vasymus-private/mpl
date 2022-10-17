@@ -18,7 +18,7 @@ export const storeName = "categoriesTree"
 
 interface State {
     _entities: Array<CategoriesTreeItem>
-    _all_entities: Array<Omit<CategoriesTreeItem, 'subcategories'>>
+    _all_entities: Array<Omit<CategoriesTreeItem, "subcategories">>
     _entity: Category | null
     _listItems: Array<CategoryListItem>
 }
@@ -58,9 +58,13 @@ export const useCategoriesStore = defineStore(storeName, {
             }
         },
         categories: (state): Array<CategoriesTreeItem> => state._entities,
-        allCategories: (state): Array<Omit<CategoriesTreeItem, 'subcategories'>> => state._all_entities,
+        allCategories: (
+            state
+        ): Array<Omit<CategoriesTreeItem, "subcategories">> =>
+            state._all_entities,
         categoriesItem() {
-            return (id: number): CategoriesTreeItem|undefined => this.allCategories.find(item => item.id === id)
+            return (id: number): CategoriesTreeItem | undefined =>
+                this.allCategories.find((item) => item.id === id)
         },
         category: (state): Category | null => state._entity,
         listItems: (state): Array<CategoryListItem> => state._listItems,
@@ -117,7 +121,10 @@ export const useCategoriesStore = defineStore(storeName, {
     actions: {
         setEntities(entities: Array<CategoriesTreeItem>): void {
             this._entities = entities
-            let cb = (acc: Array<Omit<CategoriesTreeItem, 'subcategories'>>, item: CategoriesTreeItem): Array<Omit<CategoriesTreeItem, 'subcategories'>> => {
+            let cb = (
+                acc: Array<Omit<CategoriesTreeItem, "subcategories">>,
+                item: CategoriesTreeItem
+            ): Array<Omit<CategoriesTreeItem, "subcategories">> => {
                 acc = [
                     ...acc,
                     {
@@ -125,11 +132,9 @@ export const useCategoriesStore = defineStore(storeName, {
                         uuid: item.uuid,
                         name: item.name,
                     },
-                    ...(
-                        item.subcategories.length
-                            ? item.subcategories.reduce(cb, [])
-                            : []
-                    )
+                    ...(item.subcategories.length
+                        ? item.subcategories.reduce(cb, [])
+                        : []),
                 ]
 
                 return acc

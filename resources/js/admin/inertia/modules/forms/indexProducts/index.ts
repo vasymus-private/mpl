@@ -85,7 +85,10 @@ export const getValidationSchema = () =>
                 availability_status_id: yupIntegerOrEmptyString(),
                 admin_comment: yup.string().max(250).nullable(),
                 category_id: yupIntegerOrEmptyString(),
-                relatedCategoriesIds: yup.array().of(yup.number().integer()).nullable(),
+                relatedCategoriesIds: yup
+                    .array()
+                    .of(yup.number().integer())
+                    .nullable(),
             })
         ),
     })
