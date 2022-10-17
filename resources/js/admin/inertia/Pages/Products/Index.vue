@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import Multiselect from '@/admin/inertia/vendor/vue-multiselect/Multiselect.vue'
+import { defineAsyncComponent } from 'vue'
 import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
 import {computed, watchEffect} from "vue"
 import {isSortableColumn, useColumnsStore} from "@/admin/inertia/modules/columns"
@@ -34,7 +34,11 @@ import {useToastsStore} from "@/admin/inertia/modules/toasts"
 import {UrlParams, Option} from "@/admin/inertia/modules/common/types"
 import {useCategoriesStore} from "@/admin/inertia/modules/categories"
 import ProductCategories from '@/admin/inertia/components/products/forms/ProductCategories.vue'
+import { useMounted } from '@vueuse/core'
 
+
+const isMounted = useMounted()
+const Multiselect = defineAsyncComponent(() => import('@/admin/inertia/vendor/vue-multiselect/Multiselect.vue'))
 
 const columnsStore = useColumnsStore()
 const productStore = useProductsStore()
@@ -168,7 +172,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
 
 <template>
     <TheLayout>
-        <div>
+        <div :style="{paddingRight: '10px'}">
             <div class="breadcrumbs">
                 <a :href="routesStore.route(routeNames.ROUTE_ADMIN_TEMP_HOME)" class="breadcrumbs__item">
                     <span class="breadcrumbs__text">Рабочий стол</span>
@@ -208,6 +212,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                 </div>
                 <div class="col-xs-12 col-sm-2">
                     <Multiselect
+                        v-if="isMounted"
                         v-model="brand"
                         :options="brandsStore.nullableOptions"
                         :close-on-select="true"
@@ -227,7 +232,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
             </div>
 
             <form id="form-products-list" @submit="onSubmit" novalidate>
-                <div class="admin-edit-variations table-responsive">
+                <div class="admin-edit-variations table-responsive" :style="{overflowY: 'hidden'}">
                     <table class="table table-bordered table-hover table-products">
                         <thead>
                         <tr>

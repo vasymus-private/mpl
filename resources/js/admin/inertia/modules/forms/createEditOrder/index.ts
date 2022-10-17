@@ -20,7 +20,6 @@ import {
     getMediaSchema,
 } from "@/admin/inertia/modules/common"
 import { useAuthStore } from "@/admin/inertia/modules/auth"
-import { CustomFormData } from "@/admin/inertia/utils/CustomFormData"
 import { Inertia } from "@inertiajs/inertia"
 
 export const storeName = "createEditOrderForm"
@@ -274,7 +273,8 @@ export const getOrderProductSchema = () => {
 }
 
 const valuesToFormData = (values: Values): FormData => {
-    const formData = new CustomFormData()
+    let cfd = require("@/admin/inertia/utils/CustomFormData")
+    const formData = new cfd.CustomFormData()
 
     let stringOrNumberKeys: Array<keyof Values> = [
         "order_status_id",

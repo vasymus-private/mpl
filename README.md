@@ -116,6 +116,8 @@ Install docker-compose according to [guid](https://docs.docker.com/compose/insta
 Run build:
 ```shell
 npx mix --mix-config=webpack.ssr.mix.js
+# or
+npm run ssr
 ```
 
 Then run simple node server:

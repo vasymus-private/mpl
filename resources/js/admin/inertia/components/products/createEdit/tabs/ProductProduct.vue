@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-import Multiselect from '@/admin/inertia/vendor/vue-multiselect/Multiselect.vue'
 import RowInput from '@/admin/inertia/components/forms/vee-validate/RowInput.vue'
 import InputGroup from "@/admin/inertia/components/forms/parts/InputGroup.vue"
-import {ref} from 'vue'
+import {defineAsyncComponent, ref} from 'vue'
 import {Option} from "@/admin/inertia/modules/common/types"
 import {useCategoriesStore} from "@/admin/inertia/modules/categories"
 import {ProductProductType, SearchProduct} from "@/admin/inertia/modules/products/types"
@@ -10,7 +9,11 @@ import {chunk} from 'lodash'
 import {useFieldArray, FieldEntry} from "vee-validate"
 import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
 import {useProductsStore} from "@/admin/inertia/modules/products"
+import {useMounted} from "@vueuse/core"
 
+
+const isMounted = useMounted()
+const Multiselect = defineAsyncComponent(() => import('@/admin/inertia/vendor/vue-multiselect/Multiselect.vue'))
 
 const categoriesStore = useCategoriesStore()
 const productsStore = useProductsStore()
@@ -93,6 +96,7 @@ const onChange = (event, product: SearchProduct) => {
         <div class="row">
             <div class="col-sm-6">
                 <Multiselect
+                    v-if="isMounted"
                     v-model="categories"
                     @close="fetchItems"
                     :options="categoriesStore.options"
