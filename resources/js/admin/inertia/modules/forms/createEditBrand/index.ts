@@ -174,7 +174,7 @@ export const getWatchBrandToFormCb =
     }
 
 const valuesToFormData = (values: Values): FormData => {
-    let cfd = require('@/admin/inertia/utils/CustomFormData')
+    let cfd = require("@/admin/inertia/utils/CustomFormData")
     const formData = new cfd.CustomFormData()
 
     let stringOrNumberKeys: Array<keyof Values> = [
