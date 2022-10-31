@@ -120,6 +120,8 @@ npx mix --mix-config=webpack.ssr.mix.js
 npm run ssr
 ```
 
+Test temp
+
 Then run simple node server:
 ```shell
 node public/_admin/js/ssr.js
