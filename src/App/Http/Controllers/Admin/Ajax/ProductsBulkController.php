@@ -29,12 +29,14 @@ class ProductsBulkController extends BaseAdminController
 
         $productsToUpdate->each(function (Product $product) use ($payload) {
             $toUpdate = $payload[$product->id];
-            $product->forceFill(
-                collect($toUpdate->all())
-                    ->except('id')
-                    ->all()
-            );
+
+            $toFill = collect($toUpdate->all())
+                ->except(['id', 'relatedCategoriesIds'])
+                ->all();
+            $product->forceFill($toFill);
+
             $product->save();
+            $product->relatedCategories()->sync($payload[$product->id]->relatedCategoriesIds);
         });
 
         return ProductListItemResource::collection(

@@ -13,8 +13,8 @@ import {
 import Breadcrumbs from "@/admin/inertia/components/products/createEdit/parts/Breadcrumbs.vue"
 import Toolbar from "@/admin/inertia/components/products/createEdit/parts/Toolbar.vue"
 import {Values} from "@/admin/inertia/modules/forms/createEditProduct/types"
-import {AdminTab} from "@/admin/inertia/modules/common/Tabs"
-import {UrlParams} from "@/admin/inertia/modules/common/types"
+import {UrlParams, AdminTab} from "@/admin/inertia/modules/common/types"
+import StickyFooter from '@/admin/inertia/components/parts/StickyFooter.vue'
 
 
 const productsStore = useProductsStore()
@@ -80,15 +80,11 @@ const onSubmit = handleSubmit((values, actions) => {
                     </div>
                 </div>
 
-                <div class="js-edit-footer-wrapper">
-                    <div class="edit-item-footer js-edit-item-footer">
-                        <button type="submit" :disabled="isSubmitting" class="btn btn-primary mb-2 btn__save mr-2">Сохранить</button>
+                <StickyFooter>
+                    <button type="submit" :disabled="isSubmitting" class="btn btn-primary mb-2 btn__save mr-2">Сохранить</button>
 
-                        <Link :href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id : productsStore.product?.category_id})" type="button" class="btn btn-info mb-2 btn__default">Отменить</Link>
-
-                        <button type="button" class="btn btn-info js-pin-btn pin-btn"></button>
-                    </div>
-                </div>
+                    <Link :href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id : productsStore.product?.category_id})" type="button" class="btn btn-info mb-2 btn__default">Отменить</Link>
+                </StickyFooter>
             </form>
 
             <template v-if="submitCount > 0">

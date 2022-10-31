@@ -25,6 +25,7 @@ class CategoryResource extends JsonResource
     {
         return [
             'id' => $this->resource->id,
+            'uuid' => $this->resource->uuid,
             'parent_id' => $this->resource->parent_id,
             'name' => $this->resource->name,
             'slug' => $this->resource->slug,
@@ -34,6 +35,7 @@ class CategoryResource extends JsonResource
             'seo' => $this->resource->seo,
             'products' => $this->resource->products->map(fn (Product $product) => [
                 'id' => $product->id,
+                'uuid' => $product->uuid,
                 'name' => $product->name,
                 'is_active' => $product->is_active,
             ]),

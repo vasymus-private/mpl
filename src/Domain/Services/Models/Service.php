@@ -9,9 +9,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Routing\Route;
+use Illuminate\Support\Str;
 
 /**
  * @property int $id
+ * @property string $uuid
  * @property string $name
  * @property string $slug
  * @property string|null $description
@@ -40,7 +42,7 @@ class Service extends BaseModel
     /**
      * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         "is_active" => "boolean",
@@ -52,6 +54,22 @@ class Service extends BaseModel
      * @var string
      */
     protected $table = self::TABLE;
+
+    /**
+     * @inheritDoc
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        $cb = function (self $model) {
+            if (! $model->uuid) {
+                $model->uuid = (string) Str::uuid();
+            }
+        };
+
+        static::saving($cb);
+    }
 
     public function seo(): MorphOne
     {

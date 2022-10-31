@@ -1,8 +1,13 @@
 import { defineStore } from "pinia"
 import { useOrdersStore } from "@/admin/inertia/modules/orders"
 import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
-import { ErrorResponse, UrlParams } from "@/admin/inertia/modules/common/types"
-import { AdminTab, TabEnum } from "@/admin/inertia/modules/common/Tabs"
+import {
+    ErrorResponse,
+    UrlParams,
+    Media,
+    AdminTab,
+    TabEnum,
+} from "@/admin/inertia/modules/common/types"
 import OrderTab from "@/admin/inertia/components/orders/createEdit/tabs/OrderTab.vue"
 import HistoryTab from "@/admin/inertia/components/orders/createEdit/tabs/HistoryTab.vue"
 import * as yup from "yup"
@@ -15,8 +20,6 @@ import {
     getMediaSchema,
 } from "@/admin/inertia/modules/common"
 import { useAuthStore } from "@/admin/inertia/modules/auth"
-import { CustomFormData } from "@/admin/inertia/utils/CustomFormData"
-import Media from "@/admin/inertia/modules/common/Media"
 import { Inertia } from "@inertiajs/inertia"
 
 export const storeName = "createEditOrderForm"
@@ -270,7 +273,8 @@ export const getOrderProductSchema = () => {
 }
 
 const valuesToFormData = (values: Values): FormData => {
-    const formData = new CustomFormData()
+    let cfd = require("@/admin/inertia/utils/CustomFormData")
+    const formData = new cfd.CustomFormData()
 
     let stringOrNumberKeys: Array<keyof Values> = [
         "order_status_id",

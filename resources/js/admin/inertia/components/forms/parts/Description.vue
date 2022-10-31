@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import {Field, useField} from 'vee-validate'
-import AppHtmlEditor from '@/admin/inertia/components/forms/parts/AppHtmlEditor.vue'
-import {computed, toRef} from "vue"
+import {computed, toRef, defineAsyncComponent} from "vue"
+import {useMounted} from "@vueuse/core"
 
+
+const isMounted = useMounted()
+const AppHtmlEditor = defineAsyncComponent(() => import('@/admin/inertia/components/forms/parts/AppHtmlEditor.vue'))
 
 const props = defineProps<{
     id: string
@@ -81,6 +84,7 @@ const value = computed({
                 :aria-labelledby="`${props.id}-editor-tab`"
             >
                 <AppHtmlEditor
+                    v-if="isMounted"
                     v-model="value"
                     :upload-url="props.uploadUrl"
                 />

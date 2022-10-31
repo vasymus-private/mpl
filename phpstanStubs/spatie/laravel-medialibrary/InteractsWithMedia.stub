@@ -1,0 +1,15 @@
+<?php
+
+namespace Spatie\MediaLibrary;
+
+trait InteractsWithMedia
+{
+    /**
+     * Get media collection by its collectionName.
+     *
+     * @param array|callable $filters
+     *
+     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<array-key, \Domain\Common\Models\CustomMedia>
+     */
+    public function getMedia(string $collectionName = 'default', array|callable $filters = []);
+}

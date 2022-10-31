@@ -2,7 +2,6 @@
 import {Link} from "@inertiajs/inertia-vue3"
 import {Inertia} from "@inertiajs/inertia"
 import {onMounted, onUnmounted, ref} from "vue"
-import {Collapse} from "bootstrap"
 
 
 const props = defineProps<{
@@ -39,6 +38,8 @@ const handleToggleCollapse = () => {
     if (!collapse.value) {
         return
     }
+
+    let {Collapse} = require('bootstrap')
 
     let instance = Collapse.getInstance(collapse.value)
     if (!instance) {

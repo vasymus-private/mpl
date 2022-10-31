@@ -4,9 +4,11 @@ namespace Domain\Products\Models;
 
 use Domain\Common\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 /**
  * @property int $id
+ * @property string $uuid
  * @property string $name
  * @property int $product_id
  * @property int $ordering
@@ -37,6 +39,22 @@ class CharCategory extends BaseModel
     protected $attributes = [
         'ordering' => self::DEFAULT_ORDERING,
     ];
+
+    /**
+     * @inheritDoc
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        $cb = function (self $model) {
+            if (! $model->uuid) {
+                $model->uuid = (string) Str::uuid();
+            }
+        };
+
+        static::saving($cb);
+    }
 
     public function chars(): HasMany
     {

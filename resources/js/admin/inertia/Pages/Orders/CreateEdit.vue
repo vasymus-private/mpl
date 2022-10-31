@@ -4,13 +4,13 @@ import Breadcrumbs from "@/admin/inertia/components/orders/createEdit/parts/Brea
 import {useCreateEditOrderFormStore, getFormSchema, getWatchOrderToFormCb} from "@/admin/inertia/modules/forms/createEditOrder"
 import Toolbar from "@/admin/inertia/components/orders/createEdit/parts/Toolbar.vue"
 import {useRoutesStore, routeNames} from "@/admin/inertia/modules/routes"
-import {AdminTab, TabEnum} from "@/admin/inertia/modules/common/Tabs"
-import {UrlParams} from "@/admin/inertia/modules/common/types"
+import {UrlParams, AdminTab, TabEnum} from "@/admin/inertia/modules/common/types"
 import {Link} from "@inertiajs/inertia-vue3"
 import {useForm} from "vee-validate"
 import {Values} from "@/admin/inertia/modules/forms/createEditOrder/types"
 import {watch} from "vue"
 import {useOrdersStore} from "@/admin/inertia/modules/orders"
+import StickyFooter from '@/admin/inertia/components/parts/StickyFooter.vue'
 
 
 const createEditOrderFormStore = useCreateEditOrderFormStore()
@@ -76,15 +76,11 @@ const onSubmit = handleSubmit((values, actions) => {
                     </div>
                 </div>
 
-                <div class="js-edit-footer-wrapper">
-                    <div class="edit-item-footer js-edit-item-footer">
-                        <button type="submit" :disabled="isSubmitting" class="btn btn-primary mb-2 btn__save mr-2">Сохранить</button>
+                <StickyFooter>
+                    <button type="submit" :disabled="isSubmitting" class="btn btn-primary mb-2 btn__save mr-2">Сохранить</button>
 
-                        <Link :href="routesStore.route(routeNames.ROUTE_ADMIN_ORDERS_TEMP_INDEX)" type="button" class="btn btn-info mb-2 btn__default">Отменить</Link>
-
-                        <button type="button" class="btn btn-info js-pin-btn pin-btn"></button>
-                    </div>
-                </div>
+                    <Link :href="routesStore.route(routeNames.ROUTE_ADMIN_ORDERS_TEMP_INDEX)" type="button" class="btn btn-info mb-2 btn__default">Отменить</Link>
+                </StickyFooter>
             </form>
 
             <template v-if="submitCount > 0">

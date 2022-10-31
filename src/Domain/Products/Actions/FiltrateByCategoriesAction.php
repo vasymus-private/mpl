@@ -7,17 +7,40 @@ use Domain\Products\QueryBuilders\ProductQueryBuilder;
 
 class FiltrateByCategoriesAction
 {
+    /**
+     * @param \Domain\Products\QueryBuilders\ProductQueryBuilder $query
+     * @param \Domain\Products\DTOs\FiltrateByCategoriesParamsDTO $params
+     *
+     * @return \Domain\Products\QueryBuilders\ProductQueryBuilder
+     */
     public function execute(ProductQueryBuilder $query, FiltrateByCategoriesParamsDTO $params): ProductQueryBuilder
     {
-        /** @var \Domain\Products\Models\Category[]|null[] $categories */
-        $categories = [$params->subcategory3, $params->subcategory2, $params->subcategory1, $params->category];
-        $categoryIds = [];
-        foreach ($categories as $category) {
-            if ($category) {
-                $categoryIds[] = $category->id;
-            }
+        $categoryIds = $this->getCategoryIds($params);
+
+        if (empty($categoryIds)) {
+            return $query;
         }
 
         return $query->forMainAndRelatedCategories($categoryIds);
+    }
+
+    /**
+     * @param \Domain\Products\DTOs\FiltrateByCategoriesParamsDTO $params
+     *
+     * @return int[]
+     */
+    private function getCategoryIds(FiltrateByCategoriesParamsDTO $params): array
+    {
+        /** @var \Domain\Products\Models\Category[]|null[] $categories */
+        $categories = [$params->subcategory3, $params->subcategory2, $params->subcategory1, $params->category];
+        foreach ($categories as $category) {
+            if (! $category) {
+                continue;
+            }
+
+            return [$category->id];
+        }
+
+        return [];
     }
 }

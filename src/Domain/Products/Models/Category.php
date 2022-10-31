@@ -17,11 +17,13 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property int $id
+ * @property string $uuid
  * @property string $name
  * @property string|null $slug
  * @property int|null $parent_id
@@ -111,12 +113,28 @@ class Category extends BaseModel implements HasMedia
     /**
      * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         "is_active" => "boolean",
         'meta' => 'array',
     ];
+
+    /**
+     * @inheritDoc
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        $cb = function (self $model) {
+            if (! $model->uuid) {
+                $model->uuid = (string) Str::uuid();
+            }
+        };
+
+        static::saving($cb);
+    }
 
     public static function rbAdminCategory($value)
     {
@@ -131,6 +149,17 @@ class Category extends BaseModel implements HasMedia
     protected static function newFactory()
     {
         return CategoryFactory::new();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        if (! $this->uuid) {
+            $this->uuid = (string) Str::uuid();
+        }
     }
 
     public function parentCategory(): BelongsTo
@@ -167,6 +196,9 @@ class Category extends BaseModel implements HasMedia
         return $builder->whereNull(static::TABLE . ".parent_id");
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection<array-key, \Domain\Products\Models\Category>
+     */
     public static function getTreeRuntimeCached(): Collection
     {
         return Cache::store('array')->rememberForever('categories', function () {

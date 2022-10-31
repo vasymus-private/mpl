@@ -5,7 +5,6 @@ import {
     ToastType,
 } from "@/admin/inertia/modules/toasts/types"
 import { DefineComponent } from "@vue/runtime-core"
-import Toast from "@/admin/inertia/components/toasts/Toast.vue"
 import { randomId } from "@/admin/inertia/utils"
 
 export const storeName = "toasts"
@@ -53,9 +52,11 @@ export const useToastsStore = defineStore(storeName, {
     },
 })
 
-export const Toasts: { [key in ToastType]: DefineComponent } = {
-    [ToastType.INFO]: Toast,
-    [ToastType.ERROR]: Toast,
+export const Toasts: { [key in ToastType]: () => DefineComponent } = {
+    [ToastType.INFO]: () =>
+        require("@/admin/inertia/components/toasts/Toast.vue").default,
+    [ToastType.ERROR]: () =>
+        require("@/admin/inertia/components/toasts/Toast.vue").default,
 }
 
 export const DELAY_DEFAULT = 7000

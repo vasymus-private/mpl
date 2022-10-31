@@ -9,7 +9,7 @@ abstract class BaseAction
     /**
      * @return static
      */
-    public static function cached(): self
+    public static function cached(): static
     {
         return H::runtimeCache(static::class, fn () => resolve(static::class));
     }

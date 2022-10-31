@@ -1,4 +1,4 @@
-export default interface CharType {
+export interface CharType {
     id: number
     name: string
 }

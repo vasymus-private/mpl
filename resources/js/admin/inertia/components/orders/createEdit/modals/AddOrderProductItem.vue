@@ -1,24 +1,25 @@
 <script lang="ts" setup>
-// @ts-ignore
-import Multiselect from 'vue-multiselect'
 import Modal from '@/admin/inertia/components/modals/Modal.vue'
 import {ModalType} from "@/admin/inertia/modules/modals/types"
 import ModalCloseButton from '@/admin/inertia/components/modals/ModalCloseButton.vue'
 import {useCategoriesStore} from "@/admin/inertia/modules/categories"
 import {CategoriesTreeItem} from "@/admin/inertia/modules/categories/types"
-import {onMounted, ref, watch} from 'vue'
+import {defineAsyncComponent, onMounted, ref, watch} from 'vue'
 import {useBrandsStore} from "@/admin/inertia/modules/brands"
 import {useProductsStore} from "@/admin/inertia/modules/products"
 import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
-import {SearchProduct, SearchProductVariation} from "@/admin/inertia/modules/products/Product"
-import {TabEnum} from "@/admin/inertia/modules/common/Tabs"
+import {SearchProduct, SearchProductVariation} from "@/admin/inertia/modules/products/types"
+import {TabEnum, Option} from "@/admin/inertia/modules/common/types"
 import Pagination from "@/admin/inertia/components/layout/Pagination.vue"
 import {getPerPageOptions} from "@/admin/inertia/modules/common"
-import Option from "@/admin/inertia/modules/common/Option"
 import {useFieldArray} from "vee-validate"
 import {OrderProductItem} from "@/admin/inertia/modules/orders/types"
 import {useCurrenciesStore} from "@/admin/inertia/modules/currencies"
+import {useMounted} from "@vueuse/core"
 
+
+const isMounted = useMounted()
+const Multiselect = defineAsyncComponent(() => import('@/admin/inertia/vendor/vue-multiselect/Multiselect.vue'))
 
 const props = defineProps<{
     type: ModalType
@@ -162,6 +163,7 @@ watch<Option|null>(brand, async () => {
                             </div>
                             <div class="col-xs-12 col-sm-4">
                                 <Multiselect
+                                    v-if="isMounted"
                                     v-model="brand"
                                     :options="brandsStore.nullableOptions"
                                     :close-on-select="true"

@@ -1,6 +1,5 @@
 import { defineStore } from "pinia"
 import { useBrandsStore } from "@/admin/inertia/modules/brands"
-import { AdminTab, TabEnum } from "@/admin/inertia/modules/common/Tabs"
 import ElementsTab from "@/admin/inertia/components/brands/createEdit/tabs/ElementsTab.vue"
 import DescriptionTab from "@/admin/inertia/components/brands/createEdit/tabs/DescriptionTab.vue"
 import PhotoTab from "@/admin/inertia/components/brands/createEdit/tabs/PhotoTab.vue"
@@ -10,11 +9,14 @@ import { Values } from "@/admin/inertia/modules/forms/createEditBrand/types"
 import * as yup from "yup"
 import { yupIntegerOrEmptyString } from "@/admin/inertia/utils"
 import { Brand } from "@/admin/inertia/modules/brands/types"
-import { CustomFormData } from "@/admin/inertia/utils/CustomFormData"
 import axios, { AxiosError } from "axios"
 import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
 import { Inertia } from "@inertiajs/inertia"
-import { ErrorResponse } from "@/admin/inertia/modules/common/types"
+import {
+    ErrorResponse,
+    AdminTab,
+    TabEnum,
+} from "@/admin/inertia/modules/common/types"
 import {
     errorsToErrorFields,
     getMediaSchema,
@@ -172,7 +174,8 @@ export const getWatchBrandToFormCb =
     }
 
 const valuesToFormData = (values: Values): FormData => {
-    const formData = new CustomFormData()
+    let cfd = require("@/admin/inertia/utils/CustomFormData")
+    const formData = new cfd.CustomFormData()
 
     let stringOrNumberKeys: Array<keyof Values> = [
         "name",

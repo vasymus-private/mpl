@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import Option from "@/admin/inertia/modules/common/Option"
+import {Option} from "@/admin/inertia/modules/common/types"
 
 
 const props = defineProps<{

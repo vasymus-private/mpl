@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import {computed} from "vue"
-import Option from "@/admin/inertia/modules/common/Option"
+import {Option} from "@/admin/inertia/modules/common/types"
 import { useVModel } from '@vueuse/core'
 
 

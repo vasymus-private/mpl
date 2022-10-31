@@ -1,9 +1,8 @@
 <script lang="ts" setup>
 import {computed} from 'vue'
 import FormControlSelect from '@/admin/inertia/components/forms/parts/FormControlSelect.vue'
-import Option from "@/admin/inertia/modules/common/Option"
+import {Option, MetaLink} from "@/admin/inertia/modules/common/types"
 import { useVModel } from '@vueuse/core'
-import {MetaLink} from "@/admin/inertia/modules/common/Meta"
 import PageItem from "@/admin/inertia/components/layout/PageItem.vue"
 
 

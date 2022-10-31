@@ -1,16 +1,18 @@
 import { defineStore } from "pinia"
-import Option from "@/admin/inertia/modules/common/Option"
 import { Brand, BrandListItem } from "@/admin/inertia/modules/brands/types"
 import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
 import axios, { AxiosError } from "axios"
-import { ErrorResponse } from "@/admin/inertia/modules/common/types"
+import {
+    ErrorResponse,
+    Links,
+    Option,
+    Meta,
+} from "@/admin/inertia/modules/common/types"
 import {
     errorsToErrorFields,
     extendMetaLinksWithComputedData,
 } from "@/admin/inertia/modules/common"
 import { arrayToMap } from "@/admin/inertia/utils"
-import Links from "@/admin/inertia/modules/common/Links"
-import Meta from "@/admin/inertia/modules/common/Meta"
 
 export const storeName = "brands"
 
@@ -70,6 +72,13 @@ export const useBrandsStore = defineStore(storeName, {
                 routeNames.ROUTE_ADMIN_BRANDS_TEMP_CREATE,
             ].includes(routesStore.current)
         },
+        brandIds() {
+            return (uuids: Array<string>): Array<number> => {
+                return this.brandsList
+                    .filter((item) => uuids.includes(item.uuid))
+                    .map((item) => item.id)
+            }
+        },
     },
     actions: {
         setEntities(brandList: Array<BrandListItem>): void {
@@ -90,9 +99,9 @@ export const useBrandsStore = defineStore(storeName, {
         setOptions(options: Array<Option>): void {
             this._options = options
         },
-        removeEntities(ids: Array<number>): void {
+        removeEntities(uuids: Array<string>): void {
             this._entities = this._entities.filter(
-                (item) => !ids.includes(item.id)
+                (item) => !uuids.includes(item.uuid)
             )
         },
         addOrUpdateBrandsListItems(listItems: Array<BrandListItem>): void {
@@ -112,9 +121,9 @@ export const useBrandsStore = defineStore(storeName, {
             this._entities = [...this._entities, ...listItems]
         },
         async deleteBulkBrands(
-            checkedBrands: Array<number>
+            checkedBrandsUuids: Array<string>
         ): Promise<void | Record<string, string | undefined>> {
-            if (!checkedBrands.length) {
+            if (!checkedBrandsUuids.length) {
                 return
             }
 
@@ -126,12 +135,13 @@ export const useBrandsStore = defineStore(storeName, {
                         routeNames.ROUTE_ADMIN_AJAX_BRANDS_BULK_DELETE
                     )
                 )
-                checkedBrands.forEach((id) => {
+                const checkedBrandIds = this.brandIds(checkedBrandsUuids)
+                checkedBrandIds.forEach((id) => {
                     url.searchParams.append("ids[]", `${id}`)
                 })
                 await axios.delete(url.toString())
 
-                this.removeEntities(checkedBrands)
+                this.removeEntities(checkedBrandsUuids)
             } catch (e) {
                 if (e instanceof AxiosError) {
                     const {

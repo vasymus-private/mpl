@@ -60,4 +60,14 @@ class ProductsListUpdateDTO extends DataTransferObject
      * @var int|null
      */
     public ?int $availability_status_id;
+
+    /**
+     * @var int|null
+     */
+    public ?int $category_id;
+
+    /**
+     * @var int[]
+     */
+    public array $relatedCategoriesIds = [];
 }

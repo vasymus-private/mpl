@@ -88,6 +88,14 @@ exit
 docker-compose down
 ```
 
+## Update of docker submodule
+
+Do not update docker submodule until you know what to do.
+
+Main git repo is connected with submodule only via hash. See explanation here https://stackoverflow.com/a/55570998.
+
+If you update submodule files update hash of submodule should be push in the main repo. 
+
 # CI/CD
 
 ## Manual Actions on hosting
@@ -108,6 +116,8 @@ Install docker-compose according to [guid](https://docs.docker.com/compose/insta
 Run build:
 ```shell
 npx mix --mix-config=webpack.ssr.mix.js
+# or
+npm run ssr
 ```
 
 Then run simple node server:

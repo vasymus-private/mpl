@@ -17,7 +17,7 @@ const deleteItem = async () => {
     }
 
     if (confirm('Уверены, что хотите удалить товар?')) {
-        let errorsOrVoid = await productsStore.deleteBulkProducts([productsStore.product.id])
+        let errorsOrVoid = await productsStore.deleteBulkProducts([productsStore.product.uuid])
         if (!errorsOrVoid) {
             Inertia.visit(
                 routesStore.route(

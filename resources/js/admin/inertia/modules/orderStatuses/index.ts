@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 import { OrderStatus } from "@/admin/inertia/modules/orderStatuses/types"
-import Option from "@/admin/inertia/modules/common/Option"
+import { Option } from "@/admin/inertia/modules/common/types"
 
 export const storeName = "orderStatuses"
 

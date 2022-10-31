@@ -13,8 +13,7 @@ import {Values} from "@/admin/inertia/modules/forms/createEditCategory/types"
 import {Link} from "@inertiajs/inertia-vue3"
 import {useCategoriesStore} from "@/admin/inertia/modules/categories"
 import {watch} from "vue"
-import {AdminTab} from "@/admin/inertia/modules/common/Tabs"
-import {UrlParams} from "@/admin/inertia/modules/common/types"
+import {UrlParams, AdminTab} from "@/admin/inertia/modules/common/types"
 
 
 const createEditCategoryFormStore = useCreateEditCategoryFormStore()

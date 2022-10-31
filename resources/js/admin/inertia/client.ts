@@ -7,7 +7,7 @@ import { initFromPageProps, InitialPageProps } from "@/admin/inertia/modules"
 import "bootstrap"
 import { Inertia } from "@inertiajs/inertia"
 import "ckeditor5-custom-build/build/ckeditor"
-import "vue-multiselect/dist/vue-multiselect.css"
+import "@/admin/inertia/vendor/vue-multiselect/vue-multiselect.css"
 import axios from "axios"
 import { getAmendedZiggyConfig } from "@/admin/inertia/utils"
 

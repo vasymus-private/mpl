@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
  *
  * @method \Domain\Products\Models\Product\Product|null first($columns = ['*'])
  * @method \Domain\Products\Models\Product\Product findOrFail($id, $columns = ['*'])
+ * @method \Domain\Products\Collections\ProductCollection<\Domain\Products\Models\Product\Product> get($columns = ['*'])
  */
 class ProductQueryBuilder extends Builder
 {
@@ -41,6 +42,11 @@ class ProductQueryBuilder extends Builder
         return $this->whereNull("{$this->table}.parent_id");
     }
 
+    public function withSlug(): self
+    {
+        return $this->whereNotNull("{$this->table}.slug");
+    }
+
     public function variations(): self
     {
         return $this->whereNotNull("{$this->table}.parent_id");
@@ -64,7 +70,7 @@ class ProductQueryBuilder extends Builder
     public function forMainAndRelatedCategories(array $categoryIds): self
     {
         return $this->where(function (Builder $builder) use ($categoryIds) {
-            return $builder
+            $builder
                 ->whereIn("{$this->table}.category_id", $categoryIds)
                 ->orWhereHas('relatedCategories', function (Builder $categoryQuery) use ($categoryIds) {
                     return $categoryQuery->whereIn(Category::TABLE . '.id', $categoryIds);

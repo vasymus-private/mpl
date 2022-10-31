@@ -25,8 +25,8 @@ class ProductSearchResource extends JsonResource
     {
         return [
             'id' => $this->resource->id,
-            'parent_id' => $this->resource->parent_id,
             'uuid' => $this->resource->uuid,
+            'parent_id' => $this->resource->parent_id,
             'is_active' => $this->resource->is_active,
             'name' => $this->resource->name,
             'image' => $this->resource->main_image_md_thumb_url,
@@ -40,8 +40,8 @@ class ProductSearchResource extends JsonResource
             'ordering' => $this->resource->ordering,
             'variations' => $this->resource->variations->map(fn (Product $variation) => [
                 'id' => $variation->id,
-                'parent_id' => $variation->parent_id,
                 'uuid' => $variation->uuid,
+                'parent_id' => $variation->parent_id,
                 'is_active' => $variation->is_active,
                 'name' => $variation->name,
                 'image' => $variation->main_image_md_thumb_url,

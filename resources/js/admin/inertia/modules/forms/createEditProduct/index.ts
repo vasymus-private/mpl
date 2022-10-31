@@ -1,7 +1,6 @@
 import { defineStore } from "pinia"
 import { useProductsStore } from "@/admin/inertia/modules/products"
-import Product, { Variation } from "@/admin/inertia/modules/products/Product"
-import { AdminTab, TabEnum } from "@/admin/inertia/modules/common/Tabs"
+import { Variation, Product } from "@/admin/inertia/modules/products/types"
 import ElementsTab from "@/admin/inertia/components/products/createEdit/tabs/ElementsTab.vue"
 import DescriptionTab from "@/admin/inertia/components/products/createEdit/tabs/DescriptionTab.vue"
 import PhotoTab from "@/admin/inertia/components/products/createEdit/tabs/PhotoTab.vue"
@@ -20,16 +19,19 @@ import {
     yupIntegerOrEmptyString,
 } from "@/admin/inertia/utils"
 import * as yup from "yup"
-import { CharTypeEnum } from "@/admin/inertia/modules/charTypes/CharType"
+import { CharTypeEnum } from "@/admin/inertia/modules/charTypes/types"
 import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
 import { Values } from "@/admin/inertia/modules/forms/createEditProduct/types"
 import axios, { AxiosError } from "axios"
-import { ErrorResponse } from "@/admin/inertia/modules/common/types"
+import {
+    ErrorResponse,
+    AdminTab,
+    TabEnum,
+} from "@/admin/inertia/modules/common/types"
 import {
     errorsToErrorFields,
     getMediaSchema,
 } from "@/admin/inertia/modules/common"
-import { CustomFormData } from "@/admin/inertia/utils/CustomFormData"
 import { Inertia } from "@inertiajs/inertia"
 
 export const storeName = "createEditProductForm"
@@ -442,7 +444,8 @@ export const getWatchProductToFormCb =
     }
 
 const valuesToFormData = (values: Values): FormData => {
-    const formData = new CustomFormData()
+    let cfd = require("@/admin/inertia/utils/CustomFormData")
+    const formData = new cfd.CustomFormData()
 
     let stringOrNumberKeys: Array<keyof Values> = [
         "name",
