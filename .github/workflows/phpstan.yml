@@ -1,7 +1,14 @@
 name: PHPStan
 
 on:
-    - push
+    push:
+        # don't rebuild image if someone only edited unrelated files
+        paths-ignore:
+            - 'README.md'
+    pull_request:
+        # don't rebuild image if someone only edited unrelated files
+        paths-ignore:
+            - 'README.md'
 
 jobs:
     phpstan:
