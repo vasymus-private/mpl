@@ -1,17 +1,17 @@
 /node_modules
-
-#/public/hot
+/public/build
+/public/hot
 /public/storage
-#/public/css
-#/public/js
-#/public/fonts
-#/public/images
-#/public/_admin
-#/public/_admin/images
-#/public/_admin/js
-#/public/_admin/css
-#/public/vendor/web-tinker/*
-#/public/mix-manifest.json
+/public/css
+/public/js
+/public/fonts
+/public/images
+/public/_admin
+/public/_admin/images
+/public/_admin/js
+/public/_admin/css
+/public/vendor/web-tinker/*
+/public/mix-manifest.json
 
 /storage/*.key
 /storage/media-library
@@ -19,10 +19,12 @@
 /vendor
 .env
 .env.backup
+.env.production
 .env-docker-stack
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
+auth.json
 npm-debug.log
 yarn-error.log
 /___docs
@@ -32,5 +34,8 @@ yarn-error.log
 .php-cs-fixer.cache
 
 build
+!resources/js/vendor/ckeditor5/build
 
 /node
+
+.DS_Store

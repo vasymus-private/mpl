@@ -2,6 +2,20 @@
 
 use Illuminate\Support\Str;
 
+/**
+ * In order to set some sql mode, add coma separated strings
+ * @see \Illuminate\Database\Connectors\MySqlConnector::setModes()
+ * @see \Illuminate\Database\Connectors\MySqlConnector::setCustomModes()
+ * For i.e.: $mysqlModes = ['ONLY_FULL_GROUP_BY', 'STRICT_TRANS_TABLES', 'NO_ZERO_IN_DATE', 'NO_ZERO_DATE', 'ERROR_FOR_DIVISION_BY_ZERO', 'NO_AUTO_CREATE_USER', 'NO_ENGINE_SUBSTITUTION'];
+ *
+ * !!!
+ * TODO discuss the fact that with this 'modes' key in connection config 'strict' mode is not working de facto
+ * !!!
+ *
+ * @var string[] $mysqlModes
+ */
+$mysqlModes = [];
+
 return [
 
     /*
@@ -61,9 +75,7 @@ return [
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
-            'modes' => [
-                'ONLY_FULL_GROUP_BY' => false, // Disable this to allow grouping by one column
-            ],
+            'modes' => $mysqlModes,
         ],
 
         'mysql_test' => [
@@ -84,9 +96,7 @@ return [
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
-            'modes' => [
-                'ONLY_FULL_GROUP_BY' => false, // Disable this to allow grouping by one column
-            ],
+            'modes' => $mysqlModes,
         ],
 
         'pgsql' => [
@@ -100,7 +110,7 @@ return [
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
-            'schema' => 'public',
+            'search_path' => 'public',
             'sslmode' => 'prefer',
         ],
 
@@ -115,6 +125,8 @@ return [
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
+            // 'encrypt' => env('DB_ENCRYPT', 'yes'),
+            // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
 
     ],
@@ -155,7 +167,8 @@ return [
         'default' => [
             'url' => env('REDIS_URL'),
             'host' => env('REDIS_HOST', '127.0.0.1'),
-            'password' => env('REDIS_PASSWORD', null),
+            'username' => env('REDIS_USERNAME'),
+            'password' => env('REDIS_PASSWORD'),
             'port' => env('REDIS_PORT', '6379'),
             'database' => env('REDIS_DB', '0'),
         ],
@@ -163,7 +176,8 @@ return [
         'cache' => [
             'url' => env('REDIS_URL'),
             'host' => env('REDIS_HOST', '127.0.0.1'),
-            'password' => env('REDIS_PASSWORD', null),
+            'username' => env('REDIS_USERNAME'),
+            'password' => env('REDIS_PASSWORD'),
             'port' => env('REDIS_PORT', '6379'),
             'database' => env('REDIS_CACHE_DB', '1'),
         ],

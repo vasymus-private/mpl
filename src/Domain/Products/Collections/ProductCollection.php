@@ -8,8 +8,10 @@ use Illuminate\Database\Eloquent\Collection;
 use Support\H;
 
 /**
+ * @template TKey of array-key
  * @template TModel of \Domain\Products\Models\Product\Product
- * @extends Collection<TModel>
+ *
+ * @extends \Illuminate\Database\Eloquent\Collection<array-key, \Domain\Products\Models\Product\Product>
  */
 class ProductCollection extends Collection
 {
@@ -22,7 +24,7 @@ class ProductCollection extends Collection
 
                     return $acc + $priceRub;
                 }, 0.0)
-            ;
+        ;
     }
 
     public function cartProductsNotTrashed(): self
@@ -34,9 +36,12 @@ class ProductCollection extends Collection
 
     public function notVariations(): self
     {
-        return $this->filter(function (Product $product) {
-            return $product->parent_id === null;
-        });
+        return $this->filter(fn (Product $product) => $product->parent_id === null);
+    }
+
+    public function variations(): self
+    {
+        return $this->filter(fn (Product $product) => $product->parent_id !== null);
     }
 
     public function orderProductsSumRetailPriceRub(): float

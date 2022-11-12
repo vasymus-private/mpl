@@ -6,7 +6,6 @@ use App\Providers\MediaLibraryServiceProvider;
 use Database\Factories\OrderFactory;
 use Domain\Common\Models\BaseModel;
 use Domain\Orders\Models\Pivots\OrderProduct;
-use Domain\Products\Collections\ProductCollection;
 use Domain\Products\Models\Product\Product;
 use Domain\Users\Models\Admin;
 use Domain\Users\Models\BaseUser\BaseUser;
@@ -16,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
@@ -23,6 +23,7 @@ use Support\H;
 
 /**
  * @property int $id
+ * @property string $uuid
  * @property int $order_status_id
  * @property int $user_id
  * @property int|null $admin_id
@@ -50,7 +51,7 @@ use Support\H;
  * @property \Carbon\Carbon|null $busy_at
  *
  * @see \Domain\Orders\Models\Order::products()
- * @property ProductCollection|Product[] $products
+ * @property \Domain\Products\Collections\ProductCollection<array-key, \Domain\Products\Models\Product\Product> $products
  *
  * @see \Domain\Orders\Models\Order::user()
  * @property \Domain\Users\Models\BaseUser\BaseUser $user
@@ -158,7 +159,7 @@ class Order extends BaseModel implements HasMedia
     /**
      * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'request' => 'array',
@@ -183,6 +184,22 @@ class Order extends BaseModel implements HasMedia
         'provider_bill_status_id' => self::DEFAULT_PROVIDER_BILL_STATUS_ID,
     ];
 
+    /**
+     * @inheritDoc
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        $cb = function (self $model) {
+            if (! $model->uuid) {
+                $model->uuid = (string) Str::uuid();
+            }
+        };
+
+        static::saving($cb);
+    }
+
     public static function rbAdminOrder($value)
     {
         return static::query()->select(["*"])->findOrFail($value);
@@ -199,6 +216,17 @@ class Order extends BaseModel implements HasMedia
     }
 
     /**
+     * @inheritDoc
+     */
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        if (! $this->uuid) {
+            $this->uuid = (string) Str::uuid();
+        }
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function products(): BelongsToMany
@@ -210,16 +238,13 @@ class Order extends BaseModel implements HasMedia
             ->withPivot([
                 "count",
                 'ordering',
-                "price_purchase",
-                "price_purchase_currency_id",
-                "price_retail",
-                "price_retail_currency_id",
                 "name",
                 'unit',
                 'price_retail_rub',
                 'price_retail_rub_origin',
                 'price_retail_rub_was_updated',
             ])
+            ->orderBy('ordering')
         ;
     }
 
@@ -339,7 +364,7 @@ class Order extends BaseModel implements HasMedia
             : (
                 $this->request["phone"] ?? ""
             )
-            ;
+        ;
     }
 
     public function getIsIndividualAttribute(): bool
@@ -364,15 +389,15 @@ class Order extends BaseModel implements HasMedia
     }
 
     /**
-     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[]
-     * */
+     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<array-key, \Domain\Common\Models\CustomMedia>
+     */
     public function getInitialAttachmentsAttribute(): MediaCollection
     {
         return $this->getMedia(static::MC_INITIAL_ATTACHMENT);
     }
 
     /**
-     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[]
+     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<array-key, \Domain\Common\Models\CustomMedia>
      * */
     public function getPaymentMethodAttachmentsAttribute(): MediaCollection
     {
@@ -380,7 +405,7 @@ class Order extends BaseModel implements HasMedia
     }
 
     /**
-     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[]
+     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<array-key, \Domain\Common\Models\CustomMedia>
      * */
     public function getCustomerInvoicesAttribute(): MediaCollection
     {
@@ -388,7 +413,7 @@ class Order extends BaseModel implements HasMedia
     }
 
     /**
-     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[]
+     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<array-key, \Domain\Common\Models\CustomMedia>
      * */
     public function getSupplierInvoicesAttribute(): MediaCollection
     {

@@ -1,3 +1,4 @@
+
 # Laravel application
 
 Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
@@ -87,6 +88,14 @@ exit
 docker-compose down
 ```
 
+## Update of docker submodule
+
+Do not update docker submodule until you know what to do.
+
+Main git repo is connected with submodule only via hash. See explanation here https://stackoverflow.com/a/55570998.
+
+If you update submodule files update hash of submodule should be push in the main repo. 
+
 # CI/CD
 
 ## Manual Actions on hosting
@@ -98,3 +107,22 @@ sudo usermod -a -G docker developer
 ```
 
 Install docker-compose according to [guid](https://docs.docker.com/compose/install/#install-compose-on-linux-systems).
+
+
+# Inertia
+
+## Server Side Rendering
+
+Run build:
+```shell
+npx mix --mix-config=webpack.ssr.mix.js
+# or
+npm run ssr
+```
+
+Then run simple node server:
+```shell
+node public/_admin/js/ssr.js
+```
+temp5
+some changes should be ignored

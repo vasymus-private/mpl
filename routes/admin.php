@@ -12,15 +12,19 @@
 */
 
 use App\Constants;
+use App\Http\Controllers\Admin\ArticlesController;
 use App\Http\Controllers\Admin\BrandsController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\ExportProductController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\ProductsController;
+use App\Http\Controllers\Admin\ServicesController;
+use App\Http\Controllers\Admin\TestInertiaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get("home", [HomeController::class, "index"])->name(Constants::ROUTE_ADMIN_HOME);
+Route::get("home-temp", [HomeController::class, "indexTemp"])->name(Constants::ROUTE_ADMIN_TEMP_HOME);
 Route::get("media/{id}/{name?}", [HomeController::class, "media"])->name(Constants::ROUTE_ADMIN_MEDIA);
 
 Route
@@ -32,6 +36,13 @@ Route
 ;
 Route
     ::get(
+        "temp-products",
+        [ProductsController::class, "indexTemp"]
+    )
+    ->name(Constants::ROUTE_ADMIN_PRODUCTS_TEMP_INDEX)
+;
+Route
+    ::get(
         "products/create",
         [ProductsController::class, "create"]
     )
@@ -39,10 +50,24 @@ Route
 ;
 Route
     ::get(
+        "temp-products/create",
+        [ProductsController::class, "createTemp"]
+    )
+    ->name(Constants::ROUTE_ADMIN_PRODUCTS_TEMP_CREATE)
+;
+Route
+    ::get(
         "products/{admin_product}/edit",
         [ProductsController::class, "edit"]
     )
     ->name(Constants::ROUTE_ADMIN_PRODUCTS_EDIT)
+;
+Route
+    ::get(
+        "temp-products/{admin_product}/edit",
+        [ProductsController::class, "editTemp"]
+    )
+    ->name(Constants::ROUTE_ADMIN_PRODUCTS_TEMP_EDIT)
 ;
 
 Route
@@ -54,6 +79,13 @@ Route
 ;
 Route
     ::get(
+        "temp-categories",
+        [CategoriesController::class, 'indexTemp']
+    )
+    ->name(Constants::ROUTE_ADMIN_CATEGORIES_TEMP_INDEX)
+;
+Route
+    ::get(
         "categories/create",
         [CategoriesController::class, 'create']
     )
@@ -61,10 +93,24 @@ Route
 ;
 Route
     ::get(
+        "temp-categories/create",
+        [CategoriesController::class, 'createTemp']
+    )
+    ->name(Constants::ROUTE_ADMIN_CATEGORIES_TEMP_CREATE)
+;
+Route
+    ::get(
         "categories/{admin_category}/edit",
         [CategoriesController::class, "edit"]
     )
     ->name(Constants::ROUTE_ADMIN_CATEGORIES_EDIT)
+;
+Route
+    ::get(
+        "temp-categories/{admin_category}/edit",
+        [CategoriesController::class, "editTemp"]
+    )
+    ->name(Constants::ROUTE_ADMIN_CATEGORIES_TEMP_EDIT)
 ;
 
 Route
@@ -91,6 +137,28 @@ Route
 
 Route
     ::get(
+        "temp-brands",
+        [BrandsController::class, "indexTemp"]
+    )
+    ->name(Constants::ROUTE_ADMIN_BRANDS_TEMP_INDEX)
+;
+Route
+    ::get(
+        "temp-brands/create",
+        [BrandsController::class, "createTemp"]
+    )
+    ->name(Constants::ROUTE_ADMIN_BRANDS_TEMP_CREATE)
+;
+Route
+    ::get(
+        "temp-brands/{admin_brand}/edit",
+        [BrandsController::class, "editTemp"]
+    )
+    ->name(Constants::ROUTE_ADMIN_BRANDS_TEMP_EDIT)
+;
+
+Route
+    ::get(
         "orders",
         [OrdersController::class, "index"]
     )
@@ -109,6 +177,28 @@ Route
         [OrdersController::class, "edit"]
     )
     ->name(Constants::ROUTE_ADMIN_ORDERS_EDIT)
+;
+
+Route
+    ::get(
+        "orders-temp",
+        [OrdersController::class, "indexTemp"]
+    )
+    ->name(Constants::ROUTE_ADMIN_ORDERS_TEMP_INDEX)
+;
+Route
+    ::get(
+        "orders-temp/create",
+        [OrdersController::class, "createTemp"]
+    )
+    ->name(Constants::ROUTE_ADMIN_ORDERS_TEMP_CREATE)
+;
+Route
+    ::get(
+        "orders-temp/{admin_order}/edit",
+        [OrdersController::class, "editTemp"]
+    )
+    ->name(Constants::ROUTE_ADMIN_ORDERS_TEMP_EDIT)
 ;
 
 Route::
@@ -139,3 +229,21 @@ Route::
     )
     ->name(Constants::ROUTE_ADMIN_EXPORT_PRODUCTS_DELETE)
 ;
+
+Route::
+    get(
+        'articles',
+        [ArticlesController::class, 'index']
+    )
+    ->name(Constants::ROUTE_ADMIN_ARTICLES_INDEX)
+;
+
+Route::
+    get(
+        'services',
+        [ServicesController::class, 'index']
+    )
+    ->name(Constants::ROUTE_ADMIN_SERVICES_INDEX)
+;
+
+Route::get('---test-inertia', [TestInertiaController::class, 'index'])->name('admin.test.inertia');

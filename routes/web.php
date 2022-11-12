@@ -32,7 +32,7 @@ Route::middleware([Constants::MIDDLEWARE_AUTHENTICATE_ALL])->group(function() {
     ;
     Route
         ::post("logout", [\App\Http\Controllers\Web\Auth\LoginController::class, "logout"])
-        ->name("logout")
+        ->name(Constants::ROUTE_LOGOUT)
     ;
 
     Route::get('password/reset', [\App\Http\Controllers\Web\Auth\ForgotPasswordController::class, "showLinkRequestForm"])->name('password.request');
@@ -117,7 +117,7 @@ Route::middleware([Constants::MIDDLEWARE_AUTHENTICATE_ALL])->group(function() {
         //->middleware(\App\Constants::MIDDLEWARE_REDIRECT_IF_NOT_IDENTIFIED)
     ;
 
-    Route::get("orders/{id}", [\App\Http\Controllers\Web\OrdersConstroller::class, "show"])->name("orders.show");
+    Route::get("orders/{id}", [\App\Http\Controllers\Web\OrdersController::class, "show"])->name("orders.show");
 
     Route::get("profile-identify/{id}/{email}/{hash}", [\App\Http\Controllers\Web\ProfileController::class, "identify"])->name("profile.identify")->middleware(["signed"]);
 
@@ -126,7 +126,7 @@ Route::middleware([Constants::MIDDLEWARE_AUTHENTICATE_ALL])->group(function() {
 
     Route::get("/{service_slug}", [\App\Http\Controllers\Web\ServicesController::class, "show"])->name("services.show");
 
-    Route::get("/", [\App\Http\Controllers\Web\HomeController::class, "index"])->name("home");
+    Route::get("/", [\App\Http\Controllers\Web\HomeController::class, "index"])->name(Constants::ROUTE_WEB_HOME);
 
 });
 

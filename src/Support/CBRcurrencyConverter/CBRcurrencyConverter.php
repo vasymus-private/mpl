@@ -100,6 +100,35 @@ class CBRcurrencyConverter
         return (new NumberFormatter("ru_RU", NumberFormatter::DECIMAL))->parse($rate);
     }
 
+    /**
+     * @return \Support\CBRcurrencyConverter\RateItemDTO[]
+     *
+     * @throws \Exception
+     */
+    public static function getTodayRates(): array
+    {
+        $result = [];
+        $date = Carbon::now();
+
+        $xml = static::fetchXml($date);
+
+        $valCurs = new SimpleXMLElement($xml);
+
+        $numberFormatter = new NumberFormatter("ru_RU", NumberFormatter::DECIMAL);
+        foreach ($valCurs as $valute) {
+            $result[] = new RateItemDTO([
+                'NumCode' => (int)$valute->NumCode,
+                'CharCode' => (string)$valute->CharCode,
+                'Nominal' => (int)$valute->Nominal,
+                'Name' => (string)$valute->Name,
+                'ValueRaw' => (string)$valute->Value,
+                'Value' => $numberFormatter->parse((string)$valute->Value),
+            ]);
+        }
+
+        return $result;
+    }
+
     public static function check(string $currency, float $value, Carbon $date = null): bool
     {
         if (! in_array($currency, self::$currencies)) {

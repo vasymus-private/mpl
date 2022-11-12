@@ -13,6 +13,13 @@ class OrderProductItemDTO extends DataTransferObject
     public int $count = 1;
 
     /**
+     * @deprecated For backward compatibility. Should be the copy as $count
+     *
+     * @var int
+     */
+    public ?int $order_product_count = 1;
+
+    /**
      * @var string|null
      */
     public ?string $name;
@@ -33,6 +40,25 @@ class OrderProductItemDTO extends DataTransferObject
     public $price_retail_rub;
 
     /**
+     * @deprecated For backward compatibility. Should be the copy as $price_retail_rub
+     *
+     * @var float|int|null
+     */
+    public $order_product_price_retail_rub;
+
+    /**
+     * @var bool|null
+     */
+    public ?bool $price_retail_rub_was_updated = false;
+
+    /**
+     * @deprecated For backward compatibility. Should be the copy as $price_retail_rub_was_updated
+     *
+     * @var bool|null
+     */
+    public ?bool $order_product_price_retail_rub_was_updated = false;
+
+    /**
      * @var float|int|null
      */
     public $price_retail_rub_origin;
@@ -41,4 +67,11 @@ class OrderProductItemDTO extends DataTransferObject
      * @var \Domain\Products\Models\Product\Product
      */
     public Product $product;
+
+    /**
+     * @deprecated For backward compatibility. Should be used $product->id
+     *
+     * @var int|null
+     */
+    public ?int $id;
 }

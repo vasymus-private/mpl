@@ -97,6 +97,7 @@ class OrdersTableSeeder extends BaseSeeder
                     'price_purchase_currency_id' => $product->price_purchase_currency_id,
                     'price_retail' => $product->price_retail ?? 0.0,
                     'price_retail_currency_id' => $product->price_retail_currency_id,
+                    'price_retail_rub' => $faker->numberBetween(100, 1000),
                 ];
             }
             $seedItem['orderProductsSeeds'] = $orderProductsSeeds;

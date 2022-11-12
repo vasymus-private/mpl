@@ -174,6 +174,7 @@ trait HasVariationsTab
 
         $this->validate($this->variationsRules());
 
+        /** @var \Domain\Products\Collections\ProductCollection $dbVariations */
         $dbVariations = $this->item->variations()->get();
         $dbVariations->each(function (Product $dbVariation) {
             /** @var array|null $variation @see {@link \Domain\Products\DTOs\Admin\VariationDTO} */
@@ -364,6 +365,7 @@ trait HasVariationsTab
             ->values()
             ->toArray();
         if (! empty($selectedVariationIds)) {
+            /** @var \Domain\Products\Collections\ProductCollection $deleteVariations */
             $deleteVariations = $this->item->variations()->whereIn('id', $selectedVariationIds)->get();
             $deleteVariations->each(function (Product $variation) {
                 DeleteVariationAction::cached()->execute($variation);
@@ -420,6 +422,7 @@ trait HasVariationsTab
 
         $additionalImages = $original->getMedia(Product::MC_ADDITIONAL_IMAGES);
         foreach ($additionalImages as $additionalImageMedia) {
+            /** @var \Domain\Common\Models\CustomMedia $additionalImageMedia */
             $additionalImage = FileDTO::fromCustomMedia($additionalImageMedia);
             $this->addMedia($additionalImage, Product::MC_ADDITIONAL_IMAGES, $copy);
         }
@@ -439,9 +442,12 @@ trait HasVariationsTab
 
     protected function initVariations(Product $product)
     {
-        $this->variations = $product->variations()
+        /** @var \Domain\Products\Collections\ProductCollection $variations */
+        $variations = $product->variations()
             ->with('media')
-            ->get()
+            ->get();
+
+        $this->variations = $variations
             ->map(
                 fn (Product $variation) =>
                 $this->isCreatingFromCopy

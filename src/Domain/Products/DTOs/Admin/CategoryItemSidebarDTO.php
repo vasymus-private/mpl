@@ -15,6 +15,11 @@ class CategoryItemSidebarDTO extends DataTransferObject
     /**
      * @var string|null
      */
+    public ?string $uuid;
+
+    /**
+     * @var string|null
+     */
     public ?string $name;
 
     /**
@@ -26,6 +31,7 @@ class CategoryItemSidebarDTO extends DataTransferObject
     {
         return new self([
             'id' => $category->id,
+            'uuid' => $category->uuid,
             'name' => $category->name,
             'subcategories' => $category->subcategories->map(fn (Category $subcategory) => static::fromModel($subcategory))->all(),
         ]);

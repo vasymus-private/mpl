@@ -69,8 +69,6 @@ class CartCheckoutController extends BaseWebController
 
     protected function createOrder(CartCheckoutRequest $request, BaseUser $user): ?Order
     {
-        $createOrderAction = resolve(CreateOrderAction::class);
-
         $productItems = [];
         $user->cart_not_trashed->each(function (Product $product) use (&$productItems) {
             $productItems[] = new OrderProductItemDTO([
@@ -79,8 +77,9 @@ class CartCheckoutController extends BaseWebController
             ]);
         });
 
-        return $createOrderAction->execute(new CreateOrderParamsDTO([
+        return CreateOrderAction::cached()->execute(new CreateOrderParamsDTO([
             'user' => $user,
+            'event_user' => $user,
             'order_status_id' => OrderStatus::ID_OPEN,
             'importance_id' => OrderImportance::ID_GREY,
             'order_event_type' => OrderEventType::checkout(),

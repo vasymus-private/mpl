@@ -8,11 +8,13 @@ use Domain\Seo\Models\Seo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property int $id
+ * @property string $uuid
  * @property string|null $name
  * @property string|null $slug
  * @property string $question
@@ -50,7 +52,7 @@ class FAQ extends BaseModel implements HasMedia
     /**
      * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         "is_active" => "bool",
@@ -59,6 +61,22 @@ class FAQ extends BaseModel implements HasMedia
     public static function rbFaqSlug($value)
     {
         return static::query()->parents()->where(static::TABLE . ".slug", $value)->firstOrFail();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        $cb = function (self $model) {
+            if (! $model->uuid) {
+                $model->uuid = (string) Str::uuid();
+            }
+        };
+
+        static::saving($cb);
     }
 
     public function seo(): MorphOne

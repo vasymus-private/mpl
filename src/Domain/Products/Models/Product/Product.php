@@ -107,6 +107,7 @@ class Product extends BaseModel implements HasMedia
     public const MC_MAIN_IMAGE = "main";
     public const MC_ADDITIONAL_IMAGES = "images";
     public const MC_FILES = "files";
+    public const MC_DESCRIPTION_FILES = 'description-files';
 
     public const MCONV_XS_THUMB = "xs-thumb"; // 40x40
     public const MCONV_XS_THUMB_SIZE = 40;
@@ -151,7 +152,7 @@ class Product extends BaseModel implements HasMedia
     /**
      * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         "is_active" => "boolean",
@@ -176,11 +177,9 @@ class Product extends BaseModel implements HasMedia
     {
         parent::boot();
 
-        static::booting();
-
-        $cb = function (self $product) {
-            if (! $product->uuid) {
-                $product->uuid = (string) Str::uuid();
+        $cb = function (self $model) {
+            if (! $model->uuid) {
+                $model->uuid = (string) Str::uuid();
             }
         };
 
@@ -203,6 +202,7 @@ class Product extends BaseModel implements HasMedia
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
+
         if (! $this->uuid) {
             $this->uuid = (string) Str::uuid();
         }
@@ -222,7 +222,7 @@ class Product extends BaseModel implements HasMedia
         return static::query()
             ->where(static::TABLE . ".slug", $value)
             ->where(function (Builder $builder) use ($category, $subcategory1, $subcategory2, $subcategory3) {
-                return $builder
+                $builder
                         ->orWhere(static::TABLE . ".category_id", $category->id)
                         ->when($subcategory3->id ?? null, function (Builder $b, $sub3Id) {
                             return $b->orWhere(static::TABLE . ".category_id", $sub3Id);
@@ -254,6 +254,8 @@ class Product extends BaseModel implements HasMedia
         $this->addMediaCollection(static::MC_ADDITIONAL_IMAGES);
 
         $this->addMediaCollection(static::MC_FILES);
+
+        $this->addMediaCollection(static::MC_DESCRIPTION_FILES);
     }
 
     public function registerMediaConversions(Media $media = null): void

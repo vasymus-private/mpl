@@ -22,9 +22,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 /**
  * @property int $id
+ * @property string $uuid
  * @property string|null $name
  * @property string|null $email
  * @property string|null $phone
@@ -81,13 +83,22 @@ use Illuminate\Notifications\Notifiable;
  * @see \Domain\Users\Models\BaseUser\BaseUser::setAdminOrderColumnsAttribute()
  * @property \Domain\Common\Enums\Column[] $admin_order_columns
  *
+ * @see \Domain\Users\Models\BaseUser\BaseUser::getAdminOrderColumnsArrAttribute()
+ * @property-read array[] $admin_order_columns_arr
+ *
  * @see \Domain\Users\Models\BaseUser\BaseUser::getAdminProductColumnsAttribute()
  * @see \Domain\Users\Models\BaseUser\BaseUser::setAdminProductColumnsAttribute()
  * @property \Domain\Common\Enums\Column[] $admin_product_columns
  *
+ * @see \Domain\Users\Models\BaseUser\BaseUser::getAdminProductColumnsArrAttribute()
+ * @property-read array[] $admin_product_columns_arr
+ *
  * @see \Domain\Users\Models\BaseUser\BaseUser::getAdminProductVariantColumnsAttribute()
  * @see \Domain\Users\Models\BaseUser\BaseUser::setAdminProductVariantColumnsAttribute()
  * @property \Domain\Common\Enums\Column[] $admin_product_variant_columns
+ *
+ * @see \Domain\Users\Models\BaseUser\BaseUser::getAdminProductVariantColumnsArrAttribute()
+ * @property-read array[] $admin_product_variant_columns_arr
  *
  * @method static \Domain\Users\QueryBuilders\UserQueryBuilder query()
  *
@@ -121,10 +132,11 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
     /**
      * The attributes that should be hidden for arrays.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**
@@ -139,7 +151,7 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
     /**
      * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'settings' => 'array',
@@ -153,6 +165,22 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
     protected $attributes = [
         'settings' => '[]',
     ];
+
+    /**
+     * @inheritDoc
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        $cb = function (self $model) {
+            if (! $model->uuid) {
+                $model->uuid = (string) Str::uuid();
+            }
+        };
+
+        static::saving($cb);
+    }
 
     /**
      * Create a new Eloquent query builder for the model.
@@ -187,15 +215,18 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|\Domain\Products\QueryBuilders\ProductQueryBuilder
      */
-    public function cart(): BelongsToMany
+    public function cart()
     {
-        return $this->belongsToMany(Product::class, ProductUserCart::TABLE, 'user_id', 'product_id')
+        /** @var \Illuminate\Database\Eloquent\Relations\BelongsToMany|\Domain\Products\QueryBuilders\ProductQueryBuilder $btm */
+        $btm = $this->belongsToMany(Product::class, ProductUserCart::TABLE, 'user_id', 'product_id')
             ->using(ProductUserCart::class)
             ->as('cart_product')
             ->withPivot(["count", "created_at", "deleted_at"])
             ->withTimestamps();
+
+        return $btm;
     }
 
     /**
@@ -307,5 +338,46 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
         $settings = $this->settings;
         $settings[static::SETTINGS_ADMIN_PRODUCT_VARIANT_COLUMNS] = collect($adminProductVariantColumns)->map(fn (Column $productVariantAdminColumn) => $productVariantAdminColumn->value)->all();
         $this->settings = $settings;
+    }
+
+    /**
+     * @return array[]
+     * @phpstan-return array<array<int|string>>
+     */
+    public function getAdminOrderColumnsArrAttribute(): array
+    {
+        return collect($this->admin_order_columns)->map([static::class, '_columnsMapCB'])->all();
+    }
+
+    /**
+     * @return array[]
+     * @phpstan-return array<array<int|string>>
+     */
+    public function getAdminProductColumnsArrAttribute(): array
+    {
+        return collect($this->admin_product_columns)->map([static::class, '_columnsMapCB'])->all();
+    }
+
+    /**
+     * @return array[]
+     * @phpstan-return array<array<int|string>>
+     */
+    public function getAdminProductVariantColumnsArrAttribute(): array
+    {
+        return collect($this->admin_product_variant_columns)->map([static::class, '_columnsMapCB'])->all();
+    }
+
+    /**
+     * @param \Domain\Common\Enums\Column $column
+     *
+     * @return array
+     * @phpstan-return array<int|string>
+     */
+    public static function _columnsMapCB(Column $column): array
+    {
+        return [
+            'value' => $column->value,
+            'label' => $column->label,
+        ];
     }
 }

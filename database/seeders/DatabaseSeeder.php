@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use Database\Seeders\TransitionSeeders\AddUuidToTablesTableSeeder;
+
 class DatabaseSeeder extends BaseSeeder
 {
     /**
@@ -35,5 +37,7 @@ class DatabaseSeeder extends BaseSeeder
 //        $this->call(OrdersTableSeeder::class);
 
         $this->call(SpecialProductsTableSeeder::class);
+
+        $this->call(AddUuidToTablesTableSeeder::class);
     }
 }

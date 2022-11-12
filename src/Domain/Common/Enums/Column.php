@@ -29,6 +29,7 @@ use Spatie\Enum\Enum;
  * @method static self additional_images()
  * @method static self coefficient()
  * @method static self coefficient_description()
+ * @method static self categories()
  */
 class Column extends Enum
 {
@@ -62,7 +63,7 @@ class Column extends Enum
             'ordering' => 22,
             'coefficient' => 23,
             'coefficient_description' => 24,
-            'availability_status' => 25,
+            'categories' => 25,
         ];
     }
 
@@ -96,6 +97,7 @@ class Column extends Enum
             'ordering' => 'Сорт-ка',
             'coefficient' => 'Коэффициент',
             'coefficient_description' => 'Описание коэффициента',
+            'categories' => 'Разделы',
         ];
     }
 }

@@ -13,7 +13,7 @@
         let $wrapper = $(el)
         let $btn = $wrapper.find(pinButtonSelector)
         let $footer = $wrapper.find(footerSelector)
-        let $maker = $wrapper.find(footerMarkerSelector)
+        let $marker = $wrapper.find(footerMarkerSelector)
         let isPinned = true
 
         setIsPinned(isPinned)
@@ -32,7 +32,7 @@
         })
 
         function main() {
-            if (!getIsPinned($btn)) {
+            if (!getIsPinned()) {
                 return true
             }
 
@@ -64,7 +64,7 @@
         }
 
         function getIsVisible() {
-            let footerTop = $maker.offset().top
+            let footerTop = $marker.offset().top
             let scrollTop = $window.scrollTop()
             let space = $window.height() - $footer.height()
 

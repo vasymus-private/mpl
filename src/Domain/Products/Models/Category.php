@@ -17,9 +17,13 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property int $id
+ * @property string $uuid
  * @property string $name
  * @property string|null $slug
  * @property int|null $parent_id
@@ -57,11 +61,12 @@ use Illuminate\Support\Facades\Cache;
  * @see \Domain\Products\Models\Category::getHasActiveProductsAttribute()
  * @property-read bool $has_active_products
  * */
-class Category extends BaseModel
+class Category extends BaseModel implements HasMedia
 {
     use SoftDeletes;
     use HasDeletedItemSlug;
     use HasFactory;
+    use InteractsWithMedia;
 
     public const TABLE = "categories";
 
@@ -78,6 +83,8 @@ class Category extends BaseModel
 
     public const DEFAULT_IS_ACTIVE = false;
     public const DEFAULT_ORDERING = 500;
+
+    public const MC_DESCRIPTION_FILES = 'description-files';
 
     /**
      * The table associated with the model.
@@ -106,12 +113,28 @@ class Category extends BaseModel
     /**
      * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         "is_active" => "boolean",
         'meta' => 'array',
     ];
+
+    /**
+     * @inheritDoc
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        $cb = function (self $model) {
+            if (! $model->uuid) {
+                $model->uuid = (string) Str::uuid();
+            }
+        };
+
+        static::saving($cb);
+    }
 
     public static function rbAdminCategory($value)
     {
@@ -126,6 +149,17 @@ class Category extends BaseModel
     protected static function newFactory()
     {
         return CategoryFactory::new();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        if (! $this->uuid) {
+            $this->uuid = (string) Str::uuid();
+        }
     }
 
     public function parentCategory(): BelongsTo
@@ -162,6 +196,9 @@ class Category extends BaseModel
         return $builder->whereNull(static::TABLE . ".parent_id");
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection<array-key, \Domain\Products\Models\Category>
+     */
     public static function getTreeRuntimeCached(): Collection
     {
         return Cache::store('array')->rememberForever('categories', function () {
@@ -259,9 +296,11 @@ class Category extends BaseModel
 
     public function getHasActiveProductsAttribute(): bool
     {
-        /** @var \Domain\Products\Actions\HasActiveProductsAction $hasActiveProductsAction */
-        $hasActiveProductsAction = Cache::store('array')->rememberForever(HasActiveProductsAction::class, fn () => resolve(HasActiveProductsAction::class));
+        return HasActiveProductsAction::cached()->execute($this->id);
+    }
 
-        return $hasActiveProductsAction->execute($this->id);
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection(static::MC_DESCRIPTION_FILES);
     }
 }

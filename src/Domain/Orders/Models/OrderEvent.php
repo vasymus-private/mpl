@@ -20,6 +20,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @see \Domain\Orders\Models\OrderEvent::user()
  * @property \Domain\Users\Models\BaseUser\BaseUser $user
+ *
+ * @see \Domain\Orders\Models\OrderEvent::getTypeNameAttribute()
+ * @property string $type_name
  */
 class OrderEvent extends BaseModel
 {
@@ -37,7 +40,7 @@ class OrderEvent extends BaseModel
     /**
      * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'payload' => 'array',
@@ -84,5 +87,69 @@ class OrderEvent extends BaseModel
     public function setTypeAttribute(OrderEventType $orderEventType)
     {
         $this->attributes['type'] = $orderEventType->value;
+    }
+
+    public function getTypeNameAttribute(): string
+    {
+        switch (true) {
+            case $this->type->equals(OrderEventType::checkout()):
+            case $this->type->equals(OrderEventType::admin_created()): {
+                return 'Создание заказа';
+            }
+            case $this->type->equals(OrderEventType::update_product_price_retail()): {
+                return 'Изменение цены товара';
+            }
+            case $this->type->equals(OrderEventType::update_product_count()): {
+                return 'Изменение количества товара';
+            }
+            case $this->type->equals(OrderEventType::update_product_unit()): {
+                return 'Изменение упаковки товара';
+            }
+            case $this->type->equals(OrderEventType::update_product_name()): {
+                return 'Изменение названия товара';
+            }
+            case $this->type->equals(OrderEventType::add_product()): {
+                return 'Добавление товара';
+            }
+            case $this->type->equals(OrderEventType::delete_product()): {
+                return 'Удаление товара';
+            }
+            case $this->type->equals(OrderEventType::update_comment_admin()): {
+                return 'Комментарий к заказу';
+            }
+            case $this->type->equals(OrderEventType::update_status()): {
+                return 'Изменение статуса заказа';
+            }
+            case $this->type->equals(OrderEventType::update_customer_personal_data()): {
+                return 'Изменение параметров покупателя';
+            }
+            case $this->type->equals(OrderEventType::update_payment_method()): {
+                return 'Изменение способа оплаты';
+            }
+            case $this->type->equals(OrderEventType::update_comment_user()): {
+                return 'Изменение комментария пользователя';
+            }
+            case $this->type->equals(OrderEventType::update_admin()): {
+                return 'Изменение менеджера';
+            }
+            case $this->type->equals(OrderEventType::update_importance()): {
+                return 'Изменение важности';
+            }
+            case $this->type->equals(OrderEventType::update_customer_invoice()): {
+                return 'Изменение счёта покупателя';
+            }
+            case $this->type->equals(OrderEventType::update_supplier_invoice()): {
+                return 'Изменение счёта от поставщика';
+            }
+            case $this->type->equals(OrderEventType::cancellation()): {
+                return 'Отмена заказа';
+            }
+            case $this->type->equals(OrderEventType::delete()): {
+                return 'Удаление заказа';
+            }
+            default: {
+                return '';
+            }
+        }
     }
 }
