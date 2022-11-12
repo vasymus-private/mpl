@@ -2,8 +2,12 @@
 
 namespace Domain\Users\Models\BaseUser;
 
+use Domain\Common\Enums\Column;
 use Domain\Common\Models\CommonTraits;
+use Domain\Orders\Actions\GetDefaultAdminOrderColumnsAction;
 use Domain\Orders\Models\Order;
+use Domain\Products\Actions\GetDefaultAdminProductColumnsAction;
+use Domain\Products\Actions\GetDefaultAdminProductVariantColumnsAction;
 use Domain\Products\Models\Product\Product;
 use Domain\Services\Models\Service;
 use Domain\Users\Models\Pivots\ProductUserAside;
@@ -36,6 +40,8 @@ use Illuminate\Notifications\Notifiable;
  * @property \Carbon\Carbon|null $deleted_at
  *
  * @property \Carbon\Carbon|null $email_verified_at
+ *
+ * @property array $settings
  *
  * Properties from Accessors / Mutators
  * @see \Domain\Users\Models\BaseUser\BaseUser::getIsAdminAttribute()
@@ -71,7 +77,22 @@ use Illuminate\Notifications\Notifiable;
  * @see \Domain\Users\Models\BaseUser\BaseUser::getCartNotTrashedAttribute()
  * @property \Domain\Products\Collections\ProductCollection|Product[] $cart_not_trashed
  *
- * @method static static|\Domain\Users\QueryBuilders\UserQueryBuilder query()
+ * @see \Domain\Users\Models\BaseUser\BaseUser::getAdminOrderColumnsAttribute()
+ * @see \Domain\Users\Models\BaseUser\BaseUser::setAdminOrderColumnsAttribute()
+ * @property \Domain\Common\Enums\Column[] $admin_order_columns
+ *
+ * @see \Domain\Users\Models\BaseUser\BaseUser::getAdminProductColumnsAttribute()
+ * @see \Domain\Users\Models\BaseUser\BaseUser::setAdminProductColumnsAttribute()
+ * @property \Domain\Common\Enums\Column[] $admin_product_columns
+ *
+ * @see \Domain\Users\Models\BaseUser\BaseUser::getAdminProductVariantColumnsAttribute()
+ * @see \Domain\Users\Models\BaseUser\BaseUser::setAdminProductVariantColumnsAttribute()
+ * @property \Domain\Common\Enums\Column[] $admin_product_variant_columns
+ *
+ * @method static \Domain\Users\QueryBuilders\UserQueryBuilder query()
+ *
+ * @property-read int $viewed_count
+ * @property-read int $service_viewed_count
  *
  * @mixin \Domain\Common\Models\BaseModel
  * */
@@ -81,10 +102,14 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
     use SoftDeletes;
     use CommonTraits;
 
-    const TABLE = "users";
+    public const TABLE = "users";
 
-    const ADMIN_THRESHOLD = 5;
-    const SUPER_ADMIN = 10;
+    public const ADMIN_THRESHOLD = 5;
+    public const SUPER_ADMIN = 10;
+
+    protected const SETTINGS_ADMIN_ORDER_COLUMNS = 'adminOrderColumns';
+    protected const SETTINGS_ADMIN_PRODUCT_COLUMNS = 'adminProductColumns';
+    protected const SETTINGS_ADMIN_PRODUCT_VARIANT_COLUMNS = 'adminProductVariantColumns';
 
     /**
      * The table associated with the model.
@@ -112,10 +137,29 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'settings' => 'array',
+    ];
+
+    /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'settings' => '[]',
+    ];
+
+    /**
      * Create a new Eloquent query builder for the model.
      *
      * @param  \Illuminate\Database\Query\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     *
+     * @return \Domain\Users\QueryBuilders\UserQueryBuilder<\Domain\Users\Models\BaseUser\BaseUser>
      */
     public function newEloquentBuilder($query)
     {
@@ -134,7 +178,7 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
 
     public function getIsIdentifiedAttribute(): bool
     {
-        return !empty($this->email);
+        return ! empty($this->email);
     }
 
     public function getIsAnonymous2Attribute(): bool
@@ -143,7 +187,7 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|\Domain\Products\QueryBuilders\ProductQueryBuilder
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function cart(): BelongsToMany
     {
@@ -155,7 +199,7 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|\Domain\Products\QueryBuilders\ProductQueryBuilder
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function viewed(): BelongsToMany
     {
@@ -175,7 +219,7 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|\Domain\Products\QueryBuilders\ProductQueryBuilder
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function aside(): BelongsToMany
     {
@@ -194,5 +238,74 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
     public function getCartNotTrashedAttribute(): Collection
     {
         return $this->cart->cartProductsNotTrashed();
+    }
+
+    /**
+     * @return \Domain\Common\Enums\Column[]
+     */
+    public function getAdminOrderColumnsAttribute(): array
+    {
+        $settings = $this->settings;
+        $adminOrderColumns = $settings[static::SETTINGS_ADMIN_ORDER_COLUMNS] ?? GetDefaultAdminOrderColumnsAction::cached()->execute();
+
+        return collect($adminOrderColumns)->unique()->values()->map(fn ($value) => Column::from($value))->all();
+    }
+
+    /**
+     * @param \Domain\Common\Enums\Column[] $adminOrderColumns
+     *
+     * @return void
+     */
+    public function setAdminOrderColumnsAttribute(array $adminOrderColumns): void
+    {
+        $settings = $this->settings;
+        $settings[static::SETTINGS_ADMIN_ORDER_COLUMNS] = collect($adminOrderColumns)->map(fn (Column $orderAdminColumn) => $orderAdminColumn->value)->all();
+        $this->settings = $settings;
+    }
+
+    /**
+     * @return \Domain\Common\Enums\Column[]
+     */
+    public function getAdminProductColumnsAttribute(): array
+    {
+        $settings = $this->settings;
+        $adminProductColumns = $settings[static::SETTINGS_ADMIN_PRODUCT_COLUMNS] ?? GetDefaultAdminProductColumnsAction::cached()->execute();
+
+        return collect($adminProductColumns)->unique()->values()->map(fn ($value) => Column::from($value))->all();
+    }
+
+    /**
+     * @param \Domain\Common\Enums\Column[] $adminProductColumns
+     *
+     * @return void
+     */
+    public function setAdminProductColumnsAttribute(array $adminProductColumns): void
+    {
+        $settings = $this->settings;
+        $settings[static::SETTINGS_ADMIN_PRODUCT_COLUMNS] = collect($adminProductColumns)->map(fn (Column $productAdminColumn) => $productAdminColumn->value)->all();
+        $this->settings = $settings;
+    }
+
+    /**
+     * @return \Domain\Common\Enums\Column[]
+     */
+    public function getAdminProductVariantColumnsAttribute(): array
+    {
+        $settings = $this->settings;
+        $adminProductVariantColumns = $settings[static::SETTINGS_ADMIN_PRODUCT_VARIANT_COLUMNS] ?? GetDefaultAdminProductVariantColumnsAction::cached()->execute();
+
+        return collect($adminProductVariantColumns)->unique()->values()->map(fn ($value) => Column::from($value))->all();
+    }
+
+    /**
+     * @param \Domain\Common\Enums\Column[] $adminProductVariantColumns
+     *
+     * @return void
+     */
+    public function setAdminProductVariantColumnsAttribute(array $adminProductVariantColumns): void
+    {
+        $settings = $this->settings;
+        $settings[static::SETTINGS_ADMIN_PRODUCT_VARIANT_COLUMNS] = collect($adminProductVariantColumns)->map(fn (Column $productVariantAdminColumn) => $productVariantAdminColumn->value)->all();
+        $this->settings = $settings;
     }
 }

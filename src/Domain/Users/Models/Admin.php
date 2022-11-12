@@ -2,7 +2,7 @@
 
 namespace Domain\Users\Models;
 
-use App\Constants;
+use App\Providers\MediaLibraryServiceProvider;
 use Domain\Users\Models\BaseUser\BaseUser;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\MediaLibrary\HasMedia;
@@ -31,20 +31,30 @@ class Admin extends BaseUser implements HasMedia
     {
         parent::boot();
 
-        static::addGlobalScope("admin", function(Builder $builder) {
+        static::addGlobalScope("admin", function (Builder $builder) {
             $builder->where(static::TABLE . ".status", ">=", static::ADMIN_THRESHOLD);
         });
     }
 
     public static function getCentralAdmin(): self
     {
-        return Admin::query()->findOrFail(Admin::ID_CENTRAL_ADMIN);
+        /** @var \Domain\Users\Models\Admin $admin */
+        $admin = Admin::query()->findOrFail(Admin::ID_CENTRAL_ADMIN);
+
+        return $admin;
+    }
+
+    public static function rbAdmin($value)
+    {
+        return static::query()->select(["*"])->findOrFail($value);
     }
 
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection(static::MC_COMMON_MEDIA);
 
-        $this->addMediaCollection(static::MC_EXPORT_PRODUCTS)->useDisk(Constants::MEDIA_DISK_PRIVATE);
+        $this
+            ->addMediaCollection(static::MC_EXPORT_PRODUCTS)
+            ->useDisk(MediaLibraryServiceProvider::getPrivateMediaDisk());
     }
 }

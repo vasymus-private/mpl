@@ -1,0 +1,57 @@
+name: Docker Image Push
+
+on:
+    workflow_run:
+        workflows: ["Run Tests"]
+        types: [completed]
+        branches:
+            -   'develop'
+
+jobs:
+    on-success:
+        runs-on: ubuntu-20.04
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v2
+                with:
+                    submodules: 'true'
+
+            -   name: Set Up Docker Buildx
+                id: buildx
+                uses: docker/setup-buildx-action@v1
+
+            -   name: Cache Docker layers
+                uses: actions/cache@v2
+                with:
+                    path: /tmp/.buildx-cache
+                    key: ${{ runner.os }}-buildx-${{ github.sha }}
+                    restore-keys: |
+                        ${{ runner.os }}-buildx-
+
+            -   name: Login To Docker Hub
+                uses: docker/login-action@v1
+                with:
+                    username: ${{ secrets.DOCKER_HUB_USERNAME }}
+                    password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+            -   name: Build And Push
+                id: docker_build
+                uses: docker/build-push-action@v2
+                with:
+                    context: ./
+                    file: ./docker/app/Dockerfile
+                    builder: ${{ steps.buildx.outputs.name }}
+                    push: true
+                    #tags: ${{ secrets.DOCKER_HUB_USERNAME }}/mpl:${{ github.sha }}
+                    tags: ${{ secrets.DOCKER_HUB_USERNAME }}/mpl:latest
+                    cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/mpl:buildcache
+                    cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/mpl:buildcache,mode=max
+
+            -   name: Image Digest
+                run: echo ${{ steps.docker_build.outputs.digest }}
+    on-failure:
+        runs-on: ubuntu-20.04
+        if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+        steps:
+            -   run: echo 'The triggering workflow failed'

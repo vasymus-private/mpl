@@ -2,8 +2,8 @@
 
 namespace App\View\Components\Web;
 
-use Support\Breadcrumbs\BreadcrumbDTO;
 use Illuminate\View\Component;
+use Support\Breadcrumbs\BreadcrumbDTO;
 
 class BreadcrumbsComponent extends Component
 {

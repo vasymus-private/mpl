@@ -7,6 +7,13 @@ use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Database\Eloquent\Builder;
 
+/**
+ * @template TModelClass of \Domain\Products\Models\Product\Product
+ * @extends Builder<TModelClass>
+ *
+ * @method \Domain\Products\Models\Product\Product|null first($columns = ['*'])
+ * @method \Domain\Products\Models\Product\Product findOrFail($id, $columns = ['*'])
+ */
 class ProductQueryBuilder extends Builder
 {
     /**
@@ -44,22 +51,9 @@ class ProductQueryBuilder extends Builder
         return $this->doesntHave("variations");
     }
 
-    /**
-     * @param \Domain\Products\Models\Category[] $categories
-     *
-     * @return self
-     *
-     * todo remove if not needed
-     */
-    public function forMainCategory(array $categories): self
+    public function publicViewable(): self
     {
-        foreach ($categories as $cat) {
-            if ($cat) {
-                return $this->where("{$this->table}.category_id", $cat->id);
-            }
-        }
-
-        return $this;
+        return $this->where(sprintf('%s.is_public_viewable', $this->table), true);
     }
 
     /**
@@ -69,10 +63,10 @@ class ProductQueryBuilder extends Builder
      */
     public function forMainAndRelatedCategories(array $categoryIds): self
     {
-        return $this->where(function(Builder $builder) use($categoryIds) {
+        return $this->where(function (Builder $builder) use ($categoryIds) {
             return $builder
                 ->whereIn("{$this->table}.category_id", $categoryIds)
-                ->orWhereHas('relatedCategories', function(Builder $categoryQuery) use($categoryIds) {
+                ->orWhereHas('relatedCategories', function (Builder $categoryQuery) use ($categoryIds) {
                     return $categoryQuery->whereIn(Category::TABLE . '.id', $categoryIds);
                 });
         });

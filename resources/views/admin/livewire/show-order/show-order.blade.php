@@ -13,6 +13,9 @@
             Добавление заказа
         @else
             Заказ № {{ $item->id }}
+            @if($item->is_busy_by_other_admin)
+                <span class="d-inline-block bg-warning h5 p-2">С заказом работает менеджер {{$item->busyBy->name ?? ''}}.</span>
+            @endif
         @endif
     </h1>
 
@@ -29,43 +32,51 @@
             @if(!$isCreating)
                 <div class="col-sm-5 d-flex align-items-center">
                     @if($editMode)
-                        <a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, ['admin_order' => $item->id, 'editMode' => 0])}}" class="btn btn-secondary dropdown-toggle btn__dropdown">
+                        <button type="button" onclick="@this.handleSave().then(res => { if (res) { location.href = `{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, ['admin_order' => $item->id, 'editMode' => 0])}}` } })" class="btn btn-secondary btn__dropdown text-nowrap">
                             Подробности заказа
-                        </a>
+                        </button>
                     @else
-                        <a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, ['admin_order' => $item->id, 'editMode' => 1])}}" class="btn btn-secondary dropdown-toggle btn__dropdown">
-                            Изменить заказ
-                        </a>
+                        @if($couldBeChangedByAdmin)
+                            <a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_EDIT, ['admin_order' => $item->id, 'editMode' => 1])}}" class="btn btn-secondary text-nowrap btn__dropdown">
+                                @if($item->is_busy_by_other_admin)
+                                    Разблокировать заказ
+                                @else
+                                    Изменить заказ
+                                @endif
+                            </a>
+                        @else
+                            <span class="btn btn-secondary text-nowrap btn__dropdown">Изменение заблокировано</span>
+                        @endif
+
                     @endif
 
-                    <a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_CREATE)}}" class="btn btn-secondary dropdown-toggle btn__dropdown">
+                    <a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_CREATE)}}" class="btn btn-secondary text-nowrap btn__dropdown">
                         Создать заказ
                     </a>
 
-                    <button wire:click.prevent="handleDeleteOrder" type="button" class="btn btn-secondary dropdown-toggle btn__dropdown">
-                        Удалить заказ
-                    </button>
+                    @if($couldBeChangedByAdmin)
+                        <button wire:click.prevent="handleDeleteOrder" type="button" class="btn btn-secondary text-nowrap btn__dropdown">
+                            Удалить заказ
+                        </button>
+                    @endif
                 </div>
             @endif
         </div>
     </div>
 
-    <ul class="nav nav-tabs item-tabs" role="tablist">
-        @foreach($this->tabs() as $tab => $label)
-            <li wire:key="{{ $tab }}" class="nav-item" role="presentation">
-                <a wire:click="selectTab('{{$tab}}')" wire:ignore.self class="nav-link @if($tab === $activeTab) active @endif" data-toggle="tab" id="{{$tab}}-tab" href="#{{$tab}}" role="tab" aria-controls="{{$tab}}" aria-selected="{{$tab === $activeTab ? 'true' : 'false'}}">{{$label}}</a>
-            </li>
-        @endforeach
-    </ul>
+    <div class="js-nav-tabs-wrapper">
+        <div class="js-nav-tabs-marker"></div>
+        <ul class="nav nav-tabs js-nav-tabs item-tabs" role="tablist">
+            @foreach($this->tabs() as $tab => $label)
+                <li wire:key="{{ $tab }}" class="nav-item" role="presentation">
+                    <a wire:click="selectTab('{{$tab}}')" wire:ignore.self class="nav-link @if($tab === $activeTab) active @endif" data-toggle="tab" id="{{$tab}}-tab" href="#{{$tab}}" role="tab" aria-controls="{{$tab}}" aria-selected="{{$tab === $activeTab ? 'true' : 'false'}}">{{$label}}</a>
+                </li>
+            @endforeach
+        </ul>
+    </div>
 
-    <form wire:submit.prevent="handleSave" class="position-relative">
-        <div wire:loading.flex wire:target="handleSave">
-            <div class="d-flex justify-content-center align-items-center bg-light" style="opacity: 0.5; position:absolute; top:0; bottom:0; right:0; left:0; z-index: 20; ">
-                <div class="spinner-border" role="status">
-                    <span class="sr-only">Loading...</span>
-                </div>
-            </div>
-        </div>
+    <form wire:submit.prevent="handleSave" id="show-order-form" class="position-relative">
+        @include('admin.livewire.includes.loading', ['target' => 'handleSave'])
         <div class="tab-content">
             @foreach($this->tabs() as $tab => $label)
                 <div
@@ -81,10 +92,13 @@
             @endforeach
         </div>
 
-        <div class="edit-item-footer">
-            <button type="submit" class="btn btn-primary mb-2 btn__save mr-2">Сохранить</button>
-
-            <a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_INDEX)}}" type="button" class="btn btn-info mb-2 btn__default">Отменить</a>
+        <div wire:ignore class="js-edit-footer-wrapper">
+            <div class="js-edit-item-footer-marker"></div>
+            <div class="edit-item-footer js-edit-item-footer">
+                <button form="show-order-form" type="submit" class="btn btn-primary mb-2 btn__save mr-2">Сохранить</button>
+                <a href="{{route(\App\Constants::ROUTE_ADMIN_ORDERS_INDEX)}}" type="button" class="btn btn-info mb-2 btn__default">Отменить</a>
+                <button type="button" class="btn btn-info js-pin-btn pin-btn"></button>
+            </div>
         </div>
     </form>
 
@@ -96,5 +110,15 @@
             </button>
         </div>
     @endforeach
+
+    <script>
+        document.addEventListener('livewire:load', () => {
+            jQuery(() => {
+                if (@this.shouldPingOrderBusy && typeof handlePingOrderBusy === 'function') {
+                    handlePingOrderBusy({{$item->id}});
+                }
+            })
+        })
+    </script>
 
 </div>

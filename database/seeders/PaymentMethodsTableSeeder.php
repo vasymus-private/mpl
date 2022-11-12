@@ -3,12 +3,11 @@
 namespace Database\Seeders;
 
 use Domain\Orders\Models\PaymentMethod;
-use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class PaymentMethodsTableSeeder extends Seeder
+class PaymentMethodsTableSeeder extends BaseSeeder
 {
-    protected static $seeds = [
+    protected static array $seeds = [
         [
             'id' => PaymentMethod::ID_BANK_CARD,
             'name' => 'Банковской картой',
@@ -22,17 +21,11 @@ class PaymentMethodsTableSeeder extends Seeder
             'describable' => false,
         ],
         [
-            'id' => PaymentMethod::ID_SBERBANK_INVOICE,
-            'name' => 'Квитанция Сбербанка',
-            'description' => "Для оформления квитанции потребуется Ваши Ф.И.О. и адрес. С вами свяжутся по email или телефону.",
-            'describable' => false,
-        ],
-        [
             'id' => PaymentMethod::ID_CASHLESS_FROM_ACCOUNT,
             'name' => 'Безналичная оплата со счёта юридического лица',
             'description' => "Для оформления счета потребуются реквизиты организации. С вами свяжутся по email или телефону.",
             'describable' => true,
-        ]
+        ],
     ];
 
     /**
@@ -43,7 +36,7 @@ class PaymentMethodsTableSeeder extends Seeder
     public function run()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        PaymentMethod::query()->truncate();
+        PaymentMethod::query()->delete();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         PaymentMethod::query()->insert(static::$seeds);

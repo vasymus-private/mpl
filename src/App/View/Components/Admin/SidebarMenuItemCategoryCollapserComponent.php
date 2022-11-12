@@ -8,7 +8,7 @@ class SidebarMenuItemCategoryCollapserComponent extends BaseSidebarMenuItemCateg
 {
     public function text(): HtmlString
     {
-        if (!$this->category) {
+        if (! $this->category) {
             $accessibilityHtml = $this->isActive() ? '<span class="sr-only">(current)</span>' : "";
             $text = "Каталог товаров $accessibilityHtml";
         } else {
@@ -26,12 +26,14 @@ class SidebarMenuItemCategoryCollapserComponent extends BaseSidebarMenuItemCateg
     public function ariaControls(): string
     {
         $baseIdHref = $this->getBaseIdHref();
+
         return $this->category ? "$baseIdHref-{$this->category->id}" : $baseIdHref;
     }
 
     public function href(): string
     {
         $baseIdHref = $this->getBaseIdHref();
+
         return $this->category ? "#$baseIdHref-{$this->category->id}" : "#$baseIdHref";
     }
 

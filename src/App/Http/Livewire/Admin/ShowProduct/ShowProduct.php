@@ -7,6 +7,7 @@ use App\Http\Livewire\Admin\HasAvailabilityStatuses;
 use App\Http\Livewire\Admin\HasBrands;
 use App\Http\Livewire\Admin\HasCategories;
 use App\Http\Livewire\Admin\HasCurrencies;
+use App\Http\Livewire\Admin\HasSortableColumns;
 use App\Http\Livewire\Admin\HasTabs;
 use Domain\Products\Actions\DeleteProductAction;
 use Livewire\WithFileUploads;
@@ -20,6 +21,7 @@ class ShowProduct extends BaseShowProduct
     use HasBrands;
     use HasTabs;
     use HasCurrencies;
+    use HasSortableColumns;
 
     use HasElementsTab;
     use HasDescription;
@@ -114,6 +116,8 @@ class ShowProduct extends BaseShowProduct
         $this->initProductProductTabs();
         $this->initVariationsTab();
         $this->initOthersTab();
+
+        $this->initProductVariantsAsSortableColumns();
     }
 
     public function render()
@@ -148,6 +152,7 @@ class ShowProduct extends BaseShowProduct
         }
         $category_id = $this->item->category_id;
         DeleteProductAction::cached()->execute($this->item);
+
         return redirect()->route(Constants::ROUTE_ADMIN_PRODUCTS_INDEX, compact('category_id'));
     }
 
@@ -178,5 +183,23 @@ class ShowProduct extends BaseShowProduct
             )
         );
         $this->item->save();
+    }
+
+    /**
+     * @param int[] $values
+     *
+     * @return bool
+     */
+    public function handleCustomizeSortableList(array $values): bool
+    {
+        return $this->customizeProductVariantsSortableList($values);
+    }
+
+    /**
+     * @return bool
+     */
+    public function handleDefaultSortableList(): bool
+    {
+        return $this->defaultProductVariantsSortableList();
     }
 }

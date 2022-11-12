@@ -12,7 +12,7 @@ use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\Category;
 use Domain\Products\Models\CharType;
-use Domain\Users\Models\Admin;
+use Domain\Users\Models\BaseUser\BaseUser;
 use Spatie\DataTransferObject\DataTransferObject;
 
 class OptionDTO extends DataTransferObject
@@ -27,10 +27,21 @@ class OptionDTO extends DataTransferObject
      */
     public $label;
 
+    /**
+     * @var bool
+     */
     public bool $disabled = false;
 
+    /**
+     * @var bool
+     */
     public bool $isHtmlString = false;
 
+    /**
+     * @param \Domain\Products\Models\Brand $brand
+     *
+     * @return self
+     */
     public static function fromBrand(Brand $brand): self
     {
         return new self([
@@ -39,6 +50,11 @@ class OptionDTO extends DataTransferObject
         ]);
     }
 
+    /**
+     * @param \Domain\Common\Models\Currency $currency
+     *
+     * @return self
+     */
     public static function fromCurrency(Currency $currency): self
     {
         return new self([
@@ -47,11 +63,16 @@ class OptionDTO extends DataTransferObject
         ]);
     }
 
+    /**
+     * @param \Domain\Products\Models\AvailabilityStatus $availabilityStatus
+     *
+     * @return self
+     */
     public static function fromAvailabilityStatus(AvailabilityStatus $availabilityStatus): self
     {
         return new self([
             'value' => $availabilityStatus->id,
-            'label' => $availabilityStatus->name,
+            'label' => $availabilityStatus->formatted_short_name,
         ]);
     }
 
@@ -118,7 +139,7 @@ class OptionDTO extends DataTransferObject
         ]);
     }
 
-    public static function fromAdmin(Admin $admin): self
+    public static function fromAdmin(BaseUser $admin): self
     {
         return new self([
             'value' => $admin->id,
@@ -153,7 +174,7 @@ class OptionDTO extends DataTransferObject
     public static function stdFromModel(BaseModel $model): self
     {
         return new self([
-            'value' => $model->id,
+            'value' => $model->id, // @phpstan-ignore-line
             'label' => $model->name ?? "",
         ]);
     }

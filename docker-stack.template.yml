@@ -1,0 +1,95 @@
+version: '3.9'
+
+services:
+    ### APP (php-fpm) ###
+    app:
+        image: ${IMAGE_APP:-vasymus/mpl}:${IMAGE_APP_TAG:-latest}
+        # in laravel `env()` function take environment variables from .env file or from OS global environment (global environment have priority over .env file)
+        # in production we put all environments to OS global environment
+        # in dev we assume that developer manually create .env file (based on .env.example)
+        environment:
+            - APP_NAME=${APP_NAME}
+            - APP_ENV=production
+            - APP_DEBUG=false
+            - APP_KEY=${APP_KEY}
+            - APP_URL=${APP_URL}
+            # errors in docker should go to stdout (not in file, because the file could consume all space on disk)
+            - LOG_CHANNEL=stderr
+            - DB_CONNECTION=mysql
+            - DB_HOST=${DB_HOST:-db}
+            - DB_PORT=3306
+            - DB_DATABASE=${MYSQL_DATABASE:-mpl}
+            - DB_USERNAME=${MYSQL_USER}
+            - DB_PASSWORD=${MYSQL_PASSWORD}
+            - CACHE_DRIVER=${CACHE_DRIVER:-database}
+            - BROADCAST_DRIVER=log
+            - FILESYSTEM_DRIVER=local
+            - QUEUE_CONNECTION=${QUEUE_CONNECTION:-database}
+            - SESSION_DRIVER=${SESSION_DRIVER:-database}
+            - SESSION_LIFETIME=120
+            - REDIS_HOST=redis
+            - MAIL_MAILER=mailgun
+            - MAIL_HOST=mailhog
+            - MAIL_PORT=1025
+            - MAIL_USERNAME=null
+            - MAIL_PASSWORD=null
+            - MAIL_ENCRYPTION=null
+            - MAILGUN_DOMAIN=${MAILGUN_DOMAIN}
+            - MAILGUN_SECRET=${MAILGUN_SECRET}
+            - MAILGUN_ENDPOINT=api.mailgun.net
+            - MAIL_FROM_ADDRESS=null
+            - MAIL_FROM_NAME=${MAIL_FROM_NAME:-Parket}
+            - MEDIA_DISK_IS_CLOUD=true
+            - MEDIA_DISK=s3
+            - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+            - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+            - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+            - AWS_BUCKET=${AWS_BUCKET}
+            - AWS_BUCKET_PRIVATE=${AWS_BUCKET_PRIVATE}
+            - AWS_ENDPOINT=${AWS_ENDPOINT}
+            - AWS_URL=${AWS_URL}
+        ports:
+            - 80:80
+
+    ### DB (MariaDB) ###
+    db:
+        image: mariadb:10.6.4
+        volumes:
+            - mariadb-db-data2:/var/lib/mysql
+        deploy:
+            placement:
+                constraints: [node.role == manager]
+        environment:
+            # MYSQL_ROOT_PASSWORD is the only required
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+            - MYSQL_USER=${MYSQL_USER}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+            - MYSQL_DATABASE=${MYSQL_DATABASE:-mpl}
+            # didn't want to add any bind mount or additional Dockerfile, so put it to env variable
+            # $$ is used for escaping from docker-compose @see https://docs.docker.com/compose/environment-variables/#substitute-environment-variables-in-compose-files
+            # Init script will be run ONLY on first initialization
+            - |
+                MYSQL_CONFIG=
+                [mysqld]
+                # MariaDB database server configuration file.
+                #
+                # You can use this file to overwrite the default configuration
+                #
+                # For explanations see
+                # https://mariadb.com/kb/en/configuring-mariadb-with-option-files/
+                default_time_zone='UTC'
+        # didn't want to add any bind mount or additional Dockerfile
+        command:
+            bash -c 'echo "$$MYSQL_CONFIG" > /etc/mysql/conf.d/my.cnf
+            && chmod 555 /etc/mysql/conf.d/my.cnf
+            && docker-entrypoint.sh mysqld'
+
+    ### Redis ###
+    redis:
+        image: redis:6.2.6
+        volumes:
+            - redis-data:/data
+
+volumes:
+    mariadb-db-data2:
+    redis-data:

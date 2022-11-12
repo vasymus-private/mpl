@@ -3,37 +3,62 @@
 namespace App\Http\Livewire\Admin;
 
 use Carbon\Exceptions\InvalidFormatException;
-use Domain\Common\DTOs\OptionDTO;
 use Domain\Orders\Models\Order;
 use Domain\Products\DTOs\Admin\OrderItemDTO;
-use Domain\Users\Models\Admin;
 use Domain\Users\Models\BaseUser\BaseUser;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
-use Illuminate\Database\Eloquent\Builder;
 
 class OrdersList extends BaseItemsListComponent
 {
     use HasSelectAll;
     use HasManagers;
+    use HasSortableColumns;
 
     protected const DATE_FORMAT_DISPLAY = 'd-m-Y H:i:s';
 
     protected const DATE_FORMAT_DB_QUERY = 'Y-m-d H:i:s';
 
+    /**
+     * @var string
+     */
     public $date_from = '';
 
+    /**
+     * @var string
+     */
     public $date_to = '';
 
+    /**
+     * @var string
+     */
     public $order_id = '';
 
+    /**
+     * @var string
+     */
     public $email = '';
 
+    /**
+     * @var string
+     */
     public $name = '';
 
+    /**
+     * @var string
+     */
     public $admin_id = '';
 
+    /**
+     * @var string|array|null
+     */
     public $request_query;
+
+    /**
+     * @var bool
+     */
+    public $editMode = false;
 
     /**
      * @var array[] @see {@link \Domain\Products\DTOs\Admin\OrderItemDTO}
@@ -56,8 +81,10 @@ class OrdersList extends BaseItemsListComponent
     {
         $this->mountRequest();
         $this->mountPerPage();
+        $this->mountPerPageOptions();
         $this->fetchItems();
         $this->initManagersOptions();
+        $this->initOrdersAsSortableColumns();
     }
 
     public function render()
@@ -138,11 +165,13 @@ class OrdersList extends BaseItemsListComponent
     }
 
     /**
-     * @inheritDoc
+     * @param \Domain\Orders\Models\Order[] $items
+     *
+     * @return void
      */
     protected function setItems(array $items)
     {
-        $this->items = collect($items)->map(fn(Order $order) => OrderItemDTO::fromModel($order)->toArray())->all();
+        $this->items = collect($items)->map(fn (Order $order) => OrderItemDTO::fromModel($order)->toArray())->keyBy('id')->all();
     }
 
     protected function mountRequest()
@@ -173,5 +202,33 @@ class OrdersList extends BaseItemsListComponent
         $this->admin_id = $request->input('admin_id', '');
 
         $this->request_query = $request->query();
+    }
+
+    /**
+     * @param int[] $values
+     *
+     * @return bool
+     */
+    public function handleCustomizeSortableList(array $values): bool
+    {
+        return $this->customizeOrdersSortableList($values);
+    }
+
+    /**
+     * @return bool
+     */
+    public function handleDefaultSortableList(): bool
+    {
+        return $this->defaultOrdersSortableList();
+    }
+
+    public function deleteSelected()
+    {
+        // todo
+    }
+
+    public function handleDelete($id)
+    {
+        // todo
     }
 }

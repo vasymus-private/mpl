@@ -29,4 +29,3 @@ class CartProductsDeleteRequest extends FormRequest
         ];
     }
 }
-

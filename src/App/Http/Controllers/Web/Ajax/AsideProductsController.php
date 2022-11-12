@@ -21,7 +21,7 @@ class AsideProductsController extends BaseWebController
             "data" => [
                 "count" => $user->aside->count(),
                 //"ids" => $user->aside->pluck("id")->toArray(),
-            ]
+            ],
         ];
     }
 
@@ -36,7 +36,7 @@ class AsideProductsController extends BaseWebController
             "data" => [
                 "count" => $user->aside->count(),
                 //"ids" => $user->aside->pluck("id")->toArray(),
-            ]
+            ],
         ];
     }
 }

@@ -6,7 +6,9 @@ use Symfony\Component\DomCrawler\Crawler;
 
 trait HasHtmlParsing
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     public $attribute;
 
     /**
@@ -19,7 +21,7 @@ trait HasHtmlParsing
     /**
      * Final result of parsing
      *
-     * @var array
+     * @var array|null
      * */
     protected $result;
 
@@ -42,6 +44,7 @@ trait HasHtmlParsing
         } catch (\Exception $exception) {
             $result = null;
         }
+
         return $result;
     }
 
@@ -56,6 +59,7 @@ trait HasHtmlParsing
     public function parseAttribute(string $selector, string $attribute): ?array
     {
         $this->attribute = $attribute;
+
         try {
             $result = $this->getCrawler()->filter($selector)->each(function (Crawler $node, $i) {
                 return trim($node->attr($this->attribute));
@@ -63,6 +67,7 @@ trait HasHtmlParsing
         } catch (\Exception $exception) {
             $result = null;
         }
+
         return $result;
     }
 
@@ -73,7 +78,7 @@ trait HasHtmlParsing
      * */
     public function getCrawler(): ?Crawler
     {
-        return isset($this->crawler) ? $this->crawler : null;
+        return $this->crawler ?? null; // @phpstan-ignore-line
     }
 
     /**
@@ -83,7 +88,9 @@ trait HasHtmlParsing
      * */
     public function getHtml(): ?string
     {
-        return $this->getCrawler()->html() ?? null;
+        $crawler = $this->getCrawler();
+
+        return $crawler ? $crawler->html() : null;
     }
 
     /**
@@ -98,7 +105,9 @@ trait HasHtmlParsing
     {
         $separator = "\r\n";
         $html = $this->getHtml();
-        if (!$html) return null;
+        if (! $html) {
+            return null;
+        }
 
         $line = strtok($html, $separator);
 
@@ -107,6 +116,7 @@ trait HasHtmlParsing
         while ($line !== false) {
             if (preg_match($pattern, $line) === 1) {
                 $lineResult = $line;
+
                 break;
             }
 
@@ -126,7 +136,9 @@ trait HasHtmlParsing
         $this->setCbHandlers();
     }
 
-    protected function setCbHandlers(){}
+    protected function setCbHandlers()
+    {
+    }
 
     /**
      * Standard callback handler for parsing raw key from html using parse guid item
@@ -143,7 +155,7 @@ trait HasHtmlParsing
 
         $text = $this->stdParse($guid);
 
-        if ($text && $pattern && !is_null($matchIndex)) {
+        if ($text && $pattern && ! is_null($matchIndex)) {
             foreach ($text as $item) {
                 if (preg_match($pattern, $item, $matches)) {
                     $parsed[] = $matches[$matchIndex] ?? null;
@@ -167,7 +179,9 @@ trait HasHtmlParsing
         $selector = $guid[static::_GUID_KEY_SELECTOR] ?? null;
         $attribute = $guid[static::_GUID_KEY_ATTRIBUTE] ?? null;
 
-        if (is_null($selector)) return null;
+        if (is_null($selector)) {
+            return null;
+        }
 
         if (is_null($attribute)) {
             return $this->parseText($selector);
@@ -185,20 +199,23 @@ trait HasHtmlParsing
 
             if (is_null($selector) && is_null($callback)) {
                 $this->rawResult[$key] = null;
+
                 continue;
             }
 
             if (is_callable($callback)) {
                 $this->rawResult[$key] = $callback($guid);
+
                 continue;
             }
 
-            if (!is_null($selector)) {
+            if (! is_null($selector)) {
                 $index = 0;
                 foreach ($this->stdHandler($guid) as $value) {
                     $this->rawResult[$index][$key] = $value;
                     $index++;
                 }
+
                 continue;
             }
         }

@@ -1,12 +1,11 @@
 .sidebar-left {
-	background: url(../images/submenu-bg.png) repeat;
-	border-right: 1px solid #a4b9cc;
-	overflow: hidden;
+    background: url(../images/submenu-bg.png) repeat;
+    border-right: 1px solid #a4b9cc;
+	//overflow: hidden;
     padding-top: 16px;
-    position: relative;
-    z-index: 47;
-    max-width: 330px;
-
+    //position: relative;
+    //z-index: 47;
+    // max-width: 330px;
 }
 
 .sidebar-left {
@@ -39,7 +38,7 @@
         }
     }
 }
-.nav-link:hover {
+.nav-link:hover, .nav-link.active {
     background-color: #f2f5f6;
     text-decoration: none;
     color: inherit;

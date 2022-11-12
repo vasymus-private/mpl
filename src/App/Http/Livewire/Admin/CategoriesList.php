@@ -12,6 +12,8 @@ use Livewire\Component;
 
 class CategoriesList extends Component
 {
+    use HasSelectAll;
+
     protected const ALL_CATEGORIES_QUERY = "all";
 
     public $search = '';
@@ -30,19 +32,17 @@ class CategoriesList extends Component
     /**
      * @var array[] @see {@link \Domain\Products\DTOs\Admin\CategoryItemDTO}
      */
-    public array $categories = [];
-
-    public $selectAll = false;
+    public array $items = [];
 
     protected function rules(): array
     {
         return [
-            'categories.*.name' => 'required|string|max:250',
-            'categories.*.ordering' => 'integer|nullable',
-            'categories.*.is_active' => [
+            'items.*.name' => 'required|string|max:250',
+            'items.*.ordering' => 'integer|nullable',
+            'items.*.is_active' => [
                 'nullable',
                 'boolean',
-                new CategoryDeactivatable()
+                new CategoryDeactivatable(),
             ],
         ];
     }
@@ -64,7 +64,7 @@ class CategoriesList extends Component
 
         if ($this->category_id === static::ALL_CATEGORIES_QUERY) {
             $this->category_name = '';
-        } else if ($this->category_id) {
+        } elseif ($this->category_id) {
             $parentCategory = Category::query()->findOrFail($this->category_id);
             $this->category_name = $parentCategory->name;
             $query->where(Category::TABLE . ".parent_id", $this->category_id);
@@ -77,7 +77,7 @@ class CategoriesList extends Component
             $query->where(Category::TABLE . ".name", "LIKE", "%{$this->search}%");
         }
 
-        $this->categories = $query->get()->map(fn(Category $category) => CategoryItemDTO::fromModel($category)->toArray())->keyBy('id')->all();
+        $this->items = $query->get()->map(fn (Category $category) => CategoryItemDTO::fromModel($category)->toArray())->keyBy('id')->all();
     }
 
     public function handleSearch()
@@ -101,28 +101,33 @@ class CategoriesList extends Component
     public function cancelEdit()
     {
         $this->editMode = false;
+        $this->changeItemsSelectAll(false);
         $this->selectAll = false;
         $this->setItems();
     }
 
     public function toggleActive($id)
     {
-        if (isset($this->categories[$id])) {
-            $this->categories[$id]['is_active'] = !$this->categories[$id]['is_active'];
-            try {
-                $this->validateOnly("categories.*.is_active");
-            } catch (ValidationException $exc) {
-                $this->categories[$id]['is_active'] = !$this->categories[$id]['is_active'];
-                throw $exc;
-            }
-
-            /** @var \Domain\Products\Models\Category $category */
-            $category = Category::query()->findOrFail($id);
-            $category->is_active = !$category->is_active;
-            $category->save();
-
-            $this->categories[$id] = CategoryItemDTO::fromModel($category)->toArray();
+        if (! isset($this->items[$id])) {
+            return;
         }
+
+        $this->items[$id]['is_active'] = ! $this->items[$id]['is_active'];
+
+        try {
+            $this->validateOnly("items.*.is_active");
+        } catch (ValidationException $exc) {
+            $this->items[$id]['is_active'] = ! $this->items[$id]['is_active'];
+
+            throw $exc;
+        }
+
+        /** @var \Domain\Products\Models\Category $category */
+        $category = Category::query()->findOrFail($id);
+        $category->is_active = ! $category->is_active;
+        $category->save();
+
+        $this->items[$id] = CategoryItemDTO::fromModel($category)->toArray();
     }
 
     /**
@@ -131,7 +136,7 @@ class CategoriesList extends Component
     public function getPrepends(): array
     {
         $prepends = [];
-        if (!$this->category_id || $this->category_id !== static::ALL_CATEGORIES_QUERY) {
+        if (! $this->category_id || $this->category_id !== static::ALL_CATEGORIES_QUERY) {
             $prepends[] = (new SearchPrependAdminDTO([
                 'label' => $this->category_name,
                 /** @see \App\Http\Livewire\Admin\ProductsList::clearCategoryFilter() */
@@ -146,10 +151,10 @@ class CategoriesList extends Component
     {
         $this->validate();
 
-        $ids = collect($this->categories)->pluck('id')->values()->toArray();
+        $ids = collect($this->items)->pluck('id')->values()->toArray();
         $categories = Category::query()->whereIn(Category::TABLE . '.id', $ids)->get();
-        $categories->each(function(Category $category) {
-            $payload = $this->categories[$category->id] ?? [];
+        $categories->each(function (Category $category) {
+            $payload = $this->items[$category->id] ?? [];
             $category->forceFill(collect($payload)->only($this->getUpdateKeys())->toArray());
             $category->save();
         });
@@ -163,6 +168,7 @@ class CategoriesList extends Component
         $category = Category::query()->findOrFail($id);
         if ($category->has_active_products) {
             $this->addError('delete', sprintf('Раздел с id %s не может быть удалена, пока в этом разделе или в его подразделах есть активные товары. Перенесите товары в другой раздел или деактивируйте их.', $id));
+
             return false;
         }
         DeleteCategoryAction::cached()->execute($category);
@@ -171,16 +177,16 @@ class CategoriesList extends Component
 
     public function deleteSelected()
     {
-        $selectedIds = collect($this->categories)->filter(fn(array $item) => $item['is_checked'])->pluck('id')->values()->toArray();
+        $selectedIds = collect($this->items)->filter(fn (array $item) => $item['is_checked'])->pluck('id')->values()->toArray();
         if (empty($selectedIds)) {
             return true;
         }
         $categories = Category::query()->whereIn(Category::TABLE . ".id", $selectedIds)->get();
 
-        if ($categories->contains(fn(Category $category) => $category->has_active_products)) {
+        if ($categories->contains(fn (Category $category) => $category->has_active_products)) {
             return false;
         }
-        $categories->each(function(Category $category) {
+        $categories->each(function (Category $category) {
             /** @var \Domain\Products\Actions\DeleteCategoryAction $deleteCategoryAction */
             $deleteCategoryAction = resolve(DeleteCategoryAction::class);
             $deleteCategoryAction->execute($category);
@@ -190,8 +196,8 @@ class CategoriesList extends Component
 
     public function navigate($categoryId)
     {
-        $category = $this->categories[$categoryId] ?? null;
-        if (!$category) {
+        $category = $this->items[$categoryId] ?? null;
+        if (! $category) {
             return null;
         }
         if ($category['hasSubcategories']) {

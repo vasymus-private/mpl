@@ -2,24 +2,22 @@
 
 namespace Domain\Products\Jobs;
 
+use DateInterval;
 use Domain\Products\Actions\ExportImport\ExportProductsAction;
 use Domain\Users\Models\Admin;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use DateInterval;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Log;
-use Spatie\MediaLibrary\Support\File;
-use Support\H;
-use Throwable;
 
 class ExportProductsJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     private const ARCHIVE_FILE_NAME_PREFIX = 'product-export';
 
@@ -38,7 +36,7 @@ class ExportProductsJob implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param int[]
+     * @param int[] $productsIds
      *
      * @return void
      */
@@ -65,7 +63,7 @@ class ExportProductsJob implements ShouldQueue
         // second, add to to media library
         $name = sprintf(
             '%s--%s.zip',
-            static::ARCHIVE_FILE_NAME_PREFIX,
+            self::ARCHIVE_FILE_NAME_PREFIX,
             Carbon::now()->format('Y-m-d--H-i-s')
         );
         $centralAdmin = Admin::getCentralAdmin();

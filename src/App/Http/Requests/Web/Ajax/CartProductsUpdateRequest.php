@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Web\Ajax;
 
-use Domain\Products\Models\Product\Product;
 use Carbon\Carbon;
+use Domain\Products\Models\Product\Product;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
@@ -17,10 +17,10 @@ use Support\H;
  * */
 class CartProductsUpdateRequest extends FormRequest
 {
-    const MODE_ADD = "add";
-    const MODE_NEW = "new";
+    public const MODE_ADD = "add";
+    public const MODE_NEW = "new";
 
-    const MODE_DEFAULT = self::MODE_ADD;
+    public const MODE_DEFAULT = self::MODE_ADD;
 
     /**
      * @var \Domain\Products\Models\Product\Product
@@ -37,7 +37,9 @@ class CartProductsUpdateRequest extends FormRequest
 
     protected function getCount(): ?int
     {
-        if ($this->count === null) return null;
+        if ($this->count === null) {
+            return null;
+        }
 
         $mode = $this->input("updateCountMode", CartProductsUpdateRequest::MODE_ADD);
         if ($mode === CartProductsUpdateRequest::MODE_ADD) {
@@ -56,18 +58,21 @@ class CartProductsUpdateRequest extends FormRequest
         $pivot = [];
 
         $count = $this->getCount();
-        if ($count !== null)
+        if ($count !== null) {
             $pivot["count"] = $count;
-
-        if ($this->delete !== null) {
-            if ($this->delete)
-                $pivot["deleted_at"] = Carbon::now();
-            else
-                $pivot["deleted_at"] = null;
         }
 
-        if (!empty($pivot))
+        if ($this->delete !== null) {
+            if ($this->delete) {
+                $pivot["deleted_at"] = Carbon::now();
+            } else {
+                $pivot["deleted_at"] = null;
+            }
+        }
+
+        if (! empty($pivot)) {
             $prepared[$product->id] = $pivot;
+        }
 
         return $prepared;
     }
@@ -98,7 +103,7 @@ class CartProductsUpdateRequest extends FormRequest
             "id" => "required|integer",
             "count" => "integer|min:1",
             "updateCountMode" => "in:" . static::MODE_ADD . "," . static::MODE_NEW,
-            "delete" => "boolean"
+            "delete" => "boolean",
         ];
     }
 
@@ -118,25 +123,23 @@ class CartProductsUpdateRequest extends FormRequest
             $productQuery
                 ->active()
                 ->available()
-                ->where(function(Builder $query) {
+                ->where(function (Builder $query) {
                     $query
-                        ->orWhere(function(Builder $qu) {
-                            /** @var \Domain\Products\QueryBuilders\ProductQueryBuilder $qu*/
+                        ->orWhere(function (Builder $qu) {
+                            /** @var \Domain\Products\QueryBuilders\ProductQueryBuilder $qu */
                             $qu->variations();
                         })
-                        ->orWhere(function(Builder $qu) {
-                            /** @var \Domain\Products\QueryBuilders\ProductQueryBuilder $qu*/
+                        ->orWhere(function (Builder $qu) {
+                            /** @var \Domain\Products\QueryBuilders\ProductQueryBuilder $qu */
                             $qu->doesntHaveVariations();
                         })
                     ;
                 })
             ;
             $this->product = $productQuery->find($this->id);
-            if (!$this->product) {
+            if (! $this->product) {
                 $validator->errors()->add("id", "Id `{$this->id}` of product should exist, be active, be available and be a variation or product without variations.");
             }
         });
     }
-
-
 }

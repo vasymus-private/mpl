@@ -48,9 +48,9 @@ class ExportProductsAction
      */
     public function execute(array $productsIds, string $filePath = null): string
     {
-        if (!$filePath) {
+        if (! $filePath) {
             $filePath = tempnam('/tmp', 'zip');
-            if (!$filePath) {
+            if (! $filePath) {
                 $this->throwException();
             }
         }
@@ -78,7 +78,7 @@ class ExportProductsAction
                 'seo',
                 'charCategories.chars',
             ])
-            ->chunk(50, function(ProductCollection $productCollection) {
+            ->chunk(50, function (ProductCollection $productCollection) {
                 H::logInfo();
                 foreach ($productCollection->notVariations() as $product) {
                     $this->addProduct($product);
@@ -131,7 +131,7 @@ class ExportProductsAction
             json_encode($result, JSON_UNESCAPED_UNICODE)
         );
 
-        if (!$isAdded) {
+        if (! $isAdded) {
             $this->throwException(null, $product);
         }
     }
@@ -172,7 +172,7 @@ class ExportProductsAction
             json_encode($result, JSON_UNESCAPED_UNICODE)
         );
 
-        if (!$isAdded) {
+        if (! $isAdded) {
             $this->throwException(null, $product);
         }
     }
@@ -195,7 +195,7 @@ class ExportProductsAction
             json_encode($result, JSON_UNESCAPED_UNICODE)
         );
 
-        if (!$isAdded) {
+        if (! $isAdded) {
             $this->throwException(null, $product);
         }
     }
@@ -231,7 +231,7 @@ class ExportProductsAction
             json_encode($result, JSON_UNESCAPED_UNICODE)
         );
 
-        if (!$isAdded) {
+        if (! $isAdded) {
             $this->throwException(null, $product);
         }
     }
@@ -255,7 +255,7 @@ class ExportProductsAction
             json_encode($result, JSON_UNESCAPED_UNICODE)
         );
 
-        if (!$isAdded) {
+        if (! $isAdded) {
             $this->throwException(null, $product);
         }
     }
@@ -269,7 +269,7 @@ class ExportProductsAction
     {
         $productFolder = $this->getZipProductFolder($product);
         $isAdded = $this->zip->addEmptyDir($productFolder);
-        if (!$isAdded) {
+        if (! $isAdded) {
             $this->throwException(null, $product);
         }
     }
@@ -287,7 +287,7 @@ class ExportProductsAction
             $this->getZipProductDataFile($product),
             json_encode($productData->toArray(), JSON_UNESCAPED_UNICODE)
         );
-        if (!$isAdded) {
+        if (! $isAdded) {
             $this->throwException(null, $product);
         }
     }
@@ -299,7 +299,7 @@ class ExportProductsAction
      */
     private function addProductMedia(Product $product): void
     {
-        /** @var \Domain\Common\Models\CustomMedia $mainMedia */
+        /** @var \Domain\Common\Models\CustomMedia|null $mainMedia */
         $mainMedia = $product->getFirstMedia(Product::MC_MAIN_IMAGE);
         if ($mainMedia) {
             $this->addMedia(
@@ -364,7 +364,7 @@ class ExportProductsAction
         $isAdded = $this->zip->addEmptyDir(
             $this->getZipVariationFolder($product, $variation)
         );
-        if (!$isAdded) {
+        if (! $isAdded) {
             $this->throwException(null, $product);
         }
     }
@@ -382,7 +382,7 @@ class ExportProductsAction
             $this->getZipVariationDataFile($product, $variation),
             json_encode($variationData->toArray(), JSON_UNESCAPED_UNICODE)
         );
-        if (!$isAdded) {
+        if (! $isAdded) {
             $this->throwException(null, $product);
         }
     }
@@ -395,7 +395,7 @@ class ExportProductsAction
      */
     private function addVariationMedia(Product $product, Product $variation): void
     {
-        /** @var \Domain\Common\Models\CustomMedia $mainMedia */
+        /** @var \Domain\Common\Models\CustomMedia|null $mainMedia */
         $mainMedia = $variation->getFirstMedia(Product::MC_MAIN_IMAGE);
         if ($mainMedia) {
             $this->addMedia(
@@ -429,7 +429,7 @@ class ExportProductsAction
             $zipPath
         );
 
-        if (!$isAdded) {
+        if (! $isAdded) {
             $this->throwException(null, $product, $media);
         }
     }
@@ -482,7 +482,7 @@ class ExportProductsAction
      */
     private function getZipProductDataFile(Product $product): string
     {
-        return sprintf('%s/%s', $this->getZipProductFolder($product), static::PRODUCT_DATA_FILE_NAME);
+        return sprintf('%s/%s', $this->getZipProductFolder($product), self::PRODUCT_DATA_FILE_NAME);
     }
 
     /**
@@ -492,7 +492,7 @@ class ExportProductsAction
      */
     private function getZipInfoPricesFile(Product $product): string
     {
-        return sprintf('%s/%s', $this->getZipProductFolder($product), static::INFO_PRICES_FILE_NAME);
+        return sprintf('%s/%s', $this->getZipProductFolder($product), self::INFO_PRICES_FILE_NAME);
     }
 
     /**
@@ -502,7 +502,7 @@ class ExportProductsAction
      */
     private function getZipProductProductRelationsFile(Product $product): string
     {
-        return sprintf('%s/%s', $this->getZipProductFolder($product), static::PRODUCT_PRODUCT_RELATIONS_FILE_NAME);
+        return sprintf('%s/%s', $this->getZipProductFolder($product), self::PRODUCT_PRODUCT_RELATIONS_FILE_NAME);
     }
 
     /**
@@ -512,7 +512,7 @@ class ExportProductsAction
      */
     private function getZipCategoryProductRelationsFile(Product $product): string
     {
-        return sprintf('%s/%s', $this->getZipProductFolder($product), static::CATEGORY_PRODUCT_RELATIONS_FILE_NAME);
+        return sprintf('%s/%s', $this->getZipProductFolder($product), self::CATEGORY_PRODUCT_RELATIONS_FILE_NAME);
     }
 
     /**
@@ -522,7 +522,7 @@ class ExportProductsAction
      */
     private function getZipCharacteristicsFile(Product $product): string
     {
-        return sprintf('%s/%s', $this->getZipProductFolder($product), static::CHARACTERISTICS_FILE_NAME);
+        return sprintf('%s/%s', $this->getZipProductFolder($product), self::CHARACTERISTICS_FILE_NAME);
     }
 
     /**
@@ -532,7 +532,7 @@ class ExportProductsAction
      */
     private function getZipSeoFile(Product $product): string
     {
-        return sprintf('%s/%s', $this->getZipProductFolder($product), static::SEO_FILE_NAME);
+        return sprintf('%s/%s', $this->getZipProductFolder($product), self::SEO_FILE_NAME);
     }
 
     /**
@@ -580,7 +580,7 @@ class ExportProductsAction
      */
     private function getZipVariationDataFile(Product $product, Product $variation): string
     {
-        return sprintf('%s/%s', $this->getZipVariationFolder($product, $variation), static::VARIATION_DATA_FILE_NAME);
+        return sprintf('%s/%s', $this->getZipVariationFolder($product, $variation), self::VARIATION_DATA_FILE_NAME);
     }
 
     /**

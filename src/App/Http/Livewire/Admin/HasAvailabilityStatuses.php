@@ -15,8 +15,16 @@ trait HasAvailabilityStatuses
 
     protected function initAvailabilityStatusesOptions()
     {
-        $this->availabilityStatuses = Cache::store('array')->rememberForever('options-availability-statuses', function() {
-            return AvailabilityStatus::query()->get()->map(fn(AvailabilityStatus $availabilityStatus) => OptionDTO::fromAvailabilityStatus($availabilityStatus)->toArray())->all();
+        $this->availabilityStatuses = Cache::store('array')->rememberForever('options-availability-statuses', function () {
+            $result = [];
+            $entitiesKeyedById = AvailabilityStatus::query()->get()->keyBy('id');
+            $result[] = $entitiesKeyedById->get(AvailabilityStatus::ID_AVAILABLE_IN_STOCK);
+            $result[] = $entitiesKeyedById->get(AvailabilityStatus::ID_NOT_AVAILABLE);
+            $result[] = $entitiesKeyedById->get(AvailabilityStatus::ID_AVAILABLE_NOT_IN_STOCK);
+
+            return collect($result)
+                ->map(fn (AvailabilityStatus $availabilityStatus) => OptionDTO::fromAvailabilityStatus($availabilityStatus)->toArray())
+                ->all();
         });
     }
 }

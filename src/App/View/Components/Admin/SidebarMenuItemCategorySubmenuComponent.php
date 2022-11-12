@@ -7,6 +7,7 @@ class SidebarMenuItemCategorySubmenuComponent extends BaseSidebarMenuItemCategor
     public function id(): string
     {
         $baseIdHref = $this->getBaseIdHref();
+
         return $this->category ? "$baseIdHref-{$this->category->id}" : $baseIdHref;
     }
 

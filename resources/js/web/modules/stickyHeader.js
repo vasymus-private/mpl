@@ -1,23 +1,22 @@
 let stickyHeader = (function ($) {
-    'use strict';
+    "use strict"
 
     function init() {
         $(window).scroll(function () {
-            let sticky = $('.header-sticky')
+            let sticky = $(".header-sticky")
             let scroll = $(window).scrollTop()
 
             if (scroll >= 100) {
-                sticky.addClass('fixed')
+                sticky.addClass("fixed")
             } else {
-                sticky.removeClass('fixed')
+                sticky.removeClass("fixed")
             }
-        });
+        })
     }
 
     return {
-        init: init
-    };
+        init: init,
+    }
+})(jQuery)
 
-}(jQuery));
-
-export default stickyHeader;
+export default stickyHeader

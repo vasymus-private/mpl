@@ -2,31 +2,31 @@
 
 namespace Support\RandomProxies;
 
+use Carbon\Carbon;
 use Support\RandomProxies\Contracts\CanParseRandomProxiesHtml;
 use Support\RandomProxies\DTOs\ProxyDTO;
 use Support\Traits\HasHtmlParsing;
-use Carbon\Carbon;
 use Symfony\Component\DomCrawler\Crawler;
 
 class RandomProxiesParser implements CanParseRandomProxiesHtml
 {
     use HasHtmlParsing;
 
-    const _GUID_KEY_KEY = "key";
-    const _GUID_KEY_SELECTOR = "selector";
-    const _GUID_KEY_ATTRIBUTE = "attribute";
-    const _GUID_KEY_CALLBACK = "callback";
-    const _GUID_KEY_PATTERN = "pattern";
-    const _GUID_KEY_MATCH_INDEX = "matchIndex";
+    public const _GUID_KEY_KEY = "key";
+    public const _GUID_KEY_SELECTOR = "selector";
+    public const _GUID_KEY_ATTRIBUTE = "attribute";
+    public const _GUID_KEY_CALLBACK = "callback";
+    public const _GUID_KEY_PATTERN = "pattern";
+    public const _GUID_KEY_MATCH_INDEX = "matchIndex";
 
-    const _RAW_KEY_IP = "ip";
-    const _RAW_KEY_PORT = "port";
-    const _RAW_KEY_COUNTRY_CODE = "countryCode";
-    const _RAW_KEY_COUNTRY = "country";
-    const _RAW_KEY_ANONYMITY = "anonymity";
-    const _RAW_KEY_IS_GOOGLE = "isGoogle";
-    const _RAW_KEY_IS_HTTPS = "isHttps";
-    const _RAW_KEY_LAST_CHECKED = "lastChecked";
+    public const _RAW_KEY_IP = "ip";
+    public const _RAW_KEY_PORT = "port";
+    public const _RAW_KEY_COUNTRY_CODE = "countryCode";
+    public const _RAW_KEY_COUNTRY = "country";
+    public const _RAW_KEY_ANONYMITY = "anonymity";
+    public const _RAW_KEY_IS_GOOGLE = "isGoogle";
+    public const _RAW_KEY_IS_HTTPS = "isHttps";
+    public const _RAW_KEY_LAST_CHECKED = "lastChecked";
 
     /**
      * Third party library parser
@@ -85,12 +85,15 @@ class RandomProxiesParser implements CanParseRandomProxiesHtml
      * */
     public function parseRandomProxies(): array
     {
-        if (!$this->getHtml()) $this->result = [];
+        if (! $this->getHtml()) {
+            $this->result = [];
+        }
 
-        if (is_null($this->result)) {
+        if ($this->result === null) {
             $this->parseRawResult();
             $this->rawResultToEntries();
         }
+
         return $this->result;
     }
 

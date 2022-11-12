@@ -19,19 +19,41 @@ class ProductsList extends BaseItemsListComponent
     use HasAvailabilityStatuses;
     use HasCurrencies;
     use HasSelectAll;
+    use HasSortableColumns;
 
+    /**
+     * @var string|int
+     */
     public $search = '';
 
+    /**
+     * @var string|int
+     */
     public $category_id = '';
 
+    /**
+     * @var string
+     */
     public $category_name = '';
 
+    /**
+     * @var string|int
+     */
     public $brand_id = '';
 
+    /**
+     * @var string
+     */
     public $brand_name = '';
 
+    /**
+     * @var string|array|null
+     */
     public $request_query;
 
+    /**
+     * @var bool
+     */
     public $editMode = false;
 
     /**
@@ -65,10 +87,13 @@ class ProductsList extends BaseItemsListComponent
     {
         $this->mountRequest();
         $this->mountPerPage();
+        $this->mountPerPageOptions();
         $this->fetchItems();
         $this->initBrandsOptions();
         $this->initAvailabilityStatusesOptions();
         $this->initCurrenciesOptions();
+
+        $this->initProductsAsSortableColumns();
     }
 
     public function render()
@@ -85,17 +110,18 @@ class ProductsList extends BaseItemsListComponent
 
     public function saveSelected()
     {
-        $checked = collect($this->items)->filter(fn(array $item) => $item['is_checked'])->all();
+        $checked = collect($this->items)->filter(fn (array $item) => $item['is_checked'])->all();
         if (empty($checked)) {
             $this->editMode = false;
             $this->selectAll = false;
+
             return;
         }
         $checkedIds = collect($checked)->pluck('id')->toArray();
         $checkedModels = Product::query()->whereIn('id', $checkedIds)->get();
-        $checkedModels->each(function(Product $product) use($checked) {
+        $checkedModels->each(function (Product $product) use ($checked) {
             $payload = $checked[$product->uuid] ?? [];
-            if (!$payload) {
+            if (! $payload) {
                 return true;
             }
             $product->forceFill(
@@ -106,21 +132,23 @@ class ProductsList extends BaseItemsListComponent
             $product->save();
         });
         $this->editMode = false;
+        $this->changeItemsSelectAll(false);
         $this->selectAll = false;
         $this->fetchItems();
     }
 
     public function deleteSelected()
     {
-        $deleteIds = collect($this->items)->filter(fn(array $item) => $item['is_checked'])->pluck('id')->toArray();
+        $deleteIds = collect($this->items)->filter(fn (array $item) => $item['is_checked'])->pluck('id')->toArray();
         $deleteProducts = Product::query()->whereIn('id', $deleteIds)->get();
-        $deleteProducts->each(function(Product $product) {
+        $deleteProducts->each(function (Product $product) {
             $product->clearMediaCollection(Product::MC_MAIN_IMAGE);
             $product->clearMediaCollection(Product::MC_ADDITIONAL_IMAGES);
             $product->clearMediaCollection(Product::MC_FILES);
             $product->delete();
         });
         $this->editMode = false;
+        $this->changeItemsSelectAll(false);
         $this->selectAll = false;
         $this->fetchItems();
     }
@@ -171,7 +199,7 @@ class ProductsList extends BaseItemsListComponent
         if ($this->category_id) {
             $category = Category::query()->findOrFail($this->category_id);
             $this->category_name = $category->name;
-            $query->where("$table.category_id", $this->category_id);
+            $query->forMainAndRelatedCategories([$this->category_id]);
         }
 
         if ($this->brand_id) {
@@ -181,7 +209,7 @@ class ProductsList extends BaseItemsListComponent
         }
 
         if ($this->search) {
-            $query->where(function(Builder $query) use($table) {
+            $query->where(function (Builder $query) use ($table) {
                 $query
                     ->where("$table.name", "LIKE", "%{$this->search}%")
                     ->orWhere("$table.slug", "LIKE", "%{$this->search}%");
@@ -192,36 +220,41 @@ class ProductsList extends BaseItemsListComponent
     }
 
     /**
-     * @inheritDoc
+     * @param \Domain\Products\Models\Product\Product[] $items
+     *
+     * @return void
      */
     protected function setItems(array $items)
     {
-        $this->items = collect($items)->map(fn(Product $product) => ProductItemDTO::fromModel($product)->toArray())->keyBy('uuid')->all();
+        $this->items = collect($items)->map(fn (Product $product) => ProductItemDTO::fromModel($product)->toArray())->keyBy('uuid')->all();
     }
 
     public function cancelEdit()
     {
         $this->editMode = false;
+        $this->changeItemsSelectAll(false);
         $this->selectAll = false;
         $this->fetchItems();
     }
 
     public function toggleActive($id)
     {
+        /** @var \Domain\Products\Models\Product\Product|null $product */
         $product = Product::query()->find($id);
-        if (!$product) {
+        if (! $product) {
             return;
         }
 
-        $product->is_active = !$product->is_active;
+        $product->is_active = ! $product->is_active;
         $product->save();
         $this->items[$product->uuid] = ProductItemDTO::fromModel($product)->toArray();
     }
 
     public function handleDelete($id)
     {
+        /** @var \Domain\Products\Models\Product\Product|null $product */
         $product = Product::query()->find($id);
-        if (!$product) {
+        if (! $product) {
             return;
         }
         DeleteProductAction::cached()->execute($product);
@@ -245,13 +278,16 @@ class ProductsList extends BaseItemsListComponent
             $prepends[] = (new SearchPrependAdminDTO([
                 'label' => $this->brand_name,
                 /** @see \App\Http\Livewire\Admin\ProductsList::clearBrandFilter() */
-                'onClear' => 'clearBrandFilter'
+                'onClear' => 'clearBrandFilter',
             ]))->toArray();
         }
 
         return $prepends;
     }
 
+    /**
+     * @return string[]
+     */
     protected function getUpdateKeys(): array
     {
         return [
@@ -266,5 +302,23 @@ class ProductsList extends BaseItemsListComponent
             'admin_comment',
             'availability_status_id',
         ];
+    }
+
+    /**
+     * @param int[] $values
+     *
+     * @return bool
+     */
+    public function handleCustomizeSortableList(array $values): bool
+    {
+        return $this->customizeProductsSortableList($values);
+    }
+
+    /**
+     * @return bool
+     */
+    public function handleDefaultSortableList(): bool
+    {
+        return $this->defaultProductsSortableList();
     }
 }

@@ -53,12 +53,21 @@
     }
 
     .form-control {
+        font-size: 12px;
         height: 30px;
+        &.message {
+            width: 219px;
+        }
     }
 
     .input-group {
         .form-control {
+            font-size: 12px;
             height: calc(1.5em + 0.75rem + 2px);
+        }
+
+        .btn {
+            padding: 2px 11px;
         }
     }
 

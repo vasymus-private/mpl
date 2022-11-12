@@ -6,5 +6,4 @@ use App\Http\Controllers\Controller;
 
 abstract class BaseAdminController extends Controller
 {
-
 }

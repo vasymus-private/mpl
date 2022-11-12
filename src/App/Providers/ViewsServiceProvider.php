@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\View\Components\Admin\SidebarMenu2Component;
 use App\View\Components\Admin\SidebarMenuComponent;
 use App\View\Components\Admin\SidebarMenuItemCategoryCollapserComponent;
 use App\View\Components\Admin\SidebarMenuItemCategoryProductsListItemComponent;
@@ -14,16 +13,13 @@ use App\View\Components\Web\H1Component;
 use App\View\Components\Web\MbBrandsFilterComponent;
 use App\View\Components\Web\MbMenuMaterialsComponent;
 use App\View\Components\Web\ProductAccessoriesComponent;
-use App\View\Components\Web\ProductAccessoryItemComponent;
 use App\View\Components\Web\ProductCharsPropsComponent;
 use App\View\Components\Web\ProductComponent;
-use App\View\Components\Web\ProductGalleryItemComponent;
 use App\View\Components\Web\ProductItemComponent;
 use App\View\Components\Web\SeoComponent;
 use App\View\Components\Web\SidebarBrandsFilterComponent;
 use App\View\Components\Web\SidebarFaqComponent;
 use App\View\Components\Web\SidebarMenuCartComponent;
-use App\View\Components\Web\SidebarMenuAsideCountComponent;
 use App\View\Components\Web\SidebarMenuMaterialsComponent;
 use App\View\Components\Web\SidebarMenuServicesComponent;
 use App\View\Components\Web\SidebarMenuViewedComponent;
@@ -83,7 +79,6 @@ class ViewsServiceProvider extends ServiceProvider
     protected function registerAdminBladeComponents()
     {
         Blade::component('sidebar-menu', SidebarMenuComponent::class);
-        Blade::component('sidebar-menu-2', SidebarMenu2Component::class);
         Blade::component('sidebar-menu-item-category-collapser', SidebarMenuItemCategoryCollapserComponent::class);
         Blade::component('sidebar-menu-item-category-submenu', SidebarMenuItemCategorySubmenuComponent::class);
         Blade::component('sidebar-menu-item-category-products-list-item', SidebarMenuItemCategoryProductsListItemComponent::class);

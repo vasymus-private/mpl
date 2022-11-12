@@ -23,6 +23,10 @@ services:
             context: .
             dockerfile: docker/app/Dockerfile
             target: dev
+            args:
+                # change .env XDEBUG_TRIGGER to use other then 'PHPSTORM'
+                XDEBUG_TRIGGER: "${XDEBUG_TRIGGER:-PHPSTORM}"
+                XDEBUG_ON: "${XDEBUG_ON:-false}"
         volumes:
             # used delegated mode here on docker for mac for faster disk I/O
             - .:/var/www/html:delegated
@@ -30,8 +34,6 @@ services:
             # is used for xdebug
             - "host.docker.internal:host-gateway"
         environment:
-            # change .env XDEBUG_TRIGGER to use other then 'PHPSTORM'
-            XDEBUG_TRIGGER: "${XDEBUG_TRIGGER:-PHPSTORM}"
             # for xdebug working in cli
             PHP_IDE_CONFIG: "serverName=Docker"
         labels:
@@ -45,9 +47,22 @@ services:
         depends_on:
             - db
 
+#    node:
+#        image: node:14.18.1-slim
+#        environment:
+#            - NODE_ENV=development
+#            - PORT=3000
+#        volumes:
+#            - ./node:/opt/node_app
+#        working_dir: /opt/node_app
+#        ports:
+#            - 3000:3000
+#        command:
+#            bash -c 'npm install --no-optional 2>&1 && npm cache clean --force && /opt/node_app/node_modules/.bin/nodemon ./bin/www'
+
     ### DB (MariaDB) ###
     db:
-        image: mariadb:10.6.4
+        image: mariadb:10.7.3
         volumes:
             - mariadb-db-data:/var/lib/mysql
         environment:

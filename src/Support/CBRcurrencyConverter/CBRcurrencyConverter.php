@@ -3,16 +3,16 @@
 namespace Support\CBRcurrencyConverter;
 
 use Carbon\Carbon;
-use Ixudra\Curl\Facades\Curl;
 use Ixudra\Curl\Builder;
-use SimpleXMLElement;
+use Ixudra\Curl\Facades\Curl;
 use NumberFormatter;
+use SimpleXMLElement;
 
 class CBRcurrencyConverter
 {
-    const USD = "USD";
-    const EUR = "EUR";
-    const RUB = "RUB";
+    public const USD = "USD";
+    public const EUR = "EUR";
+    public const RUB = "RUB";
 
     private static $currencies = [self::USD, self::EUR, self::RUB];
 
@@ -40,7 +40,9 @@ class CBRcurrencyConverter
     {
         static::check($currency, $value, $date);
 
-        if ($currency === static::RUB) return $value;
+        if ($currency === static::RUB) {
+            return $value;
+        }
 
         $rate = static::getRate($currency, $date);
 
@@ -53,27 +55,29 @@ class CBRcurrencyConverter
             $date = Carbon::now();
         }
 
-        $key = $date->format(static::$format);
+        $key = $date->format(self::$format);
 
         //return Cache::remember() TODO think of caching
 
-        if (isset(static::$cacheRates[$key][$currency])) {
-            return static::$cacheRates[$key][$currency];
+        if (isset(self::$cacheRates[$key][$currency])) {
+            return self::$cacheRates[$key][$currency];
         }
 
         $xml = static::fetchXml($date);
 
-        return static::$cacheRates[$key][$currency] = static::parseRate($xml, $currency);
+        return self::$cacheRates[$key][$currency] = static::parseRate($xml, $currency);
     }
 
     public static function fetchXml(Carbon $date): string
     {
         /** @var Builder $builder */
-        $builder = Curl::to(static::$baseUrl . "?" . static::$dateParam . "=" . $date->format(static::$format));
+        $builder = Curl::to(self::$baseUrl . "?" . self::$dateParam . "=" . $date->format(self::$format));
 
         $result = $builder->get();
 
-        if (empty($result)) throw new CBRcurrencyConverterException();
+        if (empty($result)) {
+            throw new CBRcurrencyConverterException();
+        }
 
         return $result;
     }
@@ -89,21 +93,27 @@ class CBRcurrencyConverter
                 $rate = "{$valute->Value}";
             }
         }
-        if ($rate === null) throw new CBRcurrencyConverterException("Failed to parse rate for '$currency'");
+        if ($rate === null) {
+            throw new CBRcurrencyConverterException("Failed to parse rate for '$currency'");
+        }
 
         return (new NumberFormatter("ru_RU", NumberFormatter::DECIMAL))->parse($rate);
     }
 
     public static function check(string $currency, float $value, Carbon $date = null): bool
     {
-        if (!in_array($currency, static::$currencies)) throw new \LogicException("Only " . implode(", ", static::$currencies) . " are allowed.");
+        if (! in_array($currency, self::$currencies)) {
+            throw new \LogicException("Only " . implode(", ", self::$currencies) . " are allowed.");
+        }
 
         //if ($value < 0) throw new \LogicException("Value should positive or '0'");
 
         if (
             $date !== null &&
             $date->copy()->startOfDay()->gt(Carbon::now()->startOfDay())
-        ) throw new \LogicException("Date shouldn't be greater then today");
+        ) {
+            throw new \LogicException("Date shouldn't be greater then today");
+        }
 
         return true;
     }

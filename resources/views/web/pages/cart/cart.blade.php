@@ -14,7 +14,7 @@
             @csrf
             <div class="form-group__item">
                 <label for="name">Имя: <span>*</span></label>
-                <input type="text" class="form-control" id="name" name="name" value="{{old("name") ?? \Support\H::userOrAdmin()->name ?? null}}"/>
+                <input type="text" class="form-control js-save-input" id="name" name="name" value="{{old("name") ?? \Support\H::userOrAdmin()->name ?? null}}"/>
                 @if($errors->has("name"))
                     <div>
                         <span style="color:red">{{$errors->first("name")}}</span>
@@ -24,7 +24,7 @@
 
             <div class="form-group__item">
                 <label for="email">E-mail: <span>*</span></label>
-                <input type="text" class="form-control" id="email" name="email" value="{{old("email") ?? \Support\H::userOrAdmin()->email ?? null}}"/>
+                <input type="text" class="form-control js-save-input" id="email" name="email" value="{{old("email") ?? \Support\H::userOrAdmin()->email ?? null}}"/>
                 @if($errors->has("email"))
                     <div>
                         <span style="color:red">{{$errors->first("email")}}</span>
@@ -35,7 +35,7 @@
                 <label for="phone">Телефон: <span>*</span></label>
                 <div class="row-line row-line__center">
                     <span class="phone-t">+7</span>
-                    <input class="form-control small" type="text" id="phone" name="phone" value="{{old("phone") ?? \Support\H::userOrAdmin()->phone ?? null}}"/>
+                    <input class="form-control small js-save-input" type="text" id="phone" name="phone" value="{{old("phone") ?? \Support\H::userOrAdmin()->phone ?? null}}"/>
                 </div>
                 @if($errors->has("phone"))
                     <div>
@@ -64,7 +64,7 @@
                         <tr class="js-cart-row {{ ($cartProduct->cart_product->deleted_at ?? null) !== null ? "deleted-row" : "" }}" data-id="{{$cartProduct->id}}">
                             <td>
                                 <div class="row-line row-line__center">
-                                    <img src="{{$cartProduct->main_image_xs_thumb_url}}" alt="" class="cart__image" />
+                                    <img src="{{$cartProduct->main_image_xs_thumb_url ?: $cartProduct->parent->main_image_xs_thumb_url}}" alt="" class="cart__image" />
                                     <a href="{{$cartProduct->web_route}}" class="cart__name-product">{!! $cartProduct->name !!}</a>
                                 </div>
                             </td>
@@ -86,7 +86,7 @@
                                 </div>
                             </td>
                             <td>
-                                <span class="js-cart-item-sum-formatted" data-id="{{$cartProduct->id}}">{{ ($cartProduct->cart_product->count ?? 1) * $cartProduct->price_retail_rub }} р</span>
+                                <span class="js-cart-item-sum-formatted" data-id="{{$cartProduct->id}}">{{ \Support\H::priceRubFormatted(($cartProduct->cart_product->count ?? 1) * $cartProduct->price_retail_rub) }}</span>
                             </td>
                             <td>
                                 <a href="#" class="js-cart-delete" data-id="{{$cartProduct->id}}" @if(($cartProduct->cart_product->deleted_at ?? null) !== null) style="display: none;" @endif>&nbsp;</a>
@@ -97,10 +97,10 @@
                 </table>
                 <div class="basket-mobile basket-mob">
                 @foreach($cartProducts as $cartProduct)
-                    <div class="basket-mobile__product-block">
+                    <div class="basket-mobile__product-block js-cart-row {{ ($cartProduct->cart_product->deleted_at ?? null) !== null ? "deleted-row" : "" }}" data-id="{{$cartProduct->id}}">
                         <div class="row-line">
                             <div class="basket-mobile__photo">
-                                <img src="{{$cartProduct->main_image_url}}" alt="" class="cart__image" />
+                                <img src="{{$cartProduct->main_image_sm_thumb_url ?: $cartProduct->parent->main_image_sm_thumb_url}}" alt="" class="cart__image" />
                             </div>
                             <div class="basket-mobile__text">
                                 <p>{!! $cartProduct->name !!}</p>
@@ -113,9 +113,7 @@
                         <div class="row-line row-line__right">
                             <div class="basket-mobile__blocker-gree">
                                 <div class="basket-mobile__cost-basket">
-                                    <span>
-                                        {{ ($cartProduct->cart_product->count ?? 1) * $cartProduct->price_retail_rub }} р
-                                    </span>
+                                    <span class="js-cart-item-sum-formatted" data-id="{{$cartProduct->id}}">{{ \Support\H::priceRubFormatted(($cartProduct->cart_product->count ?? 1) * $cartProduct->price_retail_rub) }}</span>
                                 </div>
                                 <div class="basket-mobile__count-basket">
                                     <div class="js-cart-column-count-part-normal" @if(($cartProduct->cart_product->deleted_at ?? null) !== null) style="display: none;" @endif data-id="{{$cartProduct->id}}">
@@ -123,6 +121,10 @@
                                         <input type="text" value="{{$cartProduct->cart_product->count ?? 1}}" class="js-input-hide-on-focus js-add-to-cart-instant-input js-add-to-cart-input-count-{{$cartProduct->id}}" data-id="{{$cartProduct->id}}" />
                                         <button type="button" class="js-cart-increment" data-id="{{$cartProduct->id}}">+</button>
                                     </div>
+                                </div>
+                                <div class="js-cart-column-count-part-deleted" @if(($cartProduct->cart_product->deleted_at ?? null) === null) style="display: none;" @endif data-id="{{$cartProduct->id}}">
+                                    <button type="button" class="js-cart-restore" data-id="{{$cartProduct->id}}">Вернуть</button>
+                                    <button type="button" class="js-cart-destroy" data-id="{{$cartProduct->id}}">Удалить</button>
                                 </div>
                             </div>
                         </div>
@@ -138,7 +140,7 @@
         </div>
         <div class="cart__text-ar">
             <label for="comment">Вы можете оставить комментарий:</label>
-            <textarea name="comment" id="comment" form="form-order" placeholder="Адрес доставки или самовывоз. Удобный способ оплаты.">{{old("comment")}}</textarea>
+            <textarea class="js-save-input" name="comment" id="comment" form="form-order" placeholder="Адрес доставки или самовывоз. Удобный способ оплаты.">{{old("comment")}}</textarea>
             @if($errors->has("comment"))
                 <div>
                     <span style="color:red">{{$errors->first("comment")}}</span>
@@ -153,14 +155,14 @@
                         <input form="form-order" type="file" id="attachment" name="attachment[]" multiple />
                     </div>
                 </div>
-                @if($errors->has("attachment"))
+                @if($errors->has("attachment.*"))
                     <div>
-                        <span style="color:red">{{$errors->first("attachment")}}</span>
+                        <span style="color:red">{{$errors->first("attachment.*")}}</span>
                     </div>
                 @endif
             </div>
             <div class="column">
-                <button class="btn-submit" type="submit" form="form-order">Отправить заказ</button>
+                <button class="btn-submit js-clear-all-saved-inputs" type="submit" form="form-order">Отправить заказ</button>
             </div>
         </div>
         @if($errors->has("cart"))

@@ -1,5 +1,5 @@
 var slider = (function ($) {
-    'use strict';
+    "use strict"
 
     function init() {
         $(".slider-home").slick({
@@ -8,14 +8,13 @@ var slider = (function ($) {
             slidesToScroll: 1,
             autoplay: true,
             autoplaySpeed: 2000,
-            dots: true
-        });
+            dots: true,
+        })
     }
 
     return {
-        init: init
-    };
+        init: init,
+    }
+})(jQuery)
 
-}(jQuery));
-
-export default slider;
+export default slider

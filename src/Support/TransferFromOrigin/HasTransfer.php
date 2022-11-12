@@ -17,7 +17,9 @@ trait HasTransfer
     public function getUrl(): string
     {
         $url = "{$this->site}/{$this->pageUrl}";
-        if ($this->pageNum) $url .+ "?{$this->pageKey}={$this->pageNum}";
+        if ($this->pageNum) {
+            $url .= "?{$this->pageKey}={$this->pageNum}";
+        }
 
         return $url;
     }
@@ -25,6 +27,7 @@ trait HasTransfer
     public function getIncrementId(): int
     {
         $this->increment++;
+
         return $this->increment;
     }
 }

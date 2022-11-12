@@ -2,9 +2,9 @@
 
 namespace Domain\GalleryItems\Models;
 
-use Domain\Seo\Models\Seo;
 use Carbon\Carbon;
 use Domain\Common\Models\BaseModel;
+use Domain\Seo\Models\Seo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
@@ -36,9 +36,9 @@ class GalleryItem extends BaseModel implements HasMedia
     use InteractsWithMedia;
     use SoftDeletes;
 
-    const TABLE = "gallery_items";
+    public const TABLE = "gallery_items";
 
-    const MC_MAIN_IMAGE = "main";
+    public const MC_MAIN_IMAGE = "main";
 
     /**
      * The table associated with the model.
@@ -72,8 +72,7 @@ class GalleryItem extends BaseModel implements HasMedia
 
     public static function rbParentGalleryItemSlug($value)
     {
-        return static
-            ::parents()
+        return static::parents()
             ->where(static::TABLE . ".slug", $value)
             ->firstOrFail()
         ;

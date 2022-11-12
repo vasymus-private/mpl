@@ -2,20 +2,24 @@
 
 namespace Domain\Orders\Models;
 
-use App\Constants;
+use App\Providers\MediaLibraryServiceProvider;
+use Database\Factories\OrderFactory;
 use Domain\Common\Models\BaseModel;
+use Domain\Orders\Models\Pivots\OrderProduct;
+use Domain\Products\Collections\ProductCollection;
+use Domain\Products\Models\Product\Product;
 use Domain\Users\Models\Admin;
 use Domain\Users\Models\BaseUser\BaseUser;
-use Illuminate\Support\Carbon;
-use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
-use Domain\Orders\Models\Pivots\OrderProduct;
-use Domain\Products\Models\Product\Product;
-use Domain\Products\Collections\ProductCollection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
+use Support\H;
 
 /**
  * @property int $id
@@ -42,6 +46,8 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property bool $cancelled
  * @property string|null $cancelled_description
  * @property \Illuminate\Support\Carbon|null $cancelled_date
+ * @property int|null $busy_by_id
+ * @property \Carbon\Carbon|null $busy_at
  *
  * @see \Domain\Orders\Models\Order::products()
  * @property ProductCollection|Product[] $products
@@ -63,6 +69,9 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  *
  * @see \Domain\Orders\Models\Order::providerBillStatus()
  * @property \Domain\Orders\Models\BillStatus $providerBillStatus
+ *
+ * @see \Domain\Orders\Models\Order::events()
+ * @property \Domain\Orders\Models\OrderEvent[]|\Illuminate\Database\Eloquent\Collection $events
  *
  * @see \Domain\Orders\Models\Order::getOrderPriceRetailRubAttribute()
  * @property-read float $order_price_retail_rub
@@ -100,29 +109,44 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @see \Domain\Orders\Models\Order::getPaymentMethodAttachmentsAttribute()
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $payment_method_attachments
  *
- * @see \Domain\Orders\Models\Order::getAdminAttachmentsAttribute()
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $admin_attachments
+ * @see \Domain\Orders\Models\Order::getCustomerInvoicesAttribute()
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $customer_invoices
+ *
+ * @see \Domain\Orders\Models\Order::getSupplierInvoicesAttribute()
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $supplier_invoices
  *
  * @see \Domain\Orders\Models\Order::getDateFormattedAttribute()
  * @property-read string|null $date_formatted
  *
- * @see \Domain\Orders\Models\OrderImportance importance
+ * @see \Domain\Orders\Models\Order::getIsBusyByOtherAdminAttribute()
+ * @property-read bool $is_busy_by_other_admin
+ *
+ * @see \Domain\Orders\Models\Order::importance()
  * @property \Domain\Orders\Models\OrderImportance|null $importance
+ *
+ * @see \Domain\Orders\Models\Order::busyBy()
+ * @property \Domain\Users\Models\BaseUser\BaseUser|null $busyBy
  * */
 class Order extends BaseModel implements HasMedia
 {
     use SoftDeletes;
     use InteractsWithMedia;
+    use HasFactory;
 
     public const TABLE = "orders";
 
     public const MC_INITIAL_ATTACHMENT = "initial-attachment";
     public const MC_PAYMENT_METHOD_ATTACHMENT = "payment-method-attachment";
-    public const MC_ADMIN_ATTACHMENT = 'admin-attachment';
+    public const MC_CUSTOMER_INVOICES = 'customer-invoices';
+    public const MC_SUPPLIER_INVOICES = 'supplier-invoices';
 
     public const DEFAULT_CANCELLED = false;
     public const DEFAULT_ORDER_STATUS_ID = OrderStatus::DEFAULT_ID;
     public const DEFAULT_ORDER_IMPORTANCE = OrderImportance::DEFAULT_ID;
+    public const DEFAULT_CUSTOMER_BILL_STATUS_ID = BillStatus::ID_NOT_BILLED;
+    public const DEFAULT_PROVIDER_BILL_STATUS_ID = BillStatus::ID_NOT_BILLED;
+
+    public const BUSY_SECONDS_THRESHOLD = 60;
 
     /**
      * The table associated with the model.
@@ -130,13 +154,6 @@ class Order extends BaseModel implements HasMedia
      * @var string
      */
     protected $table = self::TABLE;
-
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = ["ps_date"];
 
     /**
      * The attributes that should be cast.
@@ -149,6 +166,8 @@ class Order extends BaseModel implements HasMedia
         'updated_at' => 'datetime:Y-m-d H:i:s',
         'cancelled' => 'boolean',
         'cancelled_date' => 'datetime:Y-m-d H:i:s',
+        'ps_date' => 'datetime',
+        'busy_at' => 'datetime',
     ];
 
     /**
@@ -160,6 +179,8 @@ class Order extends BaseModel implements HasMedia
         'order_status_id' => self::DEFAULT_ORDER_STATUS_ID,
         'cancelled' => self::DEFAULT_CANCELLED,
         'importance_id' => self::DEFAULT_ORDER_IMPORTANCE,
+        'customer_bill_status_id' => self::DEFAULT_CUSTOMER_BILL_STATUS_ID,
+        'provider_bill_status_id' => self::DEFAULT_PROVIDER_BILL_STATUS_ID,
     ];
 
     public static function rbAdminOrder($value)
@@ -168,7 +189,17 @@ class Order extends BaseModel implements HasMedia
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|\Domain\Products\QueryBuilders\ProductQueryBuilder
+     * Create a new factory instance for the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    protected static function newFactory()
+    {
+        return OrderFactory::new();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function products(): BelongsToMany
     {
@@ -178,11 +209,16 @@ class Order extends BaseModel implements HasMedia
             ->as('order_product')
             ->withPivot([
                 "count",
+                'ordering',
                 "price_purchase",
                 "price_purchase_currency_id",
                 "price_retail",
                 "price_retail_currency_id",
                 "name",
+                'unit',
+                'price_retail_rub',
+                'price_retail_rub_origin',
+                'price_retail_rub_was_updated',
             ])
         ;
     }
@@ -222,13 +258,28 @@ class Order extends BaseModel implements HasMedia
         return $this->belongsTo(BillStatus::class, 'provider_bill_status_id', 'id');
     }
 
+    public function events(): HasMany
+    {
+        return $this->hasMany(OrderEvent::class, 'order_id', 'id')->orderBy(sprintf('%s.id', OrderEvent::TABLE), 'desc');
+    }
+
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection(static::MC_INITIAL_ATTACHMENT)->useDisk(Constants::MEDIA_DISK_PRIVATE);
+        $this
+            ->addMediaCollection(static::MC_INITIAL_ATTACHMENT)
+            ->useDisk(MediaLibraryServiceProvider::getPrivateMediaDisk());
 
-        $this->addMediaCollection(static::MC_PAYMENT_METHOD_ATTACHMENT)->useDisk(Constants::MEDIA_DISK_PRIVATE);
+        $this
+            ->addMediaCollection(static::MC_PAYMENT_METHOD_ATTACHMENT)
+            ->useDisk(MediaLibraryServiceProvider::getPrivateMediaDisk());
 
-        $this->addMediaCollection(static::MC_ADMIN_ATTACHMENT)->useDisk(Constants::MEDIA_DISK_PRIVATE);
+        $this
+            ->addMediaCollection(static::MC_CUSTOMER_INVOICES)
+            ->useDisk(MediaLibraryServiceProvider::getPrivateMediaDisk());
+
+        $this
+            ->addMediaCollection(static::MC_SUPPLIER_INVOICES)
+            ->useDisk(MediaLibraryServiceProvider::getPrivateMediaDisk());
     }
 
     public function getOrderPriceRetailRubAttribute(): float
@@ -249,13 +300,13 @@ class Order extends BaseModel implements HasMedia
     public function getStatusNameForUserAttribute(): string
     {
         switch (true) {
-            case in_array($this->order_status_id, OrderStatus::IDS_OPEN) : {
+            case in_array($this->order_status_id, OrderStatus::IDS_OPEN): {
                 return "Открыт";
             }
-            case in_array($this->order_status_id, OrderStatus::IDS_PAYED) : {
+            case in_array($this->order_status_id, OrderStatus::IDS_PAYED): {
                 return "Оплачен";
             }
-            default : {
+            default: {
                 return "Закрыт";
             }
         }
@@ -263,27 +314,27 @@ class Order extends BaseModel implements HasMedia
 
     public function getUserNameAttribute(): string
     {
-        return !empty($this->user->name)
+        return ! empty($this->user->name)
                 ? $this->user->name
                 : (
-                $this->request["name"] ?? ""
-            )
+                    $this->request["name"] ?? ""
+                )
         ;
     }
 
     public function getUserEmailAttribute(): string
     {
-        return !empty($this->user->email)
+        return ! empty($this->user->email)
                 ? $this->user->email
                 : (
-                $this->request["email"] ?? ""
-            )
+                    $this->request["email"] ?? ""
+                )
         ;
     }
 
     public function getUserPhoneAttribute(): string
     {
-        return !empty($this->user->phone)
+        return ! empty($this->user->phone)
             ? $this->user->phone
             : (
                 $this->request["phone"] ?? ""
@@ -293,7 +344,7 @@ class Order extends BaseModel implements HasMedia
 
     public function getIsIndividualAttribute(): bool
     {
-        return in_array($this->payment_method_id, [PaymentMethod::ID_BANK_CARD, PaymentMethod::ID_CASH, PaymentMethod::ID_SBERBANK_INVOICE]);
+        return in_array($this->payment_method_id, [PaymentMethod::ID_BANK_CARD, PaymentMethod::ID_CASH]);
     }
 
     public function getIsBusinessAttribute(): bool
@@ -309,7 +360,7 @@ class Order extends BaseModel implements HasMedia
                     $this->is_business
                         ? "Юридическое лицо"
                         : ""
-            );
+                );
     }
 
     /**
@@ -331,15 +382,43 @@ class Order extends BaseModel implements HasMedia
     /**
      * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[]
      * */
-    public function getAdminAttachmentsAttribute(): MediaCollection
+    public function getCustomerInvoicesAttribute(): MediaCollection
     {
-        return $this->getMedia(static::MC_ADMIN_ATTACHMENT);
+        return $this->getMedia(static::MC_CUSTOMER_INVOICES);
     }
 
+    /**
+     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[]
+     * */
+    public function getSupplierInvoicesAttribute(): MediaCollection
+    {
+        return $this->getMedia(static::MC_SUPPLIER_INVOICES);
+    }
+
+    /**
+     * @return string|null
+     */
     public function getDateFormattedAttribute(): ?string
     {
         return $this->created_at instanceof Carbon
-            ? $this->created_at->format('d-m-Y H:i:s')
+            ? $this->created_at->format('d.m.y H:i:s')
             : null;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsBusyByOtherAdminAttribute(): bool
+    {
+        if (! $this->busy_by_id || ! $this->busy_at) {
+            return false;
+        }
+
+        return (string)$this->busy_by_id !== (string)(H::admin()->id) && $this->busy_at->diffInSeconds(now()) < static::BUSY_SECONDS_THRESHOLD;
+    }
+
+    public function busyBy(): BelongsTo
+    {
+        return $this->belongsTo(BaseUser::class, "busy_by_id", "id");
     }
 }

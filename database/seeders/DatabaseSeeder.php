@@ -2,9 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-
-class DatabaseSeeder extends Seeder
+class DatabaseSeeder extends BaseSeeder
 {
     /**
      * Seed the application's database.
@@ -34,6 +32,8 @@ class DatabaseSeeder extends Seeder
         $this->call(ProductsInfoPricesSeoTablesSeeder::class);
         $this->call(GalleryItemsTableSeeder::class);
 
-        $this->call(OrdersTableSeeder::class);
+//        $this->call(OrdersTableSeeder::class);
+
+        $this->call(SpecialProductsTableSeeder::class);
     }
 }

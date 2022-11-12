@@ -47,8 +47,13 @@ final class Constants
     public const ROUTE_ADMIN_EXPORT_PRODUCTS_STORE = 'admin.export-products.store';
     public const ROUTE_ADMIN_EXPORT_PRODUCTS_DELETE = 'admin.export-products.delete';
 
-    public const MEDIA_DISK_PUBLIC = 'public-media';
+    public const MEDIA_DISK_PUBLIC = 'public';
     public const MEDIA_DISK_PRIVATE = 'private-media';
+    public const MEDIA_PREFIX = 'media';
+    public const MEDIA_DISK_S3_PUBLIC = 's3';
+    public const MEDIA_DISK_S3_PRIVATE = 's3-private';
 
-    private function __construct() {}
+    private function __construct()
+    {
+    }
 }

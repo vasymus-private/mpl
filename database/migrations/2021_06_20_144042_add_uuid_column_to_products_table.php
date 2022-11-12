@@ -14,7 +14,7 @@ class AddUuidColumnToProductsTable extends Migration
     public function up()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->uuid('uuid')->after('id')->index();
+            $table->uuid('uuid')->after('id')->unique();
         });
     }
 

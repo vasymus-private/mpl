@@ -7,10 +7,11 @@ use Domain\Common\Models\Currency;
 use Domain\Users\Models\Admin;
 use Domain\Users\Models\BaseUser\BaseUser;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\HtmlString;
 use LogicException;
 use Support\CBRcurrencyConverter\CBRcurrencyConverter;
-use Illuminate\Support\HtmlString;
 
 class H
 {
@@ -53,25 +54,51 @@ class H
     {
         /** @var \Domain\Users\Models\Admin $admin */
         $admin = Auth::guard(Constants::AUTH_GUARD_ADMIN)->user();
+
         return $admin;
     }
 
-    public static function priceRub(float $value = null, int $currencyId): ?float
+    public static function priceRub(float $value = null, int $currencyId = Currency::ID_RUB): ?float
     {
-        $currencyIso = Currency::getIsoName($currencyId);
-        if (!$currencyIso) return null;
+        if ($value === null) {
+            return null;
+        }
 
-        if (!$value) return null;
+        $currencyIso = Currency::getIsoName($currencyId);
+        if (! $currencyIso) {
+            return null;
+        }
 
         return floor(CBRcurrencyConverter::convertRub($currencyIso, $value));
     }
 
-    public static function priceRubFormatted(float $value = null, int $currencyId): string
+    public static function priceRubFormatted(float $value = null, int $currencyId = Currency::ID_RUB): string
     {
         $rub = static::priceRub($value, $currencyId);
-        if ($rub === null) return "";
+        if ($rub === null) {
+            return '';
+        }
 
-        return Currency::getFormattedValue($rub, Currency::ID_RUB) . " " . Currency::getFormattedName(Currency::ID_RUB);
+        return sprintf('%s %s', Currency::getFormattedValue($rub, Currency::ID_RUB), Currency::getFormattedName(Currency::ID_RUB));
+    }
+
+    /**
+     * @param float|null $value
+     * @param int $currencyId
+     *
+     * @return string
+     */
+    public static function priceFormatted(float $value = null, int $currencyId = Currency::ID_RUB): string
+    {
+        if ($currencyId === Currency::ID_RUB) {
+            return static::priceRubFormatted($value, $currencyId);
+        }
+
+        if ($value === null) {
+            return '';
+        }
+
+        return sprintf('%s %s', Currency::getFormattedValue($value, $currencyId), Currency::getFormattedName($currencyId));
     }
 
     public static function getPhone1(): HtmlString
@@ -81,7 +108,7 @@ class H
 
     public static function getPhone2(): HtmlString
     {
-        return new HtmlString('<a href="tel:+74953638799">+7 (915) 363 93 63</a>');
+        return new HtmlString('<a href="tel:+79153639363">+7 (915) 363 93 63</a>');
     }
 
     public static function getMail(): HtmlString
@@ -112,8 +139,7 @@ class H
     public static function random_str(
         int $length,
         string $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    ): string
-    {
+    ): string {
         $str = '';
         $max = mb_strlen($keyspace, '8bit') - 1;
         if ($max < 1) {
@@ -122,6 +148,7 @@ class H
         for ($i = 0; $i < $length; ++$i) {
             $str .= $keyspace[random_int(0, $max)];
         }
+
         return $str;
     }
 
@@ -132,7 +159,7 @@ class H
      */
     public static function trimAndNullEmptyString($value)
     {
-        if (!is_string($value)) {
+        if (! is_string($value)) {
             return $value;
         }
 
@@ -147,36 +174,65 @@ class H
     public static function getMimeTypeName($mimeType): string
     {
         switch ($mimeType) {
-            case Constants::MIME_DOC :
-            case Constants::MIME_DOCX : {
+            case Constants::MIME_DOC:
+            case Constants::MIME_DOCX: {
                 return "MS Word";
             }
-            case Constants::MIME_PPT :
-            case Constants::MIME_PPTX : {
+            case Constants::MIME_PPT:
+            case Constants::MIME_PPTX: {
                 return "MS PowerPoint";
             }
-            case Constants::MIME_XLS :
-            case Constants::MIME_XLSX : {
+            case Constants::MIME_XLS:
+            case Constants::MIME_XLSX: {
                 return "MS Excel";
             }
-            case Constants::MIME_GIF : {
+            case Constants::MIME_GIF: {
                 return "gif";
             }
-            case Constants::MIME_JPEG : {
+            case Constants::MIME_JPEG: {
                 return "jpeg";
             }
-            case Constants::MIME_PNG : {
+            case Constants::MIME_PNG: {
                 return "png";
             }
-            case Constants::MIME_HTML : {
+            case Constants::MIME_HTML: {
                 return "html";
             }
-            case Constants::MIME_PDF : {
+            case Constants::MIME_PDF: {
                 return "pdf";
             }
-            default : {
+            default: {
                 return "";
             }
         }
+    }
+
+    /**
+     * @param string $tableName
+     * @param string $tableColumn
+     * @param string $foreignTableName
+     * @param string $foreignTableColumn
+     *
+     * @return string
+     */
+    public static function foreignIndexName(string $tableName, string $tableColumn, string $foreignTableName, string $foreignTableColumn): string
+    {
+        return sprintf('%s_%s_%s_%s', $tableName, $tableColumn, $foreignTableName, $foreignTableColumn);
+    }
+
+    /**
+     * @param string $key
+     * @param mixed $value
+     *
+     * @return mixed
+     */
+    public static function runtimeCache(string $key, $value)
+    {
+        return Cache::store('array')->rememberForever(
+            $key,
+            is_callable($value)
+                ? $value
+                : fn () => $value
+        );
     }
 }

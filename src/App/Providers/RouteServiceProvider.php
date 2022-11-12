@@ -3,13 +3,14 @@
 namespace App\Providers;
 
 use Domain\Articles\Models\Article;
+use Domain\FAQs\Models\FAQ;
+use Domain\GalleryItems\Models\GalleryItem;
 use Domain\Orders\Models\Order;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\Category;
-use Domain\FAQs\Models\FAQ;
-use Domain\GalleryItems\Models\GalleryItem;
 use Domain\Products\Models\Product\Product;
 use Domain\Services\Models\Service;
+use Domain\Users\Models\Admin;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 
@@ -45,9 +46,9 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-
         parent::boot();
+
+        $this->routeBinding();
     }
 
     /**
@@ -67,18 +68,16 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapAjaxRoutes();
 
-        $this->routeBinding();
-
         //$this->ddRoutes();
     }
 
     protected function ddRoutes()
     {
         $routes = [];
+        /** @var \Illuminate\Routing\AbstractRouteCollection $routeCollection */
         $routeCollection = Route::getRoutes();
         /** @var \Illuminate\Routing\Route $value */
         foreach ($routeCollection as $value) {
-
             $name = $value->getName();
 //            dump("$name : {$value->uri} : " . implode(", ", $value->methods));
             $routes[$name] = [
@@ -104,6 +103,7 @@ class RouteServiceProvider extends ServiceProvider
         Route::bind("admin_category", [Category::class, "rbAdminCategory"]);
         Route::bind("admin_brand", [Brand::class, "rbAdminBrand"]);
         Route::bind('admin_order', [Order::class, "rbAdminOrder"]);
+        Route::bind('admin', [Admin::class, 'rbAdmin']);
 
         Route::bind("parentGalleryItemSlug", [GalleryItem::class, "rbParentGalleryItemSlug"]);
 

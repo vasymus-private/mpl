@@ -3,12 +3,11 @@
 namespace Database\Seeders;
 
 use Domain\Orders\Models\OrderImportance;
-use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class OrderImportancesTableSeeder extends Seeder
+class OrderImportancesTableSeeder extends BaseSeeder
 {
-    protected static $seeds = [
+    protected static array $seeds = [
         [
             "id" => OrderImportance::ID_GREY,
             "name" => "серый",
@@ -22,9 +21,10 @@ class OrderImportancesTableSeeder extends Seeder
         [
             "id" => OrderImportance::ID_RED,
             "name" => "красный",
-            "color" => "#ff0000",
-        ]
+            "color" => "rgba(247, 6, 6, 0.52)",
+        ],
     ];
+
     /**
      * Run the database seeds.
      *
@@ -33,7 +33,7 @@ class OrderImportancesTableSeeder extends Seeder
     public function run()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        OrderImportance::query()->truncate();
+        OrderImportance::query()->delete();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         OrderImportance::query()->insert(static::$seeds);

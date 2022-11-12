@@ -11,7 +11,9 @@ trait CommonTraits
 
     public function getConnectionName()
     {
-        if (!is_null($this->connection)) return $this->connection;
+        if (! is_null($this->connection)) {
+            return $this->connection;
+        }
 
         return config("database.default");
     }

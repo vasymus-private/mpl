@@ -15,8 +15,8 @@ trait HasOrderImportance
 
     protected function initOrderImportanceOptions()
     {
-        $this->orderImportance = Cache::store('array')->rememberForever('order-importance-options', function() {
-            return OrderImportance::query()->get()->map(fn(OrderImportance $orderImportance) => OptionDTO::fromOrderImportance($orderImportance)->toArray())->all();
+        $this->orderImportance = Cache::store('array')->rememberForever('order-importance-options', function () {
+            return OrderImportance::query()->get()->map(fn (OrderImportance $orderImportance) => OptionDTO::fromOrderImportance($orderImportance)->toArray())->all();
         });
     }
 }

@@ -67,13 +67,29 @@ main {
 
 .edit-item-footer {
     background-color: #fff;
-    border-radius:  4px 4px 0 0; 
+    border-radius:  4px 4px 0 0;
     border: 1px solid #ced7d8;
     border-bottom: 0;
-    position: sticky;
-    bottom: 0;
-    z-index: 22;
     padding: 10px 0 0;
+}
+.edit-item-footer.edit-item-footer-fixed {
+    position: fixed;
+    z-index: 22;
+    bottom: 0;
+    width: 100%;
+}
+.pin-btn {
+    &:after {
+        content: "<";
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+    }
+    &.pin-btn-pinned {
+        &:after {
+            content: "V";
+        }
+    }
 }
 
 body {
@@ -163,12 +179,23 @@ body {
         display: block;
         margin: 16px 0;
         color: #535c69;
-        vertical-align: top;
         font-size: 13px;
+
+        p {
+            &:after {
+                content: "";
+                background: #333;
+                height: 1px;
+                display: block;
+                width: 67%;
+                margin: 10px auto -7px;
+            }
+        }
     }
 
     .form-check {
         padding-top: 16px;
+        margin: 0 -11px 0 -7px;
         &.no-margin {
             margin: 0;
         }
@@ -183,7 +210,8 @@ body {
     }
 
     .dropdown {
-        margin: 10px 0;
+        margin: 10px -6px;
+        width: 14px;
     }
 
     .adm-list-table-icon {
@@ -215,6 +243,9 @@ body {
     display: flex;
     align-items: flex-start;
     flex-wrap: nowrap;
+    &__right {
+        justify-content: flex-end;
+    }
 }
 
 .row-buttons {
@@ -247,6 +278,7 @@ body {
         font-weight: bold;
         font-size: 13px;
         height: 29px;
+        line-height: 27px;
         text-decoration: none;
         position: relative;
     }
@@ -421,4 +453,18 @@ body {
             box-shadow: 0 0 0 0;
         }
     }
+
+    &__cancel-order {
+        background: #fff;
+        border: 1px solid #e0e8ea;
+        border-radius: 2px;
+        box-sizing: border-box;
+        padding-right: 30px;
+        height: 45px;
+        max-width: 442px;
+        width: 100%;
+        color: #2675d7;
+        font-size: 13px;
+    }
 }
+

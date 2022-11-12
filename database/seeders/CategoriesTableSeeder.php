@@ -4,11 +4,10 @@ namespace Database\Seeders;
 
 use Domain\Products\Models\Category;
 use Domain\Seo\Models\Seo;
-use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class CategoriesTableSeeder extends Seeder
+class CategoriesTableSeeder extends BaseSeeder
 {
     /**
      * Run the database seeds.
@@ -17,8 +16,14 @@ class CategoriesTableSeeder extends Seeder
      */
     public function run()
     {
+        if (Category::query()->count() !== 0 && ! $this->shouldClearData()) {
+            return;
+        }
+
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        Category::query()->truncate();
+        Category::query()->delete();
+        // in `php artisan test` truncate is not working
+        DB::statement(sprintf('ALTER TABLE %s AUTO_INCREMENT = 1;', Category::TABLE));
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $rawSeeds = json_decode(Storage::get("seeds/categories/seeds.json"), true);
@@ -29,17 +34,19 @@ class CategoriesTableSeeder extends Seeder
                 $seed[$attribute] = $rawSeed[$attribute];
             }
             $category = Category::forceCreate($seed);
-            if (empty($rawSeed["seo_title"]) && empty($rawSeed["seo_keywords"]) && empty($rawSeed["seo_content"])) continue;
+            if (empty($rawSeed["seo_title"]) && empty($rawSeed["seo_keywords"]) && empty($rawSeed["seo_content"])) {
+                continue;
+            }
 
             $seo = $category->seo ?: new Seo();
 
-            if (!empty($rawSeed["seo_title"])) {
+            if (! empty($rawSeed["seo_title"])) {
                 $seo->title = $rawSeed["seo_title"];
             }
-            if (!empty($rawSeed["seo_keywords"])) {
+            if (! empty($rawSeed["seo_keywords"])) {
                 $seo->keywords = $rawSeed["seo_keywords"];
             }
-            if (!empty($rawSeed["seo_content"])) {
+            if (! empty($rawSeed["seo_content"])) {
                 $seo->description = $rawSeed["seo_content"];
             }
 

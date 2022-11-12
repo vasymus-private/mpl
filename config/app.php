@@ -185,6 +185,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         \Support\RandomProxies\RandomProxiesServiceProvider::class,
         \App\Providers\ViewsServiceProvider::class,
+        \App\Providers\MediaLibraryServiceProvider::class,
 
     ],
 

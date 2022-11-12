@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\ShowProduct;
 
+use App\Http\Livewire\Admin\HasSelectAll;
 use Domain\Common\DTOs\FileDTO;
 use Domain\Common\Models\Currency;
 use Domain\Common\Models\CustomMedia;
@@ -17,6 +18,8 @@ use Livewire\TemporaryUploadedFile;
  */
 trait HasVariationsTab
 {
+    use HasSelectAll;
+
     /**
      * @var bool
      */
@@ -35,22 +38,17 @@ trait HasVariationsTab
     /**
      * @var bool
      */
-    public bool $variationsEditMode = false;
+    public bool $editMode = false;
 
     /**
-     * @var \Livewire\TemporaryUploadedFile
+     * @var \Livewire\TemporaryUploadedFile|null
      */
     public $tempVariationMainImage;
 
     /**
-     * @var \Livewire\TemporaryUploadedFile
+     * @var \Livewire\TemporaryUploadedFile|null
      */
     public $tempVariationAdditionalImage;
-
-    /**
-     * @var bool
-     */
-    public $variationsSelectAll = false;
 
     /**
      * @return array
@@ -133,7 +131,7 @@ trait HasVariationsTab
 
     protected function handleSaveVariationsTab()
     {
-        if (!$this->isCreatingFromCopy) {
+        if (! $this->isCreatingFromCopy) {
             return;
         }
 
@@ -151,16 +149,16 @@ trait HasVariationsTab
                 'price_retail',
                 'price_retail_currency_id',
                 'availability_status_id',
-                'preview'
+                'preview',
             ])->toArray();
             $attributes['parent_id'] = $this->item->id;
             $variation = Product::forceCreate($attributes);
 
-            if (!empty($variationAttributes['main_image'])) {
+            if (! empty($variationAttributes['main_image'])) {
                 $this->addMedia(new FileDTO($variationAttributes['main_image']), Product::MC_MAIN_IMAGE, $variation);
             }
 
-            if (!empty($variationAttributes['additional_images'])) {
+            if (! empty($variationAttributes['additional_images'])) {
                 foreach ($variationAttributes['additional_images'] as $additionalImage) {
                     $this->addMedia(new FileDTO($additionalImage), Product::MC_ADDITIONAL_IMAGES, $variation);
                 }
@@ -179,8 +177,8 @@ trait HasVariationsTab
         $dbVariations = $this->item->variations()->get();
         $dbVariations->each(function (Product $dbVariation) {
             /** @var array|null $variation @see {@link \Domain\Products\DTOs\Admin\VariationDTO} */
-            $variation = collect($this->variations)->first(fn(array $var) => (string)$var['id'] === (string)$dbVariation->id);
-            if (!$variation) {
+            $variation = collect($this->variations)->first(fn (array $var) => (string)$var['id'] === (string)$dbVariation->id);
+            if (! $variation) {
                 return true;
             }
             $dbVariation->forceFill(collect($variation)->only([
@@ -200,7 +198,7 @@ trait HasVariationsTab
         });
         $this->initVariations($this->item);
         $this->handleSetVariationsEditMode(false);
-        $this->variationsSelectAll = false;
+        $this->selectAll = false;
     }
 
     public function saveCurrentVariation()
@@ -240,10 +238,12 @@ trait HasVariationsTab
 
         if (empty($currentVariationDto->main_image)) {
             $mainImageMedia = $product->getFirstMedia(Product::MC_MAIN_IMAGE);
-            if ($mainImageMedia) $mainImageMedia->delete();
+            if ($mainImageMedia) {
+                $mainImageMedia->delete();
+            }
         }
 
-        if (!empty($currentVariationDto->main_image) && empty($currentVariationDto->main_image['id'])) {
+        if (! empty($currentVariationDto->main_image) && empty($currentVariationDto->main_image['id'])) {
             $this->addMedia(new FileDTO($currentVariationDto->main_image), Product::MC_MAIN_IMAGE, $product);
         }
 
@@ -257,8 +257,10 @@ trait HasVariationsTab
             }
         }
 
-        $product->getMedia(Product::MC_ADDITIONAL_IMAGES)->each(function(CustomMedia $media) use($additionalImagesIds) {
-            if (!in_array($media->id, $additionalImagesIds)) $media->delete();
+        $product->getMedia(Product::MC_ADDITIONAL_IMAGES)->each(function (CustomMedia $media) use ($additionalImagesIds) {
+            if (! in_array($media->id, $additionalImagesIds)) {
+                $media->delete();
+            }
         });
 
         $this->initVariations($this->item);
@@ -272,7 +274,7 @@ trait HasVariationsTab
             return;
         }
 
-        if (!$uuid) {
+        if (! $uuid) {
             $this->currentVariation = (new VariationDTO())->toArray();
         } else {
             /** @var \Domain\Products\Models\Product\Product $variation */
@@ -296,11 +298,11 @@ trait HasVariationsTab
 
         /** @var \Domain\Products\Models\Product\Product|null $variation */
         $variation = $this->item->variations()->where('uuid', $uuid)->first();
-        if (!$variation) {
+        if (! $variation) {
             return;
         }
 
-        $variation->is_active = !$variation->is_active;
+        $variation->is_active = ! $variation->is_active;
         $variation->save();
         $this->variations[$uuid] = VariationDTO::fromModel($variation)->toArray();
     }
@@ -312,7 +314,7 @@ trait HasVariationsTab
 
     public function deleteVariationAdditionalImage($index)
     {
-        $this->currentVariation['additional_images'] = collect($this->currentVariation['additional_images'])->values()->filter(fn(array $additionalImage, int $key) => (string)$index !== (string)$key)->toArray();
+        $this->currentVariation['additional_images'] = collect($this->currentVariation['additional_images'])->values()->filter(fn (array $additionalImage, int $key) => (string)$index !== (string)$key)->toArray();
     }
 
     public function setWithVariations(bool $with)
@@ -345,14 +347,9 @@ trait HasVariationsTab
         $this->currentVariation['additional_images'][] = $fileDTO->toArray();
     }
 
-    public function updatedVariationsSelectAll(bool $value)
-    {
-        $this->handleCheckAllVariations($value);
-    }
-
     public function handleSetVariationsEditMode(?bool $mode = null)
     {
-        $this->variationsEditMode = $mode !== null ? $mode : !$this->variationsEditMode;
+        $this->editMode = $mode !== null ? $mode : ! $this->editMode;
     }
 
     public function handleDeleteSelectedVariations()
@@ -362,20 +359,20 @@ trait HasVariationsTab
         }
 
         $selectedVariationIds = collect($this->variations)
-            ->filter(fn(array $item) => !!$item['is_checked'] && !!$item['id'])
+            ->filter(fn (array $item) => ! ! $item['is_checked'] && ! ! $item['id'])
             ->pluck('id')
             ->values()
             ->toArray();
-        if (!empty($selectedVariationIds)) {
+        if (! empty($selectedVariationIds)) {
             $deleteVariations = $this->item->variations()->whereIn('id', $selectedVariationIds)->get();
-            $deleteVariations->each(function(Product $variation) {
+            $deleteVariations->each(function (Product $variation) {
                 DeleteVariationAction::cached()->execute($variation);
             });
         }
 
         $this->initVariations($this->item);
         $this->handleSetVariationsEditMode(false);
-        $this->variationsSelectAll = false;
+        $this->selectAll = false;
     }
 
     public function deleteVariation($uuid)
@@ -386,11 +383,14 @@ trait HasVariationsTab
 
         /** @var \Domain\Products\Models\Product\Product|null $variation */
         $variation = $this->item->variations()->where('uuid', $uuid)->first();
-        if (!$variation) {
+        if (! $variation) {
             return;
         }
         DeleteVariationAction::cached()->execute($variation);
-        $this->variations = collect($this->variations)->filter(fn(array $variation) => (string)$variation['uuid'] !== (string)$uuid)->all();
+        $this->variations = collect($this->variations)
+            ->filter(fn (array $variation) => (string)$variation['uuid'] !== (string)$uuid)
+            ->keyBy('uuid')
+            ->all();
     }
 
     public function copyVariation($copyUuid)
@@ -402,7 +402,7 @@ trait HasVariationsTab
         /** @var \Domain\Products\Models\Product\Product|null $original */
         $original = $this->item->variations()->where('uuid', $copyUuid)->first();
 
-        if (!$original) {
+        if (! $original) {
             return;
         }
 
@@ -437,27 +437,19 @@ trait HasVariationsTab
         $this->initVariations($this->item);
     }
 
-    public function handleCheckAllVariations(bool $isChecked)
-    {
-        $this->variations = collect($this->variations)->map(function(array $item) use($isChecked) {
-            $item['is_checked'] = $isChecked;
-            return $item;
-        })->all();
-    }
-
     protected function initVariations(Product $product)
     {
         $this->variations = $product->variations()
             ->with('media')
             ->get()
             ->map(
-                fn(Product $variation) =>
+                fn (Product $variation) =>
                 $this->isCreatingFromCopy
                     ? VariationDTO::copyFromModel($variation)->toArray()
                     : VariationDTO::fromModel($variation)->toArray()
             )
             ->keyBy('uuid')
-            ->toArray();
+            ->all();
         $this->currentVariation = (new VariationDTO())->toArray();
     }
 
@@ -465,7 +457,7 @@ trait HasVariationsTab
     {
         return collect($this->variations)
             ->contains(
-                fn(array $variation) => !empty($variation['coefficient']) && (int)$variation['coefficient'] !== 0
+                fn (array $variation) => ! empty($variation['coefficient']) && (int)$variation['coefficient'] !== 0
             );
     }
 

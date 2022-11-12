@@ -17,3 +17,9 @@
  * Name "admin-ajax."
  * !!!
  * */
+
+use Illuminate\Support\Facades\Route;
+
+Route::put('profiles/{admin}', [\App\Http\Controllers\Admin\Ajax\ProfileController::class, 'update'])->name('profile.update');
+Route::post('show-order-busy', \App\Http\Controllers\Admin\Ajax\ShowOrderBusyController::class)->name('show-order-busy');
+Route::post('ping-order-busy/{id}', \App\Http\Controllers\Admin\Ajax\PingOrderBusyController::class)->name('ping-order-busy');

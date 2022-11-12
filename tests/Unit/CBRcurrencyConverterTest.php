@@ -2,12 +2,12 @@
 
 namespace Tests\Unit;
 
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Support\CBRcurrencyConverter\CBRcurrencyConverter as CBRcurrencyConverterService;
 use Tests\TestCase;
 
-class CBRcurrencyConverter extends TestCase
+class CBRcurrencyConverterTest extends TestCase
 {
     /**
      * A basic unit test example.
@@ -25,7 +25,7 @@ class CBRcurrencyConverter extends TestCase
 
         $err = [];
 
-        if (!$doc) {
+        if (! $doc) {
             $errors = libxml_get_errors();
 
             foreach ($errors as $error) {

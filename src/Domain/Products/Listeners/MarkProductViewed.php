@@ -3,8 +3,6 @@
 namespace Domain\Products\Listeners;
 
 use Domain\Products\Events\ProductViewedEvent;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class MarkProductViewed
 {
@@ -27,6 +25,6 @@ class MarkProductViewed
     public function handle(ProductViewedEvent $event)
     {
         $event->user->viewed()->detach($event->product->id);
-        $event->user->viewed()->syncWithoutDetaching($event->product->id);
+        $event->user->viewed()->syncWithoutDetaching([$event->product->id]);
     }
 }

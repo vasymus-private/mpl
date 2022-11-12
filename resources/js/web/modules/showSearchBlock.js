@@ -1,16 +1,15 @@
 let showSearchBlock = (function ($) {
-    'use strict';
+    "use strict"
 
     function init() {
-        $('.sidebar-catalog__search-icon').on('click', () => {
-            $('.js-search-event').toggle();
+        $(".sidebar-catalog__search-icon").on("click", () => {
+            $(".js-search-event").toggle()
         })
     }
 
     return {
-        init: init
-    };
+        init: init,
+    }
+})(jQuery)
 
-}(jQuery));
-
-export default showSearchBlock;
+export default showSearchBlock

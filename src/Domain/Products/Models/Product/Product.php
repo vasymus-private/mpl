@@ -2,24 +2,26 @@
 
 namespace Domain\Products\Models\Product;
 
+use Database\Factories\ProductFactory;
+use Domain\Common\Models\BaseModel;
+use Domain\Common\Models\Currency;
 use Domain\Common\Models\HasDeletedItemSlug;
 use Domain\Products\Collections\ProductCollection;
 use Domain\Products\DTOs\Web\CharCategoryDTO;
 use Domain\Products\Models\AvailabilityStatus;
+use Domain\Products\Models\Category;
 use Domain\Products\Models\CharCategory;
 use Domain\Products\QueryBuilders\ProductQueryBuilder;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Spatie\Image\Manipulations;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Domain\Common\Models\BaseModel;
-use Domain\Products\Models\Category;
-use Domain\Common\Models\Currency;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Routing\Route;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * @property int $id
@@ -28,20 +30,20 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property string|null $slug
  * @property int|null $parent_id
  * @property bool $is_with_variations
- * @property int $category_id
+ * @property int|null $category_id
  * @property int|null $ordering
  * @property bool $is_active
  * @property int|null $brand_id
- * @property string|null $coefficient
+ * @property float|null $coefficient
  * @property string|null $coefficient_description
  * @property bool $coefficient_description_show
  * @property string|null $coefficient_variation_description
  * @property string|null $price_name
  * @property string|null $admin_comment
- * @property string|null $price_purchase
+ * @property float|null $price_purchase
  * @property int|null $price_purchase_currency_id
  * @property string|null $unit
- * @property string|null $price_retail
+ * @property float|null $price_retail
  * @property int|null $price_retail_currency_id
  * @property int $availability_status_id
  * @property string|null $preview
@@ -59,6 +61,8 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  *
  * @property array $meta
  *
+ * @property bool $is_public_viewable
+ *
  * @see \Domain\Orders\Models\Order::products()
  * @property \Domain\Orders\Models\Pivots\OrderProduct|null $order_product
  *
@@ -71,11 +75,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @see \Domain\Users\Models\BaseUser\BaseUser::aside()
  * @property \Domain\Users\Models\Pivots\ProductUserAside|null $aside_product
  *
- * @mixin \Domain\Products\Models\Product\ProductRelations
- * @mixin \Domain\Products\Models\Product\ProductAcM
- * @mixin \Domain\Common\Models\HasDeletedItemSlug
- *
- * @method static static|\Domain\Products\QueryBuilders\ProductQueryBuilder query()
+ * @method static \Domain\Products\QueryBuilders\ProductQueryBuilder query()
  **/
 class Product extends BaseModel implements HasMedia
 {
@@ -84,37 +84,41 @@ class Product extends BaseModel implements HasMedia
     use InteractsWithMedia;
     use ProductAcM;
     use HasDeletedItemSlug;
+    use HasFactory;
 
-    const DEFAULT_IS_ACTIVE = false;
-    const DEFAULT_IS_WITH_VARIATIONS = false;
-    const DEFAULT_COEFFICIENT_DESCRIPTION_SHOW = false;
-    const DEFAULT_PRICE_NAME = 'Цена';
-    const DEFAULT_AVAILABILITY_STATUS_ID = AvailabilityStatus::ID_NOT_AVAILABLE;
-    const DEFAULT_ACCESSORY_NAME = 'Аксессуары';
-    const DEFAULT_SIMILAR_NAME = 'Похожие';
-    const DEFAULT_RELATED_NAME = 'Сопряженные';
-    const DEFAULT_WORK_NAME = 'Работы';
-    const DEFAULT_INSTRUMENTS_NAME = 'Инструменты';
-    const DEFAULT_CURRENCY_ID = Currency::ID_RUB;
-    const DEFAULT_ORDERING = 500;
+    public const DEFAULT_IS_ACTIVE = false;
+    public const DEFAULT_IS_WITH_VARIATIONS = false;
+    public const DEFAULT_COEFFICIENT_DESCRIPTION_SHOW = false;
+    public const DEFAULT_PRICE_NAME = 'Цена';
+    public const DEFAULT_AVAILABILITY_STATUS_ID = AvailabilityStatus::ID_NOT_AVAILABLE;
+    public const DEFAULT_ACCESSORY_NAME = 'Аксессуары';
+    public const DEFAULT_SIMILAR_NAME = 'Похожие';
+    public const DEFAULT_RELATED_NAME = 'Сопряженные';
+    public const DEFAULT_WORK_NAME = 'Работы';
+    public const DEFAULT_INSTRUMENTS_NAME = 'Инструменты';
+    public const DEFAULT_CURRENCY_ID = Currency::ID_RUB;
+    public const DEFAULT_ORDERING = 500;
+    public const DEFAULT_FILE_ORDERING = 100;
 
-    const TABLE = "products";
+    public const TABLE = "products";
 
-    const MAX_CHARACTERISTIC_RATE = 5;
+    public const MAX_CHARACTERISTIC_RATE = 5;
 
-    const MC_MAIN_IMAGE = "main";
-    const MC_ADDITIONAL_IMAGES = "images";
-    const MC_FILES = "files";
+    public const MC_MAIN_IMAGE = "main";
+    public const MC_ADDITIONAL_IMAGES = "images";
+    public const MC_FILES = "files";
 
-    const MCONV_XS_THUMB = "xs-thumb"; // 40x40
-    const MCONV_XS_THUMB_SIZE = 40;
-    const MCONV_SM_THUMB = "sm-thumb"; // 50x50
-    const MCONV_SM_THUMB_SIZE = 50;
-    const MCONV_MD_THUMB = "md-thumb"; // 120x120
-    const MCONV_MD_THUMB_SIZE = 120;
-    const MCONV_LG_THUMB = "lg-thumb"; // 220x220
-    const MCONV_LG_THUMB_SIZE = 220;
-    const MCONV_FILL_BG = "ffffff";
+    public const MCONV_XS_THUMB = "xs-thumb"; // 40x40
+    public const MCONV_XS_THUMB_SIZE = 40;
+    public const MCONV_SM_THUMB = "sm-thumb"; // 50x50
+    public const MCONV_SM_THUMB_SIZE = 50;
+    public const MCONV_MD_THUMB = "md-thumb"; // 120x120
+    public const MCONV_MD_THUMB_SIZE = 120;
+    public const MCONV_LG_THUMB = "lg-thumb"; // 220x220
+    public const MCONV_LG_THUMB_SIZE = 220;
+    public const MCONV_FILL_BG = "ffffff";
+
+    public const DELIVERY_PRODUCT_UUID = 'd097bbbb-1a6f-44e2-acb8-0f5fdf672c37';
 
     /**
      * The table associated with the model.
@@ -141,6 +145,7 @@ class Product extends BaseModel implements HasMedia
         'work_name' => self::DEFAULT_WORK_NAME,
         'instruments_name' => self::DEFAULT_INSTRUMENTS_NAME,
         'ordering' => self::DEFAULT_ORDERING,
+        'is_public_viewable' => true,
     ];
 
     /**
@@ -158,9 +163,11 @@ class Product extends BaseModel implements HasMedia
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var string[]
      */
-    protected $fillable = ['uuid'];
+    protected $fillable = [
+        'uuid',
+    ];
 
     /**
      * @inheritDoc
@@ -171,8 +178,8 @@ class Product extends BaseModel implements HasMedia
 
         static::booting();
 
-        $cb = function(self $product) {
-            if (!$product->uuid) {
+        $cb = function (self $product) {
+            if (! $product->uuid) {
                 $product->uuid = (string) Str::uuid();
             }
         };
@@ -181,39 +188,49 @@ class Product extends BaseModel implements HasMedia
     }
 
     /**
+     * Create a new factory instance for the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    protected static function newFactory()
+    {
+        return ProductFactory::new();
+    }
+
+    /**
      * @inheritDoc
      */
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        if (!$this->uuid) {
+        if (! $this->uuid) {
             $this->uuid = (string) Str::uuid();
         }
     }
 
-
     public static function rbProductSlug($value, Route $route)
     {
         /** @var Category $category */
-        $category = $route->category_slug;
+        $category = $route->category_slug; // @phpstan-ignore-line
         /** @var \Domain\Products\Models\Category|null $subcategory1 */
-        $subcategory1 = $route->subcategory1_slug;
+        $subcategory1 = $route->subcategory1_slug; // @phpstan-ignore-line
         /** @var \Domain\Products\Models\Category|null $subcategory2 */
-        $subcategory2 = $route->subcategory2_slug;
+        $subcategory2 = $route->subcategory2_slug; // @phpstan-ignore-line
         /** @var Category|null $subcategory3 */
-        $subcategory3 = $route->subcategory3_slug;
+        $subcategory3 = $route->subcategory3_slug; // @phpstan-ignore-line
+
         return static::query()
             ->where(static::TABLE . ".slug", $value)
-            ->where(function(Builder $builder) use($category, $subcategory1, $subcategory2, $subcategory3) {
+            ->where(function (Builder $builder) use ($category, $subcategory1, $subcategory2, $subcategory3) {
                 return $builder
                         ->orWhere(static::TABLE . ".category_id", $category->id)
-                        ->when($subcategory3->id ?? null, function(Builder $b, $sub3Id) {
+                        ->when($subcategory3->id ?? null, function (Builder $b, $sub3Id) {
                             return $b->orWhere(static::TABLE . ".category_id", $sub3Id);
                         })
-                        ->when($subcategory2->id ?? null, function(Builder $b, $sub2Id) {
+                        ->when($subcategory2->id ?? null, function (Builder $b, $sub2Id) {
                             return $b->orWhere(static::TABLE . ".category_id", $sub2Id);
                         })
-                        ->when($subcategory1->id ?? null, function(Builder $b, $sub1Id) {
+                        ->when($subcategory1->id ?? null, function (Builder $b, $sub1Id) {
                             return $b->orWhere(static::TABLE . ".category_id", $sub1Id);
                         })
                 ;
@@ -241,7 +258,7 @@ class Product extends BaseModel implements HasMedia
 
     public function registerMediaConversions(Media $media = null): void
     {
-        $this->addMediaConversion(static::MCONV_XS_THUMB)
+        $this->addMediaConversion(static::MCONV_XS_THUMB) // @phpstan-ignore-line
             ->fit(
                 Manipulations::FIT_FILL,
                 static::MCONV_XS_THUMB_SIZE,
@@ -252,7 +269,7 @@ class Product extends BaseModel implements HasMedia
             ->nonOptimized()
         ;
 
-        $this->addMediaConversion(static::MCONV_SM_THUMB)
+        $this->addMediaConversion(static::MCONV_SM_THUMB) // @phpstan-ignore-line
             ->fit(
                 Manipulations::FIT_FILL,
                 static::MCONV_SM_THUMB_SIZE,
@@ -263,7 +280,7 @@ class Product extends BaseModel implements HasMedia
             ->nonOptimized()
         ;
 
-        $this->addMediaConversion(static::MCONV_MD_THUMB)
+        $this->addMediaConversion(static::MCONV_MD_THUMB) // @phpstan-ignore-line
             ->fit(
                 Manipulations::FIT_FILL,
                 static::MCONV_MD_THUMB_SIZE,
@@ -274,7 +291,7 @@ class Product extends BaseModel implements HasMedia
             ->nonOptimized()
         ;
 
-        $this->addMediaConversion(static::MCONV_LG_THUMB)
+        $this->addMediaConversion(static::MCONV_LG_THUMB) // @phpstan-ignore-line
             ->fit(
                 Manipulations::FIT_FILL,
                 static::MCONV_LG_THUMB_SIZE,
@@ -289,8 +306,9 @@ class Product extends BaseModel implements HasMedia
     /**
      * Create a new Eloquent Collection instance.
      *
-     * @param  array  $models
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @param array<int, \Domain\Products\Models\Product\Product> $models
+     *
+     * @return \Domain\Products\Collections\ProductCollection<\Domain\Products\Models\Product\Product>
      */
     public function newCollection(array $models = [])
     {
@@ -301,7 +319,8 @@ class Product extends BaseModel implements HasMedia
      * Create a new Eloquent query builder for the model.
      *
      * @param  \Illuminate\Database\Query\Builder  $query
-     * @return static|\Domain\Products\QueryBuilders\ProductQueryBuilder
+     *
+     * @return \Domain\Products\QueryBuilders\ProductQueryBuilder<\Domain\Products\Models\Product\Product>
      */
     public function newEloquentBuilder($query): ProductQueryBuilder
     {
@@ -313,11 +332,10 @@ class Product extends BaseModel implements HasMedia
      */
     public function characteristics(): array
     {
-        return Cache
-            ::store('array')
+        return Cache::store('array')
             ->rememberForever(
                 sprintf('%s-characteristics-%s', static::class, $this->id),
-                fn() => $this->charCategories->map(fn(CharCategory $charCategory) => CharCategoryDTO::fromModel($charCategory))->all()
+                fn () => $this->charCategories->map(fn (CharCategory $charCategory) => CharCategoryDTO::fromModel($charCategory))->all()
             );
     }
 
@@ -327,7 +345,9 @@ class Product extends BaseModel implements HasMedia
 
         foreach ($characteristics as $charCategory) {
             foreach ($charCategory->chars as $char) {
-                if (!$char->is_empty) return false;
+                if (! $char->is_empty) {
+                    return false;
+                }
             }
         }
 

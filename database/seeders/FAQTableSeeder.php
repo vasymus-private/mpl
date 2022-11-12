@@ -2,16 +2,15 @@
 
 namespace Database\Seeders;
 
-use Domain\Users\Models\Admin;
-use Domain\FAQs\Models\FAQ;
 use Carbon\Carbon;
-use Illuminate\Database\Seeder;
+use Domain\FAQs\Models\FAQ;
+use Domain\Users\Models\Admin;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Symfony\Component\DomCrawler\Crawler;
 
-class FAQTableSeeder extends Seeder
+class FAQTableSeeder extends BaseSeeder
 {
     /**
      * Run the database seeds.
@@ -20,6 +19,10 @@ class FAQTableSeeder extends Seeder
      */
     public function run()
     {
+        if (FAQ::query()->count() !== 0 && ! $this->shouldClearData()) {
+            return;
+        }
+
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         FAQ::query()->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
@@ -35,7 +38,9 @@ class FAQTableSeeder extends Seeder
             }
             $name = $seed["name"];
             $slug = $seed["slug"];
-            if (empty($slug)) $seed["slug"] = Str::slug($name);
+            if (empty($slug)) {
+                $seed["slug"] = Str::slug($name);
+            }
             $seed["created_at"] = $rawSeed["created_at"]
                 ? Carbon::createFromFormat("d.m.Y", $rawSeed["created_at"])
                 : null
@@ -53,7 +58,7 @@ class FAQTableSeeder extends Seeder
     protected function storeImageAndUpdateHtml(string $html): string
     {
         $crawler = new Crawler($html);
-        $crawler->filter("img")->each(function(Crawler $imgNode) {
+        $crawler->filter("img")->each(function (Crawler $imgNode) {
             $attr = $imgNode->attr("src");
 
             $admin = Admin::getCentralAdmin();
@@ -64,7 +69,9 @@ class FAQTableSeeder extends Seeder
             ;
             $url = $media->getUrl();
 
-            $imgNode->getNode(0)->setAttribute("src", $url);
+            /** @var \DOMElement $domElement */
+            $domElement = $imgNode->getNode(0);
+            $domElement->setAttribute("src", $url);
         });
 
         return str_replace(["<body>", "</body>"], "", $crawler->html());

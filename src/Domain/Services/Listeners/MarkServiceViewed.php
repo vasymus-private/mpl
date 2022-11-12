@@ -3,8 +3,6 @@
 namespace Domain\Services\Listeners;
 
 use Domain\Services\Events\ServiceViewedEvent;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class MarkServiceViewed
 {
@@ -27,6 +25,6 @@ class MarkServiceViewed
     public function handle(ServiceViewedEvent $event)
     {
         $event->user->serviceViewed()->detach($event->service->id);
-        $event->user->serviceViewed()->syncWithoutDetaching($event->service->id);
+        $event->user->serviceViewed()->syncWithoutDetaching([$event->service->id]);
     }
 }

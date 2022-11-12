@@ -3,23 +3,23 @@
 namespace Database\Seeders;
 
 use Domain\Products\Models\Brand;
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-class BrandsTableSeeder extends Seeder
+class BrandsTableSeeder extends BaseSeeder
 {
     /**
      * Run the database seeds.
      *
      * @return void
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\DiskDoesNotExist
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileDoesNotExist
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileIsTooBig
      */
     public function run()
     {
+        if (Brand::query()->count() !== 0 && ! $this->shouldClearData()) {
+            return;
+        }
+
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Brand::query()->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
@@ -35,8 +35,12 @@ class BrandsTableSeeder extends Seeder
             $seed["slug"] = Str::slug($seed["name"]);
             $manufacturer = Brand::forceCreate($seed);
 
-            if (empty($seedRaw["image"])) continue;
-            if (!Storage::exists($seedRaw["image"])) continue;
+            if (empty($seedRaw["image"])) {
+                continue;
+            }
+            if (! Storage::exists($seedRaw["image"])) {
+                continue;
+            }
 
             $manufacturer
                 ->addMedia(storage_path("app/$seedRaw[image]"))

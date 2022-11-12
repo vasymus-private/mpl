@@ -9,7 +9,6 @@ use Domain\Common\Models\CustomMedia;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
-use Support\H;
 
 abstract class BaseShowProduct extends BaseShowComponent
 {
@@ -79,7 +78,7 @@ abstract class BaseShowProduct extends BaseShowComponent
      */
     protected function getOriginProduct(): ?Product
     {
-        return Cache::store('array')->rememberForever(sprintf("%s-%s", 'copy-product', $this->copy_id), fn() => Product::query()->find($this->copy_id));
+        return Cache::store('array')->rememberForever(sprintf("%s-%s", 'copy-product', $this->copy_id), fn () => Product::query()->find($this->copy_id));
     }
 
     /**
@@ -138,6 +137,7 @@ abstract class BaseShowProduct extends BaseShowComponent
         ;
         /** @var \Domain\Common\Models\CustomMedia $customMedia */
         $customMedia = $fileAdder->toMediaCollection($collectionName);
+
         return $customMedia;
     }
 
@@ -156,27 +156,39 @@ abstract class BaseShowProduct extends BaseShowComponent
 
         foreach ($fileDTOs as $fileDTO) {
             if ($this->isCreatingFromCopy) {
-                $this->addMedia(new FileDTO($fileDTO), $collectionName);
+                $media = $this->addMedia(new FileDTO($fileDTO), $collectionName);
+                if ($fileDTO['ordering'] !== null) {
+                    $media->order_column = $fileDTO['ordering'];
+                    $media->save();
+                }
                 $medias[] = $fileDTO;
+
                 continue;
             }
 
             if ($fileDTO['id'] !== null) {
                 /** @var \Domain\Common\Models\CustomMedia $media */
-                $media = $this->item->getMedia($collectionName)->first(fn(CustomMedia $customMedia) => $fileDTO['id'] === $customMedia->id);
+                $media = $this->item->getMedia($collectionName)->first(fn (CustomMedia $customMedia) => $fileDTO['id'] === $customMedia->id);
                 $media->name = $fileDTO['name'] ?: $fileDTO['file_name'];
+                if ($fileDTO['ordering'] !== null) {
+                    $media->order_column = $fileDTO['ordering'];
+                }
                 $media->save();
                 $medias[] = $fileDTO;
             } else {
                 $media = $this->addMedia(new FileDTO($fileDTO), $collectionName);
+                if ($fileDTO['ordering'] !== null) {
+                    $media->order_column = $fileDTO['ordering'];
+                    $media->save();
+                }
                 $medias[] = FileDTO::fromCustomMedia($media)->toArray();
             }
         }
 
-        if (!$this->isCreating) {
+        if (! $this->isCreating) {
             $mediasIds = collect($medias)->pluck('id')->toArray();
-            $this->item->getMedia($collectionName)->each(function(CustomMedia $customMedia) use($mediasIds) {
-                if (!in_array($customMedia->id, $mediasIds)) {
+            $this->item->getMedia($collectionName)->each(function (CustomMedia $customMedia) use ($mediasIds) {
+                if (! in_array($customMedia->id, $mediasIds)) {
                     $customMedia->delete();
                 }
             });

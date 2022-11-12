@@ -6,7 +6,7 @@
         <div class="put-off-block">
             <a href="#" data-id="{{$product->id}}" class="js-put-aside put-off-block__link {{in_array($product->id, $asideIds) ? "put-off-block__link--active" : ""}}">
                 <i class="fa fa-bookmark" aria-hidden="true"></i>
-                Отложить
+                {{in_array($product->id, $asideIds) ? "Отложено" : "Отложить" }}
             </a>
         </div>
 
@@ -118,7 +118,7 @@
                     <?php /** @var \Domain\Products\Models\Product\Product $variation */ ?>
                 <tr>
                     <td>
-                        <div class="product-variants__photo">
+                        <div class="product-variants__photo {{ $variation->main_image_url ? '' : 'img-none' }}">
                             @if($variation->main_image_url)
                                 <a
                                     href="{{$variation->main_image_url}}"
@@ -224,10 +224,11 @@
                     <td colspan="7">
                         <div class="manager-area-price">
                             <p>
-                                Закупочная: <span>{{$variation->price_purchase_rub_formatted}}</span>,
+                                Закупочная: <strong>{{$variation->price_purchase_rub_formatted}}</strong>,
                                 Маржа: <span>{{$variation->margin_rub_formatted}}</span>,
                                 Наценка: {{$variation->price_markup}} %,
                                 Заработок: {{$variation->price_income}} %
+                                Редактирование <a href="{{$variation->admin_route}}" target="_blank">в админке</a>
                             </p>
                             <button type="button" data-dismiss="alert" aria-label="Close">X</button>
                         </div>
@@ -242,7 +243,7 @@
                 @foreach($product->variations as $variation)
                 <div class="over-line">
                     <div class="column">
-                        <div class="product-variants__photo">
+                        <div class="{{ $variation->main_image_url ? 'product-variants__photo' : 'product-variants__photo img-none' }}">
                             @if($variation->main_image_url)
                                 <a href="{{$variation->main_image_url}}" data-fancybox="variation-image-loop-mobile-{{$loop->index + 1}}">
                                     <img
@@ -306,7 +307,7 @@
                                         data-id="{{$variation->id}}"
                                         data-is-in-cart="{{(int)$variation->is_in_cart}}"
                                     >
-                                        {{$variation->available_submit_label}}
+                                        {{$variation->is_in_cart ? "Добавить" : $variation->available_submit_label}}
                                     </button>
                                 </div>
                             </div>

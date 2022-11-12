@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use Domain\Services\Models\ServicesGroup;
 use Illuminate\Support\Facades\DB;
 
-class ServicesGroupsTableSeeder extends Seeder
+class ServicesGroupsTableSeeder extends BaseSeeder
 {
     /**
      * Run the database seeds.
@@ -15,6 +14,10 @@ class ServicesGroupsTableSeeder extends Seeder
      */
     public function run()
     {
+        if (ServicesGroup::query()->count() !== 0 && ! $this->shouldClearData()) {
+            return;
+        }
+
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         ServicesGroup::query()->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');

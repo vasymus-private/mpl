@@ -15,8 +15,8 @@ trait HasCurrencies
 
     protected function initCurrenciesOptions()
     {
-        $this->currencies = Cache::store('array')->rememberForever('options-currencies', function() {
-            return Currency::query()->get()->map(fn(Currency $currency) => OptionDTO::fromCurrency($currency)->toArray())->all();
+        $this->currencies = Cache::store('array')->rememberForever('options-currencies', function () {
+            return Currency::query()->get()->map(fn (Currency $currency) => OptionDTO::fromCurrency($currency)->toArray())->all();
         });
     }
 }

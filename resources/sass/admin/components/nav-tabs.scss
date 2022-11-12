@@ -2,13 +2,10 @@
     background: url(../images/bx-admin-tabs-border-fon.png) repeat 0 0;
     margin: -4px 0 -2px;
     padding: 0 40px 0 0;
-    position: relative;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    position: sticky;
-    top: 0;
-    z-index: 22;
+    width: 100%;
     .nav-item {
         display: inline-block;
         margin: 10px 6px 8px 0;
@@ -39,5 +36,13 @@
             cursor: default;
             z-index: 2;
         }
+    }
+}
+
+.nav-tabs {
+    &.nav-tabs-fixed {
+        position: fixed;
+        top: 0;
+        z-index: 10;
     }
 }

@@ -4,7 +4,6 @@ namespace Domain\Products\Actions;
 
 use Domain\Common\Actions\BaseAction;
 use Domain\Products\Models\Char;
-use Domain\Products\Models\CharType;
 use Illuminate\Support\HtmlString;
 
 class GetCharHtmlAction extends BaseAction

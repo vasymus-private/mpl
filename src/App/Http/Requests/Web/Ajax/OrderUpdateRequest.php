@@ -6,7 +6,7 @@ use Domain\Orders\Models\Order;
 use Domain\Orders\Models\PaymentMethod;
 use Domain\Users\Models\BaseUser\BaseUser;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\Rule;
 use Support\H;
 
@@ -14,7 +14,7 @@ use Support\H;
  * @property-read int $order_id
  * @property-read int $payment_method_id
  * @property-read string|null $payment_method_description
- * @property-read UploadedFile[]|null attachment
+ * @property-read \Illuminate\Http\UploadedFile[]|null $attachment
  * */
 class OrderUpdateRequest extends FormRequest
 {
@@ -38,7 +38,7 @@ class OrderUpdateRequest extends FormRequest
         return [
             "order_id" => [
                 "required",
-                Rule::exists(Order::TABLE, "id")->where("user_id", $this->getAuthUser()->id)
+                Rule::exists(Order::TABLE, "id")->where("user_id", $this->getAuthUser()->id),
             ],
             "payment_method_id" => "required|exists:" . PaymentMethod::class . ",id",
             "payment_method_description" => "string|nullable|max:1000",
@@ -47,8 +47,8 @@ class OrderUpdateRequest extends FormRequest
         ];
     }
 
-    protected function getAuthUser(): BaseUser
+    public function getAuthUser(): BaseUser
     {
-        return H::userOrAdmin();
+        return Cache::store('array')->rememberForever(sprintf('%s-user', static::class), fn () => H::userOrAdmin());
     }
 }

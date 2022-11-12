@@ -2,11 +2,11 @@
 
 namespace Domain\Products\Models\Product;
 
+use Domain\Products\Models\Brand;
 use Domain\Products\Models\Category;
 use Domain\Products\Models\Char;
 use Domain\Products\Models\CharCategory;
 use Domain\Products\Models\InformationalPrice;
-use Domain\Products\Models\Brand;
 use Domain\Products\Models\Pivots\CategoryProduct;
 use Domain\Products\Models\Pivots\ProductProduct;
 use Domain\Seo\Models\Seo;
@@ -61,7 +61,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 trait ProductRelations
 {
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|\Domain\Products\QueryBuilders\ProductQueryBuilder
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function parent(): BelongsTo
     {
@@ -69,7 +69,7 @@ trait ProductRelations
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany|\Domain\Products\QueryBuilders\ProductQueryBuilder
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function variations(): HasMany
     {
@@ -77,12 +77,13 @@ trait ProductRelations
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|\Domain\Products\QueryBuilders\ProductQueryBuilder
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function products(): BelongsToMany
     {
         /** @var BelongsToMany $bm */
         $bm = $this->belongsToMany(Product::class, ProductProduct::TABLE, "product_1_id", "product_2_id");
+
         return $bm
                 ->using(ProductProduct::class)
                 ->withPivot(["type"])

@@ -4,12 +4,16 @@ Laravel has the most extensive and thorough [documentation](https://laravel.com/
 
 # Local deployment
 
-## First time
+## Installation
+
+After cloning the repository run the command:
+```shell
+git submodule update --init --force docker
+```
+
+### First time
 
 ```shell
-# clone repo
-git clone --depth 1 -b mpl https://github.com/vasymus/docker.git docker
-
 # create .env file
 cp ./.env.example ./.env
 
@@ -28,40 +32,69 @@ php artisan key:generate
 # create link between ./storage/app/public and ./public/storage
 php artisan storage:link
 
-# run migrations with seeds
-php artisan migrate --seed
+# run migrations
+php artisan migrate
+
+# seed data
+SEEDERS_CLEAR_DATA=true php artisan db:seed
 
 # install node_modules
-yarn
+npm install
 
 # one-time build webpack
-yarn dev
+npm run dev
 # or
 # build and watch webpack
-yarn watch
+npm run watch
 
 # to exit container
 exit
 
-# stop docker-compose
+# stop docker-compose when finish working
 docker-compose down
 ```
 
-## All following application run
+### Git checkout
 
 ```shell
-# do not rebuild
+git submodule update --init --force docker
+
+# build and run docker-compose
+docker-compose up -d --build
+# or
+# without build (especially, when there were no changes in docker folder)
 docker-compose up -d
 
 # enter `app` container
 docker-compose exec app bash
 
+# run migrations with seeds
+php artisan migrate --seed
+
+# install node_modules
+npm install
+
+# one-time build webpack
+npm run dev
+# or
 # build and watch webpack
-yarn watch
+npm run watch
 
 # to exit container
 exit
 
-# stop docker-compose
+# stop docker-compose when finish working
 docker-compose down
 ```
+
+# CI/CD
+
+## Manual Actions on hosting
+
+Ssh to according hosting. Create separate user or use existing one (not `root`), for example, `developer` and add him to `docker` group.
+
+```shell
+sudo usermod -a -G docker developer
+```
+
+Install docker-compose according to [guid](https://docs.docker.com/compose/install/#install-compose-on-linux-systems).

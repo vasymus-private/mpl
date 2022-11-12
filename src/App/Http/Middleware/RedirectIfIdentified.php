@@ -10,9 +10,9 @@ class RedirectIfIdentified
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @param  string[]  ...$guards
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
+     * @param array ...$guards
      * @return mixed
      */
     public function handle($request, \Closure $next, ...$guards)
@@ -33,7 +33,7 @@ class RedirectIfIdentified
     }
 
     /**
-     * @param string[]|null[] $guards
+     * @param array $guards
      *
      * @return \Domain\Users\Models\BaseUser\BaseUser[]|null[]
      */
@@ -45,6 +45,7 @@ class RedirectIfIdentified
             $user = Auth::guard($guard)->user();
             $users[] = $user;
         }
+
         return $users;
     }
 }

@@ -19,7 +19,7 @@ class OrderItemProductItemDTO extends DataTransferObject
     {
         return new self([
             'id' => $product->id,
-            'name' => $product->order_product_name ?? $product->name,
+            'name' => $product->order_product->name ?? $product->name,
             'count' => $product->order_product_count ?? 0,
             'unit' => $product->unit,
         ]);

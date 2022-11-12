@@ -26,11 +26,14 @@ abstract class BaseSidebarMenuItemCategoryComponent extends Component
     public function isActive(): bool
     {
         $isProductsRoute = Route::is(["admin.products.index", "admin.products.show", "admin.products.create", "admin.products.edit"]);
-        if (!$this->category)
+        if (! $this->category) {
             return $isProductsRoute;
+        }
 
         $categoryId = request()->input("category_id");
-        if (!$categoryId) return false;
+        if (! $categoryId) {
+            return false;
+        }
 
         $isSelectedCategory = $this->category->id === (int)$categoryId;
 

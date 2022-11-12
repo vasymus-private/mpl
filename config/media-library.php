@@ -12,6 +12,15 @@ return [
     'disk_name' => env('MEDIA_DISK', Constants::MEDIA_DISK_PUBLIC),
 
     /*
+     * Custom param. Temporary decision. TODO
+     * if MEDIA_DISK=public or not defined
+     * then MEDIA_DISK_IS_CLOUD should be false
+     * if MEDIA_DISK=s3
+     * then MEDIA_DISK_IS_CLOUD should be true
+     */
+    'media_disc_is_cloud' => env('MEDIA_DISK_IS_CLOUD', false),
+
+    /*
      * The maximum file size of an item in bytes.
      * Adding a larger file will result in an exception.
      */
@@ -38,7 +47,7 @@ return [
      *
      * This model is only used in Media Library Pro (https://medialibrary.pro)
      */
-    'temporary_upload_model' => Spatie\MediaLibraryPro\Models\TemporaryUpload::class,
+    'temporary_upload_model' => Spatie\MediaLibraryPro\Models\TemporaryUpload::class, // @phpstan-ignore-line
 
     /*
      * When enabled, Media Library Pro will only process temporary uploads there were uploaded
@@ -215,4 +224,10 @@ return [
      * More info: https://css-tricks.com/native-lazy-loading/
      */
     'default_loading_attribute_value' => null,
+
+    /*
+     * You can specify a prefix for that is used for storing all media.
+     * If you set this to `/my-subdir`, all your media will be stored in a `/my-subdir` directory.
+     */
+    'prefix' => env('MEDIA_PREFIX', Constants::MEDIA_PREFIX),
 ];

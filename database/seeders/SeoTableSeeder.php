@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Domain\Seo\Models\Seo;
+use Illuminate\Support\Facades\DB;
 
-class SeoTableSeeder extends Seeder
+class SeoTableSeeder extends BaseSeeder
 {
     /**
      * Run the database seeds.
@@ -15,6 +14,10 @@ class SeoTableSeeder extends Seeder
      */
     public function run()
     {
+        if (Seo::query()->count() !== 0 && ! $this->shouldClearData()) {
+            return;
+        }
+
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Seo::query()->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');

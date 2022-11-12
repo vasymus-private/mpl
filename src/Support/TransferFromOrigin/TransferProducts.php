@@ -2,10 +2,8 @@
 
 namespace Support\TransferFromOrigin;
 
-use Support\TransferFromOrigin\DTOs\ManufacturerDTO;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
-use Symfony\Component\DomCrawler\Crawler;
 
 class TransferProducts extends BaseTransfer
 {
@@ -43,10 +41,12 @@ class TransferProducts extends BaseTransfer
         $detailPageUrls = require(storage_path("app/seeds/products/links.php"));
 
         foreach ($detailPageUrls as $zeroBasedIndex => $location) {
-            if ($zeroBasedIndex < $zeroBasedIndexStart) continue;
+            if ($zeroBasedIndex < $zeroBasedIndexStart) {
+                continue;
+            }
 
             $isSuccess = $this->fetchAndStoreRawItem($location);
-            if (!$isSuccess) {
+            if (! $isSuccess) {
                 dump("Failed to fetch and store / parse $location");
             }
         }
@@ -55,7 +55,9 @@ class TransferProducts extends BaseTransfer
     public function fetchAndStoreRawItem(string $location): bool
     {
         $html = $this->fetchHtml($location);
-        if (!$html) return false;
+        if (! $html) {
+            return false;
+        }
 
         $startFlag = "<!-----START----->";
         $endFlag = "<!-----END----->";
@@ -87,8 +89,9 @@ class TransferProducts extends BaseTransfer
             $raw = require(storage_path("app/seeds/products/raw-50-$i.php"));
 
             foreach ($raw as $rawItem) {
-
-                if ($this->shouldIgnore($rawItem)) continue;
+                if ($this->shouldIgnore($rawItem)) {
+                    continue;
+                }
 
                 $this->checkRawItem($rawItem);
 
@@ -117,8 +120,9 @@ class TransferProducts extends BaseTransfer
         Storage::put("seeds/products/seeds.json", json_encode($seeds, JSON_UNESCAPED_UNICODE));
 
         $this->productSeedsByOldId = collect(
-            collect($seeds)->reduce(function(array $acc, array $item) {
+            collect($seeds)->reduce(function (array $acc, array $item) {
                 $acc[$item["_old_id"]] = $item;
+
                 return $acc;
             }, [])
         );
@@ -132,17 +136,20 @@ class TransferProducts extends BaseTransfer
             $raw = require(storage_path("app/seeds/products/raw-50-$i.php"));
 
             foreach ($raw as $rawItem) {
-
-                if ($this->shouldIgnore($rawItem)) continue;
+                if ($this->shouldIgnore($rawItem)) {
+                    continue;
+                }
 
                 $this->checkRawItem($rawItem);
 
                 $_oldProductId = (int)$rawItem["ID"];
 
-                $productKey = $productsSeeds->search(function(array $pr) use($_oldProductId) {
+                $productKey = $productsSeeds->search(function (array $pr) use ($_oldProductId) {
                     return (int)$pr["_old_id"] === $_oldProductId;
                 });
-                if ($productKey === false) continue;
+                if ($productKey === false) {
+                    continue;
+                }
 
                 $product = $productsSeeds->get($productKey);
                 $product = array_merge($product, $this->getSeedDataFromProperties($rawItem));
@@ -162,10 +169,12 @@ class TransferProducts extends BaseTransfer
         foreach ($raw as $rawItem) {
             $_oldProductId = (int)$rawItem["ID"];
 
-            $productKey = $productsSeeds->search(function(array $pr) use($_oldProductId) {
+            $productKey = $productsSeeds->search(function (array $pr) use ($_oldProductId) {
                 return (int)$pr["_old_id"] === $_oldProductId;
             });
-            if ($productKey === false) continue;
+            if ($productKey === false) {
+                continue;
+            }
 
             $product = $productsSeeds->get($productKey);
 
@@ -178,7 +187,7 @@ class TransferProducts extends BaseTransfer
             $storeFolder = $this->getStdStorageFolder("products");
             $storeFolder = "$storeFolder/$newProductId";
 
-            $loop = function(string $type, array $rawFile) use($storeFolder, $newProductId, $_oldProductId): ?array {
+            $loop = function (string $type, array $rawFile) use ($storeFolder, $newProductId, $_oldProductId): ?array {
                 $src = $rawFile["SRC"];
                 $originalName = $rawFile["ORIGINAL_NAME"] ?? basename($src);
                 $extenstion = pathinfo($src)["extension"] ?? null;
@@ -191,7 +200,9 @@ class TransferProducts extends BaseTransfer
                 //if (!$storedFile) return null;
 
                 $storedFile = $storagePath; // TODO temp
-                if (!Storage::exists($storedFile)) return null;
+                if (! Storage::exists($storedFile)) {
+                    return null;
+                }
 
                 return [
                     "_old_id" => $_oldMediaId,
@@ -207,7 +218,9 @@ class TransferProducts extends BaseTransfer
                 "images" => [],
                 "files" => [],
             ];
-            if ($mainImage) $media["mainImage"] = $loop("mainImage", $mainImage);
+            if ($mainImage) {
+                $media["mainImage"] = $loop("mainImage", $mainImage);
+            }
             foreach ($images as $image) {
                 $media["images"][] = $loop("images", $image);
             }
@@ -232,10 +245,12 @@ class TransferProducts extends BaseTransfer
             $itemData = require(storage_path("app/seeds/products/offers-and-chars/$i.php"));
 
             $_oldProductId = $itemData["ID"];
-            $productKey = $productsSeeds->search(function(array $pr) use($_oldProductId) {
+            $productKey = $productsSeeds->search(function (array $pr) use ($_oldProductId) {
                 return (int)$pr["_old_id"] === $_oldProductId;
             });
-            if ($productKey === false) continue;
+            if ($productKey === false) {
+                continue;
+            }
 
             $product = $productsSeeds->get($productKey);
             $newProductId = $product["id"];
@@ -247,7 +262,9 @@ class TransferProducts extends BaseTransfer
 
             foreach ($offers as $offer) {
                 $src = $offer["DETAIL_PICTURE"]["SRC"];
-                if (!$src) continue;
+                if (! $src) {
+                    continue;
+                }
 
                 $_originalImageName = $offer["DETAIL_PICTURE"]["ORIGINAL_NAME"] ?? basename($src);
                 $extenstion = pathinfo($src)["extension"] ?? null;
@@ -257,7 +274,9 @@ class TransferProducts extends BaseTransfer
 
                 $storedFile = $this->fetchAndStoreFileToPath($src, $storagePath);
 
-                if (!$storedFile) return null;
+                if (! $storedFile) {
+                    return null;
+                }
 
                 $image = [
                     "_old_id" => $_oldMediaId,
@@ -268,7 +287,7 @@ class TransferProducts extends BaseTransfer
                 $variation = [
                     "name" => $offer['NAME'],
                     "price_retail" => $offer['ITEM_PRICES'][0]['PRICE'] ?? null,
-                    "price_retail_currency_id" => ['ITEM_PRICES'][0]['CURRENCY'] ?? null,
+                    "price_retail_currency_id" => ['ITEM_PRICES'][0]['CURRENCY'] ?? null, // @phpstan-ignore-line
                     "image" => $image,
                     "ordering" => $offer["SORT"],
                     "price_purchase" => $offer["PROPERTIES"]["purchase"]["VALUE"],
@@ -277,7 +296,7 @@ class TransferProducts extends BaseTransfer
                     "unit" => $offer["PROPERTIES"]["package"]["VALUE"],
                     "coefficient" => $offer["PROPERTIES"]["koef_price"]["VALUE"],
                     "is_in_stock" => $offer["PROPERTIES"]["order"]["VALUE"],
-                    "preview" => $offer["PREVIEW_TEXT"]
+                    "preview" => $offer["PREVIEW_TEXT"],
                 ];
                 $variations[] = $variation;
             }
@@ -336,10 +355,12 @@ class TransferProducts extends BaseTransfer
 
             foreach ($raw as $rawItem) {
                 $_oldProductId = $rawItem["ID"];
-                $productKey = $productsSeeds->search(function(array $pr) use($_oldProductId) {
+                $productKey = $productsSeeds->search(function (array $pr) use ($_oldProductId) {
                     return (int)$pr["_old_id"] === $_oldProductId;
                 });
-                if ($productKey === false) continue;
+                if ($productKey === false) {
+                    continue;
+                }
 
                 $product = $productsSeeds->get($productKey);
 
@@ -357,7 +378,7 @@ class TransferProducts extends BaseTransfer
         /*if (!$category) {
             dump("No category with id $rawItem[IBLOCK_SECTION_ID] found for product with id $rawItem[ID] '$rawItem[NAME]'.");
         }*/
-        return !$category || $rawItem['NAME'] === 'Доставка';
+        return ! $category || $rawItem['NAME'] === 'Доставка';
     }
 
     public function checkRawItem(array $rawItem): bool
@@ -365,7 +386,9 @@ class TransferProducts extends BaseTransfer
         $requiredFields = ['ID', 'CODE', 'NAME', 'IBLOCK_SECTION_ID', 'SORT', 'PREVIEW_TEXT', 'DETAIL_TEXT'];
 
         foreach ($requiredFields as $field) {
-            if (!isset($rawItem[$field])) throw new \LogicException("Wrong rawItem: No '$field' field in $rawItem[ID]");
+            if (! isset($rawItem[$field])) {
+                throw new \LogicException("Wrong rawItem: No '$field' field in $rawItem[ID]");
+            }
         }
 
 
@@ -379,30 +402,31 @@ class TransferProducts extends BaseTransfer
         $oldManufacturerId = $properties["brand"]["VALUE"] ?? null;
         $manufacturer = $this->manufacturers->where("_old_id", $oldManufacturerId)->first();
 
-        $loopProductProduct = function(array $otherProductsIds): array {
+        $loopProductProduct = function (array $otherProductsIds): array {
             $newOtherProductsIds = [];
             foreach ($otherProductsIds as $id) {
                 $newOtherProduct = $this->productSeedsByOldId->get($id);
-                if (!$newOtherProduct) {
+                if (! $newOtherProduct) {
 //                    dump("Failed to find other product with old id: $id");
 //                    dump($otherProductsIds);
                     continue;
                 }
                 $newOtherProductsIds[] = $newOtherProduct["id"];
             }
+
             return $newOtherProductsIds;
         };
 
-        $oldAccessoriesIds = !empty($properties["accessories"]["VALUE"]) ? $properties["accessories"]["VALUE"] : [];
+        $oldAccessoriesIds = ! empty($properties["accessories"]["VALUE"]) ? $properties["accessories"]["VALUE"] : [];
         $newAccessoriesIds = $loopProductProduct($oldAccessoriesIds);
 
-        $oldSimilarIds = !empty($properties["similar"]["VALUE"]) ? $properties["similar"]["VALUE"] : [];
+        $oldSimilarIds = ! empty($properties["similar"]["VALUE"]) ? $properties["similar"]["VALUE"] : [];
         $newSimilarIds = $loopProductProduct($oldSimilarIds);
 
-        $oldRelatedIds = !empty($properties["sopr"]["VALUE"]) ? $properties["sopr"]["VALUE"] : [];
+        $oldRelatedIds = ! empty($properties["sopr"]["VALUE"]) ? $properties["sopr"]["VALUE"] : [];
         $newRelatedIds = $loopProductProduct($oldRelatedIds);
 
-        $oldWorksIds = !empty($properties["work"]["VALUE"]) ? $properties["work"]["VALUE"] : [];
+        $oldWorksIds = ! empty($properties["work"]["VALUE"]) ? $properties["work"]["VALUE"] : [];
         $newWorkIds = $loopProductProduct($oldWorksIds);
 
         $seo = [
@@ -419,7 +443,7 @@ class TransferProducts extends BaseTransfer
 
         $informational_prices = [];
         $_oldInfoPrices = $properties["info_price"];
-        $__ipValues = !empty($_oldInfoPrices["VALUE"]) ? $_oldInfoPrices["VALUE"] : [];
+        $__ipValues = ! empty($_oldInfoPrices["VALUE"]) ? $_oldInfoPrices["VALUE"] : [];
         $__ipDescriptions = $_oldInfoPrices["DESCRIPTION"];
         foreach ($__ipValues as $index => $infoPrice) {
             $informational_prices[] = [

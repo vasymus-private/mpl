@@ -17,7 +17,6 @@ mix
 
     .js("resources/js/admin/app.js", 'public/_admin/js')
     .sass("resources/sass/admin/app.scss", "public/_admin/css")
-    .version()
 ;
 
 mix.copyDirectory('resources/images/web', 'public/images')
