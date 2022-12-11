@@ -14,7 +14,7 @@ class FaqController extends BaseWebController
             ->parents()
             ->active()
             ->with([
-                'children' => function(HasMany $hm) {
+                'children' => function (HasMany $hm) {
                     /** @var \Domain\FAQs\QueryBuilders\FaqQueryBuilder $hm */
                     return $hm->active();
                 },
