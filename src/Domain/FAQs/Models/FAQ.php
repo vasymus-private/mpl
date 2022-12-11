@@ -4,8 +4,8 @@ namespace Domain\FAQs\Models;
 
 use Carbon\Carbon;
 use Domain\Common\Models\BaseModel;
+use Domain\FAQs\QueryBuilders\FaqQueryBuilder;
 use Domain\Seo\Models\Seo;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Str;
@@ -27,11 +27,10 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  *
  * @property Seo|null $seo
  *
- * @see FAQ::scopeParents()
- * @method static static|Builder parents()
- *
  * @see FAQ::children()
  * @property Collection|FAQ[] $children
+ *
+ * @method static \Domain\FAQs\QueryBuilders\FaqQueryBuilder query()
  * */
 class FAQ extends BaseModel implements HasMedia
 {
@@ -60,7 +59,7 @@ class FAQ extends BaseModel implements HasMedia
 
     public static function rbFaqSlug($value)
     {
-        return static::query()->parents()->where(static::TABLE . ".slug", $value)->firstOrFail();
+        return static::query()->parents()->active()->where(static::TABLE . ".slug", $value)->firstOrFail();
     }
 
     /**
@@ -89,13 +88,20 @@ class FAQ extends BaseModel implements HasMedia
         $this->addMediaCollection(static::MC_FILES);
     }
 
-    public function scopeParents(Builder $builder): Builder
-    {
-        return $builder->whereNull(static::TABLE . ".parent_id");
-    }
-
     public function children()
     {
         return $this->hasMany(FAQ::class, "parent_id", "id");
+    }
+
+    /**
+     * Create a new Eloquent query builder for the model.
+     *
+     * @param  \Illuminate\Database\Query\Builder  $query
+     *
+     * @return \Domain\FAQs\QueryBuilders\FaqQueryBuilder<\Domain\FAQs\Models\FAQ>
+     */
+    public function newEloquentBuilder($query): FaqQueryBuilder
+    {
+        return new FaqQueryBuilder($query);
     }
 }
