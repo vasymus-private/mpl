@@ -57,7 +57,7 @@ class TestMarkupResetPasswordMail extends Mailable
         );
 
         return $this
-            ->html(new HtmlString($htmlAndCssInline))
+            ->html((new HtmlString($htmlAndCssInline))->toHtml())
             ->subject("Уведомление о Восстановлении Пароля")
         ;
     }
