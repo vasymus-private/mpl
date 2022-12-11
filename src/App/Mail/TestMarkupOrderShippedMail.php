@@ -57,7 +57,8 @@ class TestMarkupOrderShippedMail extends Mailable
         );
 
         return $this
-            ->html(new HtmlString($htmlAndCssInline))
+            ->to('vasilzhdankin@mail.ru')
+            ->html((new HtmlString($htmlAndCssInline))->toHtml())
             ->subject("market-parket.ru: Ваш заказ номер 9491 от 12.01.2021 обрабатывается")
         ;
     }
