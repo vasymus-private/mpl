@@ -54,7 +54,7 @@ jobs:
                     username: ${{ secrets.HOST_USERNAME }}
                     key: ${{ secrets.HOST_KEY }}
                     port: ${{ secrets.HOST_PORT }}
-                    envs: APP_NAME,APP_KEY,APP_URL,MYSQL_USER,MYSQL_PASSWORD,MYSQL_ROOT_PASSWORD,DOCKER_STACK_YML,IMAGE_APP,IMAGE_APP_TAG,AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,AWS_DEFAULT_REGION,AWS_BUCKET,AWS_BUCKET_PRIVATE,AWS_ENDPOINT,AWS_URL
+                    envs: APP_NAME,APP_KEY,APP_URL,MYSQL_USER,MYSQL_PASSWORD,MYSQL_ROOT_PASSWORD,DOCKER_STACK_YML,IMAGE_APP,IMAGE_APP_TAG,AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,AWS_DEFAULT_REGION,AWS_BUCKET,AWS_BUCKET_PRIVATE,AWS_ENDPOINT,AWS_URL,MAIL_MAILER,MAIL_HOST,MAIL_PORT,MAIL_FROM_NAME,MAIL_USERNAME,MAIL_PASSWORD
                     script: |
                         echo "$DOCKER_STACK_YML" > docker-stack.template.yml
                         rm -f .env
@@ -73,6 +73,13 @@ jobs:
                         echo AWS_BUCKET_PRIVATE="$AWS_BUCKET_PRIVATE" >> .env
                         echo AWS_ENDPOINT="$AWS_ENDPOINT" >> .env
                         echo AWS_URL="$AWS_URL" >> .env
+
+                        echo MAIL_MAILER="$MAIL_MAILER" >> .env
+                        echo MAIL_HOST="$MAIL_HOST" >> .env
+                        echo MAIL_PORT="$MAIL_PORT" >> .env
+                        echo MAIL_FROM_NAME="$MAIL_FROM_NAME" >> .env
+                        echo MAIL_USERNAME="$MAIL_USERNAME" >> .env
+                        echo MAIL_PASSWORD="$MAIL_PASSWORD" >> .env
 
                         docker-compose --file docker-stack.template.yml config > current-docker-stack.yml
                         docker-compose --file docker-stack.template.yml config | docker stack deploy mpl -c -
