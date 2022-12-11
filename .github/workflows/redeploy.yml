@@ -73,7 +73,6 @@ jobs:
                         echo AWS_BUCKET_PRIVATE="$AWS_BUCKET_PRIVATE" >> .env
                         echo AWS_ENDPOINT="$AWS_ENDPOINT" >> .env
                         echo AWS_URL="$AWS_URL" >> .env
-
                         echo MAIL_MAILER="$MAIL_MAILER" >> .env
                         echo MAIL_HOST="$MAIL_HOST" >> .env
                         echo MAIL_PORT="$MAIL_PORT" >> .env
