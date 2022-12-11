@@ -26,7 +26,7 @@ jobs:
             -   name: executing remote ssh commands ssh key
                 uses: appleboy/ssh-action@master
                 env:
-                    APP_NAME: "Market Parket"
+                    APP_NAME: "Market Parket Lux"
                     APP_KEY: ${{ secrets.APP_KEY }}
                     APP_URL: "http://${{ secrets.HOST_IP }}"
                     MYSQL_USER: ${{ secrets.MYSQL_USER }}
@@ -43,6 +43,12 @@ jobs:
                     AWS_BUCKET_PRIVATE: ${{ secrets.AWS_BUCKET_PRIVATE }}
                     AWS_ENDPOINT: ${{ secrets.AWS_ENDPOINT }}
                     AWS_URL: ${{ secrets.AWS_URL }}
+                    MAIL_MAILER: "smtp"
+                    MAIL_HOST: "smtp.mail.ru"
+                    MAIL_PORT: "465"
+                    MAIL_FROM_NAME: "Market Parket Lux"
+                    MAIL_USERNAME: "testing-mpl@mail.ru"
+                    MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
                 with:
                     host: ${{ secrets.HOST_IP }}
                     username: ${{ secrets.HOST_USERNAME }}
