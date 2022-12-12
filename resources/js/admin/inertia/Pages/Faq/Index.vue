@@ -1,7 +1,11 @@
 <script lang="ts" setup>
 import TheLayout from '@/admin/inertia/components/layout/TheLayout.vue'
 import {Link, Head} from "@inertiajs/inertia-vue3"
+import {useRoutesStore, routeNames} from "@/admin/inertia/modules/routes"
+import useSearchInput from "@/admin/inertia/composables/useSearchInput"
 
+const routesStore = useRoutesStore()
+const {searchInput, onPerPage, handleSearch, handleClearSearch} = useSearchInput()
 </script>
 
 <template>
