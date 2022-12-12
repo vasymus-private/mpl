@@ -377,9 +377,9 @@ export const routeNames = {
     ROUTE_ADMIN_SERVICES_CREATE: "admin.services.create",
     ROUTE_ADMIN_SERVICES_EDIT: "admin.services.edit",
 
-    ROUTE_ADMIN_FAQ_INDEX: 'admin.faq.index',
-    ROUTE_ADMIN_FAQ_CREATE: 'admin.faq.create',
-    ROUTE_ADMIN_FAQ_EDIT: 'admin.faq.edit',
+    ROUTE_ADMIN_FAQ_INDEX: "admin.faq.index",
+    ROUTE_ADMIN_FAQ_CREATE: "admin.faq.create",
+    ROUTE_ADMIN_FAQ_EDIT: "admin.faq.edit",
 
     ROUTE_ADMIN_EXPORT_PRODUCTS_INDEX: "admin.export-products.index",
     ROUTE_ADMIN_EXPORT_PRODUCTS_SHOW: "admin.export-products.show",

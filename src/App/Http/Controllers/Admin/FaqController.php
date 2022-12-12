@@ -18,7 +18,7 @@ class FaqController extends BaseAdminController
         $query = FAQ::query()->select(["*"]);
 
         if ($request->search) {
-            $query->where(function(Builder $q) use($request) {
+            $query->where(function (Builder $q) use ($request) {
                 $q->where(sprintf('%s.name', FAQ::TABLE), "LIKE", "%{$request->search}%")
                     ->orWhere(sprintf('%s.question', FAQ::TABLE), "LIKE", "%{$request->search}%")
                     ->orWhere(sprintf('%s.answer', FAQ::TABLE), "LIKE", "%{$request->search}%");
