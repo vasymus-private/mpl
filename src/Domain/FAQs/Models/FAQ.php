@@ -62,6 +62,11 @@ class FAQ extends BaseModel implements HasMedia
         return static::query()->parents()->active()->where(static::TABLE . ".slug", $value)->firstOrFail();
     }
 
+    public static function rbAdminFaq($value)
+    {
+        return static::query()->findOrFail($value);
+    }
+
     /**
      * @inheritDoc
      */

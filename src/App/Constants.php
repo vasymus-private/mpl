@@ -70,6 +70,10 @@ final class Constants
     public const ROUTE_ADMIN_SERVICES_CREATE = 'admin.services.create';
     public const ROUTE_ADMIN_SERVICES_EDIT = 'admin.services.edit';
 
+    public const ROUTE_ADMIN_FAQ_INDEX = 'admin.faq.index';
+    public const ROUTE_ADMIN_FAQ_CREATE = 'admin.faq.create';
+    public const ROUTE_ADMIN_FAQ_EDIT = 'admin.faq.edit';
+
     public const ROUTE_ADMIN_EXPORT_PRODUCTS_INDEX = 'admin.export-products.index';
     public const ROUTE_ADMIN_EXPORT_PRODUCTS_SHOW = 'admin.export-products.show';
     public const ROUTE_ADMIN_EXPORT_PRODUCTS_STORE = 'admin.export-products.store';
