@@ -42,6 +42,9 @@ Route::put('category/{admin_category}', [\App\Http\Controllers\Admin\Ajax\Catego
 Route::post('brand', [\App\Http\Controllers\Admin\Ajax\BrandsController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_BRANDS_STORE);
 Route::put('brand/{admin_brand}', [\App\Http\Controllers\Admin\Ajax\BrandsController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_BRANDS_UPDATE);
 
+Route::post('faq', [\App\Http\Controllers\Admin\Ajax\FaqController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_FAQ_STORE);
+Route::put('faq/{admin_faq}', [\App\Http\Controllers\Admin\Ajax\FaqController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_FAQ_UPDATE);
+
 Route::post('order', [\App\Http\Controllers\Admin\Ajax\OrdersController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_ORDERS_STORE);
 Route::put('order/{admin_order}', [\App\Http\Controllers\Admin\Ajax\OrdersController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_ORDERS_UPDATE);
 Route::put('order-cancel/{admin_order}', \App\Http\Controllers\Admin\Ajax\OrdersCancelController::class)->name(Constants::ROUTE_ADMIN_AJAX_ORDERS_CANCEL);

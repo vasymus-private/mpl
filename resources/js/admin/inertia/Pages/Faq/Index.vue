@@ -47,7 +47,7 @@ const {searchInput, onPerPage, handleSearch, handleClearSearch} = useSearchInput
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-2">
-                    <Link :href="routesStore.route(routeNames.ROUTE_ADMIN_BRANDS_TEMP_CREATE)" class="btn btn-add btn-secondary">Создать</Link>
+                    <Link :href="routesStore.route(routeNames.ROUTE_ADMIN_FAQ_CREATE)" class="btn btn-add btn-secondary">Создать</Link>
                 </div>
             </div>
         </div>

@@ -67,6 +67,11 @@ class FAQ extends BaseModel implements HasMedia
         return static::query()->findOrFail($value);
     }
 
+    public static function faqOptions()
+    {
+        return static::query()->select(['id', 'uuid', 'name', 'parent_id', 'is_active'])->get();
+    }
+
     /**
      * @inheritDoc
      */
