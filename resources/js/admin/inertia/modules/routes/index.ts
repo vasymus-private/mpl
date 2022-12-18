@@ -397,8 +397,8 @@ export const routeNames = {
     ROUTE_ADMIN_AJAX_BRANDS_BULK_UPDATE: "admin-ajax.brands.bulk.update",
     ROUTE_ADMIN_AJAX_BRANDS_BULK_DELETE: "admin-ajax.brands.bulk.delete",
 
-    ROUTE_ADMIN_AJAX_FAQ_BULK_UPDATE: 'admin-ajax.faq.bulk.update',
-    ROUTE_ADMIN_AJAX_FAQ_BULK_DELETE: 'admin-ajax.faq.bulk.delete',
+    ROUTE_ADMIN_AJAX_FAQ_BULK_UPDATE: "admin-ajax.faq.bulk.update",
+    ROUTE_ADMIN_AJAX_FAQ_BULK_DELETE: "admin-ajax.faq.bulk.delete",
 
     ROUTE_ADMIN_AJAX_PRODUCTS_STORE: "admin-ajax.products.store",
     ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE: "admin-ajax.products.update",

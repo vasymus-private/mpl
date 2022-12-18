@@ -15,8 +15,8 @@ class DeleteFaqAction extends BaseAction
      */
     public function execute(FAQ $faq): void
     {
-        DB::transaction(function() use($faq) {
-            $faq->children()->get()->each(function(FAQ $f) {
+        DB::transaction(function () use ($faq) {
+            $faq->children()->get()->each(function (FAQ $f) {
                 $f->parent_id = null;
                 $f->save();
             });
