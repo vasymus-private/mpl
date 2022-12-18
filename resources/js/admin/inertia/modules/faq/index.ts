@@ -1,14 +1,14 @@
-import {Faq, FaqListItem} from "@/admin/inertia/modules/faq/types"
-import {Links, Meta, Option} from "@/admin/inertia/modules/common/types"
-import {defineStore} from "pinia"
-import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
-import {extendMetaLinksWithComputedData} from "@/admin/inertia/modules/common"
+import { Faq, FaqListItem } from "@/admin/inertia/modules/faq/types"
+import { Links, Meta, Option } from "@/admin/inertia/modules/common/types"
+import { defineStore } from "pinia"
+import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
+import { extendMetaLinksWithComputedData } from "@/admin/inertia/modules/common"
 
 export const storeName = "faq"
 
 interface State {
     _entities: Array<FaqListItem>
-    _entity: Faq|null
+    _entity: Faq | null
     _links: Links | null
     _meta: Meta | null
     _options: Array<Option>
@@ -31,18 +31,18 @@ export const useFaqStore = defineStore(storeName, {
         getPerPageOption: (state: State): Option | null =>
             state._meta && state._meta.per_page
                 ? {
-                    value: state._meta.per_page,
-                    label: `${state._meta.per_page}`,
-                }
+                      value: state._meta.per_page,
+                      label: `${state._meta.per_page}`,
+                  }
                 : null,
-        faq: (state: State): Faq|null => state._entity,
+        faq: (state: State): Faq | null => state._entity,
         options: (state: State): Array<Option> => state._options,
         isCreatingFaqRoute(): boolean {
             let routesStore = useRoutesStore()
 
-            return [
-                routeNames.ROUTE_ADMIN_FAQ_CREATE,
-            ].includes(routesStore.current)
+            return [routeNames.ROUTE_ADMIN_FAQ_CREATE].includes(
+                routesStore.current
+            )
         },
     },
     actions: {
@@ -64,5 +64,5 @@ export const useFaqStore = defineStore(storeName, {
         setOptions(options: Array<Option>): void {
             this._options = options
         },
-    }
+    },
 })
