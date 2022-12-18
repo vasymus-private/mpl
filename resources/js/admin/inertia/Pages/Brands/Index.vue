@@ -36,7 +36,7 @@ const {
     manualCheck,
     cancel,
 } = useCheckedItems<BrandListItem>(brandsList)
-const {visit, revisit} = useRoute()
+const {revisit} = useRoute()
 const {searchInput, onPerPage, handleSearch, handleClearSearch} = useSearchInput()
 
 const {errors, submitCount, handleSubmit, values, setValues, validate, isSubmitting} = useForm<Values>({

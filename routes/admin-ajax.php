@@ -33,6 +33,9 @@ Route::delete('categories-bulk', [\App\Http\Controllers\Admin\Ajax\CategoriesBul
 Route::put('brands-bulk', [\App\Http\Controllers\Admin\Ajax\BrandsBulkController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_BRANDS_BULK_UPDATE);
 Route::delete('brands-bulk', [\App\Http\Controllers\Admin\Ajax\BrandsBulkController::class, 'delete'])->name(Constants::ROUTE_ADMIN_AJAX_BRANDS_BULK_DELETE);
 
+Route::put('faq-bulk', [\App\Http\Controllers\Admin\Ajax\FaqBulkController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_FAQ_BULK_UPDATE);
+Route::delete('faq-bulk', [\App\Http\Controllers\Admin\Ajax\FaqBulkController::class, 'delete'])->name(Constants::ROUTE_ADMIN_AJAX_FAQ_BULK_DELETE);
+
 Route::post('product', [\App\Http\Controllers\Admin\Ajax\ProductsController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_PRODUCTS_STORE);
 Route::put('product/{admin_product}', [\App\Http\Controllers\Admin\Ajax\ProductsController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE);
 
