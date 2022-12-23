@@ -1,10 +1,18 @@
 import { Faq, FaqListItem } from "@/admin/inertia/modules/faqs/types"
-import {ErrorResponse, Links, Meta, Option} from "@/admin/inertia/modules/common/types"
+import {
+    ErrorResponse,
+    Links,
+    Meta,
+    Option,
+} from "@/admin/inertia/modules/common/types"
 import { defineStore } from "pinia"
 import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
-import {errorsToErrorFields, extendMetaLinksWithComputedData} from "@/admin/inertia/modules/common"
-import axios, {AxiosError} from "axios"
-import {arrayToMap} from "@/admin/inertia/utils"
+import {
+    errorsToErrorFields,
+    extendMetaLinksWithComputedData,
+} from "@/admin/inertia/modules/common"
+import axios, { AxiosError } from "axios"
+import { arrayToMap } from "@/admin/inertia/utils"
 
 export const storeName = "faqs"
 
@@ -104,7 +112,7 @@ export const useFaqsStore = defineStore(storeName, {
         },
         async deleteBulkFaqs(
             checkedFaqsUuids: Array<string>
-        ): Promise<void | Record<string, string | undefined>>  {
+        ): Promise<void | Record<string, string | undefined>> {
             if (!checkedFaqsUuids.length) {
                 return
             }
@@ -134,6 +142,6 @@ export const useFaqsStore = defineStore(storeName, {
                 }
                 throw e
             }
-        }
+        },
     },
 })
