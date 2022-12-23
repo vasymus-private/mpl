@@ -217,7 +217,7 @@ Route
 ;
 Route
     ::get(
-        "faqs/{admin_brand}/edit",
+        "faqs/{admin_faq}/edit",
         [\App\Http\Controllers\Admin\FaqController::class, "edit"]
     )
     ->name(Constants::ROUTE_ADMIN_FAQ_EDIT)
