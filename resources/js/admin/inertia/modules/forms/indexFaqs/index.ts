@@ -1,13 +1,16 @@
-import {defineStore} from "pinia"
-import {FaqsResponse, Values} from "@/admin/inertia/modules/forms/indexFaqs/types"
-import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
-import axios, {AxiosError} from "axios"
-import {arrayToMap} from "@/admin/inertia/utils"
-import {FaqListItem} from "@/admin/inertia/modules/faqs/types"
+import { defineStore } from "pinia"
+import {
+    FaqsResponse,
+    Values,
+} from "@/admin/inertia/modules/forms/indexFaqs/types"
+import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
+import axios, { AxiosError } from "axios"
+import { arrayToMap } from "@/admin/inertia/utils"
+import { FaqListItem } from "@/admin/inertia/modules/faqs/types"
 import useFormHelpers from "@/admin/inertia/composables/useFormHelpers"
-import {ErrorResponse} from "@/admin/inertia/modules/common/types"
+import { ErrorResponse } from "@/admin/inertia/modules/common/types"
 import * as yup from "yup"
-import {useFaqsStore} from "@/admin/inertia/modules/faqs"
+import { useFaqsStore } from "@/admin/inertia/modules/faqs"
 
 export const storeName = "indexFaqsForm"
 
@@ -32,9 +35,7 @@ export const useIndexFaqsFormStore = defineStore(storeName, {
                         routeNames.ROUTE_ADMIN_AJAX_FAQ_BULK_UPDATE
                     ),
                     {
-                        faqs: arrayToMap<Partial<FaqListItem>>(
-                            faqsToUpdate
-                        ),
+                        faqs: arrayToMap<Partial<FaqListItem>>(faqsToUpdate),
                     }
                 )
 

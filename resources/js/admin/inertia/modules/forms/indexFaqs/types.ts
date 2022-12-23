@@ -1,4 +1,4 @@
-import {FaqListItem} from "@/admin/inertia/modules/faqs/types"
+import { FaqListItem } from "@/admin/inertia/modules/faqs/types"
 
 export interface Values {
     faqs: Array<Partial<FaqListItem>>
