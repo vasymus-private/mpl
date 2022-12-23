@@ -3,11 +3,13 @@
 namespace Domain\FAQs\Models;
 
 use Carbon\Carbon;
+use Domain\Common\DTOs\OptionDTO;
 use Domain\Common\Models\BaseModel;
 use Domain\FAQs\QueryBuilders\FaqQueryBuilder;
 use Domain\Seo\Models\Seo;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -67,9 +69,14 @@ class FAQ extends BaseModel implements HasMedia
         return static::query()->findOrFail($value);
     }
 
-    public static function faqOptions()
+    /**
+     * @return \Domain\Common\DTOs\OptionDTO[]
+     */
+    public static function getFaqOptions(): array
     {
-        return static::query()->select(['id', 'uuid', 'name', 'parent_id', 'is_active'])->get();
+        return Cache::store('array')->rememberForever('options-faqs', function () {
+            return static::query()->select(["id", "name"])->get()->map(fn (FAQ $faq) => OptionDTO::fromFaq($faq)->toArray())->all();
+        });
     }
 
     /**

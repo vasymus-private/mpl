@@ -4,6 +4,7 @@ namespace Domain\Common\DTOs;
 
 use Domain\Common\Models\BaseModel;
 use Domain\Common\Models\Currency;
+use Domain\FAQs\Models\FAQ;
 use Domain\Orders\Models\OrderImportance;
 use Domain\Orders\Models\OrderStatus;
 use Domain\Orders\Models\PaymentMethod;
@@ -47,6 +48,19 @@ class OptionDTO extends DataTransferObject
         return new self([
             'value' => $brand->id,
             'label' => $brand->name,
+        ]);
+    }
+
+    /**
+     * @param \Domain\FAQs\Models\FAQ $faq
+     *
+     * @return self
+     */
+    public static function fromFaq(FAQ $faq): self
+    {
+        return new self([
+            'value' => $faq->id,
+            'label' => $faq->name,
         ]);
     }
 

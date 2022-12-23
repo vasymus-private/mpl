@@ -44,6 +44,7 @@ import {
 } from "@/admin/inertia/modules/orders/types"
 import { useOrdersStore } from "@/admin/inertia/modules/orders"
 import { Admin } from "@/admin/inertia/modules/auth/types"
+import {useFaqsStore} from "@/admin/inertia/modules/faqs";
 
 export interface InitialPageProps {
     fullUrl: string
@@ -62,6 +63,7 @@ export interface InitialPageProps {
     orderImportance: { data: Array<OrderImportance> }
     orderStatuses: { data: Array<OrderStatus> }
     charTypes: { data: Array<CharType> }
+    faqOptions: Array<Option>
 
     articles?: Array<Article>
     services?: Array<Service>
@@ -118,6 +120,7 @@ export const initFromPageProps = (
         orderImportance: { data: orderImportanceData = [] },
         orderStatuses: { data: orderStatusesData = [] },
         charTypes: { data: charTypesData = [] },
+        faqOptions = [],
 
         articles = [],
         services = [],
@@ -208,6 +211,9 @@ export const initFromPageProps = (
 
     const charsStore = useCharTypesStore(pinia)
     charsStore.setChartTypes(charTypesData)
+
+    const faqsStore = useFaqsStore(pinia)
+    faqsStore.setOptions(faqOptions)
 
     const profileStore = useProfileStore(pinia)
     profileStore.setAdminSidebarFlexBasis(adminSidebarFlexBasis)

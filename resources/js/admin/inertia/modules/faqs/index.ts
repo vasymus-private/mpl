@@ -39,6 +39,14 @@ export const useFaqsStore = defineStore(storeName, {
                 : null,
         faq: (state: State): Faq | null => state._entity,
         options: (state: State): Array<Option> => state._options,
+        option() {
+            return (faqId: string | number): Option | null => {
+                let option = this.options.find(
+                    (o: Option) => `${o.value}` === `${faqId}`
+                )
+                return option ? option : null
+            }
+        },
         isCreatingFaqRoute(): boolean {
             let routesStore = useRoutesStore()
 
