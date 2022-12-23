@@ -25,7 +25,7 @@ class FaqController extends BaseAdminController
             });
         }
 
-        return $inertia->render('Faq/Index', [
+        return $inertia->render('Faqs/Index', [
             'faqs' => FaqItemResource::collection($query->paginate($request->per_page)),
         ]);
     }
@@ -34,7 +34,7 @@ class FaqController extends BaseAdminController
     {
         $inertia = H::getAdminInertia();
 
-        return $inertia->render('Faq/CreateEdit');
+        return $inertia->render('Faqs/CreateEdit');
     }
 
     public function edit(Request $request)
@@ -44,7 +44,7 @@ class FaqController extends BaseAdminController
         /** @var \Domain\FAQs\Models\FAQ $faq */
         $faq = $request->admin_faq;
 
-        return $inertia->render('Faq/CreateEdit', [
+        return $inertia->render('Faqs/CreateEdit', [
             'faq' => (new FaqResource($faq))->toArray($request),
         ]);
     }
