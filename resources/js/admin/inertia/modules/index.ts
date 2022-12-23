@@ -44,8 +44,8 @@ import {
 } from "@/admin/inertia/modules/orders/types"
 import { useOrdersStore } from "@/admin/inertia/modules/orders"
 import { Admin } from "@/admin/inertia/modules/auth/types"
-import {useFaqsStore} from "@/admin/inertia/modules/faqs"
-import {Faq, FaqListItem} from "@/admin/inertia/modules/faqs/types"
+import { useFaqsStore } from "@/admin/inertia/modules/faqs"
+import { Faq, FaqListItem } from "@/admin/inertia/modules/faqs/types"
 
 export interface InitialPageProps {
     fullUrl: string
