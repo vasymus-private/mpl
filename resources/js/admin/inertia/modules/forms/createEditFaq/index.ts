@@ -1,19 +1,22 @@
-import {defineStore} from "pinia"
-import {useFaqsStore} from "@/admin/inertia/modules/faqs"
-import {AdminTab, ErrorResponse, TabEnum} from "@/admin/inertia/modules/common/types"
+import { defineStore } from "pinia"
+import { useFaqsStore } from "@/admin/inertia/modules/faqs"
+import {
+    AdminTab,
+    ErrorResponse,
+    TabEnum,
+} from "@/admin/inertia/modules/common/types"
 import ElementsTab from "@/admin/inertia/components/faqs/createEdit/tabs/ElementsTab.vue"
-import {Values} from "@/admin/inertia/modules/forms/createEditFaq/types"
-import {SubmissionContext} from "vee-validate"
-import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
-import axios, {AxiosError} from "axios"
-import {Inertia} from "@inertiajs/inertia"
-import {errorsToErrorFields} from "@/admin/inertia/modules/common"
+import { Values } from "@/admin/inertia/modules/forms/createEditFaq/types"
+import { SubmissionContext } from "vee-validate"
+import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
+import axios, { AxiosError } from "axios"
+import { Inertia } from "@inertiajs/inertia"
+import { errorsToErrorFields } from "@/admin/inertia/modules/common"
 import * as yup from "yup"
-import {yupIntegerOrEmptyString} from "@/admin/inertia/utils"
-import {Faq} from "@/admin/inertia/modules/faqs/types"
+import { yupIntegerOrEmptyString } from "@/admin/inertia/utils"
+import { Faq } from "@/admin/inertia/modules/faqs/types"
 import QuestionAnswerTab from "@/admin/inertia/components/faqs/createEdit/tabs/QuestionAnswerTab.vue"
 import SeoTab from "@/admin/inertia/components/faqs/createEdit/tabs/SeoTab.vue"
-
 
 export const storeName = "createEditFaqForm"
 
@@ -45,9 +48,9 @@ export const useCreateEditFaqFormStore = defineStore(storeName, {
                     value: TabEnum.seo,
                     label: "SEO",
                     is: SeoTab,
-                }
+                },
             ]
-        }
+        },
     },
     actions: {
         async submitCreateEditFaq(
@@ -74,12 +77,9 @@ export const useCreateEditFaqFormStore = defineStore(storeName, {
                     )
                     faq = response.data.data
                     Inertia.get(
-                        routesStore.route(
-                            routeNames.ROUTE_ADMIN_FAQ_EDIT,
-                            {
-                                admin_faq: faq.id,
-                            }
-                        )
+                        routesStore.route(routeNames.ROUTE_ADMIN_FAQ_EDIT, {
+                            admin_faq: faq.id,
+                        })
                     )
                 } else {
                     formData.append("_method", "PUT")
@@ -111,7 +111,7 @@ export const useCreateEditFaqFormStore = defineStore(storeName, {
                 throw e
             }
         },
-    }
+    },
 })
 
 export const getFormSchema = () => {
@@ -137,16 +137,8 @@ export const getFormSchema = () => {
 
 export const getWatchFaqToFormCb =
     (setValues: (a: object) => any) => (faq: Faq | null) => {
-        const {
-            id,
-            name,
-            slug,
-            is_active,
-            parent_id,
-            question,
-            answer,
-            seo,
-        } = faq || {}
+        const { id, name, slug, is_active, parent_id, question, answer, seo } =
+            faq || {}
 
         const values = {
             id,
@@ -179,9 +171,7 @@ const valuesToFormData = (values: Values): FormData => {
         formData.setStringOrNumber(key, value)
     })
 
-    let booleanKeys: Array<keyof Values> = [
-        "is_active",
-    ]
+    let booleanKeys: Array<keyof Values> = ["is_active"]
 
     booleanKeys.forEach((key) => {
         let value = values[key] as boolean | null | undefined
