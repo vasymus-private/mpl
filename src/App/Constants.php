@@ -115,6 +115,7 @@ final class Constants
     public const ROUTE_ADMIN_AJAX_PRODUCT_IMAGE_UPLOAD = 'admin-ajax.product-image-upload';
     public const ROUTE_ADMIN_AJAX_CATEGORY_IMAGE_UPLOAD = 'admin-ajax.category-image-upload';
     public const ROUTE_ADMIN_AJAX_BRAND_IMAGE_UPLOAD = 'admin-ajax.brand-image-upload';
+    public const ROUTE_ADMIN_AJAX_FAQ_IMAGE_UPLOAD = 'admin-ajax.faq-image-upload';
 
     public const ROUTE_ADMIN_AJAX_PRODUCT_SEARCH = 'admin-ajax.product-search';
 

@@ -231,7 +231,7 @@ watchSelectAll()
                                 <span v-else class="main-grid-cell-content">{{getActiveName(faq.is_active)}}</span>
                             </td>
                             <td>
-                                <span class="main-grid-cell-content">{{faqsStore.option(faq.id)?.value}}</span>
+                                <span class="main-grid-cell-content">{{faqsStore.option(faq.id)?.label}}</span>
                             </td>
                         </tr>
                         </tbody>

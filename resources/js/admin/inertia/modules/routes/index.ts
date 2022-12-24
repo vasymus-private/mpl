@@ -424,6 +424,7 @@ export const routeNames = {
     ROUTE_ADMIN_AJAX_PRODUCT_IMAGE_UPLOAD: "admin-ajax.product-image-upload",
     ROUTE_ADMIN_AJAX_CATEGORY_IMAGE_UPLOAD: "admin-ajax.category-image-upload",
     ROUTE_ADMIN_AJAX_BRAND_IMAGE_UPLOAD: "admin-ajax.brand-image-upload",
+    ROUTE_ADMIN_AJAX_FAQ_IMAGE_UPLOAD: "admin-ajax.faq-image-upload",
 
     ROUTE_ADMIN_AJAX_PRODUCT_SEARCH: "admin-ajax.product-search",
 }

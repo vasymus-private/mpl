@@ -2,15 +2,15 @@
 import {computed} from "vue"
 import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
 import Description from "@/admin/inertia/components/forms/parts/Description.vue"
-import {useBrandsStore} from "@/admin/inertia/modules/brands"
+import {useFaqsStore} from "@/admin/inertia/modules/faqs"
 
 
-const brandsStore = useBrandsStore()
+const faqsStore = useFaqsStore()
 const routesStore = useRoutesStore()
 
 const uploadUrl = computed(() => {
-    return brandsStore.brand?.id
-        ? routesStore.route(routeNames.ROUTE_ADMIN_AJAX_BRAND_IMAGE_UPLOAD, {admin_product: brandsStore.brand.id})
+    return faqsStore.faq?.id
+        ? routesStore.route(routeNames.ROUTE_ADMIN_AJAX_FAQ_IMAGE_UPLOAD, {admin_faq: faqsStore.faq.id})
         : null
 })
 </script>
@@ -18,16 +18,16 @@ const uploadUrl = computed(() => {
 <template>
     <div class="item-edit product-edit">
         <Description
-            id="preview"
-            label="Описание для анонса"
-            name="preview"
+            id="question"
+            label="Вопрос"
+            name="question"
             :upload-url="uploadUrl"
         />
 
         <Description
-            id="description"
-            label="Детальное описание"
-            name="description"
+            id="answer"
+            label="Ответ"
+            name="answer"
             :upload-url="uploadUrl"
         />
     </div>

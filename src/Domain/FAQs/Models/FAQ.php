@@ -41,7 +41,7 @@ class FAQ extends BaseModel implements HasMedia
     public const TABLE = "faq";
     public const UPDATED_AT = null;
 
-    public const MC_FILES = "files";
+    public const MC_DESCRIPTION_FILES = "description-files";
 
     /**
      * The table associated with the model.
@@ -102,7 +102,7 @@ class FAQ extends BaseModel implements HasMedia
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection(static::MC_FILES);
+        $this->addMediaCollection(static::MC_DESCRIPTION_FILES);
     }
 
     public function children()

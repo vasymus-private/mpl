@@ -82,6 +82,8 @@ export enum TabEnum {
     products = "products",
     order = "order",
     history = "history",
+
+    questionAnswer = "questionAnswer",
 }
 
 export interface Option {

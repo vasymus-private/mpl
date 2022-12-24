@@ -64,4 +64,6 @@ Route::post('category-image-upload/{admin_category}', [\App\Http\Controllers\Adm
 
 Route::post('brand-image-upload/{admin_brand}', [\App\Http\Controllers\Admin\Ajax\BrandImageUploadController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_BRAND_IMAGE_UPLOAD);
 
+Route::post('faq-image-upload/{admin_faq}', [\App\Http\Controllers\Admin\Ajax\FaqImageUploadController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_FAQ_IMAGE_UPLOAD);
+
 Route::get('product-search', [\App\Http\Controllers\Admin\Ajax\ProductSearchController::class, 'index'])->name(Constants::ROUTE_ADMIN_AJAX_PRODUCT_SEARCH);
