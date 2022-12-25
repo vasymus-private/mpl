@@ -3,9 +3,9 @@
 namespace Domain\Products\Actions\CreateOrUpdateProduct;
 
 use Domain\Common\Actions\BaseAction;
+use Domain\Common\Actions\SaveSeoAction;
 use Domain\Common\Actions\SyncAndSaveMediasAction;
 use Domain\Common\DTOs\MediaDTO;
-use Domain\Common\Actions\SaveSeoAction;
 use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\ProductDTO;
 use Domain\Products\Models\Pivots\ProductProduct;
 use Domain\Products\Models\Product\Product;

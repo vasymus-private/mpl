@@ -18,7 +18,7 @@ class FaqDTO extends DataTransferObject
     public ?string $slug;
 
     /**
-     * @var boolean|null
+     * @var bool|null
      */
     public ?bool $is_active;
 

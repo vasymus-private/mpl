@@ -59,12 +59,12 @@ class CreateUpdateFaqRequest extends FormRequest
      */
     public function withValidator(Validator $validator)
     {
-        $validator->after(function(Validator $validator) {
-            if (!$this->parent_id) {
+        $validator->after(function (Validator $validator) {
+            if (! $this->parent_id) {
                 return;
             }
 
-            if (!$this->current()) {
+            if (! $this->current()) {
                 return;
             }
 
@@ -115,6 +115,7 @@ class CreateUpdateFaqRequest extends FormRequest
     {
         /** @var \Domain\FAQs\Models\FAQ $faq */
         $faq = $this->admin_faq;
+
         return $faq;
     }
 }

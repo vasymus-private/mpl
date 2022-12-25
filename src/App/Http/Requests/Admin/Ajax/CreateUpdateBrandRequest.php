@@ -3,8 +3,8 @@
 namespace App\Http\Requests\Admin\Ajax;
 
 use Domain\Common\DTOs\MediaDTO;
-use Domain\Products\DTOs\Admin\Inertia\BrandDTO;
 use Domain\Common\DTOs\SeoDTO;
+use Domain\Products\DTOs\Admin\Inertia\BrandDTO;
 use Illuminate\Foundation\Http\FormRequest;
 use Support\H;
 

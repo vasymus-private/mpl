@@ -18,7 +18,8 @@ class CreateOrUpdateFaqAction extends BaseAction
     /**
      * @param \Domain\Common\Actions\SaveSeoAction $saveSeoAction
      */
-    public function __construct(SaveSeoAction $saveSeoAction) {
+    public function __construct(SaveSeoAction $saveSeoAction)
+    {
         $this->saveSeoAction = $saveSeoAction;
     }
 
