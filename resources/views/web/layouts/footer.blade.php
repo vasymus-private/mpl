@@ -9,7 +9,7 @@
     <div class="container hidden-md hidden-lg">
         <div class="row-line row-line__between">
             <div class="column-mobile"><a href="{{route("contacts")}}">Контакты</a></div>
-            <div class="column-mobile"><a href="{{route("gallery.items.index")}}">Фотогалерея</a> / <a href="{{route("faq.index")}}">Вопрос-ответ</a></div>
+            <div class="column-mobile"><a href="{{route("gallery.items.index")}}">Фотогалерея</a> / <a href="{{route(\App\Constants::ROUTE_WEB_FAQ_INDEX)}}">Вопрос-ответ</a></div>
         </div>
     </div>
     <div class="container hidden-sm hidden-xs">

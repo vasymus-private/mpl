@@ -24,13 +24,13 @@
                         <div class="questions-list__avatar">
                             <img src="{{asset("images/person.png")}}" width="97" alt="">
                         </div>
-                        <h4 class="questions-list__title"><a href="{{route("faq.show", $faq->slug)}}">{{$faq->name}}</a></h4>
+                        <h4 class="questions-list__title"><a href="{{route(\App\Constants::ROUTE_WEB_FAQ_SHOW, $faq->slug)}}">{{$faq->name}}</a></h4>
                     </div>
                     <div class="questions-list__comment">
                         {!! $faq->question !!}
                     </div>
                     <div class="questions-list__row">
-                        <a class="questions-list__more" href="{{route("faq.show", $faq->slug)}}">Подробнее</a>
+                        <a class="questions-list__more" href="{{route(\App\Constants::ROUTE_WEB_FAQ_SHOW, $faq->slug)}}">Подробнее</a>
                         @if($faq->created_at)<span class="questions-list__date"><time datetime="{{$faq->created_at->format("Y-m-d")}}">{{$faq->created_at->format("d.m.Y")}}</time></span>@endif
                     </div>
                 </li>

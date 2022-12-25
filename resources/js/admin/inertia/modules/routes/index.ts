@@ -331,6 +331,9 @@ export const getRouteUrl = (
 
 export const routeNames = {
     ROUTE_WEB_HOME: "home",
+
+    ROUTE_WEB_FAQ_SHOW: 'faq.show',
+
     ROUTE_LOGOUT: "logout",
 
     ROUTE_ADMIN_HOME: "admin.home",

@@ -24,6 +24,10 @@ final class Constants
     public const MIME_ZIP = 'application/zip';
 
     public const ROUTE_WEB_HOME = 'home';
+
+    public const ROUTE_WEB_FAQ_INDEX = 'faq.index';
+    public const ROUTE_WEB_FAQ_SHOW = 'faq.show';
+
     public const ROUTE_LOGOUT = 'logout';
 
     public const ROUTE_ADMIN_HOME = 'admin.home';
