@@ -86,8 +86,8 @@ Route::middleware([Constants::MIDDLEWARE_AUTHENTICATE_ALL])->group(function() {
 
     Route::get("articles/{article_slug}/{subarticle_slug?}", [\App\Http\Controllers\Web\ArticlesController::class, "show"])->name("articles.show");
 
-    Route::get("faq", [\App\Http\Controllers\Web\FaqController::class, "index"])->name("faq.index");
-    Route::get("faq/{faq_slug}", [\App\Http\Controllers\Web\FaqController::class, "show"])->name("faq.show");
+    Route::get("faq", [\App\Http\Controllers\Web\FaqController::class, "index"])->name(Constants::ROUTE_WEB_FAQ_INDEX);
+    Route::get("faq/{faq_slug}", [\App\Http\Controllers\Web\FaqController::class, "show"])->name(Constants::ROUTE_WEB_FAQ_SHOW);
 
     Route::get("ask", [\App\Http\Controllers\Web\HomeController::class, "ask"])->name("ask");
 

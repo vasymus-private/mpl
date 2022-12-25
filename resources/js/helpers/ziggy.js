@@ -35,6 +35,18 @@ const Ziggy = {
             uri: "livewire/preview-file/{filename}",
             methods: ["GET", "HEAD"],
         },
+        "ignition.healthCheck": {
+            uri: "_ignition/health-check",
+            methods: ["GET", "HEAD"],
+        },
+        "ignition.executeSolution": {
+            uri: "_ignition/execute-solution",
+            methods: ["POST"],
+        },
+        "ignition.updateConfig": {
+            uri: "_ignition/update-config",
+            methods: ["POST"],
+        },
         "admin.home": { uri: "admin/home", methods: ["GET", "HEAD"] },
         "admin.temp.home": { uri: "admin/home-temp", methods: ["GET", "HEAD"] },
         "admin.media": {
@@ -131,6 +143,15 @@ const Ziggy = {
             uri: "admin/orders-temp/{admin_order}/edit",
             methods: ["GET", "HEAD"],
         },
+        "admin.faq.index": { uri: "admin/faqs", methods: ["GET", "HEAD"] },
+        "admin.faq.create": {
+            uri: "admin/faqs/create",
+            methods: ["GET", "HEAD"],
+        },
+        "admin.faq.edit": {
+            uri: "admin/faqs/{admin_faq}/edit",
+            methods: ["GET", "HEAD"],
+        },
         "admin.export-products.index": {
             uri: "admin/export-products",
             methods: ["GET", "HEAD"],
@@ -195,6 +216,14 @@ const Ziggy = {
             uri: "admin-ajax/brands-bulk",
             methods: ["DELETE"],
         },
+        "admin-ajax.faq.bulk.update": {
+            uri: "admin-ajax/faq-bulk",
+            methods: ["PUT"],
+        },
+        "admin-ajax.faq.bulk.delete": {
+            uri: "admin-ajax/faq-bulk",
+            methods: ["DELETE"],
+        },
         "admin-ajax.products.store": {
             uri: "admin-ajax/product",
             methods: ["POST"],
@@ -217,6 +246,11 @@ const Ziggy = {
         },
         "admin-ajax.brands.update": {
             uri: "admin-ajax/brand/{admin_brand}",
+            methods: ["PUT"],
+        },
+        "admin-ajax.faq.store": { uri: "admin-ajax/faq", methods: ["POST"] },
+        "admin-ajax.faq.update": {
+            uri: "admin-ajax/faq/{admin_faq}",
             methods: ["PUT"],
         },
         "admin-ajax.orders.store": {
@@ -253,6 +287,10 @@ const Ziggy = {
         },
         "admin-ajax.brand-image-upload": {
             uri: "admin-ajax/brand-image-upload/{admin_brand}",
+            methods: ["POST"],
+        },
+        "admin-ajax.faq-image-upload": {
+            uri: "admin-ajax/faq-image-upload/{admin_faq}",
             methods: ["POST"],
         },
         "admin-ajax.product-search": {

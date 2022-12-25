@@ -60,7 +60,7 @@
             </div>
         </form>
         <div class="form-group__item">
-            <p><a href="{{route("faq.index")}}">Перейти в список вопросов</a></p>
+            <p><a href="{{route(\App\Constants::ROUTE_WEB_FAQ_INDEX)}}">Перейти в список вопросов</a></p>
         </div>
     </div>
 @endsection

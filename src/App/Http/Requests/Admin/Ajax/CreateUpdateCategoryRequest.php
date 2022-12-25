@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Admin\Ajax;
 
+use Domain\Common\DTOs\SeoDTO;
 use Domain\Products\DTOs\Admin\Inertia\CreateEditCategory\CategoryDTO;
-use Domain\Products\DTOs\Admin\Inertia\SeoDTO;
 use Domain\Products\Models\Category;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;

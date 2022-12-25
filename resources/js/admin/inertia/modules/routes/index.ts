@@ -331,6 +331,9 @@ export const getRouteUrl = (
 
 export const routeNames = {
     ROUTE_WEB_HOME: "home",
+
+    ROUTE_WEB_FAQ_SHOW: "faq.show",
+
     ROUTE_LOGOUT: "logout",
 
     ROUTE_ADMIN_HOME: "admin.home",
@@ -377,6 +380,10 @@ export const routeNames = {
     ROUTE_ADMIN_SERVICES_CREATE: "admin.services.create",
     ROUTE_ADMIN_SERVICES_EDIT: "admin.services.edit",
 
+    ROUTE_ADMIN_FAQ_INDEX: "admin.faq.index",
+    ROUTE_ADMIN_FAQ_CREATE: "admin.faq.create",
+    ROUTE_ADMIN_FAQ_EDIT: "admin.faq.edit",
+
     ROUTE_ADMIN_EXPORT_PRODUCTS_INDEX: "admin.export-products.index",
     ROUTE_ADMIN_EXPORT_PRODUCTS_SHOW: "admin.export-products.show",
     ROUTE_ADMIN_EXPORT_PRODUCTS_STORE: "admin.export-products.store",
@@ -393,6 +400,9 @@ export const routeNames = {
     ROUTE_ADMIN_AJAX_BRANDS_BULK_UPDATE: "admin-ajax.brands.bulk.update",
     ROUTE_ADMIN_AJAX_BRANDS_BULK_DELETE: "admin-ajax.brands.bulk.delete",
 
+    ROUTE_ADMIN_AJAX_FAQ_BULK_UPDATE: "admin-ajax.faq.bulk.update",
+    ROUTE_ADMIN_AJAX_FAQ_BULK_DELETE: "admin-ajax.faq.bulk.delete",
+
     ROUTE_ADMIN_AJAX_PRODUCTS_STORE: "admin-ajax.products.store",
     ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE: "admin-ajax.products.update",
 
@@ -401,6 +411,9 @@ export const routeNames = {
 
     ROUTE_ADMIN_AJAX_BRANDS_STORE: "admin-ajax.brands.store",
     ROUTE_ADMIN_AJAX_BRANDS_UPDATE: "admin-ajax.brands.update",
+
+    ROUTE_ADMIN_AJAX_FAQ_STORE: "admin-ajax.faq.store",
+    ROUTE_ADMIN_AJAX_FAQ_UPDATE: "admin-ajax.faq.update",
 
     ROUTE_ADMIN_AJAX_ORDERS_STORE: "admin-ajax.orders.store",
     ROUTE_ADMIN_AJAX_ORDERS_UPDATE: "admin-ajax.orders.update",
@@ -414,6 +427,7 @@ export const routeNames = {
     ROUTE_ADMIN_AJAX_PRODUCT_IMAGE_UPLOAD: "admin-ajax.product-image-upload",
     ROUTE_ADMIN_AJAX_CATEGORY_IMAGE_UPLOAD: "admin-ajax.category-image-upload",
     ROUTE_ADMIN_AJAX_BRAND_IMAGE_UPLOAD: "admin-ajax.brand-image-upload",
+    ROUTE_ADMIN_AJAX_FAQ_IMAGE_UPLOAD: "admin-ajax.faq-image-upload",
 
     ROUTE_ADMIN_AJAX_PRODUCT_SEARCH: "admin-ajax.product-search",
 }

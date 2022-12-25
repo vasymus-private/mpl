@@ -3,11 +3,13 @@
 namespace Domain\FAQs\Models;
 
 use Carbon\Carbon;
+use Domain\Common\DTOs\OptionDTO;
 use Domain\Common\Models\BaseModel;
+use Domain\FAQs\QueryBuilders\FaqQueryBuilder;
 use Domain\Seo\Models\Seo;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -27,11 +29,10 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  *
  * @property Seo|null $seo
  *
- * @see FAQ::scopeParents()
- * @method static static|Builder parents()
- *
  * @see FAQ::children()
  * @property Collection|FAQ[] $children
+ *
+ * @method static \Domain\FAQs\QueryBuilders\FaqQueryBuilder query()
  * */
 class FAQ extends BaseModel implements HasMedia
 {
@@ -40,7 +41,7 @@ class FAQ extends BaseModel implements HasMedia
     public const TABLE = "faq";
     public const UPDATED_AT = null;
 
-    public const MC_FILES = "files";
+    public const MC_DESCRIPTION_FILES = "description-files";
 
     /**
      * The table associated with the model.
@@ -60,7 +61,22 @@ class FAQ extends BaseModel implements HasMedia
 
     public static function rbFaqSlug($value)
     {
-        return static::query()->parents()->where(static::TABLE . ".slug", $value)->firstOrFail();
+        return static::query()->parents()->active()->where(static::TABLE . ".slug", $value)->firstOrFail();
+    }
+
+    public static function rbAdminFaq($value)
+    {
+        return static::query()->findOrFail($value);
+    }
+
+    /**
+     * @return \Domain\Common\DTOs\OptionDTO[]
+     */
+    public static function getFaqOptions(): array
+    {
+        return Cache::store('array')->rememberForever('options-faqs', function () {
+            return static::query()->select(["id", "name"])->get()->map(fn (FAQ $faq) => OptionDTO::fromFaq($faq)->toArray())->all();
+        });
     }
 
     /**
@@ -86,16 +102,23 @@ class FAQ extends BaseModel implements HasMedia
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection(static::MC_FILES);
-    }
-
-    public function scopeParents(Builder $builder): Builder
-    {
-        return $builder->whereNull(static::TABLE . ".parent_id");
+        $this->addMediaCollection(static::MC_DESCRIPTION_FILES);
     }
 
     public function children()
     {
         return $this->hasMany(FAQ::class, "parent_id", "id");
+    }
+
+    /**
+     * Create a new Eloquent query builder for the model.
+     *
+     * @param  \Illuminate\Database\Query\Builder  $query
+     *
+     * @return \Domain\FAQs\QueryBuilders\FaqQueryBuilder<\Domain\FAQs\Models\FAQ>
+     */
+    public function newEloquentBuilder($query): FaqQueryBuilder
+    {
+        return new FaqQueryBuilder($query);
     }
 }

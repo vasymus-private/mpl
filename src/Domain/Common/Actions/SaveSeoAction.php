@@ -1,16 +1,15 @@
 <?php
 
-namespace Domain\Products\Actions;
+namespace Domain\Common\Actions;
 
-use Domain\Common\Actions\BaseAction;
-use Domain\Products\DTOs\Admin\Inertia\SeoDTO;
+use Domain\Common\DTOs\SeoDTO;
 use Domain\Seo\Models\Seo;
 
 class SaveSeoAction extends BaseAction
 {
     /**
-     * @param \Domain\Products\Models\Product\Product|\Domain\Products\Models\Brand|\Domain\Products\Models\Category $target
-     * @param \Domain\Products\DTOs\Admin\Inertia\SeoDTO|null $seoDTO
+     * @param \Domain\Products\Models\Product\Product|\Domain\Products\Models\Brand|\Domain\Products\Models\Category|\Domain\FAQs\Models\FAQ $target
+     * @param \Domain\Common\DTOs\SeoDTO|null $seoDTO
      *
      * @return void
      */

@@ -14,7 +14,7 @@ class DeleteBrandAction extends BaseAction
      *
      * @return void
      */
-    public function execute(Brand $brand)
+    public function execute(Brand $brand): void
     {
         DB::transaction(function () use ($brand) {
             $brand->products->each(function (Product $product) {

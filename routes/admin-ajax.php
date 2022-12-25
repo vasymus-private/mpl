@@ -33,6 +33,9 @@ Route::delete('categories-bulk', [\App\Http\Controllers\Admin\Ajax\CategoriesBul
 Route::put('brands-bulk', [\App\Http\Controllers\Admin\Ajax\BrandsBulkController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_BRANDS_BULK_UPDATE);
 Route::delete('brands-bulk', [\App\Http\Controllers\Admin\Ajax\BrandsBulkController::class, 'delete'])->name(Constants::ROUTE_ADMIN_AJAX_BRANDS_BULK_DELETE);
 
+Route::put('faq-bulk', [\App\Http\Controllers\Admin\Ajax\FaqBulkController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_FAQ_BULK_UPDATE);
+Route::delete('faq-bulk', [\App\Http\Controllers\Admin\Ajax\FaqBulkController::class, 'delete'])->name(Constants::ROUTE_ADMIN_AJAX_FAQ_BULK_DELETE);
+
 Route::post('product', [\App\Http\Controllers\Admin\Ajax\ProductsController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_PRODUCTS_STORE);
 Route::put('product/{admin_product}', [\App\Http\Controllers\Admin\Ajax\ProductsController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE);
 
@@ -41,6 +44,9 @@ Route::put('category/{admin_category}', [\App\Http\Controllers\Admin\Ajax\Catego
 
 Route::post('brand', [\App\Http\Controllers\Admin\Ajax\BrandsController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_BRANDS_STORE);
 Route::put('brand/{admin_brand}', [\App\Http\Controllers\Admin\Ajax\BrandsController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_BRANDS_UPDATE);
+
+Route::post('faq', [\App\Http\Controllers\Admin\Ajax\FaqController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_FAQ_STORE);
+Route::put('faq/{admin_faq}', [\App\Http\Controllers\Admin\Ajax\FaqController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_FAQ_UPDATE);
 
 Route::post('order', [\App\Http\Controllers\Admin\Ajax\OrdersController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_ORDERS_STORE);
 Route::put('order/{admin_order}', [\App\Http\Controllers\Admin\Ajax\OrdersController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_ORDERS_UPDATE);
@@ -57,5 +63,7 @@ Route::post('product-image-upload/{admin_product}', [\App\Http\Controllers\Admin
 Route::post('category-image-upload/{admin_category}', [\App\Http\Controllers\Admin\Ajax\CategoryImageUploadController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_CATEGORY_IMAGE_UPLOAD);
 
 Route::post('brand-image-upload/{admin_brand}', [\App\Http\Controllers\Admin\Ajax\BrandImageUploadController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_BRAND_IMAGE_UPLOAD);
+
+Route::post('faq-image-upload/{admin_faq}', [\App\Http\Controllers\Admin\Ajax\FaqImageUploadController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_FAQ_IMAGE_UPLOAD);
 
 Route::get('product-search', [\App\Http\Controllers\Admin\Ajax\ProductSearchController::class, 'index'])->name(Constants::ROUTE_ADMIN_AJAX_PRODUCT_SEARCH);

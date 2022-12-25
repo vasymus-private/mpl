@@ -3,7 +3,7 @@
 namespace Domain\Products\DTOs\Admin\Inertia\CreateEditProduct;
 
 use Domain\Common\DTOs\MediaDTO;
-use Domain\Products\DTOs\Admin\Inertia\SeoDTO;
+use Domain\Common\DTOs\SeoDTO;
 use Spatie\DataTransferObject\DataTransferObject;
 
 class ProductDTO extends DataTransferObject
@@ -144,7 +144,7 @@ class ProductDTO extends DataTransferObject
     public array $relatedCategoriesIds = [];
 
     /**
-     * @var \Domain\Products\DTOs\Admin\Inertia\SeoDTO|null
+     * @var \Domain\Common\DTOs\SeoDTO|null
      */
     public ?SeoDTO $seo;
 

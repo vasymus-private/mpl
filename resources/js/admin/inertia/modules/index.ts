@@ -44,6 +44,8 @@ import {
 } from "@/admin/inertia/modules/orders/types"
 import { useOrdersStore } from "@/admin/inertia/modules/orders"
 import { Admin } from "@/admin/inertia/modules/auth/types"
+import { useFaqsStore } from "@/admin/inertia/modules/faqs"
+import { Faq, FaqListItem } from "@/admin/inertia/modules/faqs/types"
 
 export interface InitialPageProps {
     fullUrl: string
@@ -62,6 +64,7 @@ export interface InitialPageProps {
     orderImportance: { data: Array<OrderImportance> }
     orderStatuses: { data: Array<OrderStatus> }
     charTypes: { data: Array<CharType> }
+    faqOptions: Array<Option>
 
     articles?: Array<Article>
     services?: Array<Service>
@@ -91,6 +94,12 @@ export interface InitialPageProps {
         data: Array<OrderEvent>
     }
     admins?: Array<Admin>
+    faqs?: {
+        data: Array<FaqListItem>
+        links: Links
+        meta: Meta
+    }
+    faq?: Faq | null
 }
 
 /**
@@ -118,6 +127,7 @@ export const initFromPageProps = (
         orderImportance: { data: orderImportanceData = [] },
         orderStatuses: { data: orderStatusesData = [] },
         charTypes: { data: charTypesData = [] },
+        faqOptions = [],
 
         articles = [],
         services = [],
@@ -143,6 +153,12 @@ export const initFromPageProps = (
         order = null,
         orderEvents: { data: orderEventsData = [] } = {},
         admins = [],
+        faqs: {
+            data: faqsList = [],
+            links: faqsListLinks = null,
+            meta: faqsListMeta = null,
+        } = {},
+        faq = null,
     } = initialPageProps
 
     // todo dev only
@@ -208,6 +224,13 @@ export const initFromPageProps = (
 
     const charsStore = useCharTypesStore(pinia)
     charsStore.setChartTypes(charTypesData)
+
+    const faqsStore = useFaqsStore(pinia)
+    faqsStore.setEntities(faqsList)
+    faqsStore.setMeta(faqsListMeta)
+    faqsStore.setLinks(faqsListLinks)
+    faqsStore.setEntity(faq)
+    faqsStore.setOptions(faqOptions)
 
     const profileStore = useProfileStore(pinia)
     profileStore.setAdminSidebarFlexBasis(adminSidebarFlexBasis)

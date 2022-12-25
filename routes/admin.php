@@ -201,6 +201,28 @@ Route
     ->name(Constants::ROUTE_ADMIN_ORDERS_TEMP_EDIT)
 ;
 
+Route
+    ::get(
+        "faqs",
+        [\App\Http\Controllers\Admin\FaqController::class, "index"]
+    )
+    ->name(Constants::ROUTE_ADMIN_FAQ_INDEX)
+;
+Route
+    ::get(
+        "faqs/create",
+        [\App\Http\Controllers\Admin\FaqController::class, "create"]
+    )
+    ->name(Constants::ROUTE_ADMIN_FAQ_CREATE)
+;
+Route
+    ::get(
+        "faqs/{admin_faq}/edit",
+        [\App\Http\Controllers\Admin\FaqController::class, "edit"]
+    )
+    ->name(Constants::ROUTE_ADMIN_FAQ_EDIT)
+;
+
 Route::
     get(
         'export-products',

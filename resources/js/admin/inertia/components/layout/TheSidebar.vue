@@ -204,8 +204,8 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean
                         nav-link-class="sub-level-1"
                     >
                         <NavItem
-                            id-or-href="#"
-                            :is-inertia-link="false"
+                            :id-or-href="routesStore.route(routeNames.ROUTE_ADMIN_FAQ_INDEX)"
+                            :is-inertia-link="true"
                             title="Элементы"
                             :is-collapse="false"
                             icon-class="adm-arrow-icon-dot"
