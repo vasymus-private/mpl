@@ -257,7 +257,7 @@ class CreateUpdateProductRequest extends FormRequest
             'availability_status_id' => isset($payload['availability_status_id'])
                 ? (int)$payload['availability_status_id']
                 : null,
-            'brand_id' => isset($payload['brand_id'])
+            'brand_id' => array_key_exists('brand_id', $payload)
                 ? (int)$payload['brand_id']
                 : null,
             'category_id' => isset($payload['category_id'])

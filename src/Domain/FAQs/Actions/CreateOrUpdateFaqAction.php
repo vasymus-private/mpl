@@ -47,7 +47,7 @@ class CreateOrUpdateFaqAction extends BaseAction
             }
 
             if ($faqDTO->parent_id !== null) {
-                $target->parent_id = $faqDTO->parent_id;
+                $target->parent_id = $faqDTO->parent_id !== 0 ? $faqDTO->parent_id : null;
             }
 
             if ($faqDTO->question !== null) {
