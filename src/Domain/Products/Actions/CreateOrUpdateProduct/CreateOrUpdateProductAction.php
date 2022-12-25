@@ -115,7 +115,7 @@ class CreateOrUpdateProductAction extends BaseAction
             }
 
             if ($productDTO->brand_id !== null) {
-                $target->brand_id = $productDTO->brand_id;
+                $target->brand_id = $productDTO->brand_id !== 0 ? $productDTO->brand_id : null;
             }
 
             if ($productDTO->category_id !== null) {

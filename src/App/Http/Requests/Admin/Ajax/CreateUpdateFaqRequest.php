@@ -90,7 +90,7 @@ class CreateUpdateFaqRequest extends FormRequest
             'slug' => isset($payload['slug'])
                 ? (string)$payload['slug']
                 : null,
-            'parent_id' => isset($payload['parent_id'])
+            'parent_id' => array_key_exists('parent_id', $payload)
                 ? (int)$payload['parent_id']
                 : null,
             'is_active' => isset($payload['is_active'])
