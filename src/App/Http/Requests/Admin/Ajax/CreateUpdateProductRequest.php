@@ -3,13 +3,13 @@
 namespace App\Http\Requests\Admin\Ajax;
 
 use Domain\Common\DTOs\MediaDTO;
+use Domain\Common\DTOs\SeoDTO;
 use Domain\Common\Models\Currency;
 use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\CharCategoryDTO;
 use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\CharDTO;
 use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\InfoPriceDTO;
 use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\ProductDTO;
 use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\VariationDTO;
-use Domain\Common\DTOs\SeoDTO;
 use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\Category;
