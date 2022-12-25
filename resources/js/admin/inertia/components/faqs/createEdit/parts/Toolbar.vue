@@ -4,6 +4,7 @@ import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
 import {Inertia} from "@inertiajs/inertia"
 import {useToastsStore} from "@/admin/inertia/modules/toasts"
 import {useFaqsStore} from "@/admin/inertia/modules/faqs"
+import {computed} from "vue"
 
 
 const faqsStore = useFaqsStore()
@@ -34,6 +35,9 @@ const handleDelete = async () => {
         }
     }
 }
+const canBeViewedInWebShop = computed((): boolean => {
+    return !faqsStore.isCreatingFaqRoute && !faqsStore.faq?.parent_id && faqsStore.faq?.slug && faqsStore.faq?.is_active
+})
 </script>
 
 <template>
@@ -46,7 +50,7 @@ const handleDelete = async () => {
                     <span class="detail-toolbar__btn-r"></span>
                 </Link>
 
-                <a v-if="!faqsStore.isCreatingFaqRoute && !faqsStore.faq?.parent_id && faqsStore.faq?.slug" class="mx-2" :href="routesStore.route(routeNames.ROUTE_WEB_FAQ_SHOW, {faq_slug: faqsStore.faq.slug})" target="_blank">В магазин</a>
+                <a v-if="canBeViewedInWebShop" class="mx-2" :href="routesStore.route(routeNames.ROUTE_WEB_FAQ_SHOW, {faq_slug: faqsStore.faq.slug})" target="_blank">В магазин</a>
             </div>
             <div v-if="!faqsStore.isCreatingFaqRoute" class="col-sm-5 d-flex align-items-center">
                 <Link :href="routesStore.route(routeNames.ROUTE_ADMIN_FAQ_CREATE)" class="btn btn-info mx-1">Добавить</Link>
