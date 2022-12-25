@@ -2,7 +2,7 @@
 
 namespace Domain\Products\DTOs\Admin\Inertia\CreateEditCategory;
 
-use Domain\Products\DTOs\Admin\Inertia\SeoDTO;
+use Domain\Common\DTOs\SeoDTO;
 use Spatie\DataTransferObject\DataTransferObject;
 
 class CategoryDTO extends DataTransferObject
@@ -38,7 +38,7 @@ class CategoryDTO extends DataTransferObject
     public ?string $description;
 
     /**
-     * @var \Domain\Products\DTOs\Admin\Inertia\SeoDTO|null
+     * @var \Domain\Common\DTOs\SeoDTO|null
      */
     public ?SeoDTO $seo;
 }

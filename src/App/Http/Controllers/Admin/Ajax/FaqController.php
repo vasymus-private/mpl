@@ -33,8 +33,8 @@ class FaqController extends BaseAdminController
         /** @var \Domain\FAQs\Models\FAQ $target */
         $target = $request->admin_faq;
 
-        $brand = $createOrUpdateFaqAction->execute($request->prepare(), $target);
+        $faq = $createOrUpdateFaqAction->execute($request->prepare(), $target);
 
-        return new FaqResource($brand);
+        return new FaqResource($faq);
     }
 }

@@ -5,7 +5,7 @@ namespace Domain\Products\Actions\CreateOrUpdateBrand;
 use Domain\Common\Actions\BaseAction;
 use Domain\Common\Actions\SyncAndSaveMediasAction;
 use Domain\Common\DTOs\MediaDTO;
-use Domain\Products\Actions\SaveSeoAction;
+use Domain\Common\Actions\SaveSeoAction;
 use Domain\Products\DTOs\Admin\Inertia\BrandDTO;
 use Domain\Products\Models\Brand;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 class CreateOrUpdateBrandAction extends BaseAction
 {
     /**
-     * @var \Domain\Products\Actions\SaveSeoAction
+     * @var \Domain\Common\Actions\SaveSeoAction
      */
     private SaveSeoAction $saveSeoAction;
 
@@ -23,7 +23,7 @@ class CreateOrUpdateBrandAction extends BaseAction
     private SyncAndSaveMediasAction $syncAndSaveMediasAction;
 
     /**
-     * @param \Domain\Products\Actions\SaveSeoAction $saveSeoAction
+     * @param \Domain\Common\Actions\SaveSeoAction $saveSeoAction
      * @param \Domain\Common\Actions\SyncAndSaveMediasAction $syncAndSaveMediasAction
      */
     public function __construct(

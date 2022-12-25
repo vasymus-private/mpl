@@ -3,6 +3,7 @@
 namespace Domain\Products\DTOs\Admin\Inertia;
 
 use Domain\Common\DTOs\MediaDTO;
+use Domain\Common\DTOs\SeoDTO;
 use Spatie\DataTransferObject\DataTransferObject;
 
 class BrandDTO extends DataTransferObject
@@ -38,7 +39,7 @@ class BrandDTO extends DataTransferObject
     public ?MediaDTO $mainImage;
 
     /**
-     * @var \Domain\Products\DTOs\Admin\Inertia\SeoDTO|null
+     * @var \Domain\Common\DTOs\SeoDTO|null
      */
     public ?SeoDTO $seo;
 }

@@ -9,7 +9,7 @@ use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\CharDTO;
 use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\InfoPriceDTO;
 use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\ProductDTO;
 use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\VariationDTO;
-use Domain\Products\DTOs\Admin\Inertia\SeoDTO;
+use Domain\Common\DTOs\SeoDTO;
 use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Brand;
 use Domain\Products\Models\Category;

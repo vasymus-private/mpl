@@ -6,7 +6,7 @@ import {useCreateEditFaqFormStore} from "@/admin/inertia/modules/forms/createEdi
 import {useRoutesStore} from "@/admin/inertia/modules/routes"
 import {AdminTab, UrlParams} from "@/admin/inertia/modules/common/types"
 import {useForm} from "vee-validate"
-import {Values} from "@/admin/inertia/modules/forms/createEditBrand/types"
+import {Values} from "@/admin/inertia/modules/forms/createEditFaq/types"
 import {getFormSchema, getWatchFaqToFormCb} from "@/admin/inertia/modules/forms/createEditFaq"
 import {watch} from "vue"
 import {useFaqsStore} from "@/admin/inertia/modules/faqs"
