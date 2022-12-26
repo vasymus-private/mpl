@@ -6,6 +6,7 @@ export const itemsWithImageUpload = [
     'link',
     'bulletedList',
     'numberedList',
+    'alignment',
     '|',
     'outdent',
     'indent',
@@ -15,7 +16,8 @@ export const itemsWithImageUpload = [
     'imageUpload',
     'mediaEmbed',
     'undo',
-    'redo'
+    'redo',
+    'sourceEditing'
 ]
 
 export const itemsWithoutImageUpload = [
@@ -26,6 +28,7 @@ export const itemsWithoutImageUpload = [
     'link',
     'bulletedList',
     'numberedList',
+    'alignment',
     '|',
     'outdent',
     'indent',
@@ -34,7 +37,8 @@ export const itemsWithoutImageUpload = [
     'insertTable',
     'mediaEmbed',
     'undo',
-    'redo'
+    'redo',
+    'sourceEditing',
 ]
 
 const imageToolbar = [
@@ -57,6 +61,16 @@ export default {
             'tableColumn',
             'tableRow',
             'mergeTableCells'
+        ]
+    },
+    htmlSupport: {
+        allow: [
+            {
+                name: /^(div|section|article|p|h1|h2|h3|h4|h5|h6|a|strong|i|img|ol|ul|li|table|thead|tbody|tr|td|th|figure)$/,
+                styles: true,
+                classes: true,
+                attributes: true,
+            }
         ]
     }
 }
