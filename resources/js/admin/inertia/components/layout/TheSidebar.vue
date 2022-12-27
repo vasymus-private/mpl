@@ -177,24 +177,6 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean
                         />
                     </NavItem>
                     <NavItem
-                        id-or-href="reference-services"
-                        :is-inertia-link="false"
-                        title="Услуги"
-                        :is-collapse="true"
-                        :is-active-collapse="isActiveRoute(RouteTypeEnum.referenceServices)"
-                        icon-class="adm-icon iblock_menu_icon_iblocks"
-                        nav-link-class="sub-level-1"
-                    >
-                        <NavItem
-                            :id-or-href="routesStore.route(routeNames.ROUTE_ADMIN_SERVICES_INDEX)"
-                            :is-inertia-link="true"
-                            title="Элементы"
-                            :is-collapse="false"
-                            icon-class="adm-arrow-icon-dot"
-                            nav-link-class="sub-level-2"
-                        />
-                    </NavItem>
-                    <NavItem
                         id-or-href="reference-faq"
                         :is-inertia-link="false"
                         title="Вопрос-ответ"

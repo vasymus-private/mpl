@@ -260,12 +260,4 @@ Route::
     ->name(Constants::ROUTE_ADMIN_ARTICLES_INDEX)
 ;
 
-Route::
-    get(
-        'services',
-        [ServicesController::class, 'index']
-    )
-    ->name(Constants::ROUTE_ADMIN_SERVICES_INDEX)
-;
-
 Route::get('---test-inertia', [TestInertiaController::class, 'index'])->name('admin.test.inertia');

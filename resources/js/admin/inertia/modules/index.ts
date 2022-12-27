@@ -9,8 +9,6 @@ import {
 import { useAuthStore } from "@/admin/inertia/modules/auth"
 import { Pinia } from "pinia"
 import { useArticlesStore } from "@/admin/inertia/modules/articles"
-import { Service } from "@/admin/inertia/modules/services/types"
-import { useServicesStore } from "@/admin/inertia/modules/services"
 import { useCategoriesStore } from "@/admin/inertia/modules/categories"
 import { useColumnsStore } from "@/admin/inertia/modules/columns"
 import { useBrandsStore } from "@/admin/inertia/modules/brands"
@@ -67,7 +65,6 @@ export interface InitialPageProps {
     faqOptions: Array<Option>
 
     articles?: Array<Article>
-    services?: Array<Service>
     productListItems?: {
         data: Array<ProductListItem>
         links: Links
@@ -130,7 +127,6 @@ export const initFromPageProps = (
         faqOptions = [],
 
         articles = [],
-        services = [],
         productListItems: {
             data: productListItemsData = [],
             links: productListItemsLinks = null,
@@ -176,9 +172,6 @@ export const initFromPageProps = (
 
     const articlesStore = useArticlesStore(pinia)
     articlesStore.setEntities(articles)
-
-    const servicesStore = useServicesStore(pinia)
-    servicesStore.setEntities(services)
 
     const categoriesStore = useCategoriesStore(pinia)
     categoriesStore.setEntities(categoriesTree)

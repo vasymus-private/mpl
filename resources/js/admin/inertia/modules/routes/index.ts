@@ -132,7 +132,6 @@ export const useRoutesStore = defineStore(storeName, {
                         return (
                             router.current(RouteNameGroupEnum.Brands) ||
                             router.current(RouteNameGroupEnum.Articles) ||
-                            router.current(RouteNameGroupEnum.Services) ||
                             router.current(RouteNameGroupEnum.Faq) ||
                             router.current(RouteNameGroupEnum.Contacts)
                         )
@@ -142,9 +141,6 @@ export const useRoutesStore = defineStore(storeName, {
                     }
                     case RouteTypeEnum.referenceArticles: {
                         return router.current(RouteNameGroupEnum.Articles)
-                    }
-                    case RouteTypeEnum.referenceServices: {
-                        return router.current(RouteNameGroupEnum.Services)
                     }
                     case RouteTypeEnum.referenceFaq: {
                         return router.current(RouteNameGroupEnum.Faq)
@@ -376,10 +372,6 @@ export const routeNames = {
     ROUTE_ADMIN_ARTICLES_CREATE: "admin.articles.create",
     ROUTE_ADMIN_ARTICLES_EDIT: "admin.articles.edit",
 
-    ROUTE_ADMIN_SERVICES_INDEX: "admin.services.index",
-    ROUTE_ADMIN_SERVICES_CREATE: "admin.services.create",
-    ROUTE_ADMIN_SERVICES_EDIT: "admin.services.edit",
-
     ROUTE_ADMIN_FAQ_INDEX: "admin.faq.index",
     ROUTE_ADMIN_FAQ_CREATE: "admin.faq.create",
     ROUTE_ADMIN_FAQ_EDIT: "admin.faq.edit",
@@ -437,7 +429,6 @@ enum RouteNameGroupEnum {
     Categories = "admin.categories.*",
     Brands = "admin.brands.*",
     Articles = "admin.articles.*",
-    Services = "admin.services.*",
     Faq = "admin.faq.*",
     Contacts = "admin.contacts.*",
 }
@@ -448,7 +439,6 @@ export enum RouteTypeEnum {
     reference = "reference",
     referenceBrands = "reference-brands",
     referenceArticles = "reference-articles",
-    referenceServices = "reference-services",
     referenceFaq = "reference-faq",
     referenceContacts = "reference-contacts",
 }
