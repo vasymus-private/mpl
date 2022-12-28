@@ -1,4 +1,4 @@
-import {Seo} from "@/admin/inertia/modules/common/types"
+import { Seo } from "@/admin/inertia/modules/common/types"
 
 export interface ArticleListItem {
     id: number

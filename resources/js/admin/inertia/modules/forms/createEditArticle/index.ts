@@ -18,7 +18,6 @@ import * as yup from "yup"
 import { yupIntegerOrEmptyString } from "@/admin/inertia/utils"
 import { Article } from "@/admin/inertia/modules/articles/types"
 
-
 export const storeName = "createEditArticleForm"
 
 export const useCreateEditArticleFormStore = defineStore(storeName, {
@@ -78,9 +77,12 @@ export const useCreateEditArticleFormStore = defineStore(storeName, {
                     )
                     article = response.data.data
                     Inertia.get(
-                        routesStore.route(routeNames.ROUTE_ADMIN_ARTICLES_EDIT, {
-                            admin_article: article.id,
-                        })
+                        routesStore.route(
+                            routeNames.ROUTE_ADMIN_ARTICLES_EDIT,
+                            {
+                                admin_article: article.id,
+                            }
+                        )
                     )
                 } else {
                     formData.append("_method", "PUT")
@@ -138,7 +140,7 @@ export const getFormSchema = () => {
 export const getWatchArticleToFormCb =
     (setValues: (a: object) => any) => (article: Article | null) => {
         const { id, name, slug, is_active, parent_id, description, seo } =
-        article || {}
+            article || {}
 
         const values = {
             id,

@@ -10,7 +10,7 @@ import { ArticleListItem } from "@/admin/inertia/modules/articles/types"
 import useFormHelpers from "@/admin/inertia/composables/useFormHelpers"
 import { ErrorResponse } from "@/admin/inertia/modules/common/types"
 import * as yup from "yup"
-import {useArticlesStore} from "@/admin/inertia/modules/articles"
+import { useArticlesStore } from "@/admin/inertia/modules/articles"
 
 export const storeName = "indexArticlesForm"
 
@@ -35,7 +35,10 @@ export const useIndexArticlesFormStore = defineStore(storeName, {
                         routeNames.ROUTE_ADMIN_AJAX_ARTICLE_BULK_UPDATE
                     ),
                     {
-                        articles: arrayToMap<Partial<ArticleListItem>>(articlesToUpdate),
+                        articles:
+                            arrayToMap<Partial<ArticleListItem>>(
+                                articlesToUpdate
+                            ),
                     }
                 )
 

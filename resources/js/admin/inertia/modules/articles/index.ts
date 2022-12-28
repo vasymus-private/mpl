@@ -1,10 +1,21 @@
 import { defineStore } from "pinia"
-import { Article, ArticleListItem } from "@/admin/inertia/modules/articles/types"
-import {ErrorResponse, Links, Meta, Option} from "@/admin/inertia/modules/common/types"
-import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
-import {errorsToErrorFields, extendMetaLinksWithComputedData} from "@/admin/inertia/modules/common"
-import {arrayToMap} from "@/admin/inertia/utils"
-import axios, {AxiosError} from "axios"
+import {
+    Article,
+    ArticleListItem,
+} from "@/admin/inertia/modules/articles/types"
+import {
+    ErrorResponse,
+    Links,
+    Meta,
+    Option,
+} from "@/admin/inertia/modules/common/types"
+import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
+import {
+    errorsToErrorFields,
+    extendMetaLinksWithComputedData,
+} from "@/admin/inertia/modules/common"
+import { arrayToMap } from "@/admin/inertia/utils"
+import axios, { AxiosError } from "axios"
 
 export const storeName = "articles"
 
@@ -33,11 +44,11 @@ export const useArticlesStore = defineStore(storeName, {
         getPerPageOption: (state: State): Option | null =>
             state._meta && state._meta.per_page
                 ? {
-                    value: state._meta.per_page,
-                    label: `${state._meta.per_page}`,
-                }
+                      value: state._meta.per_page,
+                      label: `${state._meta.per_page}`,
+                  }
                 : null,
-        article: (state: State): Article|null => state._entity,
+        article: (state: State): Article | null => state._entity,
         options: (state: State): Array<Option> => state._options,
         optionsWithoutEntity: (state: State): Array<Option> =>
             state._options.filter(
