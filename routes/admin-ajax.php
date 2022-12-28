@@ -36,6 +36,9 @@ Route::delete('brands-bulk', [\App\Http\Controllers\Admin\Ajax\BrandsBulkControl
 Route::put('faq-bulk', [\App\Http\Controllers\Admin\Ajax\FaqBulkController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_FAQ_BULK_UPDATE);
 Route::delete('faq-bulk', [\App\Http\Controllers\Admin\Ajax\FaqBulkController::class, 'delete'])->name(Constants::ROUTE_ADMIN_AJAX_FAQ_BULK_DELETE);
 
+Route::put('article-bulk', [\App\Http\Controllers\Admin\Ajax\ArticlesBulkController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_ARTICLE_BULK_UPDATE);
+Route::delete('article-bulk', [\App\Http\Controllers\Admin\Ajax\ArticlesBulkController::class, 'delete'])->name(Constants::ROUTE_ADMIN_AJAX_ARTICLE_BULK_DELETE);
+
 Route::post('product', [\App\Http\Controllers\Admin\Ajax\ProductsController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_PRODUCTS_STORE);
 Route::put('product/{admin_product}', [\App\Http\Controllers\Admin\Ajax\ProductsController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE);
 
@@ -47,6 +50,9 @@ Route::put('brand/{admin_brand}', [\App\Http\Controllers\Admin\Ajax\BrandsContro
 
 Route::post('faq', [\App\Http\Controllers\Admin\Ajax\FaqController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_FAQ_STORE);
 Route::put('faq/{admin_faq}', [\App\Http\Controllers\Admin\Ajax\FaqController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_FAQ_UPDATE);
+
+Route::post('article', [\App\Http\Controllers\Admin\Ajax\ArticlesController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_ARTICLE_STORE);
+Route::put('article/{admin_faq}', [\App\Http\Controllers\Admin\Ajax\ArticlesController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_ARTICLE_UPDATE);
 
 Route::post('order', [\App\Http\Controllers\Admin\Ajax\OrdersController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_ORDERS_STORE);
 Route::put('order/{admin_order}', [\App\Http\Controllers\Admin\Ajax\OrdersController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_ORDERS_UPDATE);
@@ -65,5 +71,7 @@ Route::post('category-image-upload/{admin_category}', [\App\Http\Controllers\Adm
 Route::post('brand-image-upload/{admin_brand}', [\App\Http\Controllers\Admin\Ajax\BrandImageUploadController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_BRAND_IMAGE_UPLOAD);
 
 Route::post('faq-image-upload/{admin_faq}', [\App\Http\Controllers\Admin\Ajax\FaqImageUploadController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_FAQ_IMAGE_UPLOAD);
+
+Route::post('article-image-upload/{admin_article}', [\App\Http\Controllers\Admin\Ajax\ArticleImageUploadController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_ARTICLE_IMAGE_UPLOAD);
 
 Route::get('product-search', [\App\Http\Controllers\Admin\Ajax\ProductSearchController::class, 'index'])->name(Constants::ROUTE_ADMIN_AJAX_PRODUCT_SEARCH);

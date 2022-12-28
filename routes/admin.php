@@ -259,5 +259,19 @@ Route::
     )
     ->name(Constants::ROUTE_ADMIN_ARTICLES_INDEX)
 ;
+Route::
+get(
+    'articles',
+    [ArticlesController::class, 'create']
+)
+    ->name(Constants::ROUTE_ADMIN_ARTICLES_CREATE)
+;
+Route::
+get(
+    'articles',
+    [ArticlesController::class, 'edit']
+)
+    ->name(Constants::ROUTE_ADMIN_ARTICLES_EDIT)
+;
 
 Route::get('---test-inertia', [TestInertiaController::class, 'index'])->name('admin.test.inertia');

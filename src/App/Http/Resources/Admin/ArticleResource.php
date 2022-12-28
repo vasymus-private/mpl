@@ -3,13 +3,14 @@
 namespace App\Http\Resources\Admin;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Carbon;
 
-class FaqResource extends JsonResource
+class ArticleResource extends JsonResource
 {
     /**
      * The resource instance.
      *
-     * @var \Domain\FAQs\Models\FAQ
+     * @var \Domain\Articles\Models\Article
      */
     public $resource;
 
@@ -27,11 +28,13 @@ class FaqResource extends JsonResource
             'uuid' => $this->resource->uuid,
             'name' => $this->resource->name,
             'slug' => $this->resource->slug,
-            'question' => $this->resource->question,
-            'answer' => $this->resource->answer,
+            'description' => $this->resource->description,
             'parent_id' => $this->resource->parent_id,
             'is_active' => $this->resource->is_active,
             'seo' => $this->resource->seo,
+            'created_at' => $this->resource->created_at instanceof Carbon
+                ? $this->resource->created_at->format('Y-m-d H:i:s')
+                : null,
         ];
     }
 }

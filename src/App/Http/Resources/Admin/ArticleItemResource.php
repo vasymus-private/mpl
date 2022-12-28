@@ -4,19 +4,19 @@ namespace App\Http\Resources\Admin;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class FaqResource extends JsonResource
+class ArticleItemResource extends JsonResource
 {
     /**
      * The resource instance.
      *
-     * @var \Domain\FAQs\Models\FAQ
+     * @var \Domain\Articles\Models\Article
      */
     public $resource;
 
     /**
      * Transform the resource into an array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      *
      * @return array
      */
@@ -27,11 +27,8 @@ class FaqResource extends JsonResource
             'uuid' => $this->resource->uuid,
             'name' => $this->resource->name,
             'slug' => $this->resource->slug,
-            'question' => $this->resource->question,
-            'answer' => $this->resource->answer,
             'parent_id' => $this->resource->parent_id,
             'is_active' => $this->resource->is_active,
-            'seo' => $this->resource->seo,
         ];
     }
 }

@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Str;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property int $id
@@ -24,17 +26,28 @@ use Illuminate\Support\Str;
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
  *
- * @see Article::parent()
- * @property Article|null $parent
+ * @see \Domain\Articles\Models\Article::seo()
+ * @property \Domain\Seo\Models\Seo|null $seo
  *
- * @see Article::scopeActive()
- * @method static static|Builder active()
+ * @see \Domain\Articles\Models\Article::parent()
+ * @property \Domain\Articles\Models\Article|null $parent
+ *
+ * @see \Domain\Articles\Models\Article::children()
+ * @property \Illuminate\Database\Eloquent\Collection|\Domain\Articles\Models\Article[] $children
+ *
+ * @see \Domain\Articles\Models\Article::scopeActive()
+ * @method static static|\Illuminate\Database\Eloquent\Builder active()
  * */
-class Article extends BaseModel
+class Article extends BaseModel implements HasMedia
 {
     use SoftDeletes;
+    use InteractsWithMedia;
 
     public const TABLE = "articles";
+
+    public const DEFAULT_IS_ACTIVE = false;
+
+    public const MC_DESCRIPTION_FILES = "description-files";
 
     /**
      * The table associated with the model.
@@ -50,6 +63,15 @@ class Article extends BaseModel
      */
     protected $casts = [
         "is_active" => "boolean",
+    ];
+
+    /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'is_active' => self::DEFAULT_IS_ACTIVE,
     ];
 
     public static function route(Article $article): string
@@ -83,6 +105,11 @@ class Article extends BaseModel
         ;
     }
 
+    public static function rbAdminArticle($value)
+    {
+        return static::query()->findOrFail($value);
+    }
+
     /**
      * @inheritDoc
      */
@@ -104,6 +131,11 @@ class Article extends BaseModel
         return $this->belongsTo(Article::class, "parent_id", "id");
     }
 
+    public function children()
+    {
+        return $this->hasMany(Article::class, "parent_id", "id");
+    }
+
     public function seo(): MorphOne
     {
         return $this->morphOne(Seo::class, "seoable", "seoable_type", "seoable_id");
@@ -112,5 +144,10 @@ class Article extends BaseModel
     public function scopeActive(Builder $builder): Builder
     {
         return $builder->where(static::TABLE . ".is_active", true);
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection(static::MC_DESCRIPTION_FILES);
     }
 }

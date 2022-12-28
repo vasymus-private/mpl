@@ -91,6 +91,9 @@ final class Constants
     public const ROUTE_ADMIN_AJAX_FAQ_BULK_UPDATE = 'admin-ajax.faq.bulk.update';
     public const ROUTE_ADMIN_AJAX_FAQ_BULK_DELETE = 'admin-ajax.faq.bulk.delete';
 
+    public const ROUTE_ADMIN_AJAX_ARTICLE_BULK_UPDATE = 'admin-ajax.article.bulk.update';
+    public const ROUTE_ADMIN_AJAX_ARTICLE_BULK_DELETE = 'admin-ajax.article.bulk.delete';
+
     public const ROUTE_ADMIN_AJAX_PRODUCTS_STORE = 'admin-ajax.products.store';
     public const ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE = 'admin-ajax.products.update';
 
@@ -102,6 +105,9 @@ final class Constants
 
     public const ROUTE_ADMIN_AJAX_FAQ_STORE = 'admin-ajax.faq.store';
     public const ROUTE_ADMIN_AJAX_FAQ_UPDATE = 'admin-ajax.faq.update';
+
+    public const ROUTE_ADMIN_AJAX_ARTICLE_STORE = 'admin-ajax.article.store';
+    public const ROUTE_ADMIN_AJAX_ARTICLE_UPDATE = 'admin-ajax.article.update';
 
     public const ROUTE_ADMIN_AJAX_ORDERS_STORE = 'admin-ajax.orders.store';
     public const ROUTE_ADMIN_AJAX_ORDERS_UPDATE = 'admin-ajax.orders.update';
@@ -116,6 +122,7 @@ final class Constants
     public const ROUTE_ADMIN_AJAX_CATEGORY_IMAGE_UPLOAD = 'admin-ajax.category-image-upload';
     public const ROUTE_ADMIN_AJAX_BRAND_IMAGE_UPLOAD = 'admin-ajax.brand-image-upload';
     public const ROUTE_ADMIN_AJAX_FAQ_IMAGE_UPLOAD = 'admin-ajax.faq-image-upload';
+    public const ROUTE_ADMIN_AJAX_ARTICLE_IMAGE_UPLOAD = 'admin-ajax.article-image-upload';
 
     public const ROUTE_ADMIN_AJAX_PRODUCT_SEARCH = 'admin-ajax.product-search';
 

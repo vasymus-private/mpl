@@ -41,6 +41,8 @@ class FAQ extends BaseModel implements HasMedia
     public const TABLE = "faq";
     public const UPDATED_AT = null;
 
+    public const DEFAULT_IS_ACTIVE = false;
+
     public const MC_DESCRIPTION_FILES = "description-files";
 
     /**
@@ -57,6 +59,15 @@ class FAQ extends BaseModel implements HasMedia
      */
     protected $casts = [
         "is_active" => "bool",
+    ];
+
+    /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'is_active' => self::DEFAULT_IS_ACTIVE,
     ];
 
     public static function rbFaqSlug($value)
