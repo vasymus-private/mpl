@@ -1,5 +1,5 @@
 import { Column } from "@/admin/inertia/modules/columns/types"
-import { Article } from "@/admin/inertia/modules/articles/types"
+import {Article, ArticleListItem} from "@/admin/inertia/modules/articles/types"
 import { Auth } from "@/admin/inertia/modules/auth/types"
 import {
     CategoriesTreeItem,
@@ -63,8 +63,14 @@ export interface InitialPageProps {
     orderStatuses: { data: Array<OrderStatus> }
     charTypes: { data: Array<CharType> }
     faqOptions: Array<Option>
+    articleOptions: Array<Option>
 
-    articles?: Array<Article>
+    articleListItems?: {
+        data: Array<ArticleListItem>
+        links: Links
+        meta: Meta
+    }
+    article?: Article
     productListItems?: {
         data: Array<ProductListItem>
         links: Links
@@ -125,8 +131,14 @@ export const initFromPageProps = (
         orderStatuses: { data: orderStatusesData = [] },
         charTypes: { data: charTypesData = [] },
         faqOptions = [],
+        articleOptions = [],
 
-        articles = [],
+        articleListItems: {
+            data: articleListItemsData = [],
+            links: articleListItemsLinks = null,
+            meta: articleListItemsMeta = null,
+        },
+        article = null,
         productListItems: {
             data: productListItemsData = [],
             links: productListItemsLinks = null,
@@ -171,7 +183,11 @@ export const initFromPageProps = (
     authStore.setAdmins(admins)
 
     const articlesStore = useArticlesStore(pinia)
-    articlesStore.setEntities(articles)
+    articlesStore.setEntities(articleListItemsData)
+    articlesStore.setLinks(articleListItemsLinks)
+    articlesStore.setMeta(articleListItemsMeta)
+    articlesStore.setEntity(article)
+    articlesStore.setOptions(articleOptions)
 
     const categoriesStore = useCategoriesStore(pinia)
     categoriesStore.setEntities(categoriesTree)

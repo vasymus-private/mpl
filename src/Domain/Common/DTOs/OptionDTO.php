@@ -2,6 +2,7 @@
 
 namespace Domain\Common\DTOs;
 
+use Domain\Articles\Models\Article;
 use Domain\Common\Models\BaseModel;
 use Domain\Common\Models\Currency;
 use Domain\FAQs\Models\FAQ;
@@ -61,6 +62,19 @@ class OptionDTO extends DataTransferObject
         return new self([
             'value' => $faq->id,
             'label' => $faq->name,
+        ]);
+    }
+
+    /**
+     * @param \Domain\Articles\Models\Article $article
+     *
+     * @return self
+     */
+    public static function fromArticle(Article $article): self
+    {
+        return new self([
+            'value' => $article->id,
+            'label' => $article->name,
         ]);
     }
 
