@@ -15,7 +15,7 @@
                             <img style="max-width: 200px;" src="{{$galleryItem->main_image_url}}" alt="{{$galleryItem->description}}" />
                         </a>
                     </div>
-                    <div><p>{!! $galleryItem->description  !!}</p></div>
+                    <div>{!! $galleryItem->description  !!}</div>
                 </li>
             @endforeach
         </ul>

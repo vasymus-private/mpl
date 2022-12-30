@@ -29,6 +29,11 @@ class GalleryItemDTO extends DataTransferObject
     public ?int $parent_id;
 
     /**
+     * @var int|null
+     */
+    public ?int $ordering;
+
+    /**
      * @var string|null
      */
     public ?string $description;

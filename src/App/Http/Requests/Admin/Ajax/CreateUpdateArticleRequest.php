@@ -106,7 +106,7 @@ class CreateUpdateArticleRequest extends FormRequest
     /**
      * @return \Domain\Articles\Models\Article|null
      */
-    protected function current(): ?Article
+    public function current(): ?Article
     {
         /** @var \Domain\Articles\Models\Article $article */
         $article = $this->admin_article;

@@ -71,7 +71,7 @@ export interface InitialPageProps {
     articleOptions: Array<Option>
     galleryItemOptions: Array<Option>
 
-    articleListItems?: {
+    articles?: {
         data: Array<ArticleListItem>
         links: Links
         meta: Meta
@@ -146,7 +146,7 @@ export const initFromPageProps = (
         articleOptions = [],
         galleryItemOptions = [],
 
-        articleListItems: {
+        articles: {
             data: articleListItemsData = [],
             links: articleListItemsLinks = null,
             meta: articleListItemsMeta = null,

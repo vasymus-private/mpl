@@ -56,6 +56,7 @@ class GalleryItem extends BaseModel implements HasMedia
     public const TABLE = "gallery_items";
 
     public const DEFAULT_IS_ACTIVE = false;
+    public const DEFAULT_ORDERING = 500;
 
     public const MC_MAIN_IMAGE = "main";
 
@@ -82,6 +83,7 @@ class GalleryItem extends BaseModel implements HasMedia
      */
     protected $attributes = [
         'is_active' => self::DEFAULT_IS_ACTIVE,
+        'ordering' => self::DEFAULT_ORDERING,
     ];
 
     /**
@@ -162,7 +164,10 @@ class GalleryItem extends BaseModel implements HasMedia
      */
     public function children()
     {
-        return $this->hasMany(GalleryItem::class, "parent_id", "id")->orderBy(GalleryItem::TABLE . ".ordering");
+        /** @var \Illuminate\Database\Eloquent\Relations\HasMany|\Domain\GalleryItems\QueryBuilders\GalleryItemQueryBuilder $hm */
+        $hm = $this->hasMany(GalleryItem::class, "parent_id", "id");
+
+        return $hm->active()->orderBy(GalleryItem::TABLE . ".ordering");
     }
 
     /**

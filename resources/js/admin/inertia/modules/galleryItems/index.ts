@@ -65,7 +65,7 @@ export const useGalleryItemsStore = defineStore(storeName, {
         isCreatingGalleryItemRoute(): boolean {
             let routesStore = useRoutesStore()
 
-            return [routeNames.ROUTE_ADMIN_GALLERY_ITEMS_INDEX].includes(
+            return [routeNames.ROUTE_ADMIN_GALLERY_ITEMS_CREATE].includes(
                 routesStore.current
             )
         },

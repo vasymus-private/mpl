@@ -81,7 +81,7 @@ Route::post('faq', [FaqController::class, 'store'])->name(Constants::ROUTE_ADMIN
 Route::put('faq/{admin_faq}', [FaqController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_FAQ_UPDATE);
 
 Route::post('article', [ArticlesController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_ARTICLE_STORE);
-Route::put('article/{admin_faq}', [ArticlesController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_ARTICLE_UPDATE);
+Route::put('article/{admin_article}', [ArticlesController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_ARTICLE_UPDATE);
 
 Route::post('gallery-items', [GalleryItemsController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_GALLERY_ITEM_STORE);
 Route::put('gallery-items/{admin_gallery_item}', [GalleryItemsController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_GALLERY_ITEM_UPDATE);

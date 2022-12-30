@@ -212,6 +212,24 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean
                             nav-link-class="sub-level-2"
                         />
                     </NavItem>
+                    <NavItem
+                        id-or-href="reference-gallery-items"
+                        :is-inertia-link="false"
+                        title="Галерея"
+                        :is-collapse="true"
+                        :is-active-collapse="isActiveRoute(RouteTypeEnum.referenceGalleryItems)"
+                        icon-class="adm-icon iblock_menu_icon_iblocks"
+                        nav-link-class="sub-level-1"
+                    >
+                        <NavItem
+                            :id-or-href="routesStore.route(routeNames.ROUTE_ADMIN_GALLERY_ITEMS_INDEX)"
+                            :is-inertia-link="true"
+                            title="Элементы"
+                            :is-collapse="false"
+                            icon-class="adm-arrow-icon-dot"
+                            nav-link-class="sub-level-2"
+                        />
+                    </NavItem>
                 </NavItem>
                 <NavItem
                     id-or-href="highload"

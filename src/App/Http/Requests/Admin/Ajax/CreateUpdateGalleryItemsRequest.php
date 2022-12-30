@@ -39,11 +39,12 @@ class CreateUpdateGalleryItemsRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:250',
-            'slug' => 'required|string|max:250',
+            'name' => 'nullable|string|max:250',
+            'slug' => 'nullable|string|max:250',
             'is_active' => 'nullable|boolean',
             'description' => 'nullable|string|max:65000',
             'parent_id' => sprintf('nullable|integer|exists:%s,id', GalleryItem::class),
+            'ordering' => 'nullable|integer',
 
             'seo' => 'nullable|array',
             'seo.title' => 'nullable|string|max:250',
@@ -103,6 +104,9 @@ class CreateUpdateGalleryItemsRequest extends FormRequest
                 : null,
             'parent_id' => array_key_exists('parent_id', $payload)
                 ? (int)$payload['parent_id']
+                : null,
+            'ordering' => array_key_exists('ordering', $payload)
+                ? (int)$payload['ordering']
                 : null,
             'is_active' => isset($payload['is_active'])
                 ? (bool)$payload['is_active']

@@ -29,6 +29,7 @@ class GalleryItemResource extends JsonResource
             'slug' => $this->resource->slug,
             'parent_id' => $this->resource->parent_id,
             'is_active' => $this->resource->is_active,
+            'ordering' => $this->resource->ordering,
             'description' => $this->resource->description,
             'seo' => $this->resource->seo,
             'web_route' => $this->resource->web_route,

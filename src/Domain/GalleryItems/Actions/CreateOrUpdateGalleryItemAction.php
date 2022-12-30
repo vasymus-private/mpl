@@ -62,6 +62,10 @@ class CreateOrUpdateGalleryItemAction extends BaseAction
                 $target->parent_id = $galleryItemDTO->parent_id !== 0 ? $galleryItemDTO->parent_id : null;
             }
 
+            if ($galleryItemDTO->ordering !== null) {
+                $target->ordering = $galleryItemDTO->ordering;
+            }
+
             if ($galleryItemDTO->description !== null) {
                 $target->description = $galleryItemDTO->description;
             }

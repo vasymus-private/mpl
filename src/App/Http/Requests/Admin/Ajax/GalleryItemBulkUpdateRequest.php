@@ -31,6 +31,7 @@ class GalleryItemBulkUpdateRequest extends FormRequest
             'galleryItems.*.id' => 'required|integer',
             'galleryItems.*.name' => 'required|string|max:250',
             'galleryItems.*.is_active' => 'nullable|boolean',
+            'galleryItems.*.ordering' => 'nullable|integer',
         ];
     }
 
@@ -43,7 +44,7 @@ class GalleryItemBulkUpdateRequest extends FormRequest
         return collect($this->galleryItems)
             ->map(fn (array $item) => new GalleryItemListUpdateDTO([
                 'id' => (int)$item['id'],
-                'name' => (string)$item['name'],
+                'name' => isset($item['name']) ? (string)$item['name'] : null,
                 'is_active' => isset($item['is_active']) ? (int)$item['is_active'] : null,
             ]))
             ->keyBy('id')

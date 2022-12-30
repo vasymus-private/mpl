@@ -127,10 +127,11 @@ export const getFormSchema = () => {
     return yup.object({
         id: yupIntegerOrEmptyString(),
         uuid: yup.string().nullable(),
-        name: yup.string().required().max(250),
-        slug: yup.string().required().max(250),
+        name: yup.string().nullable().max(250),
+        slug: yup.string().nullable().max(250),
         is_active: yup.boolean(),
         parent_id: yupIntegerOrEmptyString(),
+        ordering: yupIntegerOrEmptyString(),
         description: yup.string().max(65000).nullable(),
         seo: yup
             .object({
@@ -146,7 +147,7 @@ export const getFormSchema = () => {
 
 export const getWatchGalleryItemToFormCb =
     (setValues: (a: object) => any) => (galleryItem: GalleryItem | null) => {
-        const { id, name, slug, is_active, parent_id, description, seo, mainImage } =
+        const { id, name, slug, is_active, parent_id, ordering, description, seo, mainImage } =
             galleryItem || {}
 
         const values = {
@@ -156,6 +157,7 @@ export const getWatchGalleryItemToFormCb =
             is_active,
             parent_id,
             description,
+            ordering,
             seo,
             mainImage,
         }
@@ -172,6 +174,7 @@ const valuesToFormData = (values: Values): FormData => {
         "slug",
         "parent_id",
         "description",
+        "ordering",
     ]
 
     stringOrNumberKeys.forEach((key) => {

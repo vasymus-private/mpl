@@ -146,7 +146,6 @@ watchSelectAll()
                 </div>
             </div>
 
-
             <form id="form-gallery-items-list" @submit="onSubmit" novalidate>
                 <div class="admin-edit-variations table-responsive">
                     <table class="table table-hover table-products">
@@ -165,6 +164,7 @@ watchSelectAll()
                             <th scope="col">ID</th>
                             <th scope="col">Название</th>
                             <th scope="col">Акт-ть</th>
+                            <th scope="col">Сорт-ка</th>
                             <th scope="col">Родительский</th>
                         </tr>
                         </thead>
@@ -231,6 +231,15 @@ watchSelectAll()
                                     :keep-value="true"
                                 />
                                 <span v-else class="main-grid-cell-content">{{getActiveName(galleryItem.is_active)}}</span>
+                            </td>
+                            <td>
+                                <FormControlInput
+                                    v-if="editMode && isChecked(galleryItem.uuid)"
+                                    :name="`galleryItems[${indexForId(galleryItem.id)}].ordering`"
+                                    type="number"
+                                    :keep-value="true"
+                                />
+                                <span v-else class="main-grid-cell-content">{{galleryItem.ordering}}</span>
                             </td>
                             <td>
                                 <span class="main-grid-cell-content">{{galleryItemsStore.option(galleryItem.parent_id)?.label}}</span>

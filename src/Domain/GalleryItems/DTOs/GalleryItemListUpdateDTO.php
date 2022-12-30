@@ -20,4 +20,9 @@ class GalleryItemListUpdateDTO extends DataTransferObject
      * @var bool|null
      */
     public ?bool $is_active;
+
+    /**
+     * @var int|null
+     */
+    public ?int $ordering;
 }

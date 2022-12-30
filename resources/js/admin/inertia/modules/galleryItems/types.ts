@@ -7,6 +7,7 @@ export interface GalleryItemListItem {
     slug: string|null
     parent_id: number|null
     is_active: boolean
+    ordering: number
 }
 
 export interface GalleryItem {
@@ -20,4 +21,5 @@ export interface GalleryItem {
     seo: Seo|null
     web_route: string|null
     mainImage: Media | null
+    ordering: number
 }

@@ -30,8 +30,7 @@ class ArticlesController extends BaseAdminController
      */
     public function update(CreateUpdateArticleRequest $request, CreateOrUpdateArticleAction $createOrUpdateArticleAction)
     {
-        /** @var \Domain\Articles\Models\Article $target */
-        $target = $request->admin_article;
+        $target = $request->current();
 
         $article = $createOrUpdateArticleAction->execute($request->prepare(), $target);
 
