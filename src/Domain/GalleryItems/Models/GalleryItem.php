@@ -19,7 +19,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property string|null $description
  * @property int|null $ordering
  * @property int|null $parent_id
- * @property boolean $is_active
+ * @property bool $is_active
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
