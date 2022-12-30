@@ -27,7 +27,6 @@ const {errors, handleSubmit, values, setValues, submitCount, isSubmitting} = use
 watch(() => articlesStore.article, getWatchArticleToFormCb(setValues))
 
 const onSubmit = handleSubmit((values: Values, ctx) => {
-    console.log('---', values)
     createEditArticleFormStore.submitCreateEditArticle(values, ctx)
 })
 </script>

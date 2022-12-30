@@ -160,7 +160,6 @@ watchEffect(() => {
 watchSelectAll()
 
 const onSubmit = handleSubmit(async (values, ctx) => {
-    console.log('---', checkedItems.value)
     const errorFields = await indexProductsForm.submitIndexProducts(checkedItems.value, values)
     if (errorFields) {
         ctx.setErrors(errorFields)
