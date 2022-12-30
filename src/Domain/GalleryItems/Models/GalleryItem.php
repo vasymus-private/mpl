@@ -4,10 +4,8 @@ namespace Domain\GalleryItems\Models;
 
 use Carbon\Carbon;
 use Domain\Common\Models\BaseModel;
+use Domain\GalleryItems\QueryBuilders\GalleryItemQueryBuilder;
 use Domain\Seo\Models\Seo;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
@@ -25,13 +23,16 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
  *
- * @property Seo|null $seo
+ * @see \Domain\GalleryItems\Models\GalleryItem::seo()
+ * @property \Domain\Seo\Models\Seo|null $seo
  *
- * @see GalleryItem::scopeParents()
- * @method static static|Builder parents()
+ * @see \Domain\GalleryItems\Models\GalleryItem::children()
+ * @property \Illuminate\Database\Eloquent\Collection|\Domain\GalleryItems\Models\GalleryItem[] $children
  *
- * @see GalleryItem::child()
- * @property Collection|GalleryItem[] $child
+ * @see \Domain\GalleryItems\Models\GalleryItem::getMainImageUrlAttribute()
+ * @property-read string $main_image_url
+ *
+ * @method static \Domain\GalleryItems\QueryBuilders\GalleryItemQueryBuilder query()
  * */
 class GalleryItem extends BaseModel implements HasMedia
 {
@@ -65,34 +66,58 @@ class GalleryItem extends BaseModel implements HasMedia
         static::saving($cb);
     }
 
-    public function seo(): MorphOne
+    /**
+     * @param $value
+     *
+     * @return \Domain\GalleryItems\Models\GalleryItem
+     */
+    public static function rbParentGalleryItemSlug($value)
     {
-        return $this->morphOne(\Domain\Seo\Models\Seo::class, "seoable", "seoable_type", "seoable_id");
+        return static::query()->parents()
+            ->where(static::TABLE . ".slug", $value)
+            ->firstOrFail();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphOne
+     */
+    public function seo()
+    {
+        return $this->morphOne(Seo::class, "seoable", "seoable_type", "seoable_id");
     }
 
     public function registerMediaCollections(): void
     {
         $this
             ->addMediaCollection(static::MC_MAIN_IMAGE)
-            ->singleFile()
-        ;
+            ->singleFile();
     }
 
-    public function child()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function children()
     {
         return $this->hasMany(GalleryItem::class, "parent_id", "id")->orderBy(GalleryItem::TABLE . ".ordering");
     }
 
-    public function scopeParents(Builder $builder): Builder
+    /**
+     * Create a new Eloquent query builder for the model.
+     *
+     * @param  \Illuminate\Database\Query\Builder  $query
+     *
+     * @return \Domain\GalleryItems\QueryBuilders\GalleryItemQueryBuilder<\Domain\GalleryItems\Models\GalleryItem>
+     */
+    public function newEloquentBuilder($query): GalleryItemQueryBuilder
     {
-        return $builder->whereNull(static::TABLE . ".parent_id");
+        return new GalleryItemQueryBuilder($query);
     }
 
-    public static function rbParentGalleryItemSlug($value)
+    /**
+     * @return string
+     */
+    public function getMainImageUrlAttribute(): string
     {
-        return static::parents()
-            ->where(static::TABLE . ".slug", $value)
-            ->firstOrFail()
-        ;
+        return $this->getFirstMediaUrl(static::MC_MAIN_IMAGE);
     }
 }
