@@ -20,6 +20,8 @@ class ArticlesController extends BaseWebController
 
         $breadcrumbs = Breadcrumbs::articleRoute($article, $subarticle);
 
-        return view("web.pages.articles.$slug", compact("article", "subarticle", "breadcrumbs"));
+        return view('web.pages.articles.article', compact('article', 'subarticle', 'breadcrumbs'));
+
+//        return view("web.pages.articles.$slug", compact("article", "subarticle", "breadcrumbs"));
     }
 }

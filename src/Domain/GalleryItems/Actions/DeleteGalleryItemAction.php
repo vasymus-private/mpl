@@ -16,7 +16,7 @@ class DeleteGalleryItemAction extends BaseAction
     public function execute(GalleryItem $galleryItem): void
     {
         DB::transaction(function () use ($galleryItem) {
-            $galleryItem->children()->get()->each(function (GalleryItem $gi) {
+            $galleryItem->children->each(function (GalleryItem $gi) {
                 $gi->parent_id = null;
                 $gi->save();
             });

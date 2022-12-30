@@ -167,7 +167,10 @@ class GalleryItem extends BaseModel implements HasMedia
         /** @var \Illuminate\Database\Eloquent\Relations\HasMany|\Domain\GalleryItems\QueryBuilders\GalleryItemQueryBuilder $hm */
         $hm = $this->hasMany(GalleryItem::class, "parent_id", "id");
 
-        return $hm->active()->orderBy(GalleryItem::TABLE . ".ordering");
+        /** @var \Illuminate\Database\Eloquent\Relations\HasMany $result */
+        $result = $hm->active()->orderBy(GalleryItem::TABLE . ".ordering");
+
+        return $result;
     }
 
     /**

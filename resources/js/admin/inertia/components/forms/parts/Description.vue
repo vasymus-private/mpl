@@ -24,16 +24,6 @@ const value = computed({
         return setValue(nv)
     }
 })
-const textAreaM = computed({
-    get() {
-        console.log('--- get', _value.value)
-        return _value.value || null
-    },
-    set(nv) {
-        console.log('--- set', nv)
-        return setValue(nv)
-    }
-})
 </script>
 
 <template>
@@ -75,12 +65,17 @@ const textAreaM = computed({
                 role="tabpanel"
                 :aria-labelledby="`${props.id}-html-tab`"
             >
-                <textarea
-                    v-model="textAreaM"
-                    :class="['form-control', 'h-100']"
-                    :id="props.id"
-                    rows="3"
-                />
+                <Field
+                    v-slot="{field, meta}"
+                    :name="name"
+                >
+                    <textarea
+                        v-bind="field"
+                        :class="['form-control', 'h-100', !meta.valid ? 'is-invalid' : '']"
+                        :id="props.id"
+                        rows="3"
+                    />
+                </Field>
             </div>
             <div
                 class="tab-pane fade show active"
