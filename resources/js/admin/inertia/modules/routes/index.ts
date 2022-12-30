@@ -376,9 +376,9 @@ export const routeNames = {
     ROUTE_ADMIN_FAQ_CREATE: "admin.faq.create",
     ROUTE_ADMIN_FAQ_EDIT: "admin.faq.edit",
 
-    ROUTE_ADMIN_GALLERY_ITEMS_INDEX: 'admin.gallery-items.index',
-    ROUTE_ADMIN_GALLERY_ITEMS_CREATE: 'admin.gallery-items.create',
-    ROUTE_ADMIN_GALLERY_ITEMS_EDIT: 'admin.gallery-items.edit',
+    ROUTE_ADMIN_GALLERY_ITEMS_INDEX: "admin.gallery-items.index",
+    ROUTE_ADMIN_GALLERY_ITEMS_CREATE: "admin.gallery-items.create",
+    ROUTE_ADMIN_GALLERY_ITEMS_EDIT: "admin.gallery-items.edit",
 
     ROUTE_ADMIN_EXPORT_PRODUCTS_INDEX: "admin.export-products.index",
     ROUTE_ADMIN_EXPORT_PRODUCTS_SHOW: "admin.export-products.show",
@@ -417,8 +417,8 @@ export const routeNames = {
     ROUTE_ADMIN_AJAX_ARTICLE_STORE: "admin-ajax.article.store",
     ROUTE_ADMIN_AJAX_ARTICLE_UPDATE: "admin-ajax.article.update",
 
-    ROUTE_ADMIN_AJAX_GALLERY_ITEM_STORE: 'admin-ajax.gallery-item.store',
-    ROUTE_ADMIN_AJAX_GALLERY_ITEM_UPDATE: 'admin-ajax.gallery-item.update',
+    ROUTE_ADMIN_AJAX_GALLERY_ITEM_STORE: "admin-ajax.gallery-item.store",
+    ROUTE_ADMIN_AJAX_GALLERY_ITEM_UPDATE: "admin-ajax.gallery-item.update",
 
     ROUTE_ADMIN_AJAX_ORDERS_STORE: "admin-ajax.orders.store",
     ROUTE_ADMIN_AJAX_ORDERS_UPDATE: "admin-ajax.orders.update",
