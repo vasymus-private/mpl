@@ -38,15 +38,16 @@ export const useGalleryItemsStore = defineStore(storeName, {
         }
     },
     getters: {
-        galleryItemList: (state: State): Array<GalleryItemListItem> => state._entities,
+        galleryItemList: (state: State): Array<GalleryItemListItem> =>
+            state._entities,
         links: (state: State): Links | null => state._links,
         meta: (state: State): Meta | null => state._meta,
         getPerPageOption: (state: State): Option | null =>
             state._meta && state._meta.per_page
                 ? {
-                    value: state._meta.per_page,
-                    label: `${state._meta.per_page}`,
-                }
+                      value: state._meta.per_page,
+                      label: `${state._meta.per_page}`,
+                  }
                 : null,
         galleryItem: (state: State): GalleryItem | null => state._entity,
         options: (state: State): Array<Option> => state._options,
@@ -101,7 +102,9 @@ export const useGalleryItemsStore = defineStore(storeName, {
                 (item) => !uuids.includes(item.uuid)
             )
         },
-        addOrUpdateGalleryItemListItems(listItems: Array<GalleryItemListItem>): void {
+        addOrUpdateGalleryItemListItems(
+            listItems: Array<GalleryItemListItem>
+        ): void {
             let newItemById = arrayToMap<GalleryItemListItem>(listItems)
 
             this._entities = this._entities.map((item: GalleryItemListItem) => {
@@ -132,7 +135,9 @@ export const useGalleryItemsStore = defineStore(storeName, {
                         routeNames.ROUTE_ADMIN_AJAX_GALLERY_ITEMS_BULK_DELETE
                     )
                 )
-                const checkedGalleryItemsIds = this.galleryItemIds(checkedGalleryItemsUuids)
+                const checkedGalleryItemsIds = this.galleryItemIds(
+                    checkedGalleryItemsUuids
+                )
                 checkedGalleryItemsIds.forEach((id) => {
                     url.searchParams.append("ids[]", `${id}`)
                 })
