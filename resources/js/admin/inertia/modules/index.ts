@@ -1,5 +1,8 @@
 import { Column } from "@/admin/inertia/modules/columns/types"
-import {Article, ArticleListItem} from "@/admin/inertia/modules/articles/types"
+import {
+    Article,
+    ArticleListItem,
+} from "@/admin/inertia/modules/articles/types"
 import { Auth } from "@/admin/inertia/modules/auth/types"
 import {
     CategoriesTreeItem,

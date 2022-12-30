@@ -169,7 +169,7 @@ class Article extends BaseModel implements HasMedia
     public function getWebRouteAttribute(): string
     {
         return Cache::store('array')->rememberForever(sprintf('article_web_route_%s', $this->id), function () {
-            if (!$this->parent_id) {
+            if (! $this->parent_id) {
                 return route('articles.show', [$this->slug]);
             }
 
