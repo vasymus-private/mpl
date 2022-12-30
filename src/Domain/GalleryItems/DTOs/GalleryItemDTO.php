@@ -2,6 +2,7 @@
 
 namespace Domain\GalleryItems\DTOs;
 
+use Domain\Common\DTOs\MediaDTO;
 use Domain\Common\DTOs\SeoDTO;
 use Spatie\DataTransferObject\DataTransferObject;
 
@@ -36,4 +37,9 @@ class GalleryItemDTO extends DataTransferObject
      * @var \Domain\Common\DTOs\SeoDTO|null
      */
     public ?SeoDTO $seo;
+
+    /**
+     * @var \Domain\Common\DTOs\MediaDTO|null
+     */
+    public ?MediaDTO $mainImage;
 }

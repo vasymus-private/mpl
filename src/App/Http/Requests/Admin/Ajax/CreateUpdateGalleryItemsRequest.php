@@ -2,11 +2,13 @@
 
 namespace App\Http\Requests\Admin\Ajax;
 
+use Domain\Common\DTOs\MediaDTO;
 use Domain\Common\DTOs\SeoDTO;
 use Domain\GalleryItems\DTOs\GalleryItemDTO;
 use Domain\GalleryItems\Models\GalleryItem;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
+use Support\H;
 
 /**
  * @property-read string|null $name
@@ -15,6 +17,7 @@ use Illuminate\Validation\Validator;
  * @property-read int|null $parent_id
  * @property-read string|null $description
  * @property-read array|null $seo
+ * @property-read array|null $mainImage
  */
 class CreateUpdateGalleryItemsRequest extends FormRequest
 {
@@ -47,6 +50,14 @@ class CreateUpdateGalleryItemsRequest extends FormRequest
             'seo.h1' => 'nullable|string|max:250',
             'seo.keywords' => 'nullable|string|max:65000',
             'seo.description' => 'nullable|string|max:65000',
+
+            'mainImage' => 'nullable|array',
+            'mainImage.id' => 'nullable|integer',
+            'mainImage.uuid' => 'string',
+            'mainImage.name' => 'nullable|string|max:250',
+            'mainImage.file_name' => 'nullable|string|max:250',
+            'mainImage.order_column' => 'nullable|integer',
+            'mainImage.file' => sprintf('nullable|file|max:%s', H::validatorMb(95)),
         ];
     }
 
@@ -81,6 +92,8 @@ class CreateUpdateGalleryItemsRequest extends FormRequest
     {
         $payload = $this->all();
 
+        $mediaCB = fn (array $media) => MediaDTO::create($media);
+
         return new GalleryItemDTO([
             'name' => isset($payload['name'])
                 ? (string)$payload['name']
@@ -99,6 +112,9 @@ class CreateUpdateGalleryItemsRequest extends FormRequest
                 : null,
             'seo' => isset($payload['seo'])
                 ? new SeoDTO($payload['seo'])
+                : null,
+            'mainImage' => isset($payload['mainImage'])
+                ? $mediaCB($payload['mainImage'])
                 : null,
         ]);
     }

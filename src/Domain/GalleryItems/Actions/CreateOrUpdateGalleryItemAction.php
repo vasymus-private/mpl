@@ -4,6 +4,8 @@ namespace Domain\GalleryItems\Actions;
 
 use Domain\Common\Actions\BaseAction;
 use Domain\Common\Actions\SaveSeoAction;
+use Domain\Common\Actions\SyncAndSaveMediasAction;
+use Domain\Common\DTOs\MediaDTO;
 use Domain\GalleryItems\DTOs\GalleryItemDTO;
 use Domain\GalleryItems\Models\GalleryItem;
 use Illuminate\Support\Facades\DB;
@@ -16,11 +18,21 @@ class CreateOrUpdateGalleryItemAction extends BaseAction
     private SaveSeoAction $saveSeoAction;
 
     /**
-     * @param \Domain\Common\Actions\SaveSeoAction $saveSeoAction
+     * @var \Domain\Common\Actions\SyncAndSaveMediasAction
      */
-    public function __construct(SaveSeoAction $saveSeoAction)
+    private SyncAndSaveMediasAction $syncAndSaveMediasAction;
+
+    /**
+     * @param \Domain\Common\Actions\SaveSeoAction $saveSeoAction
+     * @param \Domain\Common\Actions\SyncAndSaveMediasAction $syncAndSaveMediasAction
+     */
+    public function __construct(
+        SaveSeoAction $saveSeoAction,
+        SyncAndSaveMediasAction $syncAndSaveMediasAction,
+    )
     {
         $this->saveSeoAction = $saveSeoAction;
+        $this->syncAndSaveMediasAction = $syncAndSaveMediasAction;
     }
 
     /**
@@ -60,9 +72,22 @@ class CreateOrUpdateGalleryItemAction extends BaseAction
 
             $this->saveSeoAction->execute($target, $galleryItemDTO->seo);
 
+            $this->saveMainImage($target, $galleryItemDTO->mainImage);
+
             $target->save();
 
             return $target;
         });
+    }
+
+    /**
+     * @param \Domain\GalleryItems\Models\GalleryItem $target
+     * @param \Domain\Common\DTOs\MediaDTO|null $mediaDTO
+     *
+     * @return void
+     */
+    private function saveMainImage(GalleryItem $target, MediaDTO $mediaDTO = null)
+    {
+        $this->syncAndSaveMediasAction->execute($target, $mediaDTO ? [ $mediaDTO ] : [], GalleryItem::MC_MAIN_IMAGE);
     }
 }

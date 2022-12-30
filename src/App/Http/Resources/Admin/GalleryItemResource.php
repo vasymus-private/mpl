@@ -29,6 +29,18 @@ class GalleryItemResource extends JsonResource
             'slug' => $this->resource->slug,
             'parent_id' => $this->resource->parent_id,
             'is_active' => $this->resource->is_active,
+            'description' => $this->resource->description,
+            'seo' => $this->resource->seo,
+            'web_route' => $this->resource->web_route,
+            'mainImage' => $this->resource->main_image_media
+                ? [
+                    'id' => $this->resource->main_image_media->id,
+                    'uuid' => $this->resource->main_image_media->uuid,
+                    'url' => $this->resource->main_image_media->getFullUrl(),
+                    'name' => $this->resource->main_image_media->name,
+                    'file_name' => $this->resource->main_image_media->file_name,
+                ]
+                : null,
         ];
     }
 }

@@ -47,6 +47,8 @@ import { useOrdersStore } from "@/admin/inertia/modules/orders"
 import { Admin } from "@/admin/inertia/modules/auth/types"
 import { useFaqsStore } from "@/admin/inertia/modules/faqs"
 import { Faq, FaqListItem } from "@/admin/inertia/modules/faqs/types"
+import {GalleryItem, GalleryItemListItem} from "@/admin/inertia/modules/galleryItems/types";
+import {useGalleryItemsStore} from "@/admin/inertia/modules/galleryItems";
 
 export interface InitialPageProps {
     fullUrl: string
@@ -67,6 +69,7 @@ export interface InitialPageProps {
     charTypes: { data: Array<CharType> }
     faqOptions: Array<Option>
     articleOptions: Array<Option>
+    galleryItemOptions: Array<Option>
 
     articleListItems?: {
         data: Array<ArticleListItem>
@@ -106,6 +109,12 @@ export interface InitialPageProps {
         meta: Meta
     }
     faq?: Faq | null
+    galleryItems?: {
+        data: Array<GalleryItemListItem>
+        links: Links
+        meta: Meta
+    }
+    galleryItem?: GalleryItem
 }
 
 /**
@@ -135,6 +144,7 @@ export const initFromPageProps = (
         charTypes: { data: charTypesData = [] },
         faqOptions = [],
         articleOptions = [],
+        galleryItemOptions = [],
 
         articleListItems: {
             data: articleListItemsData = [],
@@ -170,6 +180,12 @@ export const initFromPageProps = (
             meta: faqsListMeta = null,
         } = {},
         faq = null,
+        galleryItems: {
+            data: galleryItemList = [],
+            links: galleryItemListLinks = null,
+            meta: galleryItemListMeta = null,
+        } = {},
+        galleryItem = null,
     } = initialPageProps
 
     // todo dev only
@@ -253,6 +269,13 @@ export const initFromPageProps = (
     ordersStore.setMeta(ordersListMeta)
     ordersStore.setOrder(order)
     ordersStore.setOrderEvents(orderEventsData)
+
+    const galleryItemsStore = useGalleryItemsStore(pinia)
+    galleryItemsStore.setEntities(galleryItemList)
+    galleryItemsStore.setLinks(galleryItemListLinks)
+    galleryItemsStore.setMeta(galleryItemListMeta)
+    galleryItemsStore.setEntity(galleryItem)
+    galleryItemsStore.setOptions(galleryItemOptions)
 
     // todo dev only
     if (typeof window !== "undefined") {

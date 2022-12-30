@@ -30,6 +30,7 @@ use App\Http\Controllers\Admin\Ajax\CategoryImageUploadController;
 use App\Http\Controllers\Admin\Ajax\FaqBulkController;
 use App\Http\Controllers\Admin\Ajax\FaqController;
 use App\Http\Controllers\Admin\Ajax\FaqImageUploadController;
+use App\Http\Controllers\Admin\Ajax\GalleryItemBulkController;
 use App\Http\Controllers\Admin\Ajax\GalleryItemsController;
 use App\Http\Controllers\Admin\Ajax\HelperController;
 use App\Http\Controllers\Admin\Ajax\OrderEventsController;
@@ -63,6 +64,9 @@ Route::delete('faq-bulk', [FaqBulkController::class, 'delete'])->name(Constants:
 
 Route::put('article-bulk', [ArticlesBulkController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_ARTICLE_BULK_UPDATE);
 Route::delete('article-bulk', [ArticlesBulkController::class, 'delete'])->name(Constants::ROUTE_ADMIN_AJAX_ARTICLE_BULK_DELETE);
+
+Route::put('gallery-items-bulk', [GalleryItemBulkController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_GALLERY_ITEMS_BULK_UPDATE);
+Route::delete('gallery-items-bulk', [GalleryItemBulkController::class, 'delete'])->name(Constants::ROUTE_ADMIN_AJAX_GALLERY_ITEMS_BULK_DELETE);
 
 Route::post('product', [ProductsController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_PRODUCTS_STORE);
 Route::put('product/{admin_product}', [ProductsController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE);

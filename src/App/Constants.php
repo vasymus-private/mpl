@@ -98,6 +98,9 @@ final class Constants
     public const ROUTE_ADMIN_AJAX_ARTICLE_BULK_UPDATE = 'admin-ajax.article.bulk.update';
     public const ROUTE_ADMIN_AJAX_ARTICLE_BULK_DELETE = 'admin-ajax.article.bulk.delete';
 
+    public const ROUTE_ADMIN_AJAX_GALLERY_ITEMS_BULK_UPDATE = 'admin-ajax.gallery-item.bulk.update';
+    public const ROUTE_ADMIN_AJAX_GALLERY_ITEMS_BULK_DELETE = 'admin-ajax.gallery-item.bulk.delete';
+
     public const ROUTE_ADMIN_AJAX_PRODUCTS_STORE = 'admin-ajax.products.store';
     public const ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE = 'admin-ajax.products.update';
 
