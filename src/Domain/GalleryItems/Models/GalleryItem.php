@@ -202,7 +202,7 @@ class GalleryItem extends BaseModel implements HasMedia
 
             $parent = $this->parent;
 
-            if (!$parent) {
+            if (! $parent) {
                 return null;
             }
 

@@ -10,7 +10,7 @@ import { GalleryItemListItem } from "@/admin/inertia/modules/galleryItems/types"
 import useFormHelpers from "@/admin/inertia/composables/useFormHelpers"
 import { ErrorResponse } from "@/admin/inertia/modules/common/types"
 import * as yup from "yup"
-import {useGalleryItemsStore} from "@/admin/inertia/modules/galleryItems"
+import { useGalleryItemsStore } from "@/admin/inertia/modules/galleryItems"
 
 export const storeName = "indexGalleryItemsForm"
 
@@ -43,7 +43,9 @@ export const useIndexGalleryItemsFormStore = defineStore(storeName, {
                 )
 
                 const galleryItemsStore = useGalleryItemsStore()
-                galleryItemsStore.addOrUpdateGalleryItemListItems(galleryItemsResponse)
+                galleryItemsStore.addOrUpdateGalleryItemListItems(
+                    galleryItemsResponse
+                )
             } catch (e) {
                 if (e instanceof AxiosError) {
                     const { errorsToErrorFields } = useFormHelpers<Values>(

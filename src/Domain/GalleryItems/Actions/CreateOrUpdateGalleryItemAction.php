@@ -29,8 +29,7 @@ class CreateOrUpdateGalleryItemAction extends BaseAction
     public function __construct(
         SaveSeoAction $saveSeoAction,
         SyncAndSaveMediasAction $syncAndSaveMediasAction,
-    )
-    {
+    ) {
         $this->saveSeoAction = $saveSeoAction;
         $this->syncAndSaveMediasAction = $syncAndSaveMediasAction;
     }

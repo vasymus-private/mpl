@@ -47,8 +47,11 @@ import { useOrdersStore } from "@/admin/inertia/modules/orders"
 import { Admin } from "@/admin/inertia/modules/auth/types"
 import { useFaqsStore } from "@/admin/inertia/modules/faqs"
 import { Faq, FaqListItem } from "@/admin/inertia/modules/faqs/types"
-import {GalleryItem, GalleryItemListItem} from "@/admin/inertia/modules/galleryItems/types";
-import {useGalleryItemsStore} from "@/admin/inertia/modules/galleryItems";
+import {
+    GalleryItem,
+    GalleryItemListItem,
+} from "@/admin/inertia/modules/galleryItems/types"
+import { useGalleryItemsStore } from "@/admin/inertia/modules/galleryItems"
 
 export interface InitialPageProps {
     fullUrl: string
