@@ -137,7 +137,7 @@ export const initFromPageProps = (
             data: articleListItemsData = [],
             links: articleListItemsLinks = null,
             meta: articleListItemsMeta = null,
-        },
+        } = {},
         article = null,
         productListItems: {
             data: productListItemsData = [],

@@ -261,14 +261,14 @@ Route::
 ;
 Route::
 get(
-    'articles',
+    'articles/create',
     [ArticlesController::class, 'create']
 )
     ->name(Constants::ROUTE_ADMIN_ARTICLES_CREATE)
 ;
 Route::
 get(
-    'articles',
+    'articles/{admin_article}/edit',
     [ArticlesController::class, 'edit']
 )
     ->name(Constants::ROUTE_ADMIN_ARTICLES_EDIT)
