@@ -13,11 +13,14 @@ import { SubmissionContext } from "vee-validate"
 import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
 import axios, { AxiosError } from "axios"
 import { Inertia } from "@inertiajs/inertia"
-import {errorsToErrorFields, getMediaSchema} from "@/admin/inertia/modules/common"
+import {
+    errorsToErrorFields,
+    getMediaSchema,
+} from "@/admin/inertia/modules/common"
 import * as yup from "yup"
 import { yupIntegerOrEmptyString } from "@/admin/inertia/utils"
 import { GalleryItem } from "@/admin/inertia/modules/galleryItems/types"
-import {useGalleryItemsStore} from "@/admin/inertia/modules/galleryItems"
+import { useGalleryItemsStore } from "@/admin/inertia/modules/galleryItems"
 
 export const storeName = "createEditGalleryItemForm"
 
@@ -147,8 +150,17 @@ export const getFormSchema = () => {
 
 export const getWatchGalleryItemToFormCb =
     (setValues: (a: object) => any) => (galleryItem: GalleryItem | null) => {
-        const { id, name, slug, is_active, parent_id, ordering, description, seo, mainImage } =
-            galleryItem || {}
+        const {
+            id,
+            name,
+            slug,
+            is_active,
+            parent_id,
+            ordering,
+            description,
+            seo,
+            mainImage,
+        } = galleryItem || {}
 
         const values = {
             id,
