@@ -9,7 +9,11 @@ class GalleryItemsController extends BaseWebController
 {
     public function index(Request $request)
     {
-        $galleryItems = GalleryItem::query()->parents()->orderBy(GalleryItem::TABLE . ".ordering")->get();
+        $galleryItems = GalleryItem::query()
+            ->parents()
+            ->active()
+            ->orderBy(GalleryItem::TABLE . ".ordering")
+            ->get();
         $subtitle = "Фотогалерея паркетных работ";
 
         return view("web.pages.gallery-items.gallery-items", compact("galleryItems", "subtitle"));

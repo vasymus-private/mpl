@@ -19,6 +19,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property string|null $description
  * @property int|null $ordering
  * @property int|null $parent_id
+ * @property boolean $is_active
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
@@ -73,9 +74,21 @@ class GalleryItem extends BaseModel implements HasMedia
      */
     public static function rbParentGalleryItemSlug($value)
     {
-        return static::query()->parents()
+        return static::query()
+            ->parents()
+            ->active()
             ->where(static::TABLE . ".slug", $value)
             ->firstOrFail();
+    }
+
+    /**
+     * @param $value
+     *
+     * @return \Domain\GalleryItems\Models\GalleryItem
+     */
+    public static function rbAdminGalleryItem($value)
+    {
+        return static::query()->findOrFail($value);
     }
 
     /**

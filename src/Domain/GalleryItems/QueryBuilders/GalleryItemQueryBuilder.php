@@ -28,4 +28,12 @@ class GalleryItemQueryBuilder extends Builder
     {
         return $this->whereNull(sprintf('%s.parent_id', $this->table));
     }
+
+    /**
+     * @return self
+     */
+    public function active(): self
+    {
+        return $this->where(sprintf('%s.is_active', $this->table), true);
+    }
 }

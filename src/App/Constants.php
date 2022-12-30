@@ -74,6 +74,10 @@ final class Constants
     public const ROUTE_ADMIN_FAQ_CREATE = 'admin.faq.create';
     public const ROUTE_ADMIN_FAQ_EDIT = 'admin.faq.edit';
 
+    public const ROUTE_ADMIN_GALLERY_ITEMS_INDEX = 'admin.gallery-items.index';
+    public const ROUTE_ADMIN_GALLERY_ITEMS_CREATE = 'admin.gallery-items.create';
+    public const ROUTE_ADMIN_GALLERY_ITEMS_EDIT = 'admin.gallery-items.edit';
+
     public const ROUTE_ADMIN_EXPORT_PRODUCTS_INDEX = 'admin.export-products.index';
     public const ROUTE_ADMIN_EXPORT_PRODUCTS_SHOW = 'admin.export-products.show';
     public const ROUTE_ADMIN_EXPORT_PRODUCTS_STORE = 'admin.export-products.store';
@@ -108,6 +112,9 @@ final class Constants
 
     public const ROUTE_ADMIN_AJAX_ARTICLE_STORE = 'admin-ajax.article.store';
     public const ROUTE_ADMIN_AJAX_ARTICLE_UPDATE = 'admin-ajax.article.update';
+
+    public const ROUTE_ADMIN_AJAX_GALLERY_ITEM_STORE = 'admin-ajax.gallery-item.store';
+    public const ROUTE_ADMIN_AJAX_GALLERY_ITEM_UPDATE = 'admin-ajax.gallery-item.update';
 
     public const ROUTE_ADMIN_AJAX_ORDERS_STORE = 'admin-ajax.orders.store';
     public const ROUTE_ADMIN_AJAX_ORDERS_UPDATE = 'admin-ajax.orders.update';

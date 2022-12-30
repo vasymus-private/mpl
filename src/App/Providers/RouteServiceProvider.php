@@ -110,6 +110,7 @@ class RouteServiceProvider extends ServiceProvider
         Route::bind('admin_order', [Order::class, "rbAdminOrder"]);
         Route::bind('admin_faq', [FAQ::class, "rbAdminFaq"]);
         Route::bind('admin_article', [Article::class, "rbAdminArticle"]);
+        Route::bind('admin_gallery_item', [GalleryItem::class, "rbAdminGalleryItem"]);
         Route::bind('admin', [Admin::class, 'rbAdmin']);
 
         Route::bind("parentGalleryItemSlug", [GalleryItem::class, "rbParentGalleryItemSlug"]);
