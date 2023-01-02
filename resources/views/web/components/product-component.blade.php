@@ -359,7 +359,7 @@
                 <div class="tab-pane active" id="product-descr-tab-pane-mobile" role="tabpanel" aria-labelledby="product-descr-tab">
                     <h3>{!! $product->name !!}</h3>
                     @if($product->description)
-                        {!! $product->description !!}
+                        {!! \Support\H::prepareDescription($product->description) !!}
                     @else
                         {!! $product->preview !!}
                     @endif
@@ -383,7 +383,7 @@
             <div class="characteristics__content" id="tab1">
                 <h3>{!! $product->name !!}</h3>
                 @if($product->description)
-                    {!! $product->description !!}
+                    {!! \Support\H::prepareDescription($product->description) !!}
                 @else
                     {!! $product->preview !!}
                 @endif
@@ -400,7 +400,7 @@
         </div>
 
         <div class="block-green">
-            <p>{!! $product->name !!} в магазине, Вы можете купить {!! $product->name !!}, узнайте подробные технические характеристики и цену на {!! $product->name !!}, фотографии и отзывы посетителей помог1ут Вам определиться с покупкой, {!! $product->name !!} - закажите с доставкой на дом.</p>
+            <p>{!! $product->name !!} в магазине, Вы можете купить {!! $product->name !!}, узнайте подробные технические характеристики и цену на {!! $product->name !!}, фотографии и отзывы посетителей помогут Вам определиться с покупкой, {!! $product->name !!} - закажите с доставкой на дом.</p>
         </div>
 
     </div>

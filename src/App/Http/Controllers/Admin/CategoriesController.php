@@ -19,7 +19,7 @@ class CategoriesController extends BaseAdminController
     {
         $inertia = H::getAdminInertia();
 
-        $query = Category::query()->select(["*"])->with('subcategories');
+        $query = Category::query()->select(["*"])->ordering()->with('subcategories');
 
         if (! $request->category_id) {
             $query->parents();

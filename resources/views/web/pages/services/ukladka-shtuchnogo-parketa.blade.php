@@ -182,7 +182,7 @@
                 </p>
             </div>
             <p class="text-center">
-                <a href="#" data-fancybox="contact-with-technologist-222" data-src="#contact-with-technologist" class="btn-lg-custom">Связаться с технологом</a>
+                <a href="#" data-fancybox="cccwwwttt" data-src="#contact-with-technologist" class="btn-lg-custom">Связаться с технологом</a>
             </p>
             <p>
                 <b><span style="font-size: 24px;">Современная технология</span></b>
@@ -395,7 +395,7 @@
                 </div>
             </div>
             <p class="text-center">
-                <a href="#" data-fancybox="contact-with-technologist-333" data-src="#contact-with-technologist" class="btn-lg-custom">Связаться с технологом</a>
+                <a href="#" data-fancybox="cccwwwttt" data-src="#contact-with-technologist" class="btn-lg-custom">Связаться с технологом</a>
             </p>
             <div class="white-bg">
                 <p>
@@ -468,7 +468,7 @@
                 Для консультации с инженером-технологом звоните <b>+7 (495) 363-87-99</b>
             </p>
             <p class="text-center">
-                <a href="#" data-fancybox="contact-with-technologist-111" data-src="#contact-with-technologist" class="btn-lg-custom">Связаться с технологом</a>
+                <a href="#" data-fancybox="cccwwwttt" data-src="#contact-with-technologist" class="btn-lg-custom">Связаться с технологом</a>
             </p>
         </div>
     </article>
