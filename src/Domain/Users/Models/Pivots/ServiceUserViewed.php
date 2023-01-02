@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
+ * @deprecated
+ *
  * @property int $service_id
  * @property int $user_id
  * @property Carbon|null $created_at

@@ -30,7 +30,7 @@ class CreateUpdateCategoryRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:250',
-            'slug' => 'required|string|max:250',
+            'slug' => 'nullable|string|max:250',
             'ordering' => 'nullable|integer',
             'is_active' => 'nullable|boolean',
             'parent_id' => [

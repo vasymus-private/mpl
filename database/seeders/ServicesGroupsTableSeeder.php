@@ -5,6 +5,9 @@ namespace Database\Seeders;
 use Domain\Services\Models\ServicesGroup;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @deprecated
+ */
 class ServicesGroupsTableSeeder extends BaseSeeder
 {
     /**

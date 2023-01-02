@@ -73,6 +73,7 @@ export interface InitialPageProps {
     faqOptions: Array<Option>
     articleOptions: Array<Option>
     galleryItemOptions: Array<Option>
+    categoryProductTypeOptions: Array<Option>
 
     articles?: {
         data: Array<ArticleListItem>
@@ -148,6 +149,7 @@ export const initFromPageProps = (
         faqOptions = [],
         articleOptions = [],
         galleryItemOptions = [],
+        categoryProductTypeOptions = [],
 
         articles: {
             data: articleListItemsData = [],
@@ -215,6 +217,7 @@ export const initFromPageProps = (
     categoriesStore.setEntities(categoriesTree)
     categoriesStore.setEntity(category)
     categoriesStore.setListItems(categoryListItems)
+    categoriesStore.setCategoryProductTypeOptions(categoryProductTypeOptions)
 
     const columnsStore = useColumnsStore(pinia)
     columnsStore.setAdminOrderColumns(adminOrderColumns)

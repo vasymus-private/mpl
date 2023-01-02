@@ -3,12 +3,13 @@
 namespace Domain\Products\Models;
 
 use Database\Factories\CategoryFactory;
+use Domain\Common\DTOs\OptionDTO;
 use Domain\Common\Models\BaseModel;
 use Domain\Common\Models\HasDeletedItemSlug;
 use Domain\Products\Actions\HasActiveProductsAction;
 use Domain\Products\Models\Product\Product;
+use Domain\Products\QueryBuilders\CategoryQueryBuilder;
 use Domain\Seo\Models\Seo;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -29,6 +30,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property int|null $parent_id
  * @property int $ordering
  * @property bool $is_active
+ * @property int $product_type
  * @property string|null $description
  * @property \Carbon\Carbon|null $deleted_at
  *
@@ -46,20 +48,13 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @see \Domain\Products\Models\Category::products()
  * @property \Domain\Products\Collections\ProductCollection|\Domain\Products\Models\Product\Product[] $products
  *
- * @see \Domain\Products\Models\Category::scopeParents()
- * @method static static|\Illuminate\Database\Eloquent\Builder parents()
- *
- * @see \Domain\Products\Models\Category::scopeActive()
- * @method static static|\Illuminate\Database\Eloquent\Builder active()
- *
- * @see \Domain\Products\Models\Category::scopeOrdering()
- * @method static static|\Illuminate\Database\Eloquent\Builder ordering()
- *
  * @see \Domain\Products\Models\Category::getAllLoadedSubcategoriesIdsAttribute()
  * @property-read int[] $all_loaded_subcategories_ids
  *
  * @see \Domain\Products\Models\Category::getHasActiveProductsAttribute()
  * @property-read bool $has_active_products
+ *
+ * @method static \Domain\Products\QueryBuilders\CategoryQueryBuilder query()
  * */
 class Category extends BaseModel implements HasMedia
 {
@@ -81,8 +76,12 @@ class Category extends BaseModel implements HasMedia
     public const _TEMP_ID_EQUIPMENT = 54;
     public const _TEMP_ID_RELATED_TOOLS = 60;
 
+    public const PRODUCT_TYPE_PARQUET_MATERIALS = 1;
+    public const PRODUCT_TYPE_PARQUET_WORKS = 2;
+
     public const DEFAULT_IS_ACTIVE = false;
     public const DEFAULT_ORDERING = 500;
+    public const DEFAULT_PRODUCT_TYPE = self::PRODUCT_TYPE_PARQUET_MATERIALS;
 
     public const MC_DESCRIPTION_FILES = 'description-files';
 
@@ -101,6 +100,7 @@ class Category extends BaseModel implements HasMedia
     protected $attributes = [
         'is_active' => self::DEFAULT_IS_ACTIVE,
         'ordering' => self::DEFAULT_ORDERING,
+        'product_type' => self::DEFAULT_PRODUCT_TYPE,
     ];
 
     /**
@@ -191,18 +191,13 @@ class Category extends BaseModel implements HasMedia
         return $result;
     }
 
-    public function scopeParents(Builder $builder): Builder
-    {
-        return $builder->whereNull(static::TABLE . ".parent_id");
-    }
-
     /**
      * @return \Illuminate\Database\Eloquent\Collection<array-key, \Domain\Products\Models\Category>
      */
     public static function getTreeRuntimeCached(): Collection
     {
         return Cache::store('array')->rememberForever('categories', function () {
-            return Category::parents()->with("subcategories.subcategories.subcategories")->orderBy(Category::TABLE . ".ordering")->get();
+            return Category::query()->parents()->with("subcategories.subcategories.subcategories")->orderBy(Category::TABLE . ".ordering")->get();
         });
     }
 
@@ -259,14 +254,23 @@ class Category extends BaseModel implements HasMedia
         }
     }
 
-    public function scopeActive(Builder $builder): Builder
+    /**
+     * @return \Domain\Common\DTOs\OptionDTO[]
+     *
+     * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
+     */
+    public static function getProductTypeOptions(): array
     {
-        return $builder->where(static::TABLE . ".is_active", true);
-    }
-
-    public function scopeOrdering(Builder $builder): Builder
-    {
-        return $builder->orderBy(static::TABLE . ".ordering");
+        return [
+            new OptionDTO([
+                'value' => static::PRODUCT_TYPE_PARQUET_MATERIALS,
+                'label' => 'Паркетные материалы',
+            ]),
+            new OptionDTO([
+                'value' => static::PRODUCT_TYPE_PARQUET_WORKS,
+                'label' => 'Паркетные работы',
+            ]),
+        ];
     }
 
     /**
@@ -302,5 +306,17 @@ class Category extends BaseModel implements HasMedia
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection(static::MC_DESCRIPTION_FILES);
+    }
+
+    /**
+     * Create a new Eloquent query builder for the model.
+     *
+     * @param  \Illuminate\Database\Query\Builder  $query
+     *
+     * @return \Domain\Products\QueryBuilders\CategoryQueryBuilder<\Domain\Products\Models\Category>
+     */
+    public function newEloquentBuilder($query): CategoryQueryBuilder
+    {
+        return new CategoryQueryBuilder($query);
     }
 }

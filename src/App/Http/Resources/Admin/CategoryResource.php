@@ -30,6 +30,7 @@ class CategoryResource extends JsonResource
             'name' => $this->resource->name,
             'slug' => $this->resource->slug,
             'is_active' => $this->resource->is_active,
+            'product_type' => $this->resource->product_type,
             'ordering' => $this->resource->ordering,
             'description' => $this->resource->description,
             'seo' => $this->resource->seo,

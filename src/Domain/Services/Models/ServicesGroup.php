@@ -5,6 +5,8 @@ namespace Domain\Services\Models;
 use Domain\Common\Models\BaseModel;
 
 /**
+ * @deprecated
+ *
  * @property int $id
  * @property string $name
  * @property int $ordering

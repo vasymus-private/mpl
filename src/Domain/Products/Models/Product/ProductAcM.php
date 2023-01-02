@@ -5,9 +5,11 @@ namespace Domain\Products\Models\Product;
 use Domain\Common\Models\Currency;
 use Domain\Common\Models\CustomMedia;
 use Domain\Products\Models\AvailabilityStatus;
+use Domain\Products\Models\Category;
 use Illuminate\Support\Facades\Cache;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Support\H;
+use Throwable;
 
 /**
  * @see \Domain\Products\Models\Product\ProductAcM::getPriceRetailCurrencyNameAttribute()
@@ -498,36 +500,44 @@ trait ProductAcM
 
     public function getWebRouteAttribute(): string
     {
-        return Cache::store('array')->rememberForever(sprintf('product_web_route_%s', $this->id), function () {
-            if ($this->is_variation) {
-                return $this->parent->web_route;
-            }
+        try {
+            return Cache::store('array')->rememberForever(sprintf('product_web_route_%s', $this->id), function () {
+                if ($this->is_variation) {
+                    return $this->parent->web_route;
+                }
 
-            $category = $this->category;
+                $category = $this->category;
 
-            if ($category === null) {
-                return "";
-            }
+                if ($category === null) {
+                    return "";
+                }
 
-            $slug = $this->slug ?: '---';
+                $slug = $this->slug ?: '---';
 
-            $parent1 = $category->parentCategory;
-            if ($parent1 === null) {
-                return route("product.show.1", [$category->slug, $slug]);
-            }
+                if ($category->product_type === Category::PRODUCT_TYPE_PARQUET_WORKS) {
+                    return route('parquet-works-product.show', $this->slug);
+                }
 
-            $parent2 = $parent1->parentCategory;
-            if ($parent2 === null) {
-                return route("product.show.2", [$parent1->slug, $category->slug, $slug]);
-            }
+                $parent1 = $category->parentCategory;
+                if ($parent1 === null) {
+                    return route("product.show.1", [$category->slug, $slug]);
+                }
 
-            $parent3 = $parent2->parentCategory;
-            if ($parent3 === null) {
-                return route("product.show.3", [$parent2->slug, $parent1->slug, $category->slug, $slug]);
-            }
+                $parent2 = $parent1->parentCategory;
+                if ($parent2 === null) {
+                    return route("product.show.2", [$parent1->slug, $category->slug, $slug]);
+                }
 
-            return route("product.show.4", [$parent3->slug, $parent2->slug, $parent1->slug, $category->slug, $slug]);
-        });
+                $parent3 = $parent2->parentCategory;
+                if ($parent3 === null) {
+                    return route("product.show.3", [$parent2->slug, $parent1->slug, $category->slug, $slug]);
+                }
+
+                return route("product.show.4", [$parent3->slug, $parent2->slug, $parent1->slug, $category->slug, $slug]);
+            });
+        } catch (Throwable) {
+            return '';
+        }
     }
 
     public function getAdminRouteAttribute(): string

@@ -133,11 +133,12 @@ export const getFormSchema = () => {
     return yup.object({
         id: yupIntegerOrEmptyString(),
         name: yup.string().required().max(250),
-        slug: yup.string().required().max(250),
+        slug: yup.string().nullable().max(250),
         ordering: yupIntegerOrEmptyString(),
         is_active: yup.boolean(),
         description: yup.string().max(65000).nullable(),
         parent_id: yupIntegerOrEmptyString(),
+        product_type: yupIntegerOrEmptyString(),
         seo: yup
             .object({
                 title: yup.string().max(250).nullable(),
@@ -157,6 +158,7 @@ export const getWatchPCategoryToFormCb =
             slug,
             is_active,
             parent_id,
+            product_type,
             ordering,
             description,
             seo,
@@ -168,6 +170,7 @@ export const getWatchPCategoryToFormCb =
             slug,
             is_active,
             parent_id,
+            product_type,
             ordering,
             description,
             seo,

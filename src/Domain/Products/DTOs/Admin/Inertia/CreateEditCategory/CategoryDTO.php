@@ -33,6 +33,11 @@ class CategoryDTO extends DataTransferObject
     public ?int $parent_id;
 
     /**
+     * @var int|null
+     */
+    public ?int $product_type;
+
+    /**
      * @var string|null
      */
     public ?string $description;

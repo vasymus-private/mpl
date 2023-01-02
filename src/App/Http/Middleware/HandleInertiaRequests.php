@@ -113,6 +113,7 @@ class HandleInertiaRequests extends Middleware
             'faqOptions' => FAQ::getFaqOptions(),
             'articleOptions' => Article::getArticleOptions(),
             'galleryItemOptions' => GalleryItem::getGalleryItemOption(),
+            'categoryProductTypeOptions' => Category::getProductTypeOptions(),
         ]);
     }
 }

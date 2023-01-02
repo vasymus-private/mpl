@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Support\Breadcrumbs\Breadcrumbs;
 use Support\H;
 
+/**
+ * @deprecated
+ */
 class ServicesController extends BaseWebController
 {
     public function show(Request $request)
