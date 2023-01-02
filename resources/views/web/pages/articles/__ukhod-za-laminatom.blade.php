@@ -15,14 +15,13 @@
                 средства лучше использовать специализированные <strong>средства по</strong> <strong>уходу за
                     ламинатом</strong>. Разные производители предлагают широкий спектр средств.</p>
 
-            <address style="text-align: center;"><img src="/storage/media/212/b1096531767.jpg" border="0"
-                                                      alt="принадлежности для ухода за ламинатом" width="193"
-                                                      height="143">           <img
-                    src="/storage/media/213/b1096531783.jpg" border="0" alt="принадлежности для ухода за ламинатом"
-                    width="193" height="143"></address>
+            <p style="text-align: center;">
+                <img src="/storage/media/212/b1096531767.jpg" alt="принадлежности для ухода за ламинатом" width="193"
+                     height="143">          
+                <img src="/storage/media/213/b1096531783.jpg" alt="принадлежности для ухода за ламинатом" width="193"
+                     height="143"></p>
 
-            <address style="text-align: center;"> Принадлежности для ухода за ламинатом
-                <br></address>
+            <p style="text-align: center;">Принадлежности для ухода за ламинатом<br></p>
 
             <p><span style="color: rgb(128, 0, 0);"><strong>2. </strong></span>Опорные ножки мебели обязательно снабдить
                 войлочными накладками.
@@ -31,13 +30,13 @@
                 OBI, IKEA. В местах, где ламинат подвергается наиболее агрессивной механической нагрузке (под стулом
                 около письменного стола) можно постелить прозрачный пластиковый коврик (продается в IKEA).</p>
 
-            <address style="text-align: center;"><img src="/storage/media/214/Filzgleiter.jpg" border="0"
+            <p style="text-align: center;"><img src="/storage/media/214/Filzgleiter.jpg"
                                                       alt="Самоклеющиеся войлочные накладки" width="180" height="148"> 
-                           <img src="/storage/media/215/Filzgleiter_schr.jpg" border="0"
-                                alt="Самоклеющиеся резьбовые накладки" width="180" height="148"></address>
+                           <img src="/storage/media/215/Filzgleiter_schr.jpg"
+                                alt="Самоклеющиеся резьбовые накладки" width="180" height="148"></p>
 
-            <address style="text-align: center;"><em>Самоклеющиеся и резьбовые войлочные накладки</em>
-                <br></address>
+            <p style="text-align: center;"><em>Самоклеющиеся и резьбовые войлочные накладки</em>
+                <br></p>
 
             <p><strong><span style="color: rgb(128, 0, 0);">3.</span></strong> В местах повышенной влажности
                 использование ламинированного напольного покрытия сопряжено с риском разбухания и деформации
