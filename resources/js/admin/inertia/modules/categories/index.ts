@@ -157,7 +157,9 @@ export const useCategoriesStore = defineStore(storeName, {
                 (item) => !uuids.includes(item.uuid)
             )
         },
-        setCategoryProductTypeOptions(categoryProductTypeOptions: Array<Option>): void {
+        setCategoryProductTypeOptions(
+            categoryProductTypeOptions: Array<Option>
+        ): void {
             this._categoryProductTypeOptions = categoryProductTypeOptions
         },
         addOrUpdateCategoryListItems(listItems: Array<CategoryListItem>): void {
