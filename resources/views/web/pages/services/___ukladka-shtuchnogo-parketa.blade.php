@@ -7,7 +7,7 @@
         <div class="news-detail">
             <p style="text-align: left;">
                 Решили уложить паркет – получите бесплатную, профессиональную консультацию по телефону +7
-                (926) 779 46 03 Владимир, инженер-технолог нашей компании.
+                (926) 779 46 03 Владимир, инженер-технолог нашей компании.
             </p>
             <p>
                 Компания «Современные Технологии Паркета» укладывает штучный паркет под ключ: от монтажа основания до
@@ -15,49 +15,49 @@
             </p>
             <h3 style="text-align: center;">Современные технологии укладки паркета от 9<span
                     itemprop="price">50 руб/м<sup>2</sup></span></h3>
-            <table class="datatable" style="text-align: left; width: 100%;" border="1" cellspacing="0" cellpadding="0">
+            <table class="datatable" style="text-align: left; width: 100%;">
                 <tbody>
                 <tr>
                     <td width="80%">
                         Простой рисунок укладки штучного паркета
                     </td>
                     <td>
-                         от 850 р./м<sup>2</sup></td>
+                        от 850 р./м<sup>2</sup></td>
                 </tr>
                 <tr>
                     <td>
                         Художественный рисунок
                     </td>
                     <td>
-                         от 1600 р./м<sup>2</sup></td>
+                        от 1600 р./м<sup>2</sup></td>
                 </tr>
                 <tr>
                     <td>
-                        Укладка модульного паркета
+                        Укладка модульного паркета
                     </td>
                     <td>
-                         от 1100 р./м<sup>2</sup></td>
+                        от 1100 р./м<sup>2</sup></td>
                 </tr>
                 <tr>
                     <td>
                         Монтаж художественной розетки
                     </td>
                     <td>
-                         5000 р./ шт.
+                        5000 р./ шт.
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        Циклевка и нанесение покрытия (без материалов)
+                        Циклевка и нанесение покрытия (без материалов)
                     </td>
                     <td>
-                         от 850 р./м<sup>2</sup></td>
+                        от 850 р./м<sup>2</sup></td>
                 </tr>
                 </tbody>
             </table>
             <br>
             <p style="text-align: center;">
-                Для консультации с инженером-технологом звоните <b>+7 (495) 363-87-99</b>
+                Для консультации с инженером-технологом звоните <b>+7 (495) 363-87-99</b>
             </p>
             <p>
                 Причины популярности штучного паркета в малых размерах плашки (50 - 90 мм) и разнообразии орнаментов
@@ -72,13 +72,16 @@
             <p style="text-align: center;">
                 <img width="250" alt="Укладка паркета &amp;ndash; художественный рисунок «плетенка»"
                      src="/storage/media/216/317e8c34017d13b7d42798406060f097.jpg" height="167"
-                     title="Укладка паркета &amp;ndash; художественный рисунок «плетенка»" hspace="5" vspace="5"><img
+                     title="Укладка паркета &amp;ndash; художественный рисунок «плетенка»">
+                <img
                     width="250" alt="Укладка паркета &amp;ndash; художественный рисунок «плетенка»"
                     src="/storage/media/217/81d71afa3f689fc94455313367b8da49.jpg" height="167"
-                    title="Укладка паркета &amp;ndash; художественный рисунок «плетенка»" hspace="5" vspace="5"><img
+                    title="Укладка паркета &amp;ndash; художественный рисунок «плетенка»">
+                <img
                     width="250" alt="Укладка паркета &amp;ndash; художественный рисунок «плетенка»"
                     src="/storage/media/218/fd92c13cb82d5b688e10c4363bb7a8d1.jpg" height="167"
-                    title="Укладка паркета &amp;ndash; художественный рисунок «плетенка»" hspace="5" vspace="5"></p>
+                    title="Укладка паркета &amp;ndash; художественный рисунок «плетенка»">
+            </p>
             <p style="text-align: left;">
                 В России принято использовать технологию укладки штучного паркета на фанеру. Ниже вы узнаете причину, по
                 которой лишь немногие подрядчики предлагают клиентам укладку штучного паркета по современной технологии.
@@ -100,7 +103,7 @@
                 </p>
                 <p>
                     Рано или поздно стяжка, не соответствующая СНиП по прочности, ровности и влажности, даст о себе
-                    знать (вздутие, скрипы, образование щелей) в результате понадобится целый комплекс работ по ремонту
+                    знать (вздутие, скрипы, образование щелей) в результате понадобится целый комплекс работ по ремонту
                     паркета.
                 </p>
                 <p>
@@ -108,55 +111,62 @@
                 </p>
             </div>
             <p>
-                Стандартную технологию укладки паркета наши клиенты выбирают в исключительных случаях. В основном мы
+                Стандартную технологию укладки паркета наши клиенты выбирают в исключительных случаях. В основном мы
                 идём по другому пути – делаем основание по всем требованиям СНиП, и тогда использование фанеры НЕ нужно.
             </p>
             <p>
-                <span style="font-size: 18px;">Укладка штучного паркета на фанеру</span>
+                <span style="font-size: 18px;">Укладка штучного паркета на фанеру</span>
             </p>
             <p style="text-align: center;">
                 <img width="250" alt="укладка паркета на фанеру, рисунок – разно-форматная плетенка"
                      src="/storage/media/219/470943cc4d36290a85bce3887d12db5b.jpg" height="167"
-                     title="укладка паркета на фанеру, рисунок – разно-форматная плетенка" hspace="5" vspace="5"><img
+                     title="укладка паркета на фанеру, рисунок – разно-форматная плетенка"/>
+                <img
                     width="250" alt="укладка паркета на фанеру, рисунок – разно-форматная плетенка"
                     src="/storage/media/220/486d1e211083705ce4560b0b98dda105.jpg" height="167"
-                    title="укладка паркета на фанеру, рисунок – разно-форматная плетенка" hspace="5" vspace="5"><a
+                    title="укладка паркета на фанеру, рисунок – разно-форматная плетенка"/>
+                <a
                     href="/storage/media/221/66e45ed705b2f30f069193654d9ac339.jpg" class="gallery"
-                    title="укладка паркета на фанеру, рисунок – разно-форматная плетенка"><img width="250"
-                                                                                               alt="укладка паркета на фанеру, рисунок – разно-форматная плетенка"
-                                                                                               src="/storage/media/221/66e45ed705b2f30f069193654d9ac339.jpg"
-                                                                                               height="167"
-                                                                                               title="укладка паркета на фанеру, рисунок – разно-форматная плетенка"
-                                                                                               hspace="5"
-                                                                                               vspace="5"></a>
+                    title="укладка паркета на фанеру, рисунок – разно-форматная плетенка">
+                    <img width="250"
+                         alt="укладка паркета на фанеру, рисунок – разно-форматная плетенка"
+                         src="/storage/media/221/66e45ed705b2f30f069193654d9ac339.jpg"
+                         height="167"
+                         title="укладка паркета на фанеру, рисунок – разно-форматная плетенка"/>
+                </a>
             </p>
             <div class="white-bg">
-                Если стяжка готова, но не удовлетворяет (СНиП), мы предлагаем особые технологии <a
-                    href="/styazhka-pola/">по санации стяжки</a>. <b>Получите профессиональную консультацию до начала
-                    изготовления стяжки</b>, это сэкономит Ваши время и деньги. Позвоните <b>+7 (495) 363-87-99</b> и
+                Если стяжка готова, но не удовлетворяет (СНиП), мы предлагаем особые технологии <a
+                    href="/styazhka-pola/">по санации стяжки</a>. <b>Получите профессиональную консультацию до начала
+                    изготовления стяжки</b>, это сэкономит Ваши время и деньги. Позвоните <b>+7 (495) 363-87-99</b> и
                 инженер-технолог «СТП» бесплатно Вас проконсультирует.
             </div>
             <p style="text-align: center;">
                 <a href="/storage/media/222/59575391843c16d94462d4c982e2aa38.JPG" class="gallery"
-                   title="укладка модульного паркета на мультимоль"><img width="250" alt="укладка паркета плетенка"
-                                                                         src="/storage/media/222/59575391843c16d94462d4c982e2aa38.JPG"
-                                                                         height="167"
-                                                                         title="укладка модульного паркета на мультимоль"
-                                                                         hspace="5" vspace="5"></a><a
+                   title="укладка модульного паркета на мультимоль">
+                    <img width="250" alt="укладка паркета плетенка"
+                         src="/storage/media/222/59575391843c16d94462d4c982e2aa38.JPG"
+                         height="167"
+                         title="укладка модульного паркета на мультимоль"/>
+                </a>
+                <a
                     href="/storage/media/223/3e77fe3af8a63d6bc3600a963ce7b5af.JPG" class="gallery"
-                    title="укладка модульного паркета на мультимоль"><img width="250"
-                                                                          alt="укладка модульного паркета на мультимоль"
-                                                                          src="/storage/media/223/3e77fe3af8a63d6bc3600a963ce7b5af.JPG"
-                                                                          height="167"
-                                                                          title="укладка модульного паркета на мультимоль"
-                                                                          hspace="5" vspace="5"></a><a
+                    title="укладка модульного паркета на мультимоль">
+                    <img width="250"
+                         alt="укладка модульного паркета на мультимоль"
+                         src="/storage/media/223/3e77fe3af8a63d6bc3600a963ce7b5af.JPG"
+                         height="167"
+                         title="укладка модульного паркета на мультимоль"/>
+                </a>
+                <a
                     href="/storage/media/224/80b22f8a877e3accf6483f2ec85184de.JPG" class="gallery"
-                    title="укладка модульного паркета на мультимоль"><img width="250"
-                                                                          alt="укладка модульного паркета на мультимоль"
-                                                                          src="/storage/media/224/80b22f8a877e3accf6483f2ec85184de.JPG"
-                                                                          height="167"
-                                                                          title="укладка модульного паркета на мультимоль"
-                                                                          hspace="5" vspace="5"></a>
+                    title="укладка модульного паркета на мультимоль">
+                    <img width="250"
+                         alt="укладка модульного паркета на мультимоль"
+                         src="/storage/media/224/80b22f8a877e3accf6483f2ec85184de.JPG"
+                         height="167"
+                         title="укладка модульного паркета на мультимоль"/>
+                </a>
             </p>
             <p>
                 <span style="font-size: 18px;">Санация непрочной стяжки с помощью подложки Uzin Multimoll Vlies</span>
@@ -182,7 +192,8 @@
                 </p>
             </div>
             <p class="text-center">
-                <a href="#" data-fancybox="cccwwwttt" data-src="#contact-with-technologist" class="btn-lg-custom">Связаться с технологом</a>
+                <a href="#" data-fancybox="cccwwwttt" data-src="#contact-with-technologist" class="btn-lg-custom">Связаться
+                    с технологом</a>
             </p>
             <p>
                 <b><span style="font-size: 24px;">Современная технология</span></b>
@@ -196,49 +207,59 @@
             </p>
             <p style="text-align: center;">
                 <a href="/storage/media/225/689e9496e37e6aecfd395a10c0cd5a97.JPG" class="gallery"
-                   title="укладка паркета на Uzin Multimoll Softsonic"><img width="250"
-                                                                            alt="укладка паркета на Uzin Multimoll Softsonic"
-                                                                            src="/storage/media/225/689e9496e37e6aecfd395a10c0cd5a97.JPG"
-                                                                            height="167"
-                                                                            title="укладка паркета на Uzin Multimoll Softsonic"
-                                                                            hspace="5" vspace="5"></a><a
+                   title="укладка паркета на Uzin Multimoll Softsonic">
+                    <img width="250"
+                         alt="укладка паркета на Uzin Multimoll Softsonic"
+                         src="/storage/media/225/689e9496e37e6aecfd395a10c0cd5a97.JPG"
+                         height="167"
+                         title="укладка паркета на Uzin Multimoll Softsonic"/>
+                </a>
+                <a
                     href="/storage/media/226/b0610b4f916d89acc53c0619956a23df.JPG" class="gallery"
-                    title="укладка паркета на Uzin Multimoll Softsonic"><img width="250"
-                                                                             alt="укладка паркета на Uzin Multimoll Softsonic"
-                                                                             src="/storage/media/226/b0610b4f916d89acc53c0619956a23df.JPG"
-                                                                             height="167"
-                                                                             title="укладка паркета на Uzin Multimoll Softsonic"
-                                                                             hspace="5" vspace="5"></a><a
+                    title="укладка паркета на Uzin Multimoll Softsonic">
+                    <img width="250"
+                         alt="укладка паркета на Uzin Multimoll Softsonic"
+                         src="/storage/media/226/b0610b4f916d89acc53c0619956a23df.JPG"
+                         height="167"
+                         title="укладка паркета на Uzin Multimoll Softsonic"/>
+                </a>
+                <a
                     href="/storage/media/227/ae116e31561810a3f0bebcce76a8fc17.JPG" class="gallery"
-                    title="укладка паркета на Uzin Multimoll Softsonic"><img width="250"
-                                                                             alt="укладка паркета на Uzin Multimoll Softsonic"
-                                                                             src="/storage/media/227/ae116e31561810a3f0bebcce76a8fc17.JPG"
-                                                                             height="167"
-                                                                             title="укладка паркета на Uzin Multimoll Softsonic"
-                                                                             hspace="5" vspace="5"></a>
+                    title="укладка паркета на Uzin Multimoll Softsonic">
+                    <img width="250"
+                         alt="укладка паркета на Uzin Multimoll Softsonic"
+                         src="/storage/media/227/ae116e31561810a3f0bebcce76a8fc17.JPG"
+                         height="167"
+                         title="укладка паркета на Uzin Multimoll Softsonic"/>
+                </a>
             </p>
             <p style="text-align: center;">
                 <a href="/storage/media/228/afbaa5f2499f51a63b8e9de2ca9a54e3.JPG" class="gallery"
-                   title="укладка паркета на Uzin Multimoll Softsonic"><img width="250"
-                                                                            alt="укладка паркета на Uzin Multimoll Softsonic"
-                                                                            src="/storage/media/228/afbaa5f2499f51a63b8e9de2ca9a54e3.JPG"
-                                                                            height="167"
-                                                                            title="укладка паркета на Uzin Multimoll Softsonic"
-                                                                            hspace="5" vspace="5"></a><a
+                   title="укладка паркета на Uzin Multimoll Softsonic">
+                    <img width="250"
+                         alt="укладка паркета на Uzin Multimoll Softsonic"
+                         src="/storage/media/228/afbaa5f2499f51a63b8e9de2ca9a54e3.JPG"
+                         height="167"
+                         title="укладка паркета на Uzin Multimoll Softsonic"/>
+                </a>
+                <a
                     href="/storage/media/229/13ac000e3f776b1d1025addc22adada7.JPG" class="gallery"
-                    title="укладка паркета на Uzin Multimoll Softsonic"><img width="250"
-                                                                             alt="укладка паркета на Uzin Multimoll Softsonic"
-                                                                             src="/storage/media/229/13ac000e3f776b1d1025addc22adada7.JPG"
-                                                                             height="167"
-                                                                             title="укладка паркета на Uzin Multimoll Softsonic"
-                                                                             hspace="5" vspace="5"></a><a
+                    title="укладка паркета на Uzin Multimoll Softsonic">
+                    <img width="250"
+                         alt="укладка паркета на Uzin Multimoll Softsonic"
+                         src="/storage/media/229/13ac000e3f776b1d1025addc22adada7.JPG"
+                         height="167"
+                         title="укладка паркета на Uzin Multimoll Softsonic"/>
+                </a>
+                <a
                     href="/storage/media/230/a6037ed6d0a93370fbff65d915003e10.JPG" class="gallery"
-                    title="укладка паркета на Uzin Multimoll Softsonic"><img width="250"
-                                                                             alt="укладка паркета на Uzin Multimoll Softsonic"
-                                                                             src="/storage/media/230/a6037ed6d0a93370fbff65d915003e10.JPG"
-                                                                             height="167"
-                                                                             title="укладка паркета на Uzin Multimoll Softsonic"
-                                                                             hspace="5" vspace="5"></a>
+                    title="укладка паркета на Uzin Multimoll Softsonic">
+                    <img width="250"
+                         alt="укладка паркета на Uzin Multimoll Softsonic"
+                         src="/storage/media/230/a6037ed6d0a93370fbff65d915003e10.JPG"
+                         height="167"
+                         title="укладка паркета на Uzin Multimoll Softsonic"/>
+                </a>
             </p>
             <p>
                 рисунок укладки паркета «разбежка – палуба»
@@ -248,25 +269,30 @@
             </p>
             <p style="text-align: center;">
                 <a href="/storage/media/231/891f035bb78e2b51f2a3a21ae287d0fa.jpg" class="gallery"
-                   title="укладка паркета на Uzin Multimoll Vlies"><img width="250"
-                                                                        alt="укладка паркета на Uzin Multimoll Vlies"
-                                                                        src="/storage/media/231/891f035bb78e2b51f2a3a21ae287d0fa.jpg"
-                                                                        height="167"
-                                                                        title="укладка паркета на Uzin Multimoll Vlies"
-                                                                        hspace="5" vspace="5"></a><a
+                   title="укладка паркета на Uzin Multimoll Vlies">
+                    <img width="250"
+                         alt="укладка паркета на Uzin Multimoll Vlies"
+                         src="/storage/media/231/891f035bb78e2b51f2a3a21ae287d0fa.jpg"
+                         height="167"
+                         title="укладка паркета на Uzin Multimoll Vlies"/>
+                </a>
+                <a
                     href="/storage/media/232/9789899bf8e8e6f2f4acd517846ac731.jpg" class="gallery"
-                    title="укладка паркета на Uzin Multimoll Vlies"><img width="250"
-                                                                         alt="укладка паркета на Uzin Multimoll Vlies"
-                                                                         src="/storage/media/232/9789899bf8e8e6f2f4acd517846ac731.jpg"
-                                                                         height="167"
-                                                                         title="укладка паркета на Uzin Multimoll Vlies"
-                                                                         hspace="5" vspace="5"></a><a
+                    title="укладка паркета на Uzin Multimoll Vlies">
+                    <img width="250"
+                         alt="укладка паркета на Uzin Multimoll Vlies"
+                         src="/storage/media/232/9789899bf8e8e6f2f4acd517846ac731.jpg"
+                         height="167"
+                         title="укладка паркета на Uzin Multimoll Vlies"/>
+                </a>
+                <a
                     href="/storage/media/233/de277a03b37cf0862c7b3104fc4575bb.jpg" class="gallery"
-                    title="укладка паркета на Uzin Multimoll Vlies"><img width="250" alt="модуль на multimoll 3.jpg"
-                                                                         src="/storage/media/233/de277a03b37cf0862c7b3104fc4575bb.jpg"
-                                                                         height="167"
-                                                                         title="укладка паркета на Uzin Multimoll Vlies"
-                                                                         hspace="5" vspace="5"></a>
+                    title="укладка паркета на Uzin Multimoll Vlies">
+                    <img width="250" alt="модуль на multimoll 3.jpg"
+                         src="/storage/media/233/de277a03b37cf0862c7b3104fc4575bb.jpg"
+                         height="167"
+                         title="укладка паркета на Uzin Multimoll Vlies"/>
+                </a>
             </p>
             <p>
                 <b>Технология укладки на фанерное основание на лагах</b>
@@ -283,26 +309,31 @@
             </ul>
             <p style="text-align: center;">
                 <a href="/storage/media/234/54db0977204e4b0e01f92d011a5f77f7.JPG" class="gallery"
-                   title="пол на лагах укладка паркета рисунок двойная ёлочка"><img width="250"
-                                                                                    alt="пол на лагах укладка паркета рисунок двойная ёлочка"
-                                                                                    src="/storage/media/234/54db0977204e4b0e01f92d011a5f77f7.JPG"
-                                                                                    height="167"
-                                                                                    title="пол на лагах укладка паркета рисунок двойная ёлочка"
-                                                                                    hspace="5" vspace="5"></a><a
+                   title="пол на лагах укладка паркета рисунок двойная ёлочка">
+                    <img width="250"
+                         alt="пол на лагах укладка паркета рисунок двойная ёлочка"
+                         src="/storage/media/234/54db0977204e4b0e01f92d011a5f77f7.JPG"
+                         height="167"
+                         title="пол на лагах укладка паркета рисунок двойная ёлочка"/>
+                </a>
+                <a
                     href="/storage/media/235/f2b3d250bb8f3414fa02fabbaf6f7cce.JPG" class="gallery"
-                    title="пол на лагах укладка паркета рисунок двойная ёлочка"><img width="250"
-                                                                                     alt="пол на лагах укладка паркета рисунок двойная ёлочка"
-                                                                                     src="/storage/media/235/f2b3d250bb8f3414fa02fabbaf6f7cce.JPG"
-                                                                                     height="167"
-                                                                                     title="пол на лагах укладка паркета рисунок двойная ёлочка"
-                                                                                     hspace="5" vspace="5"></a><a
+                    title="пол на лагах укладка паркета рисунок двойная ёлочка">
+                    <img width="250"
+                         alt="пол на лагах укладка паркета рисунок двойная ёлочка"
+                         src="/storage/media/235/f2b3d250bb8f3414fa02fabbaf6f7cce.JPG"
+                         height="167"
+                         title="пол на лагах укладка паркета рисунок двойная ёлочка"/>
+                </a>
+                <a
                     href="/storage/media/236/074b3f8deda7dea92b808abf08e63702.JPG" class="gallery"
-                    title="пол на лагах укладка паркета рисунок двойная ёлочка"><img width="250"
-                                                                                     alt="пол на лагах укладка паркета рисунок двойная ёлочка"
-                                                                                     src="/storage/media/236/074b3f8deda7dea92b808abf08e63702.JPG"
-                                                                                     height="167"
-                                                                                     title="пол на лагах укладка паркета рисунок двойная ёлочка"
-                                                                                     hspace="5" vspace="5"></a>
+                    title="пол на лагах укладка паркета рисунок двойная ёлочка">
+                    <img width="250"
+                         alt="пол на лагах укладка паркета рисунок двойная ёлочка"
+                         src="/storage/media/236/074b3f8deda7dea92b808abf08e63702.JPG"
+                         height="167"
+                         title="пол на лагах укладка паркета рисунок двойная ёлочка"/>
+                </a>
             </p>
             <p>
                 укладка паркета рисунок – «двойная ёлочка – косая»
@@ -316,23 +347,28 @@
             </p>
             <p style="text-align: center;">
                 <a href="/storage/media/237/edff3f5b5d61e92fd2ec787a7654f83f.jpg" class="gallery"
-                   title="сухая стяжка - ГВЛ-плиты по сухой засыпке, укладка паркет ёлочка на мультимоль"><img
+                   title="сухая стяжка - ГВЛ-плиты по сухой засыпке, укладка паркет ёлочка на мультимоль">
+                    <img
                         width="250" alt="сухая стяжка - ГВЛ-плиты по сухой засыпке, укладка паркет ёлочка на мультимоль"
                         src="/storage/media/237/edff3f5b5d61e92fd2ec787a7654f83f.jpg" height="167"
-                        title="сухая стяжка - ГВЛ-плиты по сухой засыпке, укладка паркет ёлочка на мультимоль"
-                        hspace="5" vspace="5"></a><a href="/storage/media/238/c6c6cdea234edbb1715450d92f9a1ec1.jpg"
-                                                     class="gallery"
-                                                     title="сухая стяжка - ГВЛ-плиты по сухой засыпке, укладка паркет ёлочка на мультимоль"><img
+                        title="сухая стяжка - ГВЛ-плиты по сухой засыпке, укладка паркет ёлочка на мультимоль"/>
+                </a>
+                <a href="/storage/media/238/c6c6cdea234edbb1715450d92f9a1ec1.jpg"
+                   class="gallery"
+                   title="сухая стяжка - ГВЛ-плиты по сухой засыпке, укладка паркет ёлочка на мультимоль">
+                    <img
                         width="250" alt="сухая стяжка - ГВЛ-плиты по сухой засыпке, укладка паркет ёлочка на мультимоль"
                         src="/storage/media/238/c6c6cdea234edbb1715450d92f9a1ec1.jpg" height="167"
-                        title="сухая стяжка - ГВЛ-плиты по сухой засыпке, укладка паркет ёлочка на мультимоль"
-                        hspace="5" vspace="5"></a><a href="/storage/media/239/9e5c606ab4d846b767d73e7d12dd2367.jpg"
-                                                     class="gallery"
-                                                     title="сухая стяжка - ГВЛ-плиты по сухой засыпке, укладка паркет ёлочка на мультимоль"><img
+                        title="сухая стяжка - ГВЛ-плиты по сухой засыпке, укладка паркет ёлочка на мультимоль"/>
+                </a>
+                <a href="/storage/media/239/9e5c606ab4d846b767d73e7d12dd2367.jpg"
+                   class="gallery"
+                   title="сухая стяжка - ГВЛ-плиты по сухой засыпке, укладка паркет ёлочка на мультимоль">
+                    <img
                         width="250" alt="сухая стяжка - ГВЛ-плиты по сухой засыпке, укладка паркет ёлочка на мультимоль"
                         src="/storage/media/239/9e5c606ab4d846b767d73e7d12dd2367.jpg" height="167"
-                        title="сухая стяжка - ГВЛ-плиты по сухой засыпке, укладка паркет ёлочка на мультимоль"
-                        hspace="5" vspace="5"></a>
+                        title="сухая стяжка - ГВЛ-плиты по сухой засыпке, укладка паркет ёлочка на мультимоль"/>
+                </a>
             </p>
             <p>
                 Рисунок «прямая ёлочка» на сухую стяжку из ГВЛ-элементов пола по засыпке
@@ -348,7 +384,7 @@
                 </div>
                 <div class="answer">
                     <p>
-                        Мы делаем укладку паркета под ключ. Включая <a href="/styazhka-pola/"
+                        Мы делаем укладку паркета под ключ. Включая <a href="/styazhka-pola/"
                                                                        title="монтаж стяжки для паркетного пола">монтаж
                             основания</a>. Наши специалисты осуществляют ВСЕ этапы процесса, поэтому мы даём 100%-ую
                         гарантию.
@@ -390,12 +426,13 @@
                 <div class="answer">
                     <p>
                         Ответ требует осмотра объекта и составления первичного заключения инженера-технолога. Свяжитесь
-                        с ним <b>+7 (495) 363-87-99</b> или
+                        с ним <b>+7 (495) 363-87-99</b> или
                     </p>
                 </div>
             </div>
             <p class="text-center">
-                <a href="#" data-fancybox="cccwwwttt" data-src="#contact-with-technologist" class="btn-lg-custom">Связаться с технологом</a>
+                <a href="#" data-fancybox="cccwwwttt" data-src="#contact-with-technologist" class="btn-lg-custom">Связаться
+                    с технологом</a>
             </p>
             <div class="white-bg">
                 <p>
@@ -420,24 +457,30 @@
             </p>
             <p style="text-align: center;">
                 <a href="/storage/media/240/0f8b7b8cd3a37b85b1fbb8da41a13c9a.JPG" class="gallery"
-                   title="семинар по укладке паркета"><img width="250" alt="семинар по укладке паркетаь"
-                                                           src="/storage/media/240/0f8b7b8cd3a37b85b1fbb8da41a13c9a.JPG"
-                                                           height="167" title="семинар по укладке паркета" hspace="5"
-                                                           vspace="5"></a><a
+                   title="семинар по укладке паркета">
+                    <img width="250" alt="семинар по укладке паркетаь"
+                         src="/storage/media/240/0f8b7b8cd3a37b85b1fbb8da41a13c9a.JPG"
+                         height="167" title="семинар по укладке паркета"/>
+                </a>
+                <a
                     href="/storage/media/241/cfe1fda3bf280f4c069793c33bc98c03.JPG" class="gallery"
-                    title="семинар по укладке паркета"><img width="250" alt="семинар по укладке паркета"
-                                                            src="/storage/media/241/cfe1fda3bf280f4c069793c33bc98c03.JPG"
-                                                            height="167" title="семинар по укладке паркета" hspace="5"
-                                                            vspace="5"></a><a
+                    title="семинар по укладке паркета">
+                    <img width="250" alt="семинар по укладке паркета"
+                         src="/storage/media/241/cfe1fda3bf280f4c069793c33bc98c03.JPG"
+                         height="167" title="семинар по укладке паркета"/>
+                </a>
+                <a
                     href="/storage/media/242/c44d694f5a5dcb3a0548a9543dfbcb2e.JPG" class="gallery"
-                    title="семинар по укладке паркета"><img width="250" alt="семинар по укладке паркета"
-                                                            src="/storage/media/242/c44d694f5a5dcb3a0548a9543dfbcb2e.JPG"
-                                                            height="167" title="семинар по укладке паркета" hspace="5"
-                                                            vspace="5"></a>
+                    title="семинар по укладке паркета">
+                    <img width="250" alt="семинар по укладке паркета"
+                         src="/storage/media/242/c44d694f5a5dcb3a0548a9543dfbcb2e.JPG"
+                         height="167" title="семинар по укладке паркета"/>
+                </a>
             </p>
             <p>
-                <a href="/articles/shtuchnyy-parket/vidy-ukladok/">Варианты укладки штучного паркета 50-ю способами</a> +
-                художественная укладка и модульный паркет + отсутствие предоплаты + монтаж основания.
+                <a href="/articles/shtuchnyy-parket/vidy-ukladok/">Варианты укладки штучного паркета 50-ю способами</a>
+                +
+                художественная укладка и модульный паркет + отсутствие предоплаты + монтаж основания.
             </p>
             <h3>Укладка штучного паркета стоимость работ</h3>
             <p>
@@ -446,16 +489,16 @@
             </p>
             <ul>
                 <li>
-                    <h4>Монтаж основания</h4>
+                    <h4 class="article-service-h4">Монтаж основания</h4>
                 </li>
                 <li>
-                    <h4>Санация стяжки</h4>
+                    <h4 class="article-service-h4">Санация стяжки</h4>
                 </li>
                 <li>
-                    <h4>Дополнительные работы</h4>
+                    <h4 class="article-service-h4">Дополнительные работы</h4>
                 </li>
                 <li>
-                    <h4>Укладка штучного паркета цена</h4>
+                    <h4 class="article-service-h4">Укладка штучного паркета цена</h4>
                 </li>
             </ul>
             <p style="text-align: center;">
@@ -465,10 +508,11 @@
                 Какие из этих работ нужно проводить в вашем случае, скажет инженер-технолог.
             </p>
             <p style="text-align: left;">
-                Для консультации с инженером-технологом звоните <b>+7 (495) 363-87-99</b>
+                Для консультации с инженером-технологом звоните <b>+7 (495) 363-87-99</b>
             </p>
             <p class="text-center">
-                <a href="#" data-fancybox="cccwwwttt" data-src="#contact-with-technologist" class="btn-lg-custom">Связаться с технологом</a>
+                <a href="#" data-fancybox="cccwwwttt" data-src="#contact-with-technologist" class="btn-lg-custom">Связаться
+                    с технологом</a>
             </p>
         </div>
     </article>

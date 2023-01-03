@@ -72,7 +72,7 @@
                     успешные работы по устройству паркетных полов с подогревом.
                 </p>
             </div>
-            <h2 style="text-align: center;">Укладка паркета из массивной доски – <br>
+            <h2 class="article-service-h2" style="text-align: center;">Укладка паркета из массивной доски – <br>
                 гарантия на работы до 5 лет!</h2>
             <table class="datatable" style="text-align: left; width: 100%;" border="1">
                 <tbody>
@@ -142,7 +142,7 @@
                 <i>Шлифовка стяжки + цементный «наливной пол» + упрочнение + изоляция повышенной влажности с помощью
                     эпоксидной грунтовки</i>
             </p>
-            <h4 style="text-align: center;">Укладка массивной доски на стяжку без фанеры</h4>
+            <h4 class="article-service-h4" style="text-align: center;">Укладка массивной доски на стяжку без фанеры</h4>
             <p>
                 С помощью полиуретановых клеев особой прочности массивная паркетная доска приклеивается прямо на стяжку.
                 Это европейский способ укладки, но стяжка и массивная доска должны быть идеальными. Цена массивной
@@ -166,11 +166,13 @@
                     Поэтому в России чаще используется вторая технология (о ней ниже).
                 </p>
             </div>
-            <iframe width="100%" height="408" src="//www.youtube.com/embed/-a0-vl65EhA?rel=0" frameborder="0"
-                    allowfullscreen=""></iframe>
+            <figure class="media">
+                <oembed url="www.youtube.com/embed/-a0-vl65EhA?rel=0"></oembed>
+            </figure>
             <br>
             <br>
-            <h4 style="text-align: center;">Укладка массива на влагостойкую фанеру, приклеенную к стяжке</h4>
+            <h4 class="article-service-h4" style="text-align: center;">Укладка массива на влагостойкую фанеру,
+                приклеенную к стяжке</h4>
             <p>
                 Это наиболее предпочтительный способ укладки: фанера приклеивается к стяжке, а затем массивная доска
                 клеится на фанеру. Фанерный лист позволяет удобно работать с большим размером доски и сгладить её
@@ -206,7 +208,7 @@
                          title="Укладка массивной доски из ореха американского на пол на лагах"/>
                 </a>
             </p>
-            <br><h4 style="text-align: center;">Укладка на фанерное основание на лагах</h4>
+            <h4 class="article-service-h4" style="text-align: center;">Укладка на фанерное основание на лагах</h4>
             <p style="text-align: center;">
                 <a href="/storage/media/252/018b619313c7f375d401b31e8d7a26a0.JPG" class="gallery"
                    title="Монтаж пола на регулируемых лагах">
@@ -318,7 +320,8 @@
                          height="167" title="Семинар по укладке массива"/>
                 </a>
             </p>
-            <br><h4 style="text-align: center;">Ориентировочные цены на укладку массивной доски:</h4>
+            <h4 class="article-service-h4" style="text-align: center;">Ориентировочные цены на укладку массивной
+                доски:</h4>
             <table class="datatable" style="text-align: left; width: 100%;" border="1">
                 <tbody>
                 <tr>

@@ -66,7 +66,7 @@ export default {
     htmlSupport: {
         allow: [
             {
-                name: /^(div|section|article|p|h1|h2|h3|h4|h5|h6|a|strong|i|img|ol|ul|li|table|thead|tbody|tr|td|th|figure)$/,
+                name: /^(div|section|article|p|h1|h2|h3|h4|h5|h6|a|strong|i|img|ol|ul|li|table|thead|tbody|tr|td|th|figure|b|u)$/,
                 styles: true,
                 classes: true,
                 attributes: true,

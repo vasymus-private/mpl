@@ -32,7 +32,7 @@
                     Позвоните +7 (495) 363-87-99 и он бесплатно проконсультирует вас.
                 </p>
             </div>
-            <h2 style="text-align: center;">Цены на ремонт и восстановления паркета</h2>
+            <h2 class="article-service-h2"  style="text-align: center;">Цены на ремонт и восстановления паркета</h2>
             <table class="datatable" style="text-align: left; width: 100%;">
                 <tbody>
                 <tr>
@@ -147,7 +147,9 @@
                 продолжали жить хозяева – наше оборудование и современные экологичные материалы позволяют проводить
                 работы совершенно без пыли. Результат вы видите.
             </p>
-            <iframe width="100%" height="480" src="//www.youtube.com/embed/b7CDqEi381I?rel=0" frameborder="0" allowfullscreen=""></iframe>
+            <figure class="media">
+                <oembed url="www.youtube.com/embed/b7CDqEi381I?rel=0"></oembed>
+            </figure>
             <div class="white-bg">
                 <p>
                     Залитому паркету <b>обязательно </b>нужно дать полностью высохнуть (1-3 месяца) и только потом

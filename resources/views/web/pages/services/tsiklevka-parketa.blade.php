@@ -677,7 +677,7 @@
                 восстановление называется циклевка паркета. И сначала мы хотим рассказать вам об особенностях
                 терминологии – это важно!
             </p>
-            <h2>Беспыльная циклевка и шлифовка паркета</h2>
+            <h2 class="article-service-h2" >Беспыльная циклевка и шлифовка паркета</h2>
             <p>
                 В широком смысле циклевка паркета — это снятие верхнего повреждённого слоя лака и выравнивание
                 поверхности паркета, в результате покрытие из первого состояния переходит во второе.
@@ -698,7 +698,9 @@
                 <li>Шлифовка между слоями лака.</li>
             </ol>
             <h3 style="text-align: center;">посмотрите видео процесса циклевки дубового паркета</h3>
-            <iframe width="100%" height="480" src="//www.youtube.com/embed/oZuqlzHeC78?rel=0" frameborder="0" allowfullscreen=""></iframe>
+            <figure class="media">
+                <oembed url="www.youtube.com/embed/oZuqlzHeC78?rel=0"></oembed>
+            </figure>
             <h3 style="text-align: center;">
                 беспылевая циклевка паркета 1 рабочий день до 40 <span style="text-align: start;">м<sup>2</sup></span> за
                 смену, оплата по факту завершения работ. </h3>
@@ -716,7 +718,7 @@
             <p style="text-align: center;">
                 <a href="/storage/media/341/716feab1499ca08a4cc5781855c86573.JPG" class="gallery" title="семинар в Германии на заводе Uzin"><img alt="семинар в Германии на заводе Uzin" src="/storage/media/341/716feab1499ca08a4cc5781855c86573.JPG" title="семинар в Германии на заводе Uzin"></a><a href="/storage/media/342/2f7a5a5b0322a5eb57b12b0ba9bceb26.JPG" class="gallery" title="семинар в Германии на заводе Uzin"><img alt="семинар в Германии на заводе Uzin" src="/storage/media/342/2f7a5a5b0322a5eb57b12b0ba9bceb26.JPG" title="семинар в Германии на заводе Uzin"></a><a href="/storage/media/343/9ae0be71ae0eef7618f6cc8d1d993b29.JPG" class="gallery" title="семинар в Германии на заводе Uzin"><img alt="семинар в Германии на заводе Uzin" src="/storage/media/343/9ae0be71ae0eef7618f6cc8d1d993b29.JPG" title="семинар в Германии на заводе Uzin"></a>
             </p>
-            <h4>Мы используем лучшие оборудование для циклевки и шлифовки паркета.</h4>
+            <h4 class="article-service-h4" >Мы используем лучшие оборудование для циклевки и шлифовки паркета.</h4>
             <table class="fix_images">
                 <tbody>
                 <tr>

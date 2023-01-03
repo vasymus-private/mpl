@@ -91,8 +91,9 @@
             <p>
                 Видео - монтаж стяжки по сухой засыпке кнауф
             </p>
-            <iframe width="100%" height="480" src="//www.youtube.com/embed/AZMkcN6ASyg?rel=0" frameborder="0"
-                    allowfullscreen=""></iframe>
+            <figure class="media">
+                <oembed url="www.youtube.com/embed/AZMkcN6ASyg?rel=0"></oembed>
+            </figure>
             <p>
                 Теперь поговорим о том, о чём умалчивают многие мастера – о недостатках.
             </p>
@@ -187,8 +188,9 @@
             <p>
                 Видео - укладка плавающего способа
             </p>
-            <iframe width="100%" height="480" src="//www.youtube.com/embed/L68GcvZcQL8?rel=0" frameborder="0"
-                    allowfullscreen=""></iframe>
+            <figure class="media">
+                <oembed url="www.youtube.com/embed/L68GcvZcQL8?rel=0"></oembed>
+            </figure>
             <p>
                 Чтобы сделать правильный и экономически целесообразный выбор, нужно проконсультироваться со
                 специалистом. Сделайте это, тем более что консультация бесплатна. Инженер-технолог компании «СТП»
