@@ -15,7 +15,7 @@ const galleryItemsStore = useGalleryItemsStore()
                 ID:
             </div>
             <div class="col-sm-7">
-                {{ galleryItemsStore.article?.id }}
+                {{ galleryItemsStore.galleryItem?.id }}
             </div>
         </div>
 
