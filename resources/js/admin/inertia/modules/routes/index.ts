@@ -132,9 +132,9 @@ export const useRoutesStore = defineStore(storeName, {
                         return (
                             router.current(RouteNameGroupEnum.Brands) ||
                             router.current(RouteNameGroupEnum.Articles) ||
-                            router.current(RouteNameGroupEnum.Services) ||
                             router.current(RouteNameGroupEnum.Faq) ||
-                            router.current(RouteNameGroupEnum.Contacts)
+                            router.current(RouteNameGroupEnum.Contacts) ||
+                            router.current(RouteNameGroupEnum.GalleryItems)
                         )
                     }
                     case RouteTypeEnum.referenceBrands: {
@@ -143,14 +143,14 @@ export const useRoutesStore = defineStore(storeName, {
                     case RouteTypeEnum.referenceArticles: {
                         return router.current(RouteNameGroupEnum.Articles)
                     }
-                    case RouteTypeEnum.referenceServices: {
-                        return router.current(RouteNameGroupEnum.Services)
-                    }
                     case RouteTypeEnum.referenceFaq: {
                         return router.current(RouteNameGroupEnum.Faq)
                     }
                     case RouteTypeEnum.referenceContacts: {
                         return router.current(RouteNameGroupEnum.Contacts)
+                    }
+                    case RouteTypeEnum.referenceGalleryItems: {
+                        return router.current(RouteNameGroupEnum.GalleryItems)
                     }
                     default: {
                         return false
@@ -376,13 +376,13 @@ export const routeNames = {
     ROUTE_ADMIN_ARTICLES_CREATE: "admin.articles.create",
     ROUTE_ADMIN_ARTICLES_EDIT: "admin.articles.edit",
 
-    ROUTE_ADMIN_SERVICES_INDEX: "admin.services.index",
-    ROUTE_ADMIN_SERVICES_CREATE: "admin.services.create",
-    ROUTE_ADMIN_SERVICES_EDIT: "admin.services.edit",
-
     ROUTE_ADMIN_FAQ_INDEX: "admin.faq.index",
     ROUTE_ADMIN_FAQ_CREATE: "admin.faq.create",
     ROUTE_ADMIN_FAQ_EDIT: "admin.faq.edit",
+
+    ROUTE_ADMIN_GALLERY_ITEMS_INDEX: "admin.gallery-items.index",
+    ROUTE_ADMIN_GALLERY_ITEMS_CREATE: "admin.gallery-items.create",
+    ROUTE_ADMIN_GALLERY_ITEMS_EDIT: "admin.gallery-items.edit",
 
     ROUTE_ADMIN_EXPORT_PRODUCTS_INDEX: "admin.export-products.index",
     ROUTE_ADMIN_EXPORT_PRODUCTS_SHOW: "admin.export-products.show",
@@ -403,6 +403,14 @@ export const routeNames = {
     ROUTE_ADMIN_AJAX_FAQ_BULK_UPDATE: "admin-ajax.faq.bulk.update",
     ROUTE_ADMIN_AJAX_FAQ_BULK_DELETE: "admin-ajax.faq.bulk.delete",
 
+    ROUTE_ADMIN_AJAX_ARTICLE_BULK_UPDATE: "admin-ajax.article.bulk.update",
+    ROUTE_ADMIN_AJAX_ARTICLE_BULK_DELETE: "admin-ajax.article.bulk.delete",
+
+    ROUTE_ADMIN_AJAX_GALLERY_ITEMS_BULK_UPDATE:
+        "admin-ajax.gallery-item.bulk.update",
+    ROUTE_ADMIN_AJAX_GALLERY_ITEMS_BULK_DELETE:
+        "admin-ajax.gallery-item.bulk.delete",
+
     ROUTE_ADMIN_AJAX_PRODUCTS_STORE: "admin-ajax.products.store",
     ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE: "admin-ajax.products.update",
 
@@ -414,6 +422,12 @@ export const routeNames = {
 
     ROUTE_ADMIN_AJAX_FAQ_STORE: "admin-ajax.faq.store",
     ROUTE_ADMIN_AJAX_FAQ_UPDATE: "admin-ajax.faq.update",
+
+    ROUTE_ADMIN_AJAX_ARTICLE_STORE: "admin-ajax.article.store",
+    ROUTE_ADMIN_AJAX_ARTICLE_UPDATE: "admin-ajax.article.update",
+
+    ROUTE_ADMIN_AJAX_GALLERY_ITEM_STORE: "admin-ajax.gallery-item.store",
+    ROUTE_ADMIN_AJAX_GALLERY_ITEM_UPDATE: "admin-ajax.gallery-item.update",
 
     ROUTE_ADMIN_AJAX_ORDERS_STORE: "admin-ajax.orders.store",
     ROUTE_ADMIN_AJAX_ORDERS_UPDATE: "admin-ajax.orders.update",
@@ -428,6 +442,7 @@ export const routeNames = {
     ROUTE_ADMIN_AJAX_CATEGORY_IMAGE_UPLOAD: "admin-ajax.category-image-upload",
     ROUTE_ADMIN_AJAX_BRAND_IMAGE_UPLOAD: "admin-ajax.brand-image-upload",
     ROUTE_ADMIN_AJAX_FAQ_IMAGE_UPLOAD: "admin-ajax.faq-image-upload",
+    ROUTE_ADMIN_AJAX_ARTICLE_IMAGE_UPLOAD: "admin-ajax.article-image-upload",
 
     ROUTE_ADMIN_AJAX_PRODUCT_SEARCH: "admin-ajax.product-search",
 }
@@ -437,9 +452,9 @@ enum RouteNameGroupEnum {
     Categories = "admin.categories.*",
     Brands = "admin.brands.*",
     Articles = "admin.articles.*",
-    Services = "admin.services.*",
     Faq = "admin.faq.*",
     Contacts = "admin.contacts.*",
+    GalleryItems = "admin.gallery-items.*",
 }
 
 export enum RouteTypeEnum {
@@ -448,7 +463,7 @@ export enum RouteTypeEnum {
     reference = "reference",
     referenceBrands = "reference-brands",
     referenceArticles = "reference-articles",
-    referenceServices = "reference-services",
     referenceFaq = "reference-faq",
     referenceContacts = "reference-contacts",
+    referenceGalleryItems = "reference-gallery-items",
 }

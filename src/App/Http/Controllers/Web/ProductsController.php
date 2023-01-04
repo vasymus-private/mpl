@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Web;
 use Domain\Products\Actions\FiltrateByCategoriesAction;
 use Domain\Products\DTOs\FiltrateByCategoriesParamsDTO;
 use Domain\Products\Events\ProductViewedEvent;
-use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -96,10 +95,10 @@ class ProductsController extends BaseWebController
         $subcategory1 = $request->subcategory1_slug;
         /** @var \Domain\Products\Models\Category|null $subcategory2 */
         $subcategory2 = $request->subcategory2_slug;
-        /** @var Category|null $subcategory3 */
+        /** @var \Domain\Products\Models\Category|null $subcategory3 */
         $subcategory3 = $request->subcategory3_slug;
 
-        /** @var Product $product */
+        /** @var \Domain\Products\Models\Product\Product $product */
         $product = $request->product_slug;
 
         $user = H::userOrAdmin();

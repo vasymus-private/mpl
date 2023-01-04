@@ -160,7 +160,6 @@ watchEffect(() => {
 watchSelectAll()
 
 const onSubmit = handleSubmit(async (values, ctx) => {
-    console.log('---', checkedItems.value)
     const errorFields = await indexProductsForm.submitIndexProducts(checkedItems.value, values)
     if (errorFields) {
         ctx.setErrors(errorFields)
@@ -252,7 +251,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                 :key="sortableColumn.value"
                                 scope="col"
                             >
-                                <div :style="isSortableColumn(sortableColumn, ColumnName.categories) ? {width: '300px'} : {}">{{sortableColumn.label}}</div>
+                                <div class="inner-resize" :style="isSortableColumn(sortableColumn, ColumnName.categories) ? {width: '300px'} : {}">{{sortableColumn.label}}</div>
                             </th>
                         </tr>
                         </thead>

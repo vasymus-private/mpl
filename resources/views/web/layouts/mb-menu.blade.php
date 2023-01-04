@@ -17,8 +17,6 @@
             </div>
         </div>--}}
         <div class="sidebar-catalog accordion fltr">
-            @include("web.layouts.mb-menu-services")
-
             <x-mb-menu-materials />
         </div>
     </div>

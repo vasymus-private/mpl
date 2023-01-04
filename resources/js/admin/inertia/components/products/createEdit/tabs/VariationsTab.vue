@@ -157,7 +157,9 @@ watchSelectAll()
                         </div>
                     </th>
                     <th scope="col">&nbsp;</th>
-                    <th v-for="sortableColumn in columnsStore.adminProductVariantColumns" :key="sortableColumn.value" scope="col">{{sortableColumn.label}}</th>
+                    <th v-for="sortableColumn in columnsStore.adminProductVariantColumns" :key="sortableColumn.value" scope="col">
+                        <div class="inner-resize">{{sortableColumn.label}}</div>
+                    </th>
                 </tr>
                 </thead>
                 <tbody>

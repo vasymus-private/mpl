@@ -41,43 +41,6 @@ Route::middleware([Constants::MIDDLEWARE_AUTHENTICATE_ALL])->group(function() {
     Route::get('password/reset/{token}', [\App\Http\Controllers\Web\Auth\ResetPasswordController::class, "showResetForm"])->name('password.reset');
     Route::post('password/reset', [\App\Http\Controllers\Web\Auth\ResetPasswordController::class, "reset"])->name('password.update');
 
-    Route
-        ::get(
-            "catalog/{category_slug}/{product_slug}.html",
-            [\App\Http\Controllers\Web\ProductsController::class, "show"]
-        )
-        ->name("product.show.1")
-    ;
-    Route
-        ::get(
-            "catalog/{category_slug}/{subcategory1_slug}/{product_slug}.html",
-            [\App\Http\Controllers\Web\ProductsController::class, "show"]
-        )
-        ->name("product.show.2")
-    ;
-    Route
-        ::get(
-            "catalog/{category_slug}/{subcategory1_slug}/{subcategory2_slug}/{product_slug}.html",
-            [\App\Http\Controllers\Web\ProductsController::class, "show"]
-        )
-        ->name("product.show.3")
-    ;
-    Route
-        ::get(
-            "catalog/{category_slug}/{subcategory1_slug}/{subcategory2_slug}/{subcategory3_slug}/{product_slug}.html",
-            [\App\Http\Controllers\Web\ProductsController::class, "show"]
-        )
-        ->name("product.show.4")
-    ;
-
-    Route
-        ::get(
-            "catalog/{category_slug?}/{subcategory1_slug?}/{subcategory2_slug?}/{subcategory3_slug?}",
-            [\App\Http\Controllers\Web\ProductsController::class, "index"]
-        )
-        ->name("products.index")
-    ;
-
     Route::get("brands", [\App\Http\Controllers\Web\BrandsController::class, "index"])->name("brands.index");
     Route::get("brands/{brand_slug}.html", [\App\Http\Controllers\Web\BrandsController::class, "show"])->name("brands.show");
 
@@ -124,7 +87,49 @@ Route::middleware([Constants::MIDDLEWARE_AUTHENTICATE_ALL])->group(function() {
     // TODO think of route if move to aws
     Route::get('media/{id}/{name?}', [\App\Http\Controllers\Web\HomeController::class, "media"])->name("media");
 
-    Route::get("/{service_slug}", [\App\Http\Controllers\Web\ServicesController::class, "show"])->name("services.show");
+    Route
+        ::get(
+            "catalog/{category_slug}/{product_slug}.html",
+            [\App\Http\Controllers\Web\ProductsController::class, "show"]
+        )
+        ->name("product.show.1")
+    ;
+    Route
+        ::get(
+            "catalog/{category_slug}/{subcategory1_slug}/{product_slug}.html",
+            [\App\Http\Controllers\Web\ProductsController::class, "show"]
+        )
+        ->name("product.show.2")
+    ;
+    Route
+        ::get(
+            "catalog/{category_slug}/{subcategory1_slug}/{subcategory2_slug}/{product_slug}.html",
+            [\App\Http\Controllers\Web\ProductsController::class, "show"]
+        )
+        ->name("product.show.3")
+    ;
+    Route
+        ::get(
+            "catalog/{category_slug}/{subcategory1_slug}/{subcategory2_slug}/{subcategory3_slug}/{product_slug}.html",
+            [\App\Http\Controllers\Web\ProductsController::class, "show"]
+        )
+        ->name("product.show.4")
+    ;
+
+    Route
+        ::get(
+            "catalog/{category_slug?}/{subcategory1_slug?}/{subcategory2_slug?}/{subcategory3_slug?}",
+            [\App\Http\Controllers\Web\ProductsController::class, "index"]
+        )
+        ->name("products.index")
+    ;
+
+    /**
+     * @deprecated
+     */
+//    Route::get("/{service_slug}", [\App\Http\Controllers\Web\ServicesController::class, "show"])->name("services.show");
+
+    Route::get("/{parquet_works_product_slug}", [\App\Http\Controllers\Web\ParquetWorksProductsController::class, "show"])->name("parquet-works-product.show");
 
     Route::get("/", [\App\Http\Controllers\Web\HomeController::class, "index"])->name(Constants::ROUTE_WEB_HOME);
 

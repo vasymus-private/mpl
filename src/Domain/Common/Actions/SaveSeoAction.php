@@ -8,7 +8,7 @@ use Domain\Seo\Models\Seo;
 class SaveSeoAction extends BaseAction
 {
     /**
-     * @param \Domain\Products\Models\Product\Product|\Domain\Products\Models\Brand|\Domain\Products\Models\Category|\Domain\FAQs\Models\FAQ $target
+     * @param \Domain\Products\Models\Product\Product|\Domain\Products\Models\Brand|\Domain\Products\Models\Category|\Domain\FAQs\Models\FAQ|\Domain\Articles\Models\Article|\Domain\GalleryItems\Models\GalleryItem $target
      * @param \Domain\Common\DTOs\SeoDTO|null $seoDTO
      *
      * @return void

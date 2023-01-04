@@ -257,4 +257,25 @@ class H
 
         return $inertia;
     }
+
+    /**
+     * @param string $description
+     *
+     * @return string
+     */
+    public static function prepareDescription(string $description = ''): string
+    {
+        $needle = 'cccwwwttt';
+
+        while (stripos($description, $needle) !== false) {
+            $description = substr_replace(
+                $description,
+                sprintf('contact-with-technologist-%s', rand(1, 1000)),
+                stripos($description, $needle),
+                strlen($needle)
+            );
+        }
+
+        return $description;
+    }
 }

@@ -14,13 +14,19 @@ class SidebarMenuMaterialsComponent extends Component
     public $categories;
 
     /**
+     * @var \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\Category[]
+     */
+    public $parquetWorkCategories;
+
+    /**
      * Create a new component instance.
      *
      * @return void
      */
     public function __construct()
     {
-        $this->categories = Category::parents()->with("subcategories.subcategories.subcategories")->orderBy(Category::TABLE . ".ordering")->get();
+        $this->categories = Category::query()->parents()->active()->ordering()->parquetMaterials()->with("subcategories.subcategories.subcategories")->get();
+        $this->parquetWorkCategories = Category::query()->parents()->active()->ordering()->parquetWorks()->get();
     }
 
     /**

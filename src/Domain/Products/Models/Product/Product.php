@@ -239,6 +239,11 @@ class Product extends BaseModel implements HasMedia
         ;
     }
 
+    public static function rbParquetWorksProductSlug($value)
+    {
+        return static::query()->select(["*"])->notVariations()->where(static::TABLE . ".slug", $value)->firstOrFail();
+    }
+
     public static function rbAdminProduct($value)
     {
         return static::query()->select(["*"])->notVariations()->findOrFail($value);

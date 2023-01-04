@@ -54,6 +54,10 @@ class CreateOrUpdateCategoryAction extends BaseAction
                 $target->parent_id = $categoryDTO->parent_id;
             }
 
+            if ($categoryDTO->product_type !== null) {
+                $target->product_type = $categoryDTO->product_type;
+            }
+
             if ($categoryDTO->description !== null) {
                 $target->description = $categoryDTO->description;
             }

@@ -11,8 +11,10 @@ use App\Http\Resources\Admin\Inertia\OrderStatusResource;
 use App\Http\Resources\Admin\Inertia\PaymentMethodResource;
 use Closure;
 use DateInterval;
+use Domain\Articles\Models\Article;
 use Domain\Common\Models\Currency;
 use Domain\FAQs\Models\FAQ;
+use Domain\GalleryItems\Models\GalleryItem;
 use Domain\Orders\Models\BillStatus;
 use Domain\Orders\Models\OrderImportance;
 use Domain\Orders\Models\OrderStatus;
@@ -109,6 +111,9 @@ class HandleInertiaRequests extends Middleware
             'charTypes' => CharTypeResource::collection(CharType::cachedAll()),
             'admins' => Admin::cachedAll()->map(fn (Admin $admin) => ['id' => $admin->id, 'name' => $admin->name, 'color' => $admin->admin_color]), // @phpstan-ignore-line
             'faqOptions' => FAQ::getFaqOptions(),
+            'articleOptions' => Article::getArticleOptions(),
+            'galleryItemOptions' => GalleryItem::getGalleryItemOption(),
+            'categoryProductTypeOptions' => Category::getProductTypeOptions(),
         ]);
     }
 }

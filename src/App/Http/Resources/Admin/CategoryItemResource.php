@@ -28,6 +28,7 @@ class CategoryItemResource extends JsonResource
             'name' => $this->resource->name,
             'is_active' => $this->resource->is_active,
             'ordering' => $this->resource->ordering,
+            'product_type' => $this->resource->product_type,
         ];
     }
 }

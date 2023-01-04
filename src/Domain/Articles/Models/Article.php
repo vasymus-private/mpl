@@ -3,6 +3,7 @@
 namespace Domain\Articles\Models;
 
 use Carbon\Carbon;
+use Domain\Common\DTOs\OptionDTO;
 use Domain\Common\Models\BaseModel;
 use Domain\Seo\Models\Seo;
 use Illuminate\Database\Eloquent\Builder;
@@ -10,7 +11,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property int $id
@@ -24,17 +28,31 @@ use Illuminate\Support\Str;
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
  *
- * @see Article::parent()
- * @property Article|null $parent
+ * @see \Domain\Articles\Models\Article::seo()
+ * @property \Domain\Seo\Models\Seo|null $seo
  *
- * @see Article::scopeActive()
- * @method static static|Builder active()
+ * @see \Domain\Articles\Models\Article::parent()
+ * @property \Domain\Articles\Models\Article|null $parent
+ *
+ * @see \Domain\Articles\Models\Article::children()
+ * @property \Illuminate\Database\Eloquent\Collection|\Domain\Articles\Models\Article[] $children
+ *
+ * @see \Domain\Articles\Models\Article::scopeActive()
+ * @method static static|\Illuminate\Database\Eloquent\Builder active()
+ *
+ * @see \Domain\Articles\Models\Article::getWebRouteAttribute()
+ * @property-read string $web_route
  * */
-class Article extends BaseModel
+class Article extends BaseModel implements HasMedia
 {
     use SoftDeletes;
+    use InteractsWithMedia;
 
     public const TABLE = "articles";
+
+    public const DEFAULT_IS_ACTIVE = false;
+
+    public const MC_DESCRIPTION_FILES = "description-files";
 
     /**
      * The table associated with the model.
@@ -52,6 +70,15 @@ class Article extends BaseModel
         "is_active" => "boolean",
     ];
 
+    /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'is_active' => self::DEFAULT_IS_ACTIVE,
+    ];
+
     public static function route(Article $article): string
     {
         return route(
@@ -60,6 +87,16 @@ class Article extends BaseModel
                 ? [$article->slug]
                 : [$article->slug, $article->parent->slug]
         );
+    }
+
+    /**
+     * @return \Domain\Common\DTOs\OptionDTO[]
+     */
+    public static function getArticleOptions(): array
+    {
+        return Cache::store('array')->rememberForever('options-articles', function () {
+            return static::query()->select(["id", "name"])->get()->map(fn (Article $article) => OptionDTO::fromArticle($article)->toArray())->all();
+        });
     }
 
     public static function rbArticleSlug($value, Route $route)
@@ -83,6 +120,11 @@ class Article extends BaseModel
         ;
     }
 
+    public static function rbAdminArticle($value)
+    {
+        return static::query()->findOrFail($value);
+    }
+
     /**
      * @inheritDoc
      */
@@ -104,6 +146,11 @@ class Article extends BaseModel
         return $this->belongsTo(Article::class, "parent_id", "id");
     }
 
+    public function children()
+    {
+        return $this->hasMany(Article::class, "parent_id", "id");
+    }
+
     public function seo(): MorphOne
     {
         return $this->morphOne(Seo::class, "seoable", "seoable_type", "seoable_id");
@@ -112,5 +159,23 @@ class Article extends BaseModel
     public function scopeActive(Builder $builder): Builder
     {
         return $builder->where(static::TABLE . ".is_active", true);
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection(static::MC_DESCRIPTION_FILES);
+    }
+
+    public function getWebRouteAttribute(): string
+    {
+        return Cache::store('array')->rememberForever(sprintf('article_web_route_%s', $this->id), function () {
+            if (! $this->parent_id) {
+                return route('articles.show', [$this->slug]);
+            }
+
+            $parent = $this->parent;
+
+            return route('articles.show', [$parent->slug, $this->slug]);
+        });
     }
 }

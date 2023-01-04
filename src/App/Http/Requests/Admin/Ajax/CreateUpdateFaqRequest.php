@@ -38,7 +38,7 @@ class CreateUpdateFaqRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:250',
-            'slug' => 'required|string|max:250',
+            'slug' => 'nullable|string|max:250',
             'is_active' => 'nullable|boolean',
             'question' => 'nullable|string|max:65000',
             'answer' => 'nullable|string|max:65000',

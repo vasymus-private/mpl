@@ -1,6 +1,34 @@
 <div class="menu-sidebar">
     <h3 class="menu-sidebar__title">
         <i class="fa fa-bars" aria-hidden="true"></i>
+        Паркетные работы
+    </h3>
+    <ul class="dropdown-vertical menu-sidebar__list">
+        @foreach($parquetWorkCategories as $parquetWorkCategory)
+            <?php /** @var \Domain\Products\Models\Category $parquetWorkCategory */ ?>
+            <li class="accordion-toggle menu-sidebar__item">
+                <div class="dropdown-border"></div>
+                <a href="#">{{$parquetWorkCategory->name}}</a>
+                <ul>
+                    @foreach(collect($parquetWorkCategory->products)->chunk(3) as $products)
+                        <li>
+                            @foreach($products as $product)
+                                <?php /** @var \Domain\Products\Models\Product\Product $product */ ?>
+                                <p class="dropdown-level_2">
+                                    <a href="{{route("parquet-works-product.show", [$product->slug])}}">{{$product->name}}</a>
+                                </p>
+                            @endforeach
+                        </li>
+                    @endforeach
+                </ul>
+            </li>
+        @endforeach
+    </ul>
+</div>
+
+<div class="menu-sidebar">
+    <h3 class="menu-sidebar__title">
+        <i class="fa fa-bars" aria-hidden="true"></i>
         Паркетные материалы
     </h3>
 

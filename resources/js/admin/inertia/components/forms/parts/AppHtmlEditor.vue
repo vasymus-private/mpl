@@ -41,7 +41,7 @@ let CKEditor = component
 </script>
 
 <template>
-    <div v-if="CKEditor && editor">
+    <div v-if="CKEditor && editor" class="app-html-editor">
         <div v-if="props.uploadUrl">
             <CKEditor
                 :editor="editor"

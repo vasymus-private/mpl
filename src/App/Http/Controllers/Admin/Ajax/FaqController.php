@@ -17,9 +17,9 @@ class FaqController extends BaseAdminController
      */
     public function store(CreateUpdateFaqRequest $request, CreateOrUpdateFaqAction $createOrUpdateFaqAction)
     {
-        $brand = $createOrUpdateFaqAction->execute($request->prepare());
+        $faq = $createOrUpdateFaqAction->execute($request->prepare());
 
-        return new FaqResource($brand);
+        return new FaqResource($faq);
     }
 
     /**

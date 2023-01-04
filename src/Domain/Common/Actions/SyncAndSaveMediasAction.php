@@ -13,7 +13,7 @@ class SyncAndSaveMediasAction extends BaseAction
     private const ORDERING_STEP = 100;
 
     /**
-     * @param \Domain\Products\Models\Product\Product|\Domain\Products\Models\Brand|\Domain\Orders\Models\Order $target
+     * @param \Domain\Products\Models\Product\Product|\Domain\Products\Models\Brand|\Domain\Orders\Models\Order|\Domain\GalleryItems\Models\GalleryItem $target
      * @param \Domain\Common\DTOs\MediaDTO[] $mediaDTOs
      * @param string $collectionName
      *

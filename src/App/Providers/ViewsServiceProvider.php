@@ -21,7 +21,6 @@ use App\View\Components\Web\SidebarBrandsFilterComponent;
 use App\View\Components\Web\SidebarFaqComponent;
 use App\View\Components\Web\SidebarMenuCartComponent;
 use App\View\Components\Web\SidebarMenuMaterialsComponent;
-use App\View\Components\Web\SidebarMenuServicesComponent;
 use App\View\Components\Web\SidebarMenuViewedComponent;
 use App\View\Composers\ProfileComposer;
 use Illuminate\Support\Facades\Blade;
@@ -60,7 +59,6 @@ class ViewsServiceProvider extends ServiceProvider
         Blade::component("seo", SeoComponent::class);
         Blade::component("h1", H1Component::class);
         Blade::component("sidebar-menu-materials", SidebarMenuMaterialsComponent::class);
-        Blade::component("sidebar-menu-services", SidebarMenuServicesComponent::class);
         Blade::component("sidebar-brands-filter", SidebarBrandsFilterComponent::class);
         Blade::component("mb-brands-filter", MbBrandsFilterComponent::class);
         Blade::component("mb-menu-materials", MbMenuMaterialsComponent::class);

@@ -4,6 +4,9 @@ namespace Domain\Services\Listeners;
 
 use Domain\Services\Events\ServiceViewedEvent;
 
+/**
+ * @deprecated
+ */
 class MarkServiceViewed
 {
     /**

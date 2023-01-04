@@ -16,10 +16,14 @@ class ArticlesController extends BaseWebController
         /** @var Article|null $subarticle */
         $subarticle = $request->subarticle_slug;
 
-        $slug = $subarticle !== null ? $subarticle->slug : $article->slug;
+//        $slug = $subarticle !== null ? $subarticle->slug : $article->slug;
+
+        $article = $subarticle ?: $article;
 
         $breadcrumbs = Breadcrumbs::articleRoute($article, $subarticle);
 
-        return view("web.pages.articles.$slug", compact("article", "subarticle", "breadcrumbs"));
+        return view('web.pages.articles.article', compact('article', 'subarticle', 'breadcrumbs'));
+
+//        return view("web.pages.articles.$slug", compact("article", "subarticle", "breadcrumbs"));
     }
 }

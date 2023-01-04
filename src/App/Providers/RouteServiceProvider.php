@@ -104,11 +104,14 @@ class RouteServiceProvider extends ServiceProvider
         Route::bind("subcategory3_slug", [Category::class, "rbSubcategory3Slug"]);
 
         Route::bind("product_slug", [Product::class, "rbProductSlug"]);
+        Route::bind("parquet_works_product_slug", [Product::class, "rbParquetWorksProductSlug"]);
         Route::bind("admin_product", [Product::class, "rbAdminProduct"]);
         Route::bind("admin_category", [Category::class, "rbAdminCategory"]);
         Route::bind("admin_brand", [Brand::class, "rbAdminBrand"]);
         Route::bind('admin_order', [Order::class, "rbAdminOrder"]);
         Route::bind('admin_faq', [FAQ::class, "rbAdminFaq"]);
+        Route::bind('admin_article', [Article::class, "rbAdminArticle"]);
+        Route::bind('admin_gallery_item', [GalleryItem::class, "rbAdminGalleryItem"]);
         Route::bind('admin', [Admin::class, 'rbAdmin']);
 
         Route::bind("parentGalleryItemSlug", [GalleryItem::class, "rbParentGalleryItemSlug"]);

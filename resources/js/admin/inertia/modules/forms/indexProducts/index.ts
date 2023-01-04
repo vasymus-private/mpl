@@ -28,7 +28,6 @@ export const useIndexProductsFormStore = defineStore(storeName, {
                 let productsToUpdate = values.products.filter((item) =>
                     checkedProductsUuids.includes(item.uuid)
                 )
-                console.log("--- products to update", productsToUpdate)
                 if (!productsToUpdate.length) {
                     return
                 }

@@ -119,7 +119,7 @@ export const getFormSchema = () => {
         id: yupIntegerOrEmptyString(),
         uuid: yup.string().nullable(),
         name: yup.string().required().max(250),
-        slug: yup.string().required().max(250),
+        slug: yup.string().nullable().max(250),
         is_active: yup.boolean(),
         parent_id: yupIntegerOrEmptyString(),
         question: yup.string().max(65000).nullable(),
