@@ -36,13 +36,13 @@
         &.table-variants {
             th {
                 &:nth-child(3) {
-                    width: 250px;
+                    //width: 250px;
                 }
                 &:nth-child(4) {
-                    width: 110px;
+                    //width: 110px;
                 }
                 &:nth-child(9) {
-                    width: 100px;
+                    //width: 100px;
                 }
             }
         }
@@ -62,15 +62,15 @@
         font-size: 11px;
         text-align: left;
         &:nth-child(2) {
-            width: 15px;
+            //width: 15px;
         }
 
         &:nth-child(4) {
-            width: 185px;
+            //width: 185px;
         }
 
         &:nth-child(9) {
-            width: 293px;
+            //width: 293px;
         }
     }
 
@@ -84,17 +84,17 @@
         text-align: left;
         vertical-align: middle;
         &:nth-child(2) {
-            width: 15px;
+            //width: 15px;
         }
 
         &:nth-child(6) {
             .form-control {
-                width: 50px;
+                //width: 50px;
             }
         }
 
         .form-control {
-            width: 130px;
+            //width: 130px;
             height: 27px;
             padding: 8px;
             font-size: 12px;
@@ -102,7 +102,7 @@
 
         select {
             &.form-control {
-                width: 130px;
+                // width: 130px;
                 height: 27px;
                 padding: 2px;
                 font-size: 12px;
@@ -111,7 +111,7 @@
 
         &:nth-child(3) {
             .form-control {
-                width: 300px;
+                //width: 300px;
             }
         }
     }
@@ -134,26 +134,26 @@
     .table-products {
         td {
             &.sortable-column-22 {
-                width: 80px !important;
+                //width: 80px;
                 .form-control {
-                    width: 41px;
+                    //width: 41px;
                 }
             }
             &.sortable-column-2 {
-                width: 367px;
+                //width: 367px;
                 .form-control {
-                    width: 367px;
+                    //width: 367px;
                 }
             }
             &.sortable-column-15,
             &.sortable-column-16 {
                 .form-control {
-                    width: 70px;
+                    //width: 70px;
                 }
             }
 
             select.form-control {
-                width: 84px;
+                //width: 84px;
             }
 
             textarea.form-control {
@@ -166,30 +166,30 @@
     .table-variants {
         td {
             &.sortable-column-2 {
-                width: 367px;
+                //width: 367px;
                 .form-control {
-                    width: 367px;
+                    //width: 367px;
                 }
             }
 
             &.sortable-column-22,
             &.sortable-column-14 {
-                width: 80px;
+                //width: 80px;
                 .form-control {
-                    width: 41px;
+                    //width: 41px;
                 }
             }
 
             &.sortable-column-15,
             &.sortable-column-16 {
                 .form-control {
-                    width: 70px;
+                    //width: 70px;
                 }
             }
 
             &.sortable-column-18 {
                 .form-control {
-                    width: 84px;
+                    //width: 84px;
                 }
             }
         }

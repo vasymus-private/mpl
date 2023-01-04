@@ -251,7 +251,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                 :key="sortableColumn.value"
                                 scope="col"
                             >
-                                <div :style="isSortableColumn(sortableColumn, ColumnName.categories) ? {width: '300px'} : {}">{{sortableColumn.label}}</div>
+                                <div class="inner-resize" :style="isSortableColumn(sortableColumn, ColumnName.categories) ? {width: '300px'} : {}">{{sortableColumn.label}}</div>
                             </th>
                         </tr>
                         </thead>
