@@ -9,7 +9,7 @@
         <h1>{{ $article->name }}</h1>
 
         <div class="article-inner">
-            {!! $article->description !!}
+            {!! \Support\H::prepareDescription($article->description) !!}
         </div>
     </article>
 @endsection
