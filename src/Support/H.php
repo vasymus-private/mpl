@@ -6,12 +6,14 @@ use App\Constants;
 use Domain\Common\Models\Currency;
 use Domain\Users\Models\Admin;
 use Domain\Users\Models\BaseUser\BaseUser;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\HtmlString;
 use Inertia\ResponseFactory;
 use LogicException;
+use Spatie\DataTransferObject\DataTransferObject;
 use Support\CBRcurrencyConverter\CBRcurrencyConverter;
 
 class H
@@ -279,5 +281,18 @@ class H
         // images TODO parse from src media id; find in database and generate url
 
         return $description;
+    }
+
+    /**
+     * @param string $key
+     * @param array $haystack
+     *
+     * @return int|null
+     */
+    public static function nullableIntValue(string $key, array $haystack): ?int
+    {
+        return array_key_exists($key, $haystack)
+            ? (int)$haystack[$key]
+            : null;
     }
 }

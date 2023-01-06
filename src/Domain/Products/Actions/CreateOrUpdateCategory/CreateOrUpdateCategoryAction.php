@@ -50,13 +50,11 @@ class CreateOrUpdateCategoryAction extends BaseAction
                 $target->is_active = $categoryDTO->is_active;
             }
 
-            if ($categoryDTO->parent_id !== null) {
-                $target->parent_id = $categoryDTO->parent_id;
-            }
+            /** @see \Domain\Products\Models\Category::$parent_id */
+            $target->setNullableForeignInt('parent_id', $categoryDTO->parent_id);
 
-            if ($categoryDTO->product_type !== null) {
-                $target->product_type = $categoryDTO->product_type;
-            }
+            /** @see \Domain\Products\Models\Category::$product_type */
+            $target->setNullableForeignInt('product_type', $categoryDTO->product_type);
 
             if ($categoryDTO->description !== null) {
                 $target->description = $categoryDTO->description;

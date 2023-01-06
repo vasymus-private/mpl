@@ -8,6 +8,7 @@ use Domain\Products\Models\Category;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Exists;
+use Support\H;
 
 class CreateUpdateCategoryRequest extends FormRequest
 {
@@ -83,12 +84,8 @@ class CreateUpdateCategoryRequest extends FormRequest
             'is_active' => isset($payload['is_active'])
                 ? (bool)$payload['is_active']
                 : null,
-            'product_type' => isset($payload['product_type'])
-                ? (bool)$payload['product_type']
-                : null,
-            'parent_id' => isset($payload['parent_id'])
-                ? (int)$payload['parent_id']
-                : null,
+            'product_type' => H::nullableIntValue('product_type', $payload),
+            'parent_id' => H::nullableIntValue('parent_id', $payload),
             'description' => isset($payload['description'])
                 ? (string)$payload['description']
                 : null,

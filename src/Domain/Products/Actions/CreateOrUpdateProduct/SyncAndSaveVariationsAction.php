@@ -98,11 +98,14 @@ class SyncAndSaveVariationsAction extends BaseAction
             $variation->coefficient = $variationDTO->coefficient;
             $variation->coefficient_description = $variationDTO->coefficient_description;
             $variation->unit = $variationDTO->unit;
-            $variation->availability_status_id = $variationDTO->availability_status_id;
+            /** @see \Domain\Products\Models\Product\Product::$availability_status_id */
+            $variation->setNullableForeignInt('availability_status_id', $variationDTO->availability_status_id);
             $variation->price_purchase = $variationDTO->price_purchase;
-            $variation->price_purchase_currency_id = $variationDTO->price_purchase_currency_id;
+            /** @see \Domain\Products\Models\Product\Product::$price_purchase_currency_id */
+            $variation->setNullableForeignInt('price_purchase_currency_id', $variationDTO->price_purchase_currency_id);
             $variation->price_retail = $variationDTO->price_retail;
-            $variation->price_retail_currency_id = $variationDTO->price_retail_currency_id;
+            /** @see \Domain\Products\Models\Product\Product::$price_retail_currency_id */
+            $variation->setNullableForeignInt('price_retail_currency_id', $variationDTO->price_retail_currency_id);
             $variation->preview = $variationDTO->preview;
 
             $variation->save();

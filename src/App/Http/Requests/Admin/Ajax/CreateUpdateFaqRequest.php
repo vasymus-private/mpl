@@ -7,6 +7,7 @@ use Domain\FAQs\DTOs\FaqDTO;
 use Domain\FAQs\Models\FAQ;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
+use Support\H;
 
 /**
  * @property-read string|null $name
@@ -90,9 +91,7 @@ class CreateUpdateFaqRequest extends FormRequest
             'slug' => isset($payload['slug'])
                 ? (string)$payload['slug']
                 : null,
-            'parent_id' => array_key_exists('parent_id', $payload)
-                ? (int)$payload['parent_id']
-                : null,
+            'parent_id' => H::nullableIntValue('parent_id', $payload),
             'is_active' => isset($payload['is_active'])
                 ? (bool)$payload['is_active']
                 : null,

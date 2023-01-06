@@ -57,9 +57,8 @@ class CreateOrUpdateGalleryItemAction extends BaseAction
                 $target->is_active = $galleryItemDTO->is_active;
             }
 
-            if ($galleryItemDTO->parent_id !== null) {
-                $target->parent_id = $galleryItemDTO->parent_id !== 0 ? $galleryItemDTO->parent_id : null;
-            }
+            /** @see \Domain\GalleryItems\Models\GalleryItem::$parent_id */
+            $target->setNullableForeignInt('parent_id', $galleryItemDTO->parent_id);
 
             if ($galleryItemDTO->ordering !== null) {
                 $target->ordering = $galleryItemDTO->ordering;
