@@ -33,7 +33,7 @@ class CreateUpdateCategoryRequest extends FormRequest
             'slug' => 'nullable|string|max:250',
             'ordering' => 'nullable|integer',
             'is_active' => 'nullable|boolean',
-            'product_type' => 'nullable|boolean',
+            'product_type' => sprintf('nullable|in:%s',  implode(',', Category::getProductTypes())),
             'parent_id' => [
                 'nullable',
                 Rule::exists(Category::TABLE, 'id')
