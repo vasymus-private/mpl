@@ -276,6 +276,17 @@ class Category extends BaseModel implements HasMedia
     /**
      * @return int[]
      */
+    public static function getProductTypes(): array
+    {
+        return [
+            static::PRODUCT_TYPE_PARQUET_MATERIALS,
+            static::PRODUCT_TYPE_PARQUET_WORKS,
+        ];
+    }
+
+    /**
+     * @return int[]
+     */
     public function getAllLoadedSubcategoriesIdsAttribute(): array
     {
         return $this->allLoadedSubcategoriesIds($this);
