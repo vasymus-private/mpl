@@ -265,8 +265,8 @@ class H
      */
     public static function prepareDescription(string $description = ''): string
     {
+        // contact technologist button
         $needle = 'cccwwwttt';
-
         while (stripos($description, $needle) !== false) {
             $description = substr_replace(
                 $description,
@@ -275,6 +275,8 @@ class H
                 strlen($needle)
             );
         }
+
+        // images TODO parse from src media id; find in database and generate url
 
         return $description;
     }
