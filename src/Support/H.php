@@ -259,11 +259,11 @@ class H
     }
 
     /**
-     * @param string $description
+     * @param string|null $description
      *
      * @return string
      */
-    public static function prepareDescription(string $description = ''): string
+    public static function prepareDescription(?string $description = ''): string
     {
         if (! $description) {
             return '';
