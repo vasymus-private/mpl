@@ -4,8 +4,10 @@ namespace Support;
 
 use App\Constants;
 use Domain\Common\Models\Currency;
+use Domain\Common\Models\CustomMedia;
 use Domain\Users\Models\Admin;
 use Domain\Users\Models\BaseUser\BaseUser;
+use DOMDocument;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
@@ -279,9 +281,51 @@ class H
             );
         }
 
-        // images TODO parse from src media id; find in database and generate url
+        $html = new DOMDocument();
+        /**
+         * @see https://stackoverflow.com/a/22490902
+         * @see https://stackoverflow.com/a/8218649
+         */
+        $isLoaded = $html->loadHTML(
+            mb_convert_encoding($description, 'HTML-ENTITIES', 'UTF-8'), // cyrillic
+            LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD // no tags: <doctype>, <html>, <body>
+        );
 
-        return $description;
+        if (! $isLoaded) {
+            return $description;
+        }
+
+        $images = $html->getElementsByTagName('img');
+
+        foreach ($images as $img) {
+            /** @var \DOMElement $img */
+            $src = $img->getAttribute('src');
+            if (str_contains($src, '/storage/media/')) {
+                continue;
+            }
+
+            $isMatch = preg_match('/media\/(.+?)\//i', $src, $matches);
+            if ($isMatch !== 1) {
+                continue;
+            }
+
+            $mediaId = $matches[1];
+            /** @var \Domain\Common\Models\CustomMedia|null $media */
+            $media = CustomMedia::query()->find($mediaId);
+            if (! $media) {
+                continue;
+            }
+
+            $img->setAttribute('src', $media->getUrl());
+        }
+
+        $result = $html->saveHTML();
+
+        if (! $result) {
+            return $description;
+        }
+
+        return $result;
     }
 
     /**
