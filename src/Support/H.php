@@ -6,14 +6,12 @@ use App\Constants;
 use Domain\Common\Models\Currency;
 use Domain\Users\Models\Admin;
 use Domain\Users\Models\BaseUser\BaseUser;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\HtmlString;
 use Inertia\ResponseFactory;
 use LogicException;
-use Spatie\DataTransferObject\DataTransferObject;
 use Support\CBRcurrencyConverter\CBRcurrencyConverter;
 
 class H

@@ -2,10 +2,8 @@
 
 namespace Domain\Common\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
-use Spatie\DataTransferObject\DataTransferObject;
 
 trait CommonTraits
 {
@@ -70,7 +68,7 @@ trait CommonTraits
      */
     public function setNullableForeignInt(string $key, int $value = null): void
     {
-        if (!isset($value)) {
+        if (! isset($value)) {
             return;
         }
 
