@@ -46,9 +46,8 @@ class CreateOrUpdateArticleAction extends BaseAction
                 $target->is_active = $articleDTO->is_active;
             }
 
-            if ($articleDTO->parent_id !== null) {
-                $target->parent_id = $articleDTO->parent_id !== 0 ? $articleDTO->parent_id : null;
-            }
+            /** @see \Domain\Articles\Models\Article::$parent_id */
+            $target->setNullableForeignInt('parent_id', $articleDTO->parent_id);
 
             if ($articleDTO->description !== null) {
                 $target->description = $articleDTO->description;

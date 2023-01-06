@@ -45,7 +45,8 @@ class GalleryItemBulkUpdateRequest extends FormRequest
             ->map(fn (array $item) => new GalleryItemListUpdateDTO([
                 'id' => (int)$item['id'],
                 'name' => isset($item['name']) ? (string)$item['name'] : null,
-                'is_active' => isset($item['is_active']) ? (int)$item['is_active'] : null,
+                'is_active' => isset($item['is_active']) ? (bool)$item['is_active'] : null,
+                'ordering' => isset($item['ordering']) ? (int)$item['ordering'] : null,
             ]))
             ->keyBy('id')
             ->all();

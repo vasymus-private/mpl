@@ -44,7 +44,7 @@ class ArticlesBulkUpdateRequest extends FormRequest
             ->map(fn (array $item) => new ArticleListUpdateDTO([
                 'id' => (int)$item['id'],
                 'name' => (string)$item['name'],
-                'is_active' => isset($item['is_active']) ? (int)$item['is_active'] : null,
+                'is_active' => isset($item['is_active']) ? (bool)$item['is_active'] : null,
             ]))
             ->keyBy('id')
             ->all();

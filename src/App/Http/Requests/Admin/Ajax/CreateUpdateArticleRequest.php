@@ -7,6 +7,7 @@ use Domain\Articles\Models\Article;
 use Domain\Common\DTOs\SeoDTO;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
+use Support\H;
 
 /**
  * @property-read string|null $name
@@ -88,9 +89,7 @@ class CreateUpdateArticleRequest extends FormRequest
             'slug' => isset($payload['slug'])
                 ? (string)$payload['slug']
                 : null,
-            'parent_id' => array_key_exists('parent_id', $payload)
-                ? (int)$payload['parent_id']
-                : null,
+            'parent_id' => H::nullableIntValue('parent_id', $payload),
             'is_active' => isset($payload['is_active'])
                 ? (bool)$payload['is_active']
                 : null,

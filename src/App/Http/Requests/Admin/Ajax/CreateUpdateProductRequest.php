@@ -242,27 +242,17 @@ class CreateUpdateProductRequest extends FormRequest
             'price_purchase' => isset($payload['price_purchase'])
                 ? (float)$payload['price_purchase']
                 : null,
-            'price_purchase_currency_id' => isset($payload['price_purchase_currency_id'])
-                ? (int)$payload['price_purchase_currency_id']
-                : null,
+            'price_purchase_currency_id' => H::nullableIntValue('price_purchase_currency_id', $payload),
             'price_retail' => isset($payload['price_retail'])
                 ? (float)$payload['price_retail']
                 : null,
-            'price_retail_currency_id' => isset($payload['price_retail_currency_id'])
-                ? (int)$payload['price_retail_currency_id']
-                : null,
+            'price_retail_currency_id' => H::nullableIntValue('price_retail_currency_id', $payload),
             'admin_comment' => isset($payload['admin_comment'])
                 ? (string)$payload['admin_comment']
                 : null,
-            'availability_status_id' => isset($payload['availability_status_id'])
-                ? (int)$payload['availability_status_id']
-                : null,
-            'brand_id' => array_key_exists('brand_id', $payload)
-                ? (int)$payload['brand_id']
-                : null,
-            'category_id' => isset($payload['category_id'])
-                ? (int)$payload['category_id']
-                : null,
+            'availability_status_id' => H::nullableIntValue('availability_status_id', $payload),
+            'brand_id' => H::nullableIntValue('brand_id', $payload),
+            'category_id' => H::nullableIntValue('category_id', $payload),
             'is_with_variations' => isset($payload['is_with_variations'])
                 ? (bool)$payload['is_with_variations']
                 : null,
@@ -349,9 +339,7 @@ class CreateUpdateProductRequest extends FormRequest
                             'value' => isset($char['value'])
                                 ? (string)$char['value']
                                 : null,
-                            'type_id' => isset($char['type_id'])
-                                ? (int)$char['type_id']
-                                : null,
+                            'type_id' => H::nullableIntValue('type_id', $char),
                             'ordering' => isset($char['ordering'])
                                 ? (int)$char['ordering']
                                 : null,
@@ -400,21 +388,15 @@ class CreateUpdateProductRequest extends FormRequest
                     'unit' => isset($variation['unit'])
                         ? (string)$variation['unit']
                         : null,
-                    'availability_status_id' => isset($variation['availability_status_id'])
-                        ? (int)$variation['availability_status_id']
-                        : null,
+                    'availability_status_id' => H::nullableIntValue('availability_status_id', $variation),
                     'price_purchase' => isset($variation['price_purchase'])
                         ? (float)$variation['price_purchase']
                         : null,
-                    'price_purchase_currency_id' => isset($variation['price_purchase_currency_id'])
-                        ? (int)$variation['price_purchase_currency_id']
-                        : null,
+                    'price_purchase_currency_id' => H::nullableIntValue('price_purchase_currency_id', $variation),
                     'price_retail' => isset($variation['price_retail'])
                         ? (float)$variation['price_retail']
                         : null,
-                    'price_retail_currency_id' => isset($variation['price_retail_currency_id'])
-                        ? (int)$variation['price_retail_currency_id']
-                        : null,
+                    'price_retail_currency_id' => H::nullableIntValue('price_retail_currency_id', $variation),
                     'preview' => isset($variation['preview'])
                         ? (string)$variation['preview']
                         : null,

@@ -46,9 +46,8 @@ class CreateOrUpdateFaqAction extends BaseAction
                 $target->is_active = $faqDTO->is_active;
             }
 
-            if ($faqDTO->parent_id !== null) {
-                $target->parent_id = $faqDTO->parent_id !== 0 ? $faqDTO->parent_id : null;
-            }
+            /** @see \Domain\FAQs\Models\FAQ::$parent_id */
+            $target->setNullableForeignInt('parent_id', $faqDTO->parent_id);
 
             if ($faqDTO->question !== null) {
                 $target->question = $faqDTO->question;

@@ -280,4 +280,17 @@ class H
 
         return $description;
     }
+
+    /**
+     * @param string $key
+     * @param array $haystack
+     *
+     * @return int|null
+     */
+    public static function nullableIntValue(string $key, array $haystack): ?int
+    {
+        return array_key_exists($key, $haystack)
+            ? (int)$haystack[$key]
+            : null;
+    }
 }

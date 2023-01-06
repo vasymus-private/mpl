@@ -102,9 +102,7 @@ class CreateUpdateGalleryItemsRequest extends FormRequest
             'slug' => isset($payload['slug'])
                 ? (string)$payload['slug']
                 : null,
-            'parent_id' => array_key_exists('parent_id', $payload)
-                ? (int)$payload['parent_id']
-                : null,
+            'parent_id' => H::nullableIntValue('parent_id', $payload),
             'ordering' => array_key_exists('ordering', $payload)
                 ? (int)$payload['ordering']
                 : null,
