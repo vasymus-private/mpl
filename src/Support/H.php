@@ -300,7 +300,7 @@ class H
         foreach ($images as $img) {
             /** @var \DOMElement $img */
             $src = $img->getAttribute('src');
-            if (str_contains($src, '/storage/media/')) {
+            if (str_contains($src, 'http')) {
                 continue;
             }
 
