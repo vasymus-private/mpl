@@ -10,7 +10,6 @@ use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\ProductDTO;
 use Domain\Products\Models\Pivots\ProductProduct;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Support\Facades\DB;
-use Support\H;
 
 class CreateOrUpdateProductAction extends BaseAction
 {
