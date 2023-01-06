@@ -265,6 +265,9 @@ class H
      */
     public static function prepareDescription(string $description = ''): string
     {
+        if (!$description) {
+            return '';
+        }
         // contact technologist button
         $needle = 'cccwwwttt';
         while (stripos($description, $needle) !== false) {
