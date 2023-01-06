@@ -265,7 +265,7 @@ class H
      */
     public static function prepareDescription(string $description = ''): string
     {
-        if (!$description) {
+        if (! $description) {
             return '';
         }
         // contact technologist button
