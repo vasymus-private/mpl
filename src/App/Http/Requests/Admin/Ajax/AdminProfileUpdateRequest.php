@@ -9,10 +9,25 @@ use Illuminate\Support\Facades\Gate;
 
 /**
  * @property \Domain\Users\Models\Admin $admin @see {@link \App\Providers\RouteServiceProvider::routeBinding()}
- * @property string|null $adminSidebarFlexBasis
- * @property array<int, string>|null $adminProductsTableSizes
- * @property array<int, string>|null $adminProductVariationsTableSizes
- * @property array<int, string>|null $adminOrdersTableSizes
+ * @property-read string|null $adminSidebarFlexBasis
+ *
+ * @property-read int[]|null $adminOrderColumns
+ * @property-read bool|null $adminOrderColumnsDefault
+ *
+ * @property-read int[]|null $adminProductColumns
+ * @property-read bool|null $adminProductColumnsDefault
+ *
+ * @property-read int[]|null $adminProductVariantColumns
+ * @property-read bool|null $adminProductVariantColumnsDefault
+ *
+ * @property-read array[]|null $adminProductsTableSizes
+ * @property-read bool|null $adminProductsTableSizesDefault
+ *
+ * @property-read array[]|null $adminProductVariationsTableSizes
+ * @property-read bool|null $adminProductVariationsTableSizesDefault
+ *
+ * @property-read array[]|null $adminOrdersTableSizes
+ * @property-read bool|null $adminOrdersTableSizesDefault
  */
 class AdminProfileUpdateRequest extends FormRequest
 {
@@ -37,32 +52,42 @@ class AdminProfileUpdateRequest extends FormRequest
             'adminSidebarFlexBasis' => 'nullable|string',
 
             'adminOrderColumns' => 'array|nullable',
-            'adminOrderColumns.*' => [
-                'integer',
-                sprintf('in:%s', implode(',', Column::toValues())),
-            ],
+            'adminOrderColumns.*' => $this->getColumnValidation(),
             'adminOrderColumnsDefault' => 'boolean|nullable',
 
             'adminProductColumns' => 'array|nullable',
-            'adminProductColumns.*' => [
-                'integer',
-                sprintf('in:%s', implode(',', Column::toValues())),
-            ],
+            'adminProductColumns.*' => $this->getColumnValidation(),
             'adminProductColumnsDefault' => 'boolean|nullable',
 
             'adminProductVariantColumns' => 'array|nullable',
-            'adminProductVariantColumns.*' => [
-                'integer',
-                sprintf('in:%s', implode(',', Column::toValues())),
-            ],
+            'adminProductVariantColumns.*' => $this->getColumnValidation(),
             'adminProductVariantColumnsDefault' => 'boolean|nullable',
 
             'adminProductsTableSizes' => 'nullable|array',
-            'adminProductsTableSizes.*' => 'string',
+            'adminProductsTableSizes.*.column' => $this->getColumnValidation(),
+            'adminProductsTableSizes.*.size' => 'string',
+            'adminProductsTableSizesDefault' => 'boolean|nullable',
+
             'adminProductVariationsTableSizes' => 'nullable|array',
-            'adminProductVariationsTableSizes.*' => 'string',
+            'adminProductVariationsTableSizes.*.column' => $this->getColumnValidation(),
+            'adminProductVariationsTableSizes.*.size' => 'string',
+            'adminProductVariationsTableSizesDefault' => 'boolean|nullable',
+
             'adminOrdersTableSizes' => 'nullable|array',
-            'adminOrdersTableSizes.*' => 'string',
+            'adminOrdersTableSizes.*.column' => $this->getColumnValidation(),
+            'adminOrdersTableSizes.*.size' => 'string',
+            'adminOrdersTableSizesDefault' => 'boolean|nullable',
+        ];
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function getColumnValidation(): array
+    {
+        return [
+            'integer',
+            sprintf('in:%s', implode(',', Column::toValues())),
         ];
     }
 }

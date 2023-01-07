@@ -10,6 +10,9 @@ use Domain\Products\Actions\GetDefaultAdminProductColumnsAction;
 use Domain\Products\Actions\GetDefaultAdminProductVariantColumnsAction;
 use Domain\Products\Models\Product\Product;
 use Domain\Services\Models\Service;
+use Domain\Users\Actions\GetAdminOrdersTableSizesAction;
+use Domain\Users\Actions\GetAdminProductsTableDefaultSizesAction;
+use Domain\Users\Actions\GetAdminProductVariationsTableDefaultSizesAction;
 use Domain\Users\Models\Pivots\ProductUserAside;
 use Domain\Users\Models\Pivots\ProductUserCart;
 use Domain\Users\Models\Pivots\ProductUserViewed;
@@ -100,14 +103,21 @@ use Illuminate\Support\Str;
  * @see \Domain\Users\Models\BaseUser\BaseUser::getAdminProductVariantColumnsArrAttribute()
  * @property-read array[] $admin_product_variant_columns_arr
  *
- * @see \Domain\Users\Models\BaseUser\BaseUser::getAdminProductsTableDefaultSizesAttribute()
- * @property-read array<int, string> $admin_products_table_default_sizes
+ * @see \Domain\Users\Models\BaseUser\BaseUser::getAdminSidebarFlexBasisAttribute()
+ * @see \Domain\Users\Models\BaseUser\BaseUser::setAdminSidebarFlexBasisAttribute()
+ * @property string $admin_sidebar_flex_basis
  *
- * @see \Domain\Users\Models\BaseUser\BaseUser::getAdminProductVariantsTableDefaultSizesAttribute()
- * @property-read array<int, string> $admin_product_variants_table_default_sizes
+ * @see \Domain\Users\Models\BaseUser\BaseUser::getAdminProductsTableSizesAttribute()
+ * @see \Domain\Users\Models\BaseUser\BaseUser::setAdminProductsTableSizesAttribute()
+ * @property array<int, string> $admin_products_table_sizes
  *
- * @see \Domain\Users\Models\BaseUser\BaseUser::getAdminOrdersTableDefaultSizesAttribute()
- * @property-read array<int, string> $admin_orders_table_default_sizes
+ * @see \Domain\Users\Models\BaseUser\BaseUser::getAdminProductVariationsTableSizesAttribute()
+ * @see \Domain\Users\Models\BaseUser\BaseUser::setAdminProductVariationsTableSizesAttribute()
+ * @property array<int, string> $admin_product_variations_table_sizes
+ *
+ * @see \Domain\Users\Models\BaseUser\BaseUser::getAdminOrdersTableSizesAttribute()
+ * @see \Domain\Users\Models\BaseUser\BaseUser::setAdminOrdersTableSizesAttribute()
+ * @property array<int, string> $admin_orders_table_sizes
  *
  * @method static \Domain\Users\QueryBuilders\UserQueryBuilder query()
  *
@@ -130,6 +140,13 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
     protected const SETTINGS_ADMIN_ORDER_COLUMNS = 'adminOrderColumns';
     protected const SETTINGS_ADMIN_PRODUCT_COLUMNS = 'adminProductColumns';
     protected const SETTINGS_ADMIN_PRODUCT_VARIANT_COLUMNS = 'adminProductVariantColumns';
+    protected const SETTINGS_ADMIN_SIDEBAR_FLEX_BASIS = 'adminSidebarFlexBasis';
+
+    protected const SETTINGS_ADMIN_PRODUCTS_TABLE_SIZES = 'adminProductsTableSizes';
+    protected const SETTINGS_ADMIN_PRODUCT_VARIATIONS_TABLE_SIZES = 'adminProductVariationsTableSizes';
+    protected const SETTINGS_ADMIN_ORDERS_TABLE_SIZES = 'adminOrdersTableSizes';
+
+    protected const SETTINGS_ADMIN_SIDEBAR_FLEX_BASIS_DEFAULT = 330;
 
     /**
      * The table associated with the model.
@@ -382,27 +399,91 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * @phpstan-return array<int, string>
+     * @return string
      */
-    public function getAdminProductsTableDefaultSizesAttribute(): array
+    public function getAdminSidebarFlexBasisAttribute(): string
     {
-        return collect($this->admin_product_columns)->reduce([static::class, '_columnsTableDefaultSizeReduceCB'], []);
+        $settings = $this->settings;
+
+        return $settings[static::SETTINGS_ADMIN_SIDEBAR_FLEX_BASIS] ?? static::SETTINGS_ADMIN_SIDEBAR_FLEX_BASIS_DEFAULT;
+    }
+
+    /**
+     * @param string|null $value
+     *
+     * @return void
+     */
+    public function setAdminSidebarFlexBasisAttribute(?string $value = null): void
+    {
+        $settings = $this->settings;
+        $settings[static::SETTINGS_ADMIN_SIDEBAR_FLEX_BASIS] = $value;
+        $this->settings = $settings;
     }
 
     /**
      * @phpstan-return array<int, string>
      */
-    public function getAdminProductVariantsTableDefaultSizesAttribute(): array
+    public function getAdminProductsTableSizesAttribute(): array
     {
-        return collect($this->admin_product_variant_columns)->reduce([static::class, '_columnsTableDefaultSizeReduceCB'], []);
+        $settings = $this->settings;
+
+        return $settings[static::SETTINGS_ADMIN_PRODUCTS_TABLE_SIZES] ?? GetAdminProductsTableDefaultSizesAction::cached()->execute();
+    }
+
+    /**
+     * @phpstan-param array<int, string>|null $value
+     *
+     * @phpstan-return void
+     */
+    public function setAdminProductsTableSizesAttribute(?array $value = null): void
+    {
+        $settings = $this->settings;
+        $settings[static::SETTINGS_ADMIN_PRODUCTS_TABLE_SIZES] = $value;
+        $this->settings = $settings;
     }
 
     /**
      * @phpstan-return array<int, string>
      */
-    public function getAdminOrdersTableDefaultSizesAttribute(): array
+    public function getAdminProductVariationsTableSizesAttribute(): array
     {
-        return collect($this->admin_order_columns)->reduce([static::class, '_columnsTableDefaultSizeReduceCB'], []);
+        $settings = $this->settings;
+
+        return $settings[static::SETTINGS_ADMIN_PRODUCT_VARIATIONS_TABLE_SIZES] ?? GetAdminProductVariationsTableDefaultSizesAction::cached()->execute();
+    }
+
+    /**
+     * @phpstan-param array<int, string>|null $value
+     *
+     * @phpstan-return void
+     */
+    public function setAdminProductVariationsTableSizesAttribute(?array $value = null): void
+    {
+        $settings = $this->settings;
+        $settings[static::SETTINGS_ADMIN_PRODUCT_VARIATIONS_TABLE_SIZES] = $value;
+        $this->settings = $settings;
+    }
+
+    /**
+     * @phpstan-return array<int, string>
+     */
+    public function getAdminOrdersTableSizesAttribute(): array
+    {
+        $settings = $this->settings;
+
+        return $settings[static::SETTINGS_ADMIN_ORDERS_TABLE_SIZES] ?? GetAdminOrdersTableSizesAction::cached()->execute();
+    }
+
+    /**
+     * @phpstan-param array<int, string>|null $value
+     *
+     * @phpstan-return void
+     */
+    public function setAdminOrdersTableSizesAttribute(?array $value = null): void
+    {
+        $settings = $this->settings;
+        $settings[static::SETTINGS_ADMIN_ORDERS_TABLE_SIZES] = $value;
+        $this->settings = $settings;
     }
 
     /**
@@ -416,18 +497,5 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
             'value' => $column->value,
             'label' => $column->label,
         ];
-    }
-
-    /**
-     * @phpstan-param array<int, string> $acc
-     * @phpstan-param \Domain\Common\Enums\Column $column
-     *
-     * @phpstan-return array<int, string>
-     */
-    public static function _columnsTableDefaultSizeReduceCB(array $acc, Column $column): array
-    {
-        $acc[$column->value] = 'auto';
-
-        return $acc;
     }
 }

@@ -8,92 +8,110 @@ use Domain\Common\Enums\Column;
 use Domain\Orders\Actions\GetDefaultAdminOrderColumnsAction;
 use Domain\Products\Actions\GetDefaultAdminProductColumnsAction;
 use Domain\Products\Actions\GetDefaultAdminProductVariantColumnsAction;
-use Support\H;
+use Domain\Users\Actions\GetAdminOrdersTableSizesAction;
+use Domain\Users\Actions\GetAdminProductsTableDefaultSizesAction;
+use Domain\Users\Actions\GetAdminProductVariationsTableDefaultSizesAction;
+use Domain\Users\Models\Admin;
 
 class ProfileController extends BaseAdminController
 {
+    /**
+     * @param \App\Http\Requests\Admin\Ajax\AdminProfileUpdateRequest $request
+     *
+     * @return array[]
+     */
     public function update(AdminProfileUpdateRequest $request)
     {
-        $validated = $request->validated();
-
-        $admin = H::admin();
-
         $hasChanges = false;
 
-        if (isset($validated['adminOrderColumns'])) {
-            $admin->admin_order_columns = collect($validated['adminOrderColumns'])->map(fn ($value) => Column::from($value))->all();
-            $hasChanges = true;
-        }
-        if (isset($validated['adminOrderColumnsDefault'])) {
-            $admin->admin_order_columns = GetDefaultAdminOrderColumnsAction::cached()->execute();
+        if ($request->has('adminSidebarFlexBasis')) {
+            $request->admin->admin_sidebar_flex_basis = $request->adminSidebarFlexBasis;
             $hasChanges = true;
         }
 
-        if (isset($validated['adminProductColumns'])) {
-            $admin->admin_product_columns = collect($validated['adminProductColumns'])->map(fn ($value) => Column::from($value))->all();
+        if ($request->has('adminOrderColumns')) {
+            $request->admin->admin_order_columns = collect($request->adminOrderColumns)->map(fn ($value) => Column::from($value))->all();
             $hasChanges = true;
         }
-        if (isset($validated['adminProductColumnsDefault'])) {
-            $admin->admin_product_columns = GetDefaultAdminProductColumnsAction::cached()->execute();
-            $hasChanges = true;
-        }
-
-        if (isset($validated['adminProductVariantColumns'])) {
-            $admin->admin_product_variant_columns = collect($validated['adminProductVariantColumns'])->map(fn ($value) => Column::from($value))->all();
-            $hasChanges = true;
-        }
-        if (isset($validated['adminProductVariantColumnsDefault'])) {
-            $admin->admin_product_variant_columns = GetDefaultAdminProductVariantColumnsAction::cached()->execute();
+        if ($request->has('adminOrderColumnsDefault')) {
+            $request->admin->admin_order_columns = GetDefaultAdminOrderColumnsAction::cached()->execute();
             $hasChanges = true;
         }
 
-        if ($request->adminProductsTableSizes) {
-            $settings = $admin->settings;
-            $settings['adminProductsTableSizes'] = $request->adminProductsTableSizes;
-            $admin->settings = $settings;
+        if ($request->has('adminProductColumns')) {
+            $request->admin->admin_product_columns = collect($request->adminProductColumns)->map(fn ($value) => Column::from($value))->all();
+            $hasChanges = true;
+        }
+        if ($request->has('adminProductColumnsDefault')) {
+            $request->admin->admin_product_columns = GetDefaultAdminProductColumnsAction::cached()->execute();
             $hasChanges = true;
         }
 
-        if ($request->adminProductVariationsTableSizes) {
-            $settings = $admin->settings;
-            $settings['adminProductVariationsTableSizes'] = $request->adminProductVariationsTableSizes;
-            $admin->settings = $settings;
+        if ($request->has('adminProductVariantColumns')) {
+            $request->admin->admin_product_variant_columns = collect($request->adminProductVariantColumns)->map(fn ($value) => Column::from($value))->all();
+            $hasChanges = true;
+        }
+        if ($request->has('adminProductVariantColumnsDefault')) {
+            $request->admin->admin_product_variant_columns = GetDefaultAdminProductVariantColumnsAction::cached()->execute();
             $hasChanges = true;
         }
 
-        if ($request->adminOrdersTableSizes) {
-            $settings = $admin->settings;
-            $settings['adminOrdersTableSizes'] = $request->adminOrdersTableSizes;
-            $admin->settings = $settings;
+        if ($request->has('adminProductsTableSizes')) {
+            $request->admin->admin_products_table_sizes = collect($request->adminProductsTableSizes)->reduce([$this, '_reduceCB'], []);
+            $hasChanges = true;
+        }
+        if ($request->has('adminProductsTableSizesDefault')) {
+            $request->admin->admin_products_table_sizes = GetAdminProductsTableDefaultSizesAction::cached()->execute();
+        }
+
+        if ($request->has('adminProductVariationsTableSizes')) {
+            $request->admin->admin_product_variations_table_sizes = collect($request->adminProductVariationsTableSizes)->reduce([$this, '_reduceCB'], []);
+            $hasChanges = true;
+        }
+        if ($request->has('adminProductVariationsTableSizesDefault')) {
+            $request->admin->admin_product_variations_table_sizes = GetAdminProductVariationsTableDefaultSizesAction::cached()->execute();
+            $hasChanges = true;
+        }
+
+        if ($request->has('adminOrdersTableSizes')) {
+            $request->admin->admin_orders_table_sizes = collect($request->adminOrdersTableSizes)->reduce([$this, '_reduceCB'], []);
+            $hasChanges = true;
+        }
+        if ($request->has('adminOrdersTableSizesDefault')) {
+            $request->admin->admin_orders_table_sizes = GetAdminOrdersTableSizesAction::cached()->execute();
             $hasChanges = true;
         }
 
         if ($hasChanges) {
-            $admin->save();
+            $request->admin->save();
         }
 
-        $admin->save();
+        /** @var \Domain\Users\Models\Admin $admin */
+        $admin = Admin::query()->findOrFail($request->admin->id);
 
         return [
-            'data' => [
-                'adminOrderColumns' => H::admin()->admin_order_columns_arr,
-                'adminProductColumns' => H::admin()->admin_product_columns_arr,
-                'adminProductVariantColumns' => H::admin()->admin_product_variant_columns_arr,
+            'settings' => [
+                'adminSidebarFlexBasis' => $admin->admin_sidebar_flex_basis,
+                'adminOrderColumns' => $admin->admin_order_columns_arr,
+                'adminProductColumns' => $admin->admin_product_columns_arr,
+                'adminProductVariantColumns' => $admin->admin_product_variant_columns_arr,
+                'adminProductsTableSizes' => $admin->admin_products_table_sizes,
+                'adminProductVariationsTableSizes' => $admin->admin_product_variations_table_sizes,
+                'adminOrdersTableSizes' => $admin->admin_orders_table_sizes,
             ],
         ];
+    }
 
+    /**
+     * @phpstan-param array<int, string> $acc
+     * @phpstan-param array $item
+     *
+     * @phpstan-return array<int, string>
+     */
+    public function _reduceCB(array $acc, array $item): array
+    {
+        $acc[$item['column']] = $item['size'];
 
-
-
-//        if ($request->adminSidebarFlexBasis) {
-//            $settings = $request->admin->settings;
-//            $settings['adminSidebarFlexBasis'] = $request->adminSidebarFlexBasis;
-//            $request->admin->settings = $settings;
-//            $request->admin->save();
-//        }
-//
-//        return [
-//            'settings' => $request->admin->settings,
-//        ];
+        return $acc;
     }
 }
