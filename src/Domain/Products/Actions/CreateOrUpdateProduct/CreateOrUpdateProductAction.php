@@ -3,9 +3,9 @@
 namespace Domain\Products\Actions\CreateOrUpdateProduct;
 
 use Domain\Common\Actions\BaseAction;
+use Domain\Common\Actions\SaveSeoAction;
 use Domain\Common\Actions\SyncAndSaveMediasAction;
 use Domain\Common\DTOs\MediaDTO;
-use Domain\Products\Actions\SaveSeoAction;
 use Domain\Products\DTOs\Admin\Inertia\CreateEditProduct\ProductDTO;
 use Domain\Products\Models\Pivots\ProductProduct;
 use Domain\Products\Models\Product\Product;
@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 class CreateOrUpdateProductAction extends BaseAction
 {
     /**
-     * @var \Domain\Products\Actions\SaveSeoAction
+     * @var \Domain\Common\Actions\SaveSeoAction
      */
     private SaveSeoAction $saveSeoAction;
 
@@ -39,7 +39,7 @@ class CreateOrUpdateProductAction extends BaseAction
     private SyncAndSaveVariationsAction $syncAndSaveVariationsAction;
 
     /**
-     * @param \Domain\Products\Actions\SaveSeoAction $saveSeoAction
+     * @param \Domain\Common\Actions\SaveSeoAction $saveSeoAction
      * @param \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveInfoPricesAction $syncAndSaveInfoPricesAction
      * @param \Domain\Common\Actions\SyncAndSaveMediasAction $syncAndSaveMediasAction
      * @param \Domain\Products\Actions\CreateOrUpdateProduct\SyncAndSaveCharCategoriesAndCharsAction $syncAndSaveCharCategoriesAndCharsAction
@@ -94,33 +94,28 @@ class CreateOrUpdateProductAction extends BaseAction
                 $target->price_purchase = $productDTO->price_purchase;
             }
 
-            if ($productDTO->price_purchase_currency_id !== null) {
-                $target->price_purchase_currency_id = $productDTO->price_purchase_currency_id;
-            }
+            /** @see \Domain\Products\Models\Product\Product::$price_purchase_currency_id */
+            $target->setNullableForeignInt('price_purchase_currency_id', $productDTO->price_purchase_currency_id);
 
             if ($productDTO->price_retail !== null) {
                 $target->price_retail = $productDTO->price_retail;
             }
 
-            if ($productDTO->price_retail_currency_id !== null) {
-                $target->price_retail_currency_id = $productDTO->price_retail_currency_id;
-            }
+            /** @see \Domain\Products\Models\Product\Product::$price_retail_currency_id */
+            $target->setNullableForeignInt('price_retail_currency_id', $productDTO->price_retail_currency_id);
 
             if ($productDTO->admin_comment !== null) {
                 $target->admin_comment = $productDTO->admin_comment;
             }
 
-            if ($productDTO->availability_status_id !== null) {
-                $target->availability_status_id = $productDTO->availability_status_id;
-            }
+            /** @see \Domain\Products\Models\Product\Product::$availability_status_id */
+            $target->setNullableForeignInt('availability_status_id', $productDTO->availability_status_id);
 
-            if ($productDTO->brand_id !== null) {
-                $target->brand_id = $productDTO->brand_id;
-            }
+            /** @see \Domain\Products\Models\Product\Product::$brand_id */
+            $target->setNullableForeignInt('brand_id', $productDTO->brand_id);
 
-            if ($productDTO->category_id !== null) {
-                $target->category_id = $productDTO->category_id;
-            }
+            /** @see \Domain\Products\Models\Product\Product::$category_id */
+            $target->setNullableForeignInt('category_id', $productDTO->category_id);
 
             if ($productDTO->is_with_variations !== null) {
                 $target->is_with_variations = $productDTO->is_with_variations;

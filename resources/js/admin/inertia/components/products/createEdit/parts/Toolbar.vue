@@ -47,7 +47,7 @@ const deleteItem = async () => {
                     <span class="detail-toolbar__btn-r"></span>
                 </Link>
 
-                <a v-if="productsStore.product?.web_route" class="mx-2" :href="productsStore.product?.web_route" target="_blank">В магазин</a>
+                <a v-if="productsStore.product?.web_route && productsStore.product?.is_active" class="mx-2" :href="productsStore.product?.web_route" target="_blank">В магазин</a>
             </div>
 
             <div class="col-sm-7 d-flex align-items-center justify-content-end">

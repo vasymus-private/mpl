@@ -22,6 +22,7 @@ import "./modules/cart"
 import "./modules/putProductAside"
 import "./modules/product-sliders"
 import "./modules/orderPayment"
+import "./modules/oembed"
 ;(($) => {
     // When DOM is ready
     $(() => {

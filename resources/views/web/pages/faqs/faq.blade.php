@@ -43,7 +43,7 @@
             @endforeach
         @endif
         <div class="row-line row-line__between">
-            <a href="{{route("faq.index")}}">
+            <a href="{{route(\App\Constants::ROUTE_WEB_FAQ_INDEX)}}">
                 <img width="213" height="36" src="{{asset("images/general/back-question.svg")}}" alt="">
             </a>
             <a href="{{route("ask")}}">

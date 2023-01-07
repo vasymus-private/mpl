@@ -13,6 +13,7 @@ export interface CategoryListItem {
     name: string | null
     ordering: number | null
     is_active: boolean | null
+    product_type: number
 }
 
 export interface Category {
@@ -21,6 +22,7 @@ export interface Category {
     name: string | null
     slug: string | null
     is_active: boolean | null
+    product_type: number
     ordering: number | null
     description: string | null
     parent_id: number | null

@@ -241,6 +241,11 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
             ->withTimestamps();
     }
 
+    /**
+     * @deprecated
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function serviceViewed(): BelongsToMany
     {
         return $this->belongsToMany(Service::class, ServiceUserViewed::TABLE, 'user_id', 'service_id')

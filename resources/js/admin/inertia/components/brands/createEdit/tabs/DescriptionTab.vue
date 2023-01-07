@@ -10,7 +10,7 @@ const routesStore = useRoutesStore()
 
 const uploadUrl = computed(() => {
     return brandsStore.brand?.id
-        ? routesStore.route(routeNames.ROUTE_ADMIN_AJAX_PRODUCT_IMAGE_UPLOAD, {admin_product: brandsStore.brand.id})
+        ? routesStore.route(routeNames.ROUTE_ADMIN_AJAX_BRAND_IMAGE_UPLOAD, {admin_product: brandsStore.brand.id})
         : null
 })
 </script>

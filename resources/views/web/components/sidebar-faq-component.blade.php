@@ -8,7 +8,7 @@
                 <p>...</p>
             </div>
             <div class="sidebar-faq-block__more">
-                <a href="{{route("faq.show", [$sidebarFaq->slug])}}">Читать полностью</a>
+                <a href="{{route(\App\Constants::ROUTE_WEB_FAQ_SHOW, [$sidebarFaq->slug])}}">Читать полностью</a>
             </div>
         </div>
     @endforeach

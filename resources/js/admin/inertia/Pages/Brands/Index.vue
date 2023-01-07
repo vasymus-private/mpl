@@ -13,7 +13,7 @@ import {useForm} from "vee-validate"
 import {Values} from "@/admin/inertia/modules/forms/indexBrands/types"
 import useFormHelpers from "@/admin/inertia/composables/useFormHelpers"
 import {watch} from "vue"
-import {Link} from "@inertiajs/inertia-vue3"
+import {Link, Head} from "@inertiajs/inertia-vue3"
 import FormControlInput from '@/admin/inertia/components/forms/vee-validate/FormControlInput.vue'
 import FormControlTextarea from '@/admin/inertia/components/forms/vee-validate/FormControlTextarea.vue'
 import Pagination from "@/admin/inertia/components/layout/Pagination.vue"
@@ -36,7 +36,7 @@ const {
     manualCheck,
     cancel,
 } = useCheckedItems<BrandListItem>(brandsList)
-const {visit, revisit} = useRoute()
+const {revisit} = useRoute()
 const {searchInput, onPerPage, handleSearch, handleClearSearch} = useSearchInput()
 
 const {errors, submitCount, handleSubmit, values, setValues, validate, isSubmitting} = useForm<Values>({
@@ -105,6 +105,7 @@ watchSelectAll()
 <template>
     <TheLayout>
         <div>
+            <Head title="Производители" />
             <div class="breadcrumbs">
                 <a :href="routesStore.route(routeNames.ROUTE_ADMIN_TEMP_HOME)" class="breadcrumbs__item">
                     <span class="breadcrumbs__text">Рабочий стол</span>

@@ -59,4 +59,19 @@ trait CommonTraits
     {
         return static::class . ".all";
     }
+
+    /**
+     * @param string $key
+     * @param int|null $value
+     *
+     * @return void
+     */
+    public function setNullableForeignInt(string $key, int $value = null): void
+    {
+        if (! isset($value)) {
+            return;
+        }
+
+        $this->$key = $value !== 0 ? $value : null;
+    }
 }

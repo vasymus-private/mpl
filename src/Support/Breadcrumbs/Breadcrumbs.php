@@ -56,7 +56,7 @@ class Breadcrumbs
      * @param Category|null $subcategory2
      * @param Category|null $subcategory3
      *
-     * @return BreadcrumbDTO[]
+     * @return \Support\Breadcrumbs\BreadcrumbDTO[]
      */
     public static function productRoute(Product $product, Category $category, Category $subcategory1 = null, Category $subcategory2 = null, Category $subcategory3 = null): array
     {
@@ -89,6 +89,29 @@ class Breadcrumbs
     }
 
     /**
+     * @param \Domain\Products\Models\Product\Product $product
+     *
+     * @return \Support\Breadcrumbs\BreadcrumbDTO[]
+     *
+     * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
+     */
+    public static function parquetWorksProductRoute(Product $product): array
+    {
+        return [
+            new BreadcrumbDTO([
+                "name" => "Главная",
+                "url" => route("home"),
+            ]),
+            new BreadcrumbDTO([
+                "name" => $product->name,
+                "url" => null,
+            ]),
+        ];
+    }
+
+    /**
+     * @deprecated
+     *
      * @param \Domain\Services\Models\Service $service
      *
      * @return BreadcrumbDTO[]

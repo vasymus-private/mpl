@@ -35,6 +35,18 @@ const Ziggy = {
             uri: "livewire/preview-file/{filename}",
             methods: ["GET", "HEAD"],
         },
+        "ignition.healthCheck": {
+            uri: "_ignition/health-check",
+            methods: ["GET", "HEAD"],
+        },
+        "ignition.executeSolution": {
+            uri: "_ignition/execute-solution",
+            methods: ["POST"],
+        },
+        "ignition.updateConfig": {
+            uri: "_ignition/update-config",
+            methods: ["POST"],
+        },
         "admin.home": { uri: "admin/home", methods: ["GET", "HEAD"] },
         "admin.temp.home": { uri: "admin/home-temp", methods: ["GET", "HEAD"] },
         "admin.media": {
@@ -131,6 +143,15 @@ const Ziggy = {
             uri: "admin/orders-temp/{admin_order}/edit",
             methods: ["GET", "HEAD"],
         },
+        "admin.faq.index": { uri: "admin/faqs", methods: ["GET", "HEAD"] },
+        "admin.faq.create": {
+            uri: "admin/faqs/create",
+            methods: ["GET", "HEAD"],
+        },
+        "admin.faq.edit": {
+            uri: "admin/faqs/{admin_faq}/edit",
+            methods: ["GET", "HEAD"],
+        },
         "admin.export-products.index": {
             uri: "admin/export-products",
             methods: ["GET", "HEAD"],
@@ -151,8 +172,24 @@ const Ziggy = {
             uri: "admin/articles",
             methods: ["GET", "HEAD"],
         },
-        "admin.services.index": {
-            uri: "admin/services",
+        "admin.articles.create": {
+            uri: "admin/articles/create",
+            methods: ["GET", "HEAD"],
+        },
+        "admin.articles.edit": {
+            uri: "admin/articles/{admin_article}/edit",
+            methods: ["GET", "HEAD"],
+        },
+        "admin.gallery-items.index": {
+            uri: "admin/gallery-items",
+            methods: ["GET", "HEAD"],
+        },
+        "admin.gallery-items.create": {
+            uri: "admin/gallery-items/create",
+            methods: ["GET", "HEAD"],
+        },
+        "admin.gallery-items.edit": {
+            uri: "admin/gallery-items/{admin_gallery_item}/edit",
             methods: ["GET", "HEAD"],
         },
         "admin.test.inertia": {
@@ -195,6 +232,30 @@ const Ziggy = {
             uri: "admin-ajax/brands-bulk",
             methods: ["DELETE"],
         },
+        "admin-ajax.faq.bulk.update": {
+            uri: "admin-ajax/faq-bulk",
+            methods: ["PUT"],
+        },
+        "admin-ajax.faq.bulk.delete": {
+            uri: "admin-ajax/faq-bulk",
+            methods: ["DELETE"],
+        },
+        "admin-ajax.article.bulk.update": {
+            uri: "admin-ajax/article-bulk",
+            methods: ["PUT"],
+        },
+        "admin-ajax.article.bulk.delete": {
+            uri: "admin-ajax/article-bulk",
+            methods: ["DELETE"],
+        },
+        "admin-ajax.gallery-item.bulk.update": {
+            uri: "admin-ajax/gallery-items-bulk",
+            methods: ["PUT"],
+        },
+        "admin-ajax.gallery-item.bulk.delete": {
+            uri: "admin-ajax/gallery-items-bulk",
+            methods: ["DELETE"],
+        },
         "admin-ajax.products.store": {
             uri: "admin-ajax/product",
             methods: ["POST"],
@@ -217,6 +278,27 @@ const Ziggy = {
         },
         "admin-ajax.brands.update": {
             uri: "admin-ajax/brand/{admin_brand}",
+            methods: ["PUT"],
+        },
+        "admin-ajax.faq.store": { uri: "admin-ajax/faq", methods: ["POST"] },
+        "admin-ajax.faq.update": {
+            uri: "admin-ajax/faq/{admin_faq}",
+            methods: ["PUT"],
+        },
+        "admin-ajax.article.store": {
+            uri: "admin-ajax/article",
+            methods: ["POST"],
+        },
+        "admin-ajax.article.update": {
+            uri: "admin-ajax/article/{admin_article}",
+            methods: ["PUT"],
+        },
+        "admin-ajax.gallery-item.store": {
+            uri: "admin-ajax/gallery-items",
+            methods: ["POST"],
+        },
+        "admin-ajax.gallery-item.update": {
+            uri: "admin-ajax/gallery-items/{admin_gallery_item}",
             methods: ["PUT"],
         },
         "admin-ajax.orders.store": {
@@ -255,6 +337,14 @@ const Ziggy = {
             uri: "admin-ajax/brand-image-upload/{admin_brand}",
             methods: ["POST"],
         },
+        "admin-ajax.faq-image-upload": {
+            uri: "admin-ajax/faq-image-upload/{admin_faq}",
+            methods: ["POST"],
+        },
+        "admin-ajax.article-image-upload": {
+            uri: "admin-ajax/article-image-upload/{admin_article}",
+            methods: ["POST"],
+        },
         "admin-ajax.product-search": {
             uri: "admin-ajax/product-search",
             methods: ["GET", "HEAD"],
@@ -269,26 +359,6 @@ const Ziggy = {
             methods: ["GET", "HEAD"],
         },
         "password.update": { uri: "password/reset", methods: ["POST"] },
-        "product.show.1": {
-            uri: "catalog/{category_slug}/{product_slug}.html",
-            methods: ["GET", "HEAD"],
-        },
-        "product.show.2": {
-            uri: "catalog/{category_slug}/{subcategory1_slug}/{product_slug}.html",
-            methods: ["GET", "HEAD"],
-        },
-        "product.show.3": {
-            uri: "catalog/{category_slug}/{subcategory1_slug}/{subcategory2_slug}/{product_slug}.html",
-            methods: ["GET", "HEAD"],
-        },
-        "product.show.4": {
-            uri: "catalog/{category_slug}/{subcategory1_slug}/{subcategory2_slug}/{subcategory3_slug}/{product_slug}.html",
-            methods: ["GET", "HEAD"],
-        },
-        "products.index": {
-            uri: "catalog/{category_slug?}/{subcategory1_slug?}/{subcategory2_slug?}/{subcategory3_slug?}",
-            methods: ["GET", "HEAD"],
-        },
         "brands.index": { uri: "brands", methods: ["GET", "HEAD"] },
         "brands.show": {
             uri: "brands/{brand_slug}.html",
@@ -326,7 +396,30 @@ const Ziggy = {
             methods: ["GET", "HEAD"],
         },
         media: { uri: "media/{id}/{name?}", methods: ["GET", "HEAD"] },
-        "services.show": { uri: "{service_slug}", methods: ["GET", "HEAD"] },
+        "product.show.1": {
+            uri: "catalog/{category_slug}/{product_slug}.html",
+            methods: ["GET", "HEAD"],
+        },
+        "product.show.2": {
+            uri: "catalog/{category_slug}/{subcategory1_slug}/{product_slug}.html",
+            methods: ["GET", "HEAD"],
+        },
+        "product.show.3": {
+            uri: "catalog/{category_slug}/{subcategory1_slug}/{subcategory2_slug}/{product_slug}.html",
+            methods: ["GET", "HEAD"],
+        },
+        "product.show.4": {
+            uri: "catalog/{category_slug}/{subcategory1_slug}/{subcategory2_slug}/{subcategory3_slug}/{product_slug}.html",
+            methods: ["GET", "HEAD"],
+        },
+        "products.index": {
+            uri: "catalog/{category_slug?}/{subcategory1_slug?}/{subcategory2_slug?}/{subcategory3_slug?}",
+            methods: ["GET", "HEAD"],
+        },
+        "parquet-works-product.show": {
+            uri: "{product_slug}",
+            methods: ["GET", "HEAD"],
+        },
         home: { uri: "/", methods: ["GET", "HEAD"] },
         "ajax.products.aside.store": {
             uri: "ajax/products/aside",

@@ -116,6 +116,7 @@ class DefaultUpdateOrderAction extends BaseAction
     private function makePaymentMethodOrderEvent(DefaultUpdateOrderParams $params): OrderEvent
     {
         $orderEvent = new OrderEvent();
+        /** @var \Domain\Orders\Models\PaymentMethod $paymentMethod */
         $paymentMethod = PaymentMethod::query()->findOrFail($params->payment_method_id);
         $orderEvent->payload = [
             'description' => sprintf('Способ оплаты изменён на "%s"', $paymentMethod->name),
@@ -150,6 +151,7 @@ class DefaultUpdateOrderAction extends BaseAction
     private function makeImportanceOrderEvent(DefaultUpdateOrderParams $params): OrderEvent
     {
         $orderEvent = new OrderEvent();
+        /** @var \Domain\Orders\Models\OrderImportance $orderImportance */
         $orderImportance = OrderImportance::query()->findOrFail($params->importance_id);
         $orderEvent->payload = [
             'description' => $orderImportance->name,

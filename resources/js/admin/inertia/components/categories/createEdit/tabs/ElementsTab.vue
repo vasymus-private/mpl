@@ -51,6 +51,8 @@ const uploadUrl = computed(() => {
             type="number"
         />
 
+        <RowSelect name="product_type" label="Присвоить тип меню" :options="categoriesStore.categoryProductTypeOptions" />
+
         <Description
             id="description"
             label="Детальное описание"

@@ -3,7 +3,7 @@
 namespace Domain\Products\Actions\CreateOrUpdateCategory;
 
 use Domain\Common\Actions\BaseAction;
-use Domain\Products\Actions\SaveSeoAction;
+use Domain\Common\Actions\SaveSeoAction;
 use Domain\Products\DTOs\Admin\Inertia\CreateEditCategory\CategoryDTO;
 use Domain\Products\Models\Category;
 use Illuminate\Support\Facades\DB;
@@ -11,12 +11,12 @@ use Illuminate\Support\Facades\DB;
 class CreateOrUpdateCategoryAction extends BaseAction
 {
     /**
-     * @var \Domain\Products\Actions\SaveSeoAction
+     * @var \Domain\Common\Actions\SaveSeoAction
      */
     private SaveSeoAction $saveSeoAction;
 
     /**
-     * @param \Domain\Products\Actions\SaveSeoAction $saveSeoAction
+     * @param \Domain\Common\Actions\SaveSeoAction $saveSeoAction
      */
     public function __construct(SaveSeoAction $saveSeoAction)
     {
@@ -50,9 +50,11 @@ class CreateOrUpdateCategoryAction extends BaseAction
                 $target->is_active = $categoryDTO->is_active;
             }
 
-            if ($categoryDTO->parent_id !== null) {
-                $target->parent_id = $categoryDTO->parent_id;
-            }
+            /** @see \Domain\Products\Models\Category::$parent_id */
+            $target->setNullableForeignInt('parent_id', $categoryDTO->parent_id);
+
+            /** @see \Domain\Products\Models\Category::$product_type */
+            $target->setNullableForeignInt('product_type', $categoryDTO->product_type);
 
             if ($categoryDTO->description !== null) {
                 $target->description = $categoryDTO->description;

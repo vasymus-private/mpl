@@ -16,10 +16,11 @@ use App\Http\Controllers\Admin\ArticlesController;
 use App\Http\Controllers\Admin\BrandsController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\ExportProductController;
+use App\Http\Controllers\Admin\FaqController;
+use App\Http\Controllers\Admin\GalleryItemsController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\ProductsController;
-use App\Http\Controllers\Admin\ServicesController;
 use App\Http\Controllers\Admin\TestInertiaController;
 use Illuminate\Support\Facades\Route;
 
@@ -201,6 +202,28 @@ Route
     ->name(Constants::ROUTE_ADMIN_ORDERS_TEMP_EDIT)
 ;
 
+Route
+    ::get(
+        "faqs",
+        [FaqController::class, "index"]
+    )
+    ->name(Constants::ROUTE_ADMIN_FAQ_INDEX)
+;
+Route
+    ::get(
+        "faqs/create",
+        [FaqController::class, "create"]
+    )
+    ->name(Constants::ROUTE_ADMIN_FAQ_CREATE)
+;
+Route
+    ::get(
+        "faqs/{admin_faq}/edit",
+        [FaqController::class, "edit"]
+    )
+    ->name(Constants::ROUTE_ADMIN_FAQ_EDIT)
+;
+
 Route::
     get(
         'export-products',
@@ -237,13 +260,41 @@ Route::
     )
     ->name(Constants::ROUTE_ADMIN_ARTICLES_INDEX)
 ;
+Route::
+get(
+    'articles/create',
+    [ArticlesController::class, 'create']
+)
+    ->name(Constants::ROUTE_ADMIN_ARTICLES_CREATE)
+;
+Route::
+get(
+    'articles/{admin_article}/edit',
+    [ArticlesController::class, 'edit']
+)
+    ->name(Constants::ROUTE_ADMIN_ARTICLES_EDIT)
+;
 
 Route::
-    get(
-        'services',
-        [ServicesController::class, 'index']
-    )
-    ->name(Constants::ROUTE_ADMIN_SERVICES_INDEX)
+get(
+    'gallery-items',
+    [GalleryItemsController::class, 'index']
+)
+    ->name(Constants::ROUTE_ADMIN_GALLERY_ITEMS_INDEX)
+;
+Route::
+get(
+    'gallery-items/create',
+    [GalleryItemsController::class, 'create']
+)
+    ->name(Constants::ROUTE_ADMIN_GALLERY_ITEMS_CREATE)
+;
+Route::
+get(
+    'gallery-items/{admin_gallery_item}/edit',
+    [GalleryItemsController::class, 'edit']
+)
+    ->name(Constants::ROUTE_ADMIN_GALLERY_ITEMS_EDIT)
 ;
 
 Route::get('---test-inertia', [TestInertiaController::class, 'index'])->name('admin.test.inertia');

@@ -10,7 +10,7 @@ import {getActiveName, getPerPageOptions} from '@/admin/inertia/modules/common'
 import {useModalsStore} from "@/admin/inertia/modules/modals"
 import {ModalType} from "@/admin/inertia/modules/modals/types"
 import {ProductListItem} from "@/admin/inertia/modules/products/types"
-import {Link} from "@inertiajs/inertia-vue3"
+import {Link, Head} from "@inertiajs/inertia-vue3"
 import {ColumnType, ColumnName} from "@/admin/inertia/modules/columns/types"
 import {useBrandsStore} from "@/admin/inertia/modules/brands"
 import {useForm} from 'vee-validate'
@@ -160,7 +160,6 @@ watchEffect(() => {
 watchSelectAll()
 
 const onSubmit = handleSubmit(async (values, ctx) => {
-    console.log('---', checkedItems.value)
     const errorFields = await indexProductsForm.submitIndexProducts(checkedItems.value, values)
     if (errorFields) {
         ctx.setErrors(errorFields)
@@ -173,6 +172,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
 <template>
     <TheLayout>
         <div :style="{paddingRight: '10px'}">
+            <Head title="Товары" />
             <div class="breadcrumbs">
                 <a :href="routesStore.route(routeNames.ROUTE_ADMIN_TEMP_HOME)" class="breadcrumbs__item">
                     <span class="breadcrumbs__text">Рабочий стол</span>
@@ -251,7 +251,7 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                 :key="sortableColumn.value"
                                 scope="col"
                             >
-                                <div :style="isSortableColumn(sortableColumn, ColumnName.categories) ? {width: '300px'} : {}">{{sortableColumn.label}}</div>
+                                <div class="inner-resize" :style="isSortableColumn(sortableColumn, ColumnName.categories) ? {width: '300px'} : {}">{{sortableColumn.label}}</div>
                             </th>
                         </tr>
                         </thead>

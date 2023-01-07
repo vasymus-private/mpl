@@ -9,7 +9,7 @@
     <div class="container hidden-md hidden-lg">
         <div class="row-line row-line__between">
             <div class="column-mobile"><a href="{{route("contacts")}}">Контакты</a></div>
-            <div class="column-mobile"><a href="{{route("gallery.items.index")}}">Фотогалерея</a> / <a href="{{route("faq.index")}}">Вопрос-ответ</a></div>
+            <div class="column-mobile"><a href="{{route("gallery.items.index")}}">Фотогалерея</a> / <a href="{{route(\App\Constants::ROUTE_WEB_FAQ_INDEX)}}">Вопрос-ответ</a></div>
         </div>
     </div>
     <div class="container hidden-sm hidden-xs">
@@ -18,9 +18,9 @@
                 <h4>Штучный паркет</h4>
                 <ul class="menu-list-links">
                     <li><a href="/articles/shtuchnyy-parket/">Штучный паркет - что это?</a></li>
-                    <li><a href="{{route("services.show", "ukladka-shtuchnogo-parketa")}}">Укладка паркета</a></li>
-                    <li><a href="{{route("services.show", "tsiklevka-parketa")}}">Шлифовка штучного паркета</a></li>
-                    <li><a href="{{route("services.show", "tonirovanie-parketa")}}">Тонирование штучного паркета</a></li>
+                    <li><a href="{{route("parquet-works-product.show", "ukladka-shtuchnogo-parketa")}}">Укладка паркета</a></li>
+                    <li><a href="{{route("parquet-works-product.show", "tsiklevka-parketa")}}">Шлифовка штучного паркета</a></li>
+                    <li><a href="{{route("parquet-works-product.show", "tonirovanie-parketa")}}">Тонирование штучного паркета</a></li>
                     <li><a href="/articles/shtuchnyy-parket/lak-ili-maslo/">Паркет под лаком или маслом</a></li>
                     <li><a href="/articles/shtuchnyy-parket/vidy-ukladok/">Варианты укладки паркета</a></li>
                     <li><a href="/articles/shtuchnyy-parket/porody-dereva/">Породы дерева</a></li>
@@ -30,10 +30,10 @@
                 <h4>Массивная доска</h4>
                 <ul class="menu-list-links">
                     <li><a href="/articles/massivnaya-doska/">Массивная доска – 5 параметров выбора!</a></li>
-                    <li><a href="{{route("services.show", "ukladka-massivnoy-doski")}}">Укладка массивной доски</a></li>
-                    <li><a href="{{route("services.show", "tsiklevka-parketa")}}">Шлифовка массивной доски</a></li>
+                    <li><a href="{{route("parquet-works-product.show", "ukladka-massivnoy-doski")}}">Укладка массивной доски</a></li>
+                    <li><a href="{{route("parquet-works-product.show", "tsiklevka-parketa")}}">Шлифовка массивной доски</a></li>
                     <li><a href="/articles/massivnaya-doska/lak-ili-maslo-mass/">Массив под лаком или маслом</a></li>
-                    <li><a href="{{route("services.show", "tonirovanie-parketa")}}">Тонировка массивной доски</a></li>
+                    <li><a href="{{route("parquet-works-product.show", "tonirovanie-parketa")}}">Тонировка массивной доски</a></li>
                     <li><a href="/articles/massivnaya-doska/porody-dereva-mass/">Породы древесины массивной доски</a>
                     </li>
                     <li><a href="/ukhod-za-parketom/">Уход за паркетом</a></li>
@@ -44,9 +44,9 @@
                 <ul class="menu-list-links">
                     <li><a href="/articles/parketnaya-doska/">Инженерный паркет и паркетная доска - как они есть!</a>
                     </li>
-                    <li><a href="{{route("services.show", "ukladka-parketnoy-doski")}}">Укладка паркетной доски</a></li>
-                    <li><a href="{{route("services.show", "tsiklevka-parketa")}}">Шлифовка паркетной доски</a></li>
-                    <li><a href="{{route("services.show", "tonirovanie-parketa")}}">Колеровка паркетной доски</a></li>
+                    <li><a href="{{route("parquet-works-product.show", "ukladka-parketnoy-doski")}}">Укладка паркетной доски</a></li>
+                    <li><a href="{{route("parquet-works-product.show", "tsiklevka-parketa")}}">Шлифовка паркетной доски</a></li>
+                    <li><a href="{{route("parquet-works-product.show", "tonirovanie-parketa")}}">Колеровка паркетной доски</a></li>
                     <li><a href="/articles/parketnaya-doska/lak-ili-maslo-parket/">Лак или масло?</a></li>
                     <li><a href="/articles/parketnaya-doska/porody-dereva-parket/">Паркетная доска - породы дерева</a>
                     </li>
@@ -56,7 +56,7 @@
                 <h4>Ламинат</h4>
                 <ul class="menu-list-links">
                     <li><a href="/articles/laminat/">Ламинат - что это?</a></li>
-                    <li><a href="{{route("services.show", "ukladka-laminata")}}">Укладка ламината</a></li>
+                    <li><a href="{{route("parquet-works-product.show", "ukladka-laminata")}}">Укладка ламината</a></li>
                     <li><a href="/articles/laminat/materialy-dlya-ukladki-laminat/">Материалы для укладки</a></li>
                     <li><a href="/articles/laminat/ukhod-za-laminatom/">Уход за ламинатом</a></li>
                 </ul>

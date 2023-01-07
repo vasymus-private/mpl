@@ -55,7 +55,7 @@
     margin: 0 0 10px;
   }
 
-  a {
+  a:not(.btn-lg-custom) {
     color: #a33;
     text-decoration: underline;
   }

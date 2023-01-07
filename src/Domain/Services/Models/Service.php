@@ -12,6 +12,8 @@ use Illuminate\Routing\Route;
 use Illuminate\Support\Str;
 
 /**
+ * @deprecated
+ *
  * @property int $id
  * @property string $uuid
  * @property string $name

@@ -21,6 +21,7 @@ interface State {
     _all_entities: Array<Omit<CategoriesTreeItem, "subcategories">>
     _entity: Category | null
     _listItems: Array<CategoryListItem>
+    _categoryProductTypeOptions: Array<Option>
 }
 
 export const useCategoriesStore = defineStore(storeName, {
@@ -30,6 +31,7 @@ export const useCategoriesStore = defineStore(storeName, {
             _all_entities: [],
             _entity: null,
             _listItems: [],
+            _categoryProductTypeOptions: [],
         }
     },
     getters: {
@@ -102,6 +104,9 @@ export const useCategoriesStore = defineStore(storeName, {
                 return option ? option : null
             }
         },
+        categoryProductTypeOptions(): Array<Option> {
+            return this._categoryProductTypeOptions
+        },
         isCreatingCategoryRoute(): boolean {
             let routesStore = useRoutesStore()
 
@@ -151,6 +156,11 @@ export const useCategoriesStore = defineStore(storeName, {
             this._listItems = this._listItems.filter(
                 (item) => !uuids.includes(item.uuid)
             )
+        },
+        setCategoryProductTypeOptions(
+            categoryProductTypeOptions: Array<Option>
+        ): void {
+            this._categoryProductTypeOptions = categoryProductTypeOptions
         },
         addOrUpdateCategoryListItems(listItems: Array<CategoryListItem>): void {
             let newCategoryListItemsById =

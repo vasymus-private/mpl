@@ -3,15 +3,19 @@
 namespace App\View\Components\Web;
 
 use Domain\Products\Models\Category;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\Component;
 
 class MbMenuMaterialsComponent extends Component
 {
     /**
-     * @var Collection|Category[]
+     * @var \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\Category[]
      * */
     public $categories;
+
+    /**
+     * @var \Illuminate\Database\Eloquent\Collection|\Domain\Products\Models\Category[]
+     */
+    public $parquetWorkCategories;
 
     /**
      * Create a new component instance.
@@ -20,7 +24,8 @@ class MbMenuMaterialsComponent extends Component
      */
     public function __construct()
     {
-        $this->categories = Category::parents()->with("subcategories.subcategories.subcategories")->orderBy(Category::TABLE . ".ordering")->get();
+        $this->categories = Category::query()->parents()->active()->ordering()->parquetMaterials()->with("subcategories.subcategories.subcategories")->get();
+        $this->parquetWorkCategories = Category::query()->parents()->active()->ordering()->parquetWorks()->get();
     }
 
     /**

@@ -1,3 +1,14 @@
+import { Seo } from "@/admin/inertia/modules/common/types"
+
+export interface ArticleListItem {
+    id: number
+    uuid: string
+    name: string | null
+    slug: string | null
+    parent_id: number | null
+    is_active: boolean
+}
+
 export interface Article {
     id: number
     uuid: string
@@ -6,6 +17,6 @@ export interface Article {
     description: string
     parent_id: number
     is_active: boolean
-    created_at: string | null
-    updated_at: string | null
+    seo: Seo | null
+    web_route: string
 }

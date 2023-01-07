@@ -2,12 +2,13 @@
 
 namespace App\Http\Requests\Admin\Ajax;
 
+use Domain\Common\DTOs\SeoDTO;
 use Domain\Products\DTOs\Admin\Inertia\CreateEditCategory\CategoryDTO;
-use Domain\Products\DTOs\Admin\Inertia\SeoDTO;
 use Domain\Products\Models\Category;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Exists;
+use Support\H;
 
 class CreateUpdateCategoryRequest extends FormRequest
 {
@@ -30,9 +31,10 @@ class CreateUpdateCategoryRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:250',
-            'slug' => 'required|string|max:250',
+            'slug' => 'nullable|string|max:250',
             'ordering' => 'nullable|integer',
             'is_active' => 'nullable|boolean',
+            'product_type' => sprintf('nullable|in:%s',  implode(',', Category::getProductTypes())),
             'parent_id' => [
                 'nullable',
                 Rule::exists(Category::TABLE, 'id')
@@ -82,9 +84,8 @@ class CreateUpdateCategoryRequest extends FormRequest
             'is_active' => isset($payload['is_active'])
                 ? (bool)$payload['is_active']
                 : null,
-            'parent_id' => isset($payload['parent_id'])
-                ? (int)$payload['parent_id']
-                : null,
+            'product_type' => H::nullableIntValue('product_type', $payload),
+            'parent_id' => H::nullableIntValue('parent_id', $payload),
             'description' => isset($payload['description'])
                 ? (string)$payload['description']
                 : null,

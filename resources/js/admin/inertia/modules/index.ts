@@ -1,5 +1,8 @@
 import { Column } from "@/admin/inertia/modules/columns/types"
-import { Article } from "@/admin/inertia/modules/articles/types"
+import {
+    Article,
+    ArticleListItem,
+} from "@/admin/inertia/modules/articles/types"
 import { Auth } from "@/admin/inertia/modules/auth/types"
 import {
     CategoriesTreeItem,
@@ -9,8 +12,6 @@ import {
 import { useAuthStore } from "@/admin/inertia/modules/auth"
 import { Pinia } from "pinia"
 import { useArticlesStore } from "@/admin/inertia/modules/articles"
-import { Service } from "@/admin/inertia/modules/services/types"
-import { useServicesStore } from "@/admin/inertia/modules/services"
 import { useCategoriesStore } from "@/admin/inertia/modules/categories"
 import { useColumnsStore } from "@/admin/inertia/modules/columns"
 import { useBrandsStore } from "@/admin/inertia/modules/brands"
@@ -44,6 +45,13 @@ import {
 } from "@/admin/inertia/modules/orders/types"
 import { useOrdersStore } from "@/admin/inertia/modules/orders"
 import { Admin } from "@/admin/inertia/modules/auth/types"
+import { useFaqsStore } from "@/admin/inertia/modules/faqs"
+import { Faq, FaqListItem } from "@/admin/inertia/modules/faqs/types"
+import {
+    GalleryItem,
+    GalleryItemListItem,
+} from "@/admin/inertia/modules/galleryItems/types"
+import { useGalleryItemsStore } from "@/admin/inertia/modules/galleryItems"
 
 export interface InitialPageProps {
     fullUrl: string
@@ -62,9 +70,17 @@ export interface InitialPageProps {
     orderImportance: { data: Array<OrderImportance> }
     orderStatuses: { data: Array<OrderStatus> }
     charTypes: { data: Array<CharType> }
+    faqOptions: Array<Option>
+    articleOptions: Array<Option>
+    galleryItemOptions: Array<Option>
+    categoryProductTypeOptions: Array<Option>
 
-    articles?: Array<Article>
-    services?: Array<Service>
+    articles?: {
+        data: Array<ArticleListItem>
+        links: Links
+        meta: Meta
+    }
+    article?: Article
     productListItems?: {
         data: Array<ProductListItem>
         links: Links
@@ -91,6 +107,18 @@ export interface InitialPageProps {
         data: Array<OrderEvent>
     }
     admins?: Array<Admin>
+    faqs?: {
+        data: Array<FaqListItem>
+        links: Links
+        meta: Meta
+    }
+    faq?: Faq | null
+    galleryItems?: {
+        data: Array<GalleryItemListItem>
+        links: Links
+        meta: Meta
+    }
+    galleryItem?: GalleryItem
 }
 
 /**
@@ -118,9 +146,17 @@ export const initFromPageProps = (
         orderImportance: { data: orderImportanceData = [] },
         orderStatuses: { data: orderStatusesData = [] },
         charTypes: { data: charTypesData = [] },
+        faqOptions = [],
+        articleOptions = [],
+        galleryItemOptions = [],
+        categoryProductTypeOptions = [],
 
-        articles = [],
-        services = [],
+        articles: {
+            data: articleListItemsData = [],
+            links: articleListItemsLinks = null,
+            meta: articleListItemsMeta = null,
+        } = {},
+        article = null,
         productListItems: {
             data: productListItemsData = [],
             links: productListItemsLinks = null,
@@ -143,6 +179,18 @@ export const initFromPageProps = (
         order = null,
         orderEvents: { data: orderEventsData = [] } = {},
         admins = [],
+        faqs: {
+            data: faqsList = [],
+            links: faqsListLinks = null,
+            meta: faqsListMeta = null,
+        } = {},
+        faq = null,
+        galleryItems: {
+            data: galleryItemList = [],
+            links: galleryItemListLinks = null,
+            meta: galleryItemListMeta = null,
+        } = {},
+        galleryItem = null,
     } = initialPageProps
 
     // todo dev only
@@ -159,15 +207,17 @@ export const initFromPageProps = (
     authStore.setAdmins(admins)
 
     const articlesStore = useArticlesStore(pinia)
-    articlesStore.setEntities(articles)
-
-    const servicesStore = useServicesStore(pinia)
-    servicesStore.setEntities(services)
+    articlesStore.setEntities(articleListItemsData)
+    articlesStore.setLinks(articleListItemsLinks)
+    articlesStore.setMeta(articleListItemsMeta)
+    articlesStore.setEntity(article)
+    articlesStore.setOptions(articleOptions)
 
     const categoriesStore = useCategoriesStore(pinia)
     categoriesStore.setEntities(categoriesTree)
     categoriesStore.setEntity(category)
     categoriesStore.setListItems(categoryListItems)
+    categoriesStore.setCategoryProductTypeOptions(categoryProductTypeOptions)
 
     const columnsStore = useColumnsStore(pinia)
     columnsStore.setAdminOrderColumns(adminOrderColumns)
@@ -209,6 +259,13 @@ export const initFromPageProps = (
     const charsStore = useCharTypesStore(pinia)
     charsStore.setChartTypes(charTypesData)
 
+    const faqsStore = useFaqsStore(pinia)
+    faqsStore.setEntities(faqsList)
+    faqsStore.setMeta(faqsListMeta)
+    faqsStore.setLinks(faqsListLinks)
+    faqsStore.setEntity(faq)
+    faqsStore.setOptions(faqOptions)
+
     const profileStore = useProfileStore(pinia)
     profileStore.setAdminSidebarFlexBasis(adminSidebarFlexBasis)
 
@@ -218,6 +275,13 @@ export const initFromPageProps = (
     ordersStore.setMeta(ordersListMeta)
     ordersStore.setOrder(order)
     ordersStore.setOrderEvents(orderEventsData)
+
+    const galleryItemsStore = useGalleryItemsStore(pinia)
+    galleryItemsStore.setEntities(galleryItemList)
+    galleryItemsStore.setLinks(galleryItemListLinks)
+    galleryItemsStore.setMeta(galleryItemListMeta)
+    galleryItemsStore.setEntity(galleryItem)
+    galleryItemsStore.setOptions(galleryItemOptions)
 
     // todo dev only
     if (typeof window !== "undefined") {

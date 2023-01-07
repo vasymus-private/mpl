@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { Head } from '@inertiajs/inertia-vue3'
 import TheLayout from "@/admin/inertia/components/layout/TheLayout.vue"
 import {useOrdersStore} from "@/admin/inertia/modules/orders"
 import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
@@ -9,7 +8,7 @@ import {storeToRefs} from "pinia"
 import {useAuthStore} from "@/admin/inertia/modules/auth"
 import {getPerPageOptions, withEmptyOption} from "@/admin/inertia/modules/common"
 import useSearchInput from "@/admin/inertia/composables/useSearchInput"
-import {Link} from "@inertiajs/inertia-vue3"
+import {Link, Head} from "@inertiajs/inertia-vue3"
 import {useModalsStore} from "@/admin/inertia/modules/modals"
 import {ModalType} from "@/admin/inertia/modules/modals/types"
 import {ColumnType, ColumnName} from "@/admin/inertia/modules/columns/types"
@@ -126,7 +125,9 @@ watchSelectAll()
                             </div>
                         </th>
                         <th scope="col">&nbsp;</th>
-                        <th v-for="sortableColumn in columnStore.adminOrderColumns" :key="sortableColumn.value" scope="col">{{sortableColumn.label}}</th>
+                        <th v-for="sortableColumn in columnStore.adminOrderColumns" :key="sortableColumn.value" scope="col">
+                            <div class="inner-resize">{{sortableColumn.label}}</div>
+                        </th>
                     </tr>
                     </thead>
                     <tbody>

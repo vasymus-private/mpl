@@ -7,6 +7,7 @@ use Domain\Products\DTOs\Admin\Inertia\ProductsListUpdateDTO;
 use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Category;
 use Illuminate\Foundation\Http\FormRequest;
+use Support\H;
 
 /**
  * @property-read array[] $products
@@ -64,12 +65,12 @@ class ProductsBulkUpdateRequest extends FormRequest
                 'is_active' => isset($item['is_active']) ? (bool)$item['is_active'] : null,
                 'unit' => isset($item['unit']) ? (string)$item['unit'] : null,
                 'price_purchase' => isset($item['price_purchase']) ? (float)$item['price_purchase'] : null,
-                'price_purchase_currency_id' => isset($item['price_purchase_currency_id']) ? (int)$item['price_purchase_currency_id'] : null,
+                'price_purchase_currency_id' => H::nullableIntValue('price_purchase_currency_id', $item),
                 'price_retail' => isset($item['price_retail']) ? (float)$item['price_retail'] : null,
-                'price_retail_currency_id' => isset($item['price_retail_currency_id']) ? (int)$item['price_retail_currency_id'] : null,
+                'price_retail_currency_id' => H::nullableIntValue('price_retail_currency_id', $item),
                 'admin_comment' => isset($item['admin_comment']) ? (string)$item['admin_comment'] : null,
-                'availability_status_id' => isset($item['availability_status_id']) ? (int)$item['availability_status_id'] : null,
-                'category_id' => isset($item['category_id']) ? (int)$item['category_id'] : null,
+                'availability_status_id' => H::nullableIntValue('availability_status_id', $item),
+                'category_id' => H::nullableIntValue('category_id', $item),
                 'relatedCategoriesIds' => isset($item['relatedCategoriesIds'])
                     ? collect($item['relatedCategoriesIds'])->map(fn ($id) => (int)$id)->all()
                     : [],
