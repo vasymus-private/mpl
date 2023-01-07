@@ -1,5 +1,5 @@
 import { DefineComponent } from "@vue/runtime-core"
-import {Column} from "@/admin/inertia/modules/columns/types"
+import { Column } from "@/admin/inertia/modules/columns/types"
 
 export interface Errors {
     [key: string]: Array<string>
@@ -123,7 +123,7 @@ export interface MetaLink {
 
 export type ProfileUpdateResponse = {
     settings: {
-        adminSidebarFlexBasis: string|number
+        adminSidebarFlexBasis: string | number
         adminOrderColumns: Array<Column>
         adminProductColumns: Array<Column>
         adminProductVariantColumns: Array<Column>

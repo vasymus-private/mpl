@@ -2,8 +2,8 @@ import { defineStore } from "pinia"
 import { Column, ColumnName } from "@/admin/inertia/modules/columns/types"
 import axios from "axios"
 import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
-import {useAuthStore} from "@/admin/inertia/modules/auth"
-import {ProfileUpdateResponse} from "@/admin/inertia/modules/common/types"
+import { useAuthStore } from "@/admin/inertia/modules/auth"
+import { ProfileUpdateResponse } from "@/admin/inertia/modules/common/types"
 
 export const storeName = "columns"
 
@@ -57,7 +57,10 @@ export const useColumnsStore = defineStore(storeName, {
                     status,
                     statusText,
                 } = await axios.put<ProfileUpdateResponse>(
-                    routesStore.route(routeNames.ROUTE_ADMIN_AJAX_PROFILE_UPDATE, {admin: authStore.userId}),
+                    routesStore.route(
+                        routeNames.ROUTE_ADMIN_AJAX_PROFILE_UPDATE,
+                        { admin: authStore.userId }
+                    ),
                     requestParams
                 )
 
