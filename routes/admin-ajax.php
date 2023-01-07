@@ -43,10 +43,9 @@ use App\Http\Controllers\Admin\Ajax\ProductsController;
 use App\Http\Controllers\Admin\Ajax\ProductSearchController;
 use App\Http\Controllers\Admin\Ajax\ProfileController;
 use App\Http\Controllers\Admin\Ajax\ShowOrderBusyController;
-use App\Http\Controllers\Admin\Ajax\SortColumnsController;
 use Illuminate\Support\Facades\Route;
 
-Route::put('profiles/{admin}', [ProfileController::class, 'update'])->name('admin-ajax.profile.update');
+Route::put('profiles/{admin}', [ProfileController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_PROFILE_UPDATE);
 Route::post('show-order-busy', ShowOrderBusyController::class)->name('admin-ajax.show-order-busy');
 Route::post('ping-order-busy/{id}', PingOrderBusyController::class)->name('admin-ajax.ping-order-busy');
 
@@ -91,8 +90,6 @@ Route::put('order/{admin_order}', [OrdersController::class, 'update'])->name(Con
 Route::put('order-cancel/{admin_order}', OrdersCancelController::class)->name(Constants::ROUTE_ADMIN_AJAX_ORDERS_CANCEL);
 
 Route::get('order/{admin_order}/order-events', [OrderEventsController::class, 'index'])->name(Constants::ROUTE_ADMIN_AJAX_ORDER_EVENTS_INDEX);
-
-Route::put('sort-columns', SortColumnsController::class)->name(Constants::ROUTE_ADMIN_AJAX_SORT_COLUMNS);
 
 Route::post('helper/slug', [HelperController::class, 'slug'])->name(Constants::ROUTE_ADMIN_AJAX_HELPER);
 

@@ -68,6 +68,7 @@ class HandleInertiaRequests extends Middleware
      *
      * @see https://inertiajs.com/shared-data
      * @param  \Illuminate\Http\Request  $request
+     *
      * @return array
      */
     public function share(Request $request): array
@@ -102,6 +103,9 @@ class HandleInertiaRequests extends Middleware
             'adminProductColumns' => H::admin()->admin_product_columns_arr,
             'adminProductVariantColumns' => H::admin()->admin_product_variant_columns_arr,
             'adminSidebarFlexBasis' => H::admin()->settings['adminSidebarFlexBasis'] ?? null,
+            'adminProductsTableSizes' => H::admin()->settings['adminProductsTableSizes'] ?? H::admin()->admin_products_table_default_sizes,
+            'adminProductVariationsTableSizes' => H::admin()->settings['adminProductVariationsTableSizes'] ?? H::admin()->admin_product_variants_table_default_sizes,
+            'adminOrdersTableSizes' => H::admin()->settings['adminOrdersTableSizes'] ?? H::admin()->admin_orders_table_default_sizes,
             'availabilityStatuses' => AvailabilityStatusResource::collection(AvailabilityStatus::cachedAll()),
             'billStatuses' => BillStatusResource::collection(BillStatus::cachedAll()),
             'currencies' => CurrencyResource::collection(Currency::cachedAll()),

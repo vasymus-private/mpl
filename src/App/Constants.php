@@ -125,7 +125,7 @@ final class Constants
 
     public const ROUTE_ADMIN_AJAX_ORDER_EVENTS_INDEX = 'admin-ajax.order-event.index';
 
-    public const ROUTE_ADMIN_AJAX_SORT_COLUMNS = 'admin-ajax.sort-columns';
+    public const ROUTE_ADMIN_AJAX_PROFILE_UPDATE = 'admin-ajax.profile.update';
     public const ROUTE_ADMIN_AJAX_HELPER = 'admin-ajax.helper';
 
     public const ROUTE_ADMIN_AJAX_PRODUCT_IMAGE_UPLOAD = 'admin-ajax.product-image-upload';

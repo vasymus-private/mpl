@@ -100,6 +100,15 @@ use Illuminate\Support\Str;
  * @see \Domain\Users\Models\BaseUser\BaseUser::getAdminProductVariantColumnsArrAttribute()
  * @property-read array[] $admin_product_variant_columns_arr
  *
+ * @see \Domain\Users\Models\BaseUser\BaseUser::getAdminProductsTableDefaultSizesAttribute()
+ * @property-read array<int, string> $admin_products_table_default_sizes
+ *
+ * @see \Domain\Users\Models\BaseUser\BaseUser::getAdminProductVariantsTableDefaultSizesAttribute()
+ * @property-read array<int, string> $admin_product_variants_table_default_sizes
+ *
+ * @see \Domain\Users\Models\BaseUser\BaseUser::getAdminOrdersTableDefaultSizesAttribute()
+ * @property-read array<int, string> $admin_orders_table_default_sizes
+ *
  * @method static \Domain\Users\QueryBuilders\UserQueryBuilder query()
  *
  * @property-read int $viewed_count
@@ -373,9 +382,32 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * @param \Domain\Common\Enums\Column $column
+     * @phpstan-return array<int, string>
+     */
+    public function getAdminProductsTableDefaultSizesAttribute(): array
+    {
+        return collect($this->admin_product_columns)->reduce([static::class, '_columnsTableDefaultSizeReduceCB'], []);
+    }
+
+    /**
+     * @phpstan-return array<int, string>
+     */
+    public function getAdminProductVariantsTableDefaultSizesAttribute(): array
+    {
+        return collect($this->admin_product_variant_columns)->reduce([static::class, '_columnsTableDefaultSizeReduceCB'], []);
+    }
+
+    /**
+     * @phpstan-return array<int, string>
+     */
+    public function getAdminOrdersTableDefaultSizesAttribute(): array
+    {
+        return collect($this->admin_order_columns)->reduce([static::class, '_columnsTableDefaultSizeReduceCB'], []);
+    }
+
+    /**
+     * @phpstan-param \Domain\Common\Enums\Column $column
      *
-     * @return array
      * @phpstan-return array<int|string>
      */
     public static function _columnsMapCB(Column $column): array
@@ -384,5 +416,18 @@ class BaseUser extends Authenticatable implements MustVerifyEmail
             'value' => $column->value,
             'label' => $column->label,
         ];
+    }
+
+    /**
+     * @phpstan-param array<int, string> $acc
+     * @phpstan-param \Domain\Common\Enums\Column $column
+     *
+     * @phpstan-return array<int, string>
+     */
+    public static function _columnsTableDefaultSizeReduceCB(array $acc, Column $column): array
+    {
+        $acc[$column->value] = 'auto';
+
+        return $acc;
     }
 }

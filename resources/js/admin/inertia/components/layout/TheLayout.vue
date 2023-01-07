@@ -6,11 +6,16 @@ import {onMounted, onUnmounted, Ref, ref} from 'vue'
 import axios from "axios"
 import {useProfileStore} from "@/admin/inertia/modules/profile"
 import {Toasts, useToastsStore} from "@/admin/inertia/modules/toasts"
+import {useAuthStore} from "@/admin/inertia/modules/auth"
+import {useRoutesStore, routeNames} from "@/admin/inertia/modules/routes"
+import {ProfileUpdateResponse} from "@/admin/inertia/modules/common/types";
 
 
 const modalsStore = useModalsStore()
 const toastsStore = useToastsStore()
 const profileStore = useProfileStore()
+const authStore = useAuthStore()
+const routesStore = useRoutesStore()
 
 const resizer = ref<Ref<Element>>(null)
 const sidebar = ref<Ref<{element: Ref<Element>}>>(null)
@@ -49,11 +54,7 @@ const onMouseUpCB = async () => {
     isClicked.value = false
 
     try {
-        let {data: {settings : {adminSidebarFlexBasis}}} = await axios.put<{
-            settings: {
-                adminSidebarFlexBasis: string|number
-            }
-        }>(`/admin-ajax/profiles/1`, {
+        let {data: {settings : {adminSidebarFlexBasis}}} = await axios.put<ProfileUpdateResponse>(routesStore.route(routeNames.ROUTE_ADMIN_AJAX_PROFILE_UPDATE, {admin: authStore.userId}), {
             adminSidebarFlexBasis: `${profileStore.adminSidebarFlexBasis}px`,
         })
 

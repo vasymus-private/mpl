@@ -2,6 +2,8 @@ import { defineStore } from "pinia"
 import { Column, ColumnName } from "@/admin/inertia/modules/columns/types"
 import axios from "axios"
 import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
+import {useAuthStore} from "@/admin/inertia/modules/auth"
+import {ProfileUpdateResponse} from "@/admin/inertia/modules/common/types"
 
 export const storeName = "columns"
 
@@ -42,10 +44,11 @@ export const useColumnsStore = defineStore(storeName, {
             this._loading = true
             try {
                 const routesStore = useRoutesStore()
+                const authStore = useAuthStore()
 
                 const {
                     data: {
-                        data: {
+                        settings: {
                             adminOrderColumns,
                             adminProductColumns,
                             adminProductVariantColumns,
@@ -53,8 +56,8 @@ export const useColumnsStore = defineStore(storeName, {
                     },
                     status,
                     statusText,
-                } = await axios.put<SortColumnsResponse>(
-                    routesStore.route(routeNames.ROUTE_ADMIN_AJAX_SORT_COLUMNS),
+                } = await axios.put<ProfileUpdateResponse>(
+                    routesStore.route(routeNames.ROUTE_ADMIN_AJAX_PROFILE_UPDATE, {admin: authStore.userId}),
                     requestParams
                 )
 
@@ -73,14 +76,6 @@ export const useColumnsStore = defineStore(storeName, {
         },
     },
 })
-
-type SortColumnsResponse = {
-    data: {
-        adminOrderColumns: Array<Column>
-        adminProductColumns: Array<Column>
-        adminProductVariantColumns: Array<Column>
-    }
-}
 
 /**
  * @see src/Domain/Common/Enums/Column.php
