@@ -285,11 +285,14 @@ class H
         /**
          * @see https://stackoverflow.com/a/22490902
          * @see https://stackoverflow.com/a/8218649
+         * @see https://stackoverflow.com/a/17559716
          */
+        libxml_use_internal_errors(true);
         $isLoaded = $html->loadHTML(
             mb_convert_encoding($description, 'HTML-ENTITIES', 'UTF-8'), // cyrillic
             LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD // no tags: <doctype>, <html>, <body>
         );
+        libxml_clear_errors();
 
         if (! $isLoaded) {
             return $description;
