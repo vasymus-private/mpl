@@ -85,15 +85,15 @@ class ProfileController extends BaseAdminController
 
 
 
-        if ($request->adminSidebarFlexBasis) {
-            $settings = $request->admin->settings;
-            $settings['adminSidebarFlexBasis'] = $request->adminSidebarFlexBasis;
-            $request->admin->settings = $settings;
-            $request->admin->save();
-        }
-
-        return [
-            'settings' => $request->admin->settings,
-        ];
+//        if ($request->adminSidebarFlexBasis) {
+//            $settings = $request->admin->settings;
+//            $settings['adminSidebarFlexBasis'] = $request->adminSidebarFlexBasis;
+//            $request->admin->settings = $settings;
+//            $request->admin->save();
+//        }
+//
+//        return [
+//            'settings' => $request->admin->settings,
+//        ];
     }
 }
