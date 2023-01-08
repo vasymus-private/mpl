@@ -7,10 +7,10 @@ export default (type: ResizeColumnType) => {
     let stopObserveCbs = ref<Array<() => void>>([])
     const columnsStore = useColumnsStore()
 
-    const handleObserveResizingRef = (el: HTMLDivElement, column: Column) => {
+    const handleObserveResizingRef = (el: any, column: Column) => {
         let first = ref<boolean>(false)
         const { stop } = useResizeObserver(
-            el,
+            el as HTMLDivElement,
             (entries: Array<ResizeObserverEntry>) => {
                 if (!entries.length) {
                     return
