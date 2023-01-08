@@ -58,5 +58,15 @@ export interface SortColumnsRequestParams {
 }
 
 export interface SizeColumnsRequestParams {
+    adminProductsColumnSizes?: Array<ColumnSizesParam>
+    adminProductsColumnSizesDefault?: boolean
+    adminProductVariationsColumnSizes?: Array<ColumnSizesParam>
+    adminProductVariationsColumnSizesDefault?: boolean
+    adminOrdersColumnSizes?: Array<ColumnSizesParam>
+    adminOrdersColumnSizesDefault?: boolean
+}
 
+export interface ColumnSizesParam {
+    column: number
+    size: string
 }

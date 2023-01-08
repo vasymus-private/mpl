@@ -229,11 +229,24 @@ onUnmounted(() => stopObserving())
             </div>
 
             <div>
-                <button type="button" @click="modalsStore.openModal(ModalType.SORT_ADMIN_COLUMNS, {type: ColumnType.adminProductColumns})" class="btn btn-primary mb-2 me-2">Настроить</button>
+                <button
+                    @click="modalsStore.openModal(ModalType.SORT_ADMIN_COLUMNS, {type: ColumnType.adminProductColumns})"
+                    class="btn btn-primary mb-2 me-2"
+                    type="button"
+                >Настроить</button>
 
-                <button class="btn btn-secondary mb-2 me-2" type="button">Сбросить колонки</button>
+                <button
+                    @click="columnsStore.handleRestoreColumnSizes(ResizeColumnType.adminProductColumns)"
+                    class="btn btn-secondary mb-2 me-2"
+                    type="button"
+                >Сбросить колонки</button>
 
-                <button v-if="columnsStore.someColumnResized(ResizeColumnType.adminProductColumns)" class="btn btn-info mb-2 me-2" type="button">Сохранить колонки</button>
+                <button
+                    v-if="columnsStore.isSomeColumnResized(ResizeColumnType.adminProductColumns)"
+                    @click="columnsStore.handleStoreColumnSizes(ResizeColumnType.adminProductColumns)"
+                    class="btn btn-info mb-2 me-2"
+                    type="button"
+                >Сохранить колонки</button>
             </div>
 
             <form id="form-products-list" @submit="onSubmit" novalidate>

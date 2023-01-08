@@ -3,6 +3,7 @@ import {
     Column,
     ColumnName,
     ColumnSize,
+    ColumnSizesParam,
     ResizeColumnType,
     SizeColumnsRequestParams,
     SortColumnsRequestParams
@@ -11,6 +12,7 @@ import axios from "axios"
 import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
 import {useAuthStore} from "@/admin/inertia/modules/auth"
 import {ProfileResponse} from "@/admin/inertia/modules/common/types"
+import {useToastsStore} from "@/admin/inertia/modules/toasts"
 
 export const storeName = "columns"
 
@@ -98,7 +100,7 @@ export const useColumnsStore = defineStore(storeName, {
                 )
             }
         },
-        someColumnResized(state: State) {
+        isSomeColumnResized(state: State) {
             return (type: ResizeColumnType): boolean => state._someColumnResized[type]
         }
     },
@@ -130,14 +132,119 @@ export const useColumnsStore = defineStore(storeName, {
                 width
             }
         },
-        async handleStoreColumnSizes(type: ResizeColumnType, requestParams: SizeColumnsRequestParams): Promise<void> {
+        async handleRestoreColumnSizes(type: ResizeColumnType): Promise<void> {
+            const requestParams: SizeColumnsRequestParams = {}
+
+            switch (type) {
+                case ResizeColumnType.adminProductColumns: {
+                    requestParams.adminProductsColumnSizesDefault = true
+                    break
+                }
+                case ResizeColumnType.adminProductVariantColumns: {
+                    requestParams.adminProductVariationsColumnSizesDefault = true
+                    break
+                }
+                case ResizeColumnType.adminOrderColumns: {
+                    requestParams.adminOrdersColumnSizesDefault = true
+                    break
+                }
+            }
+
+            await this._handleStoreColumnSizes(type, requestParams)
+        },
+        async handleStoreColumnSizes(type: ResizeColumnType): Promise<void> {
+            const requestParams: SizeColumnsRequestParams = {}
+
+            let source: Array<ColumnSize> = []
+
+            switch (type) {
+                case ResizeColumnType.adminProductColumns: {
+                    source = this._adminProductsColumnSizes
+                    break
+                }
+                case ResizeColumnType.adminProductVariantColumns: {
+                    source = this._adminProductVariationsColumnSizes
+                    break
+                }
+                case ResizeColumnType.adminOrderColumns: {
+                    source = this._adminOrdersColumnSizes
+                    break
+                }
+            }
+
+            const updatedColumnSizes: Array<ColumnSizesParam> = source.map((currentColumnSize: ColumnSize): ColumnSizesParam => {
+                const tempColumnSize: ColumnSize = this._tempColumnSizes[type][currentColumnSize.column.value]
+
+                if (!tempColumnSize) {
+                    return {
+                        column: currentColumnSize.column.value,
+                        size: typeof currentColumnSize.width === 'number' ? `${currentColumnSize.width}px` : currentColumnSize.width,
+                    }
+                }
+
+                return {
+                    column: currentColumnSize.column.value,
+                    size: typeof tempColumnSize.width === 'number' ? `${tempColumnSize.width}px` : tempColumnSize.width,
+                }
+            })
+
+            switch (type) {
+                case ResizeColumnType.adminProductColumns: {
+                    requestParams.adminProductsColumnSizes = updatedColumnSizes
+                    break
+                }
+                case ResizeColumnType.adminProductVariantColumns: {
+                    requestParams.adminProductVariationsColumnSizes = updatedColumnSizes
+                    break
+                }
+                case ResizeColumnType.adminOrderColumns: {
+                    requestParams.adminOrdersColumnSizes = updatedColumnSizes
+                    break
+                }
+            }
+
+            await this._handleStoreColumnSizes(type, requestParams)
+        },
+        async _handleStoreColumnSizes(type: ResizeColumnType, requestParams: SizeColumnsRequestParams): Promise<void> {
             const routesStore = useRoutesStore()
             const authStore = useAuthStore()
 
             try {
+                const {
+                    data: {
+                        adminProductsColumnSizes,
+                        adminProductVariationsColumnSizes,
+                        adminOrdersColumnSizes,
+                    },
+                    status,
+                    statusText,
+                } = await axios.put<ProfileResponse>(
+                    routesStore.route(
+                        routeNames.ROUTE_ADMIN_AJAX_PROFILE_UPDATE,
+                        { admin: authStore.userId }
+                    ),
+                    requestParams
+                )
 
+                if (status >= 400) {
+                    throw new Error(statusText)
+                }
+
+                this.setAdminProductsColumnSizes(adminProductsColumnSizes)
+                this.setAdminProductVariationsColumnSizes(
+                    adminProductVariationsColumnSizes
+                )
+                this.setAdminOrdersColumnSizes(adminOrdersColumnSizes)
             } catch (e) {
+                const toastsStore = useToastsStore()
+                toastsStore.error({
+                    title: 'Error',
+                    message: e.message()
+                })
                 console.warn(e)
+            } finally {
+                this._someColumnResized[type] = false
+                this._tempColumnSizes[type] = {}
             }
         },
         async handleSortColumns(
@@ -172,6 +279,11 @@ export const useColumnsStore = defineStore(storeName, {
                 this.setAdminProductColumns(adminProductColumns)
                 this.setAdminProductVariantColumns(adminProductVariantColumns)
             } catch (e) {
+                const toastsStore = useToastsStore()
+                toastsStore.error({
+                    title: 'Error',
+                    message: e.message()
+                })
                 console.warn(e)
             } finally {
                 this._loading = false
