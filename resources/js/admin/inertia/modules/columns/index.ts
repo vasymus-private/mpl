@@ -1,4 +1,4 @@
-import {defineStore} from "pinia"
+import { defineStore } from "pinia"
 import {
     Column,
     ColumnName,
@@ -6,13 +6,13 @@ import {
     ColumnSizesParam,
     ResizeColumnType,
     SizeColumnsRequestParams,
-    SortColumnsRequestParams
+    SortColumnsRequestParams,
 } from "@/admin/inertia/modules/columns/types"
 import axios from "axios"
-import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
-import {useAuthStore} from "@/admin/inertia/modules/auth"
-import {ProfileResponse} from "@/admin/inertia/modules/common/types"
-import {useToastsStore} from "@/admin/inertia/modules/toasts"
+import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
+import { useAuthStore } from "@/admin/inertia/modules/auth"
+import { ProfileResponse } from "@/admin/inertia/modules/common/types"
+import { useToastsStore } from "@/admin/inertia/modules/toasts"
 
 export const storeName = "columns"
 
@@ -25,11 +25,11 @@ interface State {
     _adminProductVariationsColumnSizes: Array<ColumnSize>
     _adminOrdersColumnSizes: Array<ColumnSize>
     _someColumnResized: {
-        [key in ResizeColumnType] : boolean
+        [key in ResizeColumnType]: boolean
     }
     _tempColumnSizes: {
-        [key in ResizeColumnType] : {
-            [ key in string|number ]? : ColumnSize
+        [key in ResizeColumnType]: {
+            [key in string | number]?: ColumnSize
         }
     }
 }
@@ -53,7 +53,7 @@ export const useColumnsStore = defineStore(storeName, {
                 [ResizeColumnType.adminProductColumns]: {},
                 [ResizeColumnType.adminProductVariantColumns]: {},
                 [ResizeColumnType.adminOrderColumns]: {},
-            }
+            },
         }
     },
     getters: {
@@ -101,8 +101,9 @@ export const useColumnsStore = defineStore(storeName, {
             }
         },
         isSomeColumnResized(state: State) {
-            return (type: ResizeColumnType): boolean => state._someColumnResized[type]
-        }
+            return (type: ResizeColumnType): boolean =>
+                state._someColumnResized[type]
+        },
     },
     actions: {
         setAdminOrderColumns(columns: Array<Column>): void {
@@ -126,10 +127,14 @@ export const useColumnsStore = defineStore(storeName, {
         setSomeColumnResized(type: ResizeColumnType, isResized: boolean): void {
             this._someColumnResized[type] = isResized
         },
-        setTempColumnSize(type: ResizeColumnType, column: Column, width: number|string): void {
+        setTempColumnSize(
+            type: ResizeColumnType,
+            column: Column,
+            width: number | string
+        ): void {
             this._tempColumnSizes[type][column.value] = {
                 column,
-                width
+                width,
             }
         },
         async handleRestoreColumnSizes(type: ResizeColumnType): Promise<void> {
@@ -141,7 +146,8 @@ export const useColumnsStore = defineStore(storeName, {
                     break
                 }
                 case ResizeColumnType.adminProductVariantColumns: {
-                    requestParams.adminProductVariationsColumnSizesDefault = true
+                    requestParams.adminProductVariationsColumnSizesDefault =
+                        true
                     break
                 }
                 case ResizeColumnType.adminOrderColumns: {
@@ -172,21 +178,32 @@ export const useColumnsStore = defineStore(storeName, {
                 }
             }
 
-            const updatedColumnSizes: Array<ColumnSizesParam> = source.map((currentColumnSize: ColumnSize): ColumnSizesParam => {
-                const tempColumnSize: ColumnSize = this._tempColumnSizes[type][currentColumnSize.column.value]
+            const updatedColumnSizes: Array<ColumnSizesParam> = source.map(
+                (currentColumnSize: ColumnSize): ColumnSizesParam => {
+                    const tempColumnSize: ColumnSize =
+                        this._tempColumnSizes[type][
+                            currentColumnSize.column.value
+                        ]
 
-                if (!tempColumnSize) {
+                    if (!tempColumnSize) {
+                        return {
+                            column: currentColumnSize.column.value,
+                            size:
+                                typeof currentColumnSize.width === "number"
+                                    ? `${currentColumnSize.width}px`
+                                    : currentColumnSize.width,
+                        }
+                    }
+
                     return {
                         column: currentColumnSize.column.value,
-                        size: typeof currentColumnSize.width === 'number' ? `${currentColumnSize.width}px` : currentColumnSize.width,
+                        size:
+                            typeof tempColumnSize.width === "number"
+                                ? `${tempColumnSize.width}px`
+                                : tempColumnSize.width,
                     }
                 }
-
-                return {
-                    column: currentColumnSize.column.value,
-                    size: typeof tempColumnSize.width === 'number' ? `${tempColumnSize.width}px` : tempColumnSize.width,
-                }
-            })
+            )
 
             switch (type) {
                 case ResizeColumnType.adminProductColumns: {
@@ -194,7 +211,8 @@ export const useColumnsStore = defineStore(storeName, {
                     break
                 }
                 case ResizeColumnType.adminProductVariantColumns: {
-                    requestParams.adminProductVariationsColumnSizes = updatedColumnSizes
+                    requestParams.adminProductVariationsColumnSizes =
+                        updatedColumnSizes
                     break
                 }
                 case ResizeColumnType.adminOrderColumns: {
@@ -205,7 +223,10 @@ export const useColumnsStore = defineStore(storeName, {
 
             await this._handleStoreColumnSizes(type, requestParams)
         },
-        async _handleStoreColumnSizes(type: ResizeColumnType, requestParams: SizeColumnsRequestParams): Promise<void> {
+        async _handleStoreColumnSizes(
+            type: ResizeColumnType,
+            requestParams: SizeColumnsRequestParams
+        ): Promise<void> {
             const routesStore = useRoutesStore()
             const authStore = useAuthStore()
 
@@ -238,8 +259,8 @@ export const useColumnsStore = defineStore(storeName, {
             } catch (e) {
                 const toastsStore = useToastsStore()
                 toastsStore.error({
-                    title: 'Error',
-                    message: e.message()
+                    title: "Error",
+                    message: e.message(),
                 })
                 console.warn(e)
             } finally {
@@ -281,8 +302,8 @@ export const useColumnsStore = defineStore(storeName, {
             } catch (e) {
                 const toastsStore = useToastsStore()
                 toastsStore.error({
-                    title: 'Error',
-                    message: e.message()
+                    title: "Error",
+                    message: e.message(),
                 })
                 console.warn(e)
             } finally {
