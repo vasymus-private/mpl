@@ -1,7 +1,7 @@
-import {Column, ResizeColumnType} from "@/admin/inertia/modules/columns/types"
-import {useResizeObserver} from "@vueuse/core"
-import {ref} from "vue"
-import {useColumnsStore} from "@/admin/inertia/modules/columns"
+import { Column, ResizeColumnType } from "@/admin/inertia/modules/columns/types"
+import { useResizeObserver } from "@vueuse/core"
+import { ref } from "vue"
+import { useColumnsStore } from "@/admin/inertia/modules/columns"
 
 export default (type: ResizeColumnType) => {
     let stopObserveCbs = ref<Array<() => void>>([])
@@ -9,25 +9,32 @@ export default (type: ResizeColumnType) => {
 
     const handleObserveResizingRef = (el: HTMLDivElement, column: Column) => {
         let first = ref<boolean>(false)
-        const { stop } = useResizeObserver(el, (entries: Array<ResizeObserverEntry>) => {
-            if (!entries.length) {
-                return
+        const { stop } = useResizeObserver(
+            el,
+            (entries: Array<ResizeObserverEntry>) => {
+                if (!entries.length) {
+                    return
+                }
+
+                if (!first.value) {
+                    first.value = true
+                    return
+                }
+
+                columnsStore.setSomeColumnResized(type, true)
+
+                columnsStore.setTempColumnSize(
+                    type,
+                    column,
+                    entries[0].contentRect.width
+                )
             }
-
-            if (!first.value) {
-                first.value = true
-                return
-            }
-
-            columnsStore.setSomeColumnResized(type, true)
-
-            columnsStore.setTempColumnSize(type, column, entries[0].contentRect.width)
-        })
+        )
         stopObserveCbs.value.push(stop)
     }
 
     const stopObserving = () => {
-        stopObserveCbs.value.forEach(stop => stop())
+        stopObserveCbs.value.forEach((stop) => stop())
     }
 
     return {

@@ -13,7 +13,6 @@ use App\Http\Resources\Admin\ProfileResource;
 use Closure;
 use DateInterval;
 use Domain\Articles\Models\Article;
-use Domain\Common\Enums\Column;
 use Domain\Common\Models\Currency;
 use Domain\FAQs\Models\FAQ;
 use Domain\GalleryItems\Models\GalleryItem;

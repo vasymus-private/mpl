@@ -1,6 +1,6 @@
 import { DefineComponent } from "@vue/runtime-core"
-import {Column, ColumnSize} from "@/admin/inertia/modules/columns/types"
-import {Auth} from "@/admin/inertia/modules/auth/types";
+import { Column, ColumnSize } from "@/admin/inertia/modules/columns/types"
+import { Auth } from "@/admin/inertia/modules/auth/types"
 
 export interface Errors {
     [key: string]: Array<string>

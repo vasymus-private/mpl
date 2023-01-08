@@ -1,16 +1,16 @@
-import {defineStore} from "pinia"
+import { defineStore } from "pinia"
 import {
     Column,
     ColumnName,
     ColumnSize,
     ResizeColumnType,
     SizeColumnsRequestParams,
-    SortColumnsRequestParams
+    SortColumnsRequestParams,
 } from "@/admin/inertia/modules/columns/types"
 import axios from "axios"
-import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
-import {useAuthStore} from "@/admin/inertia/modules/auth"
-import {ProfileResponse} from "@/admin/inertia/modules/common/types"
+import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
+import { useAuthStore } from "@/admin/inertia/modules/auth"
+import { ProfileResponse } from "@/admin/inertia/modules/common/types"
 
 export const storeName = "columns"
 
@@ -23,11 +23,11 @@ interface State {
     _adminProductVariationsColumnSizes: Array<ColumnSize>
     _adminOrdersColumnSizes: Array<ColumnSize>
     _someColumnResized: {
-        [key in ResizeColumnType] : boolean
+        [key in ResizeColumnType]: boolean
     }
     _tempColumnSizes: {
-        [key in ResizeColumnType] : {
-            [ key in string|number ]? : ColumnSize
+        [key in ResizeColumnType]: {
+            [key in string | number]?: ColumnSize
         }
     }
 }
@@ -51,7 +51,7 @@ export const useColumnsStore = defineStore(storeName, {
                 [ResizeColumnType.adminProductColumns]: {},
                 [ResizeColumnType.adminProductVariantColumns]: {},
                 [ResizeColumnType.adminOrderColumns]: {},
-            }
+            },
         }
     },
     getters: {
@@ -99,8 +99,9 @@ export const useColumnsStore = defineStore(storeName, {
             }
         },
         someColumnResized(state: State) {
-            return (type: ResizeColumnType): boolean => state._someColumnResized[type]
-        }
+            return (type: ResizeColumnType): boolean =>
+                state._someColumnResized[type]
+        },
     },
     actions: {
         setAdminOrderColumns(columns: Array<Column>): void {
@@ -124,18 +125,24 @@ export const useColumnsStore = defineStore(storeName, {
         setSomeColumnResized(type: ResizeColumnType, isResized: boolean): void {
             this._someColumnResized[type] = isResized
         },
-        setTempColumnSize(type: ResizeColumnType, column: Column, width: number|string): void {
+        setTempColumnSize(
+            type: ResizeColumnType,
+            column: Column,
+            width: number | string
+        ): void {
             this._tempColumnSizes[type][column.value] = {
                 column,
-                width
+                width,
             }
         },
-        async handleStoreColumnSizes(type: ResizeColumnType, requestParams: SizeColumnsRequestParams): Promise<void> {
+        async handleStoreColumnSizes(
+            type: ResizeColumnType,
+            requestParams: SizeColumnsRequestParams
+        ): Promise<void> {
             const routesStore = useRoutesStore()
             const authStore = useAuthStore()
 
             try {
-
             } catch (e) {
                 console.warn(e)
             }
