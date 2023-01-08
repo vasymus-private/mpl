@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-import { defineAsyncComponent } from 'vue'
+import {computed, defineAsyncComponent, onUnmounted, watchEffect} from 'vue'
 import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
-import {computed, watchEffect} from "vue"
 import {isSortableColumn, useColumnsStore} from "@/admin/inertia/modules/columns"
 import {useProductsStore} from "@/admin/inertia/modules/products"
 import TheLayout from '@/admin/inertia/components/layout/TheLayout.vue'
@@ -10,8 +9,8 @@ import {getActiveName, getPerPageOptions} from '@/admin/inertia/modules/common'
 import {useModalsStore} from "@/admin/inertia/modules/modals"
 import {ModalType} from "@/admin/inertia/modules/modals/types"
 import {ProductListItem} from "@/admin/inertia/modules/products/types"
-import {Link, Head} from "@inertiajs/inertia-vue3"
-import {ColumnType, ColumnName} from "@/admin/inertia/modules/columns/types"
+import {Head, Link} from "@inertiajs/inertia-vue3"
+import {ColumnName, ColumnType, ResizeColumnType} from "@/admin/inertia/modules/columns/types"
 import {useBrandsStore} from "@/admin/inertia/modules/brands"
 import {useForm} from 'vee-validate'
 import {useCurrenciesStore} from "@/admin/inertia/modules/currencies"
@@ -20,10 +19,7 @@ import FormControlInput from '@/admin/inertia/components/forms/vee-validate/Form
 import FormCheckInput from '@/admin/inertia/components/forms/vee-validate/FormCheckInput.vue'
 import FormControlTextarea from '@/admin/inertia/components/forms/vee-validate/FormControlTextarea.vue'
 import {useAvailabilityStatusesStore} from "@/admin/inertia/modules/availabilityStatuses"
-import {
-    getValidationSchema,
-    useIndexProductsFormStore
-} from "@/admin/inertia/modules/forms/indexProducts"
+import {getValidationSchema, useIndexProductsFormStore} from "@/admin/inertia/modules/forms/indexProducts"
 import {Values} from "@/admin/inertia/modules/forms/indexProducts/types"
 import useCheckedItems from "@/admin/inertia/composables/useCheckedItems"
 import {storeToRefs} from "pinia"
@@ -31,10 +27,11 @@ import useRoute from "@/admin/inertia/composables/useRoute"
 import useSearchInput from "@/admin/inertia/composables/useSearchInput"
 import useFormHelpers from "@/admin/inertia/composables/useFormHelpers"
 import {useToastsStore} from "@/admin/inertia/modules/toasts"
-import {UrlParams, Option} from "@/admin/inertia/modules/common/types"
+import {Option, UrlParams} from "@/admin/inertia/modules/common/types"
 import {useCategoriesStore} from "@/admin/inertia/modules/categories"
 import ProductCategories from '@/admin/inertia/components/products/forms/ProductCategories.vue'
-import { useMounted } from '@vueuse/core'
+import {useMounted} from '@vueuse/core'
+import useResizeColumnObserving from "@/admin/inertia/composables/useResizeColumnObserving";
 
 
 const isMounted = useMounted()
@@ -167,6 +164,10 @@ const onSubmit = handleSubmit(async (values, ctx) => {
     }
     editMode.value = false
 })
+
+const {handleObserveResizingRef, stopObserving} = useResizeColumnObserving(ResizeColumnType.adminProductColumns)
+
+onUnmounted(() => stopObserving())
 </script>
 
 <template>
@@ -228,7 +229,24 @@ const onSubmit = handleSubmit(async (values, ctx) => {
             </div>
 
             <div>
-                <button type="button" @click="modalsStore.openModal(ModalType.SORT_ADMIN_COLUMNS, {type: ColumnType.adminProductColumns})" class="btn btn-primary mb-2 mr-2">Настроить</button>
+                <button
+                    @click="modalsStore.openModal(ModalType.SORT_ADMIN_COLUMNS, {type: ColumnType.adminProductColumns})"
+                    class="btn btn-primary mb-2 me-2"
+                    type="button"
+                >Настроить</button>
+
+                <button
+                    @click="columnsStore.handleRestoreColumnSizes(ResizeColumnType.adminProductColumns)"
+                    class="btn btn-secondary mb-2 me-2"
+                    type="button"
+                >Сбросить колонки</button>
+
+                <button
+                    v-if="columnsStore.isSomeColumnResized(ResizeColumnType.adminProductColumns)"
+                    @click="columnsStore.handleStoreColumnSizes(ResizeColumnType.adminProductColumns)"
+                    class="btn btn-info mb-2 me-2"
+                    type="button"
+                >Сохранить колонки</button>
             </div>
 
             <form id="form-products-list" @submit="onSubmit" novalidate>
@@ -251,7 +269,11 @@ const onSubmit = handleSubmit(async (values, ctx) => {
                                 :key="sortableColumn.value"
                                 scope="col"
                             >
-                                <div class="inner-resize" :style="isSortableColumn(sortableColumn, ColumnName.categories) ? {width: '300px'} : {}">{{sortableColumn.label}}</div>
+                                <div
+                                    class="inner-resize"
+                                    :ref="el => handleObserveResizingRef(el, sortableColumn)"
+                                    :style="{width: columnsStore.adminProductsColumnWidth(sortableColumn)}"
+                                >{{sortableColumn.label}}</div>
                             </th>
                         </tr>
                         </thead>

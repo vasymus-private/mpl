@@ -1,4 +1,4 @@
-import { Column } from "@/admin/inertia/modules/columns/types"
+import { Column, ColumnSize } from "@/admin/inertia/modules/columns/types"
 import {
     Article,
     ArticleListItem,
@@ -34,7 +34,12 @@ import { OrderStatus } from "@/admin/inertia/modules/orderStatuses/types"
 import { useOrderStatusesStore } from "@/admin/inertia/modules/orderStatuses"
 import { CharType } from "@/admin/inertia/modules/charTypes/types"
 import { useCharTypesStore } from "@/admin/inertia/modules/charTypes"
-import { Links, Meta, Option } from "@/admin/inertia/modules/common/types"
+import {
+    Links,
+    Meta,
+    Option,
+    ProfileResponse,
+} from "@/admin/inertia/modules/common/types"
 import { useRoutesStore } from "@/admin/inertia/modules/routes"
 import { useProfileStore } from "@/admin/inertia/modules/profile"
 import { Brand, BrandListItem } from "@/admin/inertia/modules/brands/types"
@@ -55,13 +60,9 @@ import { useGalleryItemsStore } from "@/admin/inertia/modules/galleryItems"
 
 export interface InitialPageProps {
     fullUrl: string
-    auth: Auth
+    profile: ProfileResponse
     categoriesTree: Array<CategoriesTreeItem>
     brandOptions: Array<Option>
-    adminOrderColumns: Array<Column>
-    adminProductColumns: Array<Column>
-    adminProductVariantColumns: Array<Column>
-    adminSidebarFlexBasis: string | number | null
     availabilityStatuses: { data: Array<AvailabilityStatus> }
     billStatuses: { data: Array<BillStatus> }
     currencies: { data: Array<Currency> }
@@ -131,13 +132,18 @@ export const initFromPageProps = (
 ) => {
     let {
         fullUrl,
-        auth,
+        profile: {
+            auth,
+            adminSidebarFlexBasis = null,
+            adminOrderColumns = [],
+            adminProductColumns = [],
+            adminProductVariantColumns = [],
+            adminProductsColumnSizes = [],
+            adminProductVariationsColumnSizes = [],
+            adminOrdersColumnSizes = [],
+        } = {},
         categoriesTree = [],
         brandOptions = [],
-        adminOrderColumns = [],
-        adminProductColumns = [],
-        adminProductVariantColumns = [],
-        adminSidebarFlexBasis = null,
         availabilityStatuses: { data: availabilityStatusesData = [] },
         billStatuses: { data: billStatusesData = [] },
         currencies: { data: currenciesData = [] },
@@ -219,11 +225,6 @@ export const initFromPageProps = (
     categoriesStore.setListItems(categoryListItems)
     categoriesStore.setCategoryProductTypeOptions(categoryProductTypeOptions)
 
-    const columnsStore = useColumnsStore(pinia)
-    columnsStore.setAdminOrderColumns(adminOrderColumns)
-    columnsStore.setAdminProductColumns(adminProductColumns)
-    columnsStore.setAdminProductVariantColumns(adminProductVariantColumns)
-
     const brandsStore = useBrandsStore(pinia)
     brandsStore.setEntities(brandsList)
     brandsStore.setLinks(brandsListLinks)
@@ -268,6 +269,16 @@ export const initFromPageProps = (
 
     const profileStore = useProfileStore(pinia)
     profileStore.setAdminSidebarFlexBasis(adminSidebarFlexBasis)
+
+    const columnsStore = useColumnsStore(pinia)
+    columnsStore.setAdminOrderColumns(adminOrderColumns)
+    columnsStore.setAdminProductColumns(adminProductColumns)
+    columnsStore.setAdminProductVariantColumns(adminProductVariantColumns)
+    columnsStore.setAdminProductsColumnSizes(adminProductsColumnSizes)
+    columnsStore.setAdminProductVariationsColumnSizes(
+        adminProductVariationsColumnSizes
+    )
+    columnsStore.setAdminOrdersColumnSizes(adminOrdersColumnSizes)
 
     const ordersStore = useOrdersStore(pinia)
     ordersStore.setOrdersList(ordersList)
