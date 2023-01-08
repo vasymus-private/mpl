@@ -10,9 +10,9 @@ export enum ColumnType {
 }
 
 export enum ResizeColumnType {
-    adminOrderColumns = 'adminProductsColumnSizes',
-    adminProductColumns = 'adminProductVariationsColumnSizes',
-    adminProductVariantColumns = 'adminOrdersColumnSizes',
+    adminOrderColumns = "adminProductsColumnSizes",
+    adminProductColumns = "adminProductVariationsColumnSizes",
+    adminProductVariantColumns = "adminOrdersColumnSizes",
 }
 
 export enum ColumnName {
