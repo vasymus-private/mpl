@@ -12,6 +12,7 @@ use App\Http\Resources\Admin\Inertia\PaymentMethodResource;
 use Closure;
 use DateInterval;
 use Domain\Articles\Models\Article;
+use Domain\Common\Enums\Column;
 use Domain\Common\Models\Currency;
 use Domain\FAQs\Models\FAQ;
 use Domain\GalleryItems\Models\GalleryItem;
@@ -103,9 +104,9 @@ class HandleInertiaRequests extends Middleware
             'adminProductColumns' => H::admin()->admin_product_columns_arr,
             'adminProductVariantColumns' => H::admin()->admin_product_variant_columns_arr,
             'adminSidebarFlexBasis' => H::admin()->admin_sidebar_flex_basis,
-            'adminProductsTableSizes' => H::admin()->admin_products_table_sizes,
-            'adminProductVariationsTableSizes' => H::admin()->admin_product_variations_table_sizes,
-            'adminOrdersTableSizes' => H::admin()->admin_orders_table_sizes,
+            'adminProductsColumnSizes' => collect(H::admin()->admin_products_column_sizes)->map([$this, '_columnSizeMapCB'])->filter()->all(),
+            'adminProductVariationsColumnSizes' => collect(H::admin()->admin_product_variations_column_sizes)->map([$this, '_columnSizeMapCB'])->filter()->all(),
+            'adminOrdersColumnSizes' => collect(H::admin()->admin_orders_column_sizes)->map([$this, '_columnSizeMapCB'])->filter()->all(),
             'availabilityStatuses' => AvailabilityStatusResource::collection(AvailabilityStatus::cachedAll()),
             'billStatuses' => BillStatusResource::collection(BillStatus::cachedAll()),
             'currencies' => CurrencyResource::collection(Currency::cachedAll()),
@@ -119,5 +120,27 @@ class HandleInertiaRequests extends Middleware
             'galleryItemOptions' => GalleryItem::getGalleryItemOption(),
             'categoryProductTypeOptions' => Category::getProductTypeOptions(),
         ]);
+    }
+
+    /**
+     * @param string $value
+     * @param int $key
+     *
+     * @return array|null
+     */
+    public function _columnSizeMapCB(string $value, int $key): ?array
+    {
+        $enum = Column::tryFrom($key);
+        if (!$enum) {
+            return null;
+        }
+
+        return [
+            'column' => [
+                'value' => $enum->value,
+                'label' => $enum->label,
+            ],
+            'width' => $value,
+        ];
     }
 }

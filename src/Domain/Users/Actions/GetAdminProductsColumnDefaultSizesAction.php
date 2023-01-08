@@ -4,9 +4,9 @@ namespace Domain\Users\Actions;
 
 use Domain\Common\Actions\BaseAction;
 use Domain\Common\Enums\Column;
-use Domain\Orders\Actions\GetDefaultAdminOrderColumnsAction;
+use Domain\Products\Actions\GetDefaultAdminProductColumnsAction;
 
-class GetAdminOrdersTableSizesAction extends BaseAction
+class GetAdminProductsColumnDefaultSizesAction extends BaseAction
 {
     /**
      * @phpstan-return array<int, string>
@@ -14,7 +14,7 @@ class GetAdminOrdersTableSizesAction extends BaseAction
     public function execute(): array
     {
         return collect(
-            GetDefaultAdminOrderColumnsAction::cached()->execute()
+            GetDefaultAdminProductColumnsAction::cached()->execute()
         )
             ->reduce(
                 function (array $acc, Column $column): array {

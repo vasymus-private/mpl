@@ -36,3 +36,8 @@ export enum ColumnName {
     coefficient_description = "coefficient_description",
     categories = "categories",
 }
+
+export interface ColumnSize {
+    column: Column
+    width: number|string
+}

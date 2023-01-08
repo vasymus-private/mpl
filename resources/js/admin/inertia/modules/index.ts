@@ -1,4 +1,4 @@
-import { Column } from "@/admin/inertia/modules/columns/types"
+import {Column, ColumnSize} from "@/admin/inertia/modules/columns/types"
 import {
     Article,
     ArticleListItem,
@@ -62,6 +62,9 @@ export interface InitialPageProps {
     adminProductColumns: Array<Column>
     adminProductVariantColumns: Array<Column>
     adminSidebarFlexBasis: string | number | null
+    adminProductsColumnSizes: Array<ColumnSize>
+    adminProductVariationsColumnSizes: Array<ColumnSize>
+    adminOrdersColumnSizes: Array<ColumnSize>
     availabilityStatuses: { data: Array<AvailabilityStatus> }
     billStatuses: { data: Array<BillStatus> }
     currencies: { data: Array<Currency> }
@@ -138,6 +141,9 @@ export const initFromPageProps = (
         adminProductColumns = [],
         adminProductVariantColumns = [],
         adminSidebarFlexBasis = null,
+        adminProductsColumnSizes = [],
+        adminProductVariationsColumnSizes = [],
+        adminOrdersColumnSizes = [],
         availabilityStatuses: { data: availabilityStatusesData = [] },
         billStatuses: { data: billStatusesData = [] },
         currencies: { data: currenciesData = [] },
@@ -223,6 +229,9 @@ export const initFromPageProps = (
     columnsStore.setAdminOrderColumns(adminOrderColumns)
     columnsStore.setAdminProductColumns(adminProductColumns)
     columnsStore.setAdminProductVariantColumns(adminProductVariantColumns)
+    columnsStore.setAdminProductsColumnSizes(adminProductsColumnSizes)
+    columnsStore.setAdminProductVariationsColumnSizes(adminProductVariationsColumnSizes)
+    columnsStore.setAdminOrdersColumnSizes(adminOrdersColumnSizes)
 
     const brandsStore = useBrandsStore(pinia)
     brandsStore.setEntities(brandsList)

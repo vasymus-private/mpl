@@ -8,9 +8,9 @@ use Domain\Common\Enums\Column;
 use Domain\Orders\Actions\GetDefaultAdminOrderColumnsAction;
 use Domain\Products\Actions\GetDefaultAdminProductColumnsAction;
 use Domain\Products\Actions\GetDefaultAdminProductVariantColumnsAction;
-use Domain\Users\Actions\GetAdminOrdersTableSizesAction;
-use Domain\Users\Actions\GetAdminProductsTableDefaultSizesAction;
-use Domain\Users\Actions\GetAdminProductVariationsTableDefaultSizesAction;
+use Domain\Users\Actions\GetAdminOrdersColumnSizesAction;
+use Domain\Users\Actions\GetAdminProductsColumnDefaultSizesAction;
+use Domain\Users\Actions\GetAdminProductVariationsColumnDefaultSizesAction;
 use Domain\Users\Models\Admin;
 
 class ProfileController extends BaseAdminController
@@ -56,29 +56,29 @@ class ProfileController extends BaseAdminController
             $hasChanges = true;
         }
 
-        if ($request->has('adminProductsTableSizes')) {
-            $request->admin->admin_products_table_sizes = collect($request->adminProductsTableSizes)->reduce([$this, '_reduceCB'], []);
+        if ($request->has('adminProductsColumnSizes')) {
+            $request->admin->admin_products_column_sizes = collect($request->adminProductsColumnSizes)->reduce([$this, '_reduceCB'], []);
             $hasChanges = true;
         }
-        if ($request->has('adminProductsTableSizesDefault')) {
-            $request->admin->admin_products_table_sizes = GetAdminProductsTableDefaultSizesAction::cached()->execute();
+        if ($request->has('adminProductsColumnSizesDefault')) {
+            $request->admin->admin_products_column_sizes = GetAdminProductsColumnDefaultSizesAction::cached()->execute();
         }
 
-        if ($request->has('adminProductVariationsTableSizes')) {
-            $request->admin->admin_product_variations_table_sizes = collect($request->adminProductVariationsTableSizes)->reduce([$this, '_reduceCB'], []);
+        if ($request->has('adminProductVariationsColumnSizes')) {
+            $request->admin->admin_product_variations_column_sizes = collect($request->adminProductVariationsColumnSizes)->reduce([$this, '_reduceCB'], []);
             $hasChanges = true;
         }
-        if ($request->has('adminProductVariationsTableSizesDefault')) {
-            $request->admin->admin_product_variations_table_sizes = GetAdminProductVariationsTableDefaultSizesAction::cached()->execute();
+        if ($request->has('adminProductVariationsColumnSizesDefault')) {
+            $request->admin->admin_product_variations_column_sizes = GetAdminProductVariationsColumnDefaultSizesAction::cached()->execute();
             $hasChanges = true;
         }
 
-        if ($request->has('adminOrdersTableSizes')) {
-            $request->admin->admin_orders_table_sizes = collect($request->adminOrdersTableSizes)->reduce([$this, '_reduceCB'], []);
+        if ($request->has('adminOrdersColumnSizes')) {
+            $request->admin->admin_orders_column_sizes = collect($request->adminOrdersColumnSizes)->reduce([$this, '_reduceCB'], []);
             $hasChanges = true;
         }
-        if ($request->has('adminOrdersTableSizesDefault')) {
-            $request->admin->admin_orders_table_sizes = GetAdminOrdersTableSizesAction::cached()->execute();
+        if ($request->has('adminOrdersColumnSizesDefault')) {
+            $request->admin->admin_orders_column_sizes = GetAdminOrdersColumnSizesAction::cached()->execute();
             $hasChanges = true;
         }
 
@@ -95,9 +95,9 @@ class ProfileController extends BaseAdminController
                 'adminOrderColumns' => $admin->admin_order_columns_arr,
                 'adminProductColumns' => $admin->admin_product_columns_arr,
                 'adminProductVariantColumns' => $admin->admin_product_variant_columns_arr,
-                'adminProductsTableSizes' => $admin->admin_products_table_sizes,
-                'adminProductVariationsTableSizes' => $admin->admin_product_variations_table_sizes,
-                'adminOrdersTableSizes' => $admin->admin_orders_table_sizes,
+                'adminProductsColumnSizes' => $admin->admin_products_column_sizes,
+                'adminProductVariationsColumnSizes' => $admin->admin_product_variations_column_sizes,
+                'adminOrdersColumnSizes' => $admin->admin_orders_column_sizes,
             ],
         ];
     }

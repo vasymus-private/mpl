@@ -20,14 +20,14 @@ use Illuminate\Support\Facades\Gate;
  * @property-read int[]|null $adminProductVariantColumns
  * @property-read bool|null $adminProductVariantColumnsDefault
  *
- * @property-read array[]|null $adminProductsTableSizes
- * @property-read bool|null $adminProductsTableSizesDefault
+ * @property-read array[]|null $adminProductsColumnSizes
+ * @property-read bool|null $adminProductsColumnSizesDefault
  *
- * @property-read array[]|null $adminProductVariationsTableSizes
- * @property-read bool|null $adminProductVariationsTableSizesDefault
+ * @property-read array[]|null $adminProductVariationsColumnSizes
+ * @property-read bool|null $adminProductVariationsColumnSizesDefault
  *
- * @property-read array[]|null $adminOrdersTableSizes
- * @property-read bool|null $adminOrdersTableSizesDefault
+ * @property-read array[]|null $adminOrdersColumnSizes
+ * @property-read bool|null $adminOrdersColumnSizesDefault
  */
 class AdminProfileUpdateRequest extends FormRequest
 {
@@ -63,20 +63,20 @@ class AdminProfileUpdateRequest extends FormRequest
             'adminProductVariantColumns.*' => $this->getColumnValidation(),
             'adminProductVariantColumnsDefault' => 'boolean|nullable',
 
-            'adminProductsTableSizes' => 'nullable|array',
-            'adminProductsTableSizes.*.column' => $this->getColumnValidation(),
-            'adminProductsTableSizes.*.size' => 'string',
-            'adminProductsTableSizesDefault' => 'boolean|nullable',
+            'adminProductsColumnSizes' => 'nullable|array',
+            'adminProductsColumnSizes.*.column' => $this->getColumnValidation(),
+            'adminProductsColumnSizes.*.size' => 'string',
+            'adminProductsColumnSizesDefault' => 'boolean|nullable',
 
-            'adminProductVariationsTableSizes' => 'nullable|array',
-            'adminProductVariationsTableSizes.*.column' => $this->getColumnValidation(),
-            'adminProductVariationsTableSizes.*.size' => 'string',
-            'adminProductVariationsTableSizesDefault' => 'boolean|nullable',
+            'adminProductVariationsColumnSizes' => 'nullable|array',
+            'adminProductVariationsColumnSizes.*.column' => $this->getColumnValidation(),
+            'adminProductVariationsColumnSizes.*.size' => 'string',
+            'adminProductVariationsColumnSizesDefault' => 'boolean|nullable',
 
-            'adminOrdersTableSizes' => 'nullable|array',
-            'adminOrdersTableSizes.*.column' => $this->getColumnValidation(),
-            'adminOrdersTableSizes.*.size' => 'string',
-            'adminOrdersTableSizesDefault' => 'boolean|nullable',
+            'adminOrdersColumnSizes' => 'nullable|array',
+            'adminOrdersColumnSizes.*.column' => $this->getColumnValidation(),
+            'adminOrdersColumnSizes.*.size' => 'string',
+            'adminOrdersColumnSizesDefault' => 'boolean|nullable',
         ];
     }
 

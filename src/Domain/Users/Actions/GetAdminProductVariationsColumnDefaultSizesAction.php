@@ -6,7 +6,7 @@ use Domain\Common\Actions\BaseAction;
 use Domain\Common\Enums\Column;
 use Domain\Products\Actions\GetDefaultAdminProductVariantColumnsAction;
 
-class GetAdminProductVariationsTableDefaultSizesAction extends BaseAction
+class GetAdminProductVariationsColumnDefaultSizesAction extends BaseAction
 {
     /**
      * @phpstan-return array<int, string>
