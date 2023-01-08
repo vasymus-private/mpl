@@ -9,6 +9,7 @@ use App\Http\Resources\Admin\Inertia\CurrencyResource;
 use App\Http\Resources\Admin\Inertia\OrderImportanceResource;
 use App\Http\Resources\Admin\Inertia\OrderStatusResource;
 use App\Http\Resources\Admin\Inertia\PaymentMethodResource;
+use App\Http\Resources\Admin\ProfileResource;
 use Closure;
 use DateInterval;
 use Domain\Articles\Models\Article;
@@ -76,37 +77,16 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             'fullUrl' => $request->fullUrl(), // because of troubles of get full url on node js wrapper (for backend render via inertia)
-            'auth' => function () {
-                $userOrAdmin = H::userOrAdmin();
-
-                return [
-                    'user' => array_merge($userOrAdmin->only([
-                        'id',
-                        'name',
-                        'email',
-                        'phone',
-                    ]), [
-                        'is_anonymous' => $userOrAdmin->is_anonymous2,
-                        'is_super_admin' => $userOrAdmin->is_super_admin,
-                    ]),
-                ];
-            },
             'flash' => function () use ($request) {
                 return [
                     'success' => $request->session()->get('success'),
                     'error' => $request->session()->get('error'),
                 ];
             },
+            'profile' => (new ProfileResource(H::admin()))->toArray($request),
             'currencyTodayRate' => Cache::remember('currency-today-rate', new DateInterval('PT1H'), fn () => CBRcurrencyConverter::getTodayRates()),
             'categoriesTree' => Category::getTreeRuntimeCached()->map(fn (Category $category) => CategoryItemSidebarDTO::fromModel($category))->all(),
             'brandOptions' => Brand::getBrandOptions(),
-            'adminOrderColumns' => H::admin()->admin_order_columns_arr,
-            'adminProductColumns' => H::admin()->admin_product_columns_arr,
-            'adminProductVariantColumns' => H::admin()->admin_product_variant_columns_arr,
-            'adminSidebarFlexBasis' => H::admin()->admin_sidebar_flex_basis,
-            'adminProductsColumnSizes' => collect(H::admin()->admin_products_column_sizes)->map([$this, '_columnSizeMapCB'])->filter()->all(),
-            'adminProductVariationsColumnSizes' => collect(H::admin()->admin_product_variations_column_sizes)->map([$this, '_columnSizeMapCB'])->filter()->all(),
-            'adminOrdersColumnSizes' => collect(H::admin()->admin_orders_column_sizes)->map([$this, '_columnSizeMapCB'])->filter()->all(),
             'availabilityStatuses' => AvailabilityStatusResource::collection(AvailabilityStatus::cachedAll()),
             'billStatuses' => BillStatusResource::collection(BillStatus::cachedAll()),
             'currencies' => CurrencyResource::collection(Currency::cachedAll()),
@@ -120,27 +100,5 @@ class HandleInertiaRequests extends Middleware
             'galleryItemOptions' => GalleryItem::getGalleryItemOption(),
             'categoryProductTypeOptions' => Category::getProductTypeOptions(),
         ]);
-    }
-
-    /**
-     * @param string $value
-     * @param int $key
-     *
-     * @return array|null
-     */
-    public function _columnSizeMapCB(string $value, int $key): ?array
-    {
-        $enum = Column::tryFrom($key);
-        if (! $enum) {
-            return null;
-        }
-
-        return [
-            'column' => [
-                'value' => $enum->value,
-                'label' => $enum->label,
-            ],
-            'width' => $value,
-        ];
     }
 }

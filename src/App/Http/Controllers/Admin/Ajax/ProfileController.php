@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Ajax;
 
 use App\Http\Controllers\Admin\BaseAdminController;
 use App\Http\Requests\Admin\Ajax\AdminProfileUpdateRequest;
+use App\Http\Resources\Admin\ProfileResource;
 use Domain\Common\Enums\Column;
 use Domain\Orders\Actions\GetDefaultAdminOrderColumnsAction;
 use Domain\Products\Actions\GetDefaultAdminProductColumnsAction;
@@ -18,9 +19,9 @@ class ProfileController extends BaseAdminController
     /**
      * @param \App\Http\Requests\Admin\Ajax\AdminProfileUpdateRequest $request
      *
-     * @return array[]
+     * @return array
      */
-    public function update(AdminProfileUpdateRequest $request)
+    public function update(AdminProfileUpdateRequest $request): array
     {
         $hasChanges = false;
 
@@ -89,17 +90,7 @@ class ProfileController extends BaseAdminController
         /** @var \Domain\Users\Models\Admin $admin */
         $admin = Admin::query()->findOrFail($request->admin->id);
 
-        return [
-            'settings' => [
-                'adminSidebarFlexBasis' => $admin->admin_sidebar_flex_basis,
-                'adminOrderColumns' => $admin->admin_order_columns_arr,
-                'adminProductColumns' => $admin->admin_product_columns_arr,
-                'adminProductVariantColumns' => $admin->admin_product_variant_columns_arr,
-                'adminProductsColumnSizes' => $admin->admin_products_column_sizes,
-                'adminProductVariationsColumnSizes' => $admin->admin_product_variations_column_sizes,
-                'adminOrdersColumnSizes' => $admin->admin_orders_column_sizes,
-            ],
-        ];
+        return (new ProfileResource($admin))->toArray($request);
     }
 
     /**

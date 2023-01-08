@@ -1,13 +1,16 @@
-import { defineStore } from "pinia"
+import {defineStore} from "pinia"
 import {
     Column,
     ColumnName,
     ColumnSize,
+    ResizeColumnType,
+    SizeColumnsRequestParams,
+    SortColumnsRequestParams
 } from "@/admin/inertia/modules/columns/types"
 import axios from "axios"
-import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
-import { useAuthStore } from "@/admin/inertia/modules/auth"
-import { ProfileUpdateResponse } from "@/admin/inertia/modules/common/types"
+import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
+import {useAuthStore} from "@/admin/inertia/modules/auth"
+import {ProfileResponse} from "@/admin/inertia/modules/common/types"
 
 export const storeName = "columns"
 
@@ -19,6 +22,14 @@ interface State {
     _adminProductsColumnSizes: Array<ColumnSize>
     _adminProductVariationsColumnSizes: Array<ColumnSize>
     _adminOrdersColumnSizes: Array<ColumnSize>
+    _someColumnResized: {
+        [key in ResizeColumnType] : boolean
+    }
+    _tempColumnSizes: {
+        [key in ResizeColumnType] : {
+            [ key in string|number ]? : ColumnSize
+        }
+    }
 }
 
 export const useColumnsStore = defineStore(storeName, {
@@ -31,6 +42,16 @@ export const useColumnsStore = defineStore(storeName, {
             _adminProductsColumnSizes: [],
             _adminProductVariationsColumnSizes: [],
             _adminOrdersColumnSizes: [],
+            _someColumnResized: {
+                [ResizeColumnType.adminProductColumns]: false,
+                [ResizeColumnType.adminProductVariantColumns]: false,
+                [ResizeColumnType.adminOrderColumns]: false,
+            },
+            _tempColumnSizes: {
+                [ResizeColumnType.adminProductColumns]: {},
+                [ResizeColumnType.adminProductVariantColumns]: {},
+                [ResizeColumnType.adminOrderColumns]: {},
+            }
         }
     },
     getters: {
@@ -77,6 +98,9 @@ export const useColumnsStore = defineStore(storeName, {
                 )
             }
         },
+        someColumnResized(state: State) {
+            return (type: ResizeColumnType): boolean => state._someColumnResized[type]
+        }
     },
     actions: {
         setAdminOrderColumns(columns: Array<Column>): void {
@@ -97,25 +121,42 @@ export const useColumnsStore = defineStore(storeName, {
         setAdminOrdersColumnSizes(sizes: Array<ColumnSize>): void {
             this._adminOrdersColumnSizes = sizes
         },
+        setSomeColumnResized(type: ResizeColumnType, isResized: boolean): void {
+            this._someColumnResized[type] = isResized
+        },
+        setTempColumnSize(type: ResizeColumnType, column: Column, width: number|string): void {
+            this._tempColumnSizes[type][column.value] = {
+                column,
+                width
+            }
+        },
+        async handleStoreColumnSizes(type: ResizeColumnType, requestParams: SizeColumnsRequestParams): Promise<void> {
+            const routesStore = useRoutesStore()
+            const authStore = useAuthStore()
+
+            try {
+
+            } catch (e) {
+                console.warn(e)
+            }
+        },
         async handleSortColumns(
             requestParams: SortColumnsRequestParams
         ): Promise<void> {
             this._loading = true
-            try {
-                const routesStore = useRoutesStore()
-                const authStore = useAuthStore()
+            const routesStore = useRoutesStore()
+            const authStore = useAuthStore()
 
+            try {
                 const {
                     data: {
-                        settings: {
-                            adminOrderColumns,
-                            adminProductColumns,
-                            adminProductVariantColumns,
-                        },
+                        adminOrderColumns,
+                        adminProductColumns,
+                        adminProductVariantColumns,
                     },
                     status,
                     statusText,
-                } = await axios.put<ProfileUpdateResponse>(
+                } = await axios.put<ProfileResponse>(
                     routesStore.route(
                         routeNames.ROUTE_ADMIN_AJAX_PROFILE_UPDATE,
                         { admin: authStore.userId }
@@ -251,12 +292,3 @@ export const getColumn = (key: ColumnName): Column => {
 
 export const isSortableColumn = (column: Column, name: ColumnName): boolean =>
     column.value === getColumn(name).value
-
-interface SortColumnsRequestParams {
-    adminOrderColumns?: Array<number>
-    adminOrderColumnsDefault?: boolean
-    adminProductColumns?: Array<number>
-    adminProductColumnsDefault?: boolean
-    adminProductVariantColumns?: Array<number>
-    adminProductVariantColumnsDefault?: boolean
-}

@@ -1,5 +1,6 @@
 import { DefineComponent } from "@vue/runtime-core"
-import { Column } from "@/admin/inertia/modules/columns/types"
+import {Column, ColumnSize} from "@/admin/inertia/modules/columns/types"
+import {Auth} from "@/admin/inertia/modules/auth/types";
 
 export interface Errors {
     [key: string]: Array<string>
@@ -121,11 +122,13 @@ export interface MetaLink {
     page?: number
 }
 
-export type ProfileUpdateResponse = {
-    settings: {
-        adminSidebarFlexBasis: string | number
-        adminOrderColumns: Array<Column>
-        adminProductColumns: Array<Column>
-        adminProductVariantColumns: Array<Column>
-    }
+export interface ProfileResponse {
+    auth: Auth
+    adminSidebarFlexBasis: string | number | null
+    adminOrderColumns: Array<Column>
+    adminProductColumns: Array<Column>
+    adminProductVariantColumns: Array<Column>
+    adminProductsColumnSizes: Array<ColumnSize>
+    adminProductVariationsColumnSizes: Array<ColumnSize>
+    adminOrdersColumnSizes: Array<ColumnSize>
 }

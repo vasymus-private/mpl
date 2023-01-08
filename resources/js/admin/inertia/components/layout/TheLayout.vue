@@ -8,7 +8,7 @@ import {useProfileStore} from "@/admin/inertia/modules/profile"
 import {Toasts, useToastsStore} from "@/admin/inertia/modules/toasts"
 import {useAuthStore} from "@/admin/inertia/modules/auth"
 import {useRoutesStore, routeNames} from "@/admin/inertia/modules/routes"
-import {ProfileUpdateResponse} from "@/admin/inertia/modules/common/types";
+import {ProfileResponse} from "@/admin/inertia/modules/common/types"
 
 
 const modalsStore = useModalsStore()
@@ -54,7 +54,11 @@ const onMouseUpCB = async () => {
     isClicked.value = false
 
     try {
-        let {data: {settings : {adminSidebarFlexBasis}}} = await axios.put<ProfileUpdateResponse>(routesStore.route(routeNames.ROUTE_ADMIN_AJAX_PROFILE_UPDATE, {admin: authStore.userId}), {
+        let {
+            data: {
+                adminSidebarFlexBasis
+            }
+        } = await axios.put<ProfileResponse>(routesStore.route(routeNames.ROUTE_ADMIN_AJAX_PROFILE_UPDATE, {admin: authStore.userId}), {
             adminSidebarFlexBasis: `${profileStore.adminSidebarFlexBasis}px`,
         })
 
