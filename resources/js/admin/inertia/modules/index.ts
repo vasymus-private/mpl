@@ -1,4 +1,4 @@
-import {Column, ColumnSize} from "@/admin/inertia/modules/columns/types"
+import { Column, ColumnSize } from "@/admin/inertia/modules/columns/types"
 import {
     Article,
     ArticleListItem,
@@ -230,7 +230,9 @@ export const initFromPageProps = (
     columnsStore.setAdminProductColumns(adminProductColumns)
     columnsStore.setAdminProductVariantColumns(adminProductVariantColumns)
     columnsStore.setAdminProductsColumnSizes(adminProductsColumnSizes)
-    columnsStore.setAdminProductVariationsColumnSizes(adminProductVariationsColumnSizes)
+    columnsStore.setAdminProductVariationsColumnSizes(
+        adminProductVariationsColumnSizes
+    )
     columnsStore.setAdminOrdersColumnSizes(adminOrdersColumnSizes)
 
     const brandsStore = useBrandsStore(pinia)

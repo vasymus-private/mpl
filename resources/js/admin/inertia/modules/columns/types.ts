@@ -39,5 +39,5 @@ export enum ColumnName {
 
 export interface ColumnSize {
     column: Column
-    width: number|string
+    width: number | string
 }

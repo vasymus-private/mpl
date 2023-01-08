@@ -131,7 +131,7 @@ class HandleInertiaRequests extends Middleware
     public function _columnSizeMapCB(string $value, int $key): ?array
     {
         $enum = Column::tryFrom($key);
-        if (!$enum) {
+        if (! $enum) {
             return null;
         }
 
