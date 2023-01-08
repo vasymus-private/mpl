@@ -34,7 +34,12 @@ import { OrderStatus } from "@/admin/inertia/modules/orderStatuses/types"
 import { useOrderStatusesStore } from "@/admin/inertia/modules/orderStatuses"
 import { CharType } from "@/admin/inertia/modules/charTypes/types"
 import { useCharTypesStore } from "@/admin/inertia/modules/charTypes"
-import {Links, Meta, Option, ProfileResponse} from "@/admin/inertia/modules/common/types"
+import {
+    Links,
+    Meta,
+    Option,
+    ProfileResponse,
+} from "@/admin/inertia/modules/common/types"
 import { useRoutesStore } from "@/admin/inertia/modules/routes"
 import { useProfileStore } from "@/admin/inertia/modules/profile"
 import { Brand, BrandListItem } from "@/admin/inertia/modules/brands/types"
