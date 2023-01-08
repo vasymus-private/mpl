@@ -1,5 +1,9 @@
 import { defineStore } from "pinia"
-import { Column, ColumnName, ColumnSize } from "@/admin/inertia/modules/columns/types"
+import {
+    Column,
+    ColumnName,
+    ColumnSize,
+} from "@/admin/inertia/modules/columns/types"
 import axios from "axios"
 import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
 import { useAuthStore } from "@/admin/inertia/modules/auth"
@@ -30,24 +34,29 @@ export const useColumnsStore = defineStore(storeName, {
         }
     },
     getters: {
-        adminOrderColumns: (state: State): Array<Column> => state._adminOrderColumns,
+        adminOrderColumns: (state: State): Array<Column> =>
+            state._adminOrderColumns,
         adminProductColumns: (state: State): Array<Column> =>
             state._adminProductColumns,
         adminProductVariantColumns: (state: State): Array<Column> =>
             state._adminProductVariantColumns,
         adminProductsColumnSize(state: State) {
-            return (column: Column): ColumnSize|undefined => {
-                return state._adminProductsColumnSizes.find(columnSize => columnSize.column.value === column.value)
+            return (column: Column): ColumnSize | undefined => {
+                return state._adminProductsColumnSizes.find(
+                    (columnSize) => columnSize.column.value === column.value
+                )
             }
         },
         adminProductsColumnWidth() {
             return (column: Column): string => {
-                const columnSize = this.adminProductsColumnSize(column) as ColumnSize|undefined
+                const columnSize = this.adminProductsColumnSize(column) as
+                    | ColumnSize
+                    | undefined
                 if (!columnSize) {
-                    return 'auto'
+                    return "auto"
                 }
 
-                if (typeof columnSize.width === 'number') {
+                if (typeof columnSize.width === "number") {
                     return `${columnSize.width}px`
                 }
 
@@ -55,15 +64,19 @@ export const useColumnsStore = defineStore(storeName, {
             }
         },
         adminProductVariationsColumnSize(state: State) {
-            return (column: Column): ColumnSize|undefined => {
-                return state._adminProductVariationsColumnSizes.find(columnSize => columnSize.column.value === column.value)
+            return (column: Column): ColumnSize | undefined => {
+                return state._adminProductVariationsColumnSizes.find(
+                    (columnSize) => columnSize.column.value === column.value
+                )
             }
         },
         adminOrdersColumnSize(state: State) {
-            return (column: Column): ColumnSize|undefined => {
-                return state._adminOrdersColumnSizes.find(columnSize => columnSize.column.value === column.value)
+            return (column: Column): ColumnSize | undefined => {
+                return state._adminOrdersColumnSizes.find(
+                    (columnSize) => columnSize.column.value === column.value
+                )
             }
-        }
+        },
     },
     actions: {
         setAdminOrderColumns(columns: Array<Column>): void {
