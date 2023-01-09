@@ -10,6 +10,8 @@ interface GeoIpInterface
      * @param string $ip
      *
      * @return IpItemDTO
+     *
+     * @throws \Support\GeoIp\Exceptions\GeoIpFailedDependencyException
      */
     public function getIpInfo(string $ip): IpItemDTO;
 }

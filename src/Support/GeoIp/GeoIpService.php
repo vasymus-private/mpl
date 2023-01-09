@@ -11,16 +11,23 @@ use Support\GeoIp\Exceptions\GeoIpFailedDependencyException;
 
 class GeoIpService implements GeoIpInterface
 {
-    protected $apiKey;
+    /**
+     * @var string|null
+     */
+    protected ?string $apiKey;
 
-    protected $apiUrl;
+    /**
+     * @var string|null
+     */
+    protected ?string $apiUrl;
 
+    /**
+     * @param array $config
+     */
     public function __construct(array $config)
     {
-        $this->validateConfig($config);
-
-        $this->apiKey = $config['apiKey'];
-        $this->apiUrl = $config['apiUrl'];
+        $this->apiKey = $config['apiKey'] ?? null;
+        $this->apiUrl = $config['apiUrl'] ?? null;
     }
 
     /**
@@ -28,7 +35,7 @@ class GeoIpService implements GeoIpInterface
      *
      * @return IpItemDTO
      *
-     * @throws GeoIpFailedDependencyException
+     * @throws \Support\GeoIp\Exceptions\GeoIpFailedDependencyException
      * */
     public function getIpInfo(string $ip): IpItemDTO
     {
@@ -39,22 +46,10 @@ class GeoIpService implements GeoIpInterface
             ])->throw(function ($response, $e) {
                 Log::error($e);
             })->json();
-        } catch (RequestException $exception) {
+        } catch (RequestException) {
             throw new GeoIpFailedDependencyException();
         }
 
         return IpItemDTO::fromResponse($response);
-    }
-
-    protected function validateConfig(array $config): bool
-    {
-        $apiKey = $config['apiKey'] ?? null;
-        $apiUrl = $config['apiUrl'] ?? null;
-
-        if (! $apiKey || ! $apiUrl) {
-            throw new \LogicException("'apiKey' or 'apiUrl' not provided for GeoIp.");
-        }
-
-        return true;
     }
 }
