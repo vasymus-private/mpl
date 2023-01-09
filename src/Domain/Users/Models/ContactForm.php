@@ -63,7 +63,7 @@ class ContactForm extends BaseModel implements HasMedia
     /**
      * @return string|null
      */
-    public function getTypeNameAttribute():? string
+    public function getTypeNameAttribute(): ?string
     {
         switch ($this->type) {
             case static::TYPE_QUESTION: {

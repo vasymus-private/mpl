@@ -10,8 +10,6 @@ class TestController extends Controller
 {
     public function test(Request $request)
     {
-        dump($request->ip());
-        return view('test');
     }
 
     public function testEmailOrderMarkup()
