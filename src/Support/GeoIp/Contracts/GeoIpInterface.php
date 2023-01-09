@@ -12,5 +12,4 @@ interface GeoIpInterface
      * @return IpItemDTO
      */
     public function getIpInfo(string $ip): IpItemDTO;
-
 }

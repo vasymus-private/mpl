@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Support\GeoIp\Exceptions;
-
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
 

@@ -35,7 +35,7 @@ class GeoIpService implements GeoIpInterface
         try {
             $response = Http::get($this->apiUrl, [
                 'apiKey' => $this->apiKey,
-                'ip' => $ip
+                'ip' => $ip,
             ])->throw(function ($response, $e) {
                 Log::error($e);
             })->json();
@@ -51,7 +51,9 @@ class GeoIpService implements GeoIpInterface
         $apiKey = $config['apiKey'] ?? null;
         $apiUrl = $config['apiUrl'] ?? null;
 
-        if (!$apiKey || !$apiUrl) throw new \LogicException("'apiKey' or 'apiUrl' not provided for GeoIp.");
+        if (! $apiKey || ! $apiUrl) {
+            throw new \LogicException("'apiKey' or 'apiUrl' not provided for GeoIp.");
+        }
 
         return true;
     }

@@ -14,7 +14,7 @@ class GeoIpServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind( GeoIpInterface::class, function ($app) {
+        $this->app->bind(GeoIpInterface::class, function ($app) {
             $config = $app->make('config')->get('services');
 
             return new GeoIpService($config['ipGeoLocation'] ?? []);

@@ -149,7 +149,7 @@ class IpItemDTO extends DataTransferObject
     /**
      * @var int|float|null
      */
-    public  $time_zone_current_time_unix;
+    public $time_zone_current_time_unix;
 
     /**
      * @var bool|null

@@ -12,7 +12,7 @@ use Support\GeoIp\GeoIpService;
  *
  * @see GeoIpService
  * */
-class GeoIp  extends Facade
+class GeoIp extends Facade
 {
     /**
      * Get the registered name of the component.

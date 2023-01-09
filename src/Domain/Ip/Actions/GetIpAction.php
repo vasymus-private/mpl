@@ -20,7 +20,7 @@ class GetIpAction extends BaseAction
             return null;
         }
 
-        /** @var \Domain\Ip\Models\Ip $data */
+        /** @var \Domain\Ip\Models\Ip|null $data */
         $data = Ip::query()
             ->where(Ip::TABLE . ".ip", $ipAddress)
             ->first();
