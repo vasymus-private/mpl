@@ -384,8 +384,8 @@ export const routeNames = {
     ROUTE_ADMIN_GALLERY_ITEMS_CREATE: "admin.gallery-items.create",
     ROUTE_ADMIN_GALLERY_ITEMS_EDIT: "admin.gallery-items.edit",
 
-    ROUTE_ADMIN_CONTACT_FORMS_INDEX: 'admin.contact-forms.index',
-    ROUTE_ADMIN_CONTACT_FORMS_SHOW: 'admin.contact-forms.create',
+    ROUTE_ADMIN_CONTACT_FORMS_INDEX: "admin.contact-forms.index",
+    ROUTE_ADMIN_CONTACT_FORMS_SHOW: "admin.contact-forms.create",
 
     ROUTE_ADMIN_EXPORT_PRODUCTS_INDEX: "admin.export-products.index",
     ROUTE_ADMIN_EXPORT_PRODUCTS_SHOW: "admin.export-products.show",
@@ -414,7 +414,8 @@ export const routeNames = {
     ROUTE_ADMIN_AJAX_GALLERY_ITEMS_BULK_DELETE:
         "admin-ajax.gallery-item.bulk.delete",
 
-    ROUTE_ADMIN_AJAX_CONTACT_FORMS_BULK_DELETE: 'admin-ajax.contact-forms.bulk.delete',
+    ROUTE_ADMIN_AJAX_CONTACT_FORMS_BULK_DELETE:
+        "admin-ajax.contact-forms.bulk.delete",
 
     ROUTE_ADMIN_AJAX_PRODUCTS_STORE: "admin-ajax.products.store",
     ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE: "admin-ajax.products.update",
