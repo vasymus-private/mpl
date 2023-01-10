@@ -19,8 +19,7 @@ class NotifyUserContactFormCreated implements ShouldQueue
      */
     public function handle(ContactFormCreatedEvent $event)
     {
-        Mail
-            ::to($event->contactForm->email)
+        Mail::to($event->contactForm->email)
             ->send(new ContactFormCreatedUserMail(
                 $event->contactForm,
                 Admin::getCentralAdmin()->email

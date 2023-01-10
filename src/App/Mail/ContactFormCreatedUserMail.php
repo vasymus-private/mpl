@@ -2,7 +2,6 @@
 
 namespace App\Mail;
 
-use Domain\Users\Models\Admin;
 use Domain\Users\Models\ContactForm;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -14,7 +13,8 @@ use Illuminate\Queue\SerializesModels;
 
 class ContactFormCreatedUserMail extends Mailable implements ShouldQueue
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * Create a new message instance.
@@ -22,7 +22,8 @@ class ContactFormCreatedUserMail extends Mailable implements ShouldQueue
      * @return void
      */
     public function __construct(public ContactForm $contactForm, protected string $fromEmail)
-    {}
+    {
+    }
 
     /**
      * Get the message envelope.
