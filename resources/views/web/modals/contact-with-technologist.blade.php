@@ -56,6 +56,11 @@
                     @enderror
                 @endif
             </div>
+
+            @error('blacklist')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
+
             <div class="form-group">
                 <button type="submit" class="pull-right btn-blue fixsize">Отправить</button>
             </div>

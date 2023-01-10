@@ -80,6 +80,11 @@
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
             </div>
+
+            @error('blacklist')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
+
             <div class="form-group">
                 <label><em>*</em> - обязательные для заполнения поля</label>
                 <input type="submit" value="Отправить вопрос" class="btn-submit" />

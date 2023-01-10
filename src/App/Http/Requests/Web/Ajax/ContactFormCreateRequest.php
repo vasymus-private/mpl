@@ -3,8 +3,10 @@
 namespace App\Http\Requests\Web\Ajax;
 
 use App\Constants;
+use Domain\Users\Models\Blacklist;
 use Domain\Users\Models\ContactForm;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Http\FormRequest;
 use Support\H;
 
@@ -86,6 +88,40 @@ class ContactFormCreateRequest extends FormRequest
             'type' => sprintf('required|in:%s', implode(',', static::TYPES)),
             'captcha' => 'required|captcha',
         ];
+    }
+
+    /**
+     * Configure the validator instance.
+     *
+     * @param \Illuminate\Validation\Validator $validator
+     *
+     * @return void
+     */
+    public function withValidator(Validator $validator)
+    {
+        $validator->after(function (Validator $validator) {
+            $ip = $this->ip();
+
+            if (!$ip && !$this->email) {
+                return;
+            }
+
+            $inBlacklist = Blacklist::query()
+                ->where(function(Builder $query) use($ip) {
+                    if ($ip) {
+                        $query->where('ip', $ip);
+                    }
+
+                    if ($this->email) {
+                        $query->orWhere('email', $this->email);
+                    }
+                })
+                ->exists();
+
+            if ($inBlacklist) {
+                $validator->errors()->add('blacklist', "Вы заблокированы.");
+            }
+        });
     }
 
     protected function failedValidation(Validator $validator)

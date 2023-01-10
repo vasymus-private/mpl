@@ -20,7 +20,7 @@
                 <input type="hidden" name="type" value="{{ \Domain\Users\Models\ContactForm::TYPE_CONTACT }}">
 
                 <div class="form-group">
-                    <p>Пишите нам на <strong><a href="mailto:market-parket@mail.ru">market-parket@mail.ru</a></strong> или через форму:</p>
+                    <p>Пишите нам на <strong><a href="mailto:parket-lux@mail.ru">parket-lux@mail.ru</a></strong> или через форму:</p>
                 </div>
 
                 <div class="form-group @error('name') is-invalid @enderror">
@@ -89,6 +89,10 @@
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
+
+                @error('blacklist')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
 
                 <div class="form-group">
                     <label><em>*</em> - обязательные для заполнения поля</label>
