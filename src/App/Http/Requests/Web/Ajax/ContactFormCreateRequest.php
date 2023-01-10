@@ -102,12 +102,12 @@ class ContactFormCreateRequest extends FormRequest
         $validator->after(function (Validator $validator) {
             $ip = $this->ip();
 
-            if (!$ip && !$this->email) {
+            if (! $ip && ! $this->email) {
                 return;
             }
 
             $inBlacklist = Blacklist::query()
-                ->where(function(Builder $query) use($ip) {
+                ->where(function (Builder $query) use ($ip) {
                     if ($ip) {
                         $query->where('ip', $ip);
                     }
