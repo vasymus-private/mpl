@@ -4,8 +4,8 @@ namespace Domain\Ip\Actions;
 
 use Domain\Common\Actions\BaseAction;
 use Domain\Ip\Models\Ip;
-use Support\GeoIp\Exceptions\GeoIpFailedDependencyException;
 use Support\GeoIp\Facades\GeoIp;
+use Throwable;
 
 class GetIpAction extends BaseAction
 {
@@ -31,7 +31,7 @@ class GetIpAction extends BaseAction
 
         try {
             $ipItemDto = GeoIp::getIpInfo($ipAddress);
-        } catch (GeoIpFailedDependencyException) {
+        } catch (Throwable) {
             return null;
         }
 

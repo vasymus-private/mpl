@@ -13,6 +13,7 @@
 
 use App\Constants;
 use App\Http\Controllers\Admin\ArticlesController;
+use App\Http\Controllers\Admin\BlacklistController;
 use App\Http\Controllers\Admin\BrandsController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\ContactFormsController;
@@ -311,6 +312,28 @@ get(
     [ContactFormsController::class, 'show']
 )
     ->name(Constants::ROUTE_ADMIN_CONTACT_FORMS_SHOW)
+;
+
+Route::
+get(
+    'blacklist',
+    [BlacklistController::class, 'index']
+)
+    ->name(Constants::ROUTE_ADMIN_BLACKLIST_INDEX)
+;
+Route::
+get(
+    'blacklist/create',
+    [BlacklistController::class, 'create']
+)
+    ->name(Constants::ROUTE_ADMIN_BLACKLIST_CREATE)
+;
+Route::
+get(
+    'blacklist/{admin_blacklist}/edit',
+    [BlacklistController::class, 'edit']
+)
+    ->name(Constants::ROUTE_ADMIN_BLACKLIST_EDIT)
 ;
 
 Route::get('---test-inertia', [TestInertiaController::class, 'index'])->name('admin.test.inertia');

@@ -4,13 +4,11 @@ namespace Support\GeoIp\Facades;
 
 use Illuminate\Support\Facades\Facade;
 use Support\GeoIp\Contracts\GeoIpInterface;
-use Support\GeoIp\DTOs\IpItemDTO;
-use Support\GeoIp\GeoIpService;
 
 /**
- * @method static IpItemDTO getIpInfo(string $ip)
+ * @method static \Support\GeoIp\DTOs\IpItemDTO getIpInfo(string $ip)
  *
- * @see GeoIpService
+ * @see \Support\GeoIp\GeoIpService
  * */
 class GeoIp extends Facade
 {

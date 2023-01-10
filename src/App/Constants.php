@@ -82,7 +82,11 @@ final class Constants
     public const ROUTE_ADMIN_GALLERY_ITEMS_EDIT = 'admin.gallery-items.edit';
 
     public const ROUTE_ADMIN_CONTACT_FORMS_INDEX = 'admin.contact-forms.index';
-    public const ROUTE_ADMIN_CONTACT_FORMS_SHOW = 'admin.contact-forms.create';
+    public const ROUTE_ADMIN_CONTACT_FORMS_SHOW = 'admin.contact-forms.show';
+
+    public const ROUTE_ADMIN_BLACKLIST_INDEX = 'admin.blacklist.index';
+    public const ROUTE_ADMIN_BLACKLIST_CREATE = 'admin.blacklist.create';
+    public const ROUTE_ADMIN_BLACKLIST_EDIT = 'admin.blacklist.edit';
 
     public const ROUTE_ADMIN_EXPORT_PRODUCTS_INDEX = 'admin.export-products.index';
     public const ROUTE_ADMIN_EXPORT_PRODUCTS_SHOW = 'admin.export-products.show';
@@ -109,6 +113,9 @@ final class Constants
 
     public const ROUTE_ADMIN_AJAX_CONTACT_FORMS_BULK_DELETE = 'admin-ajax.contact-forms.bulk.delete';
 
+    public const ROUTE_ADMIN_AJAX_BLACKLIST_BULK_UPDATE = 'admin-ajax.blacklist.bulk.update';
+    public const ROUTE_ADMIN_AJAX_BLACKLIST_BULK_DELETE = 'admin-ajax.blacklist.bulk.delete';
+
     public const ROUTE_ADMIN_AJAX_PRODUCTS_STORE = 'admin-ajax.products.store';
     public const ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE = 'admin-ajax.products.update';
 
@@ -126,6 +133,9 @@ final class Constants
 
     public const ROUTE_ADMIN_AJAX_GALLERY_ITEM_STORE = 'admin-ajax.gallery-item.store';
     public const ROUTE_ADMIN_AJAX_GALLERY_ITEM_UPDATE = 'admin-ajax.gallery-item.update';
+
+    public const ROUTE_ADMIN_AJAX_BLACKLIST_STORE = 'admin-ajax.blacklist.store';
+    public const ROUTE_ADMIN_AJAX_BLACKLIST_UPDATE = 'admin-ajax.blacklist.update';
 
     public const ROUTE_ADMIN_AJAX_ORDERS_STORE = 'admin-ajax.orders.store';
     public const ROUTE_ADMIN_AJAX_ORDERS_UPDATE = 'admin-ajax.orders.update';

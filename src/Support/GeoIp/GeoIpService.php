@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Support\GeoIp\Contracts\GeoIpInterface;
 use Support\GeoIp\DTOs\IpItemDTO;
 use Support\GeoIp\Exceptions\GeoIpFailedDependencyException;
+use Throwable;
 
 class GeoIpService implements GeoIpInterface
 {
@@ -46,8 +47,8 @@ class GeoIpService implements GeoIpInterface
             ])->throw(function ($response, $e) {
                 Log::error($e);
             })->json();
-        } catch (RequestException) {
-            throw new GeoIpFailedDependencyException();
+        } catch (RequestException|Throwable $exception) {
+            throw new GeoIpFailedDependencyException($exception->getMessage());
         }
 
         return IpItemDTO::fromResponse($response);

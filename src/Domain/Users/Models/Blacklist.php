@@ -55,6 +55,11 @@ class Blacklist extends BaseModel
         static::saving($cb);
     }
 
+    public static function rbAdminBlacklist($value)
+    {
+        return static::query()->findOrFail($value);
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
