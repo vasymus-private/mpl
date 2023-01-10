@@ -1,7 +1,7 @@
 ;(function ($) {
     $().ready(() => {
-        let $successContactFormModal = $('#success-contact-form')
-        let $modalContactWithTechnologist = $('#contact-with-technologist')
+        let $successContactFormModal = $("#success-contact-form")
+        let $modalContactWithTechnologist = $("#contact-with-technologist")
 
         if (window.___successContactForm) {
             $.fancybox.open($successContactFormModal)
