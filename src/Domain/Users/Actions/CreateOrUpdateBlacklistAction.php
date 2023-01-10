@@ -3,7 +3,6 @@
 namespace Domain\Users\Actions;
 
 use Domain\Common\Actions\BaseAction;
-use Domain\GalleryItems\DTOs\GalleryItemDTO;
 use Domain\GalleryItems\Models\GalleryItem;
 use Domain\Users\DTOs\BlacklistDTO;
 use Domain\Users\Models\Blacklist;
