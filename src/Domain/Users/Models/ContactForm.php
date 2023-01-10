@@ -41,7 +41,7 @@ class ContactForm extends BaseModel implements HasMedia
 
     public const TYPE_QUESTION = 1;
     public const TYPE_CONTACT = 2;
-    public const TYPE_REQUEST_TECHNOLOGIES = 3;
+    public const TYPE_REQUEST_TECHNOLOGIST = 3;
 
     public const MC_FILES = "files";
 
@@ -72,7 +72,7 @@ class ContactForm extends BaseModel implements HasMedia
             case static::TYPE_CONTACT: {
                 return 'Отправить контакт';
             }
-            case static::TYPE_REQUEST_TECHNOLOGIES: {
+            case static::TYPE_REQUEST_TECHNOLOGIST: {
                 return 'Связаться с технологом';
             }
             default: {

@@ -23,6 +23,8 @@ import "./modules/putProductAside"
 import "./modules/product-sliders"
 import "./modules/orderPayment"
 import "./modules/oembed"
+import "./modules/contactForm"
+
 ;(($) => {
     // When DOM is ready
     $(() => {

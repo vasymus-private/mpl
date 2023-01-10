@@ -4,6 +4,7 @@ namespace App\Http\Requests\Web\Ajax;
 
 use App\Constants;
 use Domain\Users\Models\ContactForm;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Support\H;
 
@@ -13,7 +14,7 @@ use Support\H;
  * @property string|null $phone
  * @property string $description
  * @property \Symfony\Component\HttpFoundation\File\UploadedFile[]|null $files
- * @property int|null $type
+ * @property int|string $type
  */
 class ContactFormCreateRequest extends FormRequest
 {
@@ -38,7 +39,7 @@ class ContactFormCreateRequest extends FormRequest
     protected const TYPES = [
         ContactForm::TYPE_QUESTION,
         ContactForm::TYPE_CONTACT,
-        ContactForm::TYPE_REQUEST_TECHNOLOGIES,
+        ContactForm::TYPE_REQUEST_TECHNOLOGIST,
     ];
 
     /**
@@ -83,6 +84,16 @@ class ContactFormCreateRequest extends FormRequest
             'files' => 'nullable|array|max:3',
             'files.*' => sprintf('mimetypes:%s|max:%s', implode(',', static::MIME_TYPES), H::validatorMb(5)),
             'type' => sprintf('required|in:%s', implode(',', static::TYPES)),
+            'captcha' => 'required|captcha'
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        if ((int)$this->type === ContactForm::TYPE_REQUEST_TECHNOLOGIST) {
+            session()->flash('failedRequestTechnologist', 1);
+        }
+
+        parent::failedValidation($validator);
     }
 }

@@ -34,7 +34,7 @@ class ContactFormCreatedAdminMail extends Mailable implements ShouldQueue
     {
         return new Envelope(
             from: new Address($this->fromEmail, config('app.name')),
-            replyTo: $this->contactForm->email,
+            replyTo: [$this->contactForm->email],
             subject: 'Контактная Форма Создана'
         );
     }

@@ -48,7 +48,14 @@
     @include('web.layouts.footer')
     @include("web.modals.contact-with-technologist")
     @include("web.modals.consent-processing-personal-data")
+    @include("web.modals.success-contact-form")
     @include("web.layouts.back-to-top")
+    @if(session('successContactForm'))
+        <script>;window.___successContactForm = 1;</script>
+    @endif
+    @if(session('failedRequestTechnologist'))
+        <script>;window.___failedRequestTechnologist = 1;</script>
+    @endif
 </div>
 @include("web.templates-for-js.sidebar-menu-cart-item")
 </body>
