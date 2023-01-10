@@ -387,9 +387,9 @@ export const routeNames = {
     ROUTE_ADMIN_CONTACT_FORMS_INDEX: "admin.contact-forms.index",
     ROUTE_ADMIN_CONTACT_FORMS_SHOW: "admin.contact-forms.show",
 
-    ROUTE_ADMIN_BLACKLIST_INDEX: 'admin.blacklist.index',
-    ROUTE_ADMIN_BLACKLIST_CREATE: 'admin.blacklist.create',
-    ROUTE_ADMIN_BLACKLIST_EDIT: 'admin.blacklist.edit',
+    ROUTE_ADMIN_BLACKLIST_INDEX: "admin.blacklist.index",
+    ROUTE_ADMIN_BLACKLIST_CREATE: "admin.blacklist.create",
+    ROUTE_ADMIN_BLACKLIST_EDIT: "admin.blacklist.edit",
 
     ROUTE_ADMIN_EXPORT_PRODUCTS_INDEX: "admin.export-products.index",
     ROUTE_ADMIN_EXPORT_PRODUCTS_SHOW: "admin.export-products.show",
@@ -421,8 +421,8 @@ export const routeNames = {
     ROUTE_ADMIN_AJAX_CONTACT_FORMS_BULK_DELETE:
         "admin-ajax.contact-forms.bulk.delete",
 
-    ROUTE_ADMIN_AJAX_BLACKLIST_BULK_UPDATE: 'admin-ajax.blacklist.bulk.update',
-    ROUTE_ADMIN_AJAX_BLACKLIST_BULK_DELETE: 'admin-ajax.blacklist.bulk.delete',
+    ROUTE_ADMIN_AJAX_BLACKLIST_BULK_UPDATE: "admin-ajax.blacklist.bulk.update",
+    ROUTE_ADMIN_AJAX_BLACKLIST_BULK_DELETE: "admin-ajax.blacklist.bulk.delete",
 
     ROUTE_ADMIN_AJAX_PRODUCTS_STORE: "admin-ajax.products.store",
     ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE: "admin-ajax.products.update",
@@ -442,8 +442,8 @@ export const routeNames = {
     ROUTE_ADMIN_AJAX_GALLERY_ITEM_STORE: "admin-ajax.gallery-item.store",
     ROUTE_ADMIN_AJAX_GALLERY_ITEM_UPDATE: "admin-ajax.gallery-item.update",
 
-    ROUTE_ADMIN_AJAX_BLACKLIST_STORE: 'admin-ajax.blacklist.store',
-    ROUTE_ADMIN_AJAX_BLACKLIST_UPDATE: 'admin-ajax.blacklist.update',
+    ROUTE_ADMIN_AJAX_BLACKLIST_STORE: "admin-ajax.blacklist.store",
+    ROUTE_ADMIN_AJAX_BLACKLIST_UPDATE: "admin-ajax.blacklist.update",
 
     ROUTE_ADMIN_AJAX_ORDERS_STORE: "admin-ajax.orders.store",
     ROUTE_ADMIN_AJAX_ORDERS_UPDATE: "admin-ajax.orders.update",
