@@ -9,6 +9,5 @@ class ContactFormController extends BaseWebController
 {
     public function store(ContactFormCreateRequest $request)
     {
-
     }
 }

@@ -21,8 +21,7 @@ class NotifyAdminContactFormCreated implements ShouldQueue
     {
         $centralAdminEmail = Admin::getCentralAdmin()->email;
 
-        Mail::
-            to($centralAdminEmail)
+        Mail::to($centralAdminEmail)
             ->send(
                 new ContactFormCreatedAdminMail(
                     $event->contactForm,
