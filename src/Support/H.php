@@ -349,6 +349,6 @@ class H
      */
     public static function captchaImage(): string
     {
-        return Cache::store('array')->rememberForever('captcha-image', fn() => captcha_img());
+        return Cache::store('array')->rememberForever('captcha-image', fn () => captcha_img());
     }
 }

@@ -84,7 +84,7 @@ class ContactFormCreateRequest extends FormRequest
             'files' => 'nullable|array|max:3',
             'files.*' => sprintf('mimetypes:%s|max:%s', implode(',', static::MIME_TYPES), H::validatorMb(5)),
             'type' => sprintf('required|in:%s', implode(',', static::TYPES)),
-            'captcha' => 'required|captcha'
+            'captcha' => 'required|captcha',
         ];
     }
 
