@@ -6,6 +6,9 @@ use Domain\Products\Events\ProductViewedEvent;
 use Domain\Products\Listeners\MarkProductViewed;
 use Domain\Services\Events\ServiceViewedEvent;
 use Domain\Services\Listeners\MarkServiceViewed;
+use Domain\Users\Events\ContactFormCreatedEvent;
+use Domain\Users\Listeners\NotifyAdminContactFormCreated;
+use Domain\Users\Listeners\NotifyUserContactFormCreated;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -27,6 +30,10 @@ class EventServiceProvider extends ServiceProvider
         ServiceViewedEvent::class => [
             MarkServiceViewed::class,
         ],
+        ContactFormCreatedEvent::class => [
+            NotifyAdminContactFormCreated::class,
+            NotifyUserContactFormCreated::class,
+        ],
     ];
 
     /**
@@ -37,8 +44,6 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         parent::boot();
-
-        //
     }
 
     /**

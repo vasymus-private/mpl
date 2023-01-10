@@ -22,6 +22,9 @@ final class Constants
     public const MIME_XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
     public const MIME_XLS = "application/vnd.ms-excel";
     public const MIME_ZIP = 'application/zip';
+    public const MIME_VIDEO_AVI = 'video/avi';
+    public const MIME_VIDEO_MPEG = 'video/mpeg';
+    public const MIME_VIDEO_QUICKTIME = 'video/quicktime';
 
     public const ROUTE_WEB_HOME = 'home';
 

@@ -67,13 +67,13 @@ class ContactForm extends BaseModel implements HasMedia
     {
         switch ($this->type) {
             case static::TYPE_QUESTION: {
-                return 'вопрос';
+                return 'Задать вопрос';
             }
             case static::TYPE_CONTACT: {
-                return 'контакт';
+                return 'Отправить контакт';
             }
             case static::TYPE_REQUEST_TECHNOLOGIES: {
-                return 'технолог';
+                return 'Связаться с технологом';
             }
             default: {
                 return '';

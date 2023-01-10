@@ -35,7 +35,7 @@ class UsersAndAdminsTableSeeder extends BaseSeeder
         Admin::query()->forceCreate([
             'id' => Admin::ID_CENTRAL_ADMIN,
             'name' => 'Саша',
-            'email' => 'test@test.test',
+            'email' => 'parket-lux@mail.ru',
             'password' => $this->stdSecret,
             'status' => Admin::SUPER_ADMIN,
             'admin_color' => '#ffff99',
