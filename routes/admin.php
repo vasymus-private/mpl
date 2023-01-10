@@ -15,6 +15,7 @@ use App\Constants;
 use App\Http\Controllers\Admin\ArticlesController;
 use App\Http\Controllers\Admin\BrandsController;
 use App\Http\Controllers\Admin\CategoriesController;
+use App\Http\Controllers\Admin\ContactFormsController;
 use App\Http\Controllers\Admin\ExportProductController;
 use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\GalleryItemsController;
@@ -295,6 +296,21 @@ get(
     [GalleryItemsController::class, 'edit']
 )
     ->name(Constants::ROUTE_ADMIN_GALLERY_ITEMS_EDIT)
+;
+
+Route::
+get(
+    'contact-forms',
+    [ContactFormsController::class, 'index']
+)
+    ->name(Constants::ROUTE_ADMIN_CONTACT_FORMS_INDEX)
+;
+Route::
+get(
+    'contact-forms/{admin_contact_form}/show',
+    [ContactFormsController::class, 'show']
+)
+    ->name(Constants::ROUTE_ADMIN_CONTACT_FORMS_SHOW)
 ;
 
 Route::get('---test-inertia', [TestInertiaController::class, 'index'])->name('admin.test.inertia');

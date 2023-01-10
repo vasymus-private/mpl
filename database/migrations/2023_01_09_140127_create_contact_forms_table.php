@@ -14,6 +14,7 @@ return new class () extends Migration {
     {
         Schema::create('contact_forms', function (Blueprint $table) {
             $table->id();
+            $table->uuid()->nullable();
             $table->unsignedTinyInteger('type');
             $table->string('ip')->nullable();
             $table->string('name')->nullable();

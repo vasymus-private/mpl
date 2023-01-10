@@ -48,4 +48,13 @@ class Ip extends BaseModel
     protected $casts = [
         'meta' => 'array',
     ];
+
+    /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'meta' => '[]',
+    ];
 }

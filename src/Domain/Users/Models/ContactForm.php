@@ -6,11 +6,13 @@ use App\Providers\MediaLibraryServiceProvider;
 use Domain\Common\Models\BaseModel;
 use Domain\Ip\Models\Ip;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property int $id
+ * @property string|null $uuid
  * @property int $type
  * @property string|null $ip
  * @property string|null $name
@@ -53,6 +55,22 @@ class ContactForm extends BaseModel implements HasMedia
     protected $table = self::TABLE;
 
     /**
+     * @inheritDoc
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        $cb = function (self $model) {
+            if (! $model->uuid) {
+                $model->uuid = (string) Str::uuid();
+            }
+        };
+
+        static::saving($cb);
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function ipDetails(): BelongsTo
@@ -86,5 +104,10 @@ class ContactForm extends BaseModel implements HasMedia
         $this
             ->addMediaCollection(static::MC_FILES)
             ->useDisk(MediaLibraryServiceProvider::getPrivateMediaDisk());
+    }
+
+    public static function rbAdminContactForm($value)
+    {
+        return static::query()->findOrFail($value);
     }
 }
