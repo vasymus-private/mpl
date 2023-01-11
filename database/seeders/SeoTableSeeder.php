@@ -29,11 +29,11 @@ class SeoTableSeeder extends BaseSeeder
 
     protected function seedAppSeo()
     {
-        Seo::query()->insert([
-            "id" => Seo::ID_APP,
-            "title" => config('app.name'),
-            "keywords" => "Паркетные работы в Москве, укладка паркета, ремонт и циклевка паркета, тонирование паркета маслом",
-            "description" => "Качественные паркетные работы, гарантия на работу до 5 лет.",
-        ]);
+        /** @var \Domain\Seo\Models\Seo $seo */
+        $seo = Seo::query()->find(Seo::ID_APP) ?? new Seo();
+        $seo->title = config('app.name');
+        $seo->keywords = "Паркетные работы в Москве, укладка паркета, ремонт и циклевка паркета, тонирование паркета маслом";
+        $seo->description = "Качественные паркетные работы, гарантия на работу до 5 лет.";
+        $seo->save();
     }
 }
