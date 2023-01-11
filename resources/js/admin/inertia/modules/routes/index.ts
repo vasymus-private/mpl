@@ -489,6 +489,6 @@ export enum RouteTypeEnum {
     referenceFaq = "reference-faq",
     referenceContacts = "reference-contacts",
     referenceGalleryItems = "reference-gallery-items",
-    highload = 'highload',
+    highload = "highload",
     highloadBlacklist = "highload-blacklist",
 }

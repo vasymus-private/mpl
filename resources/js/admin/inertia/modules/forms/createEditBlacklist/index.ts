@@ -13,8 +13,8 @@ import { Inertia } from "@inertiajs/inertia"
 import { errorsToErrorFields } from "@/admin/inertia/modules/common"
 import * as yup from "yup"
 import { yupIntegerOrEmptyString } from "@/admin/inertia/utils"
-import {useBlacklistStore} from "@/admin/inertia/modules/blacklist"
-import {Blacklist} from "@/admin/inertia/modules/blacklist/types"
+import { useBlacklistStore } from "@/admin/inertia/modules/blacklist"
+import { Blacklist } from "@/admin/inertia/modules/blacklist/types"
 
 export const storeName = "createEditBlacklistForm"
 
@@ -65,9 +65,12 @@ export const useCreateEditBlacklistFormStore = defineStore(storeName, {
                     )
                     blacklist = response.data.data
                     Inertia.get(
-                        routesStore.route(routeNames.ROUTE_ADMIN_BLACKLIST_EDIT, {
-                            admin_blacklist: blacklist.id,
-                        })
+                        routesStore.route(
+                            routeNames.ROUTE_ADMIN_BLACKLIST_EDIT,
+                            {
+                                admin_blacklist: blacklist.id,
+                            }
+                        )
                     )
                 } else {
                     formData.append("_method", "PUT")
@@ -113,8 +116,7 @@ export const getFormSchema = () => {
 
 export const getWatchBlacklistToFormCb =
     (setValues: (a: object) => any) => (blacklist: Blacklist | null) => {
-        const { id, uuid, ip, email } =
-            blacklist || {}
+        const { id, uuid, ip, email } = blacklist || {}
 
         const values = {
             id,
@@ -130,10 +132,7 @@ const valuesToFormData = (values: Values): FormData => {
     let cfd = require("@/admin/inertia/utils/CustomFormData")
     const formData = new cfd.CustomFormData()
 
-    let stringOrNumberKeys: Array<keyof Values> = [
-        "ip",
-        "email",
-    ]
+    let stringOrNumberKeys: Array<keyof Values> = ["ip", "email"]
 
     stringOrNumberKeys.forEach((key) => {
         let value = values[key] as string | number | null | undefined

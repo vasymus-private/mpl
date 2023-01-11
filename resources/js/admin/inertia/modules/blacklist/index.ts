@@ -1,4 +1,7 @@
-import { BlacklistItem, Blacklist } from "@/admin/inertia/modules/blacklist/types"
+import {
+    BlacklistItem,
+    Blacklist,
+} from "@/admin/inertia/modules/blacklist/types"
 import {
     ErrorResponse,
     Links,
@@ -39,9 +42,9 @@ export const useBlacklistStore = defineStore(storeName, {
         getPerPageOption: (state: State): Option | null =>
             state._meta && state._meta.per_page
                 ? {
-                    value: state._meta.per_page,
-                    label: `${state._meta.per_page}`,
-                }
+                      value: state._meta.per_page,
+                      label: `${state._meta.per_page}`,
+                  }
                 : null,
         blacklist: (state: State): Blacklist | null => state._entity,
         isCreatingBlacklistRoute(): boolean {
@@ -116,7 +119,9 @@ export const useBlacklistStore = defineStore(storeName, {
                         routeNames.ROUTE_ADMIN_AJAX_BLACKLIST_BULK_DELETE
                     )
                 )
-                const checkedBlacklistIds = this.blacklistIds(checkedBlacklistUuids)
+                const checkedBlacklistIds = this.blacklistIds(
+                    checkedBlacklistUuids
+                )
                 checkedBlacklistIds.forEach((id) => {
                     url.searchParams.append("ids[]", `${id}`)
                 })

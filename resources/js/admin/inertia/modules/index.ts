@@ -55,10 +55,16 @@ import {
     GalleryItemListItem,
 } from "@/admin/inertia/modules/galleryItems/types"
 import { useGalleryItemsStore } from "@/admin/inertia/modules/galleryItems"
-import {ContactForm, ContactFormItem} from "@/admin/inertia/modules/contactForms/types"
-import {useContactFormsStore} from "@/admin/inertia/modules/contactForms"
-import {Blacklist, BlacklistItem} from "@/admin/inertia/modules/blacklist/types";
-import {useBlacklistStore} from "@/admin/inertia/modules/blacklist";
+import {
+    ContactForm,
+    ContactFormItem,
+} from "@/admin/inertia/modules/contactForms/types"
+import { useContactFormsStore } from "@/admin/inertia/modules/contactForms"
+import {
+    Blacklist,
+    BlacklistItem,
+} from "@/admin/inertia/modules/blacklist/types"
+import { useBlacklistStore } from "@/admin/inertia/modules/blacklist"
 
 export interface InitialPageProps {
     fullUrl: string
