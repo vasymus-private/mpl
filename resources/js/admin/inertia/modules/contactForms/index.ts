@@ -15,7 +15,7 @@ import {
     extendMetaLinksWithComputedData,
 } from "@/admin/inertia/modules/common"
 import axios, { AxiosError } from "axios"
-import {DateTime} from "luxon"
+import { DateTime } from "luxon"
 
 export const storeName = "contactForms"
 const format = "yyyy-LL-dd HH:mm:ss"

@@ -9,8 +9,8 @@ import { arrayToMap } from "@/admin/inertia/utils"
 import useFormHelpers from "@/admin/inertia/composables/useFormHelpers"
 import { ErrorResponse } from "@/admin/inertia/modules/common/types"
 import * as yup from "yup"
-import {useBlacklistStore} from "@/admin/inertia/modules/blacklist"
-import {BlacklistItem} from "@/admin/inertia/modules/blacklist/types"
+import { useBlacklistStore } from "@/admin/inertia/modules/blacklist"
+import { BlacklistItem } from "@/admin/inertia/modules/blacklist/types"
 
 export const storeName = "indexBlacklistForm"
 
@@ -21,8 +21,8 @@ export const useIndexBlacklistFormStore = defineStore(storeName, {
             values: Values
         ): Promise<void | Record<string, string | undefined>> {
             try {
-                let blacklistItemsToUpdate = values.blacklistItems.filter((item) =>
-                    checkedBlacklist.includes(item.uuid)
+                let blacklistItemsToUpdate = values.blacklistItems.filter(
+                    (item) => checkedBlacklist.includes(item.uuid)
                 )
                 if (!blacklistItemsToUpdate.length) {
                     return
@@ -35,7 +35,9 @@ export const useIndexBlacklistFormStore = defineStore(storeName, {
                         routeNames.ROUTE_ADMIN_AJAX_BLACKLIST_BULK_UPDATE
                     ),
                     {
-                        blacklistItems: arrayToMap<Partial<BlacklistItem>>(blacklistItemsToUpdate),
+                        blacklistItems: arrayToMap<Partial<BlacklistItem>>(
+                            blacklistItemsToUpdate
+                        ),
                     }
                 )
 
