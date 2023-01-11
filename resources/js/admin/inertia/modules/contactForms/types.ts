@@ -1,15 +1,15 @@
-import {IpDetails} from "@/admin/inertia/modules/common/types"
-import {DateTime} from "luxon"
+import { IpDetails } from "@/admin/inertia/modules/common/types"
+import { DateTime } from "luxon"
 
 export interface ContactFormItem {
     id: number
     uuid: string
     type: number
     type_name: string
-    email: string|null
-    name: string|null
-    phone: string|null
-    ipDetails: IpDetails|null
+    email: string | null
+    name: string | null
+    phone: string | null
+    ipDetails: IpDetails | null
 }
 
 export interface ContactForm {
@@ -17,11 +17,11 @@ export interface ContactForm {
     uuid: string
     type: number
     type_name: string
-    email: string|null
-    name: string|null
-    phone: string|null
-    description: string|null
-    ipDetails: IpDetails|null
+    email: string | null
+    name: string | null
+    phone: string | null
+    description: string | null
+    ipDetails: IpDetails | null
     created_at: string | null // parse from 'Y-m-d H:i:s'
     dt_created_at: DateTime | null // parse from 'Y-m-d H:i:s'
 }
