@@ -11,6 +11,7 @@ import {useToastsStore} from "@/admin/inertia/modules/toasts"
 import useCheckedItems from "@/admin/inertia/composables/useCheckedItems"
 import {useContactFormsStore} from "@/admin/inertia/modules/contactForms"
 import {ContactFormItem} from "@/admin/inertia/modules/contactForms/types"
+import IpDetails from '@/admin/inertia/components/parts/IpDetails.vue'
 
 
 const routesStore = useRoutesStore()
@@ -165,7 +166,23 @@ watchSelectAll()
                                 </div>
                             </div>
                         </td>
-                        <td><span class="main-grid-cell-content">{{contactFormItem.id}}</span></td>
+                        <td>
+                            <span class="main-grid-cell-content">
+                            <Link
+                                :href="routesStore.route(routeNames.ROUTE_ADMIN_CONTACT_FORMS_SHOW, {admin_contact_form: contactFormItem.id})"
+                                class="table__column-name"
+                                @click.stop=""
+                            >
+                                {{contactFormItem.id}}
+                            </Link>
+                            </span>
+                        </td>
+                        <td>
+                            <span class="main-grid-cell-content">{{contactFormItem.type_name}}</span>
+                        </td>
+                        <td>
+                            <span class="main-grid-cell-content">{{contactFormItem.email}}</span>
+                        </td>
                         <td>
                             <span class="main-grid-cell-content">
                                 <Link
@@ -178,24 +195,10 @@ watchSelectAll()
                             </span>
                         </td>
                         <td>
-                            <span class="main-grid-cell-content">{{contactFormItem.type_name}}</span>
-                        </td>
-                        <td>
-                            <span class="main-grid-cell-content">{{contactFormItem.email}}</span>
-                        </td>
-                        <td>
-                            <span class="main-grid-cell-content">{{contactFormItem.name}}</span>
-                        </td>
-                        <td>
                             <span class="main-grid-cell-content">{{contactFormItem.phone}}</span>
                         </td>
                         <td>
-                            <template v-if="contactFormItem.ipDetails">
-                                <p class="main-grid-cell-content">{{contactFormItem.ipDetails.ip}}</p>
-                                <p class="main-grid-cell-content" :title="contactFormItem.ipDetails.country_name">{{contactFormItem.ipDetails.country_a2}}</p>
-                                <p class="main-grid-cell-content"><img :src="contactFormItem.ipDetails.country_img" alt=""></p>
-                                <p class="main-grid-cell-content">{{contactFormItem.ipDetails.city}}</p>
-                            </template>
+                            <IpDetails v-if="contactFormItem.ipDetails" :ip-details="contactFormItem.ipDetails" />
                         </td>
                     </tr>
                     </tbody>

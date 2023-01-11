@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Admin;
 
 use App\Http\Controllers\Admin\IpResource;
+use Domain\Common\Models\CustomMedia;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;
 
@@ -39,6 +40,7 @@ class ContactFormResource extends JsonResource
             'created_at' => $this->resource->created_at instanceof Carbon
                 ? $this->resource->created_at->format('Y-m-d H:i:s')
                 : null,
+            'files' => $this->resource->files->map(fn (CustomMedia $media) => (new MediaResource($media))->toArray($request)),
         ];
     }
 }

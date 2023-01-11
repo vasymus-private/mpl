@@ -15,8 +15,10 @@ import {
     extendMetaLinksWithComputedData,
 } from "@/admin/inertia/modules/common"
 import axios, { AxiosError } from "axios"
+import {DateTime} from "luxon";
 
 export const storeName = "contactForms"
+const format = "yyyy-LL-dd HH:mm:ss"
 
 interface State {
     _entities: Array<ContactFormItem>
@@ -49,9 +51,14 @@ export const useContactFormsStore = defineStore(storeName, {
         contactForm: (state: State): ContactForm | null => state._entity,
         contactFormIds() {
             return (uuids: Array<string>): Array<number> => {
-                return this.contactFormList
+                let list = this.contactFormList
                     .filter((item) => uuids.includes(item.uuid))
                     .map((item) => item.id)
+                if (uuids.includes(this._entity?.uuid)) {
+                    list = [...list, this._entity.id]
+                }
+
+                return list
             }
         },
     },
@@ -69,7 +76,16 @@ export const useContactFormsStore = defineStore(storeName, {
                 : null
         },
         setEntity(entity: ContactForm | null): void {
-            this._entity = entity
+            if (!entity) {
+                this._entity = entity
+                return
+            }
+            this._entity = {
+                ...entity,
+                dt_created_at: entity.created_at
+                    ? DateTime.fromFormat(entity.created_at, format)
+                    : null,
+            }
         },
         removeEntities(uuids: Array<string>): void {
             this._entities = this._entities.filter(

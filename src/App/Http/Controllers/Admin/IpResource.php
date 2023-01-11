@@ -28,6 +28,7 @@ class IpResource extends JsonResource
             'country_name' => $this->resource->country_name,
             'country_img' => $this->resource->country_img,
             'city' => $this->resource->city,
+            'in_blacklist' => $this->resource->in_blacklist,
         ];
     }
 }

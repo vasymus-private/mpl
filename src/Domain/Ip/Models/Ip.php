@@ -3,6 +3,8 @@
 namespace Domain\Ip\Models;
 
 use Domain\Common\Models\BaseModel;
+use Domain\Users\Models\Blacklist;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property string $ip
@@ -12,6 +14,11 @@ use Domain\Common\Models\BaseModel;
  * @property string|null $country_img
  * @property string|null $city
  * @property array $meta
+ *
+ * @property int|null $blacklist_count
+ *
+ * @see \Domain\Ip\Models\Ip::getInBlacklistAttribute()
+ * @property bool $in_blacklist
  * */
 class Ip extends BaseModel
 {
@@ -57,4 +64,20 @@ class Ip extends BaseModel
     protected $attributes = [
         'meta' => '[]',
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function blacklist(): HasMany
+    {
+        return $this->hasMany(Blacklist::class, 'ip', 'ip');
+    }
+
+    /**
+     * @return bool
+     */
+    public function getInBlacklistAttribute(): bool
+    {
+        return $this->blacklist_count !== null && $this->blacklist_count > 0;
+    }
 }

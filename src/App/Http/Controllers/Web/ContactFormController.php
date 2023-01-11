@@ -7,6 +7,8 @@ use Domain\Ip\Actions\GetIpAction;
 use Domain\Users\Events\ContactFormCreatedEvent;
 use Domain\Users\Models\ContactForm;
 use Illuminate\Support\Carbon;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 
 class ContactFormController extends BaseWebController
 {
@@ -29,7 +31,15 @@ class ContactFormController extends BaseWebController
         $cf->created_at = Carbon::now();
         $cf->save();
 
-        event(new ContactFormCreatedEvent($cf));
+        foreach ($request->all()['files'] ?? [] as $file) {
+            try {
+                $cf->addMedia($file)->toMediaCollection(ContactForm::MC_FILES);
+            } catch (FileDoesNotExist|FileIsTooBig) {}
+        }
+
+        /** @var \Domain\Users\Models\ContactForm $cfFromDb */
+        $cfFromDb = ContactForm::query()->findOrFail($cf->id);
+        event(new ContactFormCreatedEvent($cfFromDb));
 
         return redirect()->back()->with('successContactForm', 1);
     }

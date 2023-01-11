@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 
 /**
  * @property int $id
@@ -27,6 +28,9 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  *
  * @see \Domain\Users\Models\ContactForm::getTypeNameAttribute()
  * @property string|null $type_name
+ *
+ * @see \Domain\Users\Models\ContactForm::getFilesAttribute()
+ * @property \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $files
  */
 class ContactForm extends BaseModel implements HasMedia
 {
@@ -75,7 +79,11 @@ class ContactForm extends BaseModel implements HasMedia
      */
     public function ipDetails(): BelongsTo
     {
-        return $this->belongsTo(Ip::class, "ip", "ip");
+        /** @var \Illuminate\Database\Eloquent\Relations\BelongsTo|\Illuminate\Database\Eloquent\Builder $ipQuery */
+        $ipQuery = $this->belongsTo(Ip::class, "ip", "ip");
+        $ipQuery->withCount('blacklist');
+
+        return $ipQuery;
     }
 
     /**
@@ -109,5 +117,10 @@ class ContactForm extends BaseModel implements HasMedia
     public static function rbAdminContactForm($value)
     {
         return static::query()->findOrFail($value);
+    }
+
+    public function getFilesAttribute(): MediaCollection
+    {
+        return $this->getMedia(static::MC_FILES);
     }
 }

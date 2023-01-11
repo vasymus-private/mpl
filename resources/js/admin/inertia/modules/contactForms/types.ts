@@ -1,4 +1,4 @@
-import { IpDetails } from "@/admin/inertia/modules/common/types"
+import {IpDetails, Media} from "@/admin/inertia/modules/common/types"
 import { DateTime } from "luxon"
 
 export interface ContactFormItem {
@@ -24,4 +24,5 @@ export interface ContactForm {
     ipDetails: IpDetails | null
     created_at: string | null // parse from 'Y-m-d H:i:s'
     dt_created_at: DateTime | null // parse from 'Y-m-d H:i:s'
+    files: Array<Media>
 }

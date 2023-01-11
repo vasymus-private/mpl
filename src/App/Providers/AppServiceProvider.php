@@ -11,6 +11,7 @@ use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
 use Domain\Services\Models\Service;
 use Domain\Users\Models\Admin;
+use Domain\Users\Models\ContactForm;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 
@@ -42,6 +43,7 @@ class AppServiceProvider extends ServiceProvider
             "articles" => Article::class,
             "services" => Service::class,
             "orders" => Order::class,
+            'contact_forms' => ContactForm::class,
         ]);
     }
 }

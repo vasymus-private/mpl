@@ -139,4 +139,5 @@ export interface IpDetails {
     country_name: string | null
     country_img: string | null
     city: string | null
+    in_blacklist: boolean
 }

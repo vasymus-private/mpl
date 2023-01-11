@@ -1,9 +1,7 @@
-import { Column, ColumnSize } from "@/admin/inertia/modules/columns/types"
 import {
     Article,
     ArticleListItem,
 } from "@/admin/inertia/modules/articles/types"
-import { Auth } from "@/admin/inertia/modules/auth/types"
 import {
     CategoriesTreeItem,
     Category,
@@ -57,6 +55,8 @@ import {
     GalleryItemListItem,
 } from "@/admin/inertia/modules/galleryItems/types"
 import { useGalleryItemsStore } from "@/admin/inertia/modules/galleryItems"
+import {ContactForm, ContactFormItem} from "@/admin/inertia/modules/contactForms/types"
+import {useContactFormsStore} from "@/admin/inertia/modules/contactForms"
 
 export interface InitialPageProps {
     fullUrl: string
@@ -120,6 +120,13 @@ export interface InitialPageProps {
         meta: Meta
     }
     galleryItem?: GalleryItem
+
+    contactForms?: {
+        data: Array<ContactFormItem>
+        links: Links
+        meta: Meta
+    }
+    contactForm?: ContactForm
 }
 
 /**
@@ -197,6 +204,12 @@ export const initFromPageProps = (
             meta: galleryItemListMeta = null,
         } = {},
         galleryItem = null,
+        contactForms: {
+            data: contactFormsEntities = [],
+            links: contactFormsEntitiesLinks = null,
+            meta: contactFormsEntitiesMeta = null,
+        } = {},
+        contactForm = null,
     } = initialPageProps
 
     // todo dev only
@@ -293,6 +306,12 @@ export const initFromPageProps = (
     galleryItemsStore.setMeta(galleryItemListMeta)
     galleryItemsStore.setEntity(galleryItem)
     galleryItemsStore.setOptions(galleryItemOptions)
+
+    const contactFormsStore = useContactFormsStore()
+    contactFormsStore.setEntities(contactFormsEntities)
+    contactFormsStore.setLinks(contactFormsEntitiesLinks)
+    contactFormsStore.setMeta(contactFormsEntitiesMeta)
+    contactFormsStore.setEntity(contactForm)
 
     // todo dev only
     if (typeof window !== "undefined") {
