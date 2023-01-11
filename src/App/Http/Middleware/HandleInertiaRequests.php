@@ -74,7 +74,7 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        // todo think of optimization
+        // todo think of optimization: move some options to according pages or cache
         return array_merge(parent::share($request), [
             'fullUrl' => $request->fullUrl(), // because of troubles of get full url on node js wrapper (for backend render via inertia)
             'flash' => function () use ($request) {

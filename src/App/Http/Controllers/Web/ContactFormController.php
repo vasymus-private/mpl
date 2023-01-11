@@ -23,7 +23,7 @@ class ContactFormController extends BaseWebController
 
         $cf = new ContactForm();
         $cf->type = $request->type;
-        $cf->ip = $ip->ip;
+        $cf->ip = $ip->ip ?? $request->ip();
         $cf->name = $request->name;
         $cf->email = $request->email;
         $cf->phone = $request->phone;
