@@ -1,33 +1,29 @@
-import { defineStore } from "pinia"
-import {
-    ContactFormItem,
-    ContactForm,
-} from "@/admin/inertia/modules/contactForms/types"
+import { BlacklistItem, Blacklist } from "@/admin/inertia/modules/blacklist/types"
 import {
     ErrorResponse,
     Links,
     Meta,
     Option,
 } from "@/admin/inertia/modules/common/types"
+import { defineStore } from "pinia"
 import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
 import {
     errorsToErrorFields,
     extendMetaLinksWithComputedData,
 } from "@/admin/inertia/modules/common"
 import axios, { AxiosError } from "axios"
-import {DateTime} from "luxon"
+import { arrayToMap } from "@/admin/inertia/utils"
 
-export const storeName = "contactForms"
-const format = "yyyy-LL-dd HH:mm:ss"
+export const storeName = "blacklist"
 
 interface State {
-    _entities: Array<ContactFormItem>
-    _entity: ContactForm | null
+    _entities: Array<BlacklistItem>
+    _entity: Blacklist | null
     _links: Links | null
     _meta: Meta | null
 }
 
-export const useContactFormsStore = defineStore(storeName, {
+export const useBlacklistStore = defineStore(storeName, {
     state: (): State => {
         return {
             _entities: [],
@@ -37,21 +33,27 @@ export const useContactFormsStore = defineStore(storeName, {
         }
     },
     getters: {
-        contactFormList: (state: State): Array<ContactFormItem> =>
-            state._entities,
+        blacklistItems: (state: State): Array<BlacklistItem> => state._entities,
         links: (state: State): Links | null => state._links,
         meta: (state: State): Meta | null => state._meta,
         getPerPageOption: (state: State): Option | null =>
             state._meta && state._meta.per_page
                 ? {
-                      value: state._meta.per_page,
-                      label: `${state._meta.per_page}`,
-                  }
+                    value: state._meta.per_page,
+                    label: `${state._meta.per_page}`,
+                }
                 : null,
-        contactForm: (state: State): ContactForm | null => state._entity,
-        contactFormIds() {
+        blacklist: (state: State): Blacklist | null => state._entity,
+        isCreatingBlacklistRoute(): boolean {
+            let routesStore = useRoutesStore()
+
+            return [routeNames.ROUTE_ADMIN_BLACKLIST_CREATE].includes(
+                routesStore.current
+            )
+        },
+        blacklistIds() {
             return (uuids: Array<string>): Array<number> => {
-                let list = this.contactFormList
+                let list = this.blacklistItems
                     .filter((item) => uuids.includes(item.uuid))
                     .map((item) => item.id)
                 if (uuids.includes(this._entity?.uuid)) {
@@ -63,7 +65,7 @@ export const useContactFormsStore = defineStore(storeName, {
         },
     },
     actions: {
-        setEntities(entities: Array<ContactFormItem>): void {
+        setEntities(entities: Array<BlacklistItem>): void {
             this._entities = entities
         },
         setLinks(links: Links | null): void {
@@ -75,27 +77,34 @@ export const useContactFormsStore = defineStore(storeName, {
                 ? extendMetaLinksWithComputedData(meta, routesStore.fullUrl)
                 : null
         },
-        setEntity(entity: ContactForm | null): void {
-            if (!entity) {
-                this._entity = entity
-                return
-            }
-            this._entity = {
-                ...entity,
-                dt_created_at: entity.created_at
-                    ? DateTime.fromFormat(entity.created_at, format)
-                    : null,
-            }
+        setEntity(entity: Blacklist | null): void {
+            this._entity = entity
         },
         removeEntities(uuids: Array<string>): void {
             this._entities = this._entities.filter(
                 (item) => !uuids.includes(item.uuid)
             )
         },
-        async deleteBulkContactFormItems(
-            checkedItemsUuids: Array<string>
+        addOrUpdateBlacklistItems(listItems: Array<BlacklistItem>): void {
+            let newItemById = arrayToMap<BlacklistItem>(listItems)
+
+            this._entities = this._entities.map((item: BlacklistItem) => {
+                let newListItem = newItemById[item.id]
+
+                if (newListItem) {
+                    listItems = listItems.filter((it) => it.id !== item.id)
+                    return newListItem
+                }
+
+                return item
+            })
+
+            this._entities = [...this._entities, ...listItems]
+        },
+        async deleteBulkBlacklist(
+            checkedBlacklistUuids: Array<string>
         ): Promise<void | Record<string, string | undefined>> {
-            if (!checkedItemsUuids.length) {
+            if (!checkedBlacklistUuids.length) {
                 return
             }
 
@@ -104,17 +113,16 @@ export const useContactFormsStore = defineStore(storeName, {
             try {
                 let url = new URL(
                     routesStore.route(
-                        routeNames.ROUTE_ADMIN_AJAX_CONTACT_FORMS_BULK_DELETE
+                        routeNames.ROUTE_ADMIN_AJAX_BLACKLIST_BULK_DELETE
                     )
                 )
-                const checkedContactFormItemsIds =
-                    this.contactFormIds(checkedItemsUuids)
-                checkedContactFormItemsIds.forEach((id) => {
+                const checkedBlacklistIds = this.blacklistIds(checkedBlacklistUuids)
+                checkedBlacklistIds.forEach((id) => {
                     url.searchParams.append("ids[]", `${id}`)
                 })
                 await axios.delete(url.toString())
 
-                this.removeEntities(checkedItemsUuids)
+                this.removeEntities(checkedBlacklistUuids)
             } catch (e) {
                 if (e instanceof AxiosError) {
                     const {

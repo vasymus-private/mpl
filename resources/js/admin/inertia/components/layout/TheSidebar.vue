@@ -213,24 +213,6 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean
                         />
                     </NavItem>
                     <NavItem
-                        id-or-href="reference-blacklist"
-                        :is-inertia-link="false"
-                        title="Чёрный список"
-                        :is-collapse="true"
-                        :is-active-collapse="isActiveRoute(RouteTypeEnum.referenceBlacklist)"
-                        icon-class="adm-icon iblock_menu_icon_iblocks"
-                        nav-link-class="sub-level-1"
-                    >
-                        <NavItem
-                            :id-or-href="routesStore.route(routeNames.ROUTE_ADMIN_BLACKLIST_INDEX)"
-                            :is-inertia-link="true"
-                            title="Элементы"
-                            :is-collapse="false"
-                            icon-class="adm-arrow-icon-dot"
-                            nav-link-class="sub-level-2"
-                        />
-                    </NavItem>
-                    <NavItem
                         id-or-href="reference-gallery-items"
                         :is-inertia-link="false"
                         title="Галерея"
@@ -254,17 +236,27 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean
                     :is-inertia-link="false"
                     title="Highload-блоки"
                     :is-collapse="true"
-                    :is-active-collapse="false"
+                    :is-active-collapse="isActiveRoute(RouteTypeEnum.highload)"
                     icon-class="adm-icon iblock_menu_icon_types"
                 >
                     <NavItem
-                        title="Blacklist"
-                        id-or-href="#"
+                        id-or-href="reference-blacklist"
                         :is-inertia-link="false"
-                        :is-collapse="false"
-                        icon-class="adm-arrow-icon-dot"
+                        title="Blacklist"
+                        :is-collapse="true"
+                        :is-active-collapse="isActiveRoute(RouteTypeEnum.highloadBlacklist)"
+                        icon-class="adm-icon iblock_menu_icon_iblocks"
                         nav-link-class="sub-level-1"
-                    />
+                    >
+                        <NavItem
+                            :id-or-href="routesStore.route(routeNames.ROUTE_ADMIN_BLACKLIST_INDEX)"
+                            :is-inertia-link="true"
+                            title="Элементы"
+                            :is-collapse="false"
+                            icon-class="adm-arrow-icon-dot"
+                            nav-link-class="sub-level-2"
+                        />
+                    </NavItem>
                 </NavItem>
                 <NavItem
                     :id-or-href="routesStore.route(routeNames.ROUTE_ADMIN_ORDERS_TEMP_INDEX)"

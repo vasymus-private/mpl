@@ -31,6 +31,7 @@ class BlacklistItemResource extends JsonResource
                 ? (new IpResource($this->resource->ipDetails))->toArray($request)
                 : null,
             'email' => $this->resource->email,
+            'ip' => $this->resource->ip,
             'created_at' => $this->resource->created_at instanceof Carbon
                 ? $this->resource->created_at->format('Y-m-d H:i:s')
                 : null,

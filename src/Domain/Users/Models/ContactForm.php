@@ -119,6 +119,9 @@ class ContactForm extends BaseModel implements HasMedia
         return static::query()->findOrFail($value);
     }
 
+    /**
+     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<array-key, \Domain\Common\Models\CustomMedia>
+     */
     public function getFilesAttribute(): MediaCollection
     {
         return $this->getMedia(static::MC_FILES);

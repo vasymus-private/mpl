@@ -57,6 +57,8 @@ import {
 import { useGalleryItemsStore } from "@/admin/inertia/modules/galleryItems"
 import {ContactForm, ContactFormItem} from "@/admin/inertia/modules/contactForms/types"
 import {useContactFormsStore} from "@/admin/inertia/modules/contactForms"
+import {Blacklist, BlacklistItem} from "@/admin/inertia/modules/blacklist/types";
+import {useBlacklistStore} from "@/admin/inertia/modules/blacklist";
 
 export interface InitialPageProps {
     fullUrl: string
@@ -127,6 +129,13 @@ export interface InitialPageProps {
         meta: Meta
     }
     contactForm?: ContactForm
+
+    blackListItems?: {
+        data: Array<BlacklistItem>
+        links: Links
+        meta: Meta
+    }
+    blacklist?: Blacklist
 }
 
 /**
@@ -210,6 +219,12 @@ export const initFromPageProps = (
             meta: contactFormsEntitiesMeta = null,
         } = {},
         contactForm = null,
+        blackListItems: {
+            data: blacklistEntities = [],
+            links: blacklistEntitiesLinks = null,
+            meta: blacklistEntitiesMeta = null,
+        } = {},
+        blacklist = null,
     } = initialPageProps
 
     // todo dev only
@@ -312,6 +327,12 @@ export const initFromPageProps = (
     contactFormsStore.setLinks(contactFormsEntitiesLinks)
     contactFormsStore.setMeta(contactFormsEntitiesMeta)
     contactFormsStore.setEntity(contactForm)
+
+    const blacklistStore = useBlacklistStore()
+    blacklistStore.setEntities(blacklistEntities)
+    blacklistStore.setLinks(blacklistEntitiesLinks)
+    blacklistStore.setMeta(blacklistEntitiesMeta)
+    blacklistStore.setEntity(blacklist)
 
     // todo dev only
     if (typeof window !== "undefined") {
