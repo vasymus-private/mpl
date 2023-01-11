@@ -45,6 +45,8 @@ services:
             - AWS_BUCKET_PRIVATE=${AWS_BUCKET_PRIVATE}
             - AWS_ENDPOINT=${AWS_ENDPOINT}
             - AWS_URL=${AWS_URL}
+            - GEO_API_KEY=${GEO_API_KEY:-null}
+            - GEO_API_URL=${GEO_API_URL:-null}
         ports:
             - 80:80
 

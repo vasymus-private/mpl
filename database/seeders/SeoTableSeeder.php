@@ -14,6 +14,8 @@ class SeoTableSeeder extends BaseSeeder
      */
     public function run()
     {
+        $this->seedAppSeo();
+
         if (Seo::query()->count() !== 0 && ! $this->shouldClearData()) {
             return;
         }
@@ -22,6 +24,11 @@ class SeoTableSeeder extends BaseSeeder
         Seo::query()->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
+        $this->seedAppSeo();
+    }
+
+    protected function seedAppSeo()
+    {
         Seo::query()->insert([
             "id" => Seo::ID_APP,
             "title" => config('app.name'),
