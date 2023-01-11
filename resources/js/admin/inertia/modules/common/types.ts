@@ -135,8 +135,8 @@ export interface ProfileResponse {
 
 export interface IpDetails {
     ip: string
-    country_a2: string|null
-    country_name: string|null
-    country_img: string|null
-    city: string|null
+    country_a2: string | null
+    country_name: string | null
+    country_img: string | null
+    city: string | null
 }

@@ -42,9 +42,9 @@ export const useContactFormsStore = defineStore(storeName, {
         getPerPageOption: (state: State): Option | null =>
             state._meta && state._meta.per_page
                 ? {
-                    value: state._meta.per_page,
-                    label: `${state._meta.per_page}`,
-                }
+                      value: state._meta.per_page,
+                      label: `${state._meta.per_page}`,
+                  }
                 : null,
         contactForm: (state: State): ContactForm | null => state._entity,
         contactFormIds() {
@@ -91,9 +91,8 @@ export const useContactFormsStore = defineStore(storeName, {
                         routeNames.ROUTE_ADMIN_AJAX_CONTACT_FORMS_BULK_DELETE
                     )
                 )
-                const checkedContactFormItemsIds = this.contactFormIds(
-                    checkedItemsUuids
-                )
+                const checkedContactFormItemsIds =
+                    this.contactFormIds(checkedItemsUuids)
                 checkedContactFormItemsIds.forEach((id) => {
                     url.searchParams.append("ids[]", `${id}`)
                 })
