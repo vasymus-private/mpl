@@ -204,8 +204,26 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean
                         nav-link-class="sub-level-1"
                     >
                         <NavItem
-                            id-or-href="#"
-                            :is-inertia-link="false"
+                            :id-or-href="routesStore.route(routeNames.ROUTE_ADMIN_CONTACT_FORMS_INDEX)"
+                            :is-inertia-link="true"
+                            title="Элементы"
+                            :is-collapse="false"
+                            icon-class="adm-arrow-icon-dot"
+                            nav-link-class="sub-level-2"
+                        />
+                    </NavItem>
+                    <NavItem
+                        id-or-href="reference-blacklist"
+                        :is-inertia-link="false"
+                        title="Чёрный список"
+                        :is-collapse="true"
+                        :is-active-collapse="isActiveRoute(RouteTypeEnum.referenceBlacklist)"
+                        icon-class="adm-icon iblock_menu_icon_iblocks"
+                        nav-link-class="sub-level-1"
+                    >
+                        <NavItem
+                            :id-or-href="routesStore.route(routeNames.ROUTE_ADMIN_BLACKLIST_INDEX)"
+                            :is-inertia-link="true"
                             title="Элементы"
                             :is-collapse="false"
                             icon-class="adm-arrow-icon-dot"

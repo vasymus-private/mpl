@@ -134,6 +134,7 @@ export const useRoutesStore = defineStore(storeName, {
                             router.current(RouteNameGroupEnum.Articles) ||
                             router.current(RouteNameGroupEnum.Faq) ||
                             router.current(RouteNameGroupEnum.Contacts) ||
+                            router.current(RouteNameGroupEnum.Blacklist) ||
                             router.current(RouteNameGroupEnum.GalleryItems)
                         )
                     }
@@ -148,6 +149,9 @@ export const useRoutesStore = defineStore(storeName, {
                     }
                     case RouteTypeEnum.referenceContacts: {
                         return router.current(RouteNameGroupEnum.Contacts)
+                    }
+                    case RouteTypeEnum.referenceBlacklist: {
+                        return router.current(RouteNameGroupEnum.Blacklist)
                     }
                     case RouteTypeEnum.referenceGalleryItems: {
                         return router.current(RouteNameGroupEnum.GalleryItems)
@@ -470,6 +474,7 @@ enum RouteNameGroupEnum {
     Articles = "admin.articles.*",
     Faq = "admin.faq.*",
     Contacts = "admin.contacts.*",
+    Blacklist = "admin.blacklist.*",
     GalleryItems = "admin.gallery-items.*",
 }
 
@@ -481,5 +486,6 @@ export enum RouteTypeEnum {
     referenceArticles = "reference-articles",
     referenceFaq = "reference-faq",
     referenceContacts = "reference-contacts",
+    referenceBlacklist = "reference-blacklist",
     referenceGalleryItems = "reference-gallery-items",
 }

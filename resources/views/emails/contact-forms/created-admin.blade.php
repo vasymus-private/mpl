@@ -22,6 +22,8 @@ Email: {{$contactForm->email ?? 'н/а'}}
 Сообщение: {{$contactForm->description ?? 'н/а'}}
 </x-mail::panel>
 
+Просмотреть в <a target="_blank" href="{{route(\App\Constants::ROUTE_ADMIN_CONTACT_FORMS_SHOW, ['admin_contact_form', $contactForm->id])}}">админ-панели</a>.
+
 Спасибо,<br>
 {{ config('app.name') }}
 </x-mail::message>

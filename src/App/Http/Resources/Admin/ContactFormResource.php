@@ -27,6 +27,8 @@ class ContactFormResource extends JsonResource
         return [
             'id' => $this->resource->id,
             'uuid' => $this->resource->uuid,
+            'type' => $this->resource->type,
+            'type_name' => $this->resource->type_name,
             'email' => $this->resource->email,
             'name' => $this->resource->name,
             'phone' => $this->resource->phone,
