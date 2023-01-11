@@ -14,5 +14,7 @@ return [
     */
 
     'required' => 'Не заполнено `:attribute`.', // name -- наименование
-    'unique' => 'The :attribute has already been taken.',
+    'unique' => 'Значение `:attribute` уже занято.',
+    'email' => 'Поле `:attribute` должно быть валидным email адресом.',
+    'captcha' => 'Неверная captcha.'
 ];

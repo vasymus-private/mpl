@@ -3,6 +3,8 @@
 namespace Domain\Users\Models;
 
 use Domain\Common\Models\BaseModel;
+use Domain\Ip\Models\Ip;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
@@ -13,6 +15,9 @@ use Illuminate\Support\Str;
  * @property string|null $email
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ *
+ * @see \Domain\Users\Models\Blacklist::ipDetails()
+ * @property \Domain\Ip\Models\Ip|null $ipDetails
  * */
 class Blacklist extends BaseModel
 {
@@ -20,6 +25,11 @@ class Blacklist extends BaseModel
 
     public const TABLE = "blacklist";
 
+    /**
+     * The name of the "updated at" column.
+     *
+     * @var string|null
+     */
     public const UPDATED_AT = null;
 
     /**
@@ -43,5 +53,18 @@ class Blacklist extends BaseModel
         };
 
         static::saving($cb);
+    }
+
+    public static function rbAdminBlacklist($value)
+    {
+        return static::query()->findOrFail($value);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function ipDetails(): BelongsTo
+    {
+        return $this->belongsTo(Ip::class, "ip", "ip");
     }
 }

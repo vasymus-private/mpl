@@ -343,4 +343,12 @@ class H
             ? (int)$haystack[$key]
             : null;
     }
+
+    /**
+     * @return string
+     */
+    public static function captchaImage(): string
+    {
+        return Cache::store('array')->rememberForever('captcha-image', fn () => captcha_img());
+    }
 }

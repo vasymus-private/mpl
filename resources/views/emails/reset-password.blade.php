@@ -21,6 +21,6 @@
     <p>
         С уважением,<br/>
         администрация <a href="#">Интернет-магазина</a> <br/>
-        E-mail: <a href="#">mail@market-parket.ru</a>
+        E-mail: <a href="mailto:parket-lux@mail.ru">parket-lux@mail.ru</a>
     </p>
 @endsection

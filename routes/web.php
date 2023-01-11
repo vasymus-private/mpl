@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('---test/{id?}/{hash?}', [\App\Http\Controllers\TestController::class, 'test'])->name('test');
+Route::post('---test-post', [\App\Http\Controllers\TestController::class, 'testPost'])->name('test-post');
 Route::get('---test-email-order', [\App\Http\Controllers\TestController::class, 'testEmailOrder'])->middleware('auth');
 Route::get('---test-email-order-markup', [\App\Http\Controllers\TestController::class, 'testEmailOrderMarkup'])->middleware('auth');
 Route::get("---test-email-password-reset", [\App\Http\Controllers\TestController::class, "testResetPasswordMarkup"])->middleware('auth');
@@ -34,6 +35,8 @@ Route::middleware([Constants::MIDDLEWARE_AUTHENTICATE_ALL])->group(function() {
         ::post("logout", [\App\Http\Controllers\Web\Auth\LoginController::class, "logout"])
         ->name(Constants::ROUTE_LOGOUT)
     ;
+
+    Route::post('contact-forms', [\App\Http\Controllers\Web\ContactFormController::class, 'store'])->name('contact-form.store');
 
     Route::get('password/reset', [\App\Http\Controllers\Web\Auth\ForgotPasswordController::class, "showLinkRequestForm"])->name('password.request');
     Route::post('password/email', [\App\Http\Controllers\Web\Auth\ForgotPasswordController::class, "sendResetLinkEmail"])->name('password.email');

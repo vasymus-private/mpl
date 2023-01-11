@@ -72,9 +72,14 @@ export const useGalleryItemsStore = defineStore(storeName, {
         },
         galleryItemIds() {
             return (uuids: Array<string>): Array<number> => {
-                return this.galleryItemList
+                let list = this.galleryItemList
                     .filter((item) => uuids.includes(item.uuid))
                     .map((item) => item.id)
+                if (uuids.includes(this._entity?.uuid)) {
+                    list = [...list, this._entity.id]
+                }
+
+                return list
             }
         },
     },

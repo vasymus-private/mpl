@@ -138,7 +138,7 @@ import Products from "../Products"
                 Products.setCartItems(cartItems)
                 handleAnimate()
                 handleRenderSidebarMenuCartList()
-                handleUpadeCount()
+                handleUpdateCount()
 
                 if (!Products.isInCartWithTrashed(id)) {
                     getCartRow$(id).remove()
@@ -152,7 +152,7 @@ import Products from "../Products"
                 Products.setCartItems(cartItems)
                 handleAnimate()
                 handleRenderSidebarMenuCartList()
-                handleUpadeCount()
+                handleUpdateCount()
 
                 console.log(
                     Products.isInCart(id),
@@ -185,7 +185,7 @@ import Products from "../Products"
                 Products.setCartItems(cartItems)
                 handleAnimate()
                 handleRenderSidebarMenuCartList()
-                handleUpadeCount()
+                handleUpdateCount()
 
                 let item = Products.find(id)
                 if (item) {
@@ -264,7 +264,7 @@ import Products from "../Products"
                                 handleAnimate()
                                 handleTooltip()
                                 handleRenderSidebarMenuCartList()
-                                handleUpadeCount()
+                                handleUpdateCount()
 
                                 $addToCart.popover("show")
 
@@ -282,7 +282,7 @@ import Products from "../Products"
                                 handleAnimate()
                                 handleTooltip()
                                 handleRenderSidebarMenuCartList()
-                                handleUpadeCount()
+                                handleUpdateCount()
                                 $addToCart.addClass(IS_IN_CART_CLASS)
                                 $addToCart.text("Добавить")
 
@@ -398,7 +398,7 @@ import Products from "../Products"
             $totalSumFormatted.html(`${numberWithSpaces(totalSum)} р`)
         }
 
-        function handleUpadeCount() {
+        function handleUpdateCount() {
             $addToCartCounts.text(Products.getCartItemsCount())
         }
 

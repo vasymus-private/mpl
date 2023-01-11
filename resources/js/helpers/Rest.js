@@ -38,6 +38,15 @@ class Rest {
         return f
     }
 
+    POST_FORM_DATA = (url, formData, method = "POST") => {
+        let f = fetch(url, {
+            method: method,
+            headers: this.getFormDataHeaders(),
+            body: formData,
+        })
+        return f
+    }
+
     PUT = (url, body = {}) => {
         return this.POST(url, body, "PUT")
     }
@@ -76,6 +85,11 @@ class Rest {
     getHeaders = () => ({
         [acceptH]: this._accept,
         [contentTypeH]: this._contentType,
+        [xRequestedWithH]: this._xRequestedWith,
+        [xcsrfTokenH]: this._xcsrfToken,
+    })
+
+    getFormDataHeaders = () => ({
         [xRequestedWithH]: this._xRequestedWith,
         [xcsrfTokenH]: this._xcsrfToken,
     })

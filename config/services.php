@@ -46,4 +46,9 @@ return [
         'clearData' => env('SEEDERS_CLEAR_DATA', false),
     ],
 
+    'ipGeoLocation' => [
+        'apiUrl' => env('GEO_API_URL'),
+        'apiKey' => env('GEO_API_KEY'),
+    ],
+
 ];

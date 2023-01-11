@@ -22,6 +22,9 @@ final class Constants
     public const MIME_XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
     public const MIME_XLS = "application/vnd.ms-excel";
     public const MIME_ZIP = 'application/zip';
+    public const MIME_VIDEO_AVI = 'video/avi';
+    public const MIME_VIDEO_MPEG = 'video/mpeg';
+    public const MIME_VIDEO_QUICKTIME = 'video/quicktime';
 
     public const ROUTE_WEB_HOME = 'home';
 
@@ -78,6 +81,13 @@ final class Constants
     public const ROUTE_ADMIN_GALLERY_ITEMS_CREATE = 'admin.gallery-items.create';
     public const ROUTE_ADMIN_GALLERY_ITEMS_EDIT = 'admin.gallery-items.edit';
 
+    public const ROUTE_ADMIN_CONTACT_FORMS_INDEX = 'admin.contact-forms.index';
+    public const ROUTE_ADMIN_CONTACT_FORMS_SHOW = 'admin.contact-forms.show';
+
+    public const ROUTE_ADMIN_BLACKLIST_INDEX = 'admin.blacklist.index';
+    public const ROUTE_ADMIN_BLACKLIST_CREATE = 'admin.blacklist.create';
+    public const ROUTE_ADMIN_BLACKLIST_EDIT = 'admin.blacklist.edit';
+
     public const ROUTE_ADMIN_EXPORT_PRODUCTS_INDEX = 'admin.export-products.index';
     public const ROUTE_ADMIN_EXPORT_PRODUCTS_SHOW = 'admin.export-products.show';
     public const ROUTE_ADMIN_EXPORT_PRODUCTS_STORE = 'admin.export-products.store';
@@ -101,6 +111,11 @@ final class Constants
     public const ROUTE_ADMIN_AJAX_GALLERY_ITEMS_BULK_UPDATE = 'admin-ajax.gallery-item.bulk.update';
     public const ROUTE_ADMIN_AJAX_GALLERY_ITEMS_BULK_DELETE = 'admin-ajax.gallery-item.bulk.delete';
 
+    public const ROUTE_ADMIN_AJAX_CONTACT_FORMS_BULK_DELETE = 'admin-ajax.contact-forms.bulk.delete';
+
+    public const ROUTE_ADMIN_AJAX_BLACKLIST_BULK_UPDATE = 'admin-ajax.blacklist.bulk.update';
+    public const ROUTE_ADMIN_AJAX_BLACKLIST_BULK_DELETE = 'admin-ajax.blacklist.bulk.delete';
+
     public const ROUTE_ADMIN_AJAX_PRODUCTS_STORE = 'admin-ajax.products.store';
     public const ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE = 'admin-ajax.products.update';
 
@@ -118,6 +133,9 @@ final class Constants
 
     public const ROUTE_ADMIN_AJAX_GALLERY_ITEM_STORE = 'admin-ajax.gallery-item.store';
     public const ROUTE_ADMIN_AJAX_GALLERY_ITEM_UPDATE = 'admin-ajax.gallery-item.update';
+
+    public const ROUTE_ADMIN_AJAX_BLACKLIST_STORE = 'admin-ajax.blacklist.store';
+    public const ROUTE_ADMIN_AJAX_BLACKLIST_UPDATE = 'admin-ajax.blacklist.update';
 
     public const ROUTE_ADMIN_AJAX_ORDERS_STORE = 'admin-ajax.orders.store';
     public const ROUTE_ADMIN_AJAX_ORDERS_UPDATE = 'admin-ajax.orders.update';

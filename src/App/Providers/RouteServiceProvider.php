@@ -11,6 +11,8 @@ use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
 use Domain\Services\Models\Service;
 use Domain\Users\Models\Admin;
+use Domain\Users\Models\Blacklist;
+use Domain\Users\Models\ContactForm;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -112,6 +114,8 @@ class RouteServiceProvider extends ServiceProvider
         Route::bind('admin_faq', [FAQ::class, "rbAdminFaq"]);
         Route::bind('admin_article', [Article::class, "rbAdminArticle"]);
         Route::bind('admin_gallery_item', [GalleryItem::class, "rbAdminGalleryItem"]);
+        Route::bind('admin_contact_form', [ContactForm::class, "rbAdminContactForm"]);
+        Route::bind('admin_blacklist', [Blacklist::class, "rbAdminBlacklist"]);
         Route::bind('admin', [Admin::class, 'rbAdmin']);
 
         Route::bind("parentGalleryItemSlug", [GalleryItem::class, "rbParentGalleryItemSlug"]);

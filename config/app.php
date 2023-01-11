@@ -206,7 +206,8 @@ return [
         \Support\RandomProxies\RandomProxiesServiceProvider::class,
         \App\Providers\ViewsServiceProvider::class,
         \App\Providers\MediaLibraryServiceProvider::class,
-
+        \Support\GeoIp\GeoIpServiceProvider::class,
+        \Mews\Captcha\CaptchaServiceProvider::class,
     ],
 
     /*

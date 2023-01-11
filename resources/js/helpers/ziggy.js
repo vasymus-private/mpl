@@ -192,6 +192,26 @@ const Ziggy = {
             uri: "admin/gallery-items/{admin_gallery_item}/edit",
             methods: ["GET", "HEAD"],
         },
+        "admin.contact-forms.index": {
+            uri: "admin/contact-forms",
+            methods: ["GET", "HEAD"],
+        },
+        "admin.contact-forms.show": {
+            uri: "admin/contact-forms/{admin_contact_form}/show",
+            methods: ["GET", "HEAD"],
+        },
+        "admin.blacklist.index": {
+            uri: "admin/blacklist",
+            methods: ["GET", "HEAD"],
+        },
+        "admin.blacklist.create": {
+            uri: "admin/blacklist/create",
+            methods: ["GET", "HEAD"],
+        },
+        "admin.blacklist.edit": {
+            uri: "admin/blacklist/{admin_blacklist}/edit",
+            methods: ["GET", "HEAD"],
+        },
         "admin.test.inertia": {
             uri: "admin/---test-inertia",
             methods: ["GET", "HEAD"],
@@ -256,6 +276,18 @@ const Ziggy = {
             uri: "admin-ajax/gallery-items-bulk",
             methods: ["DELETE"],
         },
+        "admin-ajax.contact-forms.bulk.delete": {
+            uri: "admin-ajax/contact-forms-bulk",
+            methods: ["DELETE"],
+        },
+        "admin-ajax.blacklist.bulk.update": {
+            uri: "admin-ajax/blacklist-bulk",
+            methods: ["PUT"],
+        },
+        "admin-ajax.blacklist.bulk.delete": {
+            uri: "admin-ajax/blacklist-bulk",
+            methods: ["DELETE"],
+        },
         "admin-ajax.products.store": {
             uri: "admin-ajax/product",
             methods: ["POST"],
@@ -299,6 +331,14 @@ const Ziggy = {
         },
         "admin-ajax.gallery-item.update": {
             uri: "admin-ajax/gallery-items/{admin_gallery_item}",
+            methods: ["PUT"],
+        },
+        "admin-ajax.blacklist.store": {
+            uri: "admin-ajax/blacklist",
+            methods: ["POST"],
+        },
+        "admin-ajax.blacklist.update": {
+            uri: "admin-ajax/blacklist/{admin_blacklist}",
             methods: ["PUT"],
         },
         "admin-ajax.orders.store": {
@@ -346,8 +386,10 @@ const Ziggy = {
             methods: ["GET", "HEAD"],
         },
         test: { uri: "---test/{id?}/{hash?}", methods: ["GET", "HEAD"] },
+        "test-post": { uri: "---test-post", methods: ["POST"] },
         login: { uri: "login", methods: ["GET", "HEAD"] },
         logout: { uri: "logout", methods: ["POST"] },
+        "contact-form.store": { uri: "contact-forms", methods: ["POST"] },
         "password.request": { uri: "password/reset", methods: ["GET", "HEAD"] },
         "password.email": { uri: "password/email", methods: ["POST"] },
         "password.reset": {

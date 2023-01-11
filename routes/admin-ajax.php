@@ -21,12 +21,15 @@ use App\Constants;
 use App\Http\Controllers\Admin\Ajax\ArticleImageUploadController;
 use App\Http\Controllers\Admin\Ajax\ArticlesBulkController;
 use App\Http\Controllers\Admin\Ajax\ArticlesController;
+use App\Http\Controllers\Admin\Ajax\BlacklistBulkController;
+use App\Http\Controllers\Admin\Ajax\BlacklistController;
 use App\Http\Controllers\Admin\Ajax\BrandImageUploadController;
 use App\Http\Controllers\Admin\Ajax\BrandsBulkController;
 use App\Http\Controllers\Admin\Ajax\BrandsController;
 use App\Http\Controllers\Admin\Ajax\CategoriesBulkController;
 use App\Http\Controllers\Admin\Ajax\CategoriesController;
 use App\Http\Controllers\Admin\Ajax\CategoryImageUploadController;
+use App\Http\Controllers\Admin\Ajax\ContactFormsBulkController;
 use App\Http\Controllers\Admin\Ajax\FaqBulkController;
 use App\Http\Controllers\Admin\Ajax\FaqController;
 use App\Http\Controllers\Admin\Ajax\FaqImageUploadController;
@@ -67,6 +70,11 @@ Route::delete('article-bulk', [ArticlesBulkController::class, 'delete'])->name(C
 Route::put('gallery-items-bulk', [GalleryItemBulkController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_GALLERY_ITEMS_BULK_UPDATE);
 Route::delete('gallery-items-bulk', [GalleryItemBulkController::class, 'delete'])->name(Constants::ROUTE_ADMIN_AJAX_GALLERY_ITEMS_BULK_DELETE);
 
+Route::delete('contact-forms-bulk', [ContactFormsBulkController::class, 'delete'])->name(Constants::ROUTE_ADMIN_AJAX_CONTACT_FORMS_BULK_DELETE);
+
+Route::put('blacklist-bulk', [BlacklistBulkController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_BLACKLIST_BULK_UPDATE);
+Route::delete('blacklist-bulk', [BlacklistBulkController::class, 'delete'])->name(Constants::ROUTE_ADMIN_AJAX_BLACKLIST_BULK_DELETE);
+
 Route::post('product', [ProductsController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_PRODUCTS_STORE);
 Route::put('product/{admin_product}', [ProductsController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_PRODUCTS_UPDATE);
 
@@ -84,6 +92,9 @@ Route::put('article/{admin_article}', [ArticlesController::class, 'update'])->na
 
 Route::post('gallery-items', [GalleryItemsController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_GALLERY_ITEM_STORE);
 Route::put('gallery-items/{admin_gallery_item}', [GalleryItemsController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_GALLERY_ITEM_UPDATE);
+
+Route::post('blacklist', [BlacklistController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_BLACKLIST_STORE);
+Route::put('blacklist/{admin_blacklist}', [BlacklistController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_BLACKLIST_UPDATE);
 
 Route::post('order', [OrdersController::class, 'store'])->name(Constants::ROUTE_ADMIN_AJAX_ORDERS_STORE);
 Route::put('order/{admin_order}', [OrdersController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_ORDERS_UPDATE);
