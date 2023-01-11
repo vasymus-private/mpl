@@ -21,7 +21,7 @@ class ContactFormCreatedAdminMail extends Mailable implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(public ContactForm $contactForm, protected string $fromEmail)
+    public function __construct(public ContactForm $contactForm)
     {
     }
 
@@ -33,7 +33,7 @@ class ContactFormCreatedAdminMail extends Mailable implements ShouldQueue
     public function envelope()
     {
         return new Envelope(
-            from: new Address($this->fromEmail, config('app.name')),
+            from: new Address(config('mail.from.address'), config('mail.from.name')),
             replyTo: [$this->contactForm->email],
             subject: 'Контактная Форма Создана'
         );
