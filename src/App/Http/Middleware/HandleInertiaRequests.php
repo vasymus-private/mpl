@@ -9,6 +9,7 @@ use App\Http\Resources\Admin\Inertia\CurrencyResource;
 use App\Http\Resources\Admin\Inertia\OrderImportanceResource;
 use App\Http\Resources\Admin\Inertia\OrderStatusResource;
 use App\Http\Resources\Admin\Inertia\PaymentMethodResource;
+use App\Http\Resources\Admin\ProfileResource;
 use Closure;
 use DateInterval;
 use Domain\Articles\Models\Article;
@@ -68,40 +69,23 @@ class HandleInertiaRequests extends Middleware
      *
      * @see https://inertiajs.com/shared-data
      * @param  \Illuminate\Http\Request  $request
+     *
      * @return array
      */
     public function share(Request $request): array
     {
         return array_merge(parent::share($request), [
             'fullUrl' => $request->fullUrl(), // because of troubles of get full url on node js wrapper (for backend render via inertia)
-            'auth' => function () {
-                $userOrAdmin = H::userOrAdmin();
-
-                return [
-                    'user' => array_merge($userOrAdmin->only([
-                        'id',
-                        'name',
-                        'email',
-                        'phone',
-                    ]), [
-                        'is_anonymous' => $userOrAdmin->is_anonymous2,
-                        'is_super_admin' => $userOrAdmin->is_super_admin,
-                    ]),
-                ];
-            },
             'flash' => function () use ($request) {
                 return [
                     'success' => $request->session()->get('success'),
                     'error' => $request->session()->get('error'),
                 ];
             },
+            'profile' => (new ProfileResource(H::admin()))->toArray($request),
             'currencyTodayRate' => Cache::remember('currency-today-rate', new DateInterval('PT1H'), fn () => CBRcurrencyConverter::getTodayRates()),
             'categoriesTree' => Category::getTreeRuntimeCached()->map(fn (Category $category) => CategoryItemSidebarDTO::fromModel($category))->all(),
             'brandOptions' => Brand::getBrandOptions(),
-            'adminOrderColumns' => H::admin()->admin_order_columns_arr,
-            'adminProductColumns' => H::admin()->admin_product_columns_arr,
-            'adminProductVariantColumns' => H::admin()->admin_product_variant_columns_arr,
-            'adminSidebarFlexBasis' => H::admin()->settings['adminSidebarFlexBasis'] ?? null,
             'availabilityStatuses' => AvailabilityStatusResource::collection(AvailabilityStatus::cachedAll()),
             'billStatuses' => BillStatusResource::collection(BillStatus::cachedAll()),
             'currencies' => CurrencyResource::collection(Currency::cachedAll()),

@@ -9,6 +9,12 @@ export enum ColumnType {
     adminProductVariantColumns,
 }
 
+export enum ResizeColumnType {
+    adminOrderColumns = "adminProductsColumnSizes",
+    adminProductColumns = "adminProductVariationsColumnSizes",
+    adminProductVariantColumns = "adminOrdersColumnSizes",
+}
+
 export enum ColumnName {
     id = "id",
     name = "name",
@@ -35,4 +41,32 @@ export enum ColumnName {
     coefficient = "coefficient",
     coefficient_description = "coefficient_description",
     categories = "categories",
+}
+
+export interface ColumnSize {
+    column: Column
+    width: number | string
+}
+
+export interface SortColumnsRequestParams {
+    adminOrderColumns?: Array<number>
+    adminOrderColumnsDefault?: boolean
+    adminProductColumns?: Array<number>
+    adminProductColumnsDefault?: boolean
+    adminProductVariantColumns?: Array<number>
+    adminProductVariantColumnsDefault?: boolean
+}
+
+export interface SizeColumnsRequestParams {
+    adminProductsColumnSizes?: Array<ColumnSizesParam>
+    adminProductsColumnSizesDefault?: boolean
+    adminProductVariationsColumnSizes?: Array<ColumnSizesParam>
+    adminProductVariationsColumnSizesDefault?: boolean
+    adminOrdersColumnSizes?: Array<ColumnSizesParam>
+    adminOrdersColumnSizesDefault?: boolean
+}
+
+export interface ColumnSizesParam {
+    column: number
+    size: string
 }

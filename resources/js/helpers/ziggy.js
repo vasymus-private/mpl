@@ -317,10 +317,6 @@ const Ziggy = {
             uri: "admin-ajax/order/{admin_order}/order-events",
             methods: ["GET", "HEAD"],
         },
-        "admin-ajax.sort-columns": {
-            uri: "admin-ajax/sort-columns",
-            methods: ["PUT"],
-        },
         "admin-ajax.helper": {
             uri: "admin-ajax/helper/slug",
             methods: ["POST"],
@@ -417,7 +413,7 @@ const Ziggy = {
             methods: ["GET", "HEAD"],
         },
         "parquet-works-product.show": {
-            uri: "{product_slug}",
+            uri: "{parquet_works_product_slug}",
             methods: ["GET", "HEAD"],
         },
         home: { uri: "/", methods: ["GET", "HEAD"] },
