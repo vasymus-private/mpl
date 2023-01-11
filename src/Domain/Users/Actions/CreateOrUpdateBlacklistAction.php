@@ -10,8 +10,9 @@ use Illuminate\Support\Facades\DB;
 
 class CreateOrUpdateBlacklistAction extends BaseAction
 {
-    public function __construct(private GetIpAction $getIpAction)
-    {}
+    public function __construct(private readonly GetIpAction $getIpAction)
+    {
+    }
 
     /**
      * @param \Domain\Users\DTOs\BlacklistDTO $dto

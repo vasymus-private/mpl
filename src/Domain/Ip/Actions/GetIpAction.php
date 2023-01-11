@@ -44,7 +44,9 @@ class GetIpAction extends BaseAction
         $ip->meta = $ipItemDto->toArray();
 
         $ip->save();
+        /** @var \Domain\Ip\Models\Ip $ipJustCreated */
+        $ipJustCreated = Ip::query()->find($ip->ip);
 
-        return $ip;
+        return $ipJustCreated;
     }
 }

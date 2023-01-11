@@ -34,7 +34,8 @@ class ContactFormController extends BaseWebController
         foreach ($request->all()['files'] ?? [] as $file) {
             try {
                 $cf->addMedia($file)->toMediaCollection(ContactForm::MC_FILES);
-            } catch (FileDoesNotExist|FileIsTooBig) {}
+            } catch (FileDoesNotExist|FileIsTooBig) {
+            }
         }
 
         /** @var \Domain\Users\Models\ContactForm $cfFromDb */

@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\BaseAdminController;
 use App\Http\Requests\Admin\Ajax\BlacklistBulkDeleteRequest;
 use App\Http\Requests\Admin\Ajax\BlacklistBulkUpdateRequest;
 use App\Http\Resources\Admin\BlacklistItemResource;
+use Domain\Ip\Actions\GetIpAction;
 use Domain\Users\Models\Blacklist;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -27,6 +28,9 @@ class BlacklistBulkController extends BaseAdminController
 
         $categoriesToUpdate->each(function (Blacklist $item) use ($payload) {
             $toUpdate = $payload[$item->id];
+            if ($toUpdate->ip) {
+                GetIpAction::cached()->execute($toUpdate->ip);
+            }
             $item->forceFill(
                 collect($toUpdate->all())
                     ->except(['id'])

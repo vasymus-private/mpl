@@ -223,9 +223,10 @@ watchSelectAll()
                                 </span>
                             </td>
                             <td>
-                                <FormCheckInput
+                                <FormControlInput
                                     v-if="editMode && isChecked(blacklistItem.uuid)"
                                     :name="`blacklistItems[${indexForId(blacklistItem.id)}].ip`"
+                                    type="text"
                                     :keep-value="true"
                                 />
                                 <template v-else>

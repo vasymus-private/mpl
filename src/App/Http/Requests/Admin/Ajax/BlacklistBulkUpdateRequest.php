@@ -29,9 +29,8 @@ class BlacklistBulkUpdateRequest extends FormRequest
     {
         return [
             'blacklistItems.*.id' => 'required|integer',
-            'blacklistItems.*.name' => 'required|string|max:250',
-            'blacklistItems.*.is_active' => 'nullable|boolean',
-            'blacklistItems.*.ordering' => 'nullable|integer',
+            'blacklistItems.*.email' => 'nullable|string|max:250',
+            'blacklistItems.*.ip' => 'nullable|string|max:250',
         ];
     }
 
