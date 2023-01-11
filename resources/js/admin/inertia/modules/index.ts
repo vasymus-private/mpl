@@ -55,8 +55,11 @@ import {
     GalleryItemListItem,
 } from "@/admin/inertia/modules/galleryItems/types"
 import { useGalleryItemsStore } from "@/admin/inertia/modules/galleryItems"
-import {ContactForm, ContactFormItem} from "@/admin/inertia/modules/contactForms/types"
-import {useContactFormsStore} from "@/admin/inertia/modules/contactForms"
+import {
+    ContactForm,
+    ContactFormItem,
+} from "@/admin/inertia/modules/contactForms/types"
+import { useContactFormsStore } from "@/admin/inertia/modules/contactForms"
 
 export interface InitialPageProps {
     fullUrl: string

@@ -1,4 +1,4 @@
-import {IpDetails, Media} from "@/admin/inertia/modules/common/types"
+import { IpDetails, Media } from "@/admin/inertia/modules/common/types"
 import { DateTime } from "luxon"
 
 export interface ContactFormItem {
