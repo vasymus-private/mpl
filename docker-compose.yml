@@ -114,14 +114,14 @@ services:
         volumes:
             - redis-data:/data
 
-    meilisearch:
-        image: getmeili/meilisearch:v0.30
-        ports:
-            - "7700:7700"
-        volumes:
-            - meili_data:/meili_data
-        environment:
-            - MEILI_MASTER_KEY=MASTER_KEY
+#    meilisearch:
+#        image: getmeili/meilisearch:v0.30
+#        ports:
+#            - "7700:7700"
+#        volumes:
+#            - meili_data:/meili_data
+#        environment:
+#            - MEILI_MASTER_KEY=MASTER_KEY
 
     ### Adminer ###
     adminer:

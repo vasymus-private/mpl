@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
+use Laravel\Scout\Searchable;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -85,6 +86,7 @@ class Product extends BaseModel implements HasMedia
     use ProductAcM;
     use HasDeletedItemSlug;
     use HasFactory;
+    use Searchable;
 
     public const DEFAULT_IS_ACTIVE = false;
     public const DEFAULT_IS_WITH_VARIATIONS = false;
@@ -247,6 +249,54 @@ class Product extends BaseModel implements HasMedia
     public static function rbAdminProduct($value)
     {
         return static::query()->select(["*"])->notVariations()->findOrFail($value);
+    }
+
+    /**
+     * Get the name of the index associated with the model.
+     *
+     * @return string
+     */
+    public function searchableAs()
+    {
+        return config('scout.prefix') . 'products_index';
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'ordering' => $this->ordering,
+            'preview' => strip_tags($this->preview),
+            'description' => strip_tags($this->description),
+            'info_prices_count' => $this->infoPrices()->count(),
+            'availability_status_id' => $this->availability_status_id,
+            'brand_id' => $this->brand_id,
+            'brand_name' => $this->brand->name ?? null,
+            'variations' => $this->is_with_variations
+                ? $this->variations->filter(fn(Product $variation) => $variation->is_active)->map(fn(Product $variation) => [
+                    'id' => $variation->id,
+                    'name' => $variation->name,
+                    'preview' => $variation->preview,
+                    'availability_status_id' => $variation->availability_status_id,
+                ])
+                : [],
+        ];
+    }
+
+    /**
+     * Determine if the model should be searchable.
+     *
+     * @return bool
+     */
+    public function shouldBeSearchable()
+    {
+        return $this->is_active && $this->is_with_variations;
     }
 
     public function registerMediaCollections(): void

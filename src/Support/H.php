@@ -345,6 +345,17 @@ class H
     }
 
     /**
+     * @param string $key
+     * @param array $haystack
+     *
+     * @return int|null
+     */
+    public static function intValue(string $key, array $haystack): ?int
+    {
+        return isset($haystack[$key]) && is_numeric($haystack[$key]) ? $haystack[$key] : null;
+    }
+
+    /**
      * @return string
      */
     public static function captchaImage(): string

@@ -45,9 +45,9 @@ class ProductsBulkUpdateRequest extends FormRequest
             'products.*.price_retail_currency_id' => 'nullable|int|exists:' . Currency::class . ',id',
             'products.*.admin_comment' => 'nullable|string|max:250',
             'products.*.availability_status_id' => 'required|integer|exists:' . AvailabilityStatus::class . ",id",
-            'category_id' => sprintf('nullable|integer|in:%s', $categoriesIdsStr),
-            'relatedCategoriesIds' => 'nullable|array',
-            'relatedCategoriesIds.*' => sprintf('nullable|integer|in:%s', $categoriesIdsStr),
+            'products.*.category_id' => sprintf('nullable|integer|in:%s', $categoriesIdsStr),
+            'products.*.relatedCategoriesIds' => 'nullable|array',
+            'products.*.relatedCategoriesIds.*' => sprintf('nullable|integer|in:%s', $categoriesIdsStr),
         ];
     }
 
@@ -65,12 +65,12 @@ class ProductsBulkUpdateRequest extends FormRequest
                 'is_active' => isset($item['is_active']) ? (bool)$item['is_active'] : null,
                 'unit' => isset($item['unit']) ? (string)$item['unit'] : null,
                 'price_purchase' => isset($item['price_purchase']) ? (float)$item['price_purchase'] : null,
-                'price_purchase_currency_id' => H::nullableIntValue('price_purchase_currency_id', $item),
+                'price_purchase_currency_id' => H::intValue('price_purchase_currency_id', $item),
                 'price_retail' => isset($item['price_retail']) ? (float)$item['price_retail'] : null,
-                'price_retail_currency_id' => H::nullableIntValue('price_retail_currency_id', $item),
+                'price_retail_currency_id' => H::intValue('price_retail_currency_id', $item),
                 'admin_comment' => isset($item['admin_comment']) ? (string)$item['admin_comment'] : null,
-                'availability_status_id' => H::nullableIntValue('availability_status_id', $item),
-                'category_id' => H::nullableIntValue('category_id', $item),
+                'availability_status_id' => H::intValue('availability_status_id', $item),
+                'category_id' => H::intValue('category_id', $item),
                 'relatedCategoriesIds' => isset($item['relatedCategoriesIds'])
                     ? collect($item['relatedCategoriesIds'])->map(fn ($id) => (int)$id)->all()
                     : [],
