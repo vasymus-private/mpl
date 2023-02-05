@@ -11,11 +11,15 @@ import { guidGenerator, hideOnClickOutside } from "../../helpers/common"
         $manualTooltips.each((i, el) => {
             let $el = $(el)
 
-            if (!$el.data("title")) return true
+            if (!$el.data("temptitle")) return true
 
             let tooltipClass = $el.data("class")
 
+            let title = $el.data("temptitle")
+            title = decodeURIComponent(title)
+
             $el.tooltip({
+                title,
                 placement: $el.data("placement"),
                 trigger: "manual",
                 template: `
