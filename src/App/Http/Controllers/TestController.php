@@ -8,7 +8,6 @@ use App\Mail\TestMarkupResetPasswordMail;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Meilisearch\Endpoints\Indexes;
 
 class TestController extends Controller
 {
