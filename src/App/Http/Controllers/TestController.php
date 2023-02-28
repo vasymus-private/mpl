@@ -22,7 +22,7 @@ class TestController extends Controller
 
     public function getMeilisearchProducts($search = '')
     {
-        return Product::search($search, function(MeilisearchIndexes $meilisearch, string $query = null, array $options = []) {
+        return Product::search($search, function (MeilisearchIndexes $meilisearch, string $query = null, array $options = []) {
 //             $options['filter'] = 'info_prices_count=3';
             return $meilisearch->search($query, $options);
         })
