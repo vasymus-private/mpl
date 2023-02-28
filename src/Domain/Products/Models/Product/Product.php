@@ -278,6 +278,14 @@ class Product extends BaseModel implements HasMedia
             'availability_status_id' => $this->availability_status_id,
             'brand_id' => $this->brand_id,
             'brand_name' => $this->brand->name ?? null,
+            'variations' => $this->is_with_variations
+                ? $this->variations->filter(fn (Product $variation) => $variation->is_active)->map(fn (Product $variation) => [
+                    'id' => $variation->id,
+                    'name' => $variation->name,
+                    'preview' => $variation->preview,
+                    'availability_status_id' => $variation->availability_status_id,
+                ])
+                : [],
         ];
     }
 
