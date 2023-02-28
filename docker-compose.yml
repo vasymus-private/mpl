@@ -114,14 +114,14 @@ services:
         volumes:
             - redis-data:/data
 
-#    meilisearch:
-#        image: getmeili/meilisearch:v0.30
-#        ports:
-#            - "7700:7700"
-#        volumes:
-#            - meili_data:/meili_data
-#        environment:
-#            - MEILI_MASTER_KEY=MASTER_KEY
+    meilisearch:
+        image: getmeili/meilisearch:v1.0.2
+        ports:
+            - "7700:7700"
+        volumes:
+            - meili_data:/meili_data
+        environment:
+            - MEILI_MASTER_KEY=MASTER_KEY
 
     ### Adminer ###
     adminer:
@@ -133,13 +133,13 @@ services:
         depends_on:
             - db
         labels:
-            - traefik.http.routers.adminer.rule=Host(`adminer-${DOCKER_SERVER_NAME:-app.localhost}`)
+            - traefik.http.routers.adminer.rule=Host(`adminer.localhost`)
 
     ### Mailhog ###
     mailhog:
         image: mailhog/mailhog
         labels:
-            - traefik.http.routers.mailhog.rule=Host(`mail-${DOCKER_SERVER_NAME:-app.localhost}`)
+            - traefik.http.routers.mailhog.rule=Host(`mail.localhost`)
             - traefik.http.services.mailhog.loadbalancer.server.port=8025
         # About command @see https://github.com/mailhog/MailHog/issues/187#issuecomment-733009406
         command: -invite-jim=1
@@ -153,7 +153,7 @@ services:
             - REDIS_1_HOST=redis
             - REDIS_1_PORT=6379
         labels:
-            - traefik.http.routers.redis.rule=Host(`redis-${DOCKER_SERVER_NAME:-app.localhost}`)
+            - traefik.http.routers.redis.rule=Host(`redis.localhost`)
         depends_on:
             - redis
 

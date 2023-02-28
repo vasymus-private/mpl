@@ -32,7 +32,7 @@
         "league/flysystem-aws-s3-v3": "^3.0",
         "league/flysystem-ftp": "^3.0",
         "livewire/livewire": "^2.4",
-        "meilisearch/meilisearch-php": "^0.27.0",
+        "meilisearch/meilisearch-php": "^1.0",
         "mews/captcha": "^3.2",
         "ramsey/uuid": "^4.1",
         "spatie/data-transfer-object": "^3.9.1",

@@ -271,21 +271,13 @@ class Product extends BaseModel implements HasMedia
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'ordering' => $this->ordering,
+            'ordering' => (int)$this->ordering,
             'preview' => strip_tags($this->preview),
             'description' => strip_tags($this->description),
             'info_prices_count' => $this->infoPrices()->count(),
             'availability_status_id' => $this->availability_status_id,
             'brand_id' => $this->brand_id,
             'brand_name' => $this->brand->name ?? null,
-            'variations' => $this->is_with_variations
-                ? $this->variations->filter(fn(Product $variation) => $variation->is_active)->map(fn(Product $variation) => [
-                    'id' => $variation->id,
-                    'name' => $variation->name,
-                    'preview' => $variation->preview,
-                    'availability_status_id' => $variation->availability_status_id,
-                ])
-                : [],
         ];
     }
 
@@ -296,7 +288,7 @@ class Product extends BaseModel implements HasMedia
      */
     public function shouldBeSearchable()
     {
-        return $this->is_active && $this->is_with_variations;
+        return $this->is_active;
     }
 
     public function registerMediaCollections(): void

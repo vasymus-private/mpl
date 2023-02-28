@@ -136,7 +136,7 @@ return [
         'key' => env('MEILISEARCH_KEY', null),
         'index-settings' => [
             Product::class => [
-                'filterableAttributes' => ['id', 'info_prices_count', 'availability_status_id', 'brand_id'],
+                'filterableAttributes' => ['name', 'preview', 'description', 'info_prices_count'],
                 'sortableAttributes' => ['id', 'ordering'],
             ],
             // 'users' => [

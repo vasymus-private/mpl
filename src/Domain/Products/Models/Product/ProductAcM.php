@@ -150,6 +150,9 @@ use Throwable;
  * @see \Domain\Products\Models\Product\ProductAcM::getIsActiveNameAttribute()
  * @property-read string $is_active_name
  *
+ * @see \Domain\Products\Models\Product\ProductAcM::getInfoPricesCountAttribute()
+ * @property-read int $info_prices_count
+ *
  * @mixin \Domain\Products\Models\Product\Product
  */
 trait ProductAcM
@@ -543,5 +546,10 @@ trait ProductAcM
     public function getAdminRouteAttribute(): string
     {
         return route("admin.products.edit", $this->parent_id ?: $this->id);
+    }
+
+    public function getInfoPricesCountAttribute()
+    {
+        return $this->infoPrices->count();
     }
 }

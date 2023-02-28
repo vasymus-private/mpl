@@ -2,62 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use Algolia\AlgoliaSearch\SearchIndex;
 use App\Mail\TestMarkupOrderShippedMail;
 use App\Mail\TestMarkupResetPasswordMail;
 use Domain\Products\Models\Product\Product;
+use Domain\Products\QueryBuilders\ProductQueryBuilder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Meilisearch\Endpoints\Indexes;
+use Meilisearch\Endpoints\Indexes as MeilisearchIndexes;
 
 class TestController extends Controller
 {
     public function test(Request $request)
     {
-        Product::query()->toBase();
-//        $product = Product::query()->withTrashed()->findOrFail(3235);
-//        $product->forceDelete();
-//        $product->name = 'Some test product';
-//        $product->save();
-
-//        DB::transaction(function() {
-//            $table1 = new TempTableModel();
-//            $table1->name = 'Hello2';
-//            $table1->save();
-//
-//            throw new \Exception('temp');
-//        });
-
-//        $products = Product::search('клей', /*function(SearchIndex $algolia, string $query = null, array $options = []) {
-//            return $algolia->search($query, $options);
-//        }*/)
-//            ->orderBy('ordering', 'asc')
-//            ->options([
-//                'filter' => 'info_prices_count > 4'
-//            ])
-//            ->where('info_prices_count > ')
-//            ->get()
-//            ->paginate(50)
-//        ;
-
-        $products = Product::search()->paginate(10);
-
-        /**
-        $query = Product::search($request->search);
-
-        if ($request->min_price) {
-        $query->where('price', '>=', $request->min_price);
-        }
-        if ($request->max_price) {
-        $query->where('price', '<=', $request->max_price);
-        }
-         */
-
-//        dump($products);
+        $products = $this->getMeilisearchProducts('Клей');
 
         return view('test', [
             'products' => $products,
         ]);
+    }
+
+    public function getMeilisearchProducts($search = '')
+    {
+        return Product::search($search, function(MeilisearchIndexes $meilisearch, string $query = null, array $options = []) {
+//             $options['filter'] = 'info_prices_count=3';
+            return $meilisearch->search($query, $options);
+        })
+             ->where('info_prices_count', 3)
+            ->orderBy('ordering', 'asc')
+            ->query(fn (ProductQueryBuilder $query) => $query->with('infoPrices'))
+            ->paginate(10);
     }
 
     public function testEmailOrderMarkup()
