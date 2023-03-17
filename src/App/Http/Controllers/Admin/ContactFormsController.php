@@ -40,9 +40,7 @@ class ContactFormsController extends BaseAdminController
         /** @var \Domain\Users\Models\ContactForm $contactForm */
         $contactForm = $request->admin_contact_form;
 
-        if ($contactForm) {
-            MarkReadAction::cached()->execute($contactForm, H::admin(), now());
-        }
+        MarkReadAction::cached()->execute($contactForm, H::admin(), now());
 
         return $inertia->render('ContactForm/Show', [
             'contactForm' => (new ContactFormResource($contactForm))->toArray($request),

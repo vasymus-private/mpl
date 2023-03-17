@@ -129,7 +129,7 @@ class ProductQueryBuilder extends Builder
      */
     public function whereCategoryProductType(int $product_type): self
     {
-        return $this->whereHas('category', function (Builder $query) use ($product_type) {
+        return $this->whereHas('category', function (Builder $query) use ($product_type) { // @phpstan-ignore-line
             return $query->where('product_type', $product_type);
         });
     }

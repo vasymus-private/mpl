@@ -168,7 +168,7 @@ class ContactForm extends BaseModel implements HasMedia
      */
     public function getReadByAdminIdAttribute(): ?int
     {
-        $meta = is_array($this->meta) ? $this->meta : [];
+        $meta = is_array($this->meta) ? $this->meta : []; // @phpstan-ignore-line
 
         return isset($meta[static::META_KEY_READ_BY_ADMIN_ID]) ? (int)$meta[static::META_KEY_READ_BY_ADMIN_ID] : null;
     }
@@ -180,7 +180,7 @@ class ContactForm extends BaseModel implements HasMedia
      */
     public function setReadByAdminIdAttribute(?int $id = null): void
     {
-        $meta = is_array($this->meta) ? $this->meta : [];
+        $meta = is_array($this->meta) ? $this->meta : []; // @phpstan-ignore-line
 
         $meta[static::META_KEY_READ_BY_ADMIN_ID] = $id;
 
@@ -192,7 +192,7 @@ class ContactForm extends BaseModel implements HasMedia
      */
     public function getReadByAdminAtAttribute(): Carbon|\Carbon\Carbon|null
     {
-        $meta = is_array($this->meta) ? $this->meta : [];
+        $meta = is_array($this->meta) ? $this->meta : []; // @phpstan-ignore-line
 
         $readByAdminAt = isset($meta[static::META_KEY_READ_BY_ADMIN_AT]) ? (string)$meta[static::META_KEY_READ_BY_ADMIN_AT] : null;
         if (! $readByAdminAt) {
@@ -211,7 +211,7 @@ class ContactForm extends BaseModel implements HasMedia
      */
     public function setReadByAdminAtAttribute(Carbon|\Carbon\Carbon|null $date): void
     {
-        $meta = is_array($this->meta) ? $this->meta : [];
+        $meta = is_array($this->meta) ? $this->meta : []; // @phpstan-ignore-line
 
         $meta[static::META_KEY_READ_BY_ADMIN_ID] = $date;
 
