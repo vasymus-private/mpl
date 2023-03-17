@@ -475,7 +475,7 @@ enum RouteNameGroupEnum {
     Brands = "admin.brands.*",
     Articles = "admin.articles.*",
     Faq = "admin.faq.*",
-    Contacts = "admin.contacts.*",
+    Contacts = "admin.contact-forms.*",
     Blacklist = "admin.blacklist.*",
     GalleryItems = "admin.gallery-items.*",
 }
