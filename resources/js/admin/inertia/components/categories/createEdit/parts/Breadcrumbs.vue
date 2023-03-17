@@ -4,6 +4,8 @@ import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
 
 
 const routesStore = useRoutesStore()
+// @ts-ignore
+let {product_type} = routesStore.router.params
 </script>
 
 <template>
@@ -14,7 +16,7 @@ const routesStore = useRoutesStore()
         <span class="breadcrumbs__item">
             <span class="breadcrumbs__arrow"></span>
         </span>
-        <Link :href="routesStore.route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX)" class="breadcrumbs__item">
+        <Link :href="routesStore.route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {product_type})" class="breadcrumbs__item">
             <span class="breadcrumbs__text">Каталог категорий</span>
         </Link>
     </div>

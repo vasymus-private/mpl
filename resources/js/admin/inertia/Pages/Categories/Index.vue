@@ -59,7 +59,9 @@ const onSubmit = handleSubmit(async (values, ctx) => {
 const getLinkHref = (categoryId: number): string => {
     const hasSubcategories = categoriesStore.hasSubcategories(categoryId)
     if (hasSubcategories) {
-        return routesStore.route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {category_id: categoryId})
+        // @ts-ignore
+        let {product_type} = routesStore.router.params
+        return routesStore.route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {product_type, category_id: categoryId})
     }
 
     return routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id: categoryId})

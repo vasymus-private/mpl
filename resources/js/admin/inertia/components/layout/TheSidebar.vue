@@ -4,6 +4,8 @@ import {useRoutesStore, RouteTypeEnum, routeNames} from "@/admin/inertia/modules
 import {useCategoriesStore} from "@/admin/inertia/modules/categories"
 import {ref} from 'vue'
 import {useProfileStore} from "@/admin/inertia/modules/profile"
+import CategoriesSub from "@/admin/inertia/components/layout/CategoriesSub.vue"
+import {ProductTypeEnum} from "@/admin/inertia/modules/categories/types"
 
 
 const routesStore = useRoutesStore()
@@ -32,105 +34,9 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean
                     :is-active-collapse="isActiveRoute(RouteTypeEnum.categories)"
                     icon-class="adm-icon iblock_menu_icon_types"
                 >
-                    <NavItem
-                        id-or-href="categories-sub"
-                        title="Каталог товаров"
-                        :is-inertia-link="false"
-                        :is-collapse="true"
-                        :is-active-collapse="isActiveRoute(RouteTypeEnum.categoriesSub)"
-                        icon-class="adm-icon iblock_menu_icon_iblocks"
-                        nav-link-class="sub-level-1"
-                        :nav-link-text-href="routesStore.route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX)"
-                    >
-                        <NavItem
-                            :id-or-href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX)"
-                            title="Товары"
-                            :is-inertia-link="true"
-                            :is-collapse="false"
-                            icon-class="adm-arrow-icon-dot"
-                            nav-link-class="sub-level-2"
-                        />
-                        <NavItem
-                            v-for="category in categoriesStore.categories"
-                            :id-or-href="`categories-${category.id}`"
-                            :title="category.name"
-                            :is-inertia-link="false"
-                            :is-collapse="true"
-                            :is-active-collapse="isActiveRoute(RouteTypeEnum.categories, category.id)"
-                            icon-class="adm-icon iblock_menu_icon_sections"
-                            nav-link-class="sub-level-2"
-                            :nav-link-text-href="routesStore.route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {category_id: category.id})"
-                        >
-                            <NavItem
-                                :id-or-href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id : category.id})"
-                                title="Товары"
-                                :is-inertia-link="true"
-                                :is-collapse="false"
-                                icon-class="adm-arrow-icon-dot"
-                                nav-link-class="sub-level-3"
-                            />
-                            <NavItem
-                                v-for="subcategory1 in category.subcategories"
-                                :id-or-href="`categories-${subcategory1.id}`"
-                                :title="subcategory1.name"
-                                :is-inertia-link="false"
-                                :is-collapse="true"
-                                :is-active-collapse="isActiveRoute(RouteTypeEnum.categories, subcategory1.id)"
-                                icon-class="adm-icon iblock_menu_icon_sections"
-                                nav-link-class="sub-level-3"
-                                :nav-link-text-href="routesStore.route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {category_id: subcategory1.id})"
-                            >
-                                <NavItem
-                                    :id-or-href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id : subcategory1.id})"
-                                    title="Товары"
-                                    :is-inertia-link="true"
-                                    :is-collapse="false"
-                                    icon-class="adm-arrow-icon-dot"
-                                    nav-link-class="sub-level-4"
-                                />
-                                <NavItem
-                                    v-for="subcategory2 in subcategory1.subcategories"
-                                    :id-or-href="`categories-${subcategory2.id}`"
-                                    :title="subcategory2.name"
-                                    :is-inertia-link="false"
-                                    :is-collapse="true"
-                                    :is-active-collapse="isActiveRoute(RouteTypeEnum.categories, subcategory2.id)"
-                                    icon-class="adm-icon iblock_menu_icon_sections"
-                                    nav-link-class="sub-level-4"
-                                    :nav-link-text-href="routesStore.route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {category_id: subcategory2.id})"
-                                >
-                                    <NavItem
-                                        :id-or-href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id : subcategory2.id})"
-                                        title="Товары"
-                                        :is-inertia-link="true"
-                                        :is-collapse="false"
-                                        icon-class="adm-arrow-icon-dot"
-                                        nav-link-class="sub-level-5"
-                                    />
-                                    <NavItem
-                                        v-for="subcategory3 in subcategory2.subcategories"
-                                        :id-or-href="`categories-${subcategory3.id}`"
-                                        :title="subcategory3.name"
-                                        :is-inertia-link="false"
-                                        :is-collapse="true"
-                                        :is-active-collapse="isActiveRoute(RouteTypeEnum.categories, subcategory3.id)"
-                                        icon-class="adm-icon iblock_menu_icon_sections"
-                                        nav-link-class="sub-level-5"
-                                        :nav-link-text-href="routesStore.route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {category_id: subcategory3.id})"
-                                    >
-                                        <NavItem
-                                            :id-or-href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id : subcategory3.id})"
-                                            title="Товары"
-                                            :is-inertia-link="true"
-                                            :is-collapse="false"
-                                            icon-class="adm-arrow-icon-dot"
-                                            nav-link-class="sub-level-6"
-                                        />
-                                    </NavItem>
-                                </NavItem>
-                            </NavItem>
-                        </NavItem>
-                    </NavItem>
+                    <CategoriesSub title="Услуги" :categories="categoriesStore.categoriesWorks" :product_type="ProductTypeEnum.works" />
+
+                    <CategoriesSub title="Материалы" :categories="categoriesStore.categoriesMaterials" :product_type="ProductTypeEnum.materials" />
                 </NavItem>
                 <NavItem
                     id-or-href="reference"

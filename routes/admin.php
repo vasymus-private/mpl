@@ -82,7 +82,7 @@ Route
 ;
 Route
     ::get(
-        "temp-categories",
+        "temp-categories/{product_type?}",
         [CategoriesController::class, 'indexTemp']
     )
     ->name(Constants::ROUTE_ADMIN_CATEGORIES_TEMP_INDEX)

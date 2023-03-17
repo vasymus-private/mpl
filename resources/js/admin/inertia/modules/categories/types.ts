@@ -5,6 +5,7 @@ export interface CategoriesTreeItem {
     uuid: string
     name: string
     subcategories: Array<CategoriesTreeItem>
+    product_type: ProductTypeEnum
 }
 
 export interface CategoryListItem {
@@ -13,7 +14,7 @@ export interface CategoryListItem {
     name: string | null
     ordering: number | null
     is_active: boolean | null
-    product_type: number
+    product_type: ProductTypeEnum
 }
 
 export interface Category {
@@ -35,4 +36,9 @@ interface CategoryProduct {
     uuid: string
     name: string | null
     is_active: boolean | null
+}
+
+export enum ProductTypeEnum {
+    materials = 1,
+    works = 2,
 }

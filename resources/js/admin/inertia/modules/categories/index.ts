@@ -1,18 +1,15 @@
-import { defineStore } from "pinia"
+import {defineStore} from "pinia"
 import {
     CategoriesTreeItem,
     Category,
     CategoryListItem,
+    ProductTypeEnum,
 } from "@/admin/inertia/modules/categories/types"
-import { arrayToMap } from "@/admin/inertia/utils"
-import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
-import axios, { AxiosError } from "axios"
-import {
-    ErrorResponse,
-    Option,
-    OptionType,
-} from "@/admin/inertia/modules/common/types"
-import { errorsToErrorFields } from "@/admin/inertia/modules/common"
+import {arrayToMap} from "@/admin/inertia/utils"
+import {routeNames, useRoutesStore} from "@/admin/inertia/modules/routes"
+import axios, {AxiosError} from "axios"
+import {ErrorResponse, Option, OptionType,} from "@/admin/inertia/modules/common/types"
+import {errorsToErrorFields} from "@/admin/inertia/modules/common"
 
 export const storeName = "categoriesTree"
 
@@ -60,6 +57,8 @@ export const useCategoriesStore = defineStore(storeName, {
             }
         },
         categories: (state): Array<CategoriesTreeItem> => state._entities,
+        categoriesWorks: (state): Array<CategoriesTreeItem> => state._entities.filter((item: CategoriesTreeItem) => item.product_type === ProductTypeEnum.works),
+        categoriesMaterials: (state): Array<CategoriesTreeItem> => state._entities.filter((item: CategoriesTreeItem) => item.product_type === ProductTypeEnum.materials),
         allCategories: (
             state
         ): Array<Omit<CategoriesTreeItem, "subcategories">> =>
@@ -136,6 +135,7 @@ export const useCategoriesStore = defineStore(storeName, {
                         id: item.id,
                         uuid: item.uuid,
                         name: item.name,
+                        product_type: item.product_type,
                     },
                     ...(item.subcategories.length
                         ? item.subcategories.reduce(cb, [])
