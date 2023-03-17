@@ -44,7 +44,7 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean
                         nav-link-class="sub-level-1"
                     />
 
-                    <CategoriesSub title="Услуги" :categories="categoriesStore.categoriesWorks" :product_type="ProductTypeEnum.works" />
+                    <CategoriesSub title="Работы" :categories="categoriesStore.categoriesWorks" :product_type="ProductTypeEnum.works" />
 
                     <CategoriesSub title="Материалы" :categories="categoriesStore.categoriesMaterials" :product_type="ProductTypeEnum.materials" />
                 </NavItem>

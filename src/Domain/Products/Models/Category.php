@@ -263,12 +263,12 @@ class Category extends BaseModel implements HasMedia
     {
         return [
             new OptionDTO([
-                'value' => static::PRODUCT_TYPE_PARQUET_MATERIALS,
-                'label' => 'Паркетные материалы',
-            ]),
-            new OptionDTO([
                 'value' => static::PRODUCT_TYPE_PARQUET_WORKS,
                 'label' => 'Паркетные работы',
+            ]),
+            new OptionDTO([
+                'value' => static::PRODUCT_TYPE_PARQUET_MATERIALS,
+                'label' => 'Паркетные материалы',
             ]),
         ];
     }
