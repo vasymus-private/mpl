@@ -426,7 +426,8 @@ export const routeNames = {
 
     ROUTE_ADMIN_AJAX_CONTACT_FORMS_BULK_DELETE:
         "admin-ajax.contact-forms.bulk.delete",
-    ROUTE_ADMIN_AJAX_CONTACT_FORMS_BULK_READ_STATE: 'admin-ajax.contact-forms.bulk.read.state',
+    ROUTE_ADMIN_AJAX_CONTACT_FORMS_BULK_READ_STATE:
+        "admin-ajax.contact-forms.bulk.read.state",
 
     ROUTE_ADMIN_AJAX_BLACKLIST_BULK_UPDATE: "admin-ajax.blacklist.bulk.update",
     ROUTE_ADMIN_AJAX_BLACKLIST_BULK_DELETE: "admin-ajax.blacklist.bulk.delete",

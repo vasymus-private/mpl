@@ -41,13 +41,15 @@ class ContactFormsBulkController extends BaseAdminController
         $admin = H::admin();
         $now = now();
 
-        $items->each(function(ContactForm $contactForm) use($request, $admin, $now) {
+        $items->each(function (ContactForm $contactForm) use ($request, $admin, $now) {
             if ($request->isRead) {
                 MarkReadAction::cached()->execute($contactForm, $admin, $now);
+
                 return true;
             }
 
             MarkUnreadAction::cached()->execute($contactForm);
+
             return true;
         });
 
