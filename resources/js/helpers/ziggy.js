@@ -1,5 +1,5 @@
 const Ziggy = {
-    url: "http://mpl.localhost",
+    url: "http://localhost",
     port: null,
     defaults: {},
     routes: {
@@ -279,6 +279,10 @@ const Ziggy = {
         "admin-ajax.contact-forms.bulk.delete": {
             uri: "admin-ajax/contact-forms-bulk",
             methods: ["DELETE"],
+        },
+        "admin-ajax.contact-forms.bulk.read.state": {
+            uri: "admin-ajax/contact-forms-bulk-read-state",
+            methods: ["PUT"],
         },
         "admin-ajax.blacklist.bulk.update": {
             uri: "admin-ajax/blacklist-bulk",

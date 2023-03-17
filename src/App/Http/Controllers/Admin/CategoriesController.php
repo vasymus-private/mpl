@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Resources\Admin\CategoryItemResource;
 use App\Http\Resources\Admin\CategoryResource;
 use Domain\Products\Models\Category;
+use Domain\Products\QueryBuilders\CategoryQueryBuilder;
 use Illuminate\Http\Request;
 use Support\H;
 
@@ -19,7 +20,11 @@ class CategoriesController extends BaseAdminController
     {
         $inertia = H::getAdminInertia();
 
-        $query = Category::query()->select(["*"])->ordering()->with('subcategories');
+        $query = Category::query()
+            ->select(["*"])
+            ->when($request->product_type, fn (CategoryQueryBuilder $query, int $product_type) => $query->where('product_type', $product_type))
+            ->ordering()
+            ->with('subcategories');
 
         if (! $request->category_id) {
             $query->parents();

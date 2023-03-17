@@ -3,6 +3,7 @@ import {
     CategoriesTreeItem,
     Category,
     CategoryListItem,
+    ProductTypeEnum,
 } from "@/admin/inertia/modules/categories/types"
 import { arrayToMap } from "@/admin/inertia/utils"
 import { routeNames, useRoutesStore } from "@/admin/inertia/modules/routes"
@@ -35,6 +36,22 @@ export const useCategoriesStore = defineStore(storeName, {
         }
     },
     getters: {
+        getCategoryAndSubtree:
+            (state) =>
+            (id): CategoriesTreeItem | null => {
+                let categoryAndSubcategories = getCategoryAndSubcategoryCb(
+                    state._entities,
+                    id
+                )
+
+                if (!categoryAndSubcategories) {
+                    return null
+                }
+
+                console.log("-------", categoryAndSubcategories)
+
+                return categoryAndSubcategories
+            },
         getCategoryAndSubtreeIds:
             (state) =>
             (id): Array<number> | null => {
@@ -60,6 +77,16 @@ export const useCategoriesStore = defineStore(storeName, {
             }
         },
         categories: (state): Array<CategoriesTreeItem> => state._entities,
+        categoriesWorks: (state): Array<CategoriesTreeItem> =>
+            state._entities.filter(
+                (item: CategoriesTreeItem) =>
+                    item.product_type === ProductTypeEnum.works
+            ),
+        categoriesMaterials: (state): Array<CategoriesTreeItem> =>
+            state._entities.filter(
+                (item: CategoriesTreeItem) =>
+                    item.product_type === ProductTypeEnum.materials
+            ),
         allCategories: (
             state
         ): Array<Omit<CategoriesTreeItem, "subcategories">> =>
@@ -136,6 +163,7 @@ export const useCategoriesStore = defineStore(storeName, {
                         id: item.id,
                         uuid: item.uuid,
                         name: item.name,
+                        product_type: item.product_type,
                     },
                     ...(item.subcategories.length
                         ? item.subcategories.reduce(cb, [])

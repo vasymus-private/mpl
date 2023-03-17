@@ -112,6 +112,7 @@ final class Constants
     public const ROUTE_ADMIN_AJAX_GALLERY_ITEMS_BULK_DELETE = 'admin-ajax.gallery-item.bulk.delete';
 
     public const ROUTE_ADMIN_AJAX_CONTACT_FORMS_BULK_DELETE = 'admin-ajax.contact-forms.bulk.delete';
+    public const ROUTE_ADMIN_AJAX_CONTACT_FORMS_BULK_READ_STATE = 'admin-ajax.contact-forms.bulk.read.state';
 
     public const ROUTE_ADMIN_AJAX_BLACKLIST_BULK_UPDATE = 'admin-ajax.blacklist.bulk.update';
     public const ROUTE_ADMIN_AJAX_BLACKLIST_BULK_DELETE = 'admin-ajax.blacklist.bulk.delete';

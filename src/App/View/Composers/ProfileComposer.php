@@ -31,7 +31,7 @@ class ProfileComposer
         }, 0);
         $cartRoute = route("cart.show");
 
-        $view->with("viewedCount", $user->viewed_count + $user->service_viewed_count)
+        $view->with("viewedCount", $user->viewed_count)
             ->with("cartCount", $cartCount)
             ->with("asideCount", count($asideIds))
             ->with("asideIds", $asideIds)

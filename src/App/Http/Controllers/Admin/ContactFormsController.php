@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Resources\Admin\ContactFormItemResource;
 use App\Http\Resources\Admin\ContactFormResource;
+use Domain\Users\Actions\ContactForm\MarkReadAction;
 use Domain\Users\Models\ContactForm;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -38,6 +39,8 @@ class ContactFormsController extends BaseAdminController
 
         /** @var \Domain\Users\Models\ContactForm $contactForm */
         $contactForm = $request->admin_contact_form;
+
+        MarkReadAction::cached()->execute($contactForm, H::admin(), now());
 
         return $inertia->render('ContactForm/Show', [
             'contactForm' => (new ContactFormResource($contactForm))->toArray($request),

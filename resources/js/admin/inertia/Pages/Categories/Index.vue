@@ -59,7 +59,9 @@ const onSubmit = handleSubmit(async (values, ctx) => {
 const getLinkHref = (categoryId: number): string => {
     const hasSubcategories = categoriesStore.hasSubcategories(categoryId)
     if (hasSubcategories) {
-        return routesStore.route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {category_id: categoryId})
+        // @ts-ignore
+        let {product_type} = routesStore.router.params
+        return routesStore.route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {product_type, category_id: categoryId})
     }
 
     return routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX, {category_id: categoryId})
@@ -161,7 +163,25 @@ watchSelectAll()
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-2">
-                    <Link :href="routesStore.route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_CREATE)" class="btn btn-add btn-secondary">Создать</Link>
+                    <div class="dropdown">
+                        <button
+                            class="btn btn-secondary dropdown-toggle w-100"
+                            type="button"
+                            id="dropdown-create-category-or-product"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                        >Создать</button>
+                        <div class="dropdown-menu" aria-labelledby="dropdown-create-category-or-product">
+                            <Link
+                                :href="routesStore.route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_CREATE)"
+                                class="dropdown-item"
+                            >Раздел</Link>
+                            <Link
+                                :href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_CREATE)"
+                                class="dropdown-item"
+                            >Товар</Link>
+                        </div>
+                    </div>
                 </div>
             </div>
 

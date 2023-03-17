@@ -79,7 +79,7 @@ class Category extends BaseModel implements HasMedia
     public const PRODUCT_TYPE_PARQUET_MATERIALS = 1;
     public const PRODUCT_TYPE_PARQUET_WORKS = 2;
 
-    public const DEFAULT_IS_ACTIVE = false;
+    public const DEFAULT_IS_ACTIVE = true;
     public const DEFAULT_ORDERING = 500;
     public const DEFAULT_PRODUCT_TYPE = self::PRODUCT_TYPE_PARQUET_MATERIALS;
 
@@ -263,12 +263,12 @@ class Category extends BaseModel implements HasMedia
     {
         return [
             new OptionDTO([
-                'value' => static::PRODUCT_TYPE_PARQUET_MATERIALS,
-                'label' => 'Паркетные материалы',
-            ]),
-            new OptionDTO([
                 'value' => static::PRODUCT_TYPE_PARQUET_WORKS,
                 'label' => 'Паркетные работы',
+            ]),
+            new OptionDTO([
+                'value' => static::PRODUCT_TYPE_PARQUET_MATERIALS,
+                'label' => 'Паркетные материалы',
             ]),
         ];
     }

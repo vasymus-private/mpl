@@ -10,6 +10,9 @@ const categoriesStore = useCategoriesStore()
 const routesStore = useRoutesStore()
 const toastsStore = useToastsStore()
 
+// @ts-ignore
+let {product_type} = routesStore.router.params
+
 const handleDelete = async () => {
     if (!categoriesStore.category?.id) {
         return
@@ -20,7 +23,8 @@ const handleDelete = async () => {
         if (!errorsOrVoid) {
             Inertia.visit(
                 routesStore.route(
-                    routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX
+                    routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX,
+                    {product_type}
                 )
             )
             return
@@ -40,7 +44,7 @@ const handleDelete = async () => {
     <div class="detail-toolbar">
         <div class="row d-flex align-items-center">
             <div class="col-sm-7">
-                <Link :href="routesStore.route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {category_id: categoriesStore.category?.parent_id})" class="detail-toolbar__btn">
+                <Link :href="routesStore.route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {product_type, category_id: categoriesStore.category?.parent_id})" class="detail-toolbar__btn">
                     <span class="detail-toolbar__btn-l"></span>
                     <span class="detail-toolbar__btn-text">Разделы</span>
                     <span class="detail-toolbar__btn-r"></span>

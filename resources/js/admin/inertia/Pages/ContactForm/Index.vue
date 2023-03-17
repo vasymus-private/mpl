@@ -25,6 +25,7 @@ const {
     editMode,
     checkedItems,
     check,
+    uncheckAll,
     isChecked,
     watchSelectAll,
     manualCheck,
@@ -40,6 +41,14 @@ const deleteContactFormItems = async () => {
     }
 }
 
+const markRead = async () => {
+    await bulkReadState(checkedItems.value, true)
+}
+
+const markUnread = async () => {
+    await bulkReadState(checkedItems.value, false)
+}
+
 const deleteContactFormItem = async (item: ContactFormItem) => {
     if (confirm(`Вы уверены, что хотите удалить контактную форму '${item.id}' '${item.name}' ?`)) {
         await bulkDelete([item.uuid])
@@ -50,6 +59,21 @@ const bulkDelete = async (ids: Array<string>) => {
     let errorsOrVoid = await contactFormsStore.deleteBulkContactFormItems(ids)
     if (!errorsOrVoid) {
         revisit()
+        return
+    }
+
+    for (let key in errorsOrVoid) {
+        toastsStore.error({
+            title: key,
+            message: errorsOrVoid[key]
+        })
+    }
+}
+
+const bulkReadState = async (ids: Array<string>, isRead: boolean) => {
+    let errorsOrVoid = await contactFormsStore.bulkReadStateContactFormItems(ids, isRead)
+    if (!errorsOrVoid) {
+        uncheckAll()
         return
     }
 
@@ -126,10 +150,16 @@ watchSelectAll()
                         <th scope="col">Имя</th>
                         <th scope="col">Телефон</th>
                         <th scope="col">Ip</th>
+                        <th scope="col">Дата</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="contactFormItem in contactFormList" :key="`contactFormItem-${contactFormItem.id}`" @click="manualCheck(contactFormItem.uuid)">
+                    <tr
+                        v-for="contactFormItem in contactFormList"
+                        :key="`contactFormItem-${contactFormItem.id}`"
+                        @click="manualCheck(contactFormItem.uuid)"
+                        :style="!contactFormItem.is_read_by_admin ? {border: '1px solid red'} : {}"
+                    >
                         <td>
                             <div class="form-check">
                                 <input
@@ -200,6 +230,9 @@ watchSelectAll()
                         <td>
                             <IpDetails v-if="contactFormItem.ipDetails" :ip-details="contactFormItem.ipDetails" />
                         </td>
+                        <td>
+                            <span class="main-grid-cell-content">{{contactFormItem.dt_created_at ? contactFormItem.dt_created_at.toFormat('dd.LL.yyyy HH:mm:ss') : null}}</span>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -216,6 +249,8 @@ watchSelectAll()
             />
 
             <footer key="edit-mode-off" v-if="!editMode" class="footer edit-item-footer">
+                <button @click="markRead" :disabled="!checkedItems.length" type="button" class="btn btn-success mb-2 me-2 btn__default">Прочитано</button>
+                <button @click="markUnread" :disabled="!checkedItems.length" type="button" class="btn btn-warning mb-2 me-2 btn__default">Не прочитано</button>
                 <button @click="deleteContactFormItems" :disabled="!checkedItems.length" type="button" class="btn btn-info mb-2 btn__default">Удалить</button>
             </footer>
         </div>

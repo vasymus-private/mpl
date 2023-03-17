@@ -6,6 +6,7 @@ use App\Providers\MediaLibraryServiceProvider;
 use Domain\Common\Models\BaseModel;
 use Domain\Ip\Models\Ip;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -20,6 +21,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
  * @property string|null $email
  * @property string|null $phone
  * @property string|null $description
+ * @property array $meta
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
  *
@@ -31,6 +33,17 @@ use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
  *
  * @see \Domain\Users\Models\ContactForm::getFilesAttribute()
  * @property \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $files
+ *
+ * @see \Domain\Users\Models\ContactForm::getReadByAdminIdAttribute()
+ * @see \Domain\Users\Models\ContactForm::setReadByAdminIdAttribute()
+ * @property int|null $read_by_admin_id
+ *
+ * @see \Domain\Users\Models\ContactForm::getReadByAdminAtAttribute()
+ * @see \Domain\Users\Models\ContactForm::setReadByAdminAtAttribute()
+ * @property \Illuminate\Support\Carbon|\Carbon\Carbon|null $read_by_admin_at
+ *
+ * @see \Domain\Users\Models\ContactForm::getIsReadByAdminAttribute()
+ * @property-read bool $is_read_by_admin
  */
 class ContactForm extends BaseModel implements HasMedia
 {
@@ -51,12 +64,35 @@ class ContactForm extends BaseModel implements HasMedia
 
     public const MC_FILES = "files";
 
+    protected const META_KEY_READ_BY_ADMIN_ID = 'read_by_admin_id';
+    protected const META_KEY_READ_BY_ADMIN_AT = 'read_by_admin_at';
+
+    protected const META_DATE_FORMAT = 'Y-m-d H:i:s';
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = self::TABLE;
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'meta' => 'array',
+    ];
+
+    /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'meta' => '[]',
+    ];
 
     /**
      * @inheritDoc
@@ -125,5 +161,68 @@ class ContactForm extends BaseModel implements HasMedia
     public function getFilesAttribute(): MediaCollection
     {
         return $this->getMedia(static::MC_FILES);
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getReadByAdminIdAttribute(): ?int
+    {
+        $meta = is_array($this->meta) ? $this->meta : []; // @phpstan-ignore-line
+
+        return isset($meta[static::META_KEY_READ_BY_ADMIN_ID]) ? (int)$meta[static::META_KEY_READ_BY_ADMIN_ID] : null;
+    }
+
+    /**
+     * @param int|null $id
+     *
+     * @return void
+     */
+    public function setReadByAdminIdAttribute(?int $id = null): void
+    {
+        $meta = is_array($this->meta) ? $this->meta : []; // @phpstan-ignore-line
+
+        $meta[static::META_KEY_READ_BY_ADMIN_ID] = $id;
+
+        $this->meta = $meta;
+    }
+
+    /**
+     * @return \Illuminate\Support\Carbon|\Carbon\Carbon|null
+     */
+    public function getReadByAdminAtAttribute(): Carbon|\Carbon\Carbon|null
+    {
+        $meta = is_array($this->meta) ? $this->meta : []; // @phpstan-ignore-line
+
+        $readByAdminAt = isset($meta[static::META_KEY_READ_BY_ADMIN_AT]) ? (string)$meta[static::META_KEY_READ_BY_ADMIN_AT] : null;
+        if (! $readByAdminAt) {
+            return null;
+        }
+
+        $date = Carbon::createFromFormat(static::META_DATE_FORMAT, $readByAdminAt);
+
+        return $date ?: null;
+    }
+
+    /**
+     * @param \Illuminate\Support\Carbon|\Carbon\Carbon|null $date
+     *
+     * @return void
+     */
+    public function setReadByAdminAtAttribute(Carbon|\Carbon\Carbon|null $date): void
+    {
+        $meta = is_array($this->meta) ? $this->meta : []; // @phpstan-ignore-line
+
+        $meta[static::META_KEY_READ_BY_ADMIN_ID] = $date;
+
+        $this->meta = $meta;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsReadByAdminAttribute(): bool
+    {
+        return ! empty($this->read_by_admin_id);
     }
 }

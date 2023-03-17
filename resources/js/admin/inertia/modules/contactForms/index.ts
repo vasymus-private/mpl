@@ -64,7 +64,12 @@ export const useContactFormsStore = defineStore(storeName, {
     },
     actions: {
         setEntities(entities: Array<ContactFormItem>): void {
-            this._entities = entities
+            this._entities = entities.map((item) => ({
+                ...item,
+                dt_created_at: item.created_at
+                    ? DateTime.fromFormat(item.created_at, format)
+                    : null,
+            }))
         },
         setLinks(links: Links | null): void {
             this._links = links
@@ -92,6 +97,18 @@ export const useContactFormsStore = defineStore(storeName, {
                 (item) => !uuids.includes(item.uuid)
             )
         },
+        markReadStateEntities(uuids: Array<string>, isRead: boolean): void {
+            this._entities = this._entities.map((item) => {
+                if (!uuids.includes(item.uuid)) {
+                    return item
+                }
+
+                return {
+                    ...item,
+                    is_read_by_admin: isRead,
+                }
+            })
+        },
         async deleteBulkContactFormItems(
             checkedItemsUuids: Array<string>
         ): Promise<void | Record<string, string | undefined>> {
@@ -115,6 +132,39 @@ export const useContactFormsStore = defineStore(storeName, {
                 await axios.delete(url.toString())
 
                 this.removeEntities(checkedItemsUuids)
+            } catch (e) {
+                if (e instanceof AxiosError) {
+                    const {
+                        data: { errors },
+                    }: ErrorResponse = e.response
+
+                    return errorsToErrorFields(errors)
+                }
+                throw e
+            }
+        },
+        async bulkReadStateContactFormItems(
+            checkedItemsUuids: Array<string>,
+            isRead: boolean
+        ): Promise<void | Record<string, string | undefined>> {
+            if (!checkedItemsUuids.length) {
+                return
+            }
+
+            const routesStore = useRoutesStore()
+
+            try {
+                await axios.put(
+                    routesStore.route(
+                        routeNames.ROUTE_ADMIN_AJAX_CONTACT_FORMS_BULK_READ_STATE
+                    ),
+                    {
+                        ids: this.contactFormIds(checkedItemsUuids),
+                        isRead,
+                    }
+                )
+
+                this.markReadStateEntities(checkedItemsUuids, isRead)
             } catch (e) {
                 if (e instanceof AxiosError) {
                     const {

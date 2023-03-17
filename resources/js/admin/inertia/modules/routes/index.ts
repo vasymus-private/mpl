@@ -17,6 +17,7 @@ import {
 import { getAmendedZiggyConfig, isNumeric } from "@/admin/inertia/utils"
 import { usePage } from "@inertiajs/inertia-vue3"
 import { InitialPageProps } from "@/admin/inertia/modules"
+import { ProductTypeEnum } from "@/admin/inertia/modules/categories/types"
 
 export const storeName = "routes"
 
@@ -89,9 +90,14 @@ export const useRoutesStore = defineStore(storeName, {
         isActiveRoute() {
             return (
                 type: RouteTypeEnum,
-                id: number | string = null
+                id: number | string = null,
+                product_type: ProductTypeEnum | null = null
             ): boolean => {
                 const categoriesStore = useCategoriesStore()
+
+                // @ts-ignore
+                let { product_type: pt } = this.router.params
+                pt = +pt
 
                 let router = this.router
                 if (!router) {
@@ -99,7 +105,16 @@ export const useRoutesStore = defineStore(storeName, {
                 }
 
                 switch (type) {
-                    case RouteTypeEnum.categoriesSub:
+                    case RouteTypeEnum.categoriesSub: {
+                        if (
+                            !router.current(RouteNameGroupEnum.Products) &&
+                            !router.current(RouteNameGroupEnum.Categories)
+                        ) {
+                            return false
+                        }
+
+                        return pt === product_type
+                    }
                     case RouteTypeEnum.categories: {
                         if (
                             !router.current(RouteNameGroupEnum.Products) &&
@@ -108,7 +123,11 @@ export const useRoutesStore = defineStore(storeName, {
                             return false
                         }
 
-                        if (id === null) {
+                        if (id === null && product_type === null) {
+                            return true
+                        }
+
+                        if (id === null && product_type === pt) {
                             return true
                         }
 
@@ -426,6 +445,8 @@ export const routeNames = {
 
     ROUTE_ADMIN_AJAX_CONTACT_FORMS_BULK_DELETE:
         "admin-ajax.contact-forms.bulk.delete",
+    ROUTE_ADMIN_AJAX_CONTACT_FORMS_BULK_READ_STATE:
+        "admin-ajax.contact-forms.bulk.read.state",
 
     ROUTE_ADMIN_AJAX_BLACKLIST_BULK_UPDATE: "admin-ajax.blacklist.bulk.update",
     ROUTE_ADMIN_AJAX_BLACKLIST_BULK_DELETE: "admin-ajax.blacklist.bulk.delete",
@@ -475,7 +496,7 @@ enum RouteNameGroupEnum {
     Brands = "admin.brands.*",
     Articles = "admin.articles.*",
     Faq = "admin.faq.*",
-    Contacts = "admin.contacts.*",
+    Contacts = "admin.contact-forms.*",
     Blacklist = "admin.blacklist.*",
     GalleryItems = "admin.gallery-items.*",
 }

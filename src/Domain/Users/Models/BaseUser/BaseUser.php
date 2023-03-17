@@ -122,7 +122,6 @@ use Illuminate\Support\Str;
  * @method static \Domain\Users\QueryBuilders\UserQueryBuilder query()
  *
  * @property-read int $viewed_count
- * @property-read int $service_viewed_count
  *
  * @mixin \Domain\Common\Models\BaseModel
  * */
