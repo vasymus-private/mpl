@@ -98,17 +98,16 @@ export const useContactFormsStore = defineStore(storeName, {
             )
         },
         markReadStateEntities(uuids: Array<string>, isRead: boolean): void {
-            this._entities = this._entities
-                .map(item => {
-                    if (!uuids.includes(item.uuid)) {
-                        return item
-                    }
+            this._entities = this._entities.map((item) => {
+                if (!uuids.includes(item.uuid)) {
+                    return item
+                }
 
-                    return {
-                        ...item,
-                        is_read_by_admin: isRead,
-                    }
-                })
+                return {
+                    ...item,
+                    is_read_by_admin: isRead,
+                }
+            })
         },
         async deleteBulkContactFormItems(
             checkedItemsUuids: Array<string>
@@ -158,7 +157,8 @@ export const useContactFormsStore = defineStore(storeName, {
                 await axios.put(
                     routesStore.route(
                         routeNames.ROUTE_ADMIN_AJAX_CONTACT_FORMS_BULK_READ_STATE
-                    ), {
+                    ),
+                    {
                         ids: this.contactFormIds(checkedItemsUuids),
                         isRead,
                     }
@@ -175,6 +175,6 @@ export const useContactFormsStore = defineStore(storeName, {
                 }
                 throw e
             }
-        }
+        },
     },
 })

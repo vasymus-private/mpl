@@ -195,7 +195,7 @@ class ContactForm extends BaseModel implements HasMedia
         $meta = is_array($this->meta) ? $this->meta : [];
 
         $readByAdminAt = isset($meta[static::META_KEY_READ_BY_ADMIN_AT]) ? (string)$meta[static::META_KEY_READ_BY_ADMIN_AT] : null;
-        if (!$readByAdminAt) {
+        if (! $readByAdminAt) {
             return null;
         }
 
@@ -223,6 +223,6 @@ class ContactForm extends BaseModel implements HasMedia
      */
     public function getIsReadByAdminAttribute(): bool
     {
-        return !empty($this->read_by_admin_id);
+        return ! empty($this->read_by_admin_id);
     }
 }
