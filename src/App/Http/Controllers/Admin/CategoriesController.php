@@ -22,7 +22,7 @@ class CategoriesController extends BaseAdminController
 
         $query = Category::query()
             ->select(["*"])
-            ->when($request->product_type, fn(CategoryQueryBuilder $query, int $product_type) => $query->where('product_type', $product_type))
+            ->when($request->product_type, fn (CategoryQueryBuilder $query, int $product_type) => $query->where('product_type', $product_type))
             ->ordering()
             ->with('subcategories');
 

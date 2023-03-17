@@ -17,7 +17,7 @@ import {
 import { getAmendedZiggyConfig, isNumeric } from "@/admin/inertia/utils"
 import { usePage } from "@inertiajs/inertia-vue3"
 import { InitialPageProps } from "@/admin/inertia/modules"
-import {ProductTypeEnum} from "@/admin/inertia/modules/categories/types";
+import { ProductTypeEnum } from "@/admin/inertia/modules/categories/types"
 
 export const storeName = "routes"
 
@@ -91,12 +91,12 @@ export const useRoutesStore = defineStore(storeName, {
             return (
                 type: RouteTypeEnum,
                 id: number | string = null,
-                product_type: ProductTypeEnum|null = null
+                product_type: ProductTypeEnum | null = null
             ): boolean => {
                 const categoriesStore = useCategoriesStore()
 
                 // @ts-ignore
-                let {product_type: pt} = this.router.params
+                let { product_type: pt } = this.router.params
 
                 let router = this.router
                 if (!router) {
@@ -113,13 +113,13 @@ export const useRoutesStore = defineStore(storeName, {
                         }
 
                         if (pt === product_type) {
-                            return true;
+                            return true
                         }
 
                         let categoryAndSubtree =
                             categoriesStore.getCategoryAndSubtree(id)
 
-                        console.log('---', categoryAndSubtree)
+                        console.log("---", categoryAndSubtree)
 
                         if (!categoryAndSubtree) {
                             return false
