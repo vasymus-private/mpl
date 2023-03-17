@@ -96,7 +96,7 @@ export const useRoutesStore = defineStore(storeName, {
                 const categoriesStore = useCategoriesStore()
 
                 // @ts-ignore
-                let {product_type : pt} = this.router.params
+                let {product_type: pt} = this.router.params
 
                 let router = this.router
                 if (!router) {
@@ -112,7 +112,20 @@ export const useRoutesStore = defineStore(storeName, {
                             return false
                         }
 
-                        return pt === product_type;
+                        if (pt === product_type) {
+                            return true;
+                        }
+
+                        let categoryAndSubtree =
+                            categoriesStore.getCategoryAndSubtree(id)
+
+                        console.log('---', categoryAndSubtree)
+
+                        if (!categoryAndSubtree) {
+                            return false
+                        }
+
+                        return pt === categoryAndSubtree.product_type
                     }
                     case RouteTypeEnum.categories: {
                         if (

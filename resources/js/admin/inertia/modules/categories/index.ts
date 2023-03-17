@@ -32,6 +32,21 @@ export const useCategoriesStore = defineStore(storeName, {
         }
     },
     getters: {
+        getCategoryAndSubtree: (state) =>
+            (id): CategoriesTreeItem | null => {
+                let categoryAndSubcategories = getCategoryAndSubcategoryCb(
+                    state._entities,
+                    id
+                )
+
+                if (!categoryAndSubcategories) {
+                    return null
+                }
+
+                console.log('-------', categoryAndSubcategories)
+
+                return categoryAndSubcategories
+            },
         getCategoryAndSubtreeIds:
             (state) =>
             (id): Array<number> | null => {

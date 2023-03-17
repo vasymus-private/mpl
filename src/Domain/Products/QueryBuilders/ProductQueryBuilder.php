@@ -6,6 +6,7 @@ use Domain\Products\Models\AvailabilityStatus;
 use Domain\Products\Models\Category;
 use Domain\Products\Models\Product\Product;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 
 /**
  * @template TModelClass of \Domain\Products\Models\Product\Product
@@ -120,5 +121,17 @@ class ProductQueryBuilder extends Builder
         return $this
             ->orderBy(sprintf('%s.ordering', $this->table), $direction)
             ->orderBy(sprintf('%s.id', $this->table), $direction);
+    }
+
+    /**
+     * @param int $product_type
+     *
+     * @return $this
+     */
+    public function whereCategoryProductType(int $product_type): self
+    {
+        return $this->whereHas('category', function(Builder $query) use($product_type) {
+            return $query->where('product_type', $product_type);
+        });
     }
 }

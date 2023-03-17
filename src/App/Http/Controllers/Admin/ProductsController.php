@@ -23,6 +23,7 @@ class ProductsController extends BaseAdminController
         $productListItems = Product::query()
             ->select(["*"])
             ->notVariations()
+            ->when($request->product_type, fn (ProductQueryBuilder $query, int $product_type) => $query->whereCategoryProductType($product_type))
             ->orderByOrderingAndId()
             ->when($request->category_id, fn (ProductQueryBuilder $query, int $categoryId) => $query->forMainAndRelatedCategories([$categoryId]))
             ->when($request->brand_id, fn (ProductQueryBuilder $query, int $brandId) => $query->whereBrandId($brandId))

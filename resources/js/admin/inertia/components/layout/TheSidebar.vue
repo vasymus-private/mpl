@@ -33,7 +33,17 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean
                     :is-collapse="true"
                     :is-active-collapse="isActiveRoute(RouteTypeEnum.categories)"
                     icon-class="adm-icon iblock_menu_icon_types"
+                    :nav-link-text-href="routesStore.route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX)"
                 >
+                    <NavItem
+                        :id-or-href="routesStore.route(routeNames.ROUTE_ADMIN_PRODUCTS_TEMP_INDEX)"
+                        title="Товары"
+                        :is-inertia-link="true"
+                        :is-collapse="false"
+                        icon-class="adm-arrow-icon-dot"
+                        nav-link-class="sub-level-1"
+                    />
+
                     <CategoriesSub title="Услуги" :categories="categoriesStore.categoriesWorks" :product_type="ProductTypeEnum.works" />
 
                     <CategoriesSub title="Материалы" :categories="categoriesStore.categoriesMaterials" :product_type="ProductTypeEnum.materials" />
