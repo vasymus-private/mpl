@@ -71,6 +71,7 @@ Route::put('gallery-items-bulk', [GalleryItemBulkController::class, 'update'])->
 Route::delete('gallery-items-bulk', [GalleryItemBulkController::class, 'delete'])->name(Constants::ROUTE_ADMIN_AJAX_GALLERY_ITEMS_BULK_DELETE);
 
 Route::delete('contact-forms-bulk', [ContactFormsBulkController::class, 'delete'])->name(Constants::ROUTE_ADMIN_AJAX_CONTACT_FORMS_BULK_DELETE);
+Route::put('contact-forms-bulk-read-state', [ContactFormsBulkController::class, 'readState'])->name(Constants::ROUTE_ADMIN_AJAX_CONTACT_FORMS_BULK_READ_STATE);
 
 Route::put('blacklist-bulk', [BlacklistBulkController::class, 'update'])->name(Constants::ROUTE_ADMIN_AJAX_BLACKLIST_BULK_UPDATE);
 Route::delete('blacklist-bulk', [BlacklistBulkController::class, 'delete'])->name(Constants::ROUTE_ADMIN_AJAX_BLACKLIST_BULK_DELETE);

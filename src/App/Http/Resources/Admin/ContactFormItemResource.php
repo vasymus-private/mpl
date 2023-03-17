@@ -4,6 +4,7 @@ namespace App\Http\Resources\Admin;
 
 use App\Http\Controllers\Admin\IpResource;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Carbon;
 
 class ContactFormItemResource extends JsonResource
 {
@@ -34,6 +35,10 @@ class ContactFormItemResource extends JsonResource
             'email' => $this->resource->email,
             'name' => $this->resource->name,
             'phone' => $this->resource->phone,
+            'is_read_by_admin' => $this->resource->is_read_by_admin,
+            'created_at' => $this->resource->created_at instanceof Carbon
+                ? $this->resource->created_at->format('Y-m-d H:i:s')
+                : null,
         ];
     }
 }
