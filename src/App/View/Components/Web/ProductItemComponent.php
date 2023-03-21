@@ -97,7 +97,7 @@ class ProductItemComponent extends Component
         $parentCategory1 = $this->product->category->parentCategory;
         $parentCategory2 = $this->product->category->parentCategory->parentCategory ?? null;
         $parentCategory3 = $this->product->category->parentCategory->parentCategory->parentCategory ?? null;
-
+//dump($this->product, $category, $parentCategory1, $parentCategory2, $parentCategory3);
         if ($parentCategory3) {
             return route("product.show.4", [$parentCategory3->slug, $parentCategory2->slug, $parentCategory1->slug, $category->slug, $this->product->slug]);
         }
@@ -109,7 +109,7 @@ class ProductItemComponent extends Component
         if ($parentCategory1) {
             return route("product.show.2", [$parentCategory1->slug, $category->slug, $this->product->slug]);
         }
-
+dump($category->slug, $this->product->slug);
         return route("product.show.1", [$category->slug, $this->product->slug]);
     }
 }

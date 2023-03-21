@@ -14,9 +14,15 @@ class AddAdditionalImagesToProductVariationsTableSeeder extends BaseSeeder
      */
     public function run()
     {
+        if ($this->isCalledOnce()) {
+            return;
+        }
+
         $this->seedOne();
 
         $this->seedTwo();
+
+        $this->setCalledOnce();
     }
 
     protected function seedOne()
