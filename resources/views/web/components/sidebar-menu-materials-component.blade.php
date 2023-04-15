@@ -15,7 +15,7 @@
                             @foreach($products as $product)
                                 <?php /** @var \Domain\Products\Models\Product\Product $product */ ?>
                                 <p class="dropdown-level_2">
-                                    <a href="{{route("parquet-works-product.show", [$product->slug])}}">{{$product->name}}</a>
+                                    <a href="{{route(\App\Constants::ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW, [$product->slug])}}">{{$product->name}}</a>
                                 </p>
                             @endforeach
                         </li>

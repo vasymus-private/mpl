@@ -28,6 +28,13 @@ final class Constants
 
     public const ROUTE_WEB_HOME = 'home';
 
+    public const ROUTE_WEB_PRODUCT_SHOW_1 = 'product.show.1';
+    public const ROUTE_WEB_PRODUCT_SHOW_2 = 'product.show.2';
+    public const ROUTE_WEB_PRODUCT_SHOW_3 = 'product.show.3';
+    public const ROUTE_WEB_PRODUCT_SHOW_4 = 'product.show.4';
+
+    public const ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW = 'parquet-works-product.show';
+
     public const ROUTE_WEB_FAQ_INDEX = 'faq.index';
     public const ROUTE_WEB_FAQ_SHOW = 'faq.show';
 

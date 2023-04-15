@@ -17,7 +17,7 @@
             <ul class="pure-menu-children">
                 @foreach($parquetWorkCategory->products as $product)
                     <li class="pure-menu-item">
-                        <a href="{{route("parquet-works-product.show", [$product->slug])}}" class="pure-menu-link">{{$product->name}}</a>
+                        <a href="{{route(\App\Constants::ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW, [$product->slug])}}" class="pure-menu-link">{{$product->name}}</a>
                     </li>
                 @endforeach
             </ul>
