@@ -19,7 +19,7 @@ import { usePage } from "@inertiajs/inertia-vue3"
 import { InitialPageProps } from "@/admin/inertia/modules"
 import { ProductTypeEnum } from "@/admin/inertia/modules/categories/types"
 import useRoute from "@/admin/inertia/composables/useRoute"
-import {UrlSearchParam} from '@/admin/inertia/modules/routes/types'
+import { UrlSearchParam } from "@/admin/inertia/modules/routes/types"
 
 export const storeName = "routes"
 
@@ -192,25 +192,44 @@ export const useRoutesStore = defineStore(storeName, {
                 switch (type) {
                     case RouteTypeEnum.products:
                     case RouteTypeEnum.categories: {
-                        if (type === RouteTypeEnum.products && !router.current(RouteNameGroupEnum.Products)) {
+                        if (
+                            type === RouteTypeEnum.products &&
+                            !router.current(RouteNameGroupEnum.Products)
+                        ) {
                             return false
                         }
 
-                        if (type === RouteTypeEnum.categories && !router.current(RouteNameGroupEnum.Categories)) {
+                        if (
+                            type === RouteTypeEnum.categories &&
+                            !router.current(RouteNameGroupEnum.Categories)
+                        ) {
                             return false
                         }
 
-                        const {hasUrlParam, getUrlParam} = useRoute()
+                        const { hasUrlParam, getUrlParam } = useRoute()
 
                         if (!id && !product_type) {
-                            return !hasUrlParam(UrlSearchParam.product_type) && !hasUrlParam(UrlSearchParam.category_id)
+                            return (
+                                !hasUrlParam(UrlSearchParam.product_type) &&
+                                !hasUrlParam(UrlSearchParam.category_id)
+                            )
                         }
 
                         if (!id) {
-                            return !hasUrlParam(UrlSearchParam.category_id) && `${getUrlParam(UrlSearchParam.product_type)}` === `${product_type}`
+                            return (
+                                !hasUrlParam(UrlSearchParam.category_id) &&
+                                `${getUrlParam(
+                                    UrlSearchParam.product_type
+                                )}` === `${product_type}`
+                            )
                         }
 
-                        return `${getUrlParam(UrlSearchParam.product_type)}` === `${product_type}` && `${getUrlParam(UrlSearchParam.category_id)}` === `${id}`
+                        return (
+                            `${getUrlParam(UrlSearchParam.product_type)}` ===
+                                `${product_type}` &&
+                            `${getUrlParam(UrlSearchParam.category_id)}` ===
+                                `${id}`
+                        )
                     }
                     default: {
                         return this.isActiveRoute(type)
