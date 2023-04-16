@@ -2,7 +2,6 @@
 
 namespace App\View\Components\Web;
 
-use App\Constants;
 use Domain\Products\Models\InformationalPrice;
 use Domain\Products\Models\Product\Product;
 use Illuminate\View\Component;
