@@ -18,6 +18,8 @@ import { getAmendedZiggyConfig, isNumeric } from "@/admin/inertia/utils"
 import { usePage } from "@inertiajs/inertia-vue3"
 import { InitialPageProps } from "@/admin/inertia/modules"
 import { ProductTypeEnum } from "@/admin/inertia/modules/categories/types"
+import useRoute from "@/admin/inertia/composables/useRoute"
+import {UrlSearchParam} from '@/admin/inertia/modules/routes/types'
 
 export const storeName = "routes"
 
@@ -105,16 +107,6 @@ export const useRoutesStore = defineStore(storeName, {
                 }
 
                 switch (type) {
-                    case RouteTypeEnum.categoriesSub: {
-                        if (
-                            !router.current(RouteNameGroupEnum.Products) &&
-                            !router.current(RouteNameGroupEnum.Categories)
-                        ) {
-                            return false
-                        }
-
-                        return pt === product_type
-                    }
                     case RouteTypeEnum.categories: {
                         if (
                             !router.current(RouteNameGroupEnum.Products) &&
@@ -177,8 +169,51 @@ export const useRoutesStore = defineStore(storeName, {
                     case RouteTypeEnum.referenceGalleryItems: {
                         return router.current(RouteNameGroupEnum.GalleryItems)
                     }
+                    case RouteTypeEnum.orders: {
+                        return router.current(RouteNameGroupEnum.Orders)
+                    }
                     default: {
                         return false
+                    }
+                }
+            }
+        },
+        isActiveMenu() {
+            return (
+                type: RouteTypeEnum,
+                id: number | string = null,
+                product_type: ProductTypeEnum | null = null
+            ): boolean => {
+                let router = this.router
+                if (!router) {
+                    return false
+                }
+
+                switch (type) {
+                    case RouteTypeEnum.products:
+                    case RouteTypeEnum.categories: {
+                        if (type === RouteTypeEnum.products && !router.current(RouteNameGroupEnum.Products)) {
+                            return false
+                        }
+
+                        if (type === RouteTypeEnum.categories && !router.current(RouteNameGroupEnum.Categories)) {
+                            return false
+                        }
+
+                        const {hasUrlParam, getUrlParam} = useRoute()
+
+                        if (!id && !product_type) {
+                            return !hasUrlParam(UrlSearchParam.product_type) && !hasUrlParam(UrlSearchParam.category_id)
+                        }
+
+                        if (!id) {
+                            return !hasUrlParam(UrlSearchParam.category_id) && `${getUrlParam(UrlSearchParam.product_type)}` === `${product_type}`
+                        }
+
+                        return `${getUrlParam(UrlSearchParam.product_type)}` === `${product_type}` && `${getUrlParam(UrlSearchParam.category_id)}` === `${id}`
+                    }
+                    default: {
+                        return this.isActiveRoute(type)
                     }
                 }
             }
@@ -499,11 +534,12 @@ enum RouteNameGroupEnum {
     Contacts = "admin.contact-forms.*",
     Blacklist = "admin.blacklist.*",
     GalleryItems = "admin.gallery-items.*",
+    Orders = "admin.orders.*",
 }
 
 export enum RouteTypeEnum {
-    categoriesSub = "categories-sub",
     categories = "categories",
+    products = "products",
     reference = "reference",
     referenceBrands = "reference-brands",
     referenceArticles = "reference-articles",
@@ -512,4 +548,5 @@ export enum RouteTypeEnum {
     referenceGalleryItems = "reference-gallery-items",
     highload = "highload",
     highloadBlacklist = "highload-blacklist",
+    orders = "orders",
 }

@@ -11,6 +11,7 @@ const props = defineProps<{
     iconClass: string
     isCollapse: boolean
     isActiveCollapse?: boolean
+    isActive?: boolean
     isArrowSpace?: boolean
     navLinkClass?: string
     navLinkTextHref?: string
@@ -103,7 +104,7 @@ onUnmounted(() => {
         <component
             :is="props.isInertiaLink ? Link : 'a'"
             :href="props.idOrHref"
-            :class="['nav-link', props.navLinkClass || '', props.isCollapse && !props.isActiveCollapse ? 'collapsed' : '']"
+            :class="['nav-link', props.navLinkClass || '', props.isCollapse && !props.isActiveCollapse ? 'collapsed' : '', props.isActive && 'nav-link-active']"
             :data-bs-toggle="props.isCollapse ? 'collapse' : null"
             :data-bs-target="props.isCollapse ? `#${props.idOrHref}` : null"
             :aria-expanded="!props.isCollapse ? null : (props.isCollapse && props.isActiveCollapse ? 'true' : 'false')"
@@ -113,7 +114,7 @@ onUnmounted(() => {
             <span v-if="props.isCollapse" class="adm-arrow-icon"></span>
             <span v-if="props.isArrowSpace" style="width: 20px;"></span>
             <span :class="props.iconClass"></span>
-            <span ref="linkText" class="nav-link-text">{{ title }}</span>
+            <span ref="linkText" class="nav-link-text">{{ props.title }}</span>
         </component>
         <ul
             v-if="props.isCollapse"
