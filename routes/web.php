@@ -95,28 +95,28 @@ Route::middleware([Constants::MIDDLEWARE_AUTHENTICATE_ALL])->group(function() {
             "catalog/{category_slug}/{product_slug}.html",
             [\App\Http\Controllers\Web\ProductsController::class, "show"]
         )
-        ->name("product.show.1")
+        ->name(Constants::ROUTE_WEB_PRODUCT_SHOW_1)
     ;
     Route
         ::get(
             "catalog/{category_slug}/{subcategory1_slug}/{product_slug}.html",
             [\App\Http\Controllers\Web\ProductsController::class, "show"]
         )
-        ->name("product.show.2")
+        ->name(Constants::ROUTE_WEB_PRODUCT_SHOW_2)
     ;
     Route
         ::get(
             "catalog/{category_slug}/{subcategory1_slug}/{subcategory2_slug}/{product_slug}.html",
             [\App\Http\Controllers\Web\ProductsController::class, "show"]
         )
-        ->name("product.show.3")
+        ->name(Constants::ROUTE_WEB_PRODUCT_SHOW_3)
     ;
     Route
         ::get(
             "catalog/{category_slug}/{subcategory1_slug}/{subcategory2_slug}/{subcategory3_slug}/{product_slug}.html",
             [\App\Http\Controllers\Web\ProductsController::class, "show"]
         )
-        ->name("product.show.4")
+        ->name(Constants::ROUTE_WEB_PRODUCT_SHOW_4)
     ;
 
     Route
@@ -124,7 +124,7 @@ Route::middleware([Constants::MIDDLEWARE_AUTHENTICATE_ALL])->group(function() {
             "catalog/{category_slug?}/{subcategory1_slug?}/{subcategory2_slug?}/{subcategory3_slug?}",
             [\App\Http\Controllers\Web\ProductsController::class, "index"]
         )
-        ->name("products.index")
+        ->name(Constants::ROUTE_WEB_PRODUCTS_INDEX)
     ;
 
     /**
@@ -132,7 +132,11 @@ Route::middleware([Constants::MIDDLEWARE_AUTHENTICATE_ALL])->group(function() {
      */
 //    Route::get("/{service_slug}", [\App\Http\Controllers\Web\ServicesController::class, "show"])->name("services.show");
 
-    Route::get("/{parquet_works_product_slug}", [\App\Http\Controllers\Web\ParquetWorksProductsController::class, "show"])->name("parquet-works-product.show");
+    Route
+        ::get(
+            "/{parquet_works_product_slug}",
+            [\App\Http\Controllers\Web\ParquetWorksProductsController::class, "show"]
+        )->name(Constants::ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW);
 
     Route::get("/", [\App\Http\Controllers\Web\HomeController::class, "index"])->name(Constants::ROUTE_WEB_HOME);
 

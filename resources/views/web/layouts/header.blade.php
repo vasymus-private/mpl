@@ -9,13 +9,13 @@
             </div>
             <div class="header-search-block hidden-sm hidden-xs">
                 <div class="search-block">
-                    <form action="#">
+                    <form action="{{route(\App\Constants::ROUTE_WEB_PRODUCTS_INDEX)}}">
                         <div class="search-field">
-                            <input type="text" id="sfrm" name="q" value="" placeholder="Что вы ищете?">
-                            <input name="s" type="submit" value="Поиск">
+                            <input type="text" name="search" value="" placeholder="Что вы ищете?">
+                            <input type="submit" value="Поиск">
                         </div>
                     </form>
-                    <div class="suggestion">Например: <a id="ssugg">Ремонт паркета</a></div>
+                    <div class="suggestion">Например: <a href="{{route(\App\Constants::ROUTE_WEB_PRODUCTS_INDEX, ['search' => 'Ремонт паркета'])}}">Ремонт паркета</a></div>
                 </div>
             </div>
             <div class="header__icon-mobile">

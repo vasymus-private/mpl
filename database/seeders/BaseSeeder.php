@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class BaseSeeder extends Seeder
@@ -29,5 +30,25 @@ class BaseSeeder extends Seeder
     protected function shouldClearData(): bool
     {
         return $this->clearData;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isCalledOnce(): bool
+    {
+        return DB::table('seeders')
+            ->where('name', static::class)
+            ->exists();
+    }
+
+    /**
+     * @return void
+     */
+    protected function setCalledOnce(): void
+    {
+        DB::table('seeders')->insert([
+            'name' => static::class,
+        ]);
     }
 }

@@ -49,20 +49,20 @@
                                 <h2>Укладка паркета</h2>
                                 <p>Существует несколько видов технологии укладки паркета. Какую технологию использовать и
                                     почему?</p>
-                                <p>Все зависит от вида напольного покрытия и условий его эксплуатации. Например, для офисных помещений подходит бюджетная паркетная доска. В этом случае идеальный вариант <a href="{{route("parquet-works-product.show", "ukladka-parketnoy-doski")}}">«плавающая» укладка паркетой доски</a>, потому что не так важен срок службы, главное – низкая цена, а через несколько лет покрытие можно заменить полностью.</p>
-                                <p>Если вы планируете <a href="{{route("parquet-works-product.show", "ukladka-massivnoy-doski")}}">укладывать массивную доску</a> или <a href="{{route("parquet-works-product.show", "ukladka-shtuchnogo-parketa")}}">штучный паркет</a>, то лучше использовать европейскую технологию.</p>
+                                <p>Все зависит от вида напольного покрытия и условий его эксплуатации. Например, для офисных помещений подходит бюджетная паркетная доска. В этом случае идеальный вариант <a href="{{route(\App\Constants::ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW, "ukladka-parketnoy-doski")}}">«плавающая» укладка паркетой доски</a>, потому что не так важен срок службы, главное – низкая цена, а через несколько лет покрытие можно заменить полностью.</p>
+                                <p>Если вы планируете <a href="{{route(\App\Constants::ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW, "ukladka-massivnoy-doski")}}">укладывать массивную доску</a> или <a href="{{route(\App\Constants::ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW, "ukladka-shtuchnogo-parketa")}}">штучный паркет</a>, то лучше использовать европейскую технологию.</p>
                                 <p>Перейдите на страницу с укладкой для выбранного вами паркета.</p>
                             </article>
                         </div>
                         <div class="column-sm-6 col-sm-6">
                             <article class="image-content" style="background-image: url({{asset("images//banner1.png")}}); display: block;">
-                                <a href="{{route("parquet-works-product.show", "ukladka-shtuchnogo-parketa")}}"><span>укладка<br> штучного паркета</span></a>
+                                <a href="{{route(\App\Constants::ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW, "ukladka-shtuchnogo-parketa")}}"><span>укладка<br> штучного паркета</span></a>
                             </article>
                             <article class="image-content" style="background-image: url({{asset("images//banner2.png")}}); display: block;">
-                                <a href="{{route("parquet-works-product.show", "ukladka-massivnoy-doski")}}"><span>укладка<br> массивной доски</span></a>
+                                <a href="{{route(\App\Constants::ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW, "ukladka-massivnoy-doski")}}"><span>укладка<br> массивной доски</span></a>
                             </article>
                             <article class="image-content" style="background-image: url({{asset("images//banner3.jpg")}}); display: block;">
-                                <a href="{{route("parquet-works-product.show", "ukladka-parketnoy-doski")}}"><span>укладка<br> паркетной доски</span></a>
+                                <a href="{{route(\App\Constants::ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW, "ukladka-parketnoy-doski")}}"><span>укладка<br> паркетной доски</span></a>
                             </article>
                         </div>
                     </div>
@@ -96,7 +96,7 @@
                                     &nbsp;«как из магазина» даже в самых сложных и запущенных случаях.
                                 </p>
                                 <p>
-                                    <a href="{{route("parquet-works-product.show", "remont-parketa")}}">Ремонт паркета</a> – необходимость, а не приговор, и в арсенале наших мастеров есть мощное оружие для ремонта любого паркета.&nbsp;
+                                    <a href="{{route(\App\Constants::ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW, "remont-parketa")}}">Ремонт паркета</a> – необходимость, а не приговор, и в арсенале наших мастеров есть мощное оружие для ремонта любого паркета.&nbsp;
                                 </p>
                             </div>
                         </div>
@@ -105,7 +105,7 @@
                                 <div class="column-sm-6 col-sm-6">
                                     <article class="image-content"
                                              style="background-image: url({{asset("images//banner7.png")}}); display: block;">
-                                        <a href="{{route("parquet-works-product.show", "remont-parketa")}}">
+                                        <a href="{{route(\App\Constants::ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW, "remont-parketa")}}">
                                             <span>ремонт паркета</span>
                                         </a>
                                     </article>
@@ -113,7 +113,7 @@
                                 <div class="column-sm-6 col-sm-6">
                                     <article class="image-content"
                                              style="background-image: url({{asset("images//banner8.png")}}); display: block;">
-                                        <a href="{{route("parquet-works-product.show", "tonirovanie-parketa")}}">
+                                        <a href="{{route(\App\Constants::ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW, "tonirovanie-parketa")}}">
                                             <span>тонировка паркета</span>
                                         </a>
                                     </article>
@@ -128,32 +128,32 @@
                             <article class="article-content">
                                 <h2>Подготовка основания</h2>
                                 <p>Основание для укладки паркета – это как фундамент для дома. Ровное, прочное и сухое основание = долгий срок службы паркетного пола. Малейшее нарушение технологии подготовки основания приводит к скрипу, вспучиванию и короблению паркета.</p>
-                                <p>Основания для&nbsp;<a href="{{route("parquet-works-product.show", "ukladka-shtuchnogo-parketa")}}">укладки паркета</a> отличается от основания для других напольных покрытий. К нему предъявляются особые требования по влажности и прочности. И чтобы достичь их – нужны знания, опыт и профессиональное оборудование.</p>
-                                <p>Мы предлагаем вам 3 варианта основания для укладки паркета: <a href="{{route("parquet-works-product.show", "styazhka-pola")}}">цементно-песчаная стяжка</a>, <a href="{{route("parquet-works-product.show", "pol-na-lagakh")}}">пол на лагах</a> и <a href="{{route("parquet-works-product.show", "sukhaya-styazhka-knauf")}}">сухая стяжка Knauf</a>. Проходите на страницы с описанием и узнайте, какое основание подходит вам.</p>
+                                <p>Основания для&nbsp;<a href="{{route(\App\Constants::ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW, "ukladka-shtuchnogo-parketa")}}">укладки паркета</a> отличается от основания для других напольных покрытий. К нему предъявляются особые требования по влажности и прочности. И чтобы достичь их – нужны знания, опыт и профессиональное оборудование.</p>
+                                <p>Мы предлагаем вам 3 варианта основания для укладки паркета: <a href="{{route(\App\Constants::ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW, "styazhka-pola")}}">цементно-песчаная стяжка</a>, <a href="{{route(\App\Constants::ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW, "pol-na-lagakh")}}">пол на лагах</a> и <a href="{{route(\App\Constants::ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW, "sukhaya-styazhka-knauf")}}">сухая стяжка Knauf</a>. Проходите на страницы с описанием и узнайте, какое основание подходит вам.</p>
                             </article>
                         </div>
                         <div class="column-sm-6">
                             <article class="image-content"
                                      style="background-image: url({{asset("images//banner4.png")}}); display: block;">
-                                <a href="{{route("parquet-works-product.show", "styazhka-pola")}}"><span>цементная стяжка</span></a>
+                                <a href="{{route(\App\Constants::ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW, "styazhka-pola")}}"><span>цементная стяжка</span></a>
                             </article>
                             <article class="image-content"
                                      style="background-image: url({{asset("images//banner5.jpg")}}); display: block;">
-                                <a href="{{route("parquet-works-product.show", "pol-na-lagakh")}}"><span>пол на лагах</span></a>
+                                <a href="{{route(\App\Constants::ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW, "pol-na-lagakh")}}"><span>пол на лагах</span></a>
                             </article>
                             <article class="image-content"
                                      style="background-image: url({{asset("images//banner6.jpg")}}); display: block;">
-                                <a href="{{route("parquet-works-product.show", "sukhaya-styazhka-knauf")}}"><span>ремонт стяжки</span></a>
+                                <a href="{{route(\App\Constants::ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW, "sukhaya-styazhka-knauf")}}"><span>ремонт стяжки</span></a>
                             </article>
                         </div>
                         <div class="full-width hidden-lg">
                             <article class="article-content">
                                 <h3>Циклевка паркета</h3>
-                                <p><a href="{{route("parquet-works-product.show", "tsiklevka-parketa")}}">Циклевка паркета</a>&nbsp;– это комплекс восстановительных
+                                <p><a href="{{route(\App\Constants::ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW, "tsiklevka-parketa")}}">Циклевка паркета</a>&nbsp;– это комплекс восстановительных
                                     работ, который включает в себя снятие изношенного лака, шпаклевание щелей, шлифовку
                                     поверхности, и нанесении новых слоёв лака или масла.</p>
                                 <p>После циклевки паркет становится буквально «как новый». Но, для достижения подобных
-                                    результатов нужно <a href="{{route("parquet-works-product.show", "parketnoe-oborudovanie")}}">профессиональное оборудование</a>,
+                                    результатов нужно <a href="{{route(\App\Constants::ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW, "parketnoe-oborudovanie")}}">профессиональное оборудование</a>,
                                     с помощью которого циклевка проходит без пыли и с высочайшим качеством.</p>
                                 <p>Мы обновили уже больше 3000 м<sup>2</sup> паркета. Сделаем новым и ваш!</p>
                             </article>
@@ -189,7 +189,7 @@
                                     &nbsp;«как из магазина» даже в самых сложных и запущенных случаях.
                                 </p>
                                 <p>
-                                    <a href="{{route("parquet-works-product.show", "remont-parketa")}}">Ремонт паркета</a> – необходимость, а не приговор, и в арсенале наших мастеров есть мощное оружие для ремонта любого паркета.&nbsp;
+                                    <a href="{{route(\App\Constants::ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW, "remont-parketa")}}">Ремонт паркета</a> – необходимость, а не приговор, и в арсенале наших мастеров есть мощное оружие для ремонта любого паркета.&nbsp;
                                 </p>
                             </div>
                         </div>
@@ -200,21 +200,21 @@
                 <div class="column">
                     <article class="article-content">
                         <h3>Циклевка паркета</h3>
-                        <p><a href="{{route("parquet-works-product.show", "tsiklevka-parketa")}}">Циклевка паркета</a>&nbsp;– это комплекс восстановительных работ, который включает в себя снятие изношенного лака, шпаклевание щелей, шлифовку поверхности, и нанесении новых слоёв лака или масла.</p>
-                        <p>После циклевки паркет становится буквально «как новый». Но, для достижения подобных результатов нужно <a href="{{route("parquet-works-product.show", "parketnoe-oborudovanie")}}">профессиональное оборудование</a>, с помощью которого циклевка проходит без пыли и с высочайшим качеством.</p>
+                        <p><a href="{{route(\App\Constants::ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW, "tsiklevka-parketa")}}">Циклевка паркета</a>&nbsp;– это комплекс восстановительных работ, который включает в себя снятие изношенного лака, шпаклевание щелей, шлифовку поверхности, и нанесении новых слоёв лака или масла.</p>
+                        <p>После циклевки паркет становится буквально «как новый». Но, для достижения подобных результатов нужно <a href="{{route(\App\Constants::ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW, "parketnoe-oborudovanie")}}">профессиональное оборудование</a>, с помощью которого циклевка проходит без пыли и с высочайшим качеством.</p>
                         <p>Мы обновили уже больше 3000 м<sup>2</sup> паркета. Сделаем новым и ваш!</p>
                     </article>
                 </div>
                 <div class="column-half">
                     <article class="image-content" style="background-image: url({{asset("images//banner7.png")}}); display: block;">
-                        <a href="{{route("parquet-works-product.show", "remont-parketa")}}">
+                        <a href="{{route(\App\Constants::ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW, "remont-parketa")}}">
                             <span>ремонт паркета</span>
                         </a>
                     </article>
                 </div>
                 <div class="column-half">
                     <article class="image-content" style="background-image: url({{asset("images//banner8.png")}}); display: block;">
-                        <a href="{{route("parquet-works-product.show", "tonirovanie-parketa")}}">
+                        <a href="{{route(\App\Constants::ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW, "tonirovanie-parketa")}}">
                             <span>тонировка паркета</span>
                         </a>
                     </article>
@@ -242,7 +242,7 @@
                             <li>Профессиональное оборудование из Германии. В умелых руках оно творит чудеса: паркет
                                 укладывается быстро, чисто и надёжно.
                             </li>
-                            <li>Индивидуальные разработки. Даже в сложных ситуациях, когда другие фирмы не хотят «заморачиваться» и отказывают, мы разработаем проект и найдём выход. Компания «СТП» имеет опыт реставрации паркета в старинном здании 18 века. Применялись сложные инженерные решения: где-то оптимальна конструкция&nbsp;<a href="{{route("parquet-works-product.show", "pol-na-lagakh")}}">пола на лагах</a>, где-то –&nbsp;<a href="{{route("parquet-works-product.show", "styazhka-pola")}}">стяжка</a>, а иногда приходилось комбинировать.
+                            <li>Индивидуальные разработки. Даже в сложных ситуациях, когда другие фирмы не хотят «заморачиваться» и отказывают, мы разработаем проект и найдём выход. Компания «СТП» имеет опыт реставрации паркета в старинном здании 18 века. Применялись сложные инженерные решения: где-то оптимальна конструкция&nbsp;<a href="{{route(\App\Constants::ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW, "pol-na-lagakh")}}">пола на лагах</a>, где-то –&nbsp;<a href="{{route(\App\Constants::ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW, "styazhka-pola")}}">стяжка</a>, а иногда приходилось комбинировать.
                             </li>
                             <li>Официальный договор со сроками, сметой и гарантией. Что бы ни случилось с курсом доллара,
                                 смета, указанная в договоре, НЕ увеличивается.

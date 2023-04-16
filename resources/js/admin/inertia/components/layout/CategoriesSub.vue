@@ -15,15 +15,19 @@ const routesStore = useRoutesStore()
 const isActiveRoute = (type: RouteTypeEnum, id: number | string = null, product_type: ProductTypeEnum|null = null): boolean => {
     return routesStore.isActiveRoute(type, id, product_type)
 }
+const isActiveMenu = (type: RouteTypeEnum, id: number | string = null, product_type: ProductTypeEnum|null = null): boolean => {
+    return routesStore.isActiveMenu(type, id, product_type);
+}
 </script>
 
 <template>
     <NavItem
-        id-or-href="categories-sub"
+        :id-or-href="`categories-sub-${props.product_type}`"
         :title="props.title"
         :is-inertia-link="false"
         :is-collapse="true"
         :is-active-collapse="isActiveRoute(RouteTypeEnum.categories, null, props.product_type)"
+        :is-active="isActiveMenu(RouteTypeEnum.categories, null, props.product_type)"
         icon-class="adm-icon iblock_menu_icon_iblocks"
         nav-link-class="sub-level-1"
         :nav-link-text-href="routesStore.route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {product_type: props.product_type})"
@@ -33,6 +37,7 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null, product_
             title="Товары"
             :is-inertia-link="true"
             :is-collapse="false"
+            :is-active="isActiveMenu(RouteTypeEnum.products, null, props.product_type)"
             icon-class="adm-arrow-icon-dot"
             nav-link-class="sub-level-2"
         />
@@ -43,6 +48,7 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null, product_
             :is-inertia-link="false"
             :is-collapse="true"
             :is-active-collapse="isActiveRoute(RouteTypeEnum.categories, category.id, props.product_type)"
+            :is-active="isActiveMenu(RouteTypeEnum.categories, category.id, props.product_type)"
             icon-class="adm-icon iblock_menu_icon_sections"
             nav-link-class="sub-level-2"
             :nav-link-text-href="routesStore.route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {product_type: props.product_type, category_id: category.id})"
@@ -52,6 +58,7 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null, product_
                 title="Товары"
                 :is-inertia-link="true"
                 :is-collapse="false"
+                :is-active="isActiveMenu(RouteTypeEnum.products, category.id, props.product_type)"
                 icon-class="adm-arrow-icon-dot"
                 nav-link-class="sub-level-3"
             />
@@ -62,6 +69,7 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null, product_
                 :is-inertia-link="false"
                 :is-collapse="true"
                 :is-active-collapse="isActiveRoute(RouteTypeEnum.categories, subcategory1.id, props.product_type)"
+                :is-active="isActiveMenu(RouteTypeEnum.categories, subcategory1.id, props.product_type)"
                 icon-class="adm-icon iblock_menu_icon_sections"
                 nav-link-class="sub-level-3"
                 :nav-link-text-href="routesStore.route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {product_type: props.product_type, category_id: subcategory1.id})"
@@ -71,6 +79,7 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null, product_
                     title="Товары"
                     :is-inertia-link="true"
                     :is-collapse="false"
+                    :is-active="isActiveMenu(RouteTypeEnum.products, subcategory1.id, props.product_type)"
                     icon-class="adm-arrow-icon-dot"
                     nav-link-class="sub-level-4"
                 />
@@ -81,6 +90,7 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null, product_
                     :is-inertia-link="false"
                     :is-collapse="true"
                     :is-active-collapse="isActiveRoute(RouteTypeEnum.categories, subcategory2.id, props.product_type)"
+                    :is-active="isActiveMenu(RouteTypeEnum.categories, subcategory2.id, props.product_type)"
                     icon-class="adm-icon iblock_menu_icon_sections"
                     nav-link-class="sub-level-4"
                     :nav-link-text-href="routesStore.route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {product_type: props.product_type, category_id: subcategory2.id})"
@@ -90,6 +100,7 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null, product_
                         title="Товары"
                         :is-inertia-link="true"
                         :is-collapse="false"
+                        :is-active="isActiveMenu(RouteTypeEnum.products, subcategory2.id, props.product_type)"
                         icon-class="adm-arrow-icon-dot"
                         nav-link-class="sub-level-5"
                     />
@@ -100,6 +111,7 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null, product_
                         :is-inertia-link="false"
                         :is-collapse="true"
                         :is-active-collapse="isActiveRoute(RouteTypeEnum.categories, subcategory3.id, props.product_type)"
+                        :is-active="isActiveMenu(RouteTypeEnum.categories, subcategory3.id, props.product_type)"
                         icon-class="adm-icon iblock_menu_icon_sections"
                         nav-link-class="sub-level-5"
                         :nav-link-text-href="routesStore.route(routeNames.ROUTE_ADMIN_CATEGORIES_TEMP_INDEX, {product_type: props.product_type, category_id: subcategory3.id})"
@@ -109,6 +121,7 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null, product_
                             title="Товары"
                             :is-inertia-link="true"
                             :is-collapse="false"
+                            :is-active="isActiveMenu(RouteTypeEnum.products, subcategory3.id, props.product_type)"
                             icon-class="adm-arrow-icon-dot"
                             nav-link-class="sub-level-6"
                         />

@@ -15,7 +15,7 @@
                             @foreach($products as $product)
                                 <?php /** @var \Domain\Products\Models\Product\Product $product */ ?>
                                 <p class="dropdown-level_2">
-                                    <a href="{{route("parquet-works-product.show", [$product->slug])}}">{{$product->name}}</a>
+                                    <a href="{{route(\App\Constants::ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW, [$product->slug])}}">{{$product->name}}</a>
                                 </p>
                             @endforeach
                         </li>
@@ -49,13 +49,13 @@
                     @foreach($subcategories1Part1 as $subcategory1Part1)
                         <?php /** @var \Domain\Products\Models\Category $subcategory1Part1 */ ?>
                         <p class="dropdown-level_2">
-                            <a class="text-bold" href="{{route("products.index", [ $category->slug, $subcategory1Part1->slug ?? null ])}}">{{$subcategory1Part1->name ?? null}}</a>
+                            <a class="text-bold" href="{{route(\App\Constants::ROUTE_WEB_PRODUCTS_INDEX, [ $category->slug, $subcategory1Part1->slug ?? null ])}}">{{$subcategory1Part1->name ?? null}}</a>
                         </p>
                         @if($subcategory1Part1->subcategories->isNotEmpty())
                             <div class="dropdown-level_3_wrapper">
                             @foreach($subcategory1Part1->subcategories as $subcategory2)
                                 <?php /** @var \Domain\Products\Models\Category $subcategory2 */ ?>
-                                <p class="dropdown-level_3 text-small"><a href="{{route("products.index", [ $category->slug, $subcategory1Part1->slug, $subcategory2->slug ])}}">- {{$subcategory2->name}}</a></p>
+                                <p class="dropdown-level_3 text-small"><a href="{{route(\App\Constants::ROUTE_WEB_PRODUCTS_INDEX, [ $category->slug, $subcategory1Part1->slug, $subcategory2->slug ])}}">- {{$subcategory2->name}}</a></p>
                             @endforeach
                             </div>
                         @endif
@@ -66,13 +66,13 @@
                     @foreach($subcategories1Part2 as $subcategory1Part2)
                         <?php /** @var \Domain\Products\Models\Category $subcategory1Part2 */ ?>
                         <p class="dropdown-level_2">
-                            <a class="text-bold" href="{{route("products.index", [ $category->slug, $subcategory1Part2->slug ?? null ])}}">{{$subcategory1Part2->name ?? null}}</a>
+                            <a class="text-bold" href="{{route(\App\Constants::ROUTE_WEB_PRODUCTS_INDEX, [ $category->slug, $subcategory1Part2->slug ?? null ])}}">{{$subcategory1Part2->name ?? null}}</a>
                         </p>
                         @if($subcategory1Part1->subcategories->isNotEmpty())
                             <div class="dropdown-level_3_wrapper">
                                 @foreach($subcategory1Part2->subcategories as $subcategory2)
                                     <?php /** @var \Domain\Products\Models\Category $subcategory2 */ ?>
-                                    <p class="dropdown-level_3 text-small"><a href="{{route("products.index", [ $category->slug, $subcategory1Part2->slug ?? null, $subcategory2->slug ?? null ])}}">- {{$subcategory2->name ?? null}}</a></p>
+                                    <p class="dropdown-level_3 text-small"><a href="{{route(\App\Constants::ROUTE_WEB_PRODUCTS_INDEX, [ $category->slug, $subcategory1Part2->slug ?? null, $subcategory2->slug ?? null ])}}">- {{$subcategory2->name ?? null}}</a></p>
                                 @endforeach
                             </div>
                         @endif

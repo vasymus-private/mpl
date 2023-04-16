@@ -17,7 +17,7 @@
             <ul class="pure-menu-children">
                 @foreach($parquetWorkCategory->products as $product)
                     <li class="pure-menu-item">
-                        <a href="{{route("parquet-works-product.show", [$product->slug])}}" class="pure-menu-link">{{$product->name}}</a>
+                        <a href="{{route(\App\Constants::ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW, [$product->slug])}}" class="pure-menu-link">{{$product->name}}</a>
                     </li>
                 @endforeach
             </ul>
@@ -39,17 +39,17 @@
     @foreach($categories as $category)
     <?php /** @var \Domain\Products\Models\Category $category */ ?>
         <div class="pure-menu-item pure-menu-has-children accordion-item">
-            <a href="{{route("products.index", [$category->slug])}}" class="pure-menu-link">{{$category->name}}</a>
+            <a href="{{route(\App\Constants::ROUTE_WEB_PRODUCTS_INDEX, [$category->slug])}}" class="pure-menu-link">{{$category->name}}</a>
         </div>
         <div class="data">
             <ul class="pure-menu-children">
                 @foreach($category->subcategories as $subcategory1)
                     <li class="pure-menu-item">
-                        <a href="{{route("products.index", [$category->slug, $subcategory1->slug])}}" class="pure-menu-link">{{$subcategory1->name}}</a>
+                        <a href="{{route(\App\Constants::ROUTE_WEB_PRODUCTS_INDEX, [$category->slug, $subcategory1->slug])}}" class="pure-menu-link">{{$subcategory1->name}}</a>
                         @if($subcategory1->subcategories->isNotEmpty())
                             <ul class="submenu">
                                 @foreach($subcategory1->subcategories as $subcategory2)
-                                    <li><a href="{{route("products.index", [$category->slug, $subcategory1->slug, $subcategory2->slug])}}">{{$subcategory2->name}}</a></li>
+                                    <li><a href="{{route(\App\Constants::ROUTE_WEB_PRODUCTS_INDEX, [$category->slug, $subcategory1->slug, $subcategory2->slug])}}">{{$subcategory2->name}}</a></li>
                                 @endforeach
                             </ul>
                         @endif

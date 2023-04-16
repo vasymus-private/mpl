@@ -86,7 +86,7 @@ class RouteServiceProvider extends ServiceProvider
         /** @var \Illuminate\Routing\Route $value */
         foreach ($routeCollection as $value) {
             $name = $value->getName();
-//            dump("$name : {$value->uri} : " . implode(", ", $value->methods));
+            //            dump("$name : {$value->uri} : " . implode(", ", $value->methods));
             $routes[$name] = [
                 'name' => $name,
                 'uri' => $value->uri,

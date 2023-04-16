@@ -20,6 +20,9 @@ defineExpose({
 const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean => {
     return routesStore.isActiveRoute(type, id)
 }
+const isActiveMenu = (type: RouteTypeEnum): boolean => {
+    return routesStore.isActiveMenu(type)
+}
 </script>
 
 <template>
@@ -40,6 +43,7 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean
                         title="Товары"
                         :is-inertia-link="true"
                         :is-collapse="false"
+                        :is-active="isActiveMenu(RouteTypeEnum.products)"
                         icon-class="adm-arrow-icon-dot"
                         nav-link-class="sub-level-1"
                     />
@@ -70,6 +74,7 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean
                             :is-inertia-link="true"
                             title="Элементы"
                             :is-collapse="false"
+                            :is-active="isActiveMenu(RouteTypeEnum.referenceBrands)"
                             icon-class="adm-arrow-icon-dot"
                             nav-link-class="sub-level-2"
                         />
@@ -88,6 +93,7 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean
                             :is-inertia-link="true"
                             title="Элементы"
                             :is-collapse="false"
+                            :is-active="isActiveMenu(RouteTypeEnum.referenceArticles)"
                             icon-class="adm-arrow-icon-dot"
                             nav-link-class="sub-level-2"
                         />
@@ -106,6 +112,7 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean
                             :is-inertia-link="true"
                             title="Элементы"
                             :is-collapse="false"
+                            :is-active="isActiveMenu(RouteTypeEnum.referenceFaq)"
                             icon-class="adm-arrow-icon-dot"
                             nav-link-class="sub-level-2"
                         />
@@ -124,6 +131,7 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean
                             :is-inertia-link="true"
                             title="Элементы"
                             :is-collapse="false"
+                            :is-active="isActiveMenu(RouteTypeEnum.referenceContacts)"
                             icon-class="adm-arrow-icon-dot"
                             nav-link-class="sub-level-2"
                         />
@@ -142,6 +150,7 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean
                             :is-inertia-link="true"
                             title="Элементы"
                             :is-collapse="false"
+                            :is-active="isActiveMenu(RouteTypeEnum.referenceGalleryItems)"
                             icon-class="adm-arrow-icon-dot"
                             nav-link-class="sub-level-2"
                         />
@@ -169,6 +178,7 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean
                             :is-inertia-link="true"
                             title="Элементы"
                             :is-collapse="false"
+                            :is-active="isActiveMenu(RouteTypeEnum.highloadBlacklist)"
                             icon-class="adm-arrow-icon-dot"
                             nav-link-class="sub-level-2"
                         />
@@ -179,6 +189,7 @@ const isActiveRoute = (type: RouteTypeEnum, id: number | string = null): boolean
                     :is-inertia-link="true"
                     title="Заказы"
                     :is-collapse="false"
+                    :is-active="isActiveMenu(RouteTypeEnum.orders)"
                     icon-class="adm-icon iblock_menu_icon_types"
                     :is-arrow-space="true"
                 />

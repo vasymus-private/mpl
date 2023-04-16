@@ -2,6 +2,7 @@
 
 namespace Domain\Products\Models\Product;
 
+use App\Constants;
 use Domain\Common\Models\Currency;
 use Domain\Common\Models\CustomMedia;
 use Domain\Products\Models\AvailabilityStatus;
@@ -515,25 +516,25 @@ trait ProductAcM
                 $slug = $this->slug ?: '---';
 
                 if ($category->product_type === Category::PRODUCT_TYPE_PARQUET_WORKS) {
-                    return route('parquet-works-product.show', $this->slug);
+                    return route(Constants::ROUTE_WEB_PARQUET_WORKS_PRODUCT_SHOW, $this->slug);
                 }
 
                 $parent1 = $category->parentCategory;
                 if ($parent1 === null) {
-                    return route("product.show.1", [$category->slug, $slug]);
+                    return route(Constants::ROUTE_WEB_PRODUCT_SHOW_1, [$category->slug, $slug]);
                 }
 
                 $parent2 = $parent1->parentCategory;
                 if ($parent2 === null) {
-                    return route("product.show.2", [$parent1->slug, $category->slug, $slug]);
+                    return route(Constants::ROUTE_WEB_PRODUCT_SHOW_2, [$parent1->slug, $category->slug, $slug]);
                 }
 
                 $parent3 = $parent2->parentCategory;
                 if ($parent3 === null) {
-                    return route("product.show.3", [$parent2->slug, $parent1->slug, $category->slug, $slug]);
+                    return route(Constants::ROUTE_WEB_PRODUCT_SHOW_3, [$parent2->slug, $parent1->slug, $category->slug, $slug]);
                 }
 
-                return route("product.show.4", [$parent3->slug, $parent2->slug, $parent1->slug, $category->slug, $slug]);
+                return route(Constants::ROUTE_WEB_PRODUCT_SHOW_4, [$parent3->slug, $parent2->slug, $parent1->slug, $category->slug, $slug]);
             });
         } catch (Throwable) {
             return '';
