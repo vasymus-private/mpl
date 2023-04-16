@@ -37,8 +37,7 @@ class BaseSeeder extends Seeder
      */
     protected function isCalledOnce(): bool
     {
-        return DB
-            ::table('seeders')
+        return DB::table('seeders')
             ->where('name', static::class)
             ->exists();
     }

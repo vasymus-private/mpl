@@ -407,8 +407,8 @@ class TransferProducts extends BaseTransfer
             foreach ($otherProductsIds as $id) {
                 $newOtherProduct = $this->productSeedsByOldId->get($id);
                 if (! $newOtherProduct) {
-//                    dump("Failed to find other product with old id: $id");
-//                    dump($otherProductsIds);
+                    //                    dump("Failed to find other product with old id: $id");
+                    //                    dump($otherProductsIds);
                     continue;
                 }
                 $newOtherProductsIds[] = $newOtherProduct["id"];
