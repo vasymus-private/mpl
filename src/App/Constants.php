@@ -28,6 +28,8 @@ final class Constants
 
     public const ROUTE_WEB_HOME = 'home';
 
+    public const ROUTE_WEB_PRODUCTS_INDEX = 'products.index';
+
     public const ROUTE_WEB_PRODUCT_SHOW_1 = 'product.show.1';
     public const ROUTE_WEB_PRODUCT_SHOW_2 = 'product.show.2';
     public const ROUTE_WEB_PRODUCT_SHOW_3 = 'product.show.3';

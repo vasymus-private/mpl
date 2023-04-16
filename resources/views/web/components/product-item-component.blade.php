@@ -24,7 +24,6 @@
             </div>
         </div>
 
-
         <div
             class="column-price-block {{\Support\H::userOrAdmin()->is_admin ? 'js-product-item-popover' : ''}}"
             @if(\Support\H::userOrAdmin()->is_admin)

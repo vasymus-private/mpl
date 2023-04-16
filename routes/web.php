@@ -124,7 +124,7 @@ Route::middleware([Constants::MIDDLEWARE_AUTHENTICATE_ALL])->group(function() {
             "catalog/{category_slug?}/{subcategory1_slug?}/{subcategory2_slug?}/{subcategory3_slug?}",
             [\App\Http\Controllers\Web\ProductsController::class, "index"]
         )
-        ->name("products.index")
+        ->name(Constants::ROUTE_WEB_PRODUCTS_INDEX)
     ;
 
     /**
