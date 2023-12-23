@@ -53,6 +53,12 @@ class H
         throw new LogicException("Has to be at least anonymous user.");
     }
 
+    public static function userOrAdminApi(): BaseUser
+    {
+        // todo temp decision
+        return Admin::query()->findOrFail(Admin::ID_CENTRAL_ADMIN);
+    }
+
     public static function admin(): ?Admin
     {
         /** @var \Domain\Users\Models\Admin $admin */

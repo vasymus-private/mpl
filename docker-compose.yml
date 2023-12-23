@@ -59,7 +59,16 @@ services:
 #            - 3000:3000
 #        command:
 #            bash -c 'npm install --no-optional 2>&1 && npm cache clean --force && /opt/node_app/node_modules/.bin/nodemon ./bin/www'
-
+    next:
+        image: node:20.10.0
+        ports:
+            - "3000:3000"
+        volumes:
+            - ./nuxt:/opt/node_app
+        working_dir: /opt/node_app
+        user: node
+        command:
+            bash -c 'tail -f'
     ### DB (MariaDB) ###
     db:
         image: mariadb:10.7.3

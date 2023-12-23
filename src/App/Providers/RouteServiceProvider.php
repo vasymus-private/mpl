@@ -145,6 +145,21 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
+     * Define the "web-api" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapWebApiRoutes()
+    {
+        Route::prefix('web-api')
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web-api.php'));
+    }
+
+    /**
      * Define the "api" routes for the application.
      *
      * These routes are typically stateless.
