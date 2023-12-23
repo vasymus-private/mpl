@@ -17,3 +17,8 @@ Route
     ::get('categories', \App\Http\Controllers\Web\Api\CategoriesController::class)
     ->name('web-api.categories')
 ;
+
+Route
+    ::get('seo', [\App\Http\Controllers\Web\Api\SeoController::class, 'show'])
+    ->name('web-api.seo')
+;

@@ -12,12 +12,19 @@ use Domain\Common\Models\BaseModel;
  * @property string|null $description
  * @property int|null $seoable_id
  * @property string|null $seoable_type
+ *
+ * @see \Domain\Seo\Models\Seo::getIsNotEmptyAttribute()
+ * @property bool $is_not_empty
  * */
 class Seo extends BaseModel
 {
     public const TABLE = "seo";
 
     public const ID_APP = 1;
+
+    public const TYPE_APP = 'app';
+    public const TYPE_PRODUCT = 'product';
+    public const TYPE_CATEGORY = 'category';
 
     /**
      * The table associated with the model.
@@ -48,5 +55,10 @@ class Seo extends BaseModel
     public static function appSeo(): self
     {
         return static::query()->findOrFail(static::ID_APP);
+    }
+
+    public function getIsNotEmptyAttribute(): bool
+    {
+        return $this->title && $this->keywords && $this->description;
     }
 }
