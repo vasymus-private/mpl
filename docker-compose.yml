@@ -64,7 +64,7 @@ services:
         ports:
             - "3000:3000"
         volumes:
-            - ./nuxt:/opt/node_app
+            - ./next:/opt/node_app
         working_dir: /opt/node_app
         user: node
         command:
