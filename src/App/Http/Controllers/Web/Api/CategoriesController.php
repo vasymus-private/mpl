@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web\Api;
 
 use App\Http\Resources\Web\Api\CategoryResource;
+use App\Http\Resources\Web\Api\ParquetWorkCategoriesResource;
 use Domain\Products\Models\Category;
 
 class CategoriesController extends BaseApiController
@@ -20,7 +21,7 @@ class CategoriesController extends BaseApiController
                         ->with("subcategories.subcategories.subcategories")
                         ->get()
                 ),
-                'parquetWorkCategories' => CategoryResource::collection(
+                'parquetWorkCategories' => ParquetWorkCategoriesResource::collection(
                     Category::query()
                         ->parents()
                         ->active()

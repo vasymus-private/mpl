@@ -53,4 +53,12 @@ class CategoriesTableSeeder extends BaseSeeder
             $category->seo()->save($seo);
         }
     }
+
+    /**
+     * todo
+     * @return void
+     */
+    protected function runParquetWorks()
+    {
+    }
 }

@@ -73,6 +73,8 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
+        $this->mapWebApiRoutes();
+
         $this->mapAjaxRoutes();
 
         //$this->ddRoutes();
