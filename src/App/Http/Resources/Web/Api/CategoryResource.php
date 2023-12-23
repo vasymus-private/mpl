@@ -27,15 +27,15 @@ class CategoryResource extends JsonResource
             'id' => $this->resource->id,
             'name' => $this->resource->name,
             'slug' => $this->resource->slug,
-            'subcategories' => $this->resource->subcategories->map(fn(Category $subcategory1) => [
+            'subcategories' => $this->resource->subcategories->map(fn (Category $subcategory1) => [
                 'id' => $subcategory1->id,
                 'name' => $subcategory1->name,
                 'slug' => $subcategory1->slug,
-                'subcategories' => $subcategory1->subcategories->map(fn(Category $subcategory2) => [
+                'subcategories' => $subcategory1->subcategories->map(fn (Category $subcategory2) => [
                     'id' => $subcategory2->id,
                     'name' => $subcategory2->name,
                     'slug' => $subcategory2->slug,
-                ])
+                ]),
             ]),
         ];
     }

@@ -34,7 +34,7 @@ class ProfileController extends BaseApiController
                 'cartRoute' => $cartRoute,
                 'isAnonymous' => $user->is_anonymous2,
                 'isAdmin' => $user->is_admin,
-            ]
+            ],
         ];
     }
 }

@@ -28,7 +28,7 @@ class CategoriesController extends BaseApiController
                         ->parquetWorks()
                         ->get()
                 ),
-            ]
+            ],
         ];
     }
 }

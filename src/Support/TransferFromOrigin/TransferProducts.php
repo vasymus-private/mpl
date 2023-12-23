@@ -375,6 +375,7 @@ class TransferProducts extends BaseTransfer
     public function shouldIgnore(array $rawItem): bool
     {
         $category = $this->categories->where("_old_id", $rawItem["IBLOCK_SECTION_ID"])->first();
+
         /*if (!$category) {
             dump("No category with id $rawItem[IBLOCK_SECTION_ID] found for product with id $rawItem[ID] '$rawItem[NAME]'.");
         }*/

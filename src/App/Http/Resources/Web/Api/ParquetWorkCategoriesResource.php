@@ -27,7 +27,7 @@ class ParquetWorkCategoriesResource extends JsonResource
             'id' => $this->resource->id,
             'name' => $this->resource->name,
             'slug' => $this->resource->slug,
-            'products' => $this->resource->products->map(fn(Product $product) => [
+            'products' => $this->resource->products->map(fn (Product $product) => [
                 'id' => $product->id,
                 'name' => $product->name,
                 'slug' => $product->slug,
